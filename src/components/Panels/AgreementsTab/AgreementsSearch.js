@@ -35,7 +35,7 @@ const AgreementsSearch = () => {
             <InputTitle>Тип договора</InputTitle>
             <InputAnchor placeholder="Тип договора" />
           </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          <div style={{ margin: '0 0 0 ц0.75vw' }}>
             <InputTitle>Дата начала действия договора</InputTitle>
             <InputAnchor placeholder="Дата" />
           </div>

@@ -29,7 +29,6 @@ export default function TabPanelHeader(props) {
   const dispatch = useDispatch();
   return (
     <>
-      <BreadCrumbs links={links} />
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />

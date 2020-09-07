@@ -22,7 +22,6 @@ export default function HeaderList() {
 
   return (
     <>
-      <BreadCrumbs links={links} />
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />

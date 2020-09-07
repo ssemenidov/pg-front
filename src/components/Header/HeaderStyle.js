@@ -82,7 +82,6 @@ export const DropdownMenu = styled.div`
 `;
 
 export const FormUser = styled.div`
-  width: 200px;
   display: flex;
   justify-content: flex-end;
 `;

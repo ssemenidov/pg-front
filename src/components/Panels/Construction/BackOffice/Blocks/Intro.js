@@ -5,6 +5,8 @@ import DatePicker from '../../../../Inputs/DatePicker';
 import Multiline from '../../../../Inputs/Multiline';
 import { getConstructionProps } from '../../../../../store/actions/constructionActions';
 import { useSelector, useDispatch } from 'react-redux';
+import { Select } from 'antd';
+import input_city from '../../../../../img/input_city.svg';
 
 export default function Intro() {
   const current = useSelector((state) => state.construction.currentConstruction);
@@ -16,37 +18,83 @@ export default function Intro() {
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Город</InputTitle>
-            <InputAnchor
+            {/* <InputAnchor
               value={current.city || ''}
               placeholder="Город"
               onChange={(e) => dispatch(getConstructionProps('city', e.target.value))}
-            />
+            /> */}
+            <Select
+              defaultValue={
+                <>
+                  <img src={input_city} />
+                  <span>Город</span>
+                </>
+              }
+              suffixIcon={null}
+              className="ant-select">
+              <Select.Option value="Option1">Выбор 1</Select.Option>
+              <Select.Option value="Option2">Выбор 2</Select.Option>
+            </Select>
           </div>
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
-            <InputAnchor
+            {/* <InputAnchor
               value={current.district || ''}
               placeholder="Район"
               onChange={(e) => dispatch(getConstructionProps('district', e.target.value))}
-            />
+            /> */}
+            <Select
+              defaultValue={
+                <>
+                  <img src={input_city} />
+                  <span>Район</span>
+                </>
+              }
+              suffixIcon={null}
+              className="ant-select">
+              <Select.Option value="Option1">Выбор 1</Select.Option>
+              <Select.Option value="Option2">Выбор 2</Select.Option>
+            </Select>
           </div>
           <div style={{ width: '22%' }}>
             <InputTitle>Почтовый индекс</InputTitle>
-            <InputAnchor
+            {/* <InputAnchor
               value={current.postalCode || ''}
               placeholder="Индекс"
               onChange={(e) => dispatch(getConstructionProps('postalCode', e.target.value))}
-            />
+            /> */}
+            <Select
+              defaultValue={
+                <>
+                  <img src={input_city} />
+                  <span>Индекс</span>
+                </>
+              }
+              className="ant-select">
+              <Select.Option value="Option1">Выбор 1</Select.Option>
+              <Select.Option value="Option2">Выбор 2</Select.Option>
+            </Select>
           </div>
         </Row>
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Владелец</InputTitle>
-            <InputAnchor
+            {/*<InputAnchor
               value={current.owner || ''}
               placeholder="Владелец"
               onChange={(e) => dispatch(getConstructionProps('owner', e.target.value))}
-            />
+            /> */}
+            <Select
+              defaultValue={
+                <>
+                  <img src={input_city} />
+                  <span>Владелец</span>
+                </>
+              }
+              className="ant-select">
+              <Select.Option value="Option1">Выбор 1</Select.Option>
+              <Select.Option value="Option2">Выбор 2</Select.Option>
+            </Select>
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>
@@ -76,6 +124,22 @@ export default function Intro() {
           </div>
         </Row>
       </BlockBody>
+      <style>{`
+        .ant-select {
+          display: flex;
+          align-items: center;
+        }
+        .ant-select > div {
+          height: 40px !important;
+        }
+        // .ant-select > span {
+        //   display: none;
+        // }
+        .ant-select > div > span {
+          display: flex;
+          align-items: center;
+        }
+      `}</style>
     </Medium>
   );
 }

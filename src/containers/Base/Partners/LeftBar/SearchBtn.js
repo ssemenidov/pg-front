@@ -26,11 +26,13 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-export default function SearchBtn() {
+const SearchBtn = ({ onClick }) => {
   return (
-    <StyledSearchButton>
+    <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }} onClick={onClick}>
       <img src={icon_search} alt="" />
       <SearchText>Поиск</SearchText>
     </StyledSearchButton>
   );
 }
+
+export default SearchBtn;
