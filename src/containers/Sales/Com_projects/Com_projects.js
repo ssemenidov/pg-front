@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import PanelDesign from './PanelApplication';
+import PanelDesign from './PanelCom_projects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -8,20 +8,24 @@ import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 
-const Application = () => {
+const Com_projects = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
-    { id: 'sales/application', value: 'Приложение' },
+    { id: 'sales/com_projects', value: 'Комерчиские Пректы' },
   ];
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
-      <LeftBar className="left-bar">
-        <SearchBtn />
-      </LeftBar>
+      <div className="flex-margin">
+        <LeftBar>
+          <SearchBtn />
+        </LeftBar>
+        <FilterBar />
+      </div>
+
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <div
@@ -37,27 +41,29 @@ const Application = () => {
               justifyContent: 'space-between',
             }}>
             <TitleLogo />
-            <JobTitle>Приложение №202005123 - CocaCola</JobTitle>
+            <JobTitle>Коммерчeские Проекты</JobTitle>
           </div>
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#008556">Выставить счет</StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Создать Проект</StyledButton>
+                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
               </>
             )}
           </ButtonGroup>
         </div>
-        <div style={{ display: 'flex' }}>
-          <div className="project-info"></div>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
 
-          {block === 0 ? null : <FilterBar />}
+        <div style={{ display: 'flex' }}>
+          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
       </div>
       {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
+         .flex-margin {
+            display: flex;
+            margin: 0 2vw 0 0;
+          }
           .left-bar {
             margin: 0 2vw 0 0;
           }
@@ -68,8 +74,7 @@ const Application = () => {
             padding: 1.5%;
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
-            max-width:422px;
-            width:25vw;
+            width:422px;
           }
           .project-info p {
             margin: 0;
@@ -80,4 +85,4 @@ const Application = () => {
   );
 };
 
-export default Application;
+export default Com_projects;

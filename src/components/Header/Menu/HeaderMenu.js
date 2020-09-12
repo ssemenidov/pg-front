@@ -7,11 +7,11 @@ const HeaderMenu = () => {
       <DropdownMenu>
         <HeaderMenuLink to={'/sales'}>Продажи</HeaderMenuLink>
         <DropdownContent>
-          <BaseHoverBlockLink to="/base/outdoor_furniture">Справочник рекламных сторон</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/">Справочник рекламных сторон</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/batch_placement">Пакетное размещение</BaseHoverBlockLink>
-          <BaseHoverBlockLink to="/base/partners">Контрагенты</BaseHoverBlockLink>
-          <BaseHoverBlockLink to="/base/locations">Коммерческие проекты</BaseHoverBlockLink>
-          <BaseHoverBlockLink to="/base/documents/agreements">Счета</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/">Контрагенты</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/sales/com_projects">Коммерческие проекты</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/">Счета</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/project_card">Проект</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/application">Приложение</BaseHoverBlockLink>
         </DropdownContent>

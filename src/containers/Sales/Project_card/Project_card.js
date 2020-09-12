@@ -12,9 +12,9 @@ const Project_card = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
-    { id: 'home', value: 'Главная' },
+    { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
-    { id: 'project', value: 'Проекты' },
+    { id: 'sales/project_card', value: 'Проекты' },
   ];
 
   return (
@@ -145,7 +145,9 @@ const Project_card = () => {
             padding: 1.5%;
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
-            width:422px;
+          
+            max-width:422px;
+            width:25vw;
           }
           .project-info p {
             margin: 0;
