@@ -37,7 +37,7 @@ const Project_card = () => {
               justifyContent: 'space-between',
             }}>
             <TitleLogo />
-            <JobTitle>Проект - FF5800</JobTitle>
+            <JobTitle>Проект Coca-cola</JobTitle>
           </div>
           <ButtonGroup>
             {block === 0 && (
@@ -145,6 +145,7 @@ const Project_card = () => {
             padding: 1.5%;
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
+            width:422px;
           }
           .project-info p {
             margin: 0;
