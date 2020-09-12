@@ -11,7 +11,7 @@ const HeaderMenu = () => {
           <BaseHoverBlockLink to="/sales/batch_placement">Пакетное размещение</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/">Контрагенты</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/com_projects">Коммерческие проекты</BaseHoverBlockLink>
-          <BaseHoverBlockLink to="/">Счета</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/sales/invoice">Счета</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/project_card">Проект</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/application">Приложение</BaseHoverBlockLink>
         </DropdownContent>
