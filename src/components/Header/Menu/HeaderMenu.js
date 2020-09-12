@@ -4,7 +4,17 @@ import { BaseHoverBlockLink, HeaderMenuLink, DropdownMenu, DropdownContent } fro
 const HeaderMenu = () => {
   return (
     <>
-      <HeaderMenuLink to={'/sales/batch_placement'}>Продажи</HeaderMenuLink>
+      <DropdownMenu>
+        <HeaderMenuLink to={'/sales'}>Продажи</HeaderMenuLink>
+        <DropdownContent>
+          <BaseHoverBlockLink to="/base/outdoor_furniture">Справочник рекламных сторон</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/sales/batch_placement">Пакетное размещение</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/base/partners">Контрагенты</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/base/locations">Коммерческие проекты</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/base/documents/agreements">Счета</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/sales/Project_card">Проект</BaseHoverBlockLink>
+        </DropdownContent>
+      </DropdownMenu>
       <HeaderMenuLink to={'/installations/design'}>Монтажи</HeaderMenuLink>
       <DropdownMenu>
         <HeaderMenuLink to={'/base'}>Базы</HeaderMenuLink>

@@ -18,6 +18,7 @@ import Agreements from './containers/Base/Documents/Agreements/Agreements';
 
 import Design from './containers/Installations/Design/Design';
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
+import Project_card from './containers/Sales/Project_card/Project_card';
 
 const menu = (
   <Menu>
@@ -45,30 +46,10 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Layout.Header className="header">
-          <div style={{ width: '300px' }}>
-            <img src={require('./img/partners/logo.svg')} alt="" />
-          </div>
-          <div className="links">
-            <Link to="/sales/batch_placement">Продажи</Link>
-            <Link to="/installations/design">Монтажи</Link>
-            <Dropdown overlay={menu}>
-              <Link to="/base">Базы</Link>
-            </Dropdown>
-            <Link to="/installations/design">Отчеты</Link>
-            <Link to="/installations/design">Администрация</Link>
-          </div>
-          <div style={{ width: '300px' }}>
-            <UserForm
-              name="Алексей"
-              surname="Иванов"
-              position="Администратор"
-              avatar="https://www.shareicon.net/data/512x512/2016/08/05/806962_user_512x512.png"
-            />
-          </div>
-        </Layout.Header>
+        <Header className="header"></Header>
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
+          <Route path="/sales/project_card" component={Project_card} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
