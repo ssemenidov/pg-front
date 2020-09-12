@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import PanelDesign from './PanelDesign';
+import PanelDesign from './PanelProject_card';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -13,8 +13,8 @@ const Project_card = () => {
 
   const links = [
     { id: 'home', value: 'Главная' },
-    { id: 'installation', value: 'Продажи' },
-    { id: 'constructions', value: 'Проекты' },
+    { id: 'sales', value: 'Продажи' },
+    { id: 'project', value: 'Проекты' },
   ];
 
   return (

@@ -19,6 +19,7 @@ import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Design from './containers/Installations/Design/Design';
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import Project_card from './containers/Sales/Project_card/Project_card';
+import Application from './containers/Sales/Application/Application';
 
 const menu = (
   <Menu>
@@ -50,6 +51,7 @@ const App = () => {
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/project_card" component={Project_card} />
+          <Route path="/sales/application" component={Application} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
