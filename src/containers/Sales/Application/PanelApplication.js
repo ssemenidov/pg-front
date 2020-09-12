@@ -57,6 +57,7 @@ const PanelDesign = (props) => {
       <style>
         {`.outdoor-table-bar {
             width: 65.5vw;
+            margin-left:auto;
           }
           .design-info {
             border-radius: 8px;

@@ -21,6 +21,9 @@ const Application = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
       </LeftBar>
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
@@ -49,7 +52,6 @@ const Application = () => {
           </ButtonGroup>
         </div>
         <div style={{ display: 'flex' }}>
-          <div className="project-info"></div>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
 
           {block === 0 ? null : <FilterBar />}

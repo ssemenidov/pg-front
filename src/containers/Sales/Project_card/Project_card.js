@@ -21,7 +21,13 @@ const Project_card = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
+        <SearchBtn />
       </LeftBar>
+
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <div
@@ -137,6 +143,7 @@ const Project_card = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
+          
           }
           .project-info {
             border-radius: 8px;

@@ -6,7 +6,7 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
-import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
+import FilterBar from './FilterBar';
 
 const Com_projects = () => {
   const [block, setBlock] = useState(0);
@@ -21,6 +21,7 @@ const Com_projects = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
+          <SearchBtn />
           <SearchBtn />
         </LeftBar>
         <FilterBar />
