@@ -55,77 +55,132 @@ const Estimate = () => {
           <div className="project-info">
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <div>
-                <h3 style={{ fontSize: '16px' }}>О Проекте</h3>
+                <h3 style={{ fontSize: '16px' }}>Аренда</h3>
               </div>
               <div style={{ borderBottom: '1px solid #d3dff0' }}>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Код проекта</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>#2020876153</span>
+                  <span style={{ fontSize: '14px' }}>Аренда по прайсу:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>99 999 тг.</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Дата создания</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>21.05.2020</span>
+                  <span style={{ fontSize: '14px' }}>99 999 тг.</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>10%</span>
                 </div>
 
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Создатель</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>@username</span>
+                  <span style={{ fontSize: '14px' }}>Аренда на клиента:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>9 999 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Скидка на аренду на клиента:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>5%</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
               <div>
-                <h3 style={{ fontSize: '16px' }}>Информация о бренде</h3>
+                <h3 style={{ fontSize: '16px' }}>Доп. работы</h3>
               </div>
               <div style={{ borderBottom: '1px solid #d3dff0' }}>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Бренд</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>CocaCola</span>
+                  <span style={{ fontSize: '14px' }}>Монтаж:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>83 782.47 тг.</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Сектор деятельности:</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>
-                    Безалкогольные напитки
-                  </span>
+                  <span style={{ fontSize: '14px' }}>Печать:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>73 639.76 тг.</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
               <div>
-                <h3 style={{ fontSize: '16px' }}>Доп. инфо</h3>
+                <h3 style={{ fontSize: '16px' }}>Доп. расходы</h3>
               </div>
               <div style={{ borderBottom: '1px solid #d3dff0' }}>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Рекламодатель</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>Агентство</span>
+                  <span style={{ fontSize: '14px' }}>Согласование эскизов:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>71 841.67 тг.</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Рекламное агентство</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>-</span>
+                  <span style={{ fontSize: '14px' }}>Доп. печать:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>10 399.84 тг.</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Брендинг</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Да</span>
+                  <span style={{ fontSize: '14px' }}>Доп. монтаж:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>14 892.96 тг.</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Агентская комиссия</span>
+                  <span style={{ fontSize: '14px' }}>Размещение в регионах:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>81 964.85 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Оформление брендированных конструкций:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>45 649.72 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Дополнительный фотоотчет:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>36 406.35 тг.</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
+              <div>
+                <h3 style={{ fontSize: '16px' }}>Агентская комиссия</h3>
+              </div>
+              <div style={{ borderBottom: '1px solid #d3dff0' }}>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Процент АК:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>5 %</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Сумма АК:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>30 000 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Сумма за вычетом АК:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>150 000 тг.</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
+              <div>
+                <h3 style={{ fontSize: '16px' }}>Налоги</h3>
+              </div>
+              <div style={{ borderBottom: '1px solid #d3dff0' }}>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Налог:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>79 597.85 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Скидка на налог:</span>
                   <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>10%</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Менеджер по Продажам</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Иван Иванович Иванов</span>
+                  <span style={{ fontSize: '14px' }}>Налога после скидки:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>81 872.03 тг.</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
               <div>
-                <h3 style={{ fontSize: '16px' }}>Комениарий к проекту</h3>
+                <h3 style={{ fontSize: '16px' }}>НОН РТС</h3>
               </div>
               <div style={{ borderBottom: '1px solid #d3dff0' }}>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>
-                    Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение.{' '}
-                  </span>
+                  <span style={{ fontSize: '14px' }}>Наружная реклама Актау:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600' }}>35 000 тг.</span>
+                </div>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '14px' }}>Радио Алматы:</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>20 000 тг.</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ borderBottom: '1px solid #d3dff0' }}>
+                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '600' }}>ИТОГО</span>
+                  <span style={{ fontSize: '16px', fontWeight: '600' }}>1 124 888 тг..</span>
                 </div>
               </div>
             </div>
@@ -148,9 +203,14 @@ const Estimate = () => {
             margin: 0 2vw 0 0;
             max-width:422px;
             width:25vw;
+            color: #1A1A1A;
           }
+
           .project-info p {
             margin: 0;
+          }
+          .project-info h3 {
+            font-weight:700;
           }
           
         `}

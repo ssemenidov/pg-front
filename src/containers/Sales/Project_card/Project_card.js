@@ -122,7 +122,7 @@ const Project_card = () => {
             </div>
             <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
               <div>
-                <h3 style={{ fontSize: '16px' }}>Комениарий к проекту</h3>
+                <h3 style={{ fontSize: '16px' }}>Коментарий к проекту</h3>
               </div>
               <div style={{ borderBottom: '1px solid #d3dff0' }}>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
@@ -156,6 +156,9 @@ const Project_card = () => {
           }
           .project-info p {
             margin: 0;
+          }
+          .project-info h3 {
+            font-weight:700;
           }
         `}
       </style>
