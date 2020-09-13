@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
 
-import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import plusIcon from '../../../img/header-bar/plus-icon.svg';
+import minusIcon from '../../../img/header-bar/minus-icon.svg';
+import arrowLeft from '../../../img/header-bar/arrow-left.svg';
+import arrowRight from '../../../img/header-bar/arrow-right.svg';
+import calendarIcon from '../../../img/header-bar/calendar.svg';
+import searchInputIcon from '../../../img/header-bar/search-icon.svg';
+import printerIcon from '../../../img/header-bar/printer.svg';
+import exportIcon from '../../../img/header-bar/export.svg';
+import settingsIcon from '../../../img/header-bar/settings.svg';
+import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
+
 import collapseUpIcon from '../../../img/input/collapse-up.svg';
 import collapseDownIcon from '../../../img/input/collapse-down.svg';
 import cityIcon from '../../../img/input/input-city.svg';
@@ -11,6 +21,8 @@ import districtIcon from '../../../img/input/input-district.svg';
 import sideIcon from '../../../img/input/side-construction.svg';
 import typeIcon from '../../../img/input/type-construction.svg';
 import formatIcon from '../../../img/input/format-construction.svg';
+
+import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import searchIcon from '../../../img/left-bar/search.svg';
 import createProjectIcon from '../../../img/left-bar/create-project.svg';
 
@@ -374,7 +386,72 @@ export default class AdvertisingParties extends Component {
                 margin: 0,
                 minHeight: 280,
               }}>
-
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
+                  <img src={advertisingIcon} />
+                  <h2
+                    style={{
+                      fontSize: '24px',
+                      color: '#003360',
+                      fontWeight: '600',
+                      fontFamily: 'SF UI Display Medium, sans-serif',
+                    }}>
+                    Справочник рекламных сторон
+                  </h2>
+                </div>
+                <Button className="header-page-btn">
+                  <span>Создать отчет</span>
+                  <img src={collapseDownIcon} />
+                </Button>
+              </div>
+              <div className="header-bar">
+                <div>
+                  <div>
+                    <Button className="header-btn">
+                      <img src={plusIcon} />
+                    </Button>
+                    <Button className="header-btn">
+                      <img src={minusIcon} />
+                    </Button>
+                  </div>
+                  <div>
+                    <Button style={{ marginLeft: '20px' }} className="header-btn">
+                      <img src={arrowLeft} />
+                    </Button>
+                    <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
+                      <span>Неделя</span>
+                      <img src={collapseDownIcon} />
+                    </Button>
+                    <Button style={{ width: '220px' }} className="header-btn header-date-btn">
+                      <img src={calendarIcon} />
+                      <span>2 марта - 29 марта 2020</span>
+                    </Button>
+                    <Button className="header-btn">
+                      <img src={arrowRight} />
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <Input
+                    style={{ marginLeft: '20px' }}
+                    placeholder="Быстрый поиск"
+                    suffix="Найти"
+                    prefix={<img src={searchInputIcon} />}
+                  />
+                  <Button style={{ marginLeft: '5px' }} className="header-btn">
+                    <img src={printerIcon} />
+                  </Button>
+                  <Button
+                    style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
+                    className="header-btn">
+                    <img src={exportIcon} />
+                    <span>Экспорт</span>
+                  </Button>
+                  <Button className="header-btn">
+                    <img src={settingsIcon} />
+                  </Button>
+                </div>
+              </div>
               <Table
                 className="custom-table"
                 pagination={false}
@@ -581,6 +658,54 @@ export default class AdvertisingParties extends Component {
           }
           .search-btn span {
             color: #FFF !important;
+          }
+          .header-bar {
+            display: flex;
+            background: #E7EEF8;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #D3DFF0;
+            height: 45px;
+            padding: 5px;
+            justify-content: space-between;
+          }
+          .header-bar > div {
+            display: flex;
+          }
+          .header-bar > div > div {
+            display: flex;
+          }
+          .header-btn {
+            border: 1px solid #D3DFF0;
+            margin-right: 5px;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .header-date-btn {
+            display: flex;
+            justify-content: space-between;
+          }
+          .header-date-btn span {
+            color: #252525 !important;
+          }
+          .header-page-btn {
+            border-radius: 4px;
+            border: unset !important;
+            background: #FF5800;
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+          }
+          .header-page-btn span {
+            color: #fff !important;
+            font-weight: 600;
+          }
+          .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {
+            background: #FF5800 !important;
           }
         `}
         </style>
