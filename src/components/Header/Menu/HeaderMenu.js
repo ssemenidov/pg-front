@@ -14,6 +14,7 @@ const HeaderMenu = () => {
           <BaseHoverBlockLink to="/sales/invoice">Счета</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/project_card">Проект</BaseHoverBlockLink>
           <BaseHoverBlockLink to="/sales/application">Приложение</BaseHoverBlockLink>
+          <BaseHoverBlockLink to="/sales/estimate">Смета</BaseHoverBlockLink>
         </DropdownContent>
       </DropdownMenu>
       <HeaderMenuLink to={'/installations/design'}>Монтажи</HeaderMenuLink>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import PanelDesign from './PanelProject_card';
+import PanelDesign from './PanelEstimate';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -8,13 +8,13 @@ import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 
-const Project_card = () => {
+const Estimate = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
-    { id: 'sales/project_card', value: 'Проекты' },
+    { id: 'sales/estimate', value: 'Смета' },
   ];
 
   return (
@@ -22,12 +22,7 @@ const Project_card = () => {
       <LeftBar className="left-bar">
         <SearchBtn />
         <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
       </LeftBar>
-
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <div
@@ -43,14 +38,16 @@ const Project_card = () => {
               justifyContent: 'space-between',
             }}>
             <TitleLogo />
-            <JobTitle>Проект Coca-cola</JobTitle>
+            <JobTitle>Смета - CocaCola</JobTitle>
           </div>
           <ButtonGroup>
-            {block === 0 && (
+            {block === 0 ? (
               <>
-                <StyledButton backgroundColor="#D42D11">Формирование сводки проекта</StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Создать приложение</StyledButton>
+                <StyledButton backgroundColor="#008556">Добавить расход</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
+            ) : (
+              <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
             )}
           </ButtonGroup>
         </div>
@@ -141,7 +138,6 @@ const Project_card = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-          
           }
           .project-info {
             border-radius: 8px;
@@ -150,17 +146,17 @@ const Project_card = () => {
             padding: 1.5%;
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
-          
             max-width:422px;
             width:25vw;
           }
           .project-info p {
             margin: 0;
           }
+          
         `}
       </style>
     </div>
   );
 };
 
-export default Project_card;
+export default Estimate;
