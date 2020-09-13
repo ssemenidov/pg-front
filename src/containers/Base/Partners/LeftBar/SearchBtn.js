@@ -4,7 +4,7 @@ import icon_search from '../../../../img/outdoor_furniture/bx-search.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
-  height: 60px;
+  height: 50px;
   width: 100%;
   margin: 1vw 0 0 0;
   text-align: center;
@@ -33,6 +33,6 @@ const SearchBtn = ({ onClick }) => {
       <SearchText>Поиск</SearchText>
     </StyledSearchButton>
   );
-}
+};
 
 export default SearchBtn;

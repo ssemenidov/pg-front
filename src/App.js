@@ -20,7 +20,12 @@ import Design from './containers/Installations/Design/Design';
 
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
-
+import Project_card from './containers/Sales/Project_card/Project_card';
+import Application from './containers/Sales/Application/Application';
+import Com_projects from './containers/Sales/Com_projects/Com_projects';
+import Invoice from './containers/Sales/Invoice/Invoice';
+import Estimate from './containers/Sales/Estimate/Estimate';
+import Summary from './containers/Sales/Summary/Summary';
 const salesMenu = (
   <Menu>
     <Menu.ItemGroup>
@@ -31,10 +36,10 @@ const salesMenu = (
         <Link to="/sales/batch_placement">Пакетное размещение</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/sales">Коммерческие проекты</Link>
+        <Link to="/sales/com_projects">Коммерческие проекты</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/sales">Счета</Link>
+        <Link to="/sales/invoice">Счета</Link>
       </Menu.Item>
     </Menu.ItemGroup>
   </Menu>
@@ -93,6 +98,12 @@ const App = () => {
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
+          <Route path="/sales/project_card" component={Project_card} />
+          <Route path="/sales/application" component={Application} />
+          <Route path="/sales/com_projects" component={Com_projects} />
+          <Route path="/sales/invoice" component={Invoice} />
+          <Route path="/sales/estimate" component={Estimate} />
+          <Route path="/sales/summary" component={Summary} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />

@@ -4,7 +4,8 @@ export const LeftBar = styled.div`
   border-right: 1px solid #d3dff0;
   background-color: #f5f7fa;
   display: flex;
-  justify-content: center;
+  alight-items: center;
+  flex-direction: column;
   width: 80px;
 `;
 
@@ -13,7 +14,7 @@ export const StyledButton = styled.button`
   padding: 13px 25px;
   border-radius: 4px;
   margin: 0 0 0 23px;
-  font-family: "SF UI Display Light", sans-serif;
+  font-family: 'SF UI Display Light', sans-serif;
   white-space: nowrap;
   font-size: 14px;
   line-height: 14px;
