@@ -17,9 +17,30 @@ import PartnerGeneralInfo from './containers/Base/Partners/TabPanelForm/PartnerG
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 
 import Design from './containers/Installations/Design/Design';
-import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 
-const menu = (
+import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
+import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
+
+const salesMenu = (
+  <Menu>
+    <Menu.ItemGroup>
+      <Menu.Item>
+        <Link to="/sales/advertising_parties">Справочник рекламных сторон</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales/batch_placement">Пакетное размещение</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales">Коммерческие проекты</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales">Счета</Link>
+      </Menu.Item>
+    </Menu.ItemGroup>
+  </Menu>
+);
+
+const baseMenu = (
   <Menu>
     <Menu.ItemGroup>
       <Menu.Item>
@@ -50,9 +71,11 @@ const App = () => {
             <img src={require('./img/partners/logo.svg')} alt="" />
           </div>
           <div className="links">
-            <Link to="/sales/batch_placement">Продажи</Link>
+            <Dropdown overlay={salesMenu}>
+              <Link to="/sales">Продажи</Link>
+            </Dropdown>
             <Link to="/installations/design">Монтажи</Link>
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={baseMenu}>
               <Link to="/base">Базы</Link>
             </Dropdown>
             <Link to="/installations/design">Отчеты</Link>
@@ -69,6 +92,7 @@ const App = () => {
         </Layout.Header>
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
+          <Route path="/sales/advertising_parties" component={AdvertisingParties} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />

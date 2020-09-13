@@ -6,7 +6,7 @@ import Multiline from '../../../../Inputs/Multiline';
 import { getConstructionProps } from '../../../../../store/actions/constructionActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { Select } from 'antd';
-import input_city from '../../../../../img/input_city.svg';
+import input_city from '../../../../../img/input/input-city.svg';
 
 export default function Intro() {
   const current = useSelector((state) => state.construction.currentConstruction);
