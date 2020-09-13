@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import PanelDesign from './PanelInvoice';
+import PanelDesign from './PanelSummary';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -8,13 +8,13 @@ import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from './FilterBar';
 
-const Invoice = () => {
+const Summary = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
-    { id: 'sales/invoice', value: 'Счета' },
+    { id: 'sales/summary', value: 'Сводка' },
   ];
 
   return (
@@ -46,12 +46,12 @@ const Invoice = () => {
               justifyContent: 'space-between',
             }}>
             <TitleLogo />
-            <JobTitle>Счета - CocaCola</JobTitle>
+            <JobTitle>Сводка - CocaCola</JobTitle>
           </div>
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Вынрузка данных</StyledButton>
               </>
             )}
           </ButtonGroup>
@@ -89,4 +89,4 @@ const Invoice = () => {
   );
 };
 
-export default Invoice;
+export default Summary;

@@ -23,6 +23,7 @@ import Application from './containers/Sales/Application/Application';
 import Com_projects from './containers/Sales/Com_projects/Com_projects';
 import Invoice from './containers/Sales/Invoice/Invoice';
 import Estimate from './containers/Sales/Estimate/Estimate';
+import Summary from './containers/Sales/Summary/Summary';
 
 const menu = (
   <Menu>
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/sales/com_projects" component={Com_projects} />
           <Route path="/sales/invoice" component={Invoice} />
           <Route path="/sales/estimate" component={Estimate} />
+          <Route path="/sales/summary" component={Summary} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />

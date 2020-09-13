@@ -41,7 +41,7 @@ const PanelDesign = (props) => {
   ];
   const estimatertsColums = ['Тип', 'Город', 'Кол-во', 'Аренда', 'Налог', 'Печать', 'Монтаж', 'Доп.расходы', 'сумма'];
   return (
-    <STabs selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
+    <STabs className="all" selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
       <ControlToolbar position="static">
         <STabList>
           {tabs.map((tab, index) => {
@@ -98,7 +98,10 @@ const PanelDesign = (props) => {
 
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+            width: 100%;
+          }
+          .all{
+            width:70vw;
           }
           .design-info {
             border-radius: 8px;
