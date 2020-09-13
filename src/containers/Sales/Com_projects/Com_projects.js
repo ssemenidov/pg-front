@@ -27,7 +27,7 @@ const Com_projects = () => {
         <FilterBar />
       </div>
 
-      <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <div
           style={{

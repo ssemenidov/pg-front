@@ -177,11 +177,9 @@ const Estimate = () => {
               </div>
             </div>
             <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ borderBottom: '1px solid #d3dff0' }}>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '600' }}>ИТОГО</span>
-                  <span style={{ fontSize: '16px', fontWeight: '600' }}>1 124 888 тг..</span>
-                </div>
+              <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '16px', fontWeight: '600' }}>ИТОГО</span>
+                <span style={{ fontSize: '16px', fontWeight: '600' }}>1 124 888 тг..</span>
               </div>
             </div>
           </div>
@@ -202,7 +200,6 @@ const Estimate = () => {
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
             max-width:422px;
-            width:25vw;
             color: #1A1A1A;
           }
 

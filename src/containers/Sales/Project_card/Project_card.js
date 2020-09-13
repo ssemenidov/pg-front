@@ -24,8 +24,6 @@ const Project_card = () => {
         <SearchBtn />
         <SearchBtn />
         <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
       </LeftBar>
 
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
@@ -150,10 +148,8 @@ const Project_card = () => {
             padding: 1.5%;
             flex: 0 1 auto;
             margin: 0 2vw 0 0;
-          
             max-width:422px;
-            width:25vw;
-          }
+              }
           .project-info p {
             margin: 0;
           }
