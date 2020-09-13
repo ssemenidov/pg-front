@@ -17,15 +17,30 @@ import PartnerGeneralInfo from './containers/Base/Partners/TabPanelForm/PartnerG
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 
 import Design from './containers/Installations/Design/Design';
-import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
-import Project_card from './containers/Sales/Project_card/Project_card';
-import Application from './containers/Sales/Application/Application';
-import Com_projects from './containers/Sales/Com_projects/Com_projects';
-import Invoice from './containers/Sales/Invoice/Invoice';
-import Estimate from './containers/Sales/Estimate/Estimate';
-import Summary from './containers/Sales/Summary/Summary';
 
-const menu = (
+import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
+import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
+
+const salesMenu = (
+  <Menu>
+    <Menu.ItemGroup>
+      <Menu.Item>
+        <Link to="/sales/advertising_parties">Справочник рекламных сторон</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales/batch_placement">Пакетное размещение</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales">Коммерческие проекты</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/sales">Счета</Link>
+      </Menu.Item>
+    </Menu.ItemGroup>
+  </Menu>
+);
+
+const baseMenu = (
   <Menu>
     <Menu.ItemGroup>
       <Menu.Item>
@@ -51,15 +66,33 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Header className="header"></Header>
+        <Layout.Header className="header">
+          <div style={{ width: '300px' }}>
+            <img src={require('./img/partners/logo.svg')} alt="" />
+          </div>
+          <div className="links">
+            <Dropdown overlay={salesMenu}>
+              <Link to="/sales">Продажи</Link>
+            </Dropdown>
+            <Link to="/installations/design">Монтажи</Link>
+            <Dropdown overlay={baseMenu}>
+              <Link to="/base">Базы</Link>
+            </Dropdown>
+            <Link to="/installations/design">Отчеты</Link>
+            <Link to="/installations/design">Администрация</Link>
+          </div>
+          <div style={{ width: '300px' }}>
+            <UserForm
+              name="Алексей"
+              surname="Иванов"
+              position="Администратор"
+              avatar="https://www.shareicon.net/data/512x512/2016/08/05/806962_user_512x512.png"
+            />
+          </div>
+        </Layout.Header>
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
-          <Route path="/sales/project_card" component={Project_card} />
-          <Route path="/sales/application" component={Application} />
-          <Route path="/sales/com_projects" component={Com_projects} />
-          <Route path="/sales/invoice" component={Invoice} />
-          <Route path="/sales/estimate" component={Estimate} />
-          <Route path="/sales/summary" component={Summary} />
+          <Route path="/sales/advertising_parties" component={AdvertisingParties} />
           <Route path="/installations/design" component={Design} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
