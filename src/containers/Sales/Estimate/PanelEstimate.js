@@ -29,8 +29,17 @@ const PanelDesign = (props) => {
   console.log(rowKeys, rows);
   const [fastSearch, setFastSearch] = useState();
   const estimateColums = ['Код стороны', 'Город', 'Адрес', 'Формат', 'Сторона', 'Период', 'Брендинг'];
-  const estimateaddColums = ['Код стороны', 'Город', 'Адрес', 'Формат', 'Сторона', 'Период', 'Брендинг'];
-  const estimatertsColums = ['Код стороны', 'Город', 'Адрес', 'Формат', 'Сторона', 'Период', 'Брендинг'];
+  const estimateaddColums = [
+    'Наименование услуги',
+    'Город',
+    'Период',
+    'Кол-во',
+    'Цена',
+    'Скидка',
+    'Стоимость после скидки',
+    'Сумма',
+  ];
+  const estimatertsColums = ['Тип', 'Город', 'Кол-во', 'Аренда', 'Налог', 'Печать', 'Монтаж', 'Доп.расходы', 'сумма'];
   return (
     <STabs selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
       <ControlToolbar position="static">
