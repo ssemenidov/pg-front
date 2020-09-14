@@ -68,6 +68,13 @@ const Project_card = () => {
                   }}>
                   Создать приложение
                 </StyledButton>
+                <StyledButton
+                  backgroundColor="#2C5DE5"
+                  onClick={() => {
+                    history.push('/sales/estimate');
+                  }}>
+                  Смета проекта
+                </StyledButton>
               </>
             )}
           </ButtonGroup>
