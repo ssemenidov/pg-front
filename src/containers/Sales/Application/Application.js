@@ -7,6 +7,11 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
+import EditBtn from '../../Base/Partners/LeftBar/EditBtn';
+import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
+import PackageBtn from '../../Base/Partners/LeftBar/PackageBtn';
+import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
+import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
 
 const Application = () => {
   const [block, setBlock] = useState(0);
@@ -21,9 +26,9 @@ const Application = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
-        <SearchBtn />
+        <CreateBtn text="Создть новое" />
+        <PackageBtn text="Изменить текущее" />
+        <BoxBtn text="Архив дизайнов" />
       </LeftBar>
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />

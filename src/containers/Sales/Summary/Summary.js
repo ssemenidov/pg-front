@@ -7,6 +7,11 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from './FilterBar';
+import EditBtn from '../../Base/Partners/LeftBar/EditBtn';
+import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
+import PackageBtn from '../../Base/Partners/LeftBar/PackageBtn';
+import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
+import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
 
 const Summary = () => {
   const [block, setBlock] = useState(0);
@@ -22,11 +27,11 @@ const Summary = () => {
       <div className="flex-margin">
         <LeftBar>
           <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
+          <CreateBtn text="Добавить бронь" />
+          <PackageBtn text="Добавить пакет" />
+          <EditBtn text="Перейти в монтажи" />
+          <PaperBtn text="Сводка проекта" />
+          <BoxBtn text="Архив дизайнов" />
         </LeftBar>
         <FilterBar />
       </div>
