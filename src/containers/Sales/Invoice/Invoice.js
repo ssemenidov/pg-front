@@ -6,6 +6,11 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
+import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
+import PackageBtn from '../../Base/Partners/LeftBar/PackageBtn';
+import EditBtn from '../../Base/Partners/LeftBar/EditBtn';
+import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
+import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
 
 const Invoice = () => {
@@ -22,11 +27,11 @@ const Invoice = () => {
       <div className="flex-margin">
         <LeftBar>
           <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
-          <SearchBtn />
+          <CreateBtn text="Добавить бронь" />
+          <PackageBtn text="Добавить пакет" />
+          <EditBtn text="Перейти в монтажи" />
+          <PaperBtn text="Сводка проекта" />
+          <BoxBtn text="Архив дизайнов" />
         </LeftBar>
         <FilterBar />
       </div>

@@ -6,6 +6,7 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
+import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
 
 const Com_projects = () => {
@@ -22,7 +23,7 @@ const Com_projects = () => {
       <div className="flex-margin">
         <LeftBar>
           <SearchBtn />
-          <SearchBtn />
+          <CreateBtn text="Смарт кнопка" />
         </LeftBar>
         <FilterBar />
       </div>

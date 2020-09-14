@@ -7,6 +7,7 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
+import AddBtn from '../../Base/Partners/LeftBar/AddBtn';
 
 const Estimate = () => {
   const [block, setBlock] = useState(0);
@@ -21,7 +22,7 @@ const Estimate = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <SearchBtn />
+        <AddBtn text="Добавить расход"></AddBtn>
       </LeftBar>
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
