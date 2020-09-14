@@ -8,10 +8,10 @@ import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
 import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
-
+import { useHistory } from 'react-router';
 const Com_projects = () => {
   const [block, setBlock] = useState(0);
-
+  const history = useHistory();
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
@@ -48,7 +48,13 @@ const Com_projects = () => {
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#2C5DE5">Создать Проект</StyledButton>
+                <StyledButton
+                  backgroundColor="#2C5DE5"
+                  onClick={() => {
+                    history.push('/sales/project_card');
+                  }}>
+                  Создать Проект
+                </StyledButton>
                 <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
               </>
             )}
