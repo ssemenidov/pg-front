@@ -12,8 +12,9 @@ import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
 import PackageBtn from '../../Base/Partners/LeftBar/PackageBtn';
 import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
 import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
-
+import { useHistory } from 'react-router';
 const Application = () => {
+  const history = useHistory();
   const [block, setBlock] = useState(0);
 
   const links = [
@@ -50,7 +51,13 @@ const Application = () => {
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#008556">Выставить счет</StyledButton>
+                <StyledButton
+                  backgroundColor="#008556"
+                  onClick={() => {
+                    history.push('/sales/invoice');
+                  }}>
+                  Выставить счет
+                </StyledButton>
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             )}

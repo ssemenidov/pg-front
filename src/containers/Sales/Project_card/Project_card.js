@@ -12,8 +12,9 @@ import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
 import PackageBtn from '../../Base/Partners/LeftBar/PackageBtn';
 import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
 import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
-
+import { useHistory } from 'react-router';
 const Project_card = () => {
+  const history = useHistory();
   const [block, setBlock] = useState(0);
 
   const links = [
@@ -53,8 +54,20 @@ const Project_card = () => {
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#D42D11">Формирование сводки проекта</StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Создать приложение</StyledButton>
+                <StyledButton
+                  backgroundColor="#D42D11"
+                  onClick={() => {
+                    history.push('/sales/summary');
+                  }}>
+                  Формирование сводки проекта
+                </StyledButton>
+                <StyledButton
+                  backgroundColor="#2C5DE5"
+                  onClick={() => {
+                    history.push('/sales/application');
+                  }}>
+                  Создать приложение
+                </StyledButton>
               </>
             )}
           </ButtonGroup>
