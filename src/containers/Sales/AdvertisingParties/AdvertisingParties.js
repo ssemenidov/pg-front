@@ -13,6 +13,8 @@ import printerIcon from '../../../img/header-bar/printer.svg';
 import exportIcon from '../../../img/header-bar/export.svg';
 import settingsIcon from '../../../img/header-bar/settings.svg';
 import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
+import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
+import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
 
 import collapseUpIcon from '../../../img/input/collapse-up.svg';
 import collapseDownIcon from '../../../img/input/collapse-down.svg';
@@ -58,13 +60,13 @@ export default class AdvertisingParties extends Component {
   state = {
     columns: [
       {
-        title: 'Название',
-        dataIndex: 'name',
+        title: 'Код',
+        dataIndex: 'code',
         width: 200,
       },
       {
-        title: 'Менеджер',
-        dataIndex: 'manager',
+        title: 'Формат',
+        dataIndex: 'format',
         width: 100,
       },
       {
@@ -73,9 +75,34 @@ export default class AdvertisingParties extends Component {
         width: 100,
       },
       {
-        title: 'Action',
-        key: 'action',
-        render: () => <a>Delete</a>,
+        title: (
+          <>
+            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>2 марта - 8 марта</strong>
+            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
+          </>
+        ),
+        dataIndex: 'timeline1',
+        key: 'timeline',
+      },
+      {
+        title: (
+          <>
+            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>9 марта - 15 марта</strong>
+            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
+          </>
+        ),
+        dataIndex: 'timeline2',
+        key: 'timeline',
+      },
+      {
+        title: (
+          <>
+            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>16 марта - 22 марта</strong>
+            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
+          </>
+        ),
+        dataIndex: 'timeline3',
+        key: 'timeline',
       },
     ],
     selectionType: 'checkbox',
@@ -94,40 +121,44 @@ export default class AdvertisingParties extends Component {
 
   data = [
     {
-      key: 0,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
+      code: '#123123123',
+      format: 'Сениор',
       city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />
     },
     {
-      key: 1,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
+      code: '#123123123',
+      format: 'Сениор',
       city: 'Алматы',
+      timeline1: <img src={tableSoldIcon} />,
+      timeline2: <img src={tableSoldIcon} />,
+      timeline3: <img src={tableFreeIcon} />
     },
     {
-      key: 2,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
+      code: '#123123123',
+      format: 'Сениор',
       city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
     },
     {
-      key: 3,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
+      code: '#123123123',
+      format: 'Сениор',
       city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />
     },
     {
-      key: 4,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
+      code: '#123123123',
+      format: 'Сениор',
       city: 'Алматы',
-    },
-    {
-      key: 5,
-      name: '#20200',
-      manager: 'Пестов Эмилий',
-      city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />
     },
   ];
 
@@ -455,6 +486,7 @@ export default class AdvertisingParties extends Component {
               <Table
                 className="custom-table"
                 pagination={false}
+                scroll={{ x: 1000, y: 500 }}
                 rowSelection={{
                   ...this.rowSelection,
                 }}
