@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import InnerForm from './TabPanelForm/TabPanelFormConstruction';
-import SearchBtn from '../Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../styles/styles';
 import { getCurrentConstruction, resetCurrentConstruction } from '../../../store/actions/constructionActions';
 import { Link } from 'react-router-dom';
@@ -45,9 +45,9 @@ const Construction = (props) => {
             style={{ height: '100%', borderRight: 0 }}></Menu>
         </Sider>
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <Breadcrumb className='layout-breadcrumb'>
+          <Breadcrumb className="layout-breadcrumb">
             <Breadcrumb.Item>
-            <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
+              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
               <Link to="/">Главная</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>

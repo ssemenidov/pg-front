@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import addIcon from '../../../../img/left-bar/add.svg';
+import createProjectIcon from '../../img/left-bar/create-project.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
@@ -26,13 +26,13 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-const AddBtn = (props) => {
+const CreateBtn = (props) => {
   return (
     <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }}>
-      <img src={addIcon} alt="" />
+      <img src={createProjectIcon} alt="" />
       <SearchText>{props.text}</SearchText>
     </StyledSearchButton>
   );
 };
 
-export default AddBtn;
+export default CreateBtn;

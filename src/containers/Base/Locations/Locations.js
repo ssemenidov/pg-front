@@ -16,7 +16,7 @@ import {
 } from '../../../store/actions/locationsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { FilterMenu, SearchTitle, FilterText } from '../../../components/Styles/StyledFilters';
-import SearchBtn from '../Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 
 const Locations = (props) => {
   const dispatch = useDispatch();
@@ -59,8 +59,7 @@ const Locations = (props) => {
             onClick={() => {
               dispatch({ type: 'CLEAR_FILTER' });
               dispatch(getLocationsData());
-            }}
-          >
+            }}>
             Очистить
           </ResetButton>
           <SubmitButton onClick={() => dispatch(filterLocationsTable())}>Искать</SubmitButton>

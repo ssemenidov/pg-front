@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import InnerForm from './TabPanel/TabPanelLocation';
 import { getCurrentLocation, resetCurrentLocation } from '../../../store/actions/locationActions';
-import SearchBtn from '../Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../styles/styles';
 
 const Location = (props) => {

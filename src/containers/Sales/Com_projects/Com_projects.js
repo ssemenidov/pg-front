@@ -5,8 +5,8 @@ import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
-import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
 import { useHistory } from 'react-router';
 const Com_projects = () => {

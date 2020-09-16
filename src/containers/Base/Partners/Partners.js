@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import FilterBar from "./FilterBar/FilterBar";
-import Table from "../../../components/Table";
-import SearchBtn from "./LeftBar/SearchBtn";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import FilterBar from './FilterBar/FilterBar';
+import Table from '../../../components/Table';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../styles/styles';
-import {
-  getPartnersData,
-  getPartnersFiltered,
-  getPartners,
-  setTable,
-} from "../../../store/actions/actions";
-import "./Style/style.css";
+import { getPartnersData, getPartnersFiltered, getPartners, setTable } from '../../../store/actions/actions';
+import './Style/style.css';
 
 const Partners = () => {
   const dispatch = useDispatch();
@@ -23,13 +18,7 @@ const Partners = () => {
   const rowKeys = useSelector((state) => state.table.partnersRowKeys);
   const [fastSearch, setFastSearch] = useState();
 
-  const partnersColumns = [
-    "Тип контрагента",
-    "Контрагент",
-    "Бренд",
-    "Сектор деятельности",
-    "Тип клиента",
-  ];
+  const partnersColumns = ['Тип контрагента', 'Контрагент', 'Бренд', 'Сектор деятельности', 'Тип клиента'];
 
   return (
     <div className="partners">
@@ -52,7 +41,7 @@ const Partners = () => {
       <div className="partners-table-bar">
         <Table
           linkProps={'/base/partners/info/'}
-          params={dispatch(setTable("partnerTable"))}
+          params={dispatch(setTable('partnerTable'))}
           columns={partnersColumns}
           rows={rows}
           rowKeys={rowKeys}

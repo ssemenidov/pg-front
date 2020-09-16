@@ -5,7 +5,7 @@ import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 
 const Design = () => {
@@ -30,14 +30,12 @@ const Design = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             margin: '2vw 0',
-          }}
-        >
+          }}>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-            }}
-          >
+            }}>
             <TitleLogo />
             <JobTitle>Проект - FF5800</JobTitle>
           </div>
@@ -72,15 +70,11 @@ const Design = () => {
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: '14px' }}>Менеджер по продажам</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>
-                    Иван Иванович Иванов
-                  </span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Иван Иванович Иванов</span>
                 </div>
                 <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: '14px' }}>Ответственный менеджер</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>
-                    Иванов Иван
-                  </span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Иванов Иван</span>
                 </div>
               </div>
             </div>
@@ -118,8 +112,8 @@ const Design = () => {
             </div>
           </div>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
-          
-        {block === 0 ? null : <FilterBar />}
+
+          {block === 0 ? null : <FilterBar />}
         </div>
       </div>
       {/* {block === 0 ? null : <FilterBar />} */}

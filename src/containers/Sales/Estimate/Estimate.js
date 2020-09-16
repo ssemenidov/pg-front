@@ -5,9 +5,9 @@ import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
-import AddBtn from '../../Base/Partners/LeftBar/AddBtn';
+import AddBtn from '../../../components/LeftBar/AddBtn';
 
 const Estimate = () => {
   const [block, setBlock] = useState(0);
