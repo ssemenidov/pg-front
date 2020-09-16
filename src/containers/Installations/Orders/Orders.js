@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import PanelDesign from './PanelProjects';
+import PanelDesign from './PanelOrders';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -13,13 +13,14 @@ import BoxBtn from '../../Base/Partners/LeftBar/BoxBtn';
 import PaperBtn from '../../Base/Partners/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
 
-const Projects = () => {
+const Orders = () => {
   const [block, setBlock] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
+
   const links = [
     { id: '', value: 'Главная' },
     { id: 'installations', value: 'Монтажи' },
-    { id: 'installations/projects', value: 'Список проектов' },
+    { id: 'installations/orders', value: 'Выгрузка разнарядки' },
   ];
 
   return (
@@ -46,15 +47,9 @@ const Projects = () => {
               justifyContent: 'space-between',
             }}>
             <TitleLogo />
-            <JobTitle>Список проектов</JobTitle>
+            <JobTitle>Выгрузка разнарядки</JobTitle>
           </div>
-          <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузка разнарядки</StyledButton>
-              </>
-            )}
-          </ButtonGroup>
+          <ButtonGroup></ButtonGroup>
         </div>
 
         <div style={{ display: 'flex' }}>
@@ -71,10 +66,11 @@ const Projects = () => {
           .left-bar {
             margin: 0 2vw 0 0;
           }
+        
         `}
       </style>
     </div>
   );
 };
 
-export default Projects;
+export default Orders;
