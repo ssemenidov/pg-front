@@ -26,6 +26,7 @@ import Com_projects from './containers/Sales/Com_projects/Com_projects';
 import Invoice from './containers/Sales/Invoice/Invoice';
 import Estimate from './containers/Sales/Estimate/Estimate';
 import Summary from './containers/Sales/Summary/Summary';
+import Projects from './containers/Installations/Projects/Projects';
 const salesMenu = (
   <Menu>
     <Menu.ItemGroup>
@@ -105,6 +106,7 @@ const App = () => {
           <Route path="/sales/estimate" component={Estimate} />
           <Route path="/sales/summary" component={Summary} />
           <Route path="/installations/design" component={Design} />
+          <Route path="/installations/projects" component={Projects} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
           <Route path="/base/construction/:id?" exact component={Construction} />
