@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelCom_projects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
-import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
 import { useHistory } from 'react-router';
 const Com_projects = () => {
@@ -30,21 +30,11 @@ const Com_projects = () => {
 
       <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Коммерчeские Проекты</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
             {block === 0 && (
               <>
@@ -59,8 +49,7 @@ const Com_projects = () => {
               </>
             )}
           </ButtonGroup>
-        </div>
-
+        </HeaderWrapper>
         <div style={{ display: 'flex' }}>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
@@ -74,18 +63,6 @@ const Com_projects = () => {
           }
           .left-bar {
             margin: 0 2vw 0 0;
-          }
-          .project-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            height: 100%;
-            padding: 1.5%;
-            flex: 0 1 auto;
-            margin: 0 2vw 0 0;
-            width:422px;
-          }
-          .project-info p {
-            margin: 0;
           }
         `}
       </style>

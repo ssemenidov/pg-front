@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LeftBar } from '../../../styles/styles';
 import FilterBar from './OutdoorFurnitureList/FilterBar/FilterBar';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import HeaderList from './HeaderList';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import {

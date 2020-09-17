@@ -1,56 +1,61 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
-import PanelDesign from './PanelSummary';
+import { LeftBar, StyledButton } from '../../../styles/styles';
+import PanelDesign from './PanelProjects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import FilterBar from './FilterBar';
-import EditBtn from '../../../components/LeftBar/EditBtn';
-import PaperBtn from '../../../components/LeftBar/PaperBtn';
-import PackageBtn from '../../../components/LeftBar/PackageBtn';
-import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
+import PackageBtn from '../../../components/LeftBar/PackageBtn';
+import EditBtn from '../../../components/LeftBar/EditBtn';
+import BoxBtn from '../../../components/LeftBar/BoxBtn';
+import PaperBtn from '../../../components/LeftBar/PaperBtn';
+import FilterBar from './FilterBar';
 
-const Summary = () => {
+const Projects = () => {
   const [block, setBlock] = useState(0);
-
+  const [collapsed, setCollapsed] = useState(true);
   const links = [
     { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/summary', value: 'Сводка' },
+    { id: 'installations', value: 'Монтажи' },
+    { id: 'installations/projects', value: 'Список проектов' },
   ];
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
-          <SearchBtn />
-          <CreateBtn text="Добавить бронь" />
-          <PackageBtn text="Добавить пакет" />
-          <EditBtn text="Перейти в монтажи" />
-          <PaperBtn text="Сводка проекта" />
-          <BoxBtn text="Архив дизайнов" />
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
         </LeftBar>
-        <FilterBar />
+        {collapsed && <FilterBar />}
       </div>
 
       <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <HeaderWrapper>
-          <HeaderTitleWrapper>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            margin: '2vw 0',
+          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}>
             <TitleLogo />
-            <JobTitle>Сводка - CocaCola</JobTitle>
-          </HeaderTitleWrapper>
+            <JobTitle>Список проектов</JobTitle>
+          </div>
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#2C5DE5">Вынрузка данных</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузка разнарядки</StyledButton>
               </>
             )}
           </ButtonGroup>
-        </HeaderWrapper>
+        </div>
 
         <div style={{ display: 'flex' }}>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
@@ -72,4 +77,4 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default Projects;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import editIcon from '../../../../img/left-bar/edit.svg';
+import paperIcon from '../../img/left-bar/paper.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
@@ -26,13 +26,13 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-const EditBtn = (props) => {
+const PaperBtn = (props) => {
   return (
     <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }}>
-      <img src={editIcon} alt="" />
+      <img src={paperIcon} alt="" />
       <SearchText>{props.text}</SearchText>
     </StyledSearchButton>
   );
 };
 
-export default EditBtn;
+export default PaperBtn;

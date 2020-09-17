@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import icon_search from '../../../../img/outdoor_furniture/bx-search.svg';
-
+import addIcon from '../../img/left-bar/add.svg';
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
   height: 65px;
@@ -26,13 +25,13 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-const SearchBtn = ({ onClick }) => {
+const AddBtn = (props) => {
   return (
-    <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }} onClick={onClick}>
-      <img src={icon_search} alt="" />
-      <SearchText>Поиск</SearchText>
+    <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }}>
+      <img src={addIcon} alt="" />
+      <SearchText>{props.text}</SearchText>
     </StyledSearchButton>
   );
 };
 
-export default SearchBtn;
+export default AddBtn;

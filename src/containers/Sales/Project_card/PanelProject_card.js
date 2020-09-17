@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
-import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
+import Table from '../../../components/Tablea';
 import { StyledButton } from '../../../styles/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -13,35 +11,42 @@ import {
 } from '../../../store/actions/actions';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'Закрепленные стороны' }];
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
-
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
+  const columns = [
+    {
+      title: 'Код',
+      dataIndex: 'code',
+      width: 200,
+    },
+    {
+      title: 'Text',
+      dataIndex: 'text',
+      width: 100,
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+      width: 100,
+    },
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 100,
+    },
+  ];
+  const data = [
+    {
+      code: '#123123123',
+      format: 'Сениор',
+      city: 'Алматы',
+      text: 'text',
+    },
+  ];
   const outdoorFurnitureColums = ['Код', 'Формат', 'Text', 'Город', 'Период', 'Адрес', 'Брендинг'];
+
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          linkProps={'/base/construction/'}
-          columns={outdoorFurnitureColums}
-          rows={rows}
-          rowKeys={rowKeys}
-          handleFastSearch={() => {
-            dispatch(getOutdoorFurnitureFiltered(fastSearch));
-          }}
-          handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data} />
       </div>
 
       <style>

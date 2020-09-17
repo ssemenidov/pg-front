@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PageWrap } from '../../../../components/Styles/ComponentsStyles';
-import SearchBtn from '../LeftBar/SearchBtn';
+import SearchBtn from '../../../../components/LeftBar/SearchBtn';
 import LeftBar from '../../../../components/LeftBar/LeftBar';
 import TabPanelFormPartners from './TabPanelFormPartners';
 import { ContentWrap } from '../../../../components/Styles/ComponentsStyles';

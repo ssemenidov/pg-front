@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import boxIcon from '../../../../img/left-bar/box.svg';
+import packageIcon from '../../img/left-bar/package.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
@@ -26,13 +26,13 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-const BoxBtn = (props) => {
+const PackageBtn = (props) => {
   return (
     <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }}>
-      <img src={boxIcon} alt="" />
+      <img src={packageIcon} alt="" />
       <SearchText>{props.text}</SearchText>
     </StyledSearchButton>
   );
 };
 
-export default BoxBtn;
+export default PackageBtn;
