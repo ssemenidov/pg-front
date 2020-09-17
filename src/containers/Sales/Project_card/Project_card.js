@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelProject_card';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -13,6 +13,7 @@ import PackageBtn from '../../../components/LeftBar/PackageBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import { useHistory } from 'react-router';
+import styled from 'styled-components';
 const Project_card = () => {
   const history = useHistory();
   const [block, setBlock] = useState(0);
@@ -36,21 +37,11 @@ const Project_card = () => {
 
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Проект Coca-cola</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
             {block === 0 && (
               <>
@@ -78,86 +69,73 @@ const Project_card = () => {
               </>
             )}
           </ButtonGroup>
-        </div>
-        <div style={{ display: 'flex' }}>
-          <div className="project-info">
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <h3 style={{ fontSize: '16px' }}>О Проекте</h3>
-              </div>
-              <div style={{ borderBottom: '1px solid #d3dff0' }}>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Код проекта</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>#2020876153</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Дата создания</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>21.05.2020</span>
-                </div>
+        </HeaderWrapper>
 
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Создатель</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>@username</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <h3 style={{ fontSize: '16px' }}>Информация о бренде</h3>
-              </div>
-              <div style={{ borderBottom: '1px solid #d3dff0' }}>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Бренд</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>CocaCola</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Сектор деятельности:</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>
-                    Безалкогольные напитки
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <h3 style={{ fontSize: '16px' }}>Доп. инфо</h3>
-              </div>
-              <div style={{ borderBottom: '1px solid #d3dff0' }}>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Рекламодатель</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600' }}>Агентство</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Рекламное агентство</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>-</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Брендинг</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Да</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Агентская комиссия</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>10%</span>
-                </div>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>Менеджер по Продажам</span>
-                  <span style={{ fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>Иван Иванович Иванов</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ margin: '4% 0', display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <h3 style={{ fontSize: '16px' }}>Коментарий к проекту</h3>
-              </div>
-              <div style={{ borderBottom: '1px solid #d3dff0' }}>
-                <div style={{ margin: '4% 0', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '14px' }}>
-                    Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение.{' '}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div style={{ display: 'flex' }}>
+          <InfoList>
+            <InfoItem>
+              <InfoTitle>О Проекте</InfoTitle>
+
+              <InfoLine>
+                <span>Код проекта</span>
+                <InfoValue>#2020876153</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Дата создания</span>
+                <InfoValue>21.05.2020</InfoValue>
+              </InfoLine>
+
+              <InfoLine>
+                <span>Создатель</span>
+                <InfoValue>@username</InfoValue>
+              </InfoLine>
+            </InfoItem>
+            <InfoItem>
+              <InfoTitle>Информация о бренде</InfoTitle>
+
+              <InfoLine>
+                <span>Бренд</span>
+                <InfoValue>CocaCola</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Сектор деятельности:</span>
+                <InfoValue>Безалкогольные напитки</InfoValue>
+              </InfoLine>
+            </InfoItem>
+            <InfoItem>
+              <InfoTitle>Доп. инфо</InfoTitle>
+
+              <InfoLine>
+                <span>Рекламодатель</span>
+                <InfoValue>Агентство</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Рекламное агентство</span>
+                <InfoValue>-</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Брендинг</span>
+                <InfoValue>Да</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Агентская комиссия</span>
+                <InfoValue>10%</InfoValue>
+              </InfoLine>
+              <InfoLine>
+                <span>Менеджер по Продажам</span>
+                <InfoValue>Иван Иванович Иванов</InfoValue>
+              </InfoLine>
+            </InfoItem>
+            <InfoItem>
+              <InfoTitle>Коментарий к проекту</InfoTitle>
+
+              <InfoLine>
+                <span>
+                  Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение.{' '}
+                </span>
+              </InfoLine>
+            </InfoItem>
+          </InfoList>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
       </div>
@@ -168,21 +146,6 @@ const Project_card = () => {
             margin: 0 2vw 0 0;
           
           }
-          .project-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            height: 100%;
-            padding: 1.5%;
-            flex: 0 1 auto;
-            margin: 0 2vw 0 0;
-            max-width:422px;
-              }
-          .project-info p {
-            margin: 0;
-          }
-          .project-info h3 {
-            font-weight:700;
-          }
         `}
       </style>
     </div>
@@ -190,3 +153,31 @@ const Project_card = () => {
 };
 
 export default Project_card;
+const InfoList = styled.ul`
+  border-radius: 8px;
+  border: 1px solid #d3dff0;
+  height: 100%;
+  padding: 1.5%;
+  flex: 0 1 auto;
+  margin: 0 2vw 0 0;
+`;
+const InfoItem = styled.li`
+  margin: 4% 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #d3dff0;
+`;
+const InfoTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 700;
+`;
+const InfoLine = styled.div`
+  margin: 4% 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+`;
+const InfoValue = styled.span`
+  font-weight: 600;
+  text-align: right;
+`;

@@ -11,6 +11,7 @@ import {
   getPostalCodes,
   getOutdoorFurnitureFiltered,
 } from '../../../store/actions/actions';
+import styled from 'styled-components';
 
 const PanelDesign = (props) => {
   const tabs = [{ value: 'Закрепленные стороны' }, { value: 'Дизайн' }];
@@ -68,22 +69,22 @@ const PanelDesign = (props) => {
       <STabPanel>
         <div className="design-info">
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1vw' }}>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 1</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 2</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 3</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 4</div>
+            <DesignItem>Дизайн 1</DesignItem>
+            <DesignItem>Дизайн 2</DesignItem>
+            <DesignItem>Дизайн 3</DesignItem>
+            <DesignItem>Дизайн 4</DesignItem>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1vw' }}>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 5</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 6</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 7</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 8</div>
+            <DesignItem>Дизайн 5</DesignItem>
+            <DesignItem>Дизайн 6</DesignItem>
+            <DesignItem>Дизайн 7</DesignItem>
+            <DesignItem>Дизайн 8</DesignItem>
           </div>
         </div>
       </STabPanel>
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+       width: 100%;
           }
           .design-info {
             border-radius: 8px;
@@ -99,3 +100,9 @@ const PanelDesign = (props) => {
 };
 
 export default PanelDesign;
+
+const DesignItem = styled.ul`
+  border-radius: 8px;
+  border: 1px solid #d3dff0;
+  padding: 5vw;
+`;

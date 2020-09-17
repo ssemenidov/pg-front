@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelInvoice';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -38,21 +38,11 @@ const Invoice = () => {
 
       <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Счета - CocaCola</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
             {block === 0 && (
               <>
@@ -60,7 +50,7 @@ const Invoice = () => {
               </>
             )}
           </ButtonGroup>
-        </div>
+        </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
@@ -75,18 +65,6 @@ const Invoice = () => {
           }
           .left-bar {
             margin: 0 2vw 0 0;
-          }
-          .project-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            height: 100%;
-            padding: 1.5%;
-            flex: 0 1 auto;
-            margin: 0 2vw 0 0;
-            width:422px;
-          }
-          .project-info p {
-            margin: 0;
           }
         `}
       </style>

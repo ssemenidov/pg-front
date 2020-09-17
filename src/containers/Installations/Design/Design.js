@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelDesign';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -7,6 +7,7 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
+
 import styled from 'styled-components';
 
 const Design = () => {
@@ -23,23 +24,14 @@ const Design = () => {
       <LeftBar className="left-bar">
         <SearchBtn />
       </LeftBar>
+
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Проект - FF5800</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
             {block === 0 ? (
               <>
@@ -53,13 +45,13 @@ const Design = () => {
               </>
             )}
           </ButtonGroup>
-        </div>
+        </HeaderWrapper>
+
         <div style={{ display: 'flex' }}>
           <InfoList>
             <InfoItem>
-              <div>
-                <InfoTitle>Информация о проекте</InfoTitle>
-              </div>
+              <InfoTitle>Информация о проекте</InfoTitle>
+
               <InfoLine>
                 <span>Код проекта</span>
                 <InfoValue>#20202023123</InfoValue>
@@ -111,17 +103,6 @@ const Design = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-          }
-          .project-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            height: 100%;
-            padding: 1.5%;
-            flex: 0 1 auto;
-            margin: 0 2vw 0 0;
-          }
-          .project-info p {
-            margin: 0;
           }
         `}
       </style>
