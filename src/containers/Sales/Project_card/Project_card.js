@@ -160,6 +160,8 @@ const InfoList = styled.ul`
   padding: 1.5%;
   flex: 0 1 auto;
   margin: 0 2vw 0 0;
+  max-width: 422px;
+  box-sizing: border-box;
 `;
 const InfoItem = styled.li`
   margin: 4% 0;
