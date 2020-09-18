@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import styled from 'styled-components';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
-import minusIcon from '../img/header-bar/plus-icon.svg';
+import minusIcon from '../img/header-bar/minus-icon.svg';
 import arrowLeft from '../img/header-bar/arrow-left.svg';
 import arrowRight from '../img/header-bar/arrow-right.svg';
 import calendarIcon from '../img/header-bar/calendar.svg';
@@ -14,7 +14,15 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
-function Tablea({ columns, data }) {
+const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {},
+  getCheckboxProps: (record) => ({
+    disabled: record.name === 'Disabled User',
+    name: record.name,
+  }),
+};
+const Tablea = ({ columns, data, select }) => {
+  const [selectionType, setSelectionType] = useState('checkbox');
   return (
     <div>
       <div className="header-bar">
@@ -64,7 +72,17 @@ function Tablea({ columns, data }) {
         </div>
       </div>
       <Content>
-        <StyledTable pagination={false} columns={columns} dataSource={data} scroll={{ y: 500 }} />
+        <StyledTable
+          rowSelection={
+            select && {
+              type: selectionType,
+              ...rowSelection,
+            }
+          }
+          columns={columns}
+          dataSource={data}
+          scroll={{ y: 500 }}
+        />
       </Content>
       <style>
         {`.header-bar {
@@ -114,7 +132,7 @@ function Tablea({ columns, data }) {
       </style>
     </div>
   );
-}
+};
 
 export default Tablea;
 const StyledTable = styled(Table)`
