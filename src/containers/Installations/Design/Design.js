@@ -15,7 +15,7 @@ const Design = () => {
 
   const links = [
     { id: 'home', value: 'Главная' },
-    { id: 'installation', value: 'Базы' },
+    { id: 'installation', value: 'Монтажи' },
     { id: 'constructions', value: 'Конструкции' },
   ];
 

@@ -28,7 +28,7 @@ const Com_projects = () => {
         <FilterBar />
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

@@ -121,22 +121,7 @@ export default class AdvertisingParties extends Component {
 
   data = [
     {
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
-    },
-    {
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableSoldIcon} />,
-      timeline2: <img src={tableSoldIcon} />,
-      timeline3: <img src={tableFreeIcon} />
-    },
-    {
+      key: 1,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
@@ -145,20 +130,40 @@ export default class AdvertisingParties extends Component {
       timeline3: <img src={tableFreeIcon} />,
     },
     {
+      key: 2,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
+      timeline1: <img src={tableSoldIcon} />,
+      timeline2: <img src={tableSoldIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
     },
     {
+      key: 3,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
       timeline1: <img src={tableFreeIcon} />,
       timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
+      timeline3: <img src={tableFreeIcon} />,
+    },
+    {
+      key: 4,
+      code: '#123123123',
+      format: 'Сениор',
+      city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
+    },
+    {
+      key: 5,
+      code: '#123123123',
+      format: 'Сениор',
+      city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
     },
   ];
 
