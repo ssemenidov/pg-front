@@ -14,9 +14,9 @@ const Design = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
-    { id: 'home', value: 'Главная' },
+    { id: '', value: 'Главная' },
     { id: 'installation', value: 'Монтажи' },
-    { id: 'constructions', value: 'Конструкции' },
+    { id: 'installations/design', value: 'Проекты' },
   ];
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderTitleWrapper, HeaderWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelProjects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -12,14 +12,16 @@ import EditBtn from '../../../components/LeftBar/EditBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
+import { useHistory } from 'react-router';
 
 const Projects = () => {
+  const history = useHistory();
   const [block, setBlock] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
   const links = [
     { id: '', value: 'Главная' },
     { id: 'installations', value: 'Монтажи' },
-    { id: 'installations/projects', value: 'Список проектов' },
+    { id: 'installations/projects', value: 'Проекты' },
   ];
 
   return (
@@ -31,34 +33,26 @@ const Projects = () => {
         {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '70vw', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Список проектов</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузка разнарядки</StyledButton>
-              </>
-            )}
+            <StyledButton
+              backgroundColor="#2C5DE5"
+              onClick={() => {
+                history.push('/installations/orders');
+              }}>
+              Выгрузка разнарядки
+            </StyledButton>
           </ButtonGroup>
-        </div>
+        </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
+          <PanelDesign style={{ flex: '0 1 auto' }} />
         </div>
       </div>
       {/* {block === 0 ? null : <FilterBar />} */}

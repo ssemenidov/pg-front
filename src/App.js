@@ -47,6 +47,18 @@ const salesMenu = (
   </Menu>
 );
 
+const installationsMenu = (
+  <Menu>
+    <Menu.ItemGroup>
+      <Menu.Item>
+        <Link to="/installations/projects">Список Проектов</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/installations/orders">Разнорядка</Link>
+      </Menu.Item>
+    </Menu.ItemGroup>
+  </Menu>
+);
 const baseMenu = (
   <Menu>
     <Menu.ItemGroup>
@@ -81,7 +93,10 @@ const App = () => {
             <Dropdown overlay={salesMenu}>
               <Link to="/sales/advertising_parties">Продажи</Link>
             </Dropdown>
-            <Link to="/installations/design">Монтажи</Link>
+            <Dropdown overlay={installationsMenu}>
+              <Link to="/installations/projects">Монтажи</Link>
+            </Dropdown>
+
             <Dropdown overlay={baseMenu}>
               <Link to="/base">Базы</Link>
             </Dropdown>
