@@ -79,7 +79,7 @@ const App = () => {
           </div>
           <div className="links">
             <Dropdown overlay={salesMenu}>
-              <Link to="/sales">Продажи</Link>
+              <Link to="/sales/advertising_parties">Продажи</Link>
             </Dropdown>
             <Link to="/installations/design">Монтажи</Link>
             <Dropdown overlay={baseMenu}>

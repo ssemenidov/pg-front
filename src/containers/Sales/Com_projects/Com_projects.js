@@ -9,8 +9,13 @@ import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
 import { useHistory } from 'react-router';
+import EditBtn from '../../../components/LeftBar/EditBtn';
+import PackageBtn from '../../../components/LeftBar/PackageBtn';
+import PaperBtn from '../../../components/LeftBar/PaperBtn';
+import BoxBtn from '../../../components/LeftBar/BoxBtn';
 const Com_projects = () => {
-  const [block, setBlock] = useState(0);
+  const [collapsed, setCollapsed] = useState(true);
+
   const history = useHistory();
   const links = [
     { id: '', value: 'Главная' },
@@ -22,10 +27,10 @@ const Com_projects = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
-          <SearchBtn />
-          <CreateBtn text="Смарт кнопка" />
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+          <CreateBtn text="Создать проект" />
         </LeftBar>
-        <FilterBar />
+        {collapsed && <FilterBar />}
       </div>
 
       <div style={{ overflowX: 'hidden', width: '70vw', margin: '0 2vw 0 0' }}>
@@ -36,25 +41,21 @@ const Com_projects = () => {
             <JobTitle>Коммерчeские Проекты</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/project_card');
-                  }}>
-                  Создать Проект
-                </StyledButton>
-                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
-              </>
-            )}
+            <StyledButton
+              backgroundColor="#2C5DE5"
+              onClick={() => {
+                history.push('/sales/project_card');
+              }}>
+              Создать Проект
+            </StyledButton>
+            <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
           </ButtonGroup>
         </HeaderWrapper>
         <div style={{ display: 'flex' }}>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
+          <PanelDesign style={{ flex: '0 1 auto' }} />
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
+
       <style>
         {`
          .flex-margin {

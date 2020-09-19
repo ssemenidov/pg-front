@@ -9,6 +9,11 @@ import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 import AddBtn from '../../../components/LeftBar/AddBtn';
 import styled from 'styled-components';
+import EditBtn from '../../../components/LeftBar/EditBtn';
+import PaperBtn from '../../../components/LeftBar/PaperBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
+import PackageBtn from '../../../components/LeftBar/PackageBtn';
+import BoxBtn from '../../../components/LeftBar/BoxBtn';
 const Estimate = () => {
   const [block, setBlock] = useState(0);
 
@@ -22,7 +27,12 @@ const Estimate = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <AddBtn text="Добавить расход"></AddBtn>
+        <CreateBtn text="Добавить бронь" />
+        <PackageBtn text="Добавить пакет" />
+        <EditBtn text="Перейти в монтажи" />
+        <PaperBtn text="Сводка проекта" />
+        <BoxBtn text="Архив дизайнов" />
+        <AddBtn text="Добавить расход" />
       </LeftBar>
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
