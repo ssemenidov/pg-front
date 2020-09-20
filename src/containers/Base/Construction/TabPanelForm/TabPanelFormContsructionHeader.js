@@ -1,10 +1,7 @@
 import React from 'react';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
-import {
-  updateConstructionProps,
-  addConstruction,
-} from '../../../../store/actions/constructionActions';
+import { updateConstructionProps, addConstruction } from '../../../../store/actions/constructionActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
@@ -35,6 +32,7 @@ export default function TabPanelHeader(props) {
           <JobTitle>Конструкция номер</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
+          <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
           <StyledButton
             backgroundColor="#008556"
             onClick={() => {
@@ -44,11 +42,9 @@ export default function TabPanelHeader(props) {
                 dispatch(addConstruction(state));
               }
               routeChange();
-            }}
-          >
+            }}>
             Сохранить
           </StyledButton>
-          <StyledButton backgroundColor="#2c5de5">Создать сторону</StyledButton>
           <StyledButton backgroundColor="#d42d11">Демонтировать</StyledButton>
         </ButtonGroup>
       </HeaderWrapper>

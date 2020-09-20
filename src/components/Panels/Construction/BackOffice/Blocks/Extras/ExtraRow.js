@@ -1,10 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
 import { InputTitle, Row, BlockBody } from '../../../../../Styles/StyledBlocks';
+import { StyledSelect } from '../../../../../../styles/styles';
 import { RedDeleteBtn } from '../../../../../Styles/ButtonStyles';
 import red_can from '../../../../../../img/outdoor_furniture/red_can.svg';
-import styled from 'styled-components';
 import InputAnchor from '../../../../../Inputs/InputAnchor';
-import { useDispatch, useSelector } from 'react-redux';
+import anchorIcon from '../../../../../../img/input/anchor.svg';
 
 const InputWrapper = styled.div`
   width: 15%;
@@ -13,12 +16,12 @@ const InputWrapper = styled.div`
 export default function ExtraRow(props) {
   const current = useSelector((state) => state.construction.currentConstruction);
   const dispatch = useDispatch();
-  console.log(current);
+
   return (
     <Row>
       <InputWrapper>
         <InputTitle>Формат</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.format || ''}
           placeholder="Формат"
           onChange={(e) => {
@@ -35,14 +38,25 @@ export default function ExtraRow(props) {
                     return side;
                   }
                 }),
-              ])
+              ]),
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Формат</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Сторона</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.side || ''}
           placeholder="Сторона"
           onChange={(e) => {
@@ -62,11 +76,22 @@ export default function ExtraRow(props) {
               ])
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Сторона</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Рекламная сторона</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.advertisingSide || ''}
           placeholder="Рекламная сторона"
           onChange={(e) => {
@@ -83,14 +108,25 @@ export default function ExtraRow(props) {
                     return side;
                   }
                 }),
-              ])
+              ]),
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Рекламная сторона</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Назначение стороны</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.purposeSide || ''}
           placeholder="Назначение"
           onChange={(e) => {
@@ -107,14 +143,25 @@ export default function ExtraRow(props) {
                     return side;
                   }
                 }),
-              ])
+              ]),
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Назначение</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Размеры(см)</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.sizes || ''}
           placeholder="Размеры"
           onChange={(e) => {
@@ -131,14 +178,25 @@ export default function ExtraRow(props) {
                     return side;
                   }
                 }),
-              ])
+              ]),
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Размеры</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Доступность стороны</InputTitle>
-        <InputAnchor
+        {/* <InputAnchor
           value={props.current.availabilitySide || ''}
           placeholder="Доступность"
           onChange={(e) => {
@@ -155,10 +213,21 @@ export default function ExtraRow(props) {
                     return side;
                   }
                 }),
-              ])
+              ]),
             );
           }}
-        />
+        /> */}
+        <StyledSelect
+          defaultValue={
+            <>
+              <img src={anchorIcon} alt="" />
+              <span>Доступность</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </InputWrapper>
       <RedDeleteBtn onClick={props.removeClickHandler}>
         <img src={red_can} alt="" />
