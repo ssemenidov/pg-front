@@ -9,6 +9,7 @@ import {
 import SimpleInput from "../../../components/KhanInputs/SimpleInput";
 import ArrowDown from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown";
 import ArrowUp from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp";
+import { StyledSelect } from '../../../styles/styles';
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Filter() {
@@ -38,7 +39,7 @@ export default function Filter() {
           }}
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
         />
-        <SimpleInput
+        {/* <SimpleInput
           placeholder="Формат"
           onChange={(e) => {
             dispatch({
@@ -47,7 +48,19 @@ export default function Filter() {
             });
           }}
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
-        />
+        /> */}
+        <StyledSelect
+          style={{ marginBottom: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Формат</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
         <SimpleInput
           placeholder="Комментарий"
           onChange={(e) => {

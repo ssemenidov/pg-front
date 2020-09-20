@@ -26,99 +26,14 @@ import Com_projects from './containers/Sales/Com_projects/Com_projects';
 import Invoice from './containers/Sales/Invoice/Invoice';
 import Estimate from './containers/Sales/Estimate/Estimate';
 import Summary from './containers/Sales/Summary/Summary';
-<<<<<<< HEAD
-=======
 import Projects from './containers/Installations/Projects/Projects';
 import Orders from './containers/Installations/Orders/Orders';
-const salesMenu = (
-  <Menu>
-    <Menu.ItemGroup>
-      <Menu.Item>
-        <Link to="/sales/advertising_parties">Справочник рекламных сторон</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/sales/batch_placement">Пакетное размещение</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/sales/com_projects">Коммерческие проекты</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/sales/invoice">Счета</Link>
-      </Menu.Item>
-    </Menu.ItemGroup>
-  </Menu>
-);
-
-const installationsMenu = (
-  <Menu>
-    <Menu.ItemGroup>
-      <Menu.Item>
-        <Link to="/installations/projects">Список Проектов</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/installations/orders">Разнорядка</Link>
-      </Menu.Item>
-    </Menu.ItemGroup>
-  </Menu>
-);
-const baseMenu = (
-  <Menu>
-    <Menu.ItemGroup>
-      <Menu.Item>
-        <Link to="/base/outdoor_furniture">Уличная мебель</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/base/construction">Конструкции</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/base/partners">Контрагенты</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/base/locations">Список местоположений</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/base/outdoor_furniture">Список проектов</Link>
-      </Menu.Item>
-    </Menu.ItemGroup>
-  </Menu>
-);
->>>>>>> 4ef4581073fc02be2e7f6745700aa41b06787b56
 
 const App = () => {
   return (
     <ConfigProvider locale={locale}>
       <BrowserRouter>
-<<<<<<< HEAD
         <Header />
-=======
-        <Layout.Header className="header">
-          <div style={{ width: '300px' }}>
-            <img src={require('./img/partners/logo.svg')} alt="" />
-          </div>
-          <div className="links">
-            <Dropdown overlay={salesMenu}>
-              <Link to="/sales/advertising_parties">Продажи</Link>
-            </Dropdown>
-            <Dropdown overlay={installationsMenu}>
-              <Link to="/installations/projects">Монтажи</Link>
-            </Dropdown>
-
-            <Dropdown overlay={baseMenu}>
-              <Link to="/base">Базы</Link>
-            </Dropdown>
-            <Link to="/installations/design">Отчеты</Link>
-            <Link to="/installations/design">Администрация</Link>
-          </div>
-          <div style={{ width: '300px' }}>
-            <UserForm
-              name="Алексей"
-              surname="Иванов"
-              position="Администратор"
-              avatar="https://www.shareicon.net/data/512x512/2016/08/05/806962_user_512x512.png"
-            />
-          </div>
-        </Layout.Header>
->>>>>>> 4ef4581073fc02be2e7f6745700aa41b06787b56
         <Switch>
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
@@ -128,15 +43,11 @@ const App = () => {
           <Route path="/sales/invoice" component={Invoice} />
           <Route path="/sales/estimate" component={Estimate} />
           <Route path="/sales/summary" component={Summary} />
-
           <Route path="/installations/design" component={Design} />
-<<<<<<< HEAD
 
           <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
-=======
           <Route path="/installations/projects" component={Projects} />
           <Route path="/installations/orders" component={Orders} />
->>>>>>> 4ef4581073fc02be2e7f6745700aa41b06787b56
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
           <Route path="/base/construction/:id?" exact component={Construction} />

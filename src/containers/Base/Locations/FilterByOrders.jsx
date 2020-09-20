@@ -39,7 +39,7 @@ export default function Filter() {
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
         />
         <SimpleInput
-          placeholder="Номер начала"
+          placeholder="Дата начала"
           onChange={(e) => {
             dispatch({
               type: "SET_FORM_STARTDATE",
@@ -49,7 +49,7 @@ export default function Filter() {
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
         />
         <SimpleInput
-          placeholder="Номер окончания"
+          placeholder="Дата окончания"
           onChange={(e) => {
             dispatch({
               type: "SET_FORM_ENDDATE",

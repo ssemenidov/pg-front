@@ -1,15 +1,12 @@
-import React from "react";
-import { Collapse } from "@material-ui/core";
-import { LocationCity } from "@material-ui/icons";
-import {
-  FilterSection,
-  FilterSectionTitle,
-  FilterSectionTitleText,
-} from "../../../components/Styles/StyledFilters";
-import SimpleInput from "../../../components/KhanInputs/SimpleInput";
-import ArrowDown from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown";
-import ArrowUp from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { Collapse } from '@material-ui/core';
+import { LocationCity } from '@material-ui/icons';
+import { FilterSection, FilterSectionTitle, FilterSectionTitleText } from '../../../components/Styles/StyledFilters';
+import SimpleInput from '../../../components/KhanInputs/SimpleInput';
+import ArrowDown from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown';
+import ArrowUp from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp';
+import { StyledSelect } from '../../../styles/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Filter() {
   const dispatch = useDispatch();
@@ -32,23 +29,23 @@ export default function Filter() {
           placeholder="Постановление от акимата"
           onChange={(e) => {
             dispatch({
-              type: "SET_FORM_AKIMAT",
+              type: 'SET_FORM_AKIMAT',
               payload: e.target.value.toLowerCase(),
             });
           }}
-          icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
+          icon={<LocationCity style={{ color: 'rgb(178,187,201)' }} />}
         />
         <SimpleInput
           placeholder="Акт на землю"
           onChange={(e) => {
             dispatch({
-              type: "SET_FORM_ACT",
+              type: 'SET_FORM_ACT',
               payload: e.target.value.toLowerCase(),
             });
           }}
-          icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
+          icon={<LocationCity style={{ color: 'rgb(178,187,201)' }} />}
         />
-        <SimpleInput
+        {/* <SimpleInput
           placeholder="Статус оформления"
           onChange={(e) => {
             dispatch({
@@ -57,7 +54,19 @@ export default function Filter() {
             });
           }}
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
-        />
+        /> */}
+        <StyledSelect
+          style={{ marginBottom: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Статус оформления</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </Collapse>
     </FilterSection>
   );

@@ -1,15 +1,12 @@
-import React from "react";
-import { Collapse } from "@material-ui/core";
-import { LocationCity } from "@material-ui/icons";
-import {
-  FilterSection,
-  FilterSectionTitle,
-  FilterSectionTitleText,
-} from "../../../components/Styles/StyledFilters";
-import SimpleInput from "../../../components/KhanInputs/SimpleInput";
-import ArrowDown from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown";
-import ArrowUp from "../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { Collapse } from '@material-ui/core';
+import { LocationCity } from '@material-ui/icons';
+import { FilterSection, FilterSectionTitle, FilterSectionTitleText } from '../../../components/Styles/StyledFilters';
+import SimpleInput from '../../../components/KhanInputs/SimpleInput';
+import ArrowDown from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown';
+import ArrowUp from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp';
+import { StyledSelect, StyledInput } from '../../../styles/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function FilterLocation() {
   const dispatch = useDispatch();
@@ -28,7 +25,7 @@ export default function FilterLocation() {
         {!open && <ArrowDown />}
       </FilterSectionTitle>
       <Collapse in={open}>
-        <SimpleInput
+        {/* <SimpleInput
           placeholder="Город"
           onChange={(e) => {
             dispatch({
@@ -97,7 +94,70 @@ export default function FilterLocation() {
             });
           }}
           icon={<LocationCity style={{ color: "rgb(178,187,201)" }} />}
+        /> */}
+        <StyledSelect
+          style={{ marginTop: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Город</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
+        <StyledSelect
+          style={{ marginTop: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Район</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
+        <StyledInput
+          style={{ marginTop: '20px' }}
+          placeholder="Юридический адрес"
+          prefix={<LocationCity style={{ color: 'rgb(178,187,201)' }} />}
         />
+        <StyledInput
+          style={{ marginTop: '20px' }}
+          placeholder="Маркетинговый адрес"
+          prefix={<LocationCity style={{ color: 'rgb(178,187,201)' }} />}
+        />
+        <StyledSelect
+          style={{ marginTop: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Почтовый индекс</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
+        <StyledInput
+          style={{ marginTop: '20px' }}
+          placeholder="Кадастровый номер"
+          prefix={<LocationCity style={{ color: 'rgb(178,187,201)' }} />}
+        />
+        <StyledSelect
+          style={{ marginTop: '20px' }}
+          defaultValue={
+            <>
+              <LocationCity style={{ color: 'rgb(178,187,201)' }} />
+              <span>Целевое назначение</span>
+            </>
+          }
+          suffixIcon={null}>
+          <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+          <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+        </StyledSelect>
       </Collapse>
     </FilterSection>
   );
