@@ -95,10 +95,9 @@ const Design = () => {
           </InfoList>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
 
-          {block === 0 ? null : <FilterBar />}
+          {/* {block === 0 ? null : <FilterBar />} */}
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
           .left-bar {

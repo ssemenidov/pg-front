@@ -675,6 +675,9 @@ const BatchPlacement = () => {
         .search-btn span {
           color: #FFF !important;
         }
+        .search-btn:hover span , .search-btn:active span {
+          color: #2C5DE5 !important;
+        }
         .header-bar {
           display: flex;
           background: #E7EEF8;
@@ -709,16 +712,18 @@ const BatchPlacement = () => {
           color: #252525 !important;
         }
         .header-page-btn {
+          border-radius: 4px;
           background: #FF5800;
           display: flex;
           align-items: center;
           padding: 15px 30px;
+          border: 1px solid #FF5800 !important ;
         }
         .header-page-btn span {
           color: #fff !important;
           font-weight: 600;
         }
-        .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {
+        .header-page-btn:active, .header-page-btn:hover, .header-page-btn:focus {
           background: #FF5800 !important;
         }
       `}</style>
@@ -736,8 +741,8 @@ const StyledLayout = styled(Layout)`
 
 const StyledSider = styled(Sider)`
   background: #f5f7fa;
-  min-width: 80px !important;
-  max-width: 80px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
   border-right: 1px solid #d3dff0 !important;
 `;
 
