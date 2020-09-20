@@ -11,11 +11,12 @@ const PanelDesign = (props) => {
     {
       title: 'Бренд',
       dataIndex: 'brand',
-      width: 'auto',
+      width: 80,
     },
     {
       title: 'Дата начала',
       dataIndex: 'date',
+      width: 90,
     },
     {
       title: 'Рекламодатель',
@@ -28,6 +29,7 @@ const PanelDesign = (props) => {
     {
       title: 'Город',
       dataIndex: 'city',
+      width: 80,
     },
     {
       title: 'Сектор деятельности',

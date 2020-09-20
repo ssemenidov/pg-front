@@ -102,11 +102,12 @@ const PanelDesign = (props) => {
 
   return (
     <>
-      <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
-
+      <div className="outdoor-table-bar">
+        <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+      </div>
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+            width: 100%;
           }
           .design-info {
             border-radius: 8px;

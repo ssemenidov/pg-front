@@ -11,94 +11,107 @@ const PanelDesign = (props) => {
       width: 130,
     },
     {
+      title: 'Название',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Клиент',
+      dataIndex: 'client',
+    },
+    {
       title: 'Бренд',
       dataIndex: 'brand',
       width: 80,
     },
     {
-      title: 'Дата начала',
-      dataIndex: 'date',
-      width: 90,
-    },
-    {
-      title: 'Рекламодатель',
-      dataIndex: 'advert',
-    },
-    {
-      title: 'Рекламное агенство',
-      dataIndex: 'advert_agency',
-    },
-
-    {
       title: 'Город',
       dataIndex: 'city',
       width: 80,
     },
-
     {
-      title: 'Сумма без НДС',
-      dataIndex: 'sum',
+      title: 'Всего сторон',
+      dataIndex: 'allsides',
     },
     {
-      title: 'Общая сумма',
-      dataIndex: 'all_sum',
+      title: 'Проданных сторон',
+      dataIndex: 'salesides',
+    },
+
+    {
+      title: 'Распред. сторон',
+      dataIndex: 'spreadsides',
+    },
+
+    {
+      title: 'Не распред. сторон',
+      dataIndex: 'nspreadsides',
     },
   ];
   const data = [
     {
       key: 1,
       code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
       brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sum: '123 356 тг.',
-      all_sum: '223 356 тг.',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
     },
     {
       key: 2,
       code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
       brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sum: '123 356 тг.',
-      all_sum: '223 356 тг.',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
     },
     {
       key: 3,
       code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
       brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sum: '123 356 тг.',
-      all_sum: '223 356 тг.',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
     },
     {
       key: 4,
       code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
       brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sum: '123 356 тг.',
-      all_sum: '223 356 тг.',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
     },
     {
       key: 5,
       code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
       brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sum: '123 356 тг.',
-      all_sum: '223 356 тг.',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
     },
   ];
   const outdoorFurnitureColums = [
