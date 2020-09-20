@@ -1,57 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
-import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
-import { StyledButton } from '../../../styles/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
+import Table from '../../../components/Tablea';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'Закрепленные стороны' }];
+  const columns = [
+    {
+      title: 'Город',
+      dataIndex: 'city',
+    },
+    {
+      title: 'Адрес',
+      dataIndex: 'address',
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+    },
+    {
+      title: 'Период',
+      dataIndex: 'period',
+    },
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
+    {
+      title: 'Аренда',
+      dataIndex: 'renta',
+    },
 
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
-  const outdoorFurnitureColums = [
-    'Город',
-    'Адрес',
-    'Формат',
-    'Период',
-    'Аренда',
-    'Печать',
-    'Монтаж',
-    'Доп Расходы',
-    'Общая Сумма',
+    {
+      title: 'Печать',
+      dataIndex: 'print',
+    },
+    {
+      title: 'Монтаж',
+      dataIndex: 'install',
+    },
+    {
+      title: 'Доп Расходы',
+      dataIndex: 'addexpense',
+    },
+    {
+      title: 'Общая Сумма',
+      dataIndex: 'amount',
+    },
   ];
+  const data = [
+    {
+      key: 1,
+      format: 'Сениор',
+      city: 'Алматы',
+      period: '29.03.20 - 30.05.20',
+      address: 'Достык, 25',
+    },
+    {
+      key: 2,
+      format: 'Сениор',
+      city: 'Алматы',
+      period: '29.03.20 - 30.05.20',
+      address: 'Достык, 25',
+    },
+    {
+      key: 3,
+      format: 'Сениор',
+      city: 'Алматы',
+      period: '29.03.20 - 30.05.20',
+      address: 'Достык, 25',
+    },
+  ];
+
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          linkProps={'/base/construction/'}
-          columns={outdoorFurnitureColums}
-          rows={rows}
-          rowKeys={rowKeys}
-          handleFastSearch={() => {
-            dispatch(getOutdoorFurnitureFiltered(fastSearch));
-          }}
-          handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data} select={false} />
       </div>
 
       <style>

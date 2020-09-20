@@ -1,33 +1,109 @@
 import React, { useState, useEffect } from 'react';
 import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
+import Table from '../../../components/Tablea';
 import { StyledButton } from '../../../styles/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
 
 const PanelDesign = (props) => {
   const tabs = [{ value: 'ЗАБРОНИРОВАННЫЕ СТОРОНЫ' }, { value: 'ДОП. РАСХОДЫ' }, { value: 'НОН РТС' }];
+  const columns = [
+    {
+      title: 'Код',
+      dataIndex: 'code',
+      width: 130,
+    },
+    {
+      title: 'Бренд',
+      dataIndex: 'brand',
+      width: 80,
+    },
+    {
+      title: 'Дата начала',
+      dataIndex: 'date',
+      width: 90,
+    },
+    {
+      title: 'Рекламодатель',
+      dataIndex: 'advert',
+    },
+    {
+      title: 'Рекламное агенство',
+      dataIndex: 'advert_agency',
+    },
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
+    },
 
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
+    {
+      title: 'Сумма без НДС',
+      dataIndex: 'sum',
+    },
+    {
+      title: 'Общая сумма',
+      dataIndex: 'all_sum',
+    },
+  ];
+  const data = [
+    {
+      key: 1,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+    {
+      key: 2,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+    {
+      key: 3,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+    {
+      key: 4,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+  ];
   const estimateColums = ['Код стороны', 'Город', 'Адрес', 'Формат', 'Сторона', 'Период', 'Брендинг'];
   const estimateaddColums = [
     'Наименование услуги',
@@ -55,44 +131,17 @@ const PanelDesign = (props) => {
       </ControlToolbar>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table
-            linkProps={'/base/construction/'}
-            columns={estimateColums}
-            rows={rows}
-            rowKeys={rowKeys}
-            handleFastSearch={() => {
-              dispatch(getOutdoorFurnitureFiltered(fastSearch));
-            }}
-            handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-          />
+          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
         </div>
       </STabPanel>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table
-            linkProps={'/base/construction/'}
-            columns={estimateaddColums}
-            rows={rows}
-            rowKeys={rowKeys}
-            handleFastSearch={() => {
-              dispatch(getOutdoorFurnitureFiltered(fastSearch));
-            }}
-            handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-          />
+          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
         </div>
       </STabPanel>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table
-            linkProps={'/base/construction/'}
-            columns={estimatertsColums}
-            rows={rows}
-            rowKeys={rowKeys}
-            handleFastSearch={() => {
-              dispatch(getOutdoorFurnitureFiltered(fastSearch));
-            }}
-            handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-          />
+          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
         </div>
       </STabPanel>
 

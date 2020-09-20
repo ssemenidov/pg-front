@@ -1,36 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
-import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
-import { StyledButton } from '../../../styles/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
+import Table from '../../../components/Tablea';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'Закрепленные стороны' }];
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
-
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
+  const columns = [
+    {
+      title: 'Город',
+      dataIndex: 'city',
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+    },
+    {
+      title: 'Адрес',
+      dataIndex: 'address',
+    },
+    {
+      title: 'Монтаж',
+      dataIndex: 'install',
+    },
+    {
+      title: 'Фотоотчет',
+      dataIndex: 'photo',
+    },
+    {
+      title: 'Доп. Фотоотчет',
+      dataIndex: 'addphoto',
+    },
+    {
+      title: 'Смета',
+      dataIndex: 'estimate',
+    },
+    {
+      title: 'Приложение',
+      dataIndex: 'app',
+    },
+    {
+      title: 'Счет',
+      dataIndex: 'invoice',
+    },
+    {
+      title: 'АВР',
+      dataIndex: 'avr',
+      width: 60,
+    },
+  ];
+  const data = [
+    {
+      key: 1,
+      city: 'Алматы',
+      format: 'Скроллерная А3 FACES',
+      address: 'Достык 50',
+      install: 'Да',
+      photo: 'Да',
+      addphoto: 'Да',
+      estimate: '123 356 тг.',
+      app: '223 356 тг.',
+      invoice: '223 356 тг.',
+      avr: 'Да',
+    },
+    {
+      key: 2,
+      city: 'Алматы',
+      format: 'Скроллерная А3 FACES',
+      address: 'Достык 50',
+      install: 'Да',
+      photo: 'Да',
+      addphoto: 'Да',
+      estimate: '123 356 тг.',
+      app: '223 356 тг.',
+      invoice: '223 356 тг.',
+      avr: 'Да',
+    },
+    {
+      key: 3,
+      city: 'Алматы',
+      format: 'Скроллерная А3 FACES',
+      address: 'Достык 50',
+      install: 'Да',
+      photo: 'Да',
+      addphoto: 'Да',
+      estimate: '123 356 тг.',
+      app: '223 356 тг.',
+      invoice: '223 356 тг.',
+      avr: 'Да',
+    },
+    {
+      key: 4,
+      city: 'Алматы',
+      format: 'Скроллерная А3 FACES',
+      address: 'Достык 50',
+      install: 'Да',
+      photo: 'Да',
+      addphoto: 'Да',
+      estimate: '123 356 тг.',
+      app: '223 356 тг.',
+      invoice: '223 356 тг.',
+      avr: 'Да',
+    },
+    {
+      key: 5,
+      city: 'Алматы',
+      format: 'Скроллерная А3 FACES',
+      address: 'Достык 50',
+      install: 'Да',
+      photo: 'Да',
+      addphoto: 'Да',
+      estimate: '123 356 тг.',
+      app: '223 356 тг.',
+      invoice: '223 356 тг.',
+      avr: 'Да',
+    },
+  ];
   const outdoorFurnitureColums = [
     'Город',
-
     'Формат',
     'Бренд',
     'Адрес',
@@ -44,16 +127,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          linkProps={'/base/construction/'}
-          columns={outdoorFurnitureColums}
-          rows={rows}
-          rowKeys={rowKeys}
-          handleFastSearch={() => {
-            dispatch(getOutdoorFurnitureFiltered(fastSearch));
-          }}
-          handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data} select={false} />
       </div>
 
       <style>

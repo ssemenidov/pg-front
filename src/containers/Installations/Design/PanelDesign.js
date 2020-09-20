@@ -1,33 +1,87 @@
 import React, { useState, useEffect } from 'react';
 import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
+import Table from '../../../components/Tablea';
 import { StyledButton } from '../../../styles/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
+
+import styled from 'styled-components';
 
 const PanelDesign = (props) => {
   const tabs = [{ value: 'Закрепленные стороны' }, { value: 'Дизайн' }];
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
-
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
+  const columns = [
+    {
+      title: 'Код',
+      dataIndex: 'code',
+      width: 130,
+    },
+    {
+      title: 'Рекламная сторона',
+      dataIndex: 'side',
+    },
+    {
+      title: 'Дизайн',
+      dataIndex: 'design',
+    },
+    {
+      title: 'Комментарий',
+      dataIndex: 'comment',
+    },
+    {
+      title: 'Дата монтажа',
+      dataIndex: 'datei',
+    },
+    {
+      title: 'Дата демонтажа',
+      dataIndex: 'datedi',
+    },
+  ];
+  const data = [
+    {
+      key: 1,
+      code: '#2020050301323',
+      side: 'Смотрит на дорогу',
+      design: '20384_cocacola.jpg',
+      comment: 'Новый монтаж',
+      datei: '19.07.2020',
+      datedi: '19.07.2020',
+    },
+    {
+      key: 2,
+      code: '#2020050301323',
+      side: 'Смотрит на дорогу',
+      design: '20384_cocacola.jpg',
+      comment: 'Новый монтаж',
+      datei: '19.07.2020',
+      datedi: '19.07.2020',
+    },
+    {
+      key: 3,
+      code: '#2020050301323',
+      side: 'Смотрит на дорогу',
+      design: '20384_cocacola.jpg',
+      comment: 'Новый монтаж',
+      datei: '19.07.2020',
+      datedi: '19.07.2020',
+    },
+    {
+      key: 4,
+      code: '#2020050301323',
+      side: 'Смотрит на дорогу',
+      design: '20384_cocacola.jpg',
+      comment: 'Новый монтаж',
+      datei: '19.07.2020',
+      datedi: '19.07.2020',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      side: 'Смотрит на дорогу',
+      design: '20384_cocacola.jpg',
+      comment: 'Новый монтаж',
+      datei: '19.07.2020',
+      datedi: '19.07.2020',
+    },
+  ];
   const outdoorFurnitureColums = [
     'Код',
     'Город',
@@ -53,37 +107,28 @@ const PanelDesign = (props) => {
       </ControlToolbar>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table
-            linkProps={'/base/construction/'}
-            columns={outdoorFurnitureColums}
-            rows={rows}
-            rowKeys={rowKeys}
-            handleFastSearch={() => {
-              dispatch(getOutdoorFurnitureFiltered(fastSearch));
-            }}
-            handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-          />
+          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
         </div>
       </STabPanel>
       <STabPanel>
         <div className="design-info">
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1vw' }}>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 1</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 2</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 3</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 4</div>
+            <DesignItem>Дизайн 1</DesignItem>
+            <DesignItem>Дизайн 2</DesignItem>
+            <DesignItem>Дизайн 3</DesignItem>
+            <DesignItem>Дизайн 4</DesignItem>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1vw' }}>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 5</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 6</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 7</div>
-            <div style={{ borderRadius: '8px', border: '1px solid #d3dff0', padding: '5vw' }}>Дизайн 8</div>
+            <DesignItem>Дизайн 5</DesignItem>
+            <DesignItem>Дизайн 6</DesignItem>
+            <DesignItem>Дизайн 7</DesignItem>
+            <DesignItem>Дизайн 8</DesignItem>
           </div>
         </div>
       </STabPanel>
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+       width: 100%;
           }
           .design-info {
             border-radius: 8px;
@@ -99,3 +144,9 @@ const PanelDesign = (props) => {
 };
 
 export default PanelDesign;
+
+const DesignItem = styled.ul`
+  border-radius: 8px;
+  border: 1px solid #d3dff0;
+  padding: 5vw;
+`;

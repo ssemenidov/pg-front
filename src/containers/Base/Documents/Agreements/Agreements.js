@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SearchBtn from '../../Partners/LeftBar/SearchBtn';
+import SearchBtn from '../../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../../styles/styles';
 import HeaderAgreements from './HeaderAgreements';
 import { STab, STabs, STabList, STabPanel } from '../../../../components/Styles/TabPanelsStyles';
@@ -23,8 +23,7 @@ const Agreements = (props) => {
           <STabs
             selectedTabClassName="is-selected"
             selectedTabPanelClassName="is-selected"
-            onSelect={(index) => props.selectedTab(index)}
-          >
+            onSelect={(index) => props.selectedTab(index)}>
             <ControlToolbar position="static">
               <STabList>
                 {tabs.map((tab, index) => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
+import { LeftBar } from '../../../styles/styles';
 
 import plusIcon from '../../../img/header-bar/plus-icon.svg';
 import minusIcon from '../../../img/header-bar/minus-icon.svg';
@@ -27,6 +28,8 @@ import formatIcon from '../../../img/input/format-construction.svg';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import searchIcon from '../../../img/left-bar/search.svg';
 import createProjectIcon from '../../../img/left-bar/create-project.svg';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 
 const { Content, Sider } = Layout;
 
@@ -121,22 +124,7 @@ export default class AdvertisingParties extends Component {
 
   data = [
     {
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
-    },
-    {
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableSoldIcon} />,
-      timeline2: <img src={tableSoldIcon} />,
-      timeline3: <img src={tableFreeIcon} />
-    },
-    {
+      key: 1,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
@@ -145,20 +133,40 @@ export default class AdvertisingParties extends Component {
       timeline3: <img src={tableFreeIcon} />,
     },
     {
+      key: 2,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
+      timeline1: <img src={tableSoldIcon} />,
+      timeline2: <img src={tableSoldIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
     },
     {
+      key: 3,
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
       timeline1: <img src={tableFreeIcon} />,
       timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />
+      timeline3: <img src={tableFreeIcon} />,
+    },
+    {
+      key: 4,
+      code: '#123123123',
+      format: 'Сениор',
+      city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
+    },
+    {
+      key: 5,
+      code: '#123123123',
+      format: 'Сениор',
+      city: 'Алматы',
+      timeline1: <img src={tableFreeIcon} />,
+      timeline2: <img src={tableFreeIcon} />,
+      timeline3: <img src={tableFreeIcon} />,
     },
   ];
 
@@ -195,7 +203,6 @@ export default class AdvertisingParties extends Component {
         onResize: this.handleResize(index),
       }),
     }));
-
     return (
       <Layout>
         <Layout>
@@ -206,16 +213,10 @@ export default class AdvertisingParties extends Component {
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}>
-              <ul className="left-bar-list">
-                <li onClick={() => this.setState({ collapsed: !this.state.collapsed })}>
-                  <img src={searchIcon} />
-                  <span>Поиск</span>
-                </li>
-                <li>
-                  <img src={createProjectIcon} />
-                  <span>Создать проект</span>
-                </li>
-              </ul>
+              <LeftBar>
+                <SearchBtn />
+                <CreateBtn text="Создать проект" />
+              </LeftBar>
             </Menu>
           </Sider>
           {this.state.collapsed ? (
@@ -737,7 +738,7 @@ export default class AdvertisingParties extends Component {
             font-weight: 600;
           }
           .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {
-            background: #FF5800 !important;
+            color: #FF5800 !important;
           }
         `}
         </style>

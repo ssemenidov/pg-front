@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelCom_projects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import SearchBtn from '../../Base/Partners/LeftBar/SearchBtn';
-import CreateBtn from '../../Base/Partners/LeftBar/CreateBtn';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import FilterBar from './FilterBar';
 import { useHistory } from 'react-router';
+import EditBtn from '../../../components/LeftBar/EditBtn';
+import PackageBtn from '../../../components/LeftBar/PackageBtn';
+import PaperBtn from '../../../components/LeftBar/PaperBtn';
+import BoxBtn from '../../../components/LeftBar/BoxBtn';
 const Com_projects = () => {
-  const [block, setBlock] = useState(0);
+  const [collapsed, setCollapsed] = useState(true);
+
   const history = useHistory();
   const links = [
     { id: '', value: 'Главная' },
@@ -22,50 +27,35 @@ const Com_projects = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
-          <SearchBtn />
-          <CreateBtn text="Смарт кнопка" />
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+          <CreateBtn text="Создать проект" />
         </LeftBar>
-        <FilterBar />
+        {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Коммерчeские Проекты</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/project_card');
-                  }}>
-                  Создать Проект
-                </StyledButton>
-                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
-              </>
-            )}
+            <StyledButton
+              backgroundColor="#2C5DE5"
+              onClick={() => {
+                history.push('/sales/project_card');
+              }}>
+              Создать Проект
+            </StyledButton>
+            <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
           </ButtonGroup>
-        </div>
-
+        </HeaderWrapper>
         <div style={{ display: 'flex' }}>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
+          <PanelDesign style={{ flex: '0 1 auto' }} />
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
+
       <style>
         {`
          .flex-margin {
@@ -74,18 +64,6 @@ const Com_projects = () => {
           }
           .left-bar {
             margin: 0 2vw 0 0;
-          }
-          .project-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            height: 100%;
-            padding: 1.5%;
-            flex: 0 1 auto;
-            margin: 0 2vw 0 0;
-            width:422px;
-          }
-          .project-info p {
-            margin: 0;
           }
         `}
       </style>
