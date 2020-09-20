@@ -4,95 +4,68 @@ import Table from '../../../components/Tablea';
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Код',
-      dataIndex: 'code',
-      width: 100,
-    },
-    {
-      title: 'Text',
-      dataIndex: 'text',
-      width: 100,
-    },
-    {
-      title: 'Формат',
-      dataIndex: 'format',
-      width: 100,
-    },
-    {
       title: 'Город',
       dataIndex: 'city',
-      width: 100,
-    },
-    {
-      title: 'Период',
-      dataIndex: 'period',
-      width: 100,
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
-      width: 100,
     },
     {
-      title: 'Брендинг',
-      dataIndex: 'branding',
-      width: 100,
+      title: 'Формат',
+      dataIndex: 'format',
+    },
+    {
+      title: 'Период',
+      dataIndex: 'period',
+    },
+
+    {
+      title: 'Аренда',
+      dataIndex: 'renta',
+    },
+
+    {
+      title: 'Печать',
+      dataIndex: 'print',
+    },
+    {
+      title: 'Монтаж',
+      dataIndex: 'install',
+    },
+    {
+      title: 'Доп Расходы',
+      dataIndex: 'addexpense',
+    },
+    {
+      title: 'Общая Сумма',
+      dataIndex: 'amount',
     },
   ];
   const data = [
     {
-      key: '1',
-      code: '#123123123',
+      key: 1,
       format: 'Сениор',
-      text: 'остановка',
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
-      branding: 'Да',
     },
     {
-      key: '2',
-      code: '#123123123',
+      key: 2,
       format: 'Сениор',
-      text: 'остановка',
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
-      branding: 'Да',
     },
     {
-      key: '3',
-      code: '#123123123',
+      key: 3,
       format: 'Сениор',
-      text: 'остановка',
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
-      branding: 'Да',
-    },
-    {
-      key: '4',
-      code: '#123123123',
-      format: 'Сениор',
-      text: 'остановка',
-      city: 'Алматы',
-      period: '29.03.20 - 30.05.20',
-      address: 'Достык, 25',
-      branding: 'Да',
     },
   ];
 
-  const outdoorFurnitureColums = [
-    'Город',
-    'Адрес',
-    'Формат',
-    'Период',
-    'Аренда',
-    'Печать',
-    'Монтаж',
-    'Доп Расходы',
-    'Общая Сумма',
-  ];
   return (
     <>
       <div className="outdoor-table-bar">

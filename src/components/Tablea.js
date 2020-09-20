@@ -21,37 +21,41 @@ const rowSelection = {
     name: record.name,
   }),
 };
-const Tablea = ({ columns, data, select }) => {
+const Tablea = (props) => {
   const [selectionType, setSelectionType] = useState('checkbox');
   return (
     <div>
       <div className="header-bar">
-        <div>
+        {props.title ? (
+          <h6>{props.title}</h6>
+        ) : (
           <div>
-            <Button className="header-btn">
-              <img src={plusIcon} />
-            </Button>
-            <Button className="header-btn">
-              <img src={minusIcon} />
-            </Button>
+            <div>
+              <Button className="header-btn">
+                <img src={plusIcon} />
+              </Button>
+              <Button className="header-btn">
+                <img src={minusIcon} />
+              </Button>
+            </div>
+            <div>
+              <Button style={{ marginLeft: '20px' }} className="header-btn">
+                <img src={arrowLeft} />
+              </Button>
+              <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
+                <span>Неделя</span>
+                <img src={collapseDownIcon} />
+              </Button>
+              <Button style={{ width: '220px' }} className="header-btn header-date-btn">
+                <img src={calendarIcon} />
+                <span>2 марта - 29 марта 2020</span>
+              </Button>
+              <Button className="header-btn">
+                <img src={arrowRight} />
+              </Button>
+            </div>
           </div>
-          <div>
-            <Button style={{ marginLeft: '20px' }} className="header-btn">
-              <img src={arrowLeft} />
-            </Button>
-            <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-              <span>Неделя</span>
-              <img src={collapseDownIcon} />
-            </Button>
-            <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-              <img src={calendarIcon} />
-              <span>2 марта - 29 марта 2020</span>
-            </Button>
-            <Button className="header-btn">
-              <img src={arrowRight} />
-            </Button>
-          </div>
-        </div>
+        )}
         <div>
           <Input
             style={{ marginLeft: '20px' }}
@@ -74,13 +78,14 @@ const Tablea = ({ columns, data, select }) => {
       <Content>
         <StyledTable
           rowSelection={
-            select && {
+            props.select && {
               type: selectionType,
               ...rowSelection,
             }
           }
-          columns={columns}
-          dataSource={data}
+          columns={props.columns}
+          dataSource={props.data}
+          pagination={{ pageSize: 4 }}
           scroll={{ y: 500 }}
         />
       </Content>
@@ -94,6 +99,7 @@ const Tablea = ({ columns, data, select }) => {
                 height: 45px;
                 padding: 5px;
                 justify-content: space-between;
+                align-items:flex-end;
               }
               .header-bar > div {
                 display: flex;
