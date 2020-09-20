@@ -14,8 +14,7 @@ import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
 
 const Invoice = () => {
-  const [block, setBlock] = useState(0);
-
+  const [collapsed, setCollapsed] = useState(true);
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
@@ -26,17 +25,17 @@ const Invoice = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
-          <SearchBtn />
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
           <CreateBtn text="Добавить бронь" />
           <PackageBtn text="Добавить пакет" />
           <EditBtn text="Перейти в монтажи" />
           <PaperBtn text="Сводка проекта" />
           <BoxBtn text="Архив дизайнов" />
         </LeftBar>
-        <FilterBar />
+        {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', width: '70vw', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
@@ -44,16 +43,14 @@ const Invoice = () => {
             <JobTitle>Счета - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
-              </>
-            )}
+            <>
+              <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
+            </>
           </ButtonGroup>
         </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
+          <PanelDesign style={{ flex: '0 1 auto' }} />
         </div>
       </div>
       {/* {block === 0 ? null : <FilterBar />} */}

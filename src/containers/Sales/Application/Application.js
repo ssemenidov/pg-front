@@ -27,8 +27,10 @@ const Application = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <CreateBtn text="Создть новое" />
-        <PackageBtn text="Изменить текущее" />
+        <CreateBtn text="Добавить бронь" />
+        <PackageBtn text="Добавить пакет" />
+        <EditBtn text="Перейти в монтажи" />
+        <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
       </LeftBar>
       <div style={{ width: '100%', margin: '0 2vw 0 0' }}>

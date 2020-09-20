@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, 
 import HeaderSales from './HeaderSales';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { LeftBar } from '../../../styles/styles';
 import freeIcon from '../../../img/sales/free.svg';
 import bookedIcon from '../../../img/sales/booked.svg';
 import soldIcon from '../../../img/sales/sold.svg';
@@ -30,6 +30,8 @@ import districtIcon from '../../../img/input/input-district.svg';
 import sideIcon from '../../../img/input/side-construction.svg';
 import typeIcon from '../../../img/input/type-construction.svg';
 import formatIcon from '../../../img/input/format-construction.svg';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
 const { Content, Sider } = Layout;
 
@@ -303,16 +305,10 @@ const BatchPlacement = () => {
       <Layout>
         <StyledSider>
           <StyledSider>
-            <LeftBarList>
-              <ListItem onClick={() => setCollapsed(!collapsed)}>
-                <img src={searchIcon} />
-                <span>Поиск</span>
-              </ListItem>
-              <ListItem>
-                <img src={createProjectIcon} />
-                <span>Создать проект</span>
-              </ListItem>
-            </LeftBarList>
+            <LeftBar>
+              <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+              <CreateBtn text="Создать проект" />
+            </LeftBar>
           </StyledSider>
         </StyledSider>
         {collapsed ? (

@@ -6,98 +6,108 @@ const PanelDesign = (props) => {
     {
       title: 'Код',
       dataIndex: 'code',
-      width: 100,
+      width: 130,
     },
     {
-      title: 'Text',
-      dataIndex: 'text',
-      width: 100,
+      title: 'Бренд',
+      dataIndex: 'brand',
+      width: 80,
     },
     {
-      title: 'Формат',
-      dataIndex: 'format',
-      width: 100,
+      title: 'Дата начала',
+      dataIndex: 'date',
+      width: 90,
     },
+    {
+      title: 'Рекламодатель',
+      dataIndex: 'advert',
+    },
+    {
+      title: 'Рекламное агенство',
+      dataIndex: 'advert_agency',
+    },
+
     {
       title: 'Город',
       dataIndex: 'city',
-      width: 100,
+      width: 80,
+    },
+
+    {
+      title: 'Сумма без НДС',
+      dataIndex: 'sum',
     },
     {
-      title: 'Период',
-      dataIndex: 'period',
-      width: 100,
-    },
-    {
-      title: 'Адрес',
-      dataIndex: 'address',
-      width: 100,
-    },
-    {
-      title: 'Брендинг',
-      dataIndex: 'branding',
-      width: 100,
+      title: 'Общая сумма',
+      dataIndex: 'all_sum',
     },
   ];
   const data = [
     {
-      key: '1',
-      code: '#123123123',
-      format: 'Сениор',
-      text: 'остановка',
+      key: 1,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      period: '29.03.20 - 30.05.20',
-      address: 'Достык, 25',
-      branding: 'Да',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
     },
     {
-      key: '2',
-      code: '#123123123',
-      format: 'Сениор',
-      text: 'остановка',
+      key: 2,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      period: '29.03.20 - 30.05.20',
-      address: 'Достык, 25',
-      branding: 'Да',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
     },
     {
-      key: '3',
-      code: '#123123123',
-      format: 'Сениор',
-      text: 'остановка',
+      key: 3,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      period: '29.03.20 - 30.05.20',
-      address: 'Достык, 25',
-      branding: 'Да',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
     },
     {
-      key: '4',
-      code: '#123123123',
-      format: 'Сениор',
-      text: 'остановка',
+      key: 4,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      period: '29.03.20 - 30.05.20',
-      address: 'Достык, 25',
-      branding: 'Да',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      date: '28.05.2020',
+      advert: 'ТОО «Рекламодатель»',
+      advert_agency: 'ТОО «Агенство»',
+      city: 'Алматы',
+      sum: '123 356 тг.',
+      all_sum: '223 356 тг.',
     },
   ];
-  const outdoorFurnitureColums = [
-    'Код',
-    'Бренд',
-    'Дата начала',
-    'Рекламодатель',
-    'Рекламное агенство',
-    'Город',
-    'Сумма без НДС',
-    'Общая сумма',
-  ];
+
   return (
     <>
-      <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
-
+      <div className="outdoor-table-bar">
+        <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+      </div>
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+            width: 100%;
           }
           .design-info {
             border-radius: 8px;

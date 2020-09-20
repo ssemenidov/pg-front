@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton } from '../../../styles/styles';
+import { LeftBar, StyledButto, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelOrders';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -32,25 +32,15 @@ const Orders = () => {
         {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '70vw', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '2vw 0',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
             <TitleLogo />
             <JobTitle>Выгрузка разнарядки</JobTitle>
-          </div>
+          </HeaderTitleWrapper>
           <ButtonGroup></ButtonGroup>
-        </div>
+        </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />

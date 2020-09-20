@@ -1,33 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
-import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import Table from '../../../components/Table';
+
+import Table from '../../../components/Tablea';
 import { StyledButton } from '../../../styles/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'Закрепленные стороны' }];
+  const columns = [
+    {
+      title: 'Код',
+      dataIndex: 'code',
+      width: 130,
+    },
+    {
+      title: 'Название',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Клиент',
+      dataIndex: 'client',
+    },
+    {
+      title: 'Бренд',
+      dataIndex: 'brand',
+      width: 80,
+    },
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
+    },
+    {
+      title: 'Всего сторон',
+      dataIndex: 'allsides',
+    },
+    {
+      title: 'Проданных сторон',
+      dataIndex: 'salesides',
+    },
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
+    {
+      title: 'Распред. сторон',
+      dataIndex: 'spreadsides',
+    },
 
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
+    {
+      title: 'Не распред. сторон',
+      dataIndex: 'nspreadsides',
+    },
+  ];
+  const data = [
+    {
+      key: 1,
+      code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
+      brand: 'CocaCola',
+      city: 'Алматы',
 
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  console.log(rowKeys, rows);
-  const [fastSearch, setFastSearch] = useState();
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
+    },
+    {
+      key: 2,
+      code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
+      brand: 'CocaCola',
+      city: 'Алматы',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
+    },
+    {
+      key: 3,
+      code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
+      brand: 'CocaCola',
+      city: 'Алматы',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
+    },
+    {
+      key: 4,
+      code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
+      brand: 'CocaCola',
+      city: 'Алматы',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      name: 'Летняя акция',
+      client: 'ИП Агество',
+      brand: 'CocaCola',
+      city: 'Алматы',
+
+      allsides: '30',
+      salesides: '10',
+      spreadsides: '10',
+      nspreadsides: '2',
+    },
+  ];
   const outdoorFurnitureColums = [
     'Код',
     'Название',
@@ -41,29 +127,14 @@ const PanelDesign = (props) => {
   ];
   return (
     <>
-      <Table
-        linkProps={'/base/construction/'}
-        columns={outdoorFurnitureColums}
-        rows={rows}
-        rowKeys={rowKeys}
-        handleFastSearch={() => {
-          dispatch(getOutdoorFurnitureFiltered(fastSearch));
-        }}
-        handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-      />
-
+      <div className="outdoor-table-bar">
+        <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+      </div>
       <style>
         {`.outdoor-table-bar {
-            width: 65.5vw;
+           width:100%;
           }
-          .design-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            // height: 100%;
-            // padding: 1.5%;
-            // flex: 0 1 30vw;
-            // margin: 0 2vw 0 0;
-          }`}
+         `}
       </style>
     </>
   );

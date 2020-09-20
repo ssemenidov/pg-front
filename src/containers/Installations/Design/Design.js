@@ -6,7 +6,7 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
+import FilterBar from './FilterBar';
 
 import styled from 'styled-components';
 
@@ -14,9 +14,9 @@ const Design = () => {
   const [block, setBlock] = useState(0);
 
   const links = [
-    { id: 'home', value: 'Главная' },
-    { id: 'installation', value: 'Базы' },
-    { id: 'constructions', value: 'Конструкции' },
+    { id: '', value: 'Главная' },
+    { id: 'installation', value: 'Монтажи' },
+    { id: 'installations/design', value: 'Проекты' },
   ];
 
   return (
