@@ -394,7 +394,9 @@ export default class AdvertisingParties extends Component {
                 </div>
               </div>
               <div className="group-btn">
-                <Button className="search-btn">Поиск</Button>
+                <Button className="search-btn" onClick={() => this.setState({ collapsed: !this.state.collapsed })}>
+                  Поиск
+                </Button>
                 <Button type="primary" className="clear-btn">
                   Очистить
                 </Button>
