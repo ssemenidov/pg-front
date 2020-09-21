@@ -6,40 +6,49 @@ const PanelDesign = (props) => {
     {
       title: 'Город',
       dataIndex: 'city',
+      width: 100,
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
+      width: 100,
     },
     {
       title: 'Формат',
       dataIndex: 'format',
+      width: 100,
     },
     {
       title: 'Период',
       dataIndex: 'period',
+      width: 100,
     },
 
     {
       title: 'Аренда',
       dataIndex: 'renta',
+      width: 100,
     },
 
     {
       title: 'Печать',
       dataIndex: 'print',
+      width: 100,
     },
     {
       title: 'Монтаж',
       dataIndex: 'install',
+      width: 100,
     },
     {
       title: 'Доп Расходы',
       dataIndex: 'addexpense',
+      width: 100,
     },
     {
       title: 'Общая Сумма',
       dataIndex: 'amount',
+      width: 100,
     },
   ];
   const data = [

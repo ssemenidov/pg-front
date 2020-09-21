@@ -17,22 +17,27 @@ const PanelDesign = (props) => {
     {
       title: 'Рекламная сторона',
       dataIndex: 'side',
+      width: 100,
     },
     {
       title: 'Дизайн',
       dataIndex: 'design',
+      width: 100,
     },
     {
       title: 'Комментарий',
       dataIndex: 'comment',
+      width: 100,
     },
     {
       title: 'Дата монтажа',
       dataIndex: 'datei',
+      width: 100,
     },
     {
       title: 'Дата демонтажа',
       dataIndex: 'datedi',
+      width: 100,
     },
   ];
   const data = [

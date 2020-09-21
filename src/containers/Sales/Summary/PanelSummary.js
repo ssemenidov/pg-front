@@ -6,38 +6,47 @@ const PanelDesign = (props) => {
     {
       title: 'Город',
       dataIndex: 'city',
+      width: 100,
     },
     {
       title: 'Формат',
       dataIndex: 'format',
+      width: 100,
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
+      width: 100,
     },
     {
       title: 'Монтаж',
       dataIndex: 'install',
+      width: 100,
     },
     {
       title: 'Фотоотчет',
       dataIndex: 'photo',
+      width: 100,
     },
     {
       title: 'Доп. Фотоотчет',
       dataIndex: 'addphoto',
+      width: 100,
     },
     {
       title: 'Смета',
       dataIndex: 'estimate',
+      width: 100,
     },
     {
       title: 'Приложение',
       dataIndex: 'app',
+      width: 100,
     },
     {
       title: 'Счет',
       dataIndex: 'invoice',
+      width: 100,
     },
     {
       title: 'АВР',

@@ -24,10 +24,12 @@ const PanelDesign = (props) => {
     {
       title: 'Рекламодатель',
       dataIndex: 'advert',
+      width: 80,
     },
     {
       title: 'Рекламное агенство',
       dataIndex: 'advert_agency',
+      width: 80,
     },
     {
       title: 'Город',
@@ -37,10 +39,12 @@ const PanelDesign = (props) => {
     {
       title: 'Сектор деятельности',
       dataIndex: 'sector',
+      width: 80,
     },
     {
       title: 'Ответственный менеджер',
       dataIndex: 'manager',
+      width: 80,
     },
   ];
   const data = [

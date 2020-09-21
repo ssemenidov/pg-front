@@ -13,10 +13,12 @@ const PanelDesign = (props) => {
     {
       title: 'Название',
       dataIndex: 'name',
+      width: 100,
     },
     {
       title: 'Клиент',
       dataIndex: 'client',
+      width: 100,
     },
     {
       title: 'Бренд',
@@ -31,20 +33,24 @@ const PanelDesign = (props) => {
     {
       title: 'Всего сторон',
       dataIndex: 'allsides',
+      width: 100,
     },
     {
       title: 'Проданных сторон',
       dataIndex: 'salesides',
+      width: 100,
     },
 
     {
       title: 'Распред. сторон',
       dataIndex: 'spreadsides',
+      width: 100,
     },
 
     {
       title: 'Не распред. сторон',
       dataIndex: 'nspreadsides',
+      width: 100,
     },
   ];
   const data = [

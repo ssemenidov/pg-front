@@ -15,7 +15,10 @@ const FilterBar = () => {
   const [open3, setOpen3] = useState(true);
 
   return (
-    <FilterMenu>
+    <FilterMenu
+      onKeyDown={(e) => {
+        e.key === 'Enter' && alert('Фильтр');
+      }}>
       <SearchTitle>
         <FilterText>Поиск</FilterText>
       </SearchTitle>
@@ -106,8 +109,8 @@ const FilterBar = () => {
         </Collapse>
       </FilterSection>
       <BtnGroup>
+        <SubmitButton onClick={() => alert('Фильтр')}>Поиск</SubmitButton>
         <ResetButton>Очистить</ResetButton>
-        <SubmitButton>Искать</SubmitButton>
       </BtnGroup>
     </FilterMenu>
   );

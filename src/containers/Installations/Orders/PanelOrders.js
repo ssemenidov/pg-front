@@ -22,34 +22,42 @@ const PanelDesign = (props) => {
     {
       title: 'Экипаж',
       dataIndex: 'crew',
+      width: 100,
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
+      width: 100,
     },
     {
       title: 'Формат',
       dataIndex: 'format',
+      width: 100,
     },
     {
       title: 'Сторона',
       dataIndex: 'side',
+      width: 100,
     },
     {
       title: '№ фото',
       dataIndex: 'photo',
+      width: 100,
     },
     {
       title: 'Монтаж',
       dataIndex: 'install',
+      width: 100,
     },
     {
       title: 'Демонтаж',
       dataIndex: 'deinstall',
+      width: 100,
     },
     {
       title: 'Выгружено',
       dataIndex: 'upload',
+      width: 100,
     },
   ];
   const data = [
