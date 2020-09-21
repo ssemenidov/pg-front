@@ -506,8 +506,8 @@ export default class AdvertisingParties extends Component {
           }
           .layout-sider {
             background: #F5F7FA;
-            min-width: 80px !important;
-            max-width: 80px !important;
+            min-width: 70px !important;
+            max-width: 70px !important;
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
@@ -692,6 +692,9 @@ export default class AdvertisingParties extends Component {
           .search-btn span {
             color: #FFF !important;
           }
+          .search-btn:hover span {
+            color: #2C5DE5 !important;
+          }
           .header-bar {
             display: flex;
             background: #E7EEF8;
@@ -727,14 +730,18 @@ export default class AdvertisingParties extends Component {
           }
           .header-page-btn {
             border-radius: 4px;
-            border: unset !important;
             background: #FF5800;
             display: flex;
             align-items: center;
             padding: 15px 30px;
+            border: 1px solid #FF5800 !important ;
+    
+          }
+          .header-page-btn:hover span {
+            color:#FF5800 !important;
           }
           .header-page-btn span {
-            color: #fff !important;
+            color: #fff  !important;
             font-weight: 600;
           }
           .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {

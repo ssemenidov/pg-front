@@ -28,7 +28,6 @@ import Estimate from './containers/Sales/Estimate/Estimate';
 import Summary from './containers/Sales/Summary/Summary';
 import Projects from './containers/Installations/Projects/Projects';
 import Orders from './containers/Installations/Orders/Orders';
-
 const App = () => {
   return (
     <ConfigProvider locale={locale}>
