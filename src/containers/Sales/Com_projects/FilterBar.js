@@ -90,8 +90,8 @@ const FilterBar = () => {
         />
       </FilterSection>
       <BtnGroup>
+        <SubmitButton>Поиск</SubmitButton>
         <ResetButton>Очистить</ResetButton>
-        <SubmitButton>Искать</SubmitButton>
       </BtnGroup>
     </FilterMenu>
   );

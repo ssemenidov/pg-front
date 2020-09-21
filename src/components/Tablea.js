@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import styled from 'styled-components';
+import { Resizable } from 'react-resizable';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
@@ -14,6 +15,32 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
+const ResizableTitle = (props) => {
+  const { onResize, width, ...restProps } = props;
+
+  if (!width) {
+    return <th {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      handle={
+        <span
+          className="react-resizable-handle"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        />
+      }
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}>
+      <th {...restProps} />
+    </Resizable>
+  );
+};
+
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {},
   getCheckboxProps: (record) => ({
@@ -21,76 +48,105 @@ const rowSelection = {
     name: record.name,
   }),
 };
-const Tablea = (props) => {
-  const [selectionType, setSelectionType] = useState('checkbox');
-  return (
-    <div>
-      <div className="header-bar">
-        {props.title ? (
-          <h6>{props.title}</h6>
-        ) : (
+class Tablea extends React.Component {
+  state = {
+    selectionType: 'checkbox',
+    columns: this.props.columns,
+  };
+  components = {
+    header: {
+      cell: ResizableTitle,
+    },
+  };
+
+  handleResize = (index) => (e, { size }) => {
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns];
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width: size.width,
+      };
+      return { columns: nextColumns };
+    });
+  };
+  render() {
+    const columns = this.state.columns.map((col, index) => ({
+      ...col,
+      onHeaderCell: (column) => ({
+        width: column.width,
+        onResize: this.handleResize(index),
+      }),
+    }));
+    return (
+      <div>
+        <div className="header-bar">
+          {this.props.title ? (
+            <h6>{this.props.title}</h6>
+          ) : (
+            <div>
+              <div>
+                <Button className="header-btn">
+                  <img src={plusIcon} />
+                </Button>
+                <Button className="header-btn">
+                  <img src={minusIcon} />
+                </Button>
+              </div>
+              <div>
+                <Button style={{ marginLeft: '20px' }} className="header-btn">
+                  <img src={arrowLeft} />
+                </Button>
+                <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
+                  <span>Неделя</span>
+                  <img src={collapseDownIcon} />
+                </Button>
+                <Button style={{ width: '220px' }} className="header-btn header-date-btn">
+                  <img src={calendarIcon} />
+                  <span>2 марта - 29 марта 2020</span>
+                </Button>
+                <Button className="header-btn">
+                  <img src={arrowRight} />
+                </Button>
+              </div>
+            </div>
+          )}
           <div>
-            <div>
-              <Button className="header-btn">
-                <img src={plusIcon} />
-              </Button>
-              <Button className="header-btn">
-                <img src={minusIcon} />
-              </Button>
-            </div>
-            <div>
-              <Button style={{ marginLeft: '20px' }} className="header-btn">
-                <img src={arrowLeft} />
-              </Button>
-              <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-                <span>Неделя</span>
-                <img src={collapseDownIcon} />
-              </Button>
-              <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-                <img src={calendarIcon} />
-                <span>2 марта - 29 марта 2020</span>
-              </Button>
-              <Button className="header-btn">
-                <img src={arrowRight} />
-              </Button>
-            </div>
+            <Input
+              style={{ marginLeft: '20px' }}
+              placeholder="Быстрый поиск"
+              suffix="Найти"
+              prefix={<img src={searchInputIcon} />}
+            />
+            <Button style={{ marginLeft: '5px' }} className="header-btn">
+              <img src={printerIcon} />
+            </Button>
+            <Button style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }} className="header-btn">
+              <img src={exportIcon} />
+              <span>Экспорт</span>
+            </Button>
+            <Button className="header-btn">
+              <img src={settingsIcon} />
+            </Button>
           </div>
-        )}
-        <div>
-          <Input
-            style={{ marginLeft: '20px' }}
-            placeholder="Быстрый поиск"
-            suffix="Найти"
-            prefix={<img src={searchInputIcon} />}
-          />
-          <Button style={{ marginLeft: '5px' }} className="header-btn">
-            <img src={printerIcon} />
-          </Button>
-          <Button style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }} className="header-btn">
-            <img src={exportIcon} />
-            <span>Экспорт</span>
-          </Button>
-          <Button className="header-btn">
-            <img src={settingsIcon} />
-          </Button>
         </div>
-      </div>
-      <Content>
-        <StyledTable
-          rowSelection={
-            props.select && {
-              type: selectionType,
-              ...rowSelection,
+        <Content>
+          <StyledTable
+            rowSelection={
+              this.props.select && {
+                type: this.selectionType,
+                ...rowSelection,
+              }
             }
-          }
-          columns={props.columns}
-          dataSource={props.data}
-          pagination={{ pageSize: 4 }}
-          scroll={{ y: 500 }}
-        />
-      </Content>
-      <style>
-        {`.header-bar {
+            bordered
+            components={this.components}
+            columns={columns}
+            dataSource={this.props.data}
+            pagination={{ pageSize: 4 }}
+            scroll={{ y: 500 }}
+          />
+        </Content>
+        <style>
+          {`.header-bar {
                 display: flex;
                 background: #E7EEF8;
                 margin-bottom: 10px;
@@ -135,10 +191,11 @@ const Tablea = (props) => {
                 font-weight: 600;
               }
               `}
-      </style>
-    </div>
-  );
-};
+        </style>
+      </div>
+    );
+  }
+}
 
 export default Tablea;
 const StyledTable = styled(Table)`

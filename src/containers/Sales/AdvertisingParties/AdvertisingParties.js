@@ -394,10 +394,10 @@ export default class AdvertisingParties extends Component {
                 </div>
               </div>
               <div className="group-btn">
+                <Button className="search-btn">Поиск</Button>
                 <Button type="primary" className="clear-btn">
                   Очистить
                 </Button>
-                <Button className="search-btn">Искать</Button>
               </div>
             </div>
           ) : null}

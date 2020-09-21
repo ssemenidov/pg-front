@@ -26,10 +26,12 @@ const PanelDesign = (props) => {
     {
       title: 'Рекламодатель',
       dataIndex: 'advert',
+      width: 100,
     },
     {
       title: 'Рекламное агенство',
       dataIndex: 'advert_agency',
+      width: 100,
     },
 
     {
@@ -41,10 +43,12 @@ const PanelDesign = (props) => {
     {
       title: 'Сумма без НДС',
       dataIndex: 'sum',
+      width: 100,
     },
     {
       title: 'Общая сумма',
       dataIndex: 'all_sum',
+      width: 100,
     },
   ];
   const data = [

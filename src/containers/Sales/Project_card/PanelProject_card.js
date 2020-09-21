@@ -11,26 +11,32 @@ const PanelDesign = (props) => {
     {
       title: 'Text',
       dataIndex: 'text',
+      width: 100,
     },
     {
       title: 'Формат',
       dataIndex: 'format',
+      width: 100,
     },
     {
       title: 'Город',
       dataIndex: 'city',
+      width: 100,
     },
     {
       title: 'Период',
       dataIndex: 'period',
+      width: 100,
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
+      width: 100,
     },
     {
       title: 'Брендинг',
       dataIndex: 'branding',
+      width: 100,
     },
   ];
   const data = [

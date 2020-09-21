@@ -468,10 +468,10 @@ const BatchPlacement = () => {
               </div>
             </div>
             <div className="group-btn">
+              <Button className="search-btn">Искать</Button>
               <Button type="primary" className="clear-btn">
                 Очистить
               </Button>
-              <Button className="search-btn">Искать</Button>
             </div>
           </StyledFilterPanel>
         ) : null}

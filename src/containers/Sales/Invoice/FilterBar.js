@@ -106,8 +106,8 @@ const FilterBar = () => {
         </Collapse>
       </FilterSection>
       <BtnGroup>
+        <SubmitButton>Поиск</SubmitButton>
         <ResetButton>Очистить</ResetButton>
-        <SubmitButton>Искать</SubmitButton>
       </BtnGroup>
     </FilterMenu>
   );

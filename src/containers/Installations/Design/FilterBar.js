@@ -15,14 +15,8 @@ const FilterBar = () => {
       </SearchTitle>
       <FilterByParametersPartners />
       <BtnGroup>
-        <ResetButton
-          onClick={() => {
-            dispatch({ type: 'CLEAR_PARTNERS_FILTER' });
-            dispatch(getPartnersData());
-          }}>
-          Очистить
-        </ResetButton>
-        <SubmitButton onClick={() => dispatch(filterPartners())}>Искать</SubmitButton>
+        <SubmitButton>Поиск</SubmitButton>
+        <ResetButton>Очистить</ResetButton>
       </BtnGroup>
     </FilterMenu>
   );
