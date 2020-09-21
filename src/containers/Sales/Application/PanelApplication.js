@@ -49,6 +49,11 @@ const PanelDesign = (props) => {
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
+      renta: '99 888 тг.',
+      print: '99 888 тг.',
+      install: '99 888 тг.',
+      addexpense: '99 888 тг.',
+      amount: '99 888 тг.',
     },
     {
       key: 2,
@@ -56,6 +61,11 @@ const PanelDesign = (props) => {
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
+      renta: '99 888 тг.',
+      print: '99 888 тг.',
+      install: '99 888 тг.',
+      addexpense: '99 888 тг.',
+      amount: '99 888 тг.',
     },
     {
       key: 3,
@@ -63,6 +73,11 @@ const PanelDesign = (props) => {
       city: 'Алматы',
       period: '29.03.20 - 30.05.20',
       address: 'Достык, 25',
+      renta: '99 888 тг.',
+      print: '99 888 тг.',
+      install: '99 888 тг.',
+      addexpense: '99 888 тг.',
+      amount: '99 888 тг.',
     },
   ];
 

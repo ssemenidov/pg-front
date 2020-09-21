@@ -26,7 +26,13 @@ const FilterBar = () => {
         </FilterSectionTitle>
 
         <Collapse in={open1}>
-          <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Выберите период" />
+          <SelectAnchor
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+            placeholder="Выберите период"
+          />
         </Collapse>
       </FilterSection>
       <FilterSection>
@@ -37,15 +43,51 @@ const FilterBar = () => {
         </FilterSectionTitle>
 
         <Collapse in={open2}>
-          <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Бренд" />
-          <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Рекламодатель" />
-          <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Рекламное агенство" />
-          <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Сектор деятельности" />
+          <SelectAnchor
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+            placeholder="Бренд"
+          />
+          <SelectAnchor
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+            placeholder="Рекламодатель"
+          />
+          <SelectAnchor
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+            placeholder="Рекламное агенство"
+          />
+          <SelectAnchor
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+            placeholder="Сектор деятельности"
+          />
         </Collapse>
       </FilterSection>
       <FilterSection>
-        <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Создатель " />
-        <SelectAnchor options={[{ label: 'case 1' }, { label: 'case 2' }]} placeholder="Менеджер по продажам" />
+        <SelectAnchor
+          options={[
+            { label: 'case 1', value: 'case 1' },
+            { label: 'case 2', value: 'case 2' },
+          ]}
+          placeholder="Создатель "
+        />
+        <SelectAnchor
+          options={[
+            { label: 'case 1', value: 'case 1' },
+            { label: 'case 2', value: 'case 2' },
+          ]}
+          placeholder="Менеджер по продажам"
+        />
       </FilterSection>
       <BtnGroup>
         <ResetButton>Очистить</ResetButton>

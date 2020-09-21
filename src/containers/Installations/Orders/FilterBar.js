@@ -27,9 +27,27 @@ const FilterBar = () => {
         </FilterSectionTitle>
 
         <Collapse in={open1}>
-          <SelectAnchor placeholder="Выберите город" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
-          <SelectAnchor placeholder="Выберите район" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
-          <SelectAnchor placeholder="Почтовый индекс" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
+          <SelectAnchor
+            placeholder="Выберите город"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
+          <SelectAnchor
+            placeholder="Выберите район"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
+          <SelectAnchor
+            placeholder="Почтовый индекс"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
         </Collapse>
       </FilterSection>
       <FilterSection>
@@ -40,9 +58,21 @@ const FilterBar = () => {
         </FilterSectionTitle>
 
         <Collapse in={open2}>
-          <SelectAnchor placeholder="Название проекта" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
+          <SelectAnchor
+            placeholder="Название проекта"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
 
-          <SelectAnchor placeholder="Формат" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
+          <SelectAnchor
+            placeholder="Формат"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
         </Collapse>
       </FilterSection>
       <FilterSection>
@@ -53,8 +83,20 @@ const FilterBar = () => {
         </FilterSectionTitle>
 
         <Collapse in={open3}>
-          <SelectAnchor placeholder="Дата  монтажа" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
-          <SelectAnchor placeholder="Дата демонтажа" options={[{ label: 'case 1' }, { label: 'case 2' }]} />
+          <SelectAnchor
+            placeholder="Дата  монтажа"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
+          <SelectAnchor
+            placeholder="Дата демонтажа"
+            options={[
+              { label: 'case 1', value: 'case 1' },
+              { label: 'case 2', value: 'case 2' },
+            ]}
+          />
         </Collapse>
       </FilterSection>
 
