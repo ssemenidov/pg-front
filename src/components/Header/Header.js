@@ -23,7 +23,21 @@ const Header = () => {
       </Menu.ItemGroup>
     </Menu>
   );
-
+  const installationsMenu = (
+    <Menu>
+      <Menu.ItemGroup>
+        <Menu.Item>
+          <Link to="/installations/projects">Список Проектов</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/installations/orders">Выгрузка разнарядки</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/installations/projects">Фотоотчёты</Link>
+        </Menu.Item>
+      </Menu.ItemGroup>
+    </Menu>
+  );
   const baseMenu = (
     <Menu>
       <Menu.ItemGroup>
@@ -50,9 +64,12 @@ const Header = () => {
       </StyledBlock>
       <StyledList>
         <Dropdown overlay={salesMenu}>
-          <Link to="/sales">Продажи</Link>
+          <Link to="/sales/com_projects">Продажи</Link>
         </Dropdown>
-        <Link to="/installations/design">Монтажи</Link>
+        <Dropdown overlay={installationsMenu}>
+          <Link to="/installations/projects">Монтажи</Link>
+        </Dropdown>
+
         <Dropdown overlay={baseMenu}>
           <Link to="/base">Базы</Link>
         </Dropdown>
@@ -92,8 +109,8 @@ const StyledList = styled.div`
     font-weight: 600;
   }
   a:hover {
-    color: #D42D11;
-    border-bottom: 3px solid #D42D11;
+    color: #d42d11;
+    border-bottom: 3px solid #d42d11;
   }
 `;
 
