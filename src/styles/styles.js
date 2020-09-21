@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Select, Input, DatePicker } from 'antd';
+
 
 export const LeftBar = styled.div`
   border-right: 1px solid #d3dff0;
@@ -32,4 +34,33 @@ export const HeaderWrapper = styled.div`
 export const HeaderTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+// Input components
+
+export const StyledSelect = styled(Select)`
+  color: #656565;
+  display: flex;
+  align-items: center;
+
+  & > div {
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-select-selection-item span {
+    color: #656565 !important;
+    margin-left: 5px;
+  }
+`;
+
+export const StyledInput = styled(Input)`
+  height: 40px;
+  color: #656565;
+`;
+
+export const StyledDatePicker = styled(DatePicker)`
+  height: 40px;
+  width: 100%;
 `;
