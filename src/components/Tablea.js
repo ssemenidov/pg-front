@@ -124,9 +124,11 @@ class Tablea extends React.Component {
               <img src={exportIcon} />
               <span>Экспорт</span>
             </Button>
-            <Button className="header-btn">
-              <img src={settingsIcon} />
-            </Button>
+            <Select className="header-btn" suffixIcon={<img src={settingsIcon} />}>
+              <Select.Option value="jack">Jack</Select.Option>
+              <Select.Option value="lucy">Lucy</Select.Option>
+              <Select.Option value="disabled" disabled></Select.Option>
+            </Select>
           </div>
         </div>
         <Content>

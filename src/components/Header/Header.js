@@ -65,7 +65,7 @@ const Header = () => {
       </StyledBlock>
       <StyledList>
         <Dropdown overlay={salesMenu}>
-          <Link to="/sales/com_projects" onClick={() => SetActive(0)} className={active == 0 && 'active'}>
+          <Link to="/sales" onClick={() => SetActive(0)} className={active == 0 && 'active'}>
             Продажи
           </Link>
         </Dropdown>

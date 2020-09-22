@@ -5,6 +5,10 @@
   overflow-y: overlay
 } */
 
+html {
+  zoom: 90%;
+}
+
 .react-resizable {
   position: relative;
   background-clip: padding-box;

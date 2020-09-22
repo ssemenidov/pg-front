@@ -7,6 +7,10 @@ import './App.css';
 import 'antd/dist/antd.css';
 import './assets/fonts/sf-ui-display-cufonfonts-webfont/style.css';
 
+import Main from './containers/Main/Main';
+import MainBase from './containers/Base/Main/Main';
+import MainSales from './containers/Sales/Main/Main';
+
 import Partners from './containers/Base/Partners/Partners';
 import OutdoorFurniture from './containers/Base/OutdoorFurniture/OudoorFurniture';
 import Header from './components/Header/Header';
@@ -34,6 +38,8 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Switch>
+          <Route path="/" exact component={Main} />
+          <Route path="/sales" exact component={MainSales} />
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
           <Route path="/sales/project_card" component={Project_card} />
@@ -44,15 +50,16 @@ const App = () => {
           <Route path="/sales/summary" component={Summary} />
           <Route path="/installations/design" component={Design} />
 
+          <Route path="/base" exact component={MainBase} />
           <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
-          <Route path="/installations/projects" component={Projects} />
-          <Route path="/installations/orders" component={Orders} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/info/:id?" exact component={PartnerGeneralInfo} />
           <Route path="/base/construction/:id?" exact component={Construction} />
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
+          <Route path="/installations/projects" component={Projects} />
+          <Route path="/installations/orders" component={Orders} />
         </Switch>
       </BrowserRouter>
     </ConfigProvider>
