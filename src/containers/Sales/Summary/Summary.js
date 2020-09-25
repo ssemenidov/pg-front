@@ -14,6 +14,7 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
 const Summary = () => {
+  const [collapsed, setCollapsed] = useState(true);
   const [block, setBlock] = useState(0);
 
   const links = [
@@ -26,17 +27,17 @@ const Summary = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <div className="flex-margin">
         <LeftBar>
-          <SearchBtn />
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
           <CreateBtn text="Добавить бронь" />
           <PackageBtn text="Добавить пакет" />
           <EditBtn text="Перейти в монтажи" />
           <PaperBtn text="Сводка проекта" />
           <BoxBtn text="Архив дизайнов" />
         </LeftBar>
-        <FilterBar />
+        {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
@@ -56,7 +57,6 @@ const Summary = () => {
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
          .flex-margin {

@@ -32,7 +32,7 @@ const Orders = () => {
         {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ width: '70vw', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

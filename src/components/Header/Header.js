@@ -7,7 +7,7 @@ import UserForm from './UserMenu/UserMenu';
 const Header = () => {
   const [active, SetActive] = useState(-1);
   const salesMenu = (
-    <Menu>
+    <Menu onClick={() => SetActive(0)}>
       <Menu.ItemGroup>
         <Menu.Item>
           <Link to="/sales/advertising_parties">Справочник рекламных сторон</Link>
@@ -25,7 +25,7 @@ const Header = () => {
     </Menu>
   );
   const installationsMenu = (
-    <Menu>
+    <Menu onClick={() => SetActive(1)}>
       <Menu.ItemGroup>
         <Menu.Item>
           <Link to="/installations/projects">Список Проектов</Link>
@@ -40,7 +40,7 @@ const Header = () => {
     </Menu>
   );
   const baseMenu = (
-    <Menu>
+    <Menu onClick={() => SetActive(2)}>
       <Menu.ItemGroup>
         <Menu.Item>
           <Link to="/base/outdoor_furniture">Конструкции</Link>

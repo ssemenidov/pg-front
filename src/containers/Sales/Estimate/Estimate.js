@@ -34,7 +34,7 @@ const Estimate = () => {
         <BoxBtn text="Архив дизайнов" />
         <AddBtn text="Добавить расход" />
       </LeftBar>
-      <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

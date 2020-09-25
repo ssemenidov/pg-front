@@ -98,8 +98,7 @@ const PanelDesign = (props) => {
 
       <style>
         {`.outdoor-table-bar {
-            width: 80vw;
-            max-width:1330px;
+            width: 100%;
             margin-left:auto;
           }
           .design-info {

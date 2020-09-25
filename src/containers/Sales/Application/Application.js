@@ -33,7 +33,12 @@ const Application = () => {
         <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
       </LeftBar>
-      <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
+      <div
+        style={{
+          overflow: 'hidden',
+          width: '100%',
+          margin: '0 2vw 0 0',
+        }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

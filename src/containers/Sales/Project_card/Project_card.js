@@ -35,7 +35,7 @@ const Project_card = () => {
         <BoxBtn text="Архив дизайнов" />
       </LeftBar>
 
-      <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
@@ -162,6 +162,7 @@ const InfoList = styled.ul`
   margin: 0 2vw 0 0;
   max-width: 422px;
   box-sizing: border-box;
+  width: 50vw;
 `;
 const InfoItem = styled.li`
   margin: 4% 0;
