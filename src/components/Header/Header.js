@@ -33,9 +33,6 @@ const Header = () => {
         <Menu.Item>
           <Link to="/installations/orders">Выгрузка разнарядки</Link>
         </Menu.Item>
-        <Menu.Item>
-          <Link to="/installations/projects">Фотоотчёты</Link>
-        </Menu.Item>
       </Menu.ItemGroup>
     </Menu>
   );

@@ -15,7 +15,7 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
-const menu = (
+const settingmenu = (
   <Menu>
     <Menu.Item>
       <Checkbox>1 menu item</Checkbox>
@@ -74,6 +74,7 @@ const rowSelection = {
 class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
+    datetype: 'date',
     columns: this.props.columns,
   };
   components = {
@@ -115,7 +116,20 @@ class Tablea extends React.Component {
                   <img src={minusIcon} />
                 </Button>
               </div>
-              <div>
+              <Select
+                defaultValue="Дата"
+                style={{ marginLeft: '20px' }}
+                onChange={(value) => {
+                  console.log(value);
+                  this.setState({ datetype: value });
+                }}>
+                <Select.Option value="date">Дата</Select.Option>
+                <Select.Option value="week">Неделя</Select.Option>
+                <Select.Option value="month">Месяц</Select.Option>
+                <Select.Option value="year">Год</Select.Option>
+              </Select>
+              <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
+              {/* <div>
                 <Button style={{ marginLeft: '20px' }} className="header-btn">
                   <img src={arrowLeft} />
                 </Button>
@@ -130,7 +144,7 @@ class Tablea extends React.Component {
                 <Button className="header-btn">
                   <img src={arrowRight} />
                 </Button>
-              </div>
+              </div> */}
             </div>
           )}
           <div>
@@ -148,7 +162,7 @@ class Tablea extends React.Component {
               <span>Экспорт</span>
             </Button>
 
-            <Dropdown overlay={menu} className="header-btn" trigger={['click']} placement="bottomRight">
+            <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
               <Button style={{ marginLeft: '5px' }} className="header-btn">
                 <img src={settingsIcon} />
               </Button>

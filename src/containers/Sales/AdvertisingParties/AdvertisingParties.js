@@ -214,7 +214,11 @@ export default class AdvertisingParties extends Component {
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}>
               <LeftBar>
-                <SearchBtn />
+                <SearchBtn
+                  onClick={() => {
+                    this.setState({ collapsed: !this.state.collapsed });
+                  }}
+                />
                 <CreateBtn text="Создать проект" />
               </LeftBar>
             </Menu>
