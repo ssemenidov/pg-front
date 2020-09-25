@@ -468,7 +468,7 @@ const BatchPlacement = () => {
               </div>
             </div>
             <div className="group-btn">
-              <Button className="search-btn">Искать</Button>
+              <Button className="search-btn">Поиск</Button>
               <Button type="primary" className="clear-btn">
                 Очистить
               </Button>

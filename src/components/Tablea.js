@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
+import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
 
@@ -15,6 +15,29 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
+const settingmenu = (
+  <Menu>
+    <Menu.Item>
+      <Checkbox>1 menu item</Checkbox>
+    </Menu.Item>
+    <Menu.Item>
+      <Checkbox>2 menu item</Checkbox>
+    </Menu.Item>
+    <Menu.Item>
+      <Checkbox>3 menu item</Checkbox>
+    </Menu.Item>
+    <Menu.Item>
+      <Checkbox>4 menu item</Checkbox>
+    </Menu.Item>
+    <Menu.Item>
+      <Checkbox>5 menu item</Checkbox>
+    </Menu.Item>
+    <Menu.Item>
+      <Checkbox>6 menu item</Checkbox>
+    </Menu.Item>
+  </Menu>
+);
+
 const ResizableTitle = (props) => {
   const { onResize, width, ...restProps } = props;
 
@@ -51,6 +74,7 @@ const rowSelection = {
 class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
+    datetype: 'date',
     columns: this.props.columns,
   };
   components = {
@@ -92,7 +116,20 @@ class Tablea extends React.Component {
                   <img src={minusIcon} />
                 </Button>
               </div>
-              <div>
+              <Select
+                defaultValue="Дата"
+                style={{ marginLeft: '20px' }}
+                onChange={(value) => {
+                  console.log(value);
+                  this.setState({ datetype: value });
+                }}>
+                <Select.Option value="date">Дата</Select.Option>
+                <Select.Option value="week">Неделя</Select.Option>
+                <Select.Option value="month">Месяц</Select.Option>
+                <Select.Option value="year">Год</Select.Option>
+              </Select>
+              <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
+              {/* <div>
                 <Button style={{ marginLeft: '20px' }} className="header-btn">
                   <img src={arrowLeft} />
                 </Button>
@@ -107,7 +144,7 @@ class Tablea extends React.Component {
                 <Button className="header-btn">
                   <img src={arrowRight} />
                 </Button>
-              </div>
+              </div> */}
             </div>
           )}
           <div>
@@ -124,11 +161,12 @@ class Tablea extends React.Component {
               <img src={exportIcon} />
               <span>Экспорт</span>
             </Button>
-            <Select className="header-btn" suffixIcon={<img src={settingsIcon} />}>
-              <Select.Option value="jack">Jack</Select.Option>
-              <Select.Option value="lucy">Lucy</Select.Option>
-              <Select.Option value="disabled" disabled></Select.Option>
-            </Select>
+
+            <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
+              <Button style={{ marginLeft: '5px' }} className="header-btn">
+                <img src={settingsIcon} />
+              </Button>
+            </Dropdown>
           </div>
         </div>
         <Content>

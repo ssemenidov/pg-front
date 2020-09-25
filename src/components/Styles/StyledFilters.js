@@ -1,5 +1,21 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
+import { Select, Collapse } from 'antd';
+const { Option } = Select;
+const { Panel } = Collapse;
+export const StyledSelect = styled(Select)`
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #656565;
+  font-weight: 600;
+  width: 240px;
+`;
+export const StyledPanel = styled(Panel)`
+  font-size: 14px;
+  text-align: left;
+  color: #171717;
+  font-weight: 600;
+  background-color: #f5f7fa;
+`;
 export const FilterSection = styled.div`
   border-top: 1px solid #d3dff0;
   padding: 20px 30px;
@@ -27,14 +43,14 @@ export const Checks = styled.div`
 `;
 
 export const FilterMenu = styled.div`
-  font-family: "SF UI Display Light", sans-serif;
+  font-family: 'SF UI Display Light', sans-serif;
   width: 300px;
   border-right: 1px solid #d3dff0;
   background-color: #f5f7fa;
 `;
 
 export const FilterText = styled.h6`
-  font-family: "SF UI Display Bold", sans-serif;
+  font-family: 'SF UI Display Bold', sans-serif;
   font-size: 14px;
   line-height: 16px;
   text-transform: uppercase;

@@ -24,7 +24,7 @@ const Design = () => {
         <SearchBtn />
       </LeftBar>
 
-      <div style={{ width: '100%', margin: '0 2vw 0 0' }}>
+      <div style={{ overflow: ' hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

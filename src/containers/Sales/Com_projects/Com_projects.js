@@ -33,7 +33,7 @@ const Com_projects = () => {
         {collapsed && <FilterBar />}
       </div>
 
-      <div style={{ overflowX: 'hidden', width: '70vw', margin: '0 2vw 0 0' }}>
+      <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>

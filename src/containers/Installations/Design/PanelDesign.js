@@ -98,7 +98,7 @@ const PanelDesign = (props) => {
     'Горит',
   ];
   return (
-    <STabs selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
+    <STabs className="all" selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
       <ControlToolbar position="static">
         <STabList>
           {tabs.map((tab, index) => {
@@ -132,8 +132,13 @@ const PanelDesign = (props) => {
         </div>
       </STabPanel>
       <style>
-        {`.outdoor-table-bar {
-       width: 100%;
+        {`
+         .all{
+          width: 100%;
+          overflow-x: hidden;
+        }
+        .outdoor-table-bar {
+          width: 100%;
           }
           .design-info {
             border-radius: 8px;

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { FilterMenu, SearchTitle, FilterText } from '../../../components/Styles/StyledFilters';
+import {
+  FilterMenu,
+  SearchTitle,
+  FilterText,
+  FilterSectionTitle,
+  FilterSection,
+  FilterSectionTitleText,
+} from '../../../components/Styles/StyledFilters';
 
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 import { Collapse } from '@material-ui/core';
-import { FilterSectionTitle, FilterSection, FilterSectionTitleText } from '../../../components/Styles/StyledFilters';
 import ArrowUp from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp';
 import ArrowDown from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown';
 import InputAnchor from '../../../components/Inputs/InputAnchor';

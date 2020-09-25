@@ -151,10 +151,11 @@ const PanelDesign = (props) => {
 
       <style>
         {`.outdoor-table-bar {
-            width: 100%;
+             
           }
           .all{
-            width:70vw;
+            width: 100%;
+            overflow-x: hidden;
           }
           .design-info {
             border-radius: 8px;
