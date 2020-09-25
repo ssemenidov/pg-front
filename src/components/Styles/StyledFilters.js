@@ -10,8 +10,11 @@ export const StyledSelect = styled(Select)`
   width: 240px;
 `;
 export const StyledPanel = styled(Panel)`
-  border-top: 1px solid #d3dff0;
-  padding: 20px 30px;
+  font-size: 14px;
+  text-align: left;
+  color: #171717;
+  font-weight: 600;
+  background-color: #f5f7fa;
 `;
 export const FilterSection = styled.div`
   border-top: 1px solid #d3dff0;
