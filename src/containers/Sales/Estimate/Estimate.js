@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { Input } from 'antd';
 import PanelDesign from './PanelEstimate';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -189,6 +190,9 @@ const InfoList = styled.ul`
   padding: 1.5%;
   flex: 0 1 auto;
   margin: 0 2vw 0 0;
+  max-width: 370px;
+  box-sizing: border-box;
+  width: 40vw;
 `;
 const InfoItem = styled.li`
   margin: 4% 0;
@@ -209,4 +213,10 @@ const InfoLine = styled.div`
 const InfoValue = styled.span`
   font-weight: 600;
   text-align: right;
+`;
+const InfoInput = styled(Input)`
+  font-weight: 600;
+
+  margin-left: auto;
+  width: 150px;
 `;

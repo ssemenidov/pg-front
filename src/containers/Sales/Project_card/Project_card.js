@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Input } from 'antd';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelProject_card';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -86,8 +87,12 @@ const Project_card = () => {
               </InfoLine>
 
               <InfoLine>
-                <span>Создатель</span>
-                <InfoValue>@username</InfoValue>
+                <span>Менеджер бэк-офиса</span>
+                <InfoInput defaultValue="@username" />
+              </InfoLine>
+              <InfoLine>
+                <span>Менеджер по продажам</span>
+                <InfoInput defaultValue="@username" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
@@ -95,11 +100,11 @@ const Project_card = () => {
 
               <InfoLine>
                 <span>Бренд</span>
-                <InfoValue>CocaCola</InfoValue>
+                <InfoInput defaultValue="CocaCola" />
               </InfoLine>
               <InfoLine>
                 <span>Сектор деятельности:</span>
-                <InfoValue>Безалкогольные напитки</InfoValue>
+                <InfoInput defaultValue="Безалкогольные напитки" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
@@ -107,32 +112,29 @@ const Project_card = () => {
 
               <InfoLine>
                 <span>Рекламодатель</span>
-                <InfoValue>Агентство</InfoValue>
+                <InfoInput defaultValue="Агентство" />
               </InfoLine>
               <InfoLine>
                 <span>Рекламное агентство</span>
-                <InfoValue>-</InfoValue>
+                <InfoInput defaultValue="-" />
               </InfoLine>
               <InfoLine>
                 <span>Брендинг</span>
-                <InfoValue>Да</InfoValue>
+                <InfoInput defaultValue="Да" />
               </InfoLine>
               <InfoLine>
                 <span>Агентская комиссия</span>
-                <InfoValue>10%</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Менеджер по Продажам</span>
-                <InfoValue>Иван Иванович Иванов</InfoValue>
+                <InfoInput defaultValue="10%" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
               <InfoTitle>Коментарий к проекту</InfoTitle>
 
               <InfoLine>
-                <span>
-                  Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение.{' '}
-                </span>
+                <InfoInput.TextArea
+                  rows={4}
+                  defaultValue=" Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение."
+                />
               </InfoLine>
             </InfoItem>
           </InfoList>
@@ -160,9 +162,9 @@ const InfoList = styled.ul`
   padding: 1.5%;
   flex: 0 1 auto;
   margin: 0 2vw 0 0;
-  max-width: 422px;
+  max-width: 370px;
   box-sizing: border-box;
-  width: 50vw;
+  width: 40vw;
 `;
 const InfoItem = styled.li`
   margin: 4% 0;
@@ -183,4 +185,10 @@ const InfoLine = styled.div`
 const InfoValue = styled.span`
   font-weight: 600;
   text-align: right;
+`;
+const InfoInput = styled(Input)`
+  font-weight: 600;
+
+  margin-left: auto;
+  width: 150px;
 `;
