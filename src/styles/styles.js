@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import { Select, Input, DatePicker } from 'antd';
 
-
 export const LeftBar = styled.div`
   border-right: 1px solid #d3dff0;
   background-color: #f5f7fa;
   display: flex;
   alight-items: center;
   flex-direction: column;
-  width: 70px;
+  width: 60px;
 `;
 
 export const StyledButton = styled.button`

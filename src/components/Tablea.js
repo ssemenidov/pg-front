@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
+import { browserHistory } from 'react-router';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
@@ -171,6 +172,13 @@ class Tablea extends React.Component {
         </div>
         <Content>
           <StyledTable
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (event) => {
+                  alert(`Проект ${rowIndex + 1}`);
+                },
+              };
+            }}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,

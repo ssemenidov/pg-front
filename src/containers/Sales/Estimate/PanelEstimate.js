@@ -6,7 +6,7 @@ import { StyledButton } from '../../../styles/styles';
 import { useSelector, useDispatch } from 'react-redux';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'ЗАБРОНИРОВАННЫЕ СТОРОНЫ' }, { value: 'ДОП. РАСХОДЫ' }, { value: 'НОН РТС' }];
+  const tabs = [{ value: 'ОСНОВНЫЕ РАСХОДЫ' }, { value: 'ДОП. РАСХОДЫ' }, { value: 'НОН РТС' }];
   const columns = [
     {
       title: 'Код',

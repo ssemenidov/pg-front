@@ -4,7 +4,7 @@ import editIcon from '../../img/left-bar/edit.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
-  height: 65px;
+  height: 75px;
   width: 100%;
   margin: 1vw 0 0 0;
   text-align: center;

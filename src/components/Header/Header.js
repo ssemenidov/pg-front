@@ -28,7 +28,7 @@ const Header = () => {
     <Menu onClick={() => SetActive(1)}>
       <Menu.ItemGroup>
         <Menu.Item>
-          <Link to="/installations/projects">Список Проектов</Link>
+          <Link to="/installations/projects">Подача разнарядки</Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/installations/orders">Выгрузка разнарядки</Link>
