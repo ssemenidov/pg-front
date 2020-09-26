@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, 
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
 import { LeftBar } from '../../../styles/styles';
-
+import PanelAdver from './PanelAdver';
 import plusIcon from '../../../img/header-bar/plus-icon.svg';
 import minusIcon from '../../../img/header-bar/minus-icon.svg';
 import arrowLeft from '../../../img/header-bar/arrow-left.svg';
@@ -432,65 +432,7 @@ export default class AdvertisingParties extends Component {
                   <img src={collapseDownIcon} />
                 </Button>
               </div>
-              <div className="header-bar">
-                <div>
-                  <div>
-                    <Button className="header-btn">
-                      <img src={plusIcon} />
-                    </Button>
-                    <Button className="header-btn">
-                      <img src={minusIcon} />
-                    </Button>
-                  </div>
-                  <div>
-                    <Button style={{ marginLeft: '20px' }} className="header-btn">
-                      <img src={arrowLeft} />
-                    </Button>
-                    <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-                      <span>Неделя</span>
-                      <img src={collapseDownIcon} />
-                    </Button>
-                    <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-                      <img src={calendarIcon} />
-                      <span>2 марта - 29 марта 2020</span>
-                    </Button>
-                    <Button className="header-btn">
-                      <img src={arrowRight} />
-                    </Button>
-                  </div>
-                </div>
-                <div>
-                  <Input
-                    style={{ marginLeft: '20px' }}
-                    placeholder="Быстрый поиск"
-                    suffix="Найти"
-                    prefix={<img src={searchInputIcon} />}
-                  />
-                  <Button style={{ marginLeft: '5px' }} className="header-btn">
-                    <img src={printerIcon} />
-                  </Button>
-                  <Button
-                    style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                    className="header-btn">
-                    <img src={exportIcon} />
-                    <span>Экспорт</span>
-                  </Button>
-                  <Button className="header-btn">
-                    <img src={settingsIcon} />
-                  </Button>
-                </div>
-              </div>
-              <Table
-                className="custom-table"
-                pagination={false}
-                scroll={{ x: 1000, y: 500 }}
-                rowSelection={{
-                  ...this.rowSelection,
-                }}
-                components={this.components}
-                columns={columns}
-                dataSource={this.data}
-              />
+              <PanelAdver style={{ flex: '0 1 auto' }} />
             </Content>
           </Layout>
         </Layout>

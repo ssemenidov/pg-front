@@ -131,7 +131,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} />
+        <Table style={{ width: '100%' }} columns={columns} data={data} click={true} />
       </div>
       <style>
         {`.outdoor-table-bar {

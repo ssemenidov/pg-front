@@ -130,22 +130,6 @@ class Tablea extends React.Component {
                 <Select.Option value="year">Год</Select.Option>
               </Select>
               <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
-              {/* <div>
-                <Button style={{ marginLeft: '20px' }} className="header-btn">
-                  <img src={arrowLeft} />
-                </Button>
-                <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-                  <span>Неделя</span>
-                  <img src={collapseDownIcon} />
-                </Button>
-                <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-                  <img src={calendarIcon} />
-                  <span>2 марта - 29 марта 2020</span>
-                </Button>
-                <Button className="header-btn">
-                  <img src={arrowRight} />
-                </Button>
-              </div> */}
             </div>
           )}
           <div>
@@ -175,7 +159,9 @@ class Tablea extends React.Component {
             onRow={(record, rowIndex) => {
               return {
                 onClick: (event) => {
-                  alert(`Проект ${rowIndex + 1}`);
+                  {
+                    this.props.click && alert(`Проект ${rowIndex + 1}`);
+                  }
                 },
               };
             }}
