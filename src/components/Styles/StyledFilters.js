@@ -7,7 +7,8 @@ export const StyledSelect = styled(Select)`
   font-size: 14px;
   color: #656565;
   font-weight: 600;
-  width: 240px;
+  width: 200px;
+  border-radius: 4px;
 `;
 export const StyledPanel = styled(Panel)`
   font-size: 14px;
@@ -18,7 +19,7 @@ export const StyledPanel = styled(Panel)`
 `;
 export const FilterSection = styled.div`
   border-top: 1px solid #d3dff0;
-  padding: 20px 30px;
+  padding: 20px 15px;
 `;
 
 export const FilterSectionTitle = styled.div`
@@ -44,7 +45,7 @@ export const Checks = styled.div`
 
 export const FilterMenu = styled.div`
   font-family: 'SF UI Display Light', sans-serif;
-  width: 300px;
+  width: 240px;
   border-right: 1px solid #d3dff0;
   background-color: #f5f7fa;
 `;

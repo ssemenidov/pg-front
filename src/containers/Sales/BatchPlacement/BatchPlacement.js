@@ -741,8 +741,8 @@ const StyledLayout = styled(Layout)`
 
 const StyledSider = styled(Sider)`
   background: #f5f7fa;
-  min-width: 70px !important;
-  max-width: 70px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
   border-right: 1px solid #d3dff0 !important;
 `;
 
@@ -809,13 +809,13 @@ const StyledTable = styled(Table)`
 `;
 
 const StyledFilterPanel = styled.div`
-  width: 300px;
+  width: 240px;
   background: #f5f7fa;
   border-right: 1px solid #d3dff0;
 
   & > div {
     display: flex;
-    padding: 20px 30px;
+    padding: 20px 15px;
     border-bottom: 1px solid #d3dff0;
   }
 `;

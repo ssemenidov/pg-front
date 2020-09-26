@@ -386,17 +386,7 @@ export default class AdvertisingParties extends Component {
                   </div>
                 </div>
               </div>
-              <div className="filter-panel-purpose">
-                <div
-                  className="filter-panel-header"
-                  style={{ marginBottom: `${this.state.purposeTab ? '20px' : '0'}` }}>
-                  <span>Назначение стороны</span>
-                  <img
-                    src={this.state.purposeTab ? collapseUpIcon : collapseDownIcon}
-                    onClick={() => this.setState({ purposeTab: !this.state.purposeTab })}
-                  />
-                </div>
-              </div>
+
               <div className="group-btn">
                 <Button className="search-btn" onClick={() => this.setState({ collapsed: !this.state.collapsed })}>
                   Поиск
@@ -512,8 +502,8 @@ export default class AdvertisingParties extends Component {
           }
           .layout-sider {
             background: #F5F7FA;
-            min-width: 70px !important;
-            max-width: 70px !important;
+            min-width: 60px !important;
+            max-width: 60px !important;
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
@@ -572,13 +562,13 @@ export default class AdvertisingParties extends Component {
             background: #FFF;
           }
           .filter-panel {
-            width: 300px;
+            width: 240px;
             background: #F5F7FA;
             border-right: 1px solid #d3dff0;
           }
           .filter-panel > div {
             display: flex;
-            padding: 20px 30px;
+            padding: 20px 15px;
             border-bottom: 1px solid #d3dff0;
           }
           .filter-panel-header {

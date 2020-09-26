@@ -42,7 +42,12 @@ const PanelDesign = (props) => {
       width: 80,
     },
     {
-      title: 'Ответственный менеджер',
+      title: 'Менеджер бэк-офиса',
+      dataIndex: 'managerb',
+      width: 80,
+    },
+    {
+      title: 'Менеджер по продажам',
       dataIndex: 'manager',
       width: 80,
     },
@@ -57,6 +62,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
     {
@@ -68,6 +74,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
     {
@@ -79,6 +86,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
     {
@@ -90,6 +98,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
     {
@@ -101,6 +110,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
     {
@@ -112,6 +122,7 @@ const PanelDesign = (props) => {
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
       sector: 'Безалкогольные напитки',
+      managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
   ];

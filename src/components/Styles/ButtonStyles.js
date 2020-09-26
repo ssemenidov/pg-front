@@ -74,7 +74,7 @@ export const BtnStyledSecondary = styled.button`
 
 export const BtnGroup = styled.div`
   width: 100%;
-  padding: 20px 30px;
+  padding: 20px 15px;
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #d3dff0;
@@ -82,7 +82,7 @@ export const BtnGroup = styled.div`
 
 export const ResetButton = styled.button`
   padding: 10px 20px;
-  margin-right: 10px;
+
   background: #eef3ff;
   border: 1px solid #2c5de5;
   border-radius: 4px;
@@ -96,6 +96,7 @@ export const ResetButton = styled.button`
 export const SubmitButton = styled.button`
   padding: 10px 20px;
   background: #2c5de5;
+  margin-right: 10px;
   border: 1px solid #2c5de5;
   border-radius: 4px;
   font-family: 'SF UI Display Light', sans-serif;

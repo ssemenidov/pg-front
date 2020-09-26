@@ -21,7 +21,7 @@ const Projects = () => {
   const links = [
     { id: '', value: 'Главная' },
     { id: 'installations', value: 'Монтажи' },
-    { id: 'installations/projects', value: 'Проекты' },
+    { id: 'installations/projects', value: 'Подача разнарядки' },
   ];
 
   return (
@@ -38,7 +38,7 @@ const Projects = () => {
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />
-            <JobTitle>Список проектов</JobTitle>
+            <JobTitle>Подача разнарядки</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
             <StyledButton

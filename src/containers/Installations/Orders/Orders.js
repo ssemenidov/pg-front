@@ -6,11 +6,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import CreateBtn from '../../../components/LeftBar/CreateBtn';
-import PackageBtn from '../../../components/LeftBar/PackageBtn';
-import EditBtn from '../../../components/LeftBar/EditBtn';
-import BoxBtn from '../../../components/LeftBar/BoxBtn';
-import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
 
 const Orders = () => {
