@@ -55,7 +55,7 @@ const Application = () => {
                   }}>
                   Выставить счет
                 </StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузка приложения</StyledButton>
               </>
             )}
           </ButtonGroup>

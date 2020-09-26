@@ -25,6 +25,7 @@ import Design from './containers/Installations/Design/Design';
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
 import Project_card from './containers/Sales/Project_card/Project_card';
+import Project_new from './containers/Sales/Project_new/Project_new';
 import Application from './containers/Sales/Application/Application';
 import Com_projects from './containers/Sales/Com_projects/Com_projects';
 import Invoice from './containers/Sales/Invoice/Invoice';
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
           <Route path="/sales/project_card" component={Project_card} />
+          <Route path="/sales/project_new" component={Project_new} />
           <Route path="/sales/application" component={Application} />
           <Route path="/sales/com_projects" component={Com_projects} />
           <Route path="/sales/invoice" component={Invoice} />

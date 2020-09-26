@@ -33,7 +33,8 @@ const Estimate = () => {
         <EditBtn text="Перейти в монтажи" />
         <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
-        <AddBtn text="Добавить расход" />
+
+        {block !== 0 && <AddBtn text="Добавить расход" />}
       </LeftBar>
       <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />

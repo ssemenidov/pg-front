@@ -7,6 +7,10 @@ const PanelDesign = (props) => {
       title: 'Код',
       dataIndex: 'code',
       width: 130,
+      sorter: {
+        compare: (a, b) => a.code.length - b.code.length,
+        multiple: 1,
+      },
     },
     {
       title: 'Бренд',
@@ -17,9 +21,6 @@ const PanelDesign = (props) => {
       title: 'Дата начала',
       dataIndex: 'date',
       width: 90,
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-      },
     },
     {
       title: 'Рекламодатель',
@@ -55,7 +56,7 @@ const PanelDesign = (props) => {
   const data = [
     {
       key: 1,
-      code: '#2020050301323',
+      code: '#1020050301323',
       brand: 'CocaCola',
       date: '28.05.2020',
       advert: 'ТОО «Рекламодатель»',
@@ -67,7 +68,7 @@ const PanelDesign = (props) => {
     },
     {
       key: 2,
-      code: '#2020050301323',
+      code: '#20200503323',
       brand: 'CocaCola',
       date: '28.05.2020',
       advert: 'ТОО «Рекламодатель»',
@@ -79,9 +80,9 @@ const PanelDesign = (props) => {
     },
     {
       key: 3,
-      code: '#2020050301323',
+      code: '#40201323',
       brand: 'CocaCola',
-      date: '28.05.2020',
+      date: '27.05.2020',
       advert: 'ТОО «Рекламодатель»',
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
@@ -91,9 +92,9 @@ const PanelDesign = (props) => {
     },
     {
       key: 4,
-      code: '#2020050301323',
+      code: '#20264354323',
       brand: 'CocaCola',
-      date: '28.05.2020',
+      date: '26.05.2020',
       advert: 'ТОО «Рекламодатель»',
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
@@ -103,9 +104,9 @@ const PanelDesign = (props) => {
     },
     {
       key: 5,
-      code: '#2020050301323',
+      code: '#2020050301325463',
       brand: 'CocaCola',
-      date: '28.05.2020',
+      date: '5.05.2020',
       advert: 'ТОО «Рекламодатель»',
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
@@ -117,7 +118,7 @@ const PanelDesign = (props) => {
       key: 6,
       code: '#2020050301323',
       brand: 'CocaCola',
-      date: '28.05.2020',
+      date: '1.05.2020',
       advert: 'ТОО «Рекламодатель»',
       advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
@@ -130,7 +131,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+        <Table style={{ width: '100%' }} columns={columns} data={data} />
       </div>
       <style>
         {`.outdoor-table-bar {

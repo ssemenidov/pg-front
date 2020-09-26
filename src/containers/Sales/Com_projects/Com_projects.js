@@ -44,7 +44,7 @@ const Com_projects = () => {
             <StyledButton
               backgroundColor="#2C5DE5"
               onClick={() => {
-                history.push('/sales/project_card');
+                history.push('/sales/project_new');
               }}>
               Создать Проект
             </StyledButton>
