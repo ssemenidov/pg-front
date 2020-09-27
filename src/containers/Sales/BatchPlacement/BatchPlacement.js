@@ -376,20 +376,6 @@ const BatchPlacement = () => {
                     <Select.Option value="Option2">Выбор 2</Select.Option>
                   </Select>
                 </div>
-                <div>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={districtIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Выберите район</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
               </div>
             </div>
             <div className="filter-panel-parameters">
@@ -406,7 +392,7 @@ const BatchPlacement = () => {
                     defaultValue={
                       <>
                         <img src={typeIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Тип конструкции</span>
+                        <span>Пакет</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
@@ -420,7 +406,7 @@ const BatchPlacement = () => {
                     defaultValue={
                       <>
                         <img src={formatIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Формат конструкции</span>
+                        <span>Менеджер по продажам</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
@@ -434,7 +420,7 @@ const BatchPlacement = () => {
                     defaultValue={
                       <>
                         <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Сторона конструкции</span>
+                        <span>Менеджер бэк-офиса</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
@@ -448,7 +434,7 @@ const BatchPlacement = () => {
                     defaultValue={
                       <>
                         <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Размер</span>
+                        <span>Бренд</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
