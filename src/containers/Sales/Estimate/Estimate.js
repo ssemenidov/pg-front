@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
-import { Input } from 'antd';
+import { Input, Checkbox } from 'antd';
 import PanelDesign from './PanelEstimate';
+import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
+
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -36,7 +38,7 @@ const Estimate = () => {
 
         {block !== 0 && <AddBtn text="Добавить расход" />}
       </LeftBar>
-      <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
+      <div style={{ width: '100%', overflow: 'hidden', margin: '0 2vw 0 0' }}>
         <BreadCrumbs links={links} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
@@ -44,7 +46,7 @@ const Estimate = () => {
             <JobTitle>Смета - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 ? (
+            {block !== 0 ? (
               <>
                 <StyledButton backgroundColor="#008556">Добавить расход</StyledButton>
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
@@ -55,119 +57,125 @@ const Estimate = () => {
           </ButtonGroup>
         </HeaderWrapper>
         <div style={{ display: 'flex' }}>
-          <InfoList>
-            <InfoItem>
-              <InfoTitle>Аренда</InfoTitle>
+          <InfoWrap>
+            <ControlToolbar style={{ fontWeight: '600' }}>
+              <span>Посчитать с НДС?</span>
+              <Checkbox>Да</Checkbox>
+            </ControlToolbar>
+            <InfoList>
+              <InfoItem>
+                <InfoTitle>Аренда</InfoTitle>
 
-              <InfoLine>
-                <span>Аренда по прайсу:</span>
-                <InfoValue>99 999 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>99 999 тг.</span>
-                <InfoValue>10%</InfoValue>
-              </InfoLine>
+                <InfoLine>
+                  <span>Аренда по прайсу:</span>
+                  <InfoValue>99 999 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>99 999 тг.</span>
+                  <InfoValue>10%</InfoValue>
+                </InfoLine>
 
-              <InfoLine>
-                <span>Аренда на клиента:</span>
-                <InfoValue>9 999 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Скидка на аренду на клиента:</span>
-                <InfoValue>5%</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoTitle>Доп. работы</InfoTitle>
+                <InfoLine>
+                  <span>Аренда на клиента:</span>
+                  <InfoValue>9 999 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Скидка на аренду на клиента:</span>
+                  <InfoValue>5%</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoTitle>Доп. работы</InfoTitle>
 
-              <InfoLine>
-                <span>Монтаж:</span>
-                <InfoValue>83 782.47 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Печать:</span>
-                <InfoValue>73 639.76 тг.</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoTitle>Доп. расходы</InfoTitle>
+                <InfoLine>
+                  <span>Монтаж:</span>
+                  <InfoValue>83 782.47 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Печать:</span>
+                  <InfoValue>73 639.76 тг.</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoTitle>Доп. расходы</InfoTitle>
 
-              <InfoLine>
-                <span>Согласование эскизов:</span>
-                <InfoValue>71 841.67 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Доп. печать:</span>
-                <InfoValue>10 399.84 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Доп. монтаж:</span>
-                <InfoValue>14 892.96 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Размещение в регионах:</span>
-                <InfoValue>81 964.85 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Оформление брендированных конструкций:</span>
-                <InfoValue>45 649.72 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Дополнительный фотоотчет:</span>
-                <InfoValue>36 406.35 тг.</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoTitle>Агентская комиссия</InfoTitle>
+                <InfoLine>
+                  <span>Согласование эскизов:</span>
+                  <InfoValue>71 841.67 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Доп. печать:</span>
+                  <InfoValue>10 399.84 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Доп. монтаж:</span>
+                  <InfoValue>14 892.96 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Размещение в регионах:</span>
+                  <InfoValue>81 964.85 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Оформление брендированных конструкций:</span>
+                  <InfoValue>45 649.72 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Дополнительный фотоотчет:</span>
+                  <InfoValue>36 406.35 тг.</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoTitle>Агентская комиссия</InfoTitle>
 
-              <InfoLine>
-                <span>Процент АК:</span>
-                <InfoValue>5 %</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Сумма АК:</span>
-                <InfoValue>30 000 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Сумма за вычетом АК:</span>
-                <InfoValue>150 000 тг.</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoTitle>Налоги</InfoTitle>
+                <InfoLine>
+                  <span>Процент АК:</span>
+                  <InfoValue>5 %</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Сумма АК:</span>
+                  <InfoValue>30 000 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Сумма за вычетом АК:</span>
+                  <InfoValue>150 000 тг.</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoTitle>Налоги</InfoTitle>
 
-              <InfoLine>
-                <span>Налог:</span>
-                <InfoValue>79 597.85 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Скидка на налог:</span>
-                <InfoValue>10%</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Налога после скидки:</span>
-                <InfoValue>81 872.03 тг.</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoTitle>НОН РТС</InfoTitle>
+                <InfoLine>
+                  <span>Налог:</span>
+                  <InfoValue>79 597.85 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Скидка на налог:</span>
+                  <InfoValue>10%</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Налога после скидки:</span>
+                  <InfoValue>81 872.03 тг.</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoTitle>НОН РТС</InfoTitle>
 
-              <InfoLine>
-                <span>Наружная реклама Актау:</span>
-                <InfoValue>35 000 тг.</InfoValue>
-              </InfoLine>
-              <InfoLine>
-                <span>Радио Алматы:</span>
-                <InfoValue>20 000 тг.</InfoValue>
-              </InfoLine>
-            </InfoItem>
-            <InfoItem>
-              <InfoLine style={{ fontSize: '16px', fontWeight: '600' }}>
-                <span>ИТОГО</span>
-                <span>1 124 888 тг..</span>
-              </InfoLine>
-            </InfoItem>
-          </InfoList>
+                <InfoLine>
+                  <span>Наружная реклама Актау:</span>
+                  <InfoValue>35 000 тг.</InfoValue>
+                </InfoLine>
+                <InfoLine>
+                  <span>Радио Алматы:</span>
+                  <InfoValue>20 000 тг.</InfoValue>
+                </InfoLine>
+              </InfoItem>
+              <InfoItem>
+                <InfoLine style={{ fontSize: '16px', fontWeight: '600' }}>
+                  <span>ИТОГО</span>
+                  <span>1 124 888 тг..</span>
+                </InfoLine>
+              </InfoItem>
+            </InfoList>
+          </InfoWrap>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
       </div>
@@ -184,14 +192,19 @@ const Estimate = () => {
 };
 
 export default Estimate;
+const InfoWrap = styled.div`
+  margin: 0 2vw 0 0;
+  max-width: 320px;
+  width: 40vw;
+`;
 const InfoList = styled.ul`
   border-radius: 8px;
   border: 1px solid #d3dff0;
   height: 100%;
-  padding: 1.5%;
+  padding: 4.5%;
   flex: 0 1 auto;
   margin: 0 2vw 0 0;
-  max-width: 370px;
+  max-width: 320px;
   box-sizing: border-box;
   width: 40vw;
 `;

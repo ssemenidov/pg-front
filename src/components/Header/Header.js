@@ -58,7 +58,9 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledBlock>
-        <img src={require('../../img/partners/logo.svg')} alt="" />
+        <Link to="/">
+          <img src={require('../../img/partners/logo.svg')} alt="" />
+        </Link>
       </StyledBlock>
       <StyledList>
         <Dropdown overlay={salesMenu}>
@@ -67,7 +69,7 @@ const Header = () => {
           </Link>
         </Dropdown>
         <Dropdown overlay={installationsMenu}>
-          <Link to="/installations/projects" onClick={() => SetActive(1)} className={active == 1 && 'active'}>
+          <Link to="/installations" onClick={() => SetActive(1)} className={active == 1 && 'active'}>
             Монтажи
           </Link>
         </Dropdown>

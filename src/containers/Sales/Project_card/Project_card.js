@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import PanelDesign from './PanelProject_card';
 import { Input } from 'antd';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
-import PanelDesign from './PanelProject_card';
+import { InfoList, InfoItem, InfoLine, InfoValue, InfoInput, InfoTitle } from '../../../components/Styles/InfoPanel';
+
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 import EditBtn from '../../../components/LeftBar/EditBtn';
 import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
@@ -155,40 +157,3 @@ const Project_card = () => {
 };
 
 export default Project_card;
-const InfoList = styled.ul`
-  border-radius: 8px;
-  border: 1px solid #d3dff0;
-  height: 100%;
-  padding: 1.5%;
-  flex: 0 1 auto;
-  margin: 0 2vw 0 0;
-  max-width: 370px;
-  box-sizing: border-box;
-  width: 40vw;
-`;
-const InfoItem = styled.li`
-  margin: 4% 0;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #d3dff0;
-`;
-const InfoTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 700;
-`;
-const InfoLine = styled.div`
-  margin: 4% 0;
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-`;
-const InfoValue = styled.span`
-  font-weight: 600;
-  text-align: right;
-`;
-const InfoInput = styled(Input)`
-  font-weight: 600;
-
-  margin-left: auto;
-  width: 150px;
-`;

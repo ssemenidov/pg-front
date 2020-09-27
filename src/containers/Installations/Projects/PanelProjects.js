@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Table from '../../../components/Tablea';
 import { StyledButton } from '../../../styles/styles';
-
+import { useHistory } from 'react-router';
 const PanelDesign = (props) => {
   const columns = [
     {
@@ -120,21 +120,17 @@ const PanelDesign = (props) => {
       nspreadsides: '2',
     },
   ];
-  const outdoorFurnitureColums = [
-    'Код',
-    'Название',
-    'Клиент',
-    'Бренд',
-    'Город',
-    'Всего сторон',
-    'Проданных сторон',
-    'Распред. сторон',
-    'Не распред. сторон',
-  ];
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns}
+          data={data}
+          select={true}
+          history={useHistory()}
+          link="/installations/design"
+        />
       </div>
       <style>
         {`.outdoor-table-bar {
