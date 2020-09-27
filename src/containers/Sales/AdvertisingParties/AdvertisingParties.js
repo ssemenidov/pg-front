@@ -2,24 +2,15 @@ import React, { Component } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
-import { LeftBar } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+
 import PanelAdver from './PanelAdver';
 import FilterBar from './FilterBar';
-import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
-import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
-import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
-
-import collapseUpIcon from '../../../img/input/collapse-up.svg';
-import collapseDownIcon from '../../../img/input/collapse-down.svg';
-import cityIcon from '../../../img/input/input-city.svg';
-import districtIcon from '../../../img/input/input-district.svg';
-import sideIcon from '../../../img/input/side-construction.svg';
-import typeIcon from '../../../img/input/type-construction.svg';
-import formatIcon from '../../../img/input/format-construction.svg';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import searchIcon from '../../../img/left-bar/search.svg';
-import createProjectIcon from '../../../img/left-bar/create-project.svg';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 
@@ -53,143 +44,10 @@ const ResizableTitle = (props) => {
 
 export default class AdvertisingParties extends Component {
   state = {
-    columns: [
-      {
-        title: 'Код',
-        dataIndex: 'code',
-        width: 200,
-      },
-      {
-        title: 'Формат',
-        dataIndex: 'format',
-        width: 100,
-      },
-      {
-        title: 'Город',
-        dataIndex: 'city',
-        width: 100,
-      },
-      {
-        title: (
-          <>
-            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>2 марта - 8 марта</strong>
-            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
-          </>
-        ),
-        dataIndex: 'timeline1',
-        key: 'timeline',
-      },
-      {
-        title: (
-          <>
-            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>9 марта - 15 марта</strong>
-            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
-          </>
-        ),
-        dataIndex: 'timeline2',
-        key: 'timeline',
-      },
-      {
-        title: (
-          <>
-            <strong style={{ background: 'unset', color: '#1A1A1A !important' }}>16 марта - 22 марта</strong>
-            <p style={{ margin: '0', color: '#8AA1C1' }}>Пн Вт Ср Чт Пт Сб Вс</p>
-          </>
-        ),
-        dataIndex: 'timeline3',
-        key: 'timeline',
-      },
-    ],
     collapsed: true,
   };
 
-  components = {
-    header: {
-      cell: ResizableTitle,
-    },
-  };
-
-  data = [
-    {
-      key: 1,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 2,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableSoldIcon} />,
-      timeline2: <img src={tableSoldIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 3,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 4,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 5,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-  ];
-
-  handleResize = (index) => (e, { size }) => {
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return { columns: nextColumns };
-    });
-  };
-
-  rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
-      name: record.name,
-    }),
-  };
-
-  onChange(date, dateString) {
-    console.log(date, dateString);
-  }
-
   render() {
-    const columns = this.state.columns.map((col, index) => ({
-      ...col,
-      onHeaderCell: (column) => ({
-        width: column.width,
-        onResize: this.handleResize(index),
-      }),
-    }));
     return (
       <Layout>
         <Layout>
@@ -222,32 +80,19 @@ export default class AdvertisingParties extends Component {
               </Breadcrumb.Item>
               <Breadcrumb.Item>Справочник рекламных сторон</Breadcrumb.Item>
             </Breadcrumb>
-            <Content
-              className="site-layout-background"
-              style={{
-                margin: 0,
-                minHeight: 280,
-              }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div>
-                  <img src={advertisingIcon} />
-                  <h2
-                    style={{
-                      fontSize: '24px',
-                      color: '#003360',
-                      fontWeight: '600',
-                      fontFamily: 'SF UI Display Medium, sans-serif',
-                    }}>
-                    Справочник рекламных сторон
-                  </h2>
-                </div>
-                <Button className="header-page-btn">
-                  <span>Создать отчет</span>
-                  <img src={collapseDownIcon} />
-                </Button>
-              </div>
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Справочник рекламных сторон</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузить стороны </StyledButton>
+                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex' }}>
               <PanelAdver style={{ flex: '0 1 auto' }} />
-            </Content>
+            </div>
           </Layout>
         </Layout>
         <style>
@@ -500,6 +345,13 @@ export default class AdvertisingParties extends Component {
           }
           .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {
             color: #FF5800 !important;
+          }
+          .page-label span{
+            position: absolute;
+            padding-left: 10px;
+          }
+          .page-label{
+            overflow:hidden;
           }
         `}
         </style>

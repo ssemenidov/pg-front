@@ -10,6 +10,7 @@ import './assets/fonts/sf-ui-display-cufonfonts-webfont/style.css';
 import Main from './containers/Main/Main';
 import MainBase from './containers/Base/Main/Main';
 import MainSales from './containers/Sales/Main/Main';
+import MainInstall from './containers/Installations/Main/Main';
 
 import Partners from './containers/Base/Partners/Partners';
 import OutdoorFurniture from './containers/Base/OutdoorFurniture/OudoorFurniture';
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
+          <Route path="/installations" exact component={MainInstall} />
           <Route path="/installations/projects" component={Projects} />
           <Route path="/installations/orders" component={Orders} />
         </Switch>

@@ -66,8 +66,18 @@ const PanelDesign = (props) => {
       code: '#123123123',
       format: 'Сениор',
       city: 'Алматы',
-      timeline1: <img src={tableSoldIcon} />,
-      timeline2: <img src={tableSoldIcon} />,
+      timeline1: (
+        <div className="page-label">
+          <span>Coca-Cola</span>
+          <img src={tableSoldIcon} />
+        </div>
+      ),
+      timeline2: (
+        <div className="page-label">
+          <span>Coca-Cola</span>
+          <img src={tableSoldIcon} />
+        </div>
+      ),
       timeline3: <img src={tableFreeIcon} />,
     },
     {

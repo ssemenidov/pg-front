@@ -48,6 +48,11 @@ const FilterBar = () => {
             <div className="dot-4"></div>
             Недоступно
           </Checkbox>
+          <br />
+          <Checkbox defaultChecked>
+            <div className="dot-4"></div>
+            Все
+          </Checkbox>
         </StyledPanel>
         <StyledPanel header="По городу" key="3">
           <StyledSelect defaultValue="Выберите город" size={'large'}>

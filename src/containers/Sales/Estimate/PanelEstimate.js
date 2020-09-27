@@ -149,7 +149,7 @@ const PanelDesign = (props) => {
     {
       title: 'Наименование услуги',
       dataIndex: 'name',
-      width: 130,
+      width: 80,
     },
 
     {
@@ -193,7 +193,7 @@ const PanelDesign = (props) => {
     {
       title: 'Тип',
       dataIndex: 'type',
-      width: 130,
+      width: 80,
     },
 
     {

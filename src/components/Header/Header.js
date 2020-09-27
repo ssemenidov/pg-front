@@ -69,7 +69,7 @@ const Header = () => {
           </Link>
         </Dropdown>
         <Dropdown overlay={installationsMenu}>
-          <Link to="/installations/projects" onClick={() => SetActive(1)} className={active == 1 && 'active'}>
+          <Link to="/installations" onClick={() => SetActive(1)} className={active == 1 && 'active'}>
             Монтажи
           </Link>
         </Dropdown>
