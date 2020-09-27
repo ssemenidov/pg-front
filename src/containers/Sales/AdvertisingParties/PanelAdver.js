@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
+import { Popover } from 'antd';
 import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
 import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
+import Tab from './Tab';
+import { StyledButton } from '../../../styles/styles';
 import { useHistory } from 'react-router';
+
 const PanelDesign = (props) => {
   const columns = [
     {
@@ -67,16 +71,20 @@ const PanelDesign = (props) => {
       format: 'Сениор',
       city: 'Алматы',
       timeline1: (
-        <div className="page-label">
-          <span>Coca-Cola</span>
-          <img src={tableSoldIcon} />
-        </div>
+        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
+          <div className="page-label">
+            <span>Coca-Cola</span>
+            <img src={tableSoldIcon} />
+          </div>
+        </Popover>
       ),
       timeline2: (
-        <div className="page-label">
-          <span>Coca-Cola</span>
-          <img src={tableSoldIcon} />
-        </div>
+        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
+          <div className="page-label">
+            <span>Coca-Cola</span>
+            <img src={tableSoldIcon} />
+          </div>
+        </Popover>
       ),
       timeline3: <img src={tableFreeIcon} />,
     },
@@ -112,13 +120,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          style={{ width: '100%' }}
-          columns={columns}
-          data={data}
-          history={useHistory()}
-          link="/sales/project_card"
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />
       </div>
 
       <style>

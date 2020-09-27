@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Table from '../../../components/Tablea';
-import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
-import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
+import { Popover } from 'antd';
 import { useHistory } from 'react-router';
 import freeIcon from '../../../img/sales/free.svg';
 import bookedIcon from '../../../img/sales/booked.svg';
 import soldIcon from '../../../img/sales/sold.svg';
+import Tab from './Tab';
 const PanelDesign = (props) => {
   const columns = [
     {
@@ -69,13 +69,13 @@ const PanelDesign = (props) => {
     {
       period: '16 - 01 марта',
       A1: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       A2: (
         <>
@@ -96,40 +96,40 @@ const PanelDesign = (props) => {
         </>
       ),
       B1: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B2: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забронировано</p>
+        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
+          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Jacobs
           </strong>
           <img src={bookedIcon} />
-        </>
+        </Popover>
       ),
       B3: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B4: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
     },
     {
@@ -141,13 +141,23 @@ const PanelDesign = (props) => {
         </>
       ),
       A2: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola и Jacobs"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
+          <strong
+            style={{
+              color: '#00284C',
+              position: 'absolute',
+              fontSize: '12px',
+              margin: '20px 10px',
+              marginTop: '40px',
+            }}>
+            Jacobs
+          </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       A3: (
         <>
@@ -156,31 +166,31 @@ const PanelDesign = (props) => {
         </>
       ),
       A4: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забронировано</p>
+        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
+          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Jacobs
           </strong>
           <img src={bookedIcon} />
-        </>
+        </Popover>
       ),
       B1: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B2: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B3: (
         <>
@@ -189,25 +199,25 @@ const PanelDesign = (props) => {
         </>
       ),
       B4: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
     },
     {
       period: '16 - 30 марта',
       A1: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       A2: (
         <>
@@ -228,40 +238,40 @@ const PanelDesign = (props) => {
         </>
       ),
       B1: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B2: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забронировано</p>
+        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
+          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Jacobs
           </strong>
           <img src={bookedIcon} />
-        </>
+        </Popover>
       ),
       B3: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
       B4: (
-        <>
+        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <img src={soldIcon} />
-        </>
+        </Popover>
       ),
     },
   ];
@@ -269,13 +279,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          style={{ width: '100%' }}
-          columns={columns}
-          data={data}
-          history={useHistory()}
-          link="/sales/project_card"
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data} />
       </div>
 
       <style>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
@@ -42,61 +42,58 @@ const ResizableTitle = (props) => {
   );
 };
 
-export default class AdvertisingParties extends Component {
-  state = {
-    collapsed: true,
-  };
+const AdvertisingParties = () => {
+  const [collapsed, setCollapsed] = useState(true);
 
-  render() {
-    return (
+  return (
+    <Layout>
       <Layout>
-        <Layout>
-          <Sider className="layout-sider">
-            <Menu
-              className="layout-sider"
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%', borderRight: 0 }}>
-              <LeftBar>
-                <SearchBtn
-                  onClick={() => {
-                    this.setState({ collapsed: !this.state.collapsed });
-                  }}
-                />
-                <CreateBtn text="Создать проект" />
-              </LeftBar>
-            </Menu>
-          </Sider>
-          {this.state.collapsed && <FilterBar />}
-          <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-            <Breadcrumb className="layout-breadcrumb">
-              <Breadcrumb.Item>
-                <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-                <Link to="/">Главная</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to="/sales/">Продажи</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>Справочник рекламных сторон</Breadcrumb.Item>
-            </Breadcrumb>
-            <HeaderWrapper>
-              <HeaderTitleWrapper>
-                <TitleLogo />
-                <JobTitle>Справочник рекламных сторон</JobTitle>
-              </HeaderTitleWrapper>
-              <ButtonGroup>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузить стороны </StyledButton>
-                <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
-              </ButtonGroup>
-            </HeaderWrapper>
-            <div style={{ display: 'flex' }}>
-              <PanelAdver style={{ flex: '0 1 auto' }} />
-            </div>
-          </Layout>
+        <Sider className="layout-sider">
+          <Menu
+            className="layout-sider"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{ height: '100%', borderRight: 0 }}>
+            <LeftBar>
+              <SearchBtn
+                onClick={() => {
+                  setCollapsed(!collapsed);
+                }}
+              />
+              <CreateBtn text="Создать проект" />
+            </LeftBar>
+          </Menu>
+        </Sider>
+        {collapsed && <FilterBar />}
+        <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
+          <Breadcrumb className="layout-breadcrumb">
+            <Breadcrumb.Item>
+              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
+              <Link to="/">Главная</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/sales/">Продажи</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Справочник рекламных сторон</Breadcrumb.Item>
+          </Breadcrumb>
+          <HeaderWrapper>
+            <HeaderTitleWrapper>
+              <TitleLogo />
+              <JobTitle>Справочник рекламных сторон</JobTitle>
+            </HeaderTitleWrapper>
+            <ButtonGroup>
+              <StyledButton backgroundColor="#2C5DE5">Выгрузить стороны </StyledButton>
+              <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
+            </ButtonGroup>
+          </HeaderWrapper>
+          <div style={{ display: 'flex' }}>
+            <PanelAdver style={{ flex: '0 1 auto' }} />
+          </div>
         </Layout>
-        <style>
-          {`
+      </Layout>
+      <style>
+        {`
           .layout-main {
             background: #fff !important;
             height: 100% !important;
@@ -343,9 +340,7 @@ export default class AdvertisingParties extends Component {
             color: #fff  !important;
             font-weight: 600;
           }
-          .ant-btn-primary:active, .ant-btn-primary:hover, .ant-btn-primary:focus {
-            color: #FF5800 !important;
-          }
+       
           .page-label span{
             position: absolute;
             padding-left: 10px;
@@ -354,8 +349,8 @@ export default class AdvertisingParties extends Component {
             overflow:hidden;
           }
         `}
-        </style>
-      </Layout>
-    );
-  }
-}
+      </style>
+    </Layout>
+  );
+};
+export default AdvertisingParties;
