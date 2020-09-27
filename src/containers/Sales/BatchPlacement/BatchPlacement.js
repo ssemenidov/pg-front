@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
-import HeaderSales from './HeaderSales';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PanelBatch from './PanelBatch';
 import { LeftBar } from '../../../styles/styles';
+import FilterBar from './FilterBar';
 import freeIcon from '../../../img/sales/free.svg';
 import bookedIcon from '../../../img/sales/booked.svg';
 import soldIcon from '../../../img/sales/sold.svg';
 
-import plusIcon from '../../../img/header-bar/plus-icon.svg';
-import minusIcon from '../../../img/header-bar/minus-icon.svg';
-import arrowLeft from '../../../img/header-bar/arrow-left.svg';
-import arrowRight from '../../../img/header-bar/arrow-right.svg';
-import calendarIcon from '../../../img/header-bar/calendar.svg';
-import searchInputIcon from '../../../img/header-bar/search-icon.svg';
-import printerIcon from '../../../img/header-bar/printer.svg';
-import exportIcon from '../../../img/header-bar/export.svg';
-import settingsIcon from '../../../img/header-bar/settings.svg';
 import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
@@ -311,156 +303,7 @@ const BatchPlacement = () => {
             </LeftBar>
           </StyledSider>
         </StyledSider>
-        {collapsed ? (
-          <StyledFilterPanel>
-            <div className="filter-panel-title">
-              <strong>Поиск</strong>
-            </div>
-            <div className="filter-panel-date">
-              <span>По дате</span>
-              <DatePicker className="filter-datepicker" />
-            </div>
-            <div className="filter-panel-status">
-              <div className="filter-panel-header" style={{ marginBottom: `${reservationTab ? '20px' : '0'}` }}>
-                <span>Статус брони</span>
-                <img
-                  src={reservationTab ? collapseUpIcon : collapseDownIcon}
-                  onClick={() => setReservationTab(!reservationTab)}
-                />
-              </div>
-              <div style={{ display: `${reservationTab ? 'block' : 'none'}` }}>
-                <div>
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <div className="dot-1"></div>
-                  <span>Свободно</span>
-                </div>
-                <div>
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <div className="dot-2"></div>
-                  <span>Забронировано</span>
-                </div>
-                <div>
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <div className="dot-3"></div>
-                  <span>Утверждено</span>
-                </div>
-                <div>
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <div className="dot-4"></div>
-                  <span>Продано</span>
-                </div>
-                <div>
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <div className="dot-4"></div>
-                  <span>Недоступно</span>
-                </div>
-              </div>
-            </div>
-            <div className="filter-panel-city">
-              <div className="filter-panel-header" style={{ marginBottom: `${cityTab ? '20px' : '0'}` }}>
-                <span>Фильтр по городу</span>
-                <img src={cityTab ? collapseUpIcon : collapseDownIcon} onClick={() => setCityTab(!cityTab)} />
-              </div>
-              <div style={{ display: `${cityTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={cityIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Выберите город</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-              </div>
-            </div>
-            <div className="filter-panel-parameters">
-              <div className="filter-panel-header" style={{ marginBottom: `${parametersTab ? '20px' : '0'}` }}>
-                <span>По параметрам</span>
-                <img
-                  src={parametersTab ? collapseUpIcon : collapseDownIcon}
-                  onClick={() => setParametersTab(!parametersTab)}
-                />
-              </div>
-              <div style={{ display: `${parametersTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={typeIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Пакет</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={formatIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Менеджер по продажам</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Менеджер бэк-офиса</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Бренд</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div className="checkbox-block">
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <span>Пакет</span>
-                </div>
-                <div className="checkbox-block">
-                  <Checkbox className="custom-checkbox" defaultChecked />
-                  <span>Освещение</span>
-                </div>
-              </div>
-            </div>
-            <div className="group-btn">
-              <Button className="search-btn">Поиск</Button>
-              <Button type="primary" className="clear-btn">
-                Очистить
-              </Button>
-            </div>
-          </StyledFilterPanel>
-        ) : null}
+        {collapsed && <FilterBar />}
         <StyledLayout>
           <StyledBreadcrumb>
             <Breadcrumb.Item>
@@ -490,56 +333,9 @@ const BatchPlacement = () => {
               <img src={collapseDownIcon} />
             </Button>
           </div>
-          <div className="header-bar">
-            <div>
-              <div>
-                <Button className="header-btn">
-                  <img src={plusIcon} />
-                </Button>
-                <Button className="header-btn">
-                  <img src={minusIcon} />
-                </Button>
-              </div>
-              <div>
-                <Button style={{ marginLeft: '20px' }} className="header-btn">
-                  <img src={arrowLeft} />
-                </Button>
-                <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-                  <span>Неделя</span>
-                  <img src={collapseDownIcon} />
-                </Button>
-                <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-                  <img src={calendarIcon} />
-                  <span>2 марта - 29 марта 2020</span>
-                </Button>
-                <Button className="header-btn">
-                  <img src={arrowRight} />
-                </Button>
-              </div>
-            </div>
-            <div>
-              <Input
-                style={{ marginLeft: '20px' }}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />
-              <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
-              </Button>
-              <Button
-                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                className="header-btn">
-                <img src={exportIcon} />
-                <span>Экспорт</span>
-              </Button>
-              <Button className="header-btn">
-                <img src={settingsIcon} />
-              </Button>
-            </div>
-          </div>
+
           <Content>
-            <StyledTable pagination={false} columns={columns} dataSource={data} scroll={{ y: 500 }} />
+            <PanelBatch style={{ flex: '0 1 auto' }} />
           </Content>
         </StyledLayout>
       </Layout>
@@ -592,31 +388,35 @@ const BatchPlacement = () => {
         }
         .dot-1 {
           height: 8px;
-          margin: 0 8px;
+          margin: 0 4px;
           width: 8px;
           background-color: #63D411;
           border-radius: 50%;
+          display: inline-block;
         }
         .dot-2 {
           height: 8px;
-          margin: 0 8px;
+          margin: 0 4px;
           width: 8px;
           background-color: #117BD4;
           border-radius: 50%;
+          display: inline-block;
         }
         .dot-3 {
           height: 8px;
-          margin: 0 8px;
+          margin: 0 4px;
           width: 8px;
           background-color: #FDC911;
           border-radius: 50%;
+          display: inline-block;
         }
         .dot-4 {
           height: 8px;
-          margin: 0 8px;
+          margin: 0 4px;
           width: 8px;
           background-color: #D42D11;
           border-radius: 50%;
+          display: inline-block;
         }
         .filter-panel-city {
           display: flex;
@@ -625,9 +425,7 @@ const BatchPlacement = () => {
         .ant-select ant-select-selection-item span {
           color: #656565 !important;
         }
-        .ant-select {
-          width: 100%;
-        }
+      
         .filter-panel-parameters {
           display: flex;
           flex-direction: column;

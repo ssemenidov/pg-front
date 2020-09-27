@@ -46,7 +46,7 @@ const Estimate = () => {
             <JobTitle>Смета - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 ? (
+            {block !== 0 ? (
               <>
                 <StyledButton backgroundColor="#008556">Добавить расход</StyledButton>
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>

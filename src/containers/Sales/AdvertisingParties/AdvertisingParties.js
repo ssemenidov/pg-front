@@ -4,15 +4,7 @@ import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
 import { LeftBar } from '../../../styles/styles';
 import PanelAdver from './PanelAdver';
-import plusIcon from '../../../img/header-bar/plus-icon.svg';
-import minusIcon from '../../../img/header-bar/minus-icon.svg';
-import arrowLeft from '../../../img/header-bar/arrow-left.svg';
-import arrowRight from '../../../img/header-bar/arrow-right.svg';
-import calendarIcon from '../../../img/header-bar/calendar.svg';
-import searchInputIcon from '../../../img/header-bar/search-icon.svg';
-import printerIcon from '../../../img/header-bar/printer.svg';
-import exportIcon from '../../../img/header-bar/export.svg';
-import settingsIcon from '../../../img/header-bar/settings.svg';
+import FilterBar from './FilterBar';
 import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
 import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
 import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
@@ -223,180 +215,7 @@ export default class AdvertisingParties extends Component {
               </LeftBar>
             </Menu>
           </Sider>
-          {this.state.collapsed ? (
-            <div className="filter-panel">
-              <div className="filter-panel-title">
-                <strong>Поиск</strong>
-              </div>
-              <div className="filter-panel-date">
-                <span>По дате</span>
-                <DatePicker className="filter-datepicker" onChange={this.onChange} />
-              </div>
-              <div className="filter-panel-status">
-                <div
-                  className="filter-panel-header"
-                  style={{ marginBottom: `${this.state.reservationTab ? '20px' : '0'}` }}>
-                  <span>Статус брони</span>
-                  <img
-                    src={this.state.reservationTab ? collapseUpIcon : collapseDownIcon}
-                    onClick={() => this.setState({ reservationTab: !this.state.reservationTab })}
-                  />
-                </div>
-                <div style={{ display: `${this.state.reservationTab ? 'block' : 'none'}` }}>
-                  <div>
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <div className="dot-1"></div>
-                    <span>Свободно</span>
-                  </div>
-                  <div>
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <div className="dot-2"></div>
-                    <span>Забронировано</span>
-                  </div>
-                  <div>
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <div className="dot-3"></div>
-                    <span>Утверждено</span>
-                  </div>
-                  <div>
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <div className="dot-4"></div>
-                    <span>Продано</span>
-                  </div>
-                  <div>
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <div className="dot-4"></div>
-                    <span>Недоступно</span>
-                  </div>
-                </div>
-              </div>
-              <div className="filter-panel-city">
-                <div className="filter-panel-header" style={{ marginBottom: `${this.state.cityTab ? '20px' : '0'}` }}>
-                  <span>Фильтр по городу</span>
-                  <img
-                    src={this.state.cityTab ? collapseUpIcon : collapseDownIcon}
-                    onClick={() => this.setState({ cityTab: !this.state.cityTab })}
-                  />
-                </div>
-                <div style={{ display: `${this.state.cityTab ? 'block' : 'none'}` }}>
-                  <div style={{ marginBottom: '10px' }}>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={cityIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Выберите город</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                  <div>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={districtIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Выберите район</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-              <div className="filter-panel-parameters">
-                <div
-                  className="filter-panel-header"
-                  style={{ marginBottom: `${this.state.parametersTab ? '20px' : '0'}` }}>
-                  <span>По параметрам</span>
-                  <img
-                    src={this.state.parametersTab ? collapseUpIcon : collapseDownIcon}
-                    onClick={() => this.setState({ parametersTab: !this.state.parametersTab })}
-                  />
-                </div>
-                <div style={{ display: `${this.state.parametersTab ? 'block' : 'none'}` }}>
-                  <div style={{ marginBottom: '10px' }}>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={typeIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Тип конструкции</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                  <div style={{ marginBottom: '10px' }}>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={formatIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Формат конструкции</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                  <div style={{ marginBottom: '10px' }}>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Сторона конструкции</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                  <div style={{ marginBottom: '15px' }}>
-                    <Select
-                      defaultValue={
-                        <>
-                          <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                          <span>Размер</span>
-                        </>
-                      }
-                      suffixIcon={<img src={collapseDownIcon} />}
-                      className="ant-select">
-                      <Select.Option value="Option1">Выбор 1</Select.Option>
-                      <Select.Option value="Option2">Выбор 2</Select.Option>
-                    </Select>
-                  </div>
-                  <div className="checkbox-block">
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <span>Пакет</span>
-                  </div>
-                  <div className="checkbox-block">
-                    <Checkbox className="custom-checkbox" defaultChecked />
-                    <span>Освещение</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group-btn">
-                <Button className="search-btn" onClick={() => this.setState({ collapsed: !this.state.collapsed })}>
-                  Поиск
-                </Button>
-                <Button type="primary" className="clear-btn">
-                  Очистить
-                </Button>
-              </div>
-            </div>
-          ) : null}
+          {this.state.collapsed && <FilterBar />}
           <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
             <Breadcrumb className="layout-breadcrumb">
               <Breadcrumb.Item>
@@ -452,7 +271,7 @@ export default class AdvertisingParties extends Component {
             font-size: 11px;
             margin: 0 0 20px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
           .left-bar-list {
@@ -559,33 +378,37 @@ export default class AdvertisingParties extends Component {
           .filter-panel > div > div > span {
             color: #1A1A1A !important;
           }
-          .filter-panel .dot-1 {
+          .dot-1 {
             height: 8px;
-            margin: 0 8px;
+            margin: 0 4px;
             width: 8px;
             background-color: #63D411;
             border-radius: 50%;
+            display: inline-block;
           }
-          .filter-panel .dot-2 {
+          .dot-2 {
             height: 8px;
-            margin: 0 8px;
+            margin: 0 4px;
             width: 8px;
             background-color: #117BD4;
             border-radius: 50%;
+            display: inline-block;
           }
-          .filter-panel .dot-3 {
+          .dot-3 {
             height: 8px;
-            margin: 0 8px;
+            margin: 0 4px;
             width: 8px;
             background-color: #FDC911;
             border-radius: 50%;
+            display: inline-block;
           }
-          .filter-panel .dot-4 {
+          .dot-4 {
             height: 8px;
-            margin: 0 8px;
+            margin: 0 4px;
             width: 8px;
             background-color: #D42D11;
             border-radius: 50%;
+            display: inline-block;
           }
           .filter-panel-city {
             display: flex;
@@ -594,9 +417,7 @@ export default class AdvertisingParties extends Component {
           .ant-select ant-select-selection-item span {
             color: #656565 !important;
           }
-          .ant-select {
-            width: 100%;
-          }
+         
           .filter-panel-parameters {
             display: flex;
             flex-direction: column;
