@@ -160,7 +160,7 @@ class Tablea extends React.Component {
               return {
                 onClick: (event) => {
                   {
-                    this.props.click && alert(`Проект ${rowIndex + 1}`);
+                    this.props.history && this.props.history.push(this.props.link);
                   }
                 },
               };

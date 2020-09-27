@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
 import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
 import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
+import { useHistory } from 'react-router';
 const PanelDesign = (props) => {
   const columns = [
     {
@@ -101,7 +102,13 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} click={true} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns}
+          data={data}
+          history={useHistory()}
+          link="/sales/project_card"
+        />
       </div>
 
       <style>
