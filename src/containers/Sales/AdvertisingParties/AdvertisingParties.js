@@ -100,12 +100,7 @@ export default class AdvertisingParties extends Component {
         key: 'timeline',
       },
     ],
-    selectionType: 'checkbox',
     collapsed: true,
-    reservationTab: true,
-    cityTab: true,
-    parametersTab: true,
-    purposeTab: false,
   };
 
   components = {

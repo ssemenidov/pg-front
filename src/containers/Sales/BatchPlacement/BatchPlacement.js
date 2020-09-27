@@ -4,24 +4,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PanelBatch from './PanelBatch';
 import { LeftBar } from '../../../styles/styles';
+import { useHistory } from 'react-router';
+
 import FilterBar from './FilterBar';
 import freeIcon from '../../../img/sales/free.svg';
 import bookedIcon from '../../../img/sales/booked.svg';
 import soldIcon from '../../../img/sales/sold.svg';
-
 import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
-
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import searchIcon from '../../../img/left-bar/search.svg';
-import createProjectIcon from '../../../img/left-bar/create-project.svg';
-
-import collapseUpIcon from '../../../img/input/collapse-up.svg';
 import collapseDownIcon from '../../../img/input/collapse-down.svg';
-import cityIcon from '../../../img/input/input-city.svg';
-import districtIcon from '../../../img/input/input-district.svg';
-import sideIcon from '../../../img/input/side-construction.svg';
-import typeIcon from '../../../img/input/type-construction.svg';
-import formatIcon from '../../../img/input/format-construction.svg';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
@@ -291,7 +282,7 @@ const BatchPlacement = () => {
   const [reservationTab, setReservationTab] = useState(true);
   const [cityTab, setCityTab] = useState(true);
   const [parametersTab, setParametersTab] = useState(true);
-
+  const history = useHistory();
   return (
     <Layout>
       <Layout>
@@ -299,7 +290,12 @@ const BatchPlacement = () => {
           <StyledSider>
             <LeftBar>
               <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-              <CreateBtn text="Создать проект" />
+              <CreateBtn
+                text="Создать проект"
+                onClick={() => {
+                  history.push('/sales/project_new');
+                }}
+              />
             </LeftBar>
           </StyledSider>
         </StyledSider>

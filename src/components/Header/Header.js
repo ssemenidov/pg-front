@@ -58,7 +58,9 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledBlock>
-        <img src={require('../../img/partners/logo.svg')} alt="" />
+        <Link to="/">
+          <img src={require('../../img/partners/logo.svg')} alt="" />
+        </Link>
       </StyledBlock>
       <StyledList>
         <Dropdown overlay={salesMenu}>

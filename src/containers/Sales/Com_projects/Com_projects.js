@@ -28,7 +28,12 @@ const Com_projects = () => {
       <div className="flex-margin">
         <LeftBar>
           <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-          <CreateBtn text="Создать проект" />
+          <CreateBtn
+            text="Создать проект"
+            onClick={() => {
+              history.push('/sales/project_new');
+            }}
+          />
         </LeftBar>
         {collapsed && <FilterBar />}
       </div>
