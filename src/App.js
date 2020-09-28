@@ -7,14 +7,10 @@ import './App.css';
 import 'antd/dist/antd.css';
 
 import Main from './containers/Main/Main';
-<<<<<<< HEAD
-=======
 import MainBase from './containers/Base/Main/Main';
 import MainSales from './containers/Sales/Main/Main';
 import MainInstall from './containers/Installations/Main/Main';
->>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
 
-import MainBase from './containers/Base/Main/Main';
 import Partners from './containers/Base/Partners/Partners';
 import OutdoorFurniture from './containers/Base/OutdoorFurniture/OudoorFurniture';
 import Header from './components/Header/Header';
@@ -26,7 +22,6 @@ import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
 import Crews from './containers/Base/Crews/Crews';
 
-import MainSales from './containers/Sales/Main/Main';
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
 import Project_card from './containers/Sales/Project_card/Project_card';
@@ -68,14 +63,11 @@ const App = () => {
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
-<<<<<<< HEAD
           <Route path="/base/documents/agreement" exact component={Agreement} />
           <Route path="/base/crews" component component={Crews} />
 
           <Route path="/installations/design" component={Design} />
-=======
           <Route path="/installations" exact component={MainInstall} />
->>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
           <Route path="/installations/projects" component={Projects} />
           <Route path="/installations/orders" component={Orders} />
         </Switch>
