@@ -51,6 +51,9 @@ const Header = () => {
         <Menu.Item>
           <Link to="/base/documents/agreements">Документы</Link>
         </Menu.Item>
+        <Menu.Item>
+          <Link to="/base/crews">Экипажи</Link>
+        </Menu.Item>
       </Menu.ItemGroup>
     </Menu>
   );

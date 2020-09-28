@@ -1,23 +1,18 @@
-import React, { useState } from "react";
-import { Collapse } from "@material-ui/core";
-import {
-  Checks,
-  FilterSection,
-  FilterSectionTitle,
-  FilterSectionTitleText,
-} from "../../Styles/StyledFilters";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import InputAnchor from "../../Inputs/InputAnchor";
-import SelectAnchor from "../../Inputs/SelectAnchor";
-import ArrowDown from "../../CollapseArrows/CollapseArrowIcons/ArrowDown";
-import ArrowUp from "../../CollapseArrows/CollapseArrowIcons/ArrowUp";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { Collapse } from '@material-ui/core';
+import { Checks, FilterSection, FilterSectionTitle, FilterSectionTitleText } from '../../Styles/StyledFilters';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import InputAnchor from '../../Inputs/InputAnchor';
+import SelectAnchor from '../../Inputs/SelectAnchor';
+import ArrowDown from '../../CollapseArrows/CollapseArrowIcons/ArrowDown';
+import ArrowUp from '../../CollapseArrows/CollapseArrowIcons/ArrowUp';
+import { useDispatch } from 'react-redux';
 
 export default function FilterByParameters() {
   const light = [
-    { value: false, label: "Не горит" },
-    { value: true, label: "Горит" },
+    { value: false, label: 'Не горит' },
+    { value: true, label: 'Горит' },
   ];
 
   const [state, setState] = React.useState({
@@ -55,8 +50,9 @@ export default function FilterByParameters() {
           placeholder="Код конструкции"
           onChange={(e) => {
             setCode(e.target.value);
-            dispatch({ type: "SET_FILTER_CODE", payload: code.toLowerCase() });
+            dispatch({ type: 'SET_FILTER_CODE', payload: code.toLowerCase() });
           }}
+          style={{ marginBottom: '20px' }}
         />
 
         <InputAnchor
@@ -64,10 +60,11 @@ export default function FilterByParameters() {
           onChange={(e) => {
             setInventory(e.target.value);
             dispatch({
-              type: "SET_FILTER_INVENTORY",
+              type: 'SET_FILTER_INVENTORY',
               payload: inventory.toLowerCase(),
             });
           }}
+          style={{ marginBottom: '20px' }}
         />
 
         <InputAnchor
@@ -75,10 +72,11 @@ export default function FilterByParameters() {
           onChange={(e) => {
             setInventory(e.target.value);
             dispatch({
-              type: "SET_FILTER_FORMAT",
+              type: 'SET_FILTER_FORMAT',
               payload: format.toLowerCase(),
             });
           }}
+          style={{ marginBottom: '20px' }}
         />
 
         <SelectAnchor
@@ -87,10 +85,11 @@ export default function FilterByParameters() {
           onChange={(e) => {
             setInventory(e.target.value);
             dispatch({
-              type: "SET_FILTER_ISBURNING",
+              type: 'SET_FILTER_ISBURNING',
               payload: burning.toLowerCase(),
             });
           }}
+          style={{ marginBottom: '20px' }}
         />
 
         <InputAnchor
@@ -98,10 +97,11 @@ export default function FilterByParameters() {
           onChange={(e) => {
             setInventory(e.target.value);
             dispatch({
-              type: "SET_FILTER_COORDINATES",
+              type: 'SET_FILTER_COORDINATES',
               payload: coord.toLowerCase(),
             });
           }}
+          style={{ marginBottom: '20px' }}
         />
 
         <Checks>

@@ -29,7 +29,7 @@ export default function Sides() {
     <Large>
       <BlockTitle>
         <BlockTitleText>Стороны конструкции</BlockTitleText>
-        <BtnSuccess onClick={addClickHandler}>Добавить еще</BtnSuccess>
+        <BtnSuccess onClick={addClickHandler}>Добавить сторону</BtnSuccess>
       </BlockTitle>
       <BlockBody>
         {current.sides.map((side) => {

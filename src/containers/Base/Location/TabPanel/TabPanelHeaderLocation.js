@@ -46,7 +46,8 @@ const TabPanelHeaderLocation = (props) => {
           >
             Сохранить
           </StyledButton>
-          <StyledButton backgroundColor="#2c5de5">Добавить конструкцию</StyledButton>
+          <StyledButton backgroundColor="#D42D11">Удалить</StyledButton>
+          <StyledButton backgroundColor="#2c5de5">Добавить местоположение</StyledButton>
         </ButtonGroup>
       </HeaderWrapper>
     </>

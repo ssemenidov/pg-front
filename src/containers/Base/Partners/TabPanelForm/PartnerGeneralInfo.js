@@ -7,9 +7,14 @@ import { ContentWrap } from '../../../../components/Styles/ComponentsStyles';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 import { getCurrentPartner, resetCurrentPartner } from '../../../../store/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { Layout } from 'antd';
+
+const { Content, Sider } = Layout;
 
 export default function PartnerGeneralInfo(props) {
   const [showSearchBtn, setSearchBtn] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [index, setIndex] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,24 +31,20 @@ export default function PartnerGeneralInfo(props) {
       setSearchBtn(false);
     } else setSearchBtn(true);
   };
+
   return (
-    <Grid fluid className="resetPadding">
-      <Row>
-        <Col>
-          <LeftBar>
-            {showSearchBtn ? (
-              <Col xs={1} className="contentInfo resetPadding">
-                <SearchBtn />
-              </Col>
-            ) : null}
-          </LeftBar>
-        </Col>
-        <Col xs={11} className="resetPadding marginLeft10">
-          {/*<ContentWrap>*/}
-          <TabPanelFormPartners selectedTab={handleTasSelected} index={index} />
-          {/*</ContentWrap>*/}
-        </Col>
-      </Row>
-    </Grid>
+    <Layout>
+      <Layout>
+        <StyledSider>{showSearchBtn ? <SearchBtn onClick={() => setCollapsed(!collapsed)} /> : null}</StyledSider>
+        <TabPanelFormPartners selectedTab={handleTasSelected} index={index} />
+      </Layout>
+    </Layout>
   );
 }
+
+const StyledSider = styled(Sider)`
+  background: #f5f7fa;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  border-right: 1px solid #d3dff0 !important;
+`;

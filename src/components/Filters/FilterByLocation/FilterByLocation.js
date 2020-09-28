@@ -84,7 +84,7 @@ export default function FilterLocation() {
         <SelectEnvelope
           options={zips}
           onChange={zipChangeHandler}
-          placeholder="Выберите индекс"
+          placeholder="Код района"
         />
       </Collapse>
     </FilterSection>

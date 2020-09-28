@@ -6,7 +6,7 @@ import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { Link } from 'react-router-dom';
 
-const HeaderAgreements = () => {
+const HeaderAgreement = () => {
   const links = [
     { id: '', value: 'Главная' },
     { id: 'base', value: 'Базы' },
@@ -16,14 +16,14 @@ const HeaderAgreements = () => {
   return (
     <>
       <BreadCrumbs links={links} />
-      <HeaderWrapper>
+      <HeaderWrapper style={{ margin: 0 }}>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Документы</JobTitle>
+          <JobTitle>Договор</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
           <Link to="/base/documents/agreement">
-            <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
+            <StyledButton backgroundColor="#008556">Сохранить</StyledButton>
           </Link>
         </ButtonGroup>
       </HeaderWrapper>
@@ -31,4 +31,4 @@ const HeaderAgreements = () => {
   );
 };
 
-export default HeaderAgreements;
+export default HeaderAgreement;

@@ -6,7 +6,7 @@ import React from 'react';
 export default function InputAnchor(props) {
   return (
     <TextField
-      style={{ width: '100%', background: 'white' }}
+      style={{ width: '100%', background: 'white', ...props.style }}
       fullWidth
       id={props.id}
       type={props.type}

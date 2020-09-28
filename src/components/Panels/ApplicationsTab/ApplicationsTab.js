@@ -1,8 +1,8 @@
 import React from 'react';
-import AgreementsSearch from './AgreementsSearch';
+import ApplicationSearch from './ApplicationSearch';
 import Table from '../../../components/TableResizable/Table';
 
-const AgreementsTab = () => {
+const ApplicationsTab = () => {
   const columns = [
     {
       title: 'Name',
@@ -38,11 +38,10 @@ const AgreementsTab = () => {
       address: '10 Downing Street',
     },
   ];
-
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: '1 0 20%', margin: '1vw 1vw 1vw 0' }}>
-        <AgreementsSearch />
+        <ApplicationSearch />
       </div>
       <div style={{ flex: '1 0 50%', margin: '1vw 0 1vw 1vw' }}>
         <Table columns={columns} data={data} />
@@ -51,4 +50,4 @@ const AgreementsTab = () => {
   );
 };
 
-export default AgreementsTab;
+export default ApplicationsTab;

@@ -1,34 +1,24 @@
 import React, { useState } from 'react';
-import { Radio, DatePicker } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import InputAnchor from '../../Inputs/InputAnchor';
 //import DatePicker from '../../Inputs/DatePicker';
 import GroupRadio from '../../Inputs/GroupRadio';
+import { Radio, DatePicker } from 'antd';
 import { StyledButton } from '../../../styles/styles';
 
-const AgreementsSearch = () => {
+const ApplicationSearch = () => {
   const [value, setValue] = useState(1);
   const onChange = (e) => {
     setValue(e.target.value);
   };
   return (
     <Medium>
-      <BlockTitle>Поиск договора</BlockTitle>
+      <BlockTitle>Поиск приложения</BlockTitle>
       <BlockBody>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Номер договора</InputTitle>
-            <InputAnchor placeholder="Номер договора" />
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
-            <InputTitle>Инициатор</InputTitle>
-            <InputAnchor placeholder="Инициатор" />
-          </div>
-        </Row>
-        <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Наименование контрагента</InputTitle>
-            <InputAnchor placeholder="Наименование контрагента" />
+            <InputTitle>Номер приложения</InputTitle>
+            <InputAnchor placeholder="Номер приложения" />
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Создатель</InputTitle>
@@ -37,21 +27,31 @@ const AgreementsSearch = () => {
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Тип договора</InputTitle>
+            <InputTitle>Наименование контрагента</InputTitle>
+            <InputAnchor placeholder="Наименование контрагента" />
+          </div>
+          <div style={{ margin: '0 0 0 0.75vw' }}>
+            <InputTitle>Менеджер по продажам</InputTitle>
+            <InputAnchor placeholder="Менеджер по продажам" />
+          </div>
+        </Row>
+        <Row>
+          <div style={{ margin: '0 0.75vw 0 0' }}>
+            <InputTitle>Номер договора</InputTitle>
             <InputAnchor placeholder="Тип договора" />
           </div>
-          <div style={{ margin: '0 0 0 ц0.75vw' }}>
-            <InputTitle>Дата начала действия договора</InputTitle>
+          <div style={{ margin: '0 0 0 0.75vw' }}>
+            <InputTitle>Период приложения</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Дата заключения договора</InputTitle>
+            <InputTitle>Бренд</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
-            <InputTitle>Дата окончания действия договора</InputTitle>
+            <InputTitle>Дата создания</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
         </Row>
@@ -75,8 +75,13 @@ const AgreementsSearch = () => {
           </StyledButton>
         </Row>
       </BlockBody>
+      <style>
+        {`
+
+        `}
+      </style>
     </Medium>
   );
 };
 
-export default AgreementsSearch;
+export default ApplicationSearch;

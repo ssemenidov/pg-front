@@ -36,7 +36,7 @@ const panel4 = <RelatedAdvertisers />;
 
 export default function TabPaneForm(props) {
   return (
-    <form className="marginLeft10">
+    <form className="marginLeft10" style={{ width: '100%' }}>
       <TabPanelFormHeaderPartners />
       <div>
         <STabs

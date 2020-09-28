@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Input } from 'antd';
+import React, { useState } from 'react';
+import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Checkbox } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { LeftBar } from '../../../styles/styles';
 import Table from '../../../components/TableResizable/Table';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import { LeftBar, StyledButton } from '../../../styles/styles';
-import { getPartnersData, getPartnersFiltered, getPartners, setTable } from '../../../store/actions/actions';
-
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import collapseUpIcon from '../../../img/input/collapse-up.svg';
 import collapseDownIcon from '../../../img/input/collapse-down.svg';
@@ -17,29 +14,10 @@ import districtIcon from '../../../img/input/input-district.svg';
 import sideIcon from '../../../img/input/side-construction.svg';
 import typeIcon from '../../../img/input/type-construction.svg';
 import formatIcon from '../../../img/input/format-construction.svg';
-import anchorIcon from '../../../img/input/anchor.svg';
-import binIcon from '../../../img/input/bin.svg';
-import editIcon from '../../../img/edit-icon.svg';
-import headerIcon from '../../../img/header-icon.svg';
-import searchInputIcon from '../../../img/header-bar/search-icon.svg';
-import printerIcon from '../../../img/header-bar/printer.svg';
-import exportIcon from '../../../img/header-bar/export.svg';
 
 const { Content, Sider } = Layout;
 
-const Partners = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPartnersData());
-    dispatch(getPartners());
-  }, [dispatch]);
-
-  const rows = useSelector((state) => state.table.partnersTableData);
-  const rowKeys = useSelector((state) => state.table.partnersRowKeys);
-  const [fastSearch, setFastSearch] = useState();
-
-  const partnersColumns = ['Тип контрагента', 'Контрагент', 'Бренд', 'Сектор деятельности', 'Тип клиента'];
-
+const Crews = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [cityTab, setCityTab] = useState(true);
   const [parametersTab, setParametersTab] = useState(true);
@@ -75,22 +53,12 @@ const Partners = () => {
       name: 'test',
       age: 32,
       address: '10 Downing Street',
-      edit: (
-        <Link to="/base/partners/info">
-          <img style={{ cursor: 'pointer' }} src={editIcon} alt="" />
-        </Link>
-      ),
     },
     {
       key: '2',
       name: 'test',
       age: 42,
       address: '10 Downing Street',
-      edit: (
-        <Link to="/base/partners/info">
-          <img style={{ cursor: 'pointer' }} src={editIcon} alt="" />
-        </Link>
-      ),
     },
   ];
 
@@ -107,7 +75,7 @@ const Partners = () => {
             </div>
             <div className="filter-panel-city">
               <div className="filter-panel-header" style={{ marginBottom: `${cityTab ? '20px' : '0'}` }}>
-                <span>Поиск по параметрам</span>
+                <span>Поиск по адресу</span>
                 <img src={cityTab ? collapseUpIcon : collapseDownIcon} onClick={() => setCityTab(!cityTab)} />
               </div>
               <div style={{ display: `${cityTab ? 'block' : 'none'}` }}>
@@ -115,36 +83,8 @@ const Partners = () => {
                   <Select
                     defaultValue={
                       <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Контрагент</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Бренд</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Тип контрагента</span>
+                        <img src={cityIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Выберите город</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
@@ -157,8 +97,8 @@ const Partners = () => {
                   <Select
                     defaultValue={
                       <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Сектор деятельности</span>
+                        <img src={districtIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Выберите район</span>
                       </>
                     }
                     suffixIcon={<img src={collapseDownIcon} />}
@@ -171,7 +111,7 @@ const Partners = () => {
             </div>
             <div className="filter-panel-parameters">
               <div className="filter-panel-header" style={{ marginBottom: `${parametersTab ? '20px' : '0'}` }}>
-                <span>Поиск по БИН</span>
+                <span>По параметрам</span>
                 <img
                   src={parametersTab ? collapseUpIcon : collapseDownIcon}
                   onClick={() => this.setState({ parametersTab: !parametersTab })}
@@ -179,7 +119,60 @@ const Partners = () => {
               </div>
               <div style={{ display: `${parametersTab ? 'block' : 'none'}` }}>
                 <div style={{ marginBottom: '10px' }}>
-                  <Input prefix={<img src={binIcon} />} placeholder="Введите БИН" />
+                  <Select
+                    defaultValue={
+                      <>
+                        <img src={typeIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Тип конструкции</span>
+                      </>
+                    }
+                    suffixIcon={<img src={collapseDownIcon} />}
+                    className="ant-select">
+                    <Select.Option value="Option1">Выбор 1</Select.Option>
+                    <Select.Option value="Option2">Выбор 2</Select.Option>
+                  </Select>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <Select
+                    defaultValue={
+                      <>
+                        <img src={formatIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Формат конструкции</span>
+                      </>
+                    }
+                    suffixIcon={<img src={collapseDownIcon} />}
+                    className="ant-select">
+                    <Select.Option value="Option1">Выбор 1</Select.Option>
+                    <Select.Option value="Option2">Выбор 2</Select.Option>
+                  </Select>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <Select
+                    defaultValue={
+                      <>
+                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Сторона конструкции</span>
+                      </>
+                    }
+                    suffixIcon={<img src={collapseDownIcon} />}
+                    className="ant-select">
+                    <Select.Option value="Option1">Выбор 1</Select.Option>
+                    <Select.Option value="Option2">Выбор 2</Select.Option>
+                  </Select>
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <Select
+                    defaultValue={
+                      <>
+                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
+                        <span>Размер</span>
+                      </>
+                    }
+                    suffixIcon={<img src={collapseDownIcon} />}
+                    className="ant-select">
+                    <Select.Option value="Option1">Выбор 1</Select.Option>
+                    <Select.Option value="Option2">Выбор 2</Select.Option>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -202,39 +195,13 @@ const Partners = () => {
             <Breadcrumb.Item>
               <Link to="/base/">Базы</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>
+            <Breadcrumb.Item>Экипажи</Breadcrumb.Item>
           </Breadcrumb>
-          <StyledHeader>
-            <div>
-              <img src={headerIcon} alt="" />
-              <h2>Контрагенты</h2>
-            </div>
-            <div>
-              <StyledButton backgroundColor="#008556">Создать контрагента</StyledButton>
-              <StyledButton backgroundColor="#2C5DE5">Создать договор</StyledButton>
-            </div>
-          </StyledHeader>
-          <div className="header-bar">
-            <div>
-              <Input
-                style={{ marginLeft: '20px' }}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />
-              <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
-              </Button>
-              <Button
-                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                className="header-btn">
-                <img src={exportIcon} />
-                <span>Экспорт</span>
-              </Button>
-              <Button className="header-btn">{/* <img src={settingsIcon} /> */}</Button>
-            </div>
-          </div>
+          <div></div>
           <StyledContent>
+            <StyledCrewsBlock>
+              <h2 style={{ fontSize: '24px', margin: '10px' }}>Экипажи</h2>
+            </StyledCrewsBlock>
             <Table columns={columns} data={data} />
           </StyledContent>
         </Layout>
@@ -253,7 +220,7 @@ const Partners = () => {
           }
           .layout-breadcrumb {
             font-size: 11px;
-            margin: 0 0 30px 0;
+            margin: 0 0 20px 0;
           }
           .layout-breadcrumb a, span {
             color: #8AA1C1 !important;
@@ -311,54 +278,8 @@ const Partners = () => {
           .search-btn:hover span {
             color: #2C5DE5 !important;
           }
-          .header-bar {
-            display: flex;
-            background: #E7EEF8;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #D3DFF0;
-            height: 45px;
-            padding: 5px;
-            justify-content: flex-end;
-          }
-          .header-bar > div {
-            display: flex;
-          }
-          .header-bar > div > div {
-            display: flex;
-          }
-          .header-btn {
-            border: 1px solid #D3DFF0;
-            margin-right: 5px;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .header-date-btn {
-            display: flex;
-            justify-content: space-between;
-          }
-          .header-date-btn span {
-            color: #252525 !important;
-          }
-          .header-page-btn {
-            border-radius: 4px;
-            background: #FF5800;
-            display: flex;
-            align-items: center;
-            padding: 15px 30px;
-            border: 1px solid #FF5800 !important ;
-
-          }
-          .header-page-btn:hover span {
-            color:#FF5800 !important;
-          }
-          .header-page-btn span {
-            color: #fff  !important;
-            font-weight: 600;
+          .ant-select {
+            width: 100%;
           }
         `}
       </style>
@@ -376,14 +297,6 @@ const StyledFilterPanel = styled.div`
     padding: 20px 30px;
     border-bottom: 1px solid #d3dff0;
   }
-
-  .ant-select {
-    width: 100%;
-  }
-
-  span {
-    color: #171717 !important;
-  }
 `;
 
 const StyledSider = styled(Sider)`
@@ -393,30 +306,15 @@ const StyledSider = styled(Sider)`
   border-right: 1px solid #d3dff0 !important;
 `;
 
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  font-size: 24px;
-
-  h2 {
-    color: #003360;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  img {
-    margin-right: 10px;
-  }
-
-  & > div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
 const StyledContent = styled(Content)`
   display: flex;
 `;
 
-export default Partners;
+const StyledCrewsBlock = styled.div`
+  border-radius: 8px;
+  width: 330px;
+  margin-right: 30px;
+  border: 1px solid #d3dff0;
+`;
+
+export default Crews;

@@ -5,22 +5,16 @@ import { LeftBar } from '../../../../styles/styles';
 import HeaderAgreements from './HeaderAgreements';
 import { STab, STabs, STabList, STabPanel } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar } from '../../../../components/Styles/ControlToolbarStyle';
-import AgreementsTab from '../../../../components/Panels/AgreementsTab/AgreementsTab';
+import InnerForm from './InnerForm';
 
 const Agreements = (props) => {
-  const tabs = [{ value: 'Договора' }, { value: 'Приложения' }];
-  const panel1 = <AgreementsTab />;
-  // const panel2 = <TechDept />;
-
   return (
     <div style={{ display: 'flex', height: '100%' }}>
-      <LeftBar className="left-bar">
-        <SearchBtn />
-      </LeftBar>
+      <LeftBar className="left-bar" />
       <div className="right-bar">
         <HeaderAgreements />
         <div>
-          <STabs
+          {/* <STabs
             selectedTabClassName="is-selected"
             selectedTabPanelClassName="is-selected"
             onSelect={(index) => props.selectedTab(index)}>
@@ -32,8 +26,9 @@ const Agreements = (props) => {
               </STabList>
             </ControlToolbar>
             <STabPanel>{panel1}</STabPanel>
-            {/* <STabPanel>{panel2}</STabPanel> */}
-          </STabs>
+            <STabPanel>{panel2}</STabPanel>
+          </STabs> */}
+          <InnerForm selectedTab={(e) => console.log(e)} />
         </div>
       </div>
       <style>{`
@@ -41,7 +36,7 @@ const Agreements = (props) => {
           margin: 0 2vw 0 0;
         }
         .right-bar {
-          flex: 0 1 100vw; 
+          flex: 0 1 100vw;
           margin: 0 2vw 0 0;
         }
       `}</style>

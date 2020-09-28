@@ -23,10 +23,6 @@ export default function Details() {
   const current = useSelector((state) => state.construction.currentConstruction);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    openNotification('bottomRight');
-  }, []);
-
   return (
     <Medium>
       <BlockTitle>Детали конструкции</BlockTitle>
@@ -113,7 +109,7 @@ export default function Details() {
         </Row>
         <Row>
           <div>
-            <InputTitle>Наличие земли</InputTitle>
+            <InputTitle onClick={() => openNotification('bottomRight')}>Наличие земли (!)</InputTitle>
             {/* <GroupRadio
               value={current.availabilityLand || ''}
               onChange={(e) => dispatch(getConstructionProps('availabilityLand', e.target.value))}

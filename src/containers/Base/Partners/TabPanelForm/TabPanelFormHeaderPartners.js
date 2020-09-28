@@ -1,44 +1,11 @@
-// import React from "react";
-// import {ButtonGroup, Controls, GreenButton, RedButton, SecondaryBtnStyled} from "../../../../components/Styles/ButtonStyles";
-// import {JobTitle} from "../../../../components/Styles/StyledBlocks"
-//
-// export default function TabPanelFormHeader() {
-//     return (
-//         <>
-//             <Controls>
-//                 <JobTitle>
-//                   Контрагент имя
-//                 </JobTitle>
-//                 <ButtonGroup>
-//                     <GreenButton>
-//                         Сохранить
-//                     </GreenButton>
-//                     <RedButton>
-//                         Удалить
-//                     </RedButton>
-//                     <SecondaryBtnStyled>
-//                         Сохранить договор
-//                     </SecondaryBtnStyled>
-//                 </ButtonGroup>
-//             </Controls>
-//         </>
-//     )
-//
-// }
-import BreadCrumbs from "../../../../components/BreadCrumbs/BreadCrumbs";
-import {
-  ListHeader,
-  ListTitle,
-  StyledButton,
-  Title,
-  TitleLogo,
-} from "../../../../components/Styles/ComponentsStyles";
-import React from "react";
-import { useHistory } from "react-router";
-import { SecondaryBtnStyled } from "../../../../components/Styles/ButtonStyles";
-import { Col, Grid, Row } from "react-flexbox-grid";
-import { updateContragent } from "../../../../store/actions/actions";
-import { useDispatch, useSelector } from "react-redux";
+import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
+import { ListHeader, ListTitle, Title, TitleLogo } from '../../../../components/Styles/ComponentsStyles';
+import React from 'react';
+import { useHistory } from 'react-router';
+import { StyledButton } from '../../../../styles/styles';
+import { Col, Grid, Row } from 'react-flexbox-grid';
+import { updateContragent } from '../../../../store/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function HeaderList() {
   const history = useHistory();
@@ -47,16 +14,16 @@ export default function HeaderList() {
 
   const routeChange = (e) => {
     dispatch(updateContragent(state));
-    alert("Обновлено");
+    alert('Кнопка работает // Функционал ожидается после соединения с базой данных');
     e.preventDefault();
     // let path = `/base/partners/`;
     // history.push(path);
   };
 
   const links = [
-    { id: "home", value: "Главная" },
-    { id: "installation", value: "Базы" },
-    { id: "constructions", value: "Контрагенты" },
+    { id: 'home', value: 'Главная' },
+    { id: 'installation', value: 'Базы' },
+    { id: 'constructions', value: 'Контрагенты' },
   ];
 
   return (
@@ -70,15 +37,18 @@ export default function HeaderList() {
         <Row className="ListTitleInfo">
           <Col xs className="ListTitleHeader">
             <TitleLogo />
-            <Title>Конструкции</Title>
+            <Title>Контрагенты</Title>
           </Col>
           <Col xs className="ListTitleInfoButton">
-            <StyledButton onClick={routeChange}>
-              Создать конструкцию
+            <StyledButton backgroundColor="#008556" onClick={routeChange}>
+              Сохранить
             </StyledButton>
-            <SecondaryBtnStyled onClick={routeChange}>
+            <StyledButton backgroundColor="#D42D11" onClick={routeChange}>
+              Удалить
+            </StyledButton>
+            <StyledButton backgroundColor="#2C5DE5" onClick={routeChange}>
               Создать договор
-            </SecondaryBtnStyled>
+            </StyledButton>
           </Col>
         </Row>
       </Grid>

@@ -4,9 +4,7 @@ import icon_search from '../../img/outdoor_furniture/bx-search.svg';
 
 const StyledSearchButton = styled.button`
   border-bottom: 1px solid #d3dff0 !important;
-  height: 65px;
   width: 100%;
-  margin: 1vw 0 0 0;
   text-align: center;
   border: none;
   background: #f5f7fa;
@@ -20,16 +18,17 @@ const SearchText = styled.h6`
   font-size: 11px;
   line-height: 13px;
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 7px;
-  padding: 10px 0;
   color: #003360;
+`;
+
+const StyledImg = styled.img`
+  padding: 11px;
 `;
 
 const SearchBtn = (props) => {
   return (
     <StyledSearchButton onClick={props.onClick} style={{ transition: 'opacity 1s ease-out' }}>
-      <img src={icon_search} alt="" />
+      <StyledImg src={icon_search} alt="" />
       <SearchText>Поиск</SearchText>
     </StyledSearchButton>
   );
