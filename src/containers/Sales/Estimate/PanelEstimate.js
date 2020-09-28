@@ -6,7 +6,7 @@ import { StyledButton } from '../../../styles/styles';
 import { useSelector, useDispatch } from 'react-redux';
 
 const PanelDesign = (props) => {
-  const tabs = [{ value: 'ЗАБРОНИРОВАННЫЕ СТОРОНЫ' }, { value: 'ДОП. РАСХОДЫ' }, { value: 'НОН РТС' }];
+  const tabs = [{ value: 'ОСНОВНЫЕ РАСХОДЫ' }, { value: 'ДОП. РАСХОДЫ' }, { value: 'НОН РТС' }];
   const columns = [
     {
       title: 'Код',
@@ -108,18 +108,136 @@ const PanelDesign = (props) => {
       all_sum: '223 356 тг.',
     },
   ];
-  const estimateColums = ['Код стороны', 'Город', 'Адрес', 'Формат', 'Сторона', 'Период', 'Брендинг'];
-  const estimateaddColums = [
-    'Наименование услуги',
-    'Город',
-    'Период',
-    'Кол-во',
-    'Цена',
-    'Скидка',
-    'Стоимость после скидки',
-    'Сумма',
+  const estimateColums = [
+    {
+      title: 'Код стороны',
+      dataIndex: 'code',
+      width: 130,
+    },
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
+    },
+    {
+      title: 'Адрес',
+      dataIndex: 'adress',
+      width: 90,
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+      width: 100,
+    },
+    {
+      title: 'Сторона',
+      dataIndex: 'side',
+      width: 100,
+    },
+    {
+      title: 'Период',
+      dataIndex: 'period',
+      width: 100,
+    },
+    {
+      title: 'Брендинг',
+      dataIndex: 'branding',
+      width: 80,
+    },
   ];
-  const estimatertsColums = ['Тип', 'Город', 'Кол-во', 'Аренда', 'Налог', 'Печать', 'Монтаж', 'Доп.расходы', 'сумма'];
+  const estimateaddColums = [
+    {
+      title: 'Наименование услуги',
+      dataIndex: 'name',
+      width: 80,
+    },
+
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
+    },
+    {
+      title: 'Период',
+      dataIndex: 'period',
+      width: 100,
+    },
+    {
+      title: 'Кол-во',
+      dataIndex: 'number',
+      width: 80,
+    },
+    {
+      title: 'Цена',
+      dataIndex: 'price',
+      width: 90,
+    },
+    {
+      title: 'Скидка',
+      dataIndex: 'sale',
+      width: 100,
+    },
+    {
+      title: 'Стоимость после скидки',
+      dataIndex: 'price2',
+      width: 100,
+    },
+
+    {
+      title: 'Сумма',
+      dataIndex: 'amount',
+      width: 100,
+    },
+  ];
+  const estimatertsColums = [
+    {
+      title: 'Тип',
+      dataIndex: 'type',
+      width: 80,
+    },
+
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
+    },
+    {
+      title: 'Кол-во',
+      dataIndex: 'number',
+      width: 80,
+    },
+    {
+      title: 'Аренда',
+      dataIndex: 'renta',
+      width: 80,
+    },
+    {
+      title: 'Налог',
+      dataIndex: 'tax',
+      width: 90,
+    },
+    {
+      title: 'Печать',
+      dataIndex: 'print',
+      width: 100,
+    },
+    {
+      title: 'Монтаж',
+      dataIndex: 'install',
+      width: 100,
+    },
+
+    {
+      title: 'Доп.расходы',
+      dataIndex: 'addcost',
+      width: 100,
+    },
+    {
+      title: 'Сумма',
+      dataIndex: 'amount',
+      width: 100,
+    },
+  ];
   return (
     <STabs className="all" selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
       <ControlToolbar position="static">
@@ -135,17 +253,17 @@ const PanelDesign = (props) => {
       </ControlToolbar>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+          <Table style={{ width: '100%' }} columns={estimateColums} select={true} />
         </div>
       </STabPanel>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+          <Table style={{ width: '100%' }} columns={estimateaddColums} select={true} />
         </div>
       </STabPanel>
       <STabPanel>
         <div className="outdoor-table-bar">
-          <Table style={{ width: '100%' }} columns={columns} data={data} select={true} />
+          <Table style={{ width: '100%' }} columns={estimatertsColums} select={true} />
         </div>
       </STabPanel>
 

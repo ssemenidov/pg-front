@@ -68,7 +68,7 @@ const FilterBar = () => {
             ]}
           />
           <SelectAnchor
-            placeholder="Рекламодатель"
+            placeholder="Контрагент"
             options={[
               { label: 'case 1', value: 'case 1' },
               { label: 'case 2', value: 'case 2' },

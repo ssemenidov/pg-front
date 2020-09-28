@@ -33,7 +33,7 @@ const customStyles = {
     return {
       ...styles,
       color: "#a2a2a2",
-      paddingLeft: 40,
+      paddingLeft: 30,
       fontSize: 14,
     };
   },

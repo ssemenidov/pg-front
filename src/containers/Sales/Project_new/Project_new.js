@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import PanelDesign from './PanelProject_card';
 import { Input } from 'antd';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
-import { InfoList, InfoItem, InfoLine, InfoValue, InfoInput, InfoTitle } from '../../../components/Styles/InfoPanel';
+import PanelDesign from './PanelProject_new';
 
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 import EditBtn from '../../../components/LeftBar/EditBtn';
 import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
@@ -24,7 +23,7 @@ const Project_card = () => {
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
-    { id: 'sales/project_card', value: 'Проекты' },
+    { id: 'sales/project_new', value: 'Созать Проект' },
   ];
 
   return (
@@ -81,20 +80,20 @@ const Project_card = () => {
 
               <InfoLine>
                 <span>Код проекта</span>
-                <InfoValue>#2020876153</InfoValue>
+                <InfoValue></InfoValue>
               </InfoLine>
               <InfoLine>
                 <span>Дата создания</span>
-                <InfoValue>21.05.2020</InfoValue>
+                <InfoValue></InfoValue>
               </InfoLine>
 
               <InfoLine>
                 <span>Менеджер бэк-офиса</span>
-                <InfoInput defaultValue="@username" />
+                <InfoInput defaultValue="" />
               </InfoLine>
               <InfoLine>
                 <span>Менеджер по продажам</span>
-                <InfoInput defaultValue="@username" />
+                <InfoInput defaultValue="" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
@@ -102,11 +101,11 @@ const Project_card = () => {
 
               <InfoLine>
                 <span>Бренд</span>
-                <InfoInput defaultValue="CocaCola" />
+                <InfoInput defaultValue="" />
               </InfoLine>
               <InfoLine>
                 <span>Сектор деятельности:</span>
-                <InfoInput defaultValue="Безалкогольные напитки" />
+                <InfoInput defaultValue="" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
@@ -114,29 +113,26 @@ const Project_card = () => {
 
               <InfoLine>
                 <span>Рекламодатель</span>
-                <InfoInput defaultValue="Агентство" />
+                <InfoInput defaultValue="" />
               </InfoLine>
               <InfoLine>
                 <span>Рекламное агентство</span>
-                <InfoInput defaultValue="-" />
+                <InfoInput defaultValue="" />
               </InfoLine>
               <InfoLine>
                 <span>Брендинг</span>
-                <InfoInput defaultValue="Да" />
+                <InfoInput defaultValue="" />
               </InfoLine>
               <InfoLine>
                 <span>Агентская комиссия</span>
-                <InfoInput defaultValue="10%" />
+                <InfoInput defaultValue="" />
               </InfoLine>
             </InfoItem>
             <InfoItem>
               <InfoTitle>Коментарий к проекту</InfoTitle>
 
               <InfoLine>
-                <InfoInput.TextArea
-                  rows={4}
-                  defaultValue=" Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение."
-                />
+                <InfoInput.TextArea rows={4} defaultValue=" " />
               </InfoLine>
             </InfoItem>
           </InfoList>
@@ -157,3 +153,40 @@ const Project_card = () => {
 };
 
 export default Project_card;
+const InfoList = styled.ul`
+  border-radius: 8px;
+  border: 1px solid #d3dff0;
+  height: 100%;
+  padding: 1.5%;
+  flex: 0 1 auto;
+  margin: 0 2vw 0 0;
+  max-width: 370px;
+  box-sizing: border-box;
+  width: 40vw;
+`;
+const InfoItem = styled.li`
+  margin: 4% 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #d3dff0;
+`;
+const InfoTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 700;
+`;
+const InfoLine = styled.div`
+  margin: 4% 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+`;
+const InfoValue = styled.span`
+  font-weight: 600;
+  text-align: right;
+`;
+const InfoInput = styled(Input)`
+  font-weight: 600;
+
+  margin-left: auto;
+  width: 150px;
+`;

@@ -82,7 +82,7 @@ const FilterBar = () => {
             { label: 'case 1', value: 'case 1' },
             { label: 'case 2', value: 'case 2' },
           ]}
-          placeholder="Создатель "
+          placeholder="Менеджер бэк-офиса "
         />
         <SelectAnchor
           options={[

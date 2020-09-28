@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
+import { browserHistory } from 'react-router';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
@@ -129,22 +130,6 @@ class Tablea extends React.Component {
                 <Select.Option value="year">Год</Select.Option>
               </Select>
               <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
-              {/* <div>
-                <Button style={{ marginLeft: '20px' }} className="header-btn">
-                  <img src={arrowLeft} />
-                </Button>
-                <Button style={{ margin: '0', width: '100px' }} className="header-btn header-date-btn">
-                  <span>Неделя</span>
-                  <img src={collapseDownIcon} />
-                </Button>
-                <Button style={{ width: '220px' }} className="header-btn header-date-btn">
-                  <img src={calendarIcon} />
-                  <span>2 марта - 29 марта 2020</span>
-                </Button>
-                <Button className="header-btn">
-                  <img src={arrowRight} />
-                </Button>
-              </div> */}
             </div>
           )}
           <div>
@@ -171,6 +156,15 @@ class Tablea extends React.Component {
         </div>
         <Content>
           <StyledTable
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (event) => {
+                  {
+                    this.props.history && this.props.history.push(this.props.link);
+                  }
+                },
+              };
+            }}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,

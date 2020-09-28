@@ -7,6 +7,12 @@ import './App.css';
 import 'antd/dist/antd.css';
 
 import Main from './containers/Main/Main';
+<<<<<<< HEAD
+=======
+import MainBase from './containers/Base/Main/Main';
+import MainSales from './containers/Sales/Main/Main';
+import MainInstall from './containers/Installations/Main/Main';
+>>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
 
 import MainBase from './containers/Base/Main/Main';
 import Partners from './containers/Base/Partners/Partners';
@@ -24,6 +30,7 @@ import MainSales from './containers/Sales/Main/Main';
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
 import Project_card from './containers/Sales/Project_card/Project_card';
+import Project_new from './containers/Sales/Project_new/Project_new';
 import Application from './containers/Sales/Application/Application';
 import Com_projects from './containers/Sales/Com_projects/Com_projects';
 import Invoice from './containers/Sales/Invoice/Invoice';
@@ -46,6 +53,7 @@ const App = () => {
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
           <Route path="/sales/project_card" component={Project_card} />
+          <Route path="/sales/project_new" component={Project_new} />
           <Route path="/sales/application" component={Application} />
           <Route path="/sales/com_projects" component={Com_projects} />
           <Route path="/sales/invoice" component={Invoice} />
@@ -60,10 +68,14 @@ const App = () => {
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
+<<<<<<< HEAD
           <Route path="/base/documents/agreement" exact component={Agreement} />
           <Route path="/base/crews" component component={Crews} />
 
           <Route path="/installations/design" component={Design} />
+=======
+          <Route path="/installations" exact component={MainInstall} />
+>>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
           <Route path="/installations/projects" component={Projects} />
           <Route path="/installations/orders" component={Orders} />
         </Switch>
