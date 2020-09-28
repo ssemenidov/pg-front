@@ -13,6 +13,7 @@ import MainInstall from './containers/Installations/Main/Main';
 
 import Partners from './containers/Base/Partners/Partners';
 import OutdoorFurniture from './containers/Base/OutdoorFurniture/OudoorFurniture';
+
 import Header from './components/Header/Header';
 import Construction from './containers/Base/Construction/Construction';
 import Locations from './containers/Base/Locations/Locations';
