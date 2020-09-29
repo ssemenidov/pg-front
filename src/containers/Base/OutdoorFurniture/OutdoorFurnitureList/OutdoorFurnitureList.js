@@ -23,7 +23,7 @@ export default function OutdoorFurnitureList() {
       columns,
       data,
     },
-    useGlobalFilter // useGlobalFilter!
+    useGlobalFilter, // useGlobalFilter!
   );
   const {
     getTableProps,

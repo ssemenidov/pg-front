@@ -10,13 +10,7 @@ import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 
 const TabPanelHeaderLocation = (props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const state = useSelector((state) => state.location.currentLocation);
-
-  const routeChange = () => {
-    let path = `/base/locations`;
-    history.push(path);
-  };
 
   const links = [
     { id: '', value: 'Главная' },
@@ -36,14 +30,8 @@ const TabPanelHeaderLocation = (props) => {
           <StyledButton
             backgroundColor="#008556"
             onClick={() => {
-              if (props.locationID) {
-                dispatch(updateLocationProps(state));
-              } else {
-                dispatch(addLocation(state));
-              }
-              routeChange();
-            }}
-          >
+              history.push(`/base/locations`);
+            }}>
             Сохранить
           </StyledButton>
           <StyledButton backgroundColor="#D42D11">Удалить</StyledButton>

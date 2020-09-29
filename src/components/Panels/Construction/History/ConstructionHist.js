@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Resizable } from 'react-resizable';
 import makeColumns from './DataTable/columns';
 import makeData from './DataTable/data';
 import Table from '../../../TableResizable/Table';
@@ -18,14 +17,30 @@ export default function ConstructionHist() {
       width: 200,
     },
     {
-      title: 'Формат',
-      dataIndex: 'format',
+      title: 'Дата',
+      dataIndex: 'date',
       width: 100,
     },
+
     {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 100,
+      title: 'Ответственный',
+      dataIndex: 'manager',
+      width: 300,
+    },
+    {
+      title: 'Тип манипуляции',
+      dataIndex: 'type',
+      width: 250,
+    },
+    {
+      title: 'Информация до',
+      dataIndex: 'before',
+      width: 200,
+    },
+    {
+      title: 'Информация после',
+      dataIndex: 'after',
+      width: 200,
     },
   ];
 
@@ -33,14 +48,38 @@ export default function ConstructionHist() {
     {
       key: 1,
       code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
+      date: '25.05.2020',
+      manager: 'Тупак Шакур',
+      type: 'Смена владельца',
+      before: 'Пенелопа Круз',
+      after: 'Пенелопа Круз',
     },
     {
       key: 2,
       code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
+      date: '25.05.2020',
+      manager: 'Тупак Шакур',
+      type: 'Смена владельца',
+      before: 'Пенелопа Круз',
+      after: 'Пенелопа Круз',
+    },
+    {
+      key: 3,
+      code: '#123123123',
+      date: '25.05.2020',
+      manager: 'Тупак Шакур',
+      type: 'Смена владельца',
+      before: 'Пенелопа Круз',
+      after: 'Пенелопа Круз',
+    },
+    {
+      key: 4,
+      code: '#123123123',
+      date: '25.05.2020',
+      manager: 'Тупак Шакур',
+      type: 'Смена владельца',
+      before: 'Пенелопа Круз',
+      after: 'Пенелопа Круз',
     },
   ];
   return <Table columns={columns} data={data} />;

@@ -32,7 +32,6 @@ export default function TabPanelHeader(props) {
           <JobTitle>Конструкция номер</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
           <StyledButton
             backgroundColor="#008556"
             onClick={() => {
@@ -45,6 +44,8 @@ export default function TabPanelHeader(props) {
             }}>
             Сохранить
           </StyledButton>
+          <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
+
           <StyledButton backgroundColor="#d42d11">Демонтировать</StyledButton>
         </ButtonGroup>
       </HeaderWrapper>

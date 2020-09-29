@@ -32,17 +32,12 @@ const Construction = (props) => {
       setSearchBtn(true);
     } else setSearchBtn(false);
   };
-
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <Layout>
       <Layout>
         <Sider className="layout-sider">
-          <Menu
-            className="layout-sider"
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}></Menu>
+          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
         </Sider>
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <Breadcrumb className="layout-breadcrumb">
@@ -73,8 +68,8 @@ const Construction = (props) => {
           }
           .layout-sider {
             background: #F5F7FA;
-            min-width: 80px !important;
-            max-width: 80px !important;
+            min-width: 60px !important;
+            max-width: 60px !important;
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {

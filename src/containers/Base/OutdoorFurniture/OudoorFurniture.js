@@ -1,190 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import PanelOudoor from './PanelOudoor';
+
 import { Layout, Menu, Breadcrumb, Table } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { LeftBar } from '../../../styles/styles';
-import FilterBar from './OutdoorFurnitureList/FilterBar/FilterBar';
+import { useHistory } from 'react-router';
+
+import FilterBar from './FilterBar';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import HeaderList from './HeaderList';
+
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import {
-  getOutdoorFurnitureData,
-  getOutdoorFurnitureFiltered,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-} from '../../../store/actions/actions';
-//import Table from '../../../components/Table';
-import { Resizable } from 'react-resizable';
+import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
 
 const { Header, Content, Sider } = Layout;
 
-export default function OutdoorFurniture() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOutdoorFurnitureData());
-    dispatch(getCities());
-    dispatch(getDistricts());
-    dispatch(getPostalCodes());
-  }, [dispatch]);
-  const rowKeys = useSelector((state) => state.table.rowKeys);
-  const rows = useSelector((state) => state.table.outdoorFurnitureTableData);
-  const [fastSearch, setFastSearch] = useState();
-  const outdoorFurnitureColums = [
-    'Код',
-    'Город',
-    'Почтовый индекс',
-    'Маркетинговый адрес',
-    'Юридический адрес',
-    'Формат',
-    'Координаты',
-    'Горит',
-  ];
-
-  const [collapsed, setCollapsed] = useState(false);
-
-  const ResizableTitle = (props) => {
-    const { onResize, width, ...restProps } = props;
-
-    if (!width) {
-      return <th {...restProps} />;
-    }
-
-    return (
-      <Resizable
-        width={width}
-        height={0}
-        handle={
-          <span
-            className="react-resizable-handle"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        onResize={onResize}
-        draggableOpts={{ enableUserSelectHack: false }}>
-        <th {...restProps} />
-      </Resizable>
-    );
-  };
-
-  const [state, setState] = useState({
-    columns: [
-      {
-        title: 'Date',
-        dataIndex: 'date',
-        width: 200,
-      },
-      {
-        title: 'Amount',
-        dataIndex: 'amount',
-        width: 100,
-        //sorter: (a, b) => a.amount - b.amount,
-      },
-      {
-        title: 'Type',
-        dataIndex: 'type',
-        width: 100,
-      },
-      {
-        title: 'Note',
-        dataIndex: 'note',
-        width: 100,
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: () => <a>Delete</a>,
-      },
-    ],
-  });
-
-  const components = {
-    header: {
-      cell: ResizableTitle,
-    },
-  };
-
-  const data = [
-    {
-      key: 0,
-      date: '2018-02-11',
-      amount: 120,
-      type: 'income',
-      note: 'transfer',
-    },
-    {
-      key: 1,
-      date: '2018-03-11',
-      amount: 243,
-      type: 'income',
-      note: 'transfer',
-    },
-    {
-      key: 2,
-      date: '2018-04-11',
-      amount: 98,
-      type: 'income',
-      note: 'transfer',
-    },
-  ];
-
-  const handleResize = (index) => (e, { size }) => {
-    setState(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return { columns: nextColumns };
-    });
-  };
-
-  const [columns, setColumns] = useState(
-    state.columns.map((col, index) => {
-      return {
-        ...col,
-        onHeaderCell: (column) => ({
-          width: column.width,
-          onResize: handleResize(index),
-        }),
-      };
-    }),
-  );
-
+const OutdoorFurniture = () => {
+  const history = useHistory();
+  const [collapsed, setCollapsed] = useState(true);
   return (
-    // <div className="outdoor-furniture">
-    //   <LeftBar>
-    //     <SearchBtn />
-    //   </LeftBar>
-    //   <FilterBar />
-    //   <div className="outdoor-table-bar">
-    //     <HeaderList />
-    //     <Table
-    //       linkProps={'/base/construction/'}
-    //       columns={outdoorFurnitureColums}
-    //       rows={rows}
-    //       rowKeys={rowKeys}
-    //       handleFastSearch={() => {
-    //         dispatch(getOutdoorFurnitureFiltered(fastSearch));
-    //       }}
-    //       handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-    //     />
-    //   </div>
-    //   <style>
-    //     {`
-    //       .outdoor-furniture {
-    //         display: flex;
-    //         height: 100%;
-    //       }
-    //       .outdoor-table-bar {
-    //         padding: 2% 3%;
-    //         width: 70vw;
-    //       }
-    //     `}
-    //   </style>
-    // </div>
     <Layout>
       <Layout>
         <Sider className="layout-sider">
@@ -208,18 +43,20 @@ export default function OutdoorFurniture() {
               margin: 0,
               minHeight: 280,
             }}>
-            <HeaderList />
-            <Table bordered components={components} columns={columns} dataSource={data} />
-            {/* <Table
-              linkProps={'/base/construction/'}
-              columns={outdoorFurnitureColums}
-              rows={rows}
-              rowKeys={rowKeys}
-              handleFastSearch={() => {
-                dispatch(getOutdoorFurnitureFiltered(fastSearch));
-              }}
-              handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-            /> */}
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Конструкции</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/construction`)}>
+                  Создать конструкцию
+                </StyledButton>
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex' }}>
+              <PanelOudoor style={{ flex: '0 1 auto' }} />
+            </div>
           </Content>
         </Layout>
       </Layout>
@@ -231,8 +68,8 @@ export default function OutdoorFurniture() {
           }
           .layout-sider {
             background: #F5F7FA;
-            min-width: 80px !important;
-            max-width: 80px !important;
+            min-width: 60px !important;
+            max-width: 60px !important;
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
@@ -246,4 +83,5 @@ export default function OutdoorFurniture() {
       </style>
     </Layout>
   );
-}
+};
+export default OutdoorFurniture;
