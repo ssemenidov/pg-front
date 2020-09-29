@@ -1,34 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import PanelDesign from './PanelLocations';
+import FilterBar from './FilterBar';
+
 import { LeftBar } from '../../../styles/styles';
-import FilterByLocations from './FilterByLocations';
-import FilterByOrders from './FilterByOrders';
-import FilterByParameters from './FilterByParameters';
-import FilterByOther from './FilterByOther';
-import FilterByStatus from './FilterByStatus';
 import HeaderList from './HeaderList';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-
-import Table from '../../../components/Table';
-import {
-  getLocationsData,
-  filterLocationsFastSearch,
-  filterLocationsTable,
-} from '../../../store/actions/locationsActions';
-import { useDispatch, useSelector } from 'react-redux';
 import { FilterMenu, SearchTitle, FilterText } from '../../../components/Styles/StyledFilters';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 
 const Locations = (props) => {
-  const dispatch = useDispatch();
-  const rows = useSelector((state) => state.locations.tableData);
-  const columns = useSelector((state) => state.locations.columns);
-  const rowKeys = useSelector((state) => state.locations.rowKeys);
-  const [fastSearch, setFastSearch] = useState();
-  useEffect(() => {
-    dispatch(getLocationsData());
-  }, [dispatch]);
+  const [collapsed, setCollapsed] = useState(true);
+
   return (
     <div className="locations-table">
+      <LeftBar>
+        <SearchBtn />
+      </LeftBar>
+
+      {collapsed && <FilterBar />}
+      <div className="locations-table-bar">
+        <HeaderList />
+        <div style={{ display: 'flex' }}>
+          <PanelDesign style={{ flex: '0 1 auto' }} />
+        </div>
+      </div>
       <style>
         {`
           .locations-table{
@@ -37,45 +32,11 @@ const Locations = (props) => {
           .locations-table-bar{
             display: flex;
             flex-direction: column;
-            width: 70vw;
+              overflow-x: hidden;
             margin: 0 2vw;
           }
         `}
       </style>
-      <LeftBar>
-        <SearchBtn />
-      </LeftBar>
-      <FilterMenu>
-        <SearchTitle>
-          <FilterText>Поиск</FilterText>
-        </SearchTitle>
-        <FilterByLocations />
-        <FilterByOrders />
-        <FilterByParameters />
-        <FilterByOther />
-        <FilterByStatus />
-        <BtnGroup>
-          <ResetButton
-            onClick={() => {
-              dispatch({ type: 'CLEAR_FILTER' });
-              dispatch(getLocationsData());
-            }}>
-            Очистить
-          </ResetButton>
-          <SubmitButton onClick={() => dispatch(filterLocationsTable())}>Искать</SubmitButton>
-        </BtnGroup>
-      </FilterMenu>
-      <div className="locations-table-bar">
-        <HeaderList />
-        <Table
-          linkProps={'/base/locations/location/'}
-          rows={rows}
-          columns={columns}
-          rowKeys={rowKeys}
-          handleChangeFastSearch={(e) => setFastSearch(e.target.value)}
-          handleFastSearch={() => dispatch(filterLocationsFastSearch(fastSearch))}
-        />
-      </div>
     </div>
   );
 };
