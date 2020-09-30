@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PanelOudoor from './PanelOudoor';
+import PanelOutdoor from './PanelOutdoor';
 
 import { Layout, Menu, Breadcrumb, Table } from 'antd';
 import { Link } from 'react-router-dom';
@@ -55,7 +55,7 @@ const OutdoorFurniture = () => {
               </ButtonGroup>
             </HeaderWrapper>
             <div style={{ display: 'flex' }}>
-              <PanelOudoor style={{ flex: '0 1 auto' }} />
+              <PanelOutdoor style={{ flex: '0 1 auto' }} />
             </div>
           </Content>
         </Layout>
