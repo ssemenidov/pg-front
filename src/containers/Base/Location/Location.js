@@ -7,15 +7,6 @@ import { LeftBar } from '../../../styles/styles';
 
 const Location = (props) => {
   const [showSearchBtn, setSearchBtn] = React.useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (typeof props.match.params.id != 'undefined') {
-      dispatch(getCurrentLocation(props.match.params.id));
-    } else {
-      dispatch(resetCurrentLocation());
-    }
-  }, [props.match]);
-
   const handleTabSelected = (index) => {
     if (index === 1) {
       setSearchBtn(true);
@@ -24,7 +15,9 @@ const Location = (props) => {
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
-      <LeftBar className="left-bar">{showSearchBtn ? <SearchBtn /> : null}</LeftBar>
+      <LeftBar className="left-bar">
+        <SearchBtn />
+      </LeftBar>
       <InnerForm selectedTab={handleTabSelected} locationID={props.match.params.id} />
       <style>{`
         .left-bar {

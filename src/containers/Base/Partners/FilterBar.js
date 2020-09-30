@@ -21,27 +21,19 @@ const FilterBar = () => {
       </SearchTitle>
       <Collapse expandIconPosition={'right'}>
         <StyledPanel header="По параметрам" key="1">
-          <StyledSelect defaultValue="Семейство" size={'large'}>
+          <StyledSelect defaultValue="Контрагент" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Инвентарный номер 1С" size={'large'}>
+          <StyledSelect defaultValue="Бренд" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Формат" size={'large'}>
+          <StyledSelect defaultValue="Рекламодатель" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Формат" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-          <StyledSelect defaultValue="Горит / Не горит" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-          <StyledSelect defaultValue="Координаты" size={'large'}>
+          <StyledSelect defaultValue="Cектор деятельности" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>

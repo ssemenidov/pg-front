@@ -141,7 +141,7 @@ const Partners = () => {
             font-size: 11px;
             margin: 0 0 30px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
           .filter-panel > div {

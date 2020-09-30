@@ -14,7 +14,7 @@ const Locations = (props) => {
   return (
     <div className="locations-table">
       <LeftBar>
-        <SearchBtn />
+        <SearchBtn onClick={() => setCollapsed(!collapsed)} />
       </LeftBar>
 
       {collapsed && <FilterBar />}
