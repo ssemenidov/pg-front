@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import makeColumns from './DataTable/columns';
-import makeData from './DataTable/data';
 //import Table from '../../../Table/Table';
 import Table from '../../../TableResizable/Table';
 

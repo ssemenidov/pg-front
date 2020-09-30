@@ -7,7 +7,7 @@ import TabPanelFormHeaderPartners from './TabPanelFormHeaderPartners';
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
 import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
-import HeaderList from '../PartnersList/HeaderList';
+
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
 import settings_icon from '../../../../img/outdoor_furniture/table_icons/setting.svg';
