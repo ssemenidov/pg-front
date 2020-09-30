@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import FilterBar from './FilterBar';
+
 import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,18 +9,9 @@ import styled from 'styled-components';
 import Table from '../../../components/TableResizable/Table';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar, StyledButton } from '../../../styles/styles';
-import { getPartnersData, getPartnersFiltered, getPartners, setTable } from '../../../store/actions/actions';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import collapseUpIcon from '../../../img/input/collapse-up.svg';
-import collapseDownIcon from '../../../img/input/collapse-down.svg';
-import cityIcon from '../../../img/input/input-city.svg';
-import districtIcon from '../../../img/input/input-district.svg';
-import sideIcon from '../../../img/input/side-construction.svg';
-import typeIcon from '../../../img/input/type-construction.svg';
-import formatIcon from '../../../img/input/format-construction.svg';
-import anchorIcon from '../../../img/input/anchor.svg';
-import binIcon from '../../../img/input/bin.svg';
+
 import editIcon from '../../../img/edit-icon.svg';
 import headerIcon from '../../../img/header-icon.svg';
 import searchInputIcon from '../../../img/header-bar/search-icon.svg';
@@ -28,22 +21,7 @@ import exportIcon from '../../../img/header-bar/export.svg';
 const { Content, Sider } = Layout;
 
 const Partners = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPartnersData());
-    dispatch(getPartners());
-  }, [dispatch]);
-
-  const rows = useSelector((state) => state.table.partnersTableData);
-  const rowKeys = useSelector((state) => state.table.partnersRowKeys);
-  const [fastSearch, setFastSearch] = useState();
-
-  const partnersColumns = ['Тип контрагента', 'Контрагент', 'Бренд', 'Сектор деятельности', 'Тип клиента'];
-
   const [collapsed, setCollapsed] = useState(true);
-  const [cityTab, setCityTab] = useState(true);
-  const [parametersTab, setParametersTab] = useState(true);
-  const [purposeTab, setPurposeTab] = useState(true);
   const columns = [
     {
       title: 'Name',
@@ -100,99 +78,7 @@ const Partners = () => {
         <StyledSider>
           <SearchBtn onClick={() => setCollapsed(!collapsed)} />
         </StyledSider>
-        {collapsed ? (
-          <StyledFilterPanel>
-            <div className="filter-panel-title">
-              <strong>Поиск</strong>
-            </div>
-            <div className="filter-panel-city">
-              <div className="filter-panel-header" style={{ marginBottom: `${cityTab ? '20px' : '0'}` }}>
-                <span>Поиск по параметрам</span>
-                <img src={cityTab ? collapseUpIcon : collapseDownIcon} onClick={() => setCityTab(!cityTab)} />
-              </div>
-              <div style={{ display: `${cityTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Контрагент</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Бренд</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Тип контрагента</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={anchorIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Сектор деятельности</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-              </div>
-            </div>
-            <div className="filter-panel-parameters">
-              <div className="filter-panel-header" style={{ marginBottom: `${parametersTab ? '20px' : '0'}` }}>
-                <span>Поиск по БИН</span>
-                <img
-                  src={parametersTab ? collapseUpIcon : collapseDownIcon}
-                  onClick={() => this.setState({ parametersTab: !parametersTab })}
-                />
-              </div>
-              <div style={{ display: `${parametersTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Input prefix={<img src={binIcon} />} placeholder="Введите БИН" />
-                </div>
-              </div>
-            </div>
-            <div className="group-btn">
-              <Button className="search-btn" onClick={() => setCollapsed(!collapsed)}>
-                Поиск
-              </Button>
-              <Button type="primary" className="clear-btn">
-                Очистить
-              </Button>
-            </div>
-          </StyledFilterPanel>
-        ) : null}
+        {collapsed && <FilterBar />}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <Breadcrumb className="layout-breadcrumb">
             <Breadcrumb.Item>
@@ -365,26 +251,6 @@ const Partners = () => {
     </Layout>
   );
 };
-
-const StyledFilterPanel = styled.div`
-  width: 300px;
-  background: #f5f7fa;
-  border-right: 1px solid #d3dff0;
-
-  & > div {
-    display: flex;
-    padding: 20px 30px;
-    border-bottom: 1px solid #d3dff0;
-  }
-
-  .ant-select {
-    width: 100%;
-  }
-
-  span {
-    color: #171717 !important;
-  }
-`;
 
 const StyledSider = styled(Sider)`
   background: #f5f7fa;

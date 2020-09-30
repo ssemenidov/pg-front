@@ -25,7 +25,7 @@ const OutdoorFurniture = () => {
         <Sider className="layout-sider">
           <SearchBtn onClick={() => setCollapsed(!collapsed)} />
         </Sider>
-        {collapsed ? <FilterBar /> : null}
+        {collapsed && <FilterBar />}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <Breadcrumb className="layout-breadcrumb">
             <Breadcrumb.Item>

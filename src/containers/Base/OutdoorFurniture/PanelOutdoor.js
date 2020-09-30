@@ -1,56 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
+import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
 import { useHistory } from 'react-router';
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Date',
-      dataIndex: 'date',
-      width: 200,
+      title: 'Код',
+      dataIndex: 'code',
+      width: 130,
     },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      width: 100,
-      //sorter: (a, b) => a.amount - b.amount,
+      title: 'Город',
+      dataIndex: 'city',
+      width: 80,
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      width: 100,
+      title: 'Почтовый индекс',
+      dataIndex: 'post',
+      width: 80,
     },
     {
-      title: 'Note',
-      dataIndex: 'note',
-      width: 100,
+      title: 'Адрес маркетинговый',
+      dataIndex: 'adress_m',
+      width: 150,
     },
     {
-      title: 'Action',
-      key: 'action',
-      render: () => <a>Delete</a>,
+      title: 'Адрес юридический',
+      dataIndex: 'adress_j',
+      width: 150,
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+      width: 150,
+    },
+    {
+      title: 'Координаты',
+      dataIndex: 'coords',
+      width: 150,
+    },
+    {
+      title: 'Горит',
+      dataIndex: 'fire',
+      width: 80,
+    },
+    {
+      width: 60,
+      title: '',
+      render: (text, record) => (
+        <span onClick={() => alert('Click')} style={{ cursor: 'pointer' }}>
+          <img src={icon_pen} alt="" />
+        </span>
+      ),
     },
   ];
   const data = [
     {
       key: 1,
-      date: '2018-02-11',
-      amount: 120,
-      type: 'income',
-      note: 'transfer',
+      code: '204845847',
+      city: 'Алматы',
+      post: '101001',
+      adress_m: 'пр. Достык д. 25',
+      adress_j: 'пр. Достык д. 25',
+      format: 'Сениор',
+      coords: '43.252502° 76.953135°',
+      fire: 'Да',
     },
     {
       key: 2,
-      date: '2018-03-11',
-      amount: 243,
-      type: 'income',
-      note: 'transfer',
+      code: '204845847',
+      city: 'Алматы',
+      post: '101001',
+      adress_m: 'пр. Достык д. 25',
+      adress_j: 'пр. Достык д. 25',
+      format: 'Сениор',
+      coords: '43.252502° 76.953135°',
+      fire: 'Да',
     },
     {
       key: 3,
-      date: '2018-04-11',
-      amount: 98,
-      type: 'income',
-      note: 'transfer',
+      code: '204845847',
+      city: 'Алматы',
+      post: '101001',
+      adress_m: 'пр. Достык д. 25',
+      adress_j: 'пр. Достык д. 25',
+      format: 'Сениор',
+      coords: '43.252502° 76.953135°',
+      fire: 'Да',
     },
   ];
 

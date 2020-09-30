@@ -15,17 +15,7 @@ const { Header, Content, Sider } = Layout;
 const Construction = (props) => {
   const current = useSelector((state) => state.construction.currentConstruction);
   console.log(current);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (typeof props.match.params.id != 'undefined') {
-      dispatch(getCurrentConstruction(props.match.params.id));
-    } else {
-      dispatch(resetCurrentConstruction());
-    }
-  }, [props.match, dispatch]);
-
   const [showSearchBtn, setSearchBtn] = useState(false);
-
   const handleTabSelected = (index) => {
     console.log(index);
     if (index === 4) {

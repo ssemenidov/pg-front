@@ -6,12 +6,7 @@ import RelatedAdvertisers from '../../../../components/Panels/Partners/RelatedAd
 import TabPanelFormHeaderPartners from './TabPanelFormHeaderPartners';
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
-import {
-  BtnBrand,
-  BtnExport,
-  BtnPrint,
-  BtnSettings,
-} from '../../../../components/Styles/ButtonStyles';
+import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 import HeaderList from '../PartnersList/HeaderList';
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
@@ -42,8 +37,7 @@ export default function TabPaneForm(props) {
         <STabs
           selectedTabClassName="is-selected"
           selectedTabPanelClassName="is-selected"
-          onSelect={(index) => props.selectedTab(index)}
-        >
+          onSelect={(index) => props.selectedTab(index)}>
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
@@ -51,7 +45,7 @@ export default function TabPaneForm(props) {
                 return <STab key={index}>{tab.value}</STab>;
               })}
             </STabList>
-            {props.index === 2 ? <BtnBrand>Привязать бренд</BtnBrand> : null}
+
             <ToolbarControl>
               <BtnPrint>
                 <img src={print_icon} alt="" />
