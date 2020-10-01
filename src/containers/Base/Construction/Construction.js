@@ -15,20 +15,12 @@ const { Header, Content, Sider } = Layout;
 const Construction = (props) => {
   const current = useSelector((state) => state.construction.currentConstruction);
   console.log(current);
-  const [showSearchBtn, setSearchBtn] = useState(false);
-  const handleTabSelected = (index) => {
-    console.log(index);
-    if (index === 4) {
-      setSearchBtn(true);
-    } else setSearchBtn(false);
-  };
+  const handleTabSelected = (index) => {};
   const [collapsed, setCollapsed] = useState(true);
   return (
     <Layout>
       <Layout>
-        <Sider className="layout-sider">
-          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-        </Sider>
+        <Sider className="layout-sider"></Sider>
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <Breadcrumb className="layout-breadcrumb">
             <Breadcrumb.Item>

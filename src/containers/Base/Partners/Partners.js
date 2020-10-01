@@ -6,13 +6,13 @@ import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Input } from 'ant
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Table from '../../../components/TableResizable/Table';
+import Table from '../../../components/Tablea';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar, StyledButton } from '../../../styles/styles';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
-import editIcon from '../../../img/edit-icon.svg';
+import icon_pen from '../../../img/edit-icon.svg';
 import headerIcon from '../../../img/header-icon.svg';
 import searchInputIcon from '../../../img/header-bar/search-icon.svg';
 import printerIcon from '../../../img/header-bar/printer.svg';
@@ -24,51 +24,78 @@ const Partners = () => {
   const [collapsed, setCollapsed] = useState(true);
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Тип контрагента ',
+      dataIndex: 'type',
       width: 100,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      width: 200,
+      title: 'Контрагент',
+      dataIndex: 'agent',
+
+      width: 100,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      width: 200,
+      title: 'Бренд',
+      dataIndex: 'brand',
+
+      width: 100,
     },
     {
-      dataIndex: 'edit',
-      width: 1,
+      title: 'Сектор деятельности',
+      dataIndex: 'sector',
+
+      width: 150,
+    },
+    {
+      title: 'Тип клиента',
+      dataIndex: 'client',
+
+      width: 100,
+    },
+
+    {
+      width: 50,
+      fixed: 'right',
+      render: (text, record) => (
+        <Link to="/base/partners/info">
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      ),
     },
   ];
 
   const data = [
     {
-      key: '1',
-      name: 'test',
-      age: 32,
-      address: '10 Downing Street',
-      edit: (
-        <Link to="/base/partners/info">
-          <img style={{ cursor: 'pointer' }} src={editIcon} alt="" />
-        </Link>
-      ),
+      key: 1,
+      type: 'Рекламодатель',
+      agent: 'ИП Агенство',
+      brand: 'CocaCola',
+      sector: 'Безалкогольные напитки',
+      client: 'По личным связям',
     },
     {
-      key: '2',
-      name: 'test',
-      age: 42,
-      address: '10 Downing Street',
-      edit: (
-        <Link to="/base/partners/info">
-          <img style={{ cursor: 'pointer' }} src={editIcon} alt="" />
-        </Link>
-      ),
+      key: 2,
+      type: 'Рекламодатель',
+      agent: 'ИП Агенство',
+      brand: 'CocaCola',
+      sector: 'Безалкогольные напитки',
+      client: 'По личным связям',
+    },
+    {
+      key: 3,
+      type: 'Рекламодатель',
+      agent: 'ИП Агенство',
+      brand: 'CocaCola',
+      sector: 'Безалкогольные напитки',
+      client: 'По личным связям',
+    },
+    {
+      key: 4,
+      type: 'Рекламодатель',
+      agent: 'ИП Агенство',
+      brand: 'CocaCola',
+      sector: 'Безалкогольные напитки',
+      client: 'По личным связям',
     },
   ];
 
@@ -100,27 +127,7 @@ const Partners = () => {
               <StyledButton backgroundColor="#2C5DE5">Создать договор</StyledButton>
             </div>
           </StyledHeader>
-          <div className="header-bar">
-            <div>
-              <Input
-                style={{ marginLeft: '20px' }}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />
-              <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
-              </Button>
-              <Button
-                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                className="header-btn">
-                <img src={exportIcon} />
-                <span>Экспорт</span>
-              </Button>
-              <Button className="header-btn">{/* <img src={settingsIcon} /> */}</Button>
-            </div>
-          </div>
-          <StyledContent>
+          <StyledContent style={{ width: '100%' }}>
             <Table columns={columns} data={data} />
           </StyledContent>
         </Layout>
@@ -130,6 +137,7 @@ const Partners = () => {
           .layout-main {
             background: #fff !important;
             height: 100% !important;
+            overflow-x: hidden;
           }
           .layout-sider {
             background: #F5F7FA;
@@ -197,55 +205,8 @@ const Partners = () => {
           .search-btn:hover span {
             color: #2C5DE5 !important;
           }
-          .header-bar {
-            display: flex;
-            background: #E7EEF8;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #D3DFF0;
-            height: 45px;
-            padding: 5px;
-            justify-content: flex-end;
-          }
-          .header-bar > div {
-            display: flex;
-          }
-          .header-bar > div > div {
-            display: flex;
-          }
-          .header-btn {
-            border: 1px solid #D3DFF0;
-            margin-right: 5px;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .header-date-btn {
-            display: flex;
-            justify-content: space-between;
-          }
-          .header-date-btn span {
-            color: #252525 !important;
-          }
-          .header-page-btn {
-            border-radius: 4px;
-            background: #FF5800;
-            display: flex;
-            align-items: center;
-            padding: 15px 30px;
-            border: 1px solid #FF5800 !important ;
-
-          }
-          .header-page-btn:hover span {
-            color:#FF5800 !important;
-          }
-          .header-page-btn span {
-            color: #fff  !important;
-            font-weight: 600;
-          }
+      
+         
         `}
       </style>
     </Layout>

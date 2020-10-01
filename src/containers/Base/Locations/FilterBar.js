@@ -93,7 +93,7 @@ const FilterBar = () => {
             <Option value="case 2">case 2</Option>
           </StyledSelect>
         </StyledPanel>
-        <StyledPanel header="Другое" key="5">
+        <StyledPanel header="Статус" key="5">
           <Radio.Group>
             <Radio value="yes">Есть конструкция</Radio>
             <Radio value="no">Нет конструкции</Radio>

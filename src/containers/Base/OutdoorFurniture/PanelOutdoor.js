@@ -46,7 +46,7 @@ const PanelDesign = (props) => {
       width: 80,
     },
     {
-      width: 60,
+      width: 40,
       title: '',
       render: (text, record) => (
         <span onClick={() => alert('Click')} style={{ cursor: 'pointer' }}>

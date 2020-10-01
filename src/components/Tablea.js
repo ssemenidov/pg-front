@@ -103,57 +103,61 @@ class Tablea extends React.Component {
       }),
     }));
     return (
-      <div>
-        <div className="header-bar">
-          {this.props.title ? (
-            <h6>{this.props.title}</h6>
-          ) : (
-            <div>
+      <div style={{ width: '100%', overflowX: 'hidden' }}>
+        {!this.props.notheader && (
+          <div className="header-bar">
+            {this.props.title ? (
+              <h6>{this.props.title}</h6>
+            ) : (
               <div>
-                <Button className="header-btn">
-                  <img src={plusIcon} />
-                </Button>
-                <Button className="header-btn">
-                  <img src={minusIcon} />
-                </Button>
+                <div>
+                  <Button className="header-btn">
+                    <img src={plusIcon} />
+                  </Button>
+                  <Button className="header-btn">
+                    <img src={minusIcon} />
+                  </Button>
+                </div>
+                <Select
+                  defaultValue="Дата"
+                  style={{ marginLeft: '20px' }}
+                  onChange={(value) => {
+                    console.log(value);
+                    this.setState({ datetype: value });
+                  }}>
+                  <Select.Option value="date">Дата</Select.Option>
+                  <Select.Option value="week">Неделя</Select.Option>
+                  <Select.Option value="month">Месяц</Select.Option>
+                  <Select.Option value="year">Год</Select.Option>
+                </Select>
+                <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
               </div>
-              <Select
-                defaultValue="Дата"
+            )}
+            <div>
+              <Input
                 style={{ marginLeft: '20px' }}
-                onChange={(value) => {
-                  console.log(value);
-                  this.setState({ datetype: value });
-                }}>
-                <Select.Option value="date">Дата</Select.Option>
-                <Select.Option value="week">Неделя</Select.Option>
-                <Select.Option value="month">Месяц</Select.Option>
-                <Select.Option value="year">Год</Select.Option>
-              </Select>
-              <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
-            </div>
-          )}
-          <div>
-            <Input
-              style={{ marginLeft: '20px' }}
-              placeholder="Быстрый поиск"
-              suffix="Найти"
-              prefix={<img src={searchInputIcon} />}
-            />
-            <Button style={{ marginLeft: '5px' }} className="header-btn">
-              <img src={printerIcon} />
-            </Button>
-            <Button style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }} className="header-btn">
-              <img src={exportIcon} />
-              <span>Экспорт</span>
-            </Button>
-
-            <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
+                placeholder="Быстрый поиск"
+                suffix="Найти"
+                prefix={<img src={searchInputIcon} />}
+              />
               <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={settingsIcon} />
+                <img src={printerIcon} />
               </Button>
-            </Dropdown>
+              <Button
+                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
+                className="header-btn">
+                <img src={exportIcon} />
+                <span>Экспорт</span>
+              </Button>
+
+              <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
+                <Button style={{ marginLeft: '5px' }} className="header-btn">
+                  <img src={settingsIcon} />
+                </Button>
+              </Dropdown>
+            </div>
           </div>
-        </div>
+        )}
         <Content>
           <StyledTable
             onRow={(record, rowIndex) => {
