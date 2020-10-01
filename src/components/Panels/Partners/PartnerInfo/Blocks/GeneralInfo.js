@@ -22,40 +22,42 @@ export default function GeneralInfo() {
   const dispatch = useDispatch();
   console.log(state);
   return (
-    <Medium>
+    <Medium style={{ height: '100%' }}>
       <BlockTitle>Общая информация</BlockTitle>
       <BlockBody>
         <form action="" className={classes.root}>
           <Row>
-            <Column>
-              <Row>
-                <Column style={{ width: '45%', marginBottom: '21px' }}>
-                  <div style={{ width: '100%' }}>
-                    <InputTitle>Наименование контрагента</InputTitle>
-                    <InputAnchor
-                      value={Object.keys(state).length !== 0 ? state.partnerName : ''}
-                      placeholder="Контрагент"
-                      onChange={(e) => dispatch(sendContragentValues('partnerName', e.target.value))}
-                    />
-                  </div>
-                  <div style={{ width: '100%' }}>
-                    <InputTitle>Сектор деятельности</InputTitle>
-                    <InputAnchor
-                      value={Object.keys(state).length !== 0 ? state.sector : ''}
-                      placeholder="Производство напитков"
-                      onChange={(e) => dispatch(sendContragentValues('sector', e.target.value))}
-                    />
-                  </div>
-                </Column>
-                <Column style={{ width: '45%', marginBottom: '21px' }}>
-                  <InputTitle>Комментарий</InputTitle>
-                  <Multiline
-                    style={{ width: '100%' }}
-                    value={Object.keys(state).length !== 0 ? state.comment : ''}
-                    inputProps={{ maxLength: 450, rows: 186, cols: 10 }}
-                    onChange={(e) => dispatch(sendContragentValues('comment', e.target.value))}
+            <Column style={{ width: '45%' }}>
+              <Row style={{ padding: '0' }}>
+                <div style={{ width: '100%' }}>
+                  <InputTitle>Наименование контрагента</InputTitle>
+                  <InputAnchor
+                    value={Object.keys(state).length !== 0 ? state.partnerName : ''}
+                    placeholder="Контрагент"
+                    onChange={(e) => dispatch(sendContragentValues('partnerName', e.target.value))}
                   />
-                  {/* <div style={{ width: "100%" }}>
+                </div>
+              </Row>
+              <Row style={{ paddingBottom: '0' }}>
+                <div style={{ width: '100%' }}>
+                  <InputTitle>Сектор деятельности</InputTitle>
+                  <InputAnchor
+                    value={Object.keys(state).length !== 0 ? state.sector : ''}
+                    placeholder="Производство напитков"
+                    onChange={(e) => dispatch(sendContragentValues('sector', e.target.value))}
+                  />
+                </div>
+              </Row>
+            </Column>
+            <Column style={{ width: '45%', marginBottom: 'auto' }}>
+              <InputTitle>Комментарий</InputTitle>
+              <Multiline
+                style={{ width: '100%' }}
+                value={Object.keys(state).length !== 0 ? state.comment : ''}
+                inputProps={{ maxLength: 450, rows: 186, cols: 10 }}
+                onChange={(e) => dispatch(sendContragentValues('comment', e.target.value))}
+              />
+              {/* <div style={{ width: "100%" }}>
                     <InputTitle>Бренд</InputTitle>
                     <InputAnchor
                       value={Object.keys(state).length !== 0 ? state.brand : ""}
@@ -65,12 +67,11 @@ export default function GeneralInfo() {
                       }
                     />
                   </div> */}
-                </Column>
-              </Row>
             </Column>
           </Row>
+
           <Row>
-            <Column style={{ width: '45%', marginBottom: '21px' }}>
+            <Column style={{ width: '45%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип контрагента</InputTitle>
                 <SelectAnchor
@@ -88,7 +89,7 @@ export default function GeneralInfo() {
                 />
               </div>
             </Column>
-            <Column style={{ width: '45%', marginBottom: '21px' }}>
+            <Column style={{ width: '45%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип клиента</InputTitle>
                 <InputAnchor

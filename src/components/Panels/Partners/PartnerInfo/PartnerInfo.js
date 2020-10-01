@@ -25,10 +25,8 @@ const PartnerInfo = () => {
           <BankAccount />
         </Col>
       </Row>
-      <Row xs={12} style={{ margin: '1vw 0 0 0 ' }}>
-        <Col xs={12}>
-          <ContactPerson />
-        </Col>
+      <Row xs={12} style={{ marginTop: '21px' }}>
+        <ContactPerson />
       </Row>
       <Row>
         <Commissions />

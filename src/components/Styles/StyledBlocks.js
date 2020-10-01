@@ -6,7 +6,6 @@ export const Quarter = styled.div`
   background: #f5f7fa;
   border: 1px solid #d3dff0;
   border-radius: 8px;
-  margin-bottom: 20px;
 `;
 
 export const Medium = styled.div`
