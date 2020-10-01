@@ -1,78 +1,118 @@
-import React from "react";
-import {
-  BlockBody,
-  InputTitle,
-  Quarter,
-  Row,
-  BlockTitle,
-} from "../../../../Styles/StyledBlocks";
-import InputGlobe from "../../../../Inputs/InputGlobe";
-import InputEnvelope from "../../../../Inputs/InputEnvelope";
-import InputDirections from "../../../../Inputs/InputDirections";
-import InputHouse from "../../../../Inputs/InputHouse";
-import { sendContragentValues } from "../../../../../store/actions/actions";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Radio, notification } from 'antd';
+import styled from 'styled-components';
 
-export default function Address() {
-  const state = useSelector((state) => state.contragents.currentContragent);
+import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
+import { StyledButton, StyledSelect } from '../../../../../styles/styles';
+import GroupRadio from '../../../../Inputs/GroupRadio';
+import InputAnchor from '../../../../Inputs/InputAnchor';
+import { SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
+import { getConstructionProps } from '../../../../../store/actions/constructionActions';
+import anchorIcon from '../../../../../img/input/anchor.svg';
+
+export default function Adress() {
+  const current = useSelector((state) => state.construction.currentConstruction);
   const dispatch = useDispatch();
+
   return (
-    <Quarter>
+    <Quarter style={{ height: '100%' }}>
       <BlockTitle>Адрес</BlockTitle>
       <BlockBody>
-        <div style={{ width: "100%", marginBottom: "21px" }}>
-          <InputTitle>Город</InputTitle>
-          <InputGlobe
-            value={Object.keys(state).length !== 0 ? state.city : ""}
-            onChange={(e) =>
-              dispatch(sendContragentValues("city", e.target.value))
-            }
-            placeholder="Город"
-          />
-        </div>
         <Row>
-          <div style={{ width: "46%", marginBottom: "21px" }}>
-            <InputTitle>Район</InputTitle>
-            <InputDirections
-              value={Object.keys(state).length !== 0 ? state.district : ""}
-              onChange={(e) =>
-                dispatch(sendContragentValues("district", e.target.value))
+          <div style={{ width: '100%' }}>
+            <InputTitle>Город</InputTitle>
+
+            <StyledSelect
+              defaultValue={
+                <>
+                  <img src={anchorIcon} alt="" />
+                  <span>Алматы</span>
+                </>
               }
-              placeholder="Район"
-            />
-          </div>
-          <div style={{ width: "46%", marginBottom: "21px" }}>
-            <InputTitle>Почтовый индекс</InputTitle>
-            <InputEnvelope
-              value={Object.keys(state).length !== 0 ? state.postalCode : ""}
-              onChange={(e) =>
-                dispatch(sendContragentValues("postalCode", e.target.value))
-              }
-              placeholder="Индекс"
-            />
+              suffixIcon={null}>
+              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            </StyledSelect>
           </div>
         </Row>
-        <div style={{ width: "100%", marginBottom: "21px" }}>
-          <InputTitle>Юридический адрес</InputTitle>
-          <InputEnvelope
-            value={Object.keys(state).length !== 0 ? state.legalAddress : ""}
-            onChange={(e) =>
-              dispatch(sendContragentValues("legalAddress", e.target.value))
-            }
-            placeholder={"Адрес"}
-          />
-        </div>
-        <div style={{ width: "100%", marginBottom: "21px" }}>
-          <InputTitle>Фактический адрес</InputTitle>
-          <InputHouse
-            value={Object.keys(state).length !== 0 ? state.physicalAddress : ""}
-            onChange={(e) =>
-              dispatch(sendContragentValues("physicalAddress", e.target.value))
-            }
-            placeholder="Адрес"
-          />
-        </div>
+        <Row>
+          <div style={{ width: '58%' }}>
+            <InputTitle>Доступность конструкции</InputTitle>
+
+            <StyledSelect
+              defaultValue={
+                <>
+                  <img src={anchorIcon} alt="" />
+                  <span>Медеуский р-н.</span>
+                </>
+              }
+              suffixIcon={null}>
+              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            </StyledSelect>
+          </div>
+          <div style={{ width: '38%' }}>
+            <InputTitle>Почтовый индекс</InputTitle>
+
+            <StyledSelect
+              defaultValue={
+                <>
+                  <img src={anchorIcon} alt="" />
+                  <span>1012034.</span>
+                </>
+              }
+              suffixIcon={null}>
+              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            </StyledSelect>
+          </div>
+        </Row>
+        <Row>
+          <div style={{ width: '100%' }}>
+            <InputTitle>Юридический адрес</InputTitle>
+
+            <StyledSelect
+              defaultValue={
+                <>
+                  <img src={anchorIcon} alt="" />
+                  <span>пр.Достык 25, офис 52</span>
+                </>
+              }
+              suffixIcon={null}>
+              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            </StyledSelect>
+          </div>
+        </Row>
+        <Row>
+          <div style={{ width: '100%' }}>
+            <InputTitle>Фактический адрес</InputTitle>
+
+            <StyledSelect
+              defaultValue={
+                <>
+                  <img src={anchorIcon} alt="" />
+                  <span>пр.Достык 25, офис 52</span>
+                </>
+              }
+              suffixIcon={null}>
+              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
+              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            </StyledSelect>
+          </div>
+        </Row>
       </BlockBody>
     </Quarter>
   );
 }
+
+const StyledRadio = styled(Radio.Group)`
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+
+  span {
+    color: #1a1a1a !important;
+  }
+`;

@@ -13,7 +13,7 @@ const PartnerInfo = () => {
   // const classes = useStyles();
   return (
     <Grid fluid className=" resetPadding ">
-      <Row xs={12} className=" resetPadding">
+      <Row xs={12}>
         {/*<Container className={classes.root}>*/}
         <Col xs={6}>
           <GeneralInfo />
@@ -25,8 +25,15 @@ const PartnerInfo = () => {
           <BankAccount />
         </Col>
       </Row>
-      <ContactPerson />
-      <Commissions />
+      <Row xs={12} style={{ margin: '1vw 0 0 0 ' }}>
+        <Col xs={12}>
+          <ContactPerson />
+        </Col>
+      </Row>
+      <Row>
+        <Commissions />
+      </Row>
+
       {/*</Container>*/}
     </Grid>
   );
