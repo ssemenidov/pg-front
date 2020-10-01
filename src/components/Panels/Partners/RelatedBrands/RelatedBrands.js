@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-//import Table from '../../../Table/Table';
-import Table from '../../../TableResizable/Table';
+
+import Table from '../../../Tablea';
 
 const RelatedBrands = () => {
   // const columns = React.useMemo(() => makeColumns, []);
@@ -15,100 +15,71 @@ const RelatedBrands = () => {
     {
       title: 'Код',
       dataIndex: 'col1',
-      key: 'name',
+
       width: 50,
     },
     {
       title: 'Название',
       dataIndex: 'col2',
-      key: 'name',
+
       width: 100,
     },
     {
       title: 'Бренд',
       dataIndex: 'col3',
-      key: 'name',
+
       width: 100,
     },
     {
-      title: 'Клиент',
+      title: 'Сектор деятельности',
       dataIndex: 'col4',
-      key: 'name',
+
       width: 100,
     },
     {
-      title: 'Агентская комиссия',
+      title: 'Привязано',
       dataIndex: 'col5',
-      key: 'name',
+
       width: 100,
     },
   ];
 
   const data = [
     {
+      key: 1,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
+      col4: 'Производство напитков',
+      col5: '29.05.2020',
     },
     {
+      key: 2,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
+      col4: 'Производство напитков',
+      col5: '29.05.2020',
     },
     {
+      key: 3,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
+      col4: 'Производство напитков',
+      col5: '29.05.2020',
     },
     {
+      key: 4,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
+      col4: 'Производство напитков',
+      col5: '29.05.2020',
     },
   ];
 
-  return (
-    <>
-      <Table columns={columns} data={data} />
-      {/* <Table columns={columns} data={data} /> */}
-    </>
-  );
+  return <Table columns={columns} data={data} select={true} notheader={true} />;
 };
 
 export default RelatedBrands;

@@ -18,7 +18,7 @@ import Header from './components/Header/Header';
 import Construction from './containers/Base/Construction/Construction';
 import Locations from './containers/Base/Locations/Locations';
 import Location from './containers/Base/Location/Location';
-import PartnerGeneralInfo from './containers/Base/Partners/TabPanelForm/PartnerGeneralInfo';
+import PartnerGeneralInfo from './containers/Base/Partners/PartnersInfo';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
 import Crews from './containers/Base/Crews/Crews';

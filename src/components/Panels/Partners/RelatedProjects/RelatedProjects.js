@@ -1,19 +1,14 @@
 import React from 'react';
 //import Table from '../../../Table/Table';
-import Table from '../../../TableResizable/Table';
-import makeColumns from './DataTable/columns';
-import makeData from './DataTable/data';
+import Table from '../../../Tablea';
 
 const RelatedProjects = () => {
-  // const columns = React.useMemo(() => makeColumns, []);
-  // const data = React.useMemo(() => makeData, []);
-
   const columns = [
     {
       title: 'Код',
       dataIndex: 'col1',
       key: 'name',
-      width: 50,
+      width: 100,
     },
     {
       title: 'Название',
@@ -43,6 +38,7 @@ const RelatedProjects = () => {
 
   const data = [
     {
+      key: 1,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
@@ -50,6 +46,7 @@ const RelatedProjects = () => {
       col5: 'да',
     },
     {
+      key: 2,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
@@ -57,6 +54,7 @@ const RelatedProjects = () => {
       col5: 'да',
     },
     {
+      key: 3,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
@@ -64,34 +62,7 @@ const RelatedProjects = () => {
       col5: 'да',
     },
     {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
+      key: 4,
       col1: '2020053012',
       col2: 'Летняя акция',
       col3: 'CocaCola',
@@ -100,11 +71,6 @@ const RelatedProjects = () => {
     },
   ];
 
-  return (
-    <>
-      <Table columns={columns} data={data} />
-      {/* <Table columns={columns} data={data} /> */}
-    </>
-  );
+  return <Table columns={columns} data={data} select={true} notheader={true} />;
 };
 export default RelatedProjects;
