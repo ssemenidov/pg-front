@@ -8,37 +8,84 @@ import { useHistory } from 'react-router';
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Код договора',
+      dataIndex: 'code',
+
+      width: 130,
+    },
+    {
+      title: 'Бренд',
+      dataIndex: 'brand',
+
       width: 100,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      width: 200,
+      title: 'Сектор деятельности',
+      dataIndex: 'sector',
+      width: 100,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      width: 200,
+      title: 'Создано',
+      dataIndex: 'create',
+      width: 100,
+    },
+    {
+      title: 'Создатель',
+      dataIndex: 'creator',
+      width: 100,
+    },
+    {
+      title: 'Приложение',
+      dataIndex: 'application',
+      width: 100,
     },
   ];
 
   const data = [
     {
-      key: '1',
-      name: 'test',
-      age: 32,
-      address: '10 Downing Street',
+      key: 1,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      sector: 'Производство напитков',
+      create: '29.05.2020',
+      creator: 'Колобов Анемподист',
+      application: '02394.pdf',
     },
     {
-      key: '2',
-      name: 'test',
-      age: 42,
-      address: '10 Downing Street',
+      key: 2,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      sector: 'Производство напитков',
+      create: '29.05.2020',
+      creator: 'Колобов Анемподист',
+      application: '02394.pdf',
+    },
+    {
+      key: 3,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      sector: 'Производство напитков',
+      create: '29.05.2020',
+      creator: 'Колобов Анемподист',
+      application: '02394.pdf',
+    },
+    {
+      key: 4,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      sector: 'Производство напитков',
+      create: '29.05.2020',
+      creator: 'Колобов Анемподист',
+      application: '02394.pdf',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      brand: 'CocaCola',
+      sector: 'Производство напитков',
+      create: '29.05.2020',
+      creator: 'Колобов Анемподист',
+      application: '02394.pdf',
     },
   ];
 

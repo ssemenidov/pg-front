@@ -5,37 +5,83 @@ import Table from '../../../components/Tablea';
 const AgreementsTab = () => {
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Код договора',
+      dataIndex: 'code',
+
+      width: 130,
+    },
+    {
+      title: 'Контрагент',
+      dataIndex: 'agreement',
+
       width: 100,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      width: 200,
+      title: 'Проект',
+      dataIndex: 'project',
+      width: 100,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      width: 200,
+      title: 'Дата  заключения',
+      dataIndex: 'date_start',
+      width: 100,
+    },
+    {
+      title: 'Дата окончания',
+      dataIndex: 'date_end',
+      width: 100,
     },
   ];
 
   const data = [
     {
-      key: '1',
-      name: 'test',
-      age: 32,
-      address: '10 Downing Street',
+      key: 1,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
     },
     {
-      key: '2',
-      name: 'test',
-      age: 42,
-      address: '10 Downing Street',
+      key: 2,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
+    },
+    {
+      key: 3,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
+    },
+    {
+      key: 4,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
+    },
+    {
+      key: 5,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
+    },
+    {
+      key: 6,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
     },
   ];
 
