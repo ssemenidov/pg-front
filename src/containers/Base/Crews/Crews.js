@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Checkbox } from 'antd';
+import PanelCrews from './PanelCrews';
+import FilterBar from './FilterBar';
+
+import { Layout, Menu, Breadcrumb, List } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useHistory } from 'react-router';
 
 import { LeftBar } from '../../../styles/styles';
 import Table from '../../../components/TableResizable/Table';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import collapseUpIcon from '../../../img/input/collapse-up.svg';
-import collapseDownIcon from '../../../img/input/collapse-down.svg';
-import cityIcon from '../../../img/input/input-city.svg';
-import districtIcon from '../../../img/input/input-district.svg';
-import sideIcon from '../../../img/input/side-construction.svg';
-import typeIcon from '../../../img/input/type-construction.svg';
-import formatIcon from '../../../img/input/format-construction.svg';
+import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
+import oval from '../../../img/Oval.svg';
 const { Content, Sider } = Layout;
 
 const Crews = () => {
+  const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [cityTab, setCityTab] = useState(true);
   const [parametersTab, setParametersTab] = useState(true);
@@ -65,127 +68,10 @@ const Crews = () => {
   return (
     <Layout>
       <Layout>
-        <StyledSider>
+        <Sider className="layout-sider">
           <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-        </StyledSider>
-        {collapsed ? (
-          <StyledFilterPanel>
-            <div className="filter-panel-title">
-              <strong>Поиск</strong>
-            </div>
-            <div className="filter-panel-city">
-              <div className="filter-panel-header" style={{ marginBottom: `${cityTab ? '20px' : '0'}` }}>
-                <span>Поиск по адресу</span>
-                <img src={cityTab ? collapseUpIcon : collapseDownIcon} onClick={() => setCityTab(!cityTab)} />
-              </div>
-              <div style={{ display: `${cityTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={cityIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Выберите город</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={districtIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Выберите район</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-              </div>
-            </div>
-            <div className="filter-panel-parameters">
-              <div className="filter-panel-header" style={{ marginBottom: `${parametersTab ? '20px' : '0'}` }}>
-                <span>По параметрам</span>
-                <img
-                  src={parametersTab ? collapseUpIcon : collapseDownIcon}
-                  onClick={() => this.setState({ parametersTab: !parametersTab })}
-                />
-              </div>
-              <div style={{ display: `${parametersTab ? 'block' : 'none'}` }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={typeIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Тип конструкции</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={formatIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Формат конструкции</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Сторона конструкции</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                  <Select
-                    defaultValue={
-                      <>
-                        <img src={sideIcon} style={{ padding: '0 5px', width: '25px', objectFit: 'none' }} />
-                        <span>Размер</span>
-                      </>
-                    }
-                    suffixIcon={<img src={collapseDownIcon} />}
-                    className="ant-select">
-                    <Select.Option value="Option1">Выбор 1</Select.Option>
-                    <Select.Option value="Option2">Выбор 2</Select.Option>
-                  </Select>
-                </div>
-              </div>
-            </div>
-            <div className="group-btn">
-              <Button className="search-btn" onClick={() => setCollapsed(!collapsed)}>
-                Поиск
-              </Button>
-              <Button type="primary" className="clear-btn">
-                Очистить
-              </Button>
-            </div>
-          </StyledFilterPanel>
-        ) : null}
+        </Sider>
+        {collapsed && <FilterBar />}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <Breadcrumb className="layout-breadcrumb">
             <Breadcrumb.Item>
@@ -197,15 +83,77 @@ const Crews = () => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>Экипажи</Breadcrumb.Item>
           </Breadcrumb>
-          <div></div>
-          <StyledContent>
-            <StyledCrewsBlock>
-              <h2 style={{ fontSize: '24px', margin: '10px' }}>Экипажи</h2>
-            </StyledCrewsBlock>
-            <Table columns={columns} data={data} />
-          </StyledContent>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: 0,
+              minHeight: 280,
+            }}>
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Экипажи</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/construction`)}>
+                  Создать новое
+                </StyledButton>
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex' }}>
+              <StyledCrewsBlock>
+                <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
+                <List>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                  <List.Item>
+                    <img src={oval} alt="" />
+                    <span>Кузьмин Виталий</span>
+                  </List.Item>
+                </List>
+              </StyledCrewsBlock>
+              <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
+                <PanelCrews style={{ flex: '0 1 auto' }} />
+              </div>
+            </div>
+          </Content>
         </Layout>
       </Layout>
+
       <style>
         {`
           .layout-main {
@@ -214,107 +162,30 @@ const Crews = () => {
           }
           .layout-sider {
             background: #F5F7FA;
-            min-width: 80px !important;
-            max-width: 80px !important;
+            min-width: 60px !important;
+            max-width: 60px !important;
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
             font-size: 11px;
             margin: 0 0 20px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a, .layout-breadcrumb   span {
             color: #8AA1C1 !important;
           }
-          .filter-panel > div {
-            display: flex;
-            padding: 20px 30px;
-            border-bottom: 1px solid #d3dff0;
-          }
-          .filter-panel-title {
-            align-items: flex-end;
-            text-transform: uppercase;
-          }
-          .filter-panel-title strong {
-            color: #003360 !important;
-          }
-          .filter-panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #171717 !important;
-            font-weight: 600;
-          }
-          .filter-panel-city {
-            flex-direction: column;
-          }
-          .filter-panel-parameters {
-            flex-direction: column;
-          }
-          .filter-panel-date {
-            flex-direction: column;
-          }
-          .group-btn {
-            justify-content: space-between;
-          }
-          .clear-btn, .search-btn {
-            border-radius: 4px;
-            width: 45%;
-          }
-          .clear-btn span {
-            color: #2C5DE5 !important;
-            font-weight: 600;
-          }
-          .clear-btn {
-            background: #EEF3FF;
-            border: 1px solid #2C5DE5;
-          }
-          .search-btn {
-            background: #2C5DE5;
-          }
-          .search-btn span {
-            color: #FFF !important;
-          }
-          .search-btn:hover span {
-            color: #2C5DE5 !important;
-          }
-          .ant-select {
-            width: 100%;
-          }
+         
         `}
       </style>
     </Layout>
   );
 };
 
-const StyledFilterPanel = styled.div`
-  width: 300px;
-  background: #f5f7fa;
-  border-right: 1px solid #d3dff0;
-
-  & > div {
-    display: flex;
-    padding: 20px 30px;
-    border-bottom: 1px solid #d3dff0;
-  }
-`;
-
-const StyledSider = styled(Sider)`
-  background: #f5f7fa;
-  min-width: 60px !important;
-  max-width: 60px !important;
-  border-right: 1px solid #d3dff0 !important;
-`;
-
-const StyledContent = styled(Content)`
-  display: flex;
-`;
-
 const StyledCrewsBlock = styled.div`
   border-radius: 8px;
   width: 330px;
-  margin-right: 30px;
+  margin-right: 15px;
   border: 1px solid #d3dff0;
+  padding: 15px;
 `;
 
 export default Crews;
