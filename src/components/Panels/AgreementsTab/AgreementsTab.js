@@ -1,6 +1,6 @@
 import React from 'react';
 import AgreementsSearch from './AgreementsSearch';
-import Table from '../../../components/TableResizable/Table';
+import Table from '../../../components/Tablea';
 
 const AgreementsTab = () => {
   const columns = [
@@ -41,11 +41,13 @@ const AgreementsTab = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: '1 0 20%', margin: '1vw 1vw 1vw 0' }}>
+      <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
         <AgreementsSearch />
       </div>
-      <div style={{ flex: '1 0 50%', margin: '1vw 0 1vw 1vw' }}>
-        <Table columns={columns} data={data} />
+      <div style={{ width: '100%', overflowX: 'hidden' }}>
+        <div style={{ width: '100%' }}>
+          <Table columns={columns} data={data} notheader={true} />
+        </div>
       </div>
     </div>
   );

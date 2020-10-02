@@ -139,14 +139,7 @@ const PanelDesign = (props) => {
         {`.outdoor-table-bar {
             width: 100%;
           }
-          .design-info {
-            border-radius: 8px;
-            border: 1px solid #d3dff0;
-            // height: 100%;
-            // padding: 1.5%;
-            // flex: 0 1 30vw;
-            // margin: 0 2vw 0 0;
-          }`}
+         `}
       </style>
     </>
   );
