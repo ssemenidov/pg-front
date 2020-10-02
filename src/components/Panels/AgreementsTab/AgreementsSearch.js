@@ -40,13 +40,13 @@ const AgreementsSearch = () => {
             <InputTitle>Тип договора</InputTitle>
             <InputAnchor placeholder="Тип договора" />
           </div>
-          <div style={{ margin: '0 0 0 ц0.75vw' }}>
+          <div style={{ margin: '0 0 0 ц0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата начала действия договора</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
+          <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Дата заключения договора</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
