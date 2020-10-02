@@ -46,11 +46,11 @@ const AgreementsSearch = () => {
           </div>
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <div style={{ margin: '0 0.75vw 0 0', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата заключения договора</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата окончания действия договора</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
