@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
@@ -24,6 +24,8 @@ const panel1 = <AgreementsTab />;
 const panel2 = <ApplicationsTab />;
 
 const InnerForm = (props) => {
+  const [block, setBlock] = useState(0);
+
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -32,9 +34,15 @@ const InnerForm = (props) => {
           <JobTitle>Документы</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <Link to="/base/documents/agreement">
-            <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
-          </Link>
+          {block == 0 ? (
+            <Link to="/base/documents/agreement">
+              <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
+            </Link>
+          ) : (
+            <Link to="/base/documents/application_base">
+              <StyledButton backgroundColor="#2c5de5">Создать приложение</StyledButton>
+            </Link>
+          )}
         </ButtonGroup>
       </HeaderWrapper>
       <div>
@@ -45,7 +53,12 @@ const InnerForm = (props) => {
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
-                return <STab key={index}>{tab.value}</STab>;
+                return (
+                  <STab key={index} onClick={() => setBlock(index)}>
+                    {' '}
+                    {tab.value}{' '}
+                  </STab>
+                );
               })}
             </STabList>
             <ToolbarControl>

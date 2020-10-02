@@ -21,6 +21,7 @@ import Location from './containers/Base/Location/Location';
 import PartnerGeneralInfo from './containers/Base/Partners/PartnersInfo';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
+import Application_base from './containers/Base/Documents/Application_base/Application_base';
 import Crews from './containers/Base/Crews/Crews';
 
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
@@ -65,6 +66,8 @@ const App = () => {
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
           <Route path="/base/documents/agreement" exact component={Agreement} />
+          <Route path="/base/documents/application_base" exact component={Application_base} />
+
           <Route path="/base/crews" component component={Crews} />
 
           <Route path="/installations/design" component={Design} />
