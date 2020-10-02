@@ -107,7 +107,7 @@ class Tablea extends React.Component {
         {!this.props.notheader && (
           <div className="header-bar">
             {this.props.title ? (
-              <h6>{this.props.title}</h6>
+              <h6 style={{ width: 'max-content' }}>{this.props.title}</h6>
             ) : (
               <div>
                 <div>

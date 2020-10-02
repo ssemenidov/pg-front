@@ -95,7 +95,7 @@ const Crews = () => {
                 <JobTitle>Экипажи</JobTitle>
               </HeaderTitleWrapper>
               <ButtonGroup>
-                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/construction`)}>
+                <StyledButton backgroundColor="#008556" onClick={() => alert('click')}>
                   Создать новое
                 </StyledButton>
               </ButtonGroup>
@@ -104,46 +104,46 @@ const Crews = () => {
               <StyledCrewsBlock>
                 <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
                 <List>
-                  <List.Item>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
-                  <List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
+                  <StyledListItem>
                     <img src={oval} alt="" />
-                    <span>Кузьмин Виталий</span>
-                  </List.Item>
+                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                  </StyledListItem>
                 </List>
               </StyledCrewsBlock>
               <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
@@ -174,6 +174,7 @@ const Crews = () => {
             color: #8AA1C1 !important;
           }
          
+         
         `}
       </style>
     </Layout>
@@ -186,6 +187,10 @@ const StyledCrewsBlock = styled.div`
   margin-right: 15px;
   border: 1px solid #d3dff0;
   padding: 15px;
+`;
+const StyledListItem = styled(List.Item)`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 export default Crews;
