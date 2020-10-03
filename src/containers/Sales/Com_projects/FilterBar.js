@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { FilterMenu, SearchTitle, FilterText } from '../../../components/Styles/StyledFilters';
-
+import {
+  FilterMenu,
+  SearchTitle,
+  FilterText,
+  StyledSelect,
+  StyledPanel,
+} from '../../../components/Styles/StyledFilters';
+import { Select, Collapse, DatePicker } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-
-import { Collapse } from '@material-ui/core';
-import { FilterSectionTitle, FilterSection, FilterSectionTitleText } from '../../../components/Styles/StyledFilters';
-import ArrowUp from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowUp';
-import ArrowDown from '../../../components/CollapseArrows/CollapseArrowIcons/ArrowDown';
-import InputAnchor from '../../../components/Inputs/InputAnchor';
-import SelectAnchor from '../../../components/Inputs/SelectAnchor';
+const { Option } = Select;
+const { Panel } = Collapse;
 const FilterBar = () => {
-  const [open1, setOpen1] = useState(true);
-  const [open2, setOpen2] = useState(true);
-
   return (
     <FilterMenu
       onKeyDown={(e) => {
@@ -21,81 +19,48 @@ const FilterBar = () => {
       <SearchTitle>
         <FilterText>Поиск</FilterText>
       </SearchTitle>
-      <FilterSection>
-        <FilterSectionTitle onClick={() => setOpen1(!open1)}>
-          <FilterSectionTitleText> по дате</FilterSectionTitleText>
-          {open1 && <ArrowUp />}
-          {!open1 && <ArrowDown />}
-        </FilterSectionTitle>
-
-        <Collapse in={open1}>
-          <SelectAnchor
-            options={[
-              { label: 'case 1', value: 'case 1' },
-              { label: 'case 2', value: 'case 2' },
-            ]}
-            placeholder="Выберите период"
-          />
-        </Collapse>
-      </FilterSection>
-      <FilterSection>
-        <FilterSectionTitle onClick={() => setOpen2(!open2)}>
-          <FilterSectionTitleText> по параметрам</FilterSectionTitleText>
-          {open2 && <ArrowUp />}
-          {!open2 && <ArrowDown />}
-        </FilterSectionTitle>
-
-        <Collapse in={open2}>
-          <SelectAnchor
-            options={[
-              { label: 'case 1', value: 'case 1' },
-              { label: 'case 2', value: 'case 2' },
-            ]}
-            placeholder="Бренд"
-          />
-          <SelectAnchor
-            options={[
-              { label: 'case 1', value: 'case 1' },
-              { label: 'case 2', value: 'case 2' },
-            ]}
-            placeholder="Рекламодатель"
-          />
-          <SelectAnchor
-            options={[
-              { label: 'case 1', value: 'case 1' },
-              { label: 'case 2', value: 'case 2' },
-            ]}
-            placeholder="Рекламное агенство"
-          />
-          <SelectAnchor
-            options={[
-              { label: 'case 1', value: 'case 1' },
-              { label: 'case 2', value: 'case 2' },
-            ]}
-            placeholder="Сектор деятельности"
-          />
-        </Collapse>
-      </FilterSection>
-      <FilterSection>
-        <SelectAnchor
-          options={[
-            { label: 'case 1', value: 'case 1' },
-            { label: 'case 2', value: 'case 2' },
-          ]}
-          placeholder="Менеджер бэк-офиса "
-        />
-        <SelectAnchor
-          options={[
-            { label: 'case 1', value: 'case 1' },
-            { label: 'case 2', value: 'case 2' },
-          ]}
-          placeholder="Менеджер по продажам"
-        />
-      </FilterSection>
+      <Collapse expandIconPosition={'right'}>
+        <StyledPanel header="По дате" key="1">
+          <DatePicker placeholder="2020-01-01" style={{ width: '100%' }} />
+        </StyledPanel>
+        <StyledPanel header="По параметрам" key="2">
+          <StyledSelect defaultValue="Бренд" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+          <StyledSelect defaultValue="Рекламодатель" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+          <StyledSelect defaultValue="Рекламное агенство " size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+          <StyledSelect defaultValue="Сектор деятельности" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+          <StyledSelect defaultValue="Менеджер бэк-офиса" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+          <StyledSelect defaultValue="Менеджер по продажам" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+        </StyledPanel>
+      </Collapse>
       <BtnGroup>
         <SubmitButton onClick={() => alert('Фильтр')}>Поиск</SubmitButton>
         <ResetButton>Очистить</ResetButton>
       </BtnGroup>
+      <style>
+        {`
+        .ant-collapse-content{
+           background-color: #f5f7fa !important;
+        }
+        `}
+      </style>
     </FilterMenu>
   );
 };

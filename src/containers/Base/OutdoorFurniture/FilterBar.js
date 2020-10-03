@@ -20,7 +20,7 @@ const FilterBar = () => {
         <FilterText>Поиск</FilterText>
       </SearchTitle>
       <Collapse expandIconPosition={'right'}>
-        <StyledPanel header="Поиск по местоположению" key="1">
+        <StyledPanel header="По местоположению" key="1">
           <StyledSelect defaultValue="Выберите город" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
@@ -34,7 +34,7 @@ const FilterBar = () => {
             <Option value="case 2">case 2</Option>
           </StyledSelect>
         </StyledPanel>
-        <StyledPanel header="Поиск по адресу" key="2">
+        <StyledPanel header="По адресу" key="2">
           <StyledSelect defaultValue="Адрес маркетинговый" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
@@ -58,10 +58,7 @@ const FilterBar = () => {
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Формат" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
+
           <StyledSelect defaultValue="Горит / Не горит" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>

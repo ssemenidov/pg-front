@@ -19,9 +19,9 @@ const FilterBar = () => {
       <SearchTitle>
         <FilterText>Поиск</FilterText>
       </SearchTitle>
-      <Collapse defaultActiveKey={['1']} expandIconPosition={'right'}>
+      <Collapse expandIconPosition={'right'}>
         <StyledPanel header="По дате" key="1">
-          <DatePicker style={{ width: '100%' }} />
+          <DatePicker placeholder="2020-01-01" style={{ width: '100%' }} />
         </StyledPanel>
         <StyledPanel header="Статус брони" key="2">
           <Checkbox defaultChecked>
