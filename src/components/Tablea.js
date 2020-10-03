@@ -179,8 +179,13 @@ class Tablea extends React.Component {
             components={this.components}
             columns={columns}
             dataSource={this.props.data}
-            pagination={{ pageSize: 4 }}
             scroll={{ y: 500 }}
+            pagination={{
+              defaultPageSize: 10,
+              showSizeChanger: true,
+              placement: 'top',
+              pageSizeOptions: ['10', '20', '30'],
+            }}
           />
         </Content>
         <style>
@@ -237,6 +242,7 @@ class Tablea extends React.Component {
 
 export default Tablea;
 const StyledTable = styled(Table)`
+  margin-bottom: 150px;
   th,
   td {
     color: #1a1a1a !important;
