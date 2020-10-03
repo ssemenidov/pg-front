@@ -1,9 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
-
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
+const OUTDOOR_T = gql`
+  {
+    searchConstruction {
+      edges {
+        node {
+          backModelConstruction
+          backCity {
+            title
+          }
+          backPostcode
+          backMarketingAddress
+          backLegalAddress
+          format
+          otherCoord
+          actual
+        }
+      }
+    }
+  }
+`;
 const PanelDesign = (props) => {
+  // const { loading, error, data } = useQuery(OUTDOOR_T);
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error :(</p>;
   const columns = [
     {
       title: 'Код',
@@ -49,13 +73,13 @@ const PanelDesign = (props) => {
       width: 40,
       title: '',
       render: (text, record) => (
-        <span onClick={() => alert('Click')} style={{ cursor: 'pointer' }}>
-          <img src={icon_pen} alt="" />
-        </span>
+        <Link to="/base/construction">
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
       ),
     },
   ];
-  const data = [
+  const data1 = [
     {
       key: 1,
       code: '204845847',
@@ -94,7 +118,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} />
+        <Table style={{ width: '100%' }} columns={columns} data={data1} />
       </div>
       <style>
         {`.outdoor-table-bar {

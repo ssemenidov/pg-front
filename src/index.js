@@ -11,26 +11,12 @@ import constructionReducer from './store/reducer/constructionReducer';
 import contragentsReducer from './store/reducer/contragentsReducer';
 import locationsReducer from './store/reducer/locationsReducer';
 import locationReducer from './store/reducer/locationReducer';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { gql } from '@apollo/client';
-import { createHttpLink } from 'apollo-link-http';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
 const client = new ApolloClient({
   uri: 'https://allbot.online/api/',
   cache: new InMemoryCache(),
 });
-
-// client
-//   .query({
-//     query: gql`
-//       {
-//         allCities {
-//           title
-//         }
-//       }
-//     `,
-//   })
-//   .then((result) => console.log(result));
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -46,7 +32,9 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMid
 
 const app = (
   <Provider store={store}>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </Provider>
 );
 

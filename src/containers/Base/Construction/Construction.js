@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
 
 import InnerForm from './TabPanelForm/TabPanelFormConstruction';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
@@ -13,8 +12,6 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const Construction = (props) => {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  console.log(current);
   const handleTabSelected = (index) => {};
   const [collapsed, setCollapsed] = useState(true);
   return (
