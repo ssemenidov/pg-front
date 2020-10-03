@@ -106,43 +106,43 @@ const Crews = () => {
                 <List>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                   <StyledListItem>
                     <img src={oval} alt="" />
-                    <span style={{ marginLeft: '20px' }}>Кузьмин Виталий</span>
+                    <span>Кузьмин Виталий</span>
                   </StyledListItem>
                 </List>
               </StyledCrewsBlock>
@@ -191,6 +191,9 @@ const StyledCrewsBlock = styled.div`
 const StyledListItem = styled(List.Item)`
   display: flex;
   justify-content: flex-start;
+  span {
+    margin-left: 20px;
+  }
 `;
 
 export default Crews;
