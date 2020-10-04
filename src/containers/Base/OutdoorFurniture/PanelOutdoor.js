@@ -90,7 +90,7 @@ const PanelDesign = (props) => {
     adress_j: item.node.backLegalAddress,
     format: item.node.format,
     coords: item.node.otherCoord,
-    fire: item.node.actual,
+    fire: item.node.actual ? "Да" :'Нет',
   }));
   // [
   //   {
