@@ -90,7 +90,7 @@ const PanelDesign = (props) => {
     adress_j: item.node.backLegalAddress,
     format: item.node.format,
     coords: item.node.otherCoord,
-    fire: item.node.actual ? "Да" :'Нет',
+    fire: item.node.actual ? 'Да' : 'Нет',
   }));
   // [
   //   {
@@ -104,28 +104,7 @@ const PanelDesign = (props) => {
   //     coords: '43.252502° 76.953135°',
   //     fire: 'Да',
   //   },
-  //   {
-  //     key: 2,
-  //     code: '204845847',
-  //     city: 'Алматы',
-  //     post: '101001',
-  //     adress_m: 'пр. Достык д. 25',
-  //     adress_j: 'пр. Достык д. 25',
-  //     format: 'Сениор',
-  //     coords: '43.252502° 76.953135°',
-  //     fire: 'Да',
-  //   },
-  //   {
-  //     key: 3,
-  //     code: '204845847',
-  //     city: 'Алматы',
-  //     post: '101001',
-  //     adress_m: 'пр. Достык д. 25',
-  //     adress_j: 'пр. Достык д. 25',
-  //     format: 'Сениор',
-  //     coords: '43.252502° 76.953135°',
-  //     fire: 'Да',
-  //   },
+  //
   // ];
 
   return (
