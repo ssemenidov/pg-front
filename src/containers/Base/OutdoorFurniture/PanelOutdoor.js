@@ -3,13 +3,13 @@ import Table from '../../../components/Tablea';
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 const OUTDOOR_T = gql`
   {
     searchConstruction {
       edges {
         node {
-          backModelConstruction
+          techInventNumber
           backCity {
             title
           }
@@ -25,9 +25,11 @@ const OUTDOOR_T = gql`
   }
 `;
 const PanelDesign = (props) => {
-  // const { loading, error, data } = useQuery(OUTDOOR_T);
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error :(</p>;
+  const { loading, error, data } = useQuery(OUTDOOR_T);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  console.log(data);
   const columns = [
     {
       title: 'Код',
@@ -79,47 +81,59 @@ const PanelDesign = (props) => {
       ),
     },
   ];
-  const data1 = [
-    {
-      key: 1,
-      code: '204845847',
-      city: 'Алматы',
-      post: '101001',
-      adress_m: 'пр. Достык д. 25',
-      adress_j: 'пр. Достык д. 25',
-      format: 'Сениор',
-      coords: '43.252502° 76.953135°',
-      fire: 'Да',
-    },
-    {
-      key: 2,
-      code: '204845847',
-      city: 'Алматы',
-      post: '101001',
-      adress_m: 'пр. Достык д. 25',
-      adress_j: 'пр. Достык д. 25',
-      format: 'Сениор',
-      coords: '43.252502° 76.953135°',
-      fire: 'Да',
-    },
-    {
-      key: 3,
-      code: '204845847',
-      city: 'Алматы',
-      post: '101001',
-      adress_m: 'пр. Достык д. 25',
-      adress_j: 'пр. Достык д. 25',
-      format: 'Сениор',
-      coords: '43.252502° 76.953135°',
-      fire: 'Да',
-    },
-  ];
+  const data1 = data.searchConstruction.edges.map((item, index) => ({
+    key: index,
+    code: item.node.techInventNumber,
+    city: item.node.backCity !== undefined && item.node.backCity.title,
+    post: item.node.backPostcode,
+    adress_m: item.node.backMarketingAddress,
+    adress_j: item.node.backLegalAddress,
+    format: item.node.format,
+    coords: item.node.otherCoord,
+    fire: item.node.actual,
+  }));
+  // [
+  //   {
+  //     key: 1,
+  //     code: '204845847',
+  //     city: 'Алматы',
+  //     post: '101001',
+  //     adress_m: 'пр. Достык д. 25',
+  //     adress_j: 'пр. Достык д. 25',
+  //     format: 'Сениор',
+  //     coords: '43.252502° 76.953135°',
+  //     fire: 'Да',
+  //   },
+  //   {
+  //     key: 2,
+  //     code: '204845847',
+  //     city: 'Алматы',
+  //     post: '101001',
+  //     adress_m: 'пр. Достык д. 25',
+  //     adress_j: 'пр. Достык д. 25',
+  //     format: 'Сениор',
+  //     coords: '43.252502° 76.953135°',
+  //     fire: 'Да',
+  //   },
+  //   {
+  //     key: 3,
+  //     code: '204845847',
+  //     city: 'Алматы',
+  //     post: '101001',
+  //     adress_m: 'пр. Достык д. 25',
+  //     adress_j: 'пр. Достык д. 25',
+  //     format: 'Сениор',
+  //     coords: '43.252502° 76.953135°',
+  //     fire: 'Да',
+  //   },
+  // ];
 
   return (
     <>
       <div className="outdoor-table-bar">
         <Table style={{ width: '100%' }} columns={columns} data={data1} />
       </div>
+
       <style>
         {`.outdoor-table-bar {
             width: 100%;
