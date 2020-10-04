@@ -15,6 +15,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client
 
 const client = new ApolloClient({
   uri: 'https://allbot.online/api/',
+  fetchOptions: {
+    mode: 'no-cors',
+  },
   cache: new InMemoryCache(),
 });
 
