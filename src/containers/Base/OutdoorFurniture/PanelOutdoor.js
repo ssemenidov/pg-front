@@ -61,9 +61,30 @@ const PanelDesign = (props) => {
       ),
     },
   ];
+  let data1 = [];
+  const f = true;
+
   const OUTDOOR_T = gql`
-    query SearchConstruction($city: String) {
-      searchConstruction(backCity_Title: $city) {
+    query SearchConstruction(
+      $city: String
+      $district: String
+      $post: String
+      $adress_m: String
+      $InventNumber: String
+      $format: String
+      $actual: Boolean
+      $coords: String
+    ) {
+      searchConstruction(
+        backCity_Title: $city
+        backDistrict_Title: $district
+        backPostcode: $post
+        backMarketingAddress: $adress_m
+        buhInventNumber: $InventNumber
+        format: $format
+        actual: $actual
+        otherCoord: $coords
+      ) {
         edges {
           node {
             techInventNumber
@@ -84,20 +105,22 @@ const PanelDesign = (props) => {
 
   const city = filter.city ? filter.city : '';
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const data1 = data.searchConstruction.edges.map((item, index) => ({
-    key: index,
-    code: item.node.techInventNumber,
-    city: item.node.backCity !== undefined && item.node.backCity.title,
-    post: item.node.backPostcode,
-    adress_m: item.node.backMarketingAddress,
-    adress_j: item.node.backLegalAddress,
-    format: item.node.format,
-    coords: item.node.otherCoord,
-    fire: item.node.actual ? 'Да' : 'Нет',
-  }));
+  if (data) {
+    data1 = data.searchConstruction.edges.map((item, index) => ({
+      key: index,
+      code: item.node.techInventNumber,
+      city: item.node.backCity !== undefined && item.node.backCity.title,
+      post: item.node.backPostcode,
+      adress_m: item.node.backMarketingAddress,
+      adress_j: item.node.backLegalAddress,
+      format: item.node.format,
+      coords: item.node.otherCoord,
+      fire: item.node.actual ? 'Да' : 'Нет',
+    }));
+  }
+
   return (
     <>
       <div className="outdoor-table-bar">
