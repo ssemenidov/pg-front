@@ -1,35 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { outContext } from './OutdoorFurniture';
+
 import Table from '../../../components/Tablea';
-import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
-const OUTDOOR_T = gql`
-  {
-    searchConstruction {
-      edges {
-        node {
-          techInventNumber
-          backCity {
-            title
-          }
-          backPostcode
-          backMarketingAddress
-          backLegalAddress
-          format
-          otherCoord
-          actual
-        }
-      }
-    }
-  }
-`;
-const PanelDesign = (props) => {
-  const { loading, error, data } = useQuery(OUTDOOR_T);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
 
-  console.log(data);
+import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
+const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(outContext);
   const columns = [
     {
       title: 'Код',
@@ -81,6 +61,32 @@ const PanelDesign = (props) => {
       ),
     },
   ];
+  const OUTDOOR_T = gql`
+    query SearchConstruction($city: String) {
+      searchConstruction(backCity_Title: $city) {
+        edges {
+          node {
+            techInventNumber
+            backCity {
+              title
+            }
+            backPostcode
+            backMarketingAddress
+            backLegalAddress
+            format
+            otherCoord
+            actual
+          }
+        }
+      }
+    }
+  `;
+
+  const city = filter.city ? filter.city : '';
+  const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
   const data1 = data.searchConstruction.edges.map((item, index) => ({
     key: index,
     code: item.node.techInventNumber,
@@ -92,21 +98,6 @@ const PanelDesign = (props) => {
     coords: item.node.otherCoord,
     fire: item.node.actual ? 'Да' : 'Нет',
   }));
-  // [
-  //   {
-  //     key: 1,
-  //     code: '204845847',
-  //     city: 'Алматы',
-  //     post: '101001',
-  //     adress_m: 'пр. Достык д. 25',
-  //     adress_j: 'пр. Достык д. 25',
-  //     format: 'Сениор',
-  //     coords: '43.252502° 76.953135°',
-  //     fire: 'Да',
-  //   },
-  //
-  // ];
-
   return (
     <>
       <div className="outdoor-table-bar">
