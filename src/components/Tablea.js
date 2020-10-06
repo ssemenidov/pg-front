@@ -184,7 +184,7 @@ class Tablea extends React.Component {
               defaultPageSize: 10,
               showSizeChanger: true,
               placement: 'top',
-              pageSizeOptions: ['10', '20', '30'],
+              pageSizeOptions: ['25', '50', '100'],
             }}
           />
         </Content>

@@ -62,6 +62,7 @@ const PanelDesign = (props) => {
     },
   ];
   let data1 = [];
+
   const f = true;
 
   const OUTDOOR_T = gql`
@@ -87,7 +88,7 @@ const PanelDesign = (props) => {
       ) {
         edges {
           node {
-            techInventNumber
+            buhInventNumber
             backCity {
               title
             }
@@ -110,7 +111,7 @@ const PanelDesign = (props) => {
   if (data) {
     data1 = data.searchConstruction.edges.map((item, index) => ({
       key: index,
-      code: item.node.techInventNumber,
+      code: item.node.buhInventNumber,
       city: item.node.backCity !== undefined && item.node.backCity.title,
       post: item.node.backPostcode,
       adress_m: item.node.backMarketingAddress,
