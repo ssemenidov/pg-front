@@ -55,7 +55,7 @@ const PanelDesign = (props) => {
       width: 40,
       title: '',
       render: (text, record) => (
-        <Link to="/base/construction">
+        <Link to={{ pathname: `/base/construction/${record.key}` }}>
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       ),
@@ -88,6 +88,7 @@ const PanelDesign = (props) => {
       ) {
         edges {
           node {
+            id
             buhInventNumber
             backCity {
               title
@@ -104,13 +105,12 @@ const PanelDesign = (props) => {
     }
   `;
 
-  const city = filter.city ? filter.city : '';
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
   if (error) return <p>Error :(</p>;
 
   if (data) {
-    data1 = data.searchConstruction.edges.map((item, index) => ({
-      key: index,
+    data1 = data.searchConstruction.edges.map((item) => ({
+      key: item.node.id,
       code: item.node.buhInventNumber,
       city: item.node.backCity !== undefined && item.node.backCity.title,
       post: item.node.backPostcode,
