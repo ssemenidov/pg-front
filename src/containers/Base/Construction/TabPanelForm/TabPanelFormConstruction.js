@@ -37,7 +37,26 @@ const panel5 = <ConstructionHist />;
 const InnerForm = (props) => {
   const [id, setId] = useContext(constructContext);
   const [item, setItem] = useContext(constructContext);
-
+  const CONSTRUCT_UPDATE = gql`
+    mutation Udate($id: ID) {
+      updateConstruction(
+        id: $id
+        input: {
+          backCity: 11
+          backDistrict: "1"
+          backPostcode: "005505"
+          backMarketingAddress: "аддрес тестовый"
+          backLegalAddress: "легальный адрес"
+          format: "Сениор"
+          otherCoord: "43.252502° 76.953135°"
+          actual: "True"
+        }
+      )
+    }
+  `;
+  const Update = () => {
+    const { error, data } = useQuery(CONSTRUCT_UPDATE, { variables: { id: id } });
+  };
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -46,7 +65,9 @@ const InnerForm = (props) => {
           <JobTitle>Конструкция номер</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton backgroundColor="#008556">Сохранить</StyledButton>
+          <StyledButton backgroundColor="#008556" onClick={Update}>
+            Сохранить
+          </StyledButton>
           <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
           <StyledButton backgroundColor="#d42d11">Демонтировать</StyledButton>
         </ButtonGroup>

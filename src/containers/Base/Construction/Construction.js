@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import InnerForm from './TabPanelForm/TabPanelFormConstruction';
@@ -16,49 +16,59 @@ export const constructContext = createContext();
 const Construction = (props) => {
   const [id, setId] = useState(props.match.params.id);
 
-  const CONSTRUCT_T = gql`
+  const CONSTRUCT_ITEM = gql`
     query SearchConstruction($id: ID!) {
       searchConstruction(id: $id) {
         edges {
           node {
             id
-            buhInventNumber
             backCity {
               title
             }
+            backDistrict {
+              title
+            }
             backPostcode
+            backOwner
             backMarketingAddress
-            backLegalAddress
-            format
-            otherCoord
-            actual
+            backCreatedAt
+            backComment
+            backFamilyConstruction
+            backUnderFamilyConstruction
+            backAvailabilityConstruction
+
+            otherImg
+            constructionsideSet {
+              format
+              side
+              advertisingSide
+              typeSide
+              size
+            }
+            location {
+              city {
+                title
+              }
+              coordinate
+              cadastralNumber
+              areaActDate
+            }
           }
         }
       }
     }
   `;
-  let data1 = {};
 
-  const { error, data } = useQuery(CONSTRUCT_T, { variables: { id: id } });
-
-  if (data) {
-    console.log(data);
-    data1 = data.searchConstruction.edges.map((item) => ({
-      key: item.node.id,
-      code: item.node.buhInventNumber,
-      city: item.node.backCity !== undefined && item.node.backCity.title,
-      post: item.node.backPostcode,
-      adress_m: item.node.backMarketingAddress,
-      adress_j: item.node.backLegalAddress,
-      format: item.node.format,
-      coords: item.node.otherCoord,
-      fire: item.node.actual ? 'Да' : 'Нет',
-    }));
-  }
-  const [item, setItem] = useState(data1);
-
+  const { error, data } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
   if (error) console.log(error);
+  const [item, setItem] = useState({});
 
+  useMemo(() => {
+    if (data) {
+      setItem(data.searchConstruction.edges[0].node);
+    }
+  }, [data]);
+  console.log(item);
   return (
     <constructContext.Provider value={(id, [item, setItem])}>
       <Layout>
