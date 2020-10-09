@@ -49,7 +49,6 @@ export default function Intro() {
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Владелец</InputTitle>
-            <InputTitle>Код района</InputTitle>
             <StyledInput
               prefix={<img src={ownerIcon} />}
               defaultValue={item.backOwner ? item.backOwner : 'Владелец'}
@@ -57,7 +56,10 @@ export default function Intro() {
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>
-            <StyledInput prefix={<img src={anchorIcon} />} />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.backMarketingAddress ? item.backMarketingAddress : 'Адрес'}
+              onChange={(e) => setItem({ ...item, backMarketingAddress: e.target.value })}></StyledInput>
           </div>
         </Row>
         <Row>
@@ -67,7 +69,9 @@ export default function Intro() {
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Комментарий</InputTitle>
-            <StyledInput placeholder={'...'} />
+            <StyledInput
+              defaultValue={item.backComment ? item.backComment : '...'}
+              onChange={(e) => setItem({ ...item, backComment: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

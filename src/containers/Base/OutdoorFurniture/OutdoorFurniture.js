@@ -1,13 +1,13 @@
 import React, { useState, useContext, createContext } from 'react';
-import PanelOutdoor from './PanelOutdoor';
-
-import { Layout, Menu, Breadcrumb, Table } from 'antd';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
+import PanelOutdoor from './PanelOutdoor';
 import FilterBar from './FilterBar';
-import SearchBtn from '../../../components/LeftBar/SearchBtn';
 
+import { Layout, Menu, Breadcrumb, Table } from 'antd';
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
@@ -16,11 +16,27 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 
 const { Header, Content, Sider } = Layout;
 export const outContext = createContext();
+const CONSTRUCT_CREATE = gql`
+  mutation {
+    createConstruction(input: {}) {
+      construction {
+        id
+      }
+    }
+  }
+`;
+
 const OutdoorFurniture = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
-
   const [filter, setFilter] = useState({});
+  const [createConstruction, { data }] = useMutation(CONSTRUCT_CREATE);
+  const addConstruct = () => {
+    createConstruction();
+    if (data) {
+      history.push(`/base/construction/${data.createConstruction.construction.id}`);
+    }
+  };
   return (
     <outContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -52,7 +68,7 @@ const OutdoorFurniture = () => {
                   <JobTitle>Конструкции</JobTitle>
                 </HeaderTitleWrapper>
                 <ButtonGroup>
-                  <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/construction`)}>
+                  <StyledButton backgroundColor="#008556" onClick={addConstruct}>
                     Создать конструкцию
                   </StyledButton>
                 </ButtonGroup>

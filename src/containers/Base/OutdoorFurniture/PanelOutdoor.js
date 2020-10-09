@@ -112,7 +112,7 @@ const PanelDesign = (props) => {
     data1 = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
       code: item.node.buhInventNumber,
-      city: item.node.backCity !== undefined && item.node.backCity.title,
+      city: item.node.backCity ? item.node.backCity.title : '',
       post: item.node.backPostcode,
       adress_m: item.node.backMarketingAddress,
       adress_j: item.node.backLegalAddress,

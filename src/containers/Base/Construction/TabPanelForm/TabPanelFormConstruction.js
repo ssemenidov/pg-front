@@ -35,42 +35,60 @@ const panel2 = <TechDept />;
 const panel3 = <AccDept />;
 const panel4 = <Other />;
 const panel5 = <ConstructionHist />;
-
-const InnerForm = (props) => {
-  const [id, setId] = useContext(constructContext);
-  const [item, setItem] = useContext(constructContext);
-  const history = useHistory();
-  const CONSTRUCT_UPDATE = gql`
-    mutation($id: ID!, $backPostcode: String) {
-      updateConstruction(id: $id, input: { backPostcode: $backPostcode }) {
-        construction {
-          backCity {
-            title
-          }
-          backDistrict {
-            title
-          }
-          backPostcode
-          backMarketingAddress
-          backLegalAddress
-          format
-          otherCoord
-          actual
+const CONSTRUCT_DELETE = gql`
+  mutation Delete($id: ID!) {
+    deleteConstruction(id: $id) {
+      deletedId
+    }
+  }
+`;
+const CONSTRUCT_UPDATE = gql`
+  mutation($id: ID!, $backPostcode: String, $backOwner: String, $backMarketingAddress: String, $backComment: String) {
+    updateConstruction(
+      id: $id
+      input: {
+        backPostcode: $backPostcode
+        backOwner: $backOwner
+        backMarketingAddress: $backMarketingAddress
+        backComment: $backComment
+      }
+    ) {
+      construction {
+        backCity {
+          title
         }
+        backDistrict {
+          title
+        }
+        backPostcode
+        backMarketingAddress
+        backLegalAddress
+        format
+        otherCoord
+        actual
       }
     }
-  `;
-  const [updateConstruction, { data }] = useMutation(CONSTRUCT_UPDATE);
+  }
+`;
+const InnerForm = (props) => {
+  const [item, setItem] = useContext(constructContext);
+  const history = useHistory();
+
+  const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
+  const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
   const Update = () => {
-    const data = {};
     updateConstruction({ variables: item });
+  };
+  const Delete = () => {
+    deleteConstruction({ variables: { id: item.id } });
+    history.push(`/base/outdoor_furniture`);
   };
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Конструкция номер</JobTitle>
+          <JobTitle>Конструкция номер </JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
           <StyledButton backgroundColor="#008556" onClick={Update}>
@@ -78,7 +96,9 @@ const InnerForm = (props) => {
           </StyledButton>
 
           <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
-          <StyledButton backgroundColor="#d42d11">Демонтировать</StyledButton>
+          <StyledButton backgroundColor="#d42d11" onClick={Delete}>
+            Демонтировать
+          </StyledButton>
         </ButtonGroup>
       </HeaderWrapper>
       <div>
