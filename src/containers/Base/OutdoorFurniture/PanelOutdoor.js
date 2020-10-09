@@ -63,8 +63,6 @@ const PanelDesign = (props) => {
   ];
   let data1 = [];
 
-  const f = true;
-
   const OUTDOOR_T = gql`
     query SearchConstruction(
       $city: String

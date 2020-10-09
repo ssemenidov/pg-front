@@ -1,7 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { locationsContext } from './Locations';
+
 import Table from '../../../components/Tablea';
-import { useHistory } from 'react-router';
+
+import { useQuery, gql, useMutation } from '@apollo/client';
+const LOCATIONS_T = gql`
+  {
+    searchLocation(id: "") {
+      edges {
+        node {
+          id
+          city {
+            title
+          }
+          district {
+            title
+          }
+          postcode
+          area
+          address
+          coordinate
+          cadastralNumber
+          targetPurpose
+          comment
+          constructionSet {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(locationsContext);
   const columns = [
     {
       title: 'Код',
@@ -49,7 +84,7 @@ const PanelDesign = (props) => {
       width: 80,
     },
   ];
-  const data = [
+  var data1 = [
     {
       key: 1,
       code: '#1020050301323',
@@ -62,76 +97,24 @@ const PanelDesign = (props) => {
       managerb: 'Иванов Иван Иванович',
       manager: 'Иванов Иван Иванович',
     },
-    {
-      key: 2,
-      code: '#20200503323',
-      brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 3,
-      code: '#40201323',
-      brand: 'CocaCola',
-      date: '27.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 4,
-      code: '#20264354323',
-      brand: 'CocaCola',
-      date: '26.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 5,
-      code: '#2020050301325463',
-      brand: 'CocaCola',
-      date: '5.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
   ];
 
+  const { loading, error, data } = useQuery(LOCATIONS_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+  // if (data) {
+  //   data1 = data.searchLocation.edges.map((item) => ({
+  //     key: item.node.id,
+  //   }));
+  // }
   return (
     <>
       <div className="outdoor-table-bar">
         <Table
           style={{ width: '100%' }}
           columns={columns}
-          data={data}
-          history={useHistory()}
+          data={data1}
+          history={props.history}
           link="/base/locations/location/"
         />
       </div>

@@ -45,7 +45,7 @@ const OutdoorFurniture = () => {
             <SearchBtn onClick={() => setCollapsed(!collapsed)} />
           </Sider>
           {collapsed && <FilterBar />}
-          <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
+          <Layout className="layout-main">
             <Breadcrumb className="layout-breadcrumb">
               <Breadcrumb.Item>
                 <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
@@ -84,6 +84,7 @@ const OutdoorFurniture = () => {
           .layout-main {
             background: #fff !important;
             height: 100% !important;
+            padding: 30px 30px 0 30px;
           }
           .layout-sider {
             background: #F5F7FA;
