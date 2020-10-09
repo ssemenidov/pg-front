@@ -13,7 +13,7 @@ import ownerIcon from '../../../../../img/input/owner.svg';
 
 export default function Intro() {
   const [item, setItem] = useContext(constructContext);
-  console.log(item.backCity);
+
   return (
     <Medium>
       <BlockTitle>Общая информация</BlockTitle>
@@ -40,31 +40,20 @@ export default function Intro() {
           </div>
           <div style={{ width: '22%' }}>
             <InputTitle>Код района</InputTitle>
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={mailIcon} />
-                  <span>Код</span>
-                </>
-              }>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={mailIcon} />}
+              defaultValue={item.backPostcode ? item.backPostcode : 'Код'}
+              onChange={(e) => setItem({ ...item, backPostcode: e.target.value })}></StyledInput>
           </div>
         </Row>
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Владелец</InputTitle>
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={ownerIcon} />
-                  <span>Владелец</span>
-                </>
-              }>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <InputTitle>Код района</InputTitle>
+            <StyledInput
+              prefix={<img src={ownerIcon} />}
+              defaultValue={item.backOwner ? item.backOwner : 'Владелец'}
+              onChange={(e) => setItem({ ...item, backOwner: e.target.value })}></StyledInput>
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>

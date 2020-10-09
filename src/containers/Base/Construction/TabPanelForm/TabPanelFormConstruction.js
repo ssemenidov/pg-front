@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { constructContext } from '../Construction';
 import BackOffice from '../../../../components/Panels/Construction/BackOffice/BackOffice';
@@ -37,25 +39,31 @@ const panel5 = <ConstructionHist />;
 const InnerForm = (props) => {
   const [id, setId] = useContext(constructContext);
   const [item, setItem] = useContext(constructContext);
+  const history = useHistory();
   const CONSTRUCT_UPDATE = gql`
-    mutation Udate($id: ID) {
-      updateConstruction(
-        id: $id
-        input: {
-          backCity: 11
-          backDistrict: "1"
-          backPostcode: "005505"
-          backMarketingAddress: "аддрес тестовый"
-          backLegalAddress: "легальный адрес"
-          format: "Сениор"
-          otherCoord: "43.252502° 76.953135°"
-          actual: "True"
+    mutation($id: ID!, $backPostcode: String) {
+      updateConstruction(id: $id, input: { backPostcode: $backPostcode }) {
+        construction {
+          backCity {
+            title
+          }
+          backDistrict {
+            title
+          }
+          backPostcode
+          backMarketingAddress
+          backLegalAddress
+          format
+          otherCoord
+          actual
         }
-      )
+      }
     }
   `;
+  const [updateConstruction, { data }] = useMutation(CONSTRUCT_UPDATE);
   const Update = () => {
-    const { error, data } = useQuery(CONSTRUCT_UPDATE, { variables: { id: id } });
+    const data = {};
+    updateConstruction({ variables: item });
   };
   return (
     <form style={{ width: '100%' }}>
@@ -68,6 +76,7 @@ const InnerForm = (props) => {
           <StyledButton backgroundColor="#008556" onClick={Update}>
             Сохранить
           </StyledButton>
+
           <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
           <StyledButton backgroundColor="#d42d11">Демонтировать</StyledButton>
         </ButtonGroup>

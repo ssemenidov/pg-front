@@ -15,6 +15,7 @@ const { Header, Content, Sider } = Layout;
 export const constructContext = createContext();
 const Construction = (props) => {
   const [id, setId] = useState(props.match.params.id);
+  const [item, setItem] = useState({});
 
   const CONSTRUCT_ITEM = gql`
     query SearchConstruction($id: ID!) {
@@ -38,13 +39,7 @@ const Construction = (props) => {
             backAvailabilityConstruction
 
             otherImg
-            constructionsideSet {
-              format
-              side
-              advertisingSide
-              typeSide
-              size
-            }
+
             location {
               city {
                 title
@@ -59,9 +54,7 @@ const Construction = (props) => {
     }
   `;
 
-  const { error, data } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
-  if (error) console.log(error);
-  const [item, setItem] = useState({});
+  const { error, data, loading } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
 
   useMemo(() => {
     if (data) {
@@ -69,6 +62,9 @@ const Construction = (props) => {
     }
   }, [data]);
   console.log(item);
+  if (error) return <h3>Error :(</h3>;
+  if (loading) return <h3></h3>;
+
   return (
     <constructContext.Provider value={(id, [item, setItem])}>
       <Layout>

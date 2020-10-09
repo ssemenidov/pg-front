@@ -107,7 +107,7 @@ const PanelDesign = (props) => {
 
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
   if (error) return <p>Error :(</p>;
-
+  if (loading) return <h3></h3>;
   if (data) {
     data1 = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
