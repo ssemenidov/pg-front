@@ -44,58 +44,51 @@ const PanelDesign = (props) => {
       width: 130,
     },
     {
-      title: 'Бренд',
-      dataIndex: 'brand',
-      width: 80,
-    },
-    {
-      title: 'Дата начала',
-      dataIndex: 'date',
-      width: 90,
-    },
-    {
-      title: 'Рекламодатель',
-      dataIndex: 'advert',
-      width: 80,
-    },
-    {
-      title: 'Рекламное агенство',
-      dataIndex: 'advert_agency',
-      width: 80,
-    },
-    {
       title: 'Город',
       dataIndex: 'city',
       width: 80,
     },
     {
-      title: 'Сектор деятельности',
-      dataIndex: 'sector',
+      title: 'Почтовый индекс',
+      dataIndex: 'post',
       width: 80,
     },
     {
-      title: 'Менеджер бэк-офиса',
-      dataIndex: 'managerb',
+      title: 'Район',
+      dataIndex: 'district',
       width: 80,
     },
     {
-      title: 'Менеджер по продажам',
-      dataIndex: 'manager',
-      width: 80,
+      title: 'Адрес юридический',
+      dataIndex: 'adress_j',
+      width: 150,
+    },
+    {
+      title: 'Кадастровый номер',
+      dataIndex: 'cadastralNumber',
+      width: 150,
+    },
+    {
+      title: 'Площадь',
+      dataIndex: 'area',
+      width: 100,
+    },
+    {
+      title: 'Номер договора',
+      dataIndex: 'contractNumber',
+      width: 150,
     },
   ];
   var data1 = [
     {
       key: 1,
       code: '#1020050301323',
-      brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
       city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
+      post: '010001',
+      district: 'Медеуский р-н.',
+      adress_j: 'Абая - ост. ГорВодоКанал',
+      cadastralNumber: '34756824',
+      area: '32 га',
     },
   ];
 

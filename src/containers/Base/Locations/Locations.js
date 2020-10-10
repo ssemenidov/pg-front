@@ -62,6 +62,7 @@ const Locations = (props) => {
           {`
           .locations-table{
             display:flex;
+            
           }
           .locations-table-bar{
             display: flex;

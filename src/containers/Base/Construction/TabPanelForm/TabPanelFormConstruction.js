@@ -43,10 +43,18 @@ const CONSTRUCT_DELETE = gql`
   }
 `;
 const CONSTRUCT_UPDATE = gql`
-  mutation($id: ID!, $backPostcode: String, $backOwner: String, $backMarketingAddress: String, $backComment: String) {
+  mutation(
+    $id: ID!
+    $backCity: ID
+    $backPostcode: String
+    $backOwner: String
+    $backMarketingAddress: String
+    $backComment: String
+  ) {
     updateConstruction(
       id: $id
       input: {
+        backCity: $backCity
         backPostcode: $backPostcode
         backOwner: $backOwner
         backMarketingAddress: $backMarketingAddress
@@ -77,7 +85,7 @@ const InnerForm = (props) => {
   const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
   const Update = () => {
-    updateConstruction({ variables: item });
+    updateConstruction({ variables: { ...item, backCity: item.backCity.id } });
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });

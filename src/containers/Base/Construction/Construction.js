@@ -61,7 +61,7 @@ const Construction = (props) => {
       setItem(data.searchConstruction.edges[0].node);
     }
   }, [data]);
-console.log(item);
+  console.log(item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
 
@@ -107,7 +107,7 @@ console.log(item);
             font-size: 11px;
             margin: 0 0 20px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
         `}

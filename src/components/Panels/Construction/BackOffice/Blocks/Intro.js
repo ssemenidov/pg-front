@@ -21,13 +21,20 @@ export default function Intro() {
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Город</InputTitle>
-
-            <StyledInput
+            <StyledSelect
+              defaultValue={item.backCity ? item.backCity.title : 'Город'}
+              onChange={(value) => setItem({ ...item, backCity: { ...item.backCity, id: value } })}>
+              <StyledSelect.Option value={1}>Алматы</StyledSelect.Option>
+              <StyledSelect.Option value={2}>Астана</StyledSelect.Option>
+              <StyledSelect.Option value={3}>Караганда</StyledSelect.Option>
+              <StyledSelect.Option value={4}>Тараз</StyledSelect.Option>
+            </StyledSelect>
+            {/* <StyledInput
               prefix={<img src={cityIcon} />}
               defaultValue={item.backCity ? item.backCity.title : 'Город'}
               onChange={(e) =>
                 setItem({ ...item, backCity: { ...item.backCity, title: e.target.value } })
-              }></StyledInput>
+              }></StyledInput> */}
           </div>
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>

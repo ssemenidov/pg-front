@@ -34,10 +34,18 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="По местоположению" key="1">
             <Form.Item name="city">
-              <Input placeholder="Выберите город" size={'large'} />
+              <StyledSelect placeholder="Город" size={'large'}>
+                <Option value="Алматы">Алматы</Option>
+                <Option value="Астана">Астана</Option>
+                <Option value="Караганда">Караганда</Option>
+                <Option value="Тараз">Тараз</Option>
+                <Option value="Актау">Актау</Option>
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="district">
-              <Input placeholder="Выберите район" size={'large'} />
+              <StyledSelect placeholder="Район" size={'large'}>
+                <Option value="Турксибский">Турксибский</Option>
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="post">
               <Input placeholder="Почтовый индекс" size={'large'} />
