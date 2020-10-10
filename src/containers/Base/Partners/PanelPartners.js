@@ -18,7 +18,7 @@ const PanelDesign = (props) => {
     },
     {
       title: 'Контрагент',
-      dataIndex: 'agent',
+      dataIndex: 'partner',
 
       width: 100,
     },
@@ -56,7 +56,7 @@ const PanelDesign = (props) => {
     {
       key: 1,
       type: 'Рекламодатель',
-      agent: 'ИП Агенство',
+      partner: 'ИП Агенство',
       brand: 'CocaCola',
       sector: 'Безалкогольные напитки',
       client: 'По личным связям',
@@ -64,7 +64,7 @@ const PanelDesign = (props) => {
     {
       key: 2,
       type: 'Рекламодатель',
-      agent: 'ИП Агенство',
+      partner: 'ИП Агенство',
       brand: 'CocaCola',
       sector: 'Безалкогольные напитки',
       client: 'По личным связям',
@@ -72,7 +72,7 @@ const PanelDesign = (props) => {
     {
       key: 3,
       type: 'Рекламодатель',
-      agent: 'ИП Агенство',
+      partner: 'ИП Агенство',
       brand: 'CocaCola',
       sector: 'Безалкогольные напитки',
       client: 'По личным связям',
@@ -80,69 +80,56 @@ const PanelDesign = (props) => {
     {
       key: 4,
       type: 'Рекламодатель',
-      agent: 'ИП Агенство',
+      partner: 'ИП Агенство',
       brand: 'CocaCola',
       sector: 'Безалкогольные напитки',
       client: 'По личным связям',
     },
   ];
 
-  const OUTDOOR_T = gql`
-    query SearchConstruction(
-      $city: String
-      $district: String
-      $post: String
-      $adress_m: String
-      $InventNumber: String
-      $format: String
-      $actual: Boolean
-      $coords: String
-    ) {
-      searchConstruction(
-        backCity_Title: $city
-        backDistrict_Title: $district
-        backPostcode: $post
-        backMarketingAddress: $adress_m
-        buhInventNumber: $InventNumber
-        format: $format
-        actual: $actual
-        otherCoord: $coords
-      ) {
+  const PARTNERS_T = gql`
+    {
+      searchPartner(id: "") {
         edges {
           node {
             id
-            buhInventNumber
-            backCity {
+            partnerType {
               title
             }
-            backPostcode
-            backMarketingAddress
-            backLegalAddress
-            format
-            otherCoord
-            actual
+            title
+            brands {
+              edges {
+                node {
+                  title
+                }
+              }
+            }
+            workingSector {
+              title
+            }
+            clientType {
+              title
+            }
           }
         }
       }
     }
   `;
 
-  //   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
-  //   if (error) return <p>Error :(</p>;
-  //   if (loading) return <h3></h3>;
-  //   if (data) {
-  //     data1 = data.searchConstruction.edges.map((item) => ({
-  //       key: item.node.id,
-  //       code: item.node.buhInventNumber,
-  //       city: item.node.backCity ? item.node.backCity.title : '',
-  //       post: item.node.backPostcode,
-  //       adress_m: item.node.backMarketingAddress,
-  //       adress_j: item.node.backLegalAddress,
-  //       format: item.node.format,
-  //       coords: item.node.otherCoord,
-  //       fire: item.node.actual ? 'Да' : 'Нет',
-  //     }));
-  //   }
+  const { loading, error, data } = useQuery(PARTNERS_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+  console.log(data);
+  if (data) {
+    data1 = data.searchPartner.edges.map((item) => ({
+      key: item.node.id,
+      type: item.node.partnerType ? item.node.partnerType.title : '',
+      partner: item.node.title,
+      brand: 'CocaCola',
+      sector: item.node.workingSector ? item.node.workingSector.title : '',
+      client: item.node.clientType ? item.node.clientType.title : '',
+    }));
+  }
 
   return (
     <>

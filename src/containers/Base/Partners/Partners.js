@@ -150,6 +150,7 @@ const Partners = () => {
             background: #F5F7FA;
             min-width: 80px !important;
             max-width: 80px !important;
+            
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
