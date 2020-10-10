@@ -23,82 +23,6 @@ const Partners = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
   const history = useHistory();
-  const columns = [
-    {
-      title: 'Тип контрагента ',
-      dataIndex: 'type',
-      width: 100,
-    },
-    {
-      title: 'Контрагент',
-      dataIndex: 'agent',
-
-      width: 100,
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'brand',
-
-      width: 100,
-    },
-    {
-      title: 'Сектор деятельности',
-      dataIndex: 'sector',
-
-      width: 150,
-    },
-    {
-      title: 'Тип клиента',
-      dataIndex: 'client',
-
-      width: 100,
-    },
-
-    {
-      width: 50,
-      fixed: 'right',
-      render: (text, record) => (
-        <Link to="/base/partners/info">
-          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-        </Link>
-      ),
-    },
-  ];
-
-  const data = [
-    {
-      key: 1,
-      type: 'Рекламодатель',
-      agent: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 2,
-      type: 'Рекламодатель',
-      agent: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 3,
-      type: 'Рекламодатель',
-      agent: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 4,
-      type: 'Рекламодатель',
-      agent: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-  ];
 
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
@@ -150,7 +74,7 @@ const Partners = () => {
             background: #F5F7FA;
             min-width: 80px !important;
             max-width: 80px !important;
-            
+
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {

@@ -63,10 +63,10 @@ const FilterBar = () => {
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">
-            <StyledSelect defaultValue="Номер договора" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
+            <Form.Item name="resolutionNumber">
+              <Input placeholder="Номер договора" size={'large'} />
+            </Form.Item>
+
             <StyledSelect defaultValue="Дата начала" size={'large'}>
               <Option value="case 1">case 1</Option>
               <Option value="case 2">case 2</Option>
@@ -77,33 +77,27 @@ const FilterBar = () => {
             </StyledSelect>
           </StyledPanel>
           <StyledPanel header="По параметрам" key="3">
-            <StyledSelect defaultValue="Площадь" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Формат" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Комментарий" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
+            <Form.Item name="area">
+              <Input placeholder="Площадь" size={'large'} />
+            </Form.Item>
+            <Form.Item name="format">
+              <Input placeholder="Формат" size={'large'} />
+            </Form.Item>
+            <Form.Item name="comment">
+              <Input placeholder="Комментарий" size={'large'} />
+            </Form.Item>
           </StyledPanel>
-
           <StyledPanel header="Другое" key="4">
-            <StyledSelect defaultValue="Поставновление от акимата" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Акт на землю" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Статус оформления" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
+            <Form.Item name="1">
+              <Input placeholder="Поставновление от акимата" size={'large'} />
+            </Form.Item>
+
+            <Form.Item name="areaAct">
+              <Input placeholder="Акт на землю" size={'large'} />
+            </Form.Item>
+            <Form.Item name="2">
+              <Input placeholder="Статус оформления" size={'large'} />
+            </Form.Item>
           </StyledPanel>
           <StyledPanel header="Статус" key="5">
             <Radio.Group>
