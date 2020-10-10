@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,createContext } from 'react';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
@@ -14,6 +14,7 @@ import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../componen
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
 import settings_icon from '../../../../img/outdoor_furniture/table_icons/setting.svg';
+export const agreementsContext = createContext();
 
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
@@ -25,7 +26,7 @@ const panel2 = <ApplicationsTab />;
 
 const InnerForm = (props) => {
   const [block, setBlock] = useState(0);
-
+  const [filter, setFilter] = useState({});
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -55,8 +56,7 @@ const InnerForm = (props) => {
               {tabs.map((tab, index) => {
                 return (
                   <STab key={index} onClick={() => setBlock(index)}>
-                    {' '}
-                    {tab.value}{' '}
+                    {tab.value}
                   </STab>
                 );
               })}
@@ -76,8 +76,10 @@ const InnerForm = (props) => {
               </BtnSettings>
             </ToolbarControl>
           </ControlToolbar>
+          <agreementsContext.Provider value={[filter, setFilter]}>
           <STabPanel>{panel1}</STabPanel>
           <STabPanel>{panel2}</STabPanel>
+          </agreementsContext.Provider>
         </STabs>
       </div>
     </form>

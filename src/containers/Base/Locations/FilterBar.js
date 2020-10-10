@@ -107,7 +107,7 @@ const FilterBar = () => {
           </StyledPanel>
         </Collapse>
         <BtnGroup>
-          <SubmitButton onClick={() => alert('Фильтр')}>Поиск</SubmitButton>
+          <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>
           <ResetButton onClick={onReset}>Очистить</ResetButton>
         </BtnGroup>
       </Form>

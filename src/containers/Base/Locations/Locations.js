@@ -48,6 +48,7 @@ const Locations = (props) => {
               <StyledButton
                 backgroundColor="#008556"
                 onClick={() => {
+                  
                   history.push(`/base/locations/location`);
                 }}>
                 Создать новое
@@ -69,6 +70,7 @@ const Locations = (props) => {
             flex-direction: column;
             overflow-x: hidden;
             padding: 30px 30px 0 30px;
+            width: 100%;
           }
           .layout-breadcrumb {
             font-size: 11px;

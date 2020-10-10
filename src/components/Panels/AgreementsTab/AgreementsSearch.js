@@ -1,79 +1,103 @@
-import React, { useState } from 'react';
-import { Radio, DatePicker } from 'antd';
+import React, { useState,useContext } from 'react';
+import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/InnerForm';
+import { Radio, DatePicker ,Form,Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
-import InputAnchor from '../../Inputs/InputAnchor';
-//import DatePicker from '../../Inputs/DatePicker';
-import GroupRadio from '../../Inputs/GroupRadio';
-import { StyledButton } from '../../../styles/styles';
+import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 const AgreementsSearch = () => {
-  const [value, setValue] = useState(1);
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const [form] = Form.useForm();
+  const [filter, setFilter] = useContext(agreementsContext);
+  const onFinish = (values) => {
+    setFilter(values);
+
+    console.log(filter);
   };
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
   return (
+    
     <Medium>
       <BlockTitle>Поиск договора</BlockTitle>
       <BlockBody>
+      <Form form={form} onFinish={onFinish}>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Номер договора</InputTitle>
-            <InputAnchor placeholder="Номер договора" />
+            <Form.Item name="resolutionNumber" >
+              <Input placeholder="Номер договора" size={'large'} />
+            </Form.Item>
           </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          <div style={{ margin: '0 0 0  0.75vw' }}>
             <InputTitle>Инициатор</InputTitle>
-            <InputAnchor placeholder="Инициатор" />
+            <Form.Item name="initiator" >
+              <Input placeholder="Инициатор" size={'large'} />
+            </Form.Item>
           </div>
+        
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Наименование контрагента</InputTitle>
-            <InputAnchor placeholder="Наименование контрагента" />
+            <Form.Item name="partner" >
+              <Input placeholder="Наименование контрагента" size={'large'} />
+            </Form.Item>
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Создатель</InputTitle>
-            <InputAnchor placeholder="Создатель" />
+            <Form.Item name="creator" >
+              <Input placeholder="Создатель" size={'large'} />
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Тип договора</InputTitle>
-            <InputAnchor placeholder="Тип договора" />
+            <Form.Item name="resolutionType" >
+              <Input placeholder="Тип договора" size={'large'} />
+            </Form.Item>
           </div>
           <div style={{ margin: '0 0 0 ц0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата начала действия договора</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+            <Form.Item name="startdate" >
+            <DatePicker style={{ height: '40px', width: '203px' }} />
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Дата заключения договора</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+            <Form.Item name="conclusiondate" >
+            <DatePicker style={{ height: '40px', width: '203px' }} />
+            </Form.Item>
           </div>
           <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата окончания действия договора</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+            <Form.Item name="enddate" >
+            <DatePicker style={{ height: '40px', width: '203px' }} />
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div>
             <InputTitle>Статус возврата</InputTitle>
-            <Radio.Group onChange={onChange} value={value}>
+            <Form.Item name="returnStatus" >
+            <Radio.Group >
               <Radio value={1}>Есть</Radio>
               <Radio value={2}>Нет</Radio>
             </Radio.Group>
+            </Form.Item>
           </div>
         </Row>
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <StyledButton
-            style={{ margin: '0 15px 0 0', background: '#EEF3FF', color: '#2C5DE5', border: '1px solid #2C5DE5' }}
-            backgroundColor="#2c5de5">
-            Очистить
-          </StyledButton>
-          <StyledButton style={{ margin: '0' }} backgroundColor="#2c5de5">
-            Искать
-          </StyledButton>
+        <BtnGroup>
+          <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>
+          <ResetButton style={{    marginRight: 'auto'}} onClick={onReset}>Очистить</ResetButton>
+        </BtnGroup>
         </Row>
+        </Form>
       </BlockBody>
     </Medium>
   );

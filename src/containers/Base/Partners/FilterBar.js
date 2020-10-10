@@ -16,7 +16,6 @@ const FilterBar = () => {
   const [filter, setFilter] = useContext(partnersContext);
   const onFinish = (values) => {
     setFilter(values);
-
     console.log(filter);
   };
 

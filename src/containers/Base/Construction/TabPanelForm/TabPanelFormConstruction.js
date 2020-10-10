@@ -86,10 +86,15 @@ const InnerForm = (props) => {
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
   const Update = () => {
     updateConstruction({ variables: { ...item, backCity: item.backCity.id } });
+      
+    history.push(`/base/outdoor_furniture`);
+    history.go(0);
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });
     history.push(`/base/outdoor_furniture`);
+    history.go(0);
+ 
   };
   return (
     <form style={{ width: '100%' }}>

@@ -25,6 +25,7 @@ const Construction = (props) => {
             id
             backCity {
               title
+              id
             }
             backDistrict {
               title
