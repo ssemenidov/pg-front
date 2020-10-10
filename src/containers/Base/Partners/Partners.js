@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { createContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+
+import PanelPartners from './PanelPartners';
 import FilterBar from './FilterBar';
 
 import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Input } from 'antd';
-import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 
-import Table from '../../../components/Tablea';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import { LeftBar, StyledButton } from '../../../styles/styles';
-
+import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-
 import icon_pen from '../../../img/edit-icon.svg';
-import headerIcon from '../../../img/header-icon.svg';
-import searchInputIcon from '../../../img/header-bar/search-icon.svg';
-import printerIcon from '../../../img/header-bar/printer.svg';
-import exportIcon from '../../../img/header-bar/export.svg';
 
 const { Content, Sider } = Layout;
-
+export const partnersContext = createContext();
 const Partners = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [filter, setFilter] = useState({});
+  const history = useHistory();
   const columns = [
     {
       title: 'Тип контрагента ',
@@ -100,40 +101,46 @@ const Partners = () => {
   ];
 
   return (
-    <Layout>
+    <partnersContext.Provider value={[filter, setFilter]}>
       <Layout>
-        <StyledSider>
-          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-        </StyledSider>
-        {collapsed && <FilterBar />}
-        <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <Breadcrumb className="layout-breadcrumb">
-            <Breadcrumb.Item>
-              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-              <Link to="/">Главная</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/base/">Базы</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>
-          </Breadcrumb>
-          <StyledHeader>
-            <div>
-              <img src={headerIcon} alt="" />
-              <h2>Контрагенты</h2>
+        <Layout>
+          <StyledSider>
+            <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+          </StyledSider>
+          {collapsed && <FilterBar />}
+          <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
+            <Breadcrumb className="layout-breadcrumb">
+              <Breadcrumb.Item>
+                <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
+                <Link to="/">Главная</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/base/">Базы</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>
+            </Breadcrumb>
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Контрагенты</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                <StyledButton backgroundColor="#008556" onClick={() => {}}>
+                  Создать контрагента
+                </StyledButton>
+                <StyledButton backgroundColor="#2C5DE5" onClick={() => {}}>
+                  Создать договор
+                </StyledButton>
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex' }}>
+              <PanelPartners style={{ flex: '0 1 auto' }} history={history} />
             </div>
-            <div>
-              <StyledButton backgroundColor="#008556">Создать контрагента</StyledButton>
-              <StyledButton backgroundColor="#2C5DE5">Создать договор</StyledButton>
-            </div>
-          </StyledHeader>
-          <StyledContent style={{ width: '100%' }}>
-            <Table columns={columns} data={data} />
-          </StyledContent>
+          </Layout>
         </Layout>
-      </Layout>
-      <style>
-        {`
+
+        <style>
+          {`
           .layout-main {
             background: #fff !important;
             height: 100% !important;
@@ -152,64 +159,13 @@ const Partners = () => {
           .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
-          .filter-panel > div {
-            display: flex;
-            padding: 20px 30px;
-            border-bottom: 1px solid #d3dff0;
-          }
-          .filter-panel-title {
-            align-items: flex-end;
-            text-transform: uppercase;
-          }
-          .filter-panel-title strong {
-            color: #003360 !important;
-          }
-          .filter-panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #171717 !important;
-            font-weight: 600;
-          }
-          .filter-panel-city {
-            flex-direction: column;
-          }
-          .filter-panel-parameters {
-            flex-direction: column;
-          }
-          .filter-panel-date {
-            flex-direction: column;
-          }
-          .group-btn {
-            justify-content: space-between;
-          }
-          .clear-btn, .search-btn {
-            border-radius: 4px;
-            width: 45%;
-          }
-          .clear-btn span {
-            color: #2C5DE5 !important;
-            font-weight: 600;
-          }
-          .clear-btn {
-            background: #EEF3FF;
-            border: 1px solid #2C5DE5;
-          }
-          .search-btn {
-            background: #2C5DE5;
-          }
-          .search-btn span {
-            color: #FFF !important;
-          }
-          .search-btn:hover span {
-            color: #2C5DE5 !important;
-          }
+          
       
          
         `}
-      </style>
-    </Layout>
+        </style>
+      </Layout>
+    </partnersContext.Provider>
   );
 };
 
