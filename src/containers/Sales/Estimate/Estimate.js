@@ -9,7 +9,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 import AddBtn from '../../../components/LeftBar/AddBtn';
 import styled from 'styled-components';
 import EditBtn from '../../../components/LeftBar/EditBtn';
@@ -179,7 +178,7 @@ const Estimate = () => {
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
+
       <style>
         {`
           .left-bar {

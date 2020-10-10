@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { locationsContext } from './Locations';
-
-import Table from '../../../components/Tablea';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
+import { Link } from 'react-router-dom';
+
+import { locationsContext } from './Locations';
+import Table from '../../../components/Tablea';
+
+import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
 const LOCATIONS_T = gql`
   {
     searchLocation(id: "") {
@@ -78,6 +82,15 @@ const PanelDesign = (props) => {
       dataIndex: 'contractNumber',
       width: 150,
     },
+    {
+      width: 40,
+      title: '',
+      render: (text, record) => (
+        <Link to={{ pathname: `/base/locations/location/${record.key}` }}>
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      ),
+    },
   ];
   var data1 = [
     {
@@ -103,13 +116,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table
-          style={{ width: '100%' }}
-          columns={columns}
-          data={data1}
-          history={props.history}
-          link="/base/locations/location/"
-        />
+        <Table style={{ width: '100%' }} columns={columns} data={data1} />
       </div>
       <style>
         {`.outdoor-table-bar {

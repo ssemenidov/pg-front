@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import InnerForm from './TabPanelForm/TabPanelFormPartners';
+import InnerForm from './TabPanelForm/TabPanelFormPartnersInfo';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 

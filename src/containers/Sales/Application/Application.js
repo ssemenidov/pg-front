@@ -7,7 +7,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import FilterBar from '../../Base/OutdoorFurniture/OutdoorFurnitureList/FilterBar/FilterBar';
 import EditBtn from '../../../components/LeftBar/EditBtn';
 import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
@@ -119,11 +118,9 @@ const Application = () => {
             </InfoItem>
           </InfoList>
           <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
-
-          {block === 0 ? null : <FilterBar />}
         </div>
       </div>
-      {/* {block === 0 ? null : <FilterBar />} */}
+
       <style>
         {`
           .left-bar {

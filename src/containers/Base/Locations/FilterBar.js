@@ -7,7 +7,7 @@ import {
   StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker, Radio, Form } from 'antd';
+import { Select, Collapse, Checkbox, DatePicker, Radio, Form, Input } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -35,34 +35,35 @@ const FilterBar = () => {
       <Form form={form} onFinish={onFinish}>
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="По местоположению" key="1">
-            <StyledSelect defaultValue="Город" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Район" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Юридический адрес" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Маркетинговый адрес" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Почтовый индекс" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Кадастровый номер" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Целевое назначение" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
+            <Form.Item name="city">
+              <Select placeholder="Город" size={'large'}>
+                <Option value="Алматы">Алматы</Option>
+                <Option value="Астана">Астана</Option>
+                <Option value="Караганда">Караганда</Option>
+                <Option value="Тараз">Тараз</Option>
+                <Option value="Актау">Актау</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="district">
+              <Select placeholder="Район" size={'large'}>
+                <Option value="Турксибский">Турксибский</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="post">
+              <Input placeholder="Почтовый индекс" size={'large'} />
+            </Form.Item>
+            <Form.Item name="adress_m">
+              <Input placeholder="Адрес маркетинговый" size={'large'} />
+            </Form.Item>
+            <Form.Item name="adress_j">
+              <Input placeholder="Адрес юридический" size={'large'} />
+            </Form.Item>
+            <Form.Item name="cadastralNumber">
+              <Input placeholder="Кадастровый номер" size={'large'} />
+            </Form.Item>
+            <Form.Item name="targetPurpose">
+              <Input placeholder="Целевое назначение" size={'large'} />
+            </Form.Item>
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">
             <StyledSelect defaultValue="Номер договора" size={'large'}>

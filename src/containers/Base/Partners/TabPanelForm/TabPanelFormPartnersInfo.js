@@ -3,10 +3,15 @@ import PartnerInfo from '../../../../components/Panels/Partners/PartnerInfo/Part
 import RelatedProjects from '../../../../components/Panels/Partners/RelatedProjects/RelatedProjects';
 import RelatedBrands from '../../../../components/Panels/Partners/RelatedBrands/RelatedBrands';
 import RelatedAdvertisers from '../../../../components/Panels/Partners/RelatedAdvertisers/RelatedAdvertisers';
-import TabPanelFormHeaderPartners from './TabPanelFormHeaderPartners';
+
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
 import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
+import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../../components/Styles/StyledBlocks';
+import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
+
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../styles/styles';
 
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
@@ -31,8 +36,18 @@ const panel4 = <RelatedAdvertisers />;
 
 export default function TabPaneForm(props) {
   return (
-    <form className="marginLeft10" style={{ width: '100%' }}>
-      <TabPanelFormHeaderPartners />
+    <form style={{ width: '100%' }}>
+      <HeaderWrapper>
+        <HeaderTitleWrapper>
+          <TitleLogo />
+          <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
+        </HeaderTitleWrapper>
+        <ButtonGroup>
+          <StyledButton backgroundColor="#008556">Сохранить</StyledButton>
+          <StyledButton backgroundColor="#d42d11">Удалить</StyledButton>
+          <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
+        </ButtonGroup>
+      </HeaderWrapper>
       <div>
         <STabs
           selectedTabClassName="is-selected"
