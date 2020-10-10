@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { partnersContext } from './Partners';
 import {
   FilterMenu,
   SearchTitle,
@@ -6,49 +7,57 @@ import {
   StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker } from 'antd';
+import { Select, Collapse, Checkbox, DatePicker, Form, Input } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 const { Option } = Select;
 const { Panel } = Collapse;
 const FilterBar = () => {
+  const [form] = Form.useForm();
+  const [filter, setFilter] = useContext(partnersContext);
+  const onFinish = (values) => {
+    setFilter(values);
+
+    console.log(filter);
+  };
+
+  const onReset = () => {
+    form.resetFields();
+  };
   return (
-    <FilterMenu
-      onKeyDown={(e) => {
-        e.key === 'Enter' && alert('Фильтр');
-      }}>
+    <FilterMenu>
       <SearchTitle>
         <FilterText>Поиск</FilterText>
       </SearchTitle>
-      <Collapse expandIconPosition={'right'}>
-        <StyledPanel header="По параметрам" key="1">
-          <StyledSelect defaultValue="Контрагент" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-          <StyledSelect defaultValue="Бренд" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-          <StyledSelect defaultValue="Рекламодатель" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-          <StyledSelect defaultValue="Cектор деятельности" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-        </StyledPanel>
-        <StyledPanel header=" По БИН" key="2">
-          <StyledSelect defaultValue="Введите БИН" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
-        </StyledPanel>
-      </Collapse>
-      <BtnGroup>
-        <SubmitButton onClick={() => alert('Фильтр')}>Поиск</SubmitButton>
-        <ResetButton>Очистить</ResetButton>
-      </BtnGroup>
+      <Form form={form} onFinish={onFinish}>
+        <Collapse expandIconPosition={'right'}>
+          <StyledPanel header="По параметрам" key="1">
+            <Form.Item name="partner">
+              <Input placeholder="Контрагент" size={'large'} />
+            </Form.Item>
+            <Form.Item name="brand">
+              <Input placeholder="Бренд" size={'large'} />
+            </Form.Item>
+            <Form.Item name="type">
+              <Input placeholder="Тип Контрагента" size={'large'} />
+            </Form.Item>
+            <Form.Item name="sector">
+              <Input placeholder="Cектор деятельности" size={'large'} />
+            </Form.Item>
+          </StyledPanel>
+          <StyledPanel header=" По БИН" key="2">
+            <Form.Item name="binNumber">
+              <Input placeholder="Введите БИН" size={'large'} />
+            </Form.Item>
+          </StyledPanel>
+        </Collapse>
+
+        <BtnGroup>
+          <SubmitButton htmlType="submit" onClick={() => alert('Фильтр')}>
+            Поиск
+          </SubmitButton>
+          <ResetButton onClick={onReset}>Очистить</ResetButton>
+        </BtnGroup>
+      </Form>
       <style>
         {`
         .ant-collapse-content{
