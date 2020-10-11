@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { invoiceContext } from './Invoice';
+
 import Table from '../../../components/Tablea';
 
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(invoiceContext);
   const columns = [
     {
       title: 'Код',
@@ -103,6 +108,36 @@ const PanelDesign = (props) => {
       all_sum: '223 356 тг.',
     },
   ];
+
+  // const INVOICE_T = gql`
+  //   query SearchInvoice(
+  //     $date: String
+  //     $projectCode String
+  //     $applicationNumber String
+  //     $brand String
+  //     $advertiser String
+  //     $advAgency String
+  //     $respManager String
+  //     $advManager String
+  //   ) {
+  //     searchInvoice(
+  //       var1: $date // rename variables from albot
+  //       var2: $projectCode
+  //       var3: $applicationNumber
+  //       var4: $brand
+  //       var5: $advertiser
+  //       var6: $advAgency
+  //       var7: $respManager
+  //       var8: $advManager 
+  //     ) {
+  //       edges {
+  //         node {
+  //           // add variables 
+  //         }
+  //       }
+  //     }
+  //   }
+  // `;
 
   return (
     <>
