@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, { useState, useContext, createContext, useMemo } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
@@ -31,11 +31,14 @@ const OutdoorFurniture = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
   const [createConstruction, { data }] = useMutation(CONSTRUCT_CREATE);
-  const addConstruct = () => {
-    createConstruction();
+  useMemo(() => {
     if (data) {
       history.push(`/base/construction/${data.createConstruction.construction.id}`);
     }
+  }, [data]);
+  const addConstruct = () => {
+    createConstruction();
+  
   };
   return (
     <outContext.Provider value={[filter, setFilter]}>

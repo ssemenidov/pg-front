@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 import PanelDesign from './PanelLocations';
@@ -15,11 +15,30 @@ import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 export const locationsContext = createContext();
+const LOCATION_CREATE = gql`
+  mutation {
+    createLocation(input: {}) {
+      location {
+        id
+      }
+    }
+  }
+`;
 
 const Locations = (props) => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
+  const [createLocation, { data }] = useMutation(LOCATION_CREATE);
+  useMemo(() => {
+    if (data) {
+      history.push(`/base/locations/${data.createLocation.location.id}`);
+    }
+  }, [data]);
+  const addLocation= () => {
+    createLocation();
+    
+  };
   return (
     <locationsContext.Provider value={[filter, setFilter]}>
       <div className="locations-table">
@@ -47,10 +66,8 @@ const Locations = (props) => {
             <ButtonGroup>
               <StyledButton
                 backgroundColor="#008556"
-                onClick={() => {
-                  
-                  history.push(`/base/locations/location`);
-                }}>
+                  onClick={addLocation}
+                >
                 Создать новое
               </StyledButton>
             </ButtonGroup>

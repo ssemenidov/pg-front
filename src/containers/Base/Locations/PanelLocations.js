@@ -128,7 +128,7 @@ const PanelDesign = (props) => {
       contractNumber:"",
     },
   ];
-  console.log(filter);
+
   const { loading, error, data } = useQuery(LOCATIONS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
