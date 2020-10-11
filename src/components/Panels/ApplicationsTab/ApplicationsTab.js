@@ -6,6 +6,21 @@ import Table from '../../../components/Tablea';
 export const applicationsContext = createContext();
 const ApplicationsTab = () => {
   const [filter, setFilter] = useState({});
+  
+  const APPLICATION_T = gql`
+  {
+    searchAttachment(
+     id:""
+    ) {
+      edges {
+        node {
+          id
+         
+        }
+      }
+    }
+  }
+`;
   const columns = [
     {
       title: 'Код приложения',
@@ -36,7 +51,7 @@ const ApplicationsTab = () => {
     },
   ];
 
-  const data = [
+  const data1 = [
     {
       key: 1,
       code: '#2020050301323',
@@ -87,6 +102,18 @@ const ApplicationsTab = () => {
       date_end: '29.05.2021',
     },
   ];
+  const { loading, error, data } = useQuery(APPLICATION_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+
+//   if (data) {
+// console.log(data);
+//     data1 = data. searchAttachment.edges.map((item) => ({
+
+    
+    
+//     }));
+//   }
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
@@ -97,7 +124,7 @@ const ApplicationsTab = () => {
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>
-          <Table columns={columns} data={data} notheader={true} />
+          <Table columns={columns} data={data1} notheader={true} />
         </div>
       </div>
     </div>

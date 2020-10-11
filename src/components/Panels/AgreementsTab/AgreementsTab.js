@@ -118,7 +118,6 @@ console.log(data);
     data1 = data.searchContract.edges.map((item) => ({
 
       key: item.node.id,
-      key: 1,
       code: '#2020050301323',
       partner:  item.node.partnerTitle,
       project: 'CocaCola',

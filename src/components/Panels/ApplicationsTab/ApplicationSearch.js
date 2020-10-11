@@ -8,6 +8,7 @@ import InputAnchor from '../../Inputs/InputAnchor';
 import GroupRadio from '../../Inputs/GroupRadio';
 import { Radio, DatePicker,Form,Input } from 'antd';
 import { StyledButton } from '../../../styles/styles';
+import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 const ApplicationSearch = () => {
   const [form] = Form.useForm();
@@ -25,6 +26,7 @@ const ApplicationSearch = () => {
     <Medium>
       <BlockTitle>Поиск приложения</BlockTitle>
       <BlockBody>
+      <Form form={form} onFinish={onFinish}>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Номер приложения</InputTitle>
@@ -58,7 +60,8 @@ const ApplicationSearch = () => {
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Бренд</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+            <InputAnchor placeholder="Бренд" />
+  
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Дата создания</InputTitle>
@@ -75,15 +78,12 @@ const ApplicationSearch = () => {
           </div>
         </Row>
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <StyledButton
-            style={{ margin: '0 15px 0 0', background: '#EEF3FF', color: '#2C5DE5', border: '1px solid #2C5DE5' }}
-            backgroundColor="#2c5de5">
-            Очистить
-          </StyledButton>
-          <StyledButton style={{ margin: '0' }} backgroundColor="#2c5de5">
-            Искать
-          </StyledButton>
+        <BtnGroup>
+          <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>
+          <ResetButton style={{    marginRight: 'auto'}} onClick={onReset}>Очистить</ResetButton>
+        </BtnGroup>
         </Row>
+        </Form>
       </BlockBody>
       <style>
         {`
