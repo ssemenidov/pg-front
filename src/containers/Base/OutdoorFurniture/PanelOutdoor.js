@@ -109,7 +109,7 @@ const PanelDesign = (props) => {
   if (data) {
     data1 = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
-      code: item.node.buhInventNumber,
+      code: '#1020050301323',
       city: item.node.backCity ? item.node.backCity.title : '',
       post: item.node.backPostcode,
       adress_m: item.node.backMarketingAddress,

@@ -102,17 +102,26 @@ const PanelDesign = (props) => {
       adress_j: 'Абая - ост. ГорВодоКанал',
       cadastralNumber: '34756824',
       area: '32 га',
+      contractNumber:"",
     },
   ];
 
   const { loading, error, data } = useQuery(LOCATIONS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
-  // if (data) {
-  //   data1 = data.searchLocation.edges.map((item) => ({
-  //     key: item.node.id,
-  //   }));
-  // }
+  if (data) {
+    data1 = data.searchLocation.edges.map((item) => ({
+      key: item.node.id,
+      code: '#1020050301323',
+      city: item.node.city ? item.node.city.title:'',
+      post: item.node.poscode,
+      district: item.node.district ? item.node.district.title:"",
+      adress_j: item.node.address,
+      cadastralNumber: item.node.cadastralNumber,
+      area: item.node.area,
+      contractNumber:"",
+    }));
+  }
   return (
     <>
       <div className="outdoor-table-bar">
