@@ -38,7 +38,8 @@ const Construction = (props) => {
             backFamilyConstruction
             backUnderFamilyConstruction
             backAvailabilityConstruction
-
+            backModelConstruction
+            backHasArea
             otherImg
 
             location {

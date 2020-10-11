@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+
 import { Radio, notification } from 'antd';
 import styled from 'styled-components';
 
 import { BlockBody, Row, Medium, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect } from '../../../../../styles/styles';
+import { StyledButton, StyledSelect,StyledInput } from '../../../../../styles/styles';
 import GroupRadio from '../../../../Inputs/GroupRadio';
 import InputAnchor from '../../../../Inputs/InputAnchor';
 import { SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
@@ -20,9 +21,7 @@ const openNotification = (placement) => {
 };
 
 export default function Details() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
-
+  const [item, setItem] = useContext(constructContext);
   return (
     <Medium>
       <BlockTitle>Детали конструкции</BlockTitle>
@@ -30,93 +29,59 @@ export default function Details() {
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Семейство конструкции</InputTitle>
-            {/* <InputAnchor
-              value={current.familyConstruction || ''}
-              placeholder="Семейство"
-              onChange={(e) => dispatch(getConstructionProps('familyConstruction', e.target.value))}
-            /> */}
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Семейство</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.backFamilyConstruction ? item.backFamilyConstruction : 'Семейство'}
+              onChange={(e) =>
+                setItem({ ...item, backFamilyConstruction: e.target.value  })
+              }></StyledInput>
+           
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Доступность конструкции</InputTitle>
-            {/* <InputAnchor
-              value={current.availabilityConstruction || ''}
-              placeholder="Доступность"
-              onChange={(e) => dispatch(getConstructionProps('availabilityConstruction', e.target.value))}
-            /> */}
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Доступность</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.backAvailabilityConstruction ? item.backAvailabilityConstruction : 'Доступность'}
+              onChange={(e) =>
+                setItem({ ...item, backAvailabilityConstruction: e.target.value  })
+              }></StyledInput>
+           
           </div>
         </Row>
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Подсемейство конструкции</InputTitle>
-            {/* <InputAnchor
-              value={current.subfamilyConstruction || ''}
-              placeholder="Подсемейство"
-              onChange={(e) => dispatch(getConstructionProps('subfamilyConstruction', e.target.value))}
-            /> */}
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Подсемейство</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item. backUnderFamilyConstruction ? item. backUnderFamilyConstruction : 'Подсемейство'}
+              onChange={(e) =>
+                setItem({ ...item,  backUnderFamilyConstruction: e.target.value  })
+              }></StyledInput>
+           
+          
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Модель</InputTitle>
-            {/* <InputAnchor
-              value={current.model || ''}
-              placeholder="Модель"
-              onChange={(e) => dispatch(getConstructionProps('model', e.target.value))}
-            /> */}
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Модель</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.backModelConstruction ? item.backModelConstruction : 'Модель'}
+              onChange={(e) =>
+                setItem({ ...item,  backModelConstruction: e.target.value  })
+              }></StyledInput>
+           
           </div>
         </Row>
         <Row>
           <div>
             <InputTitle onClick={() => openNotification('bottomRight')}>Наличие земли (!)</InputTitle>
-            {/* <GroupRadio
-              value={current.availabilityLand || ''}
-              onChange={(e) => dispatch(getConstructionProps('availabilityLand', e.target.value))}
-            /> */}
-            <StyledRadio>
-              <Radio value={0}>Есть</Radio>
-              <Radio value={1}>Нет</Radio>
+            <StyledRadio 
+              defaultValue={item.backHasArea ? item.backHasArea : null}
+              onChange={(e) =>
+                setItem({ ...item,  backHasArea: e.target.value  })
+              }>
+              <Radio value={true}>Есть</Radio>
+              <Radio value={false}>Нет</Radio>
             </StyledRadio>
           </div>
           <StyledButton backgroundColor="#2C5DE5">Открыть местоположение</StyledButton>

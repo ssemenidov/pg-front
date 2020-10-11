@@ -50,6 +50,11 @@ const CONSTRUCT_UPDATE = gql`
     $backOwner: String
     $backMarketingAddress: String
     $backComment: String
+    $backFamilyConstruction: String
+    $backUnderFamilyConstruction: String
+    $backAvailabilityConstruction: String
+    $backModelConstruction: String
+    $backHasArea: Boolean
   ) {
     updateConstruction(
       id: $id
@@ -59,6 +64,11 @@ const CONSTRUCT_UPDATE = gql`
         backOwner: $backOwner
         backMarketingAddress: $backMarketingAddress
         backComment: $backComment
+        backFamilyConstruction:$backFamilyConstruction
+        backUnderFamilyConstruction: $backUnderFamilyConstruction
+        backAvailabilityConstruction: $backAvailabilityConstruction
+        backModelConstruction: $backModelConstruction
+        backHasArea: $backHasArea
       }
     ) {
       construction {
