@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelInvoice';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -25,7 +25,7 @@ const Invoice = () => {
   ];
 
   return (
-    <outContext.Provider value={[filter, SetFilter]}>
+    <invoiceContext.Provider value={[filter, setFilter]}>
      <div style={{ display: 'flex', height: '100%' }}>
        <div className="flex-margin">
          <LeftBar>
@@ -70,7 +70,7 @@ const Invoice = () => {
          `}
        </style>
      </div>
-    </outContext.Provider>
+    </invoiceContext.Provider>
   );
 };
 

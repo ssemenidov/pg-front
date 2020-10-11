@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,  useContext } from 'react';
 import { invoiceContext } from './Invoice';
 
 import Table from '../../../components/Tablea';
@@ -139,6 +139,14 @@ const PanelDesign = (props) => {
   //   }
   // `;
 
+  // const { loading, error, data } = useQuery(INVOICE_T, { variables: filter });
+  // if (error) return <p>Error :(</p>;
+  // if (loading) return <h3></h3>;
+  // if (data) {
+  //   data1 = data.searchInvoice.edges.map((item) => ({
+  //     date: item.node.date
+  //   }));
+  // }
   return (
     <>
       <div className="outdoor-table-bar">

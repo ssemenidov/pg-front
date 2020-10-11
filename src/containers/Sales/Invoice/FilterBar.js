@@ -6,7 +6,6 @@ import {
   FilterText,
   StyledSelect,
   StyledPanel,
-  Form,
 } from '../../../components/Styles/StyledFilters';
 import { Select, Collapse, DatePicker, Form } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
