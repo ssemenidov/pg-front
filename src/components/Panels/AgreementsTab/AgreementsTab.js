@@ -2,7 +2,7 @@ import React,{useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/InnerForm';
+import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/PanelAgreements';
 import AgreementsSearch from './AgreementsSearch';
 import Table from '../../../components/Tablea';
 
@@ -17,7 +17,7 @@ const AgreementsTab = () => {
     },
     {
       title: 'Контрагент',
-      dataIndex: 'agreement',
+      dataIndex: 'partner',
 
       width: 100,
     },
@@ -40,39 +40,16 @@ const AgreementsTab = () => {
 
  
   const AGREEMENT_T = gql`
-  query SearchConstruction(
-    $city: String
-    $district: String
-    $post: String
-    $adress_m: String
-    $InventNumber: String
-    $format: String
-    $actual: Boolean
-    $coords: String
-  ) {
-    searchConstruction(
-      backCity_Title: $city
-      backDistrict_Title: $district
-      backPostcode: $post
-      backMarketingAddress: $adress_m
-      buhInventNumber: $InventNumber
-      format: $format
-      actual: $actual
-      otherCoord: $coords
+  {
+    searchContract(
+     id:""
     ) {
       edges {
         node {
           id
-          buhInventNumber
-          backCity {
-            title
-          }
-          backPostcode
-          backMarketingAddress
-          backLegalAddress
-          format
-          otherCoord
-          actual
+          partnerTitle
+          start 
+          end
         }
       }
     }
@@ -82,7 +59,7 @@ var data1 = [
   {
     key: 1,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
 
     project: 'CocaCola',
     date_start: '29.05.2021',
@@ -91,7 +68,7 @@ var data1 = [
   {
     key: 2,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
     project: 'CocaCola',
     date_start: '29.05.2021',
     date_end: '29.05.2021',
@@ -99,7 +76,7 @@ var data1 = [
   {
     key: 3,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
     project: 'CocaCola',
     date_start: '29.05.2021',
     date_end: '29.05.2021',
@@ -107,7 +84,7 @@ var data1 = [
   {
     key: 4,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
     project: 'CocaCola',
     date_start: '29.05.2021',
     date_end: '29.05.2021',
@@ -115,7 +92,7 @@ var data1 = [
   {
     key: 5,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
     project: 'CocaCola',
     date_start: '29.05.2021',
     date_end: '29.05.2021',
@@ -123,7 +100,7 @@ var data1 = [
   {
     key: 6,
     code: '#2020050301323',
-    agreement: 'ИП Агенство',
+    partner: 'ИП Агенство',
     project: 'CocaCola',
     date_start: '29.05.2021',
     date_end: '29.05.2021',
@@ -135,19 +112,21 @@ var data1 = [
   const { loading, error, data } = useQuery(AGREEMENT_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
-  // if (data) {
-  //   data1 = data.searchConstruction.edges.map((item) => ({
-  //     key: item.node.id,
-  //     code: item.node.buhInventNumber,
-  //     city: item.node.backCity ? item.node.backCity.title : '',
-  //     post: item.node.backPostcode,
-  //     adress_m: item.node.backMarketingAddress,
-  //     adress_j: item.node.backLegalAddress,
-  //     format: item.node.format,
-  //     coords: item.node.otherCoord,
-  //     fire: item.node.actual ? 'Да' : 'Нет',
-  //   }));
-  // }
+
+  if (data) {
+console.log(data);
+    data1 = data.searchContract.edges.map((item) => ({
+
+      key: item.node.id,
+      key: 1,
+      code: '#2020050301323',
+      partner:  item.node.partnerTitle,
+      project: 'CocaCola',
+      date_start: new Date(item.node.start).toLocaleDateString('en-GB'),
+      date_end: new Date(item.node.end).toLocaleDateString('en-GB'),
+    
+    }));
+  }
 
   return (
     <div style={{ display: 'flex' }}>

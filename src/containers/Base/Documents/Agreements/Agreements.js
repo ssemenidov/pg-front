@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 
-import InnerForm from './InnerForm';
+import PanelAgreements from './PanelAgreements';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
@@ -32,7 +32,7 @@ const Agreements = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <InnerForm selectedTab={handleTabSelected} constructionID={props.match.params.id} />
+            <PanelAgreements selectedTab={handleTabSelected} constructionID={props.match.params.id} />
           </Content>
         </Layout>
       </Layout>

@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react';
-import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/InnerForm';
+import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/PanelAgreements';
 import { Radio, DatePicker ,Form,Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
