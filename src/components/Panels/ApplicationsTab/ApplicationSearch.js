@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+
+import {  applicationsContext } from './ApplicationsTab';
+
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import InputAnchor from '../../Inputs/InputAnchor';
 //import DatePicker from '../../Inputs/DatePicker';
 import GroupRadio from '../../Inputs/GroupRadio';
-import { Radio, DatePicker } from 'antd';
+import { Radio, DatePicker,Form,Input } from 'antd';
 import { StyledButton } from '../../../styles/styles';
 
 const ApplicationSearch = () => {
-  const [value, setValue] = useState(1);
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const [form] = Form.useForm();
+  const [filter, setFilter] = useContext(applicationsContext);
+  const onFinish = (values) => {
+    setFilter(values);
+
+    console.log(filter);
+  };
+
+  const onReset = () => {
+    form.resetFields();
   };
   return (
     <Medium>
@@ -58,7 +68,7 @@ const ApplicationSearch = () => {
         <Row>
           <div>
             <InputTitle>Статус возврата</InputTitle>
-            <Radio.Group onChange={onChange} value={value}>
+            <Radio.Group  >
               <Radio value={1}>Есть</Radio>
               <Radio value={2}>Нет</Radio>
             </Radio.Group>

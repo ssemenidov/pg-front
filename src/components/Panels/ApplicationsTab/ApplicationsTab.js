@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, createContext } from 'react';
+import { Link } from 'react-router-dom';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import ApplicationSearch from './ApplicationSearch';
 import Table from '../../../components/Tablea';
-
+export const applicationsContext = createContext();
 const ApplicationsTab = () => {
+  const [filter, setFilter] = useState({});
   const columns = [
     {
       title: 'Код приложения',
@@ -88,7 +91,9 @@ const ApplicationsTab = () => {
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
+        <applicationsContext.Provider value={[filter,setFilter]}>
         <ApplicationSearch />
+        </applicationsContext.Provider>
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>
