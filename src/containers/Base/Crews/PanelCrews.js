@@ -42,7 +42,7 @@ const PanelDesign = (props) => {
     },
   ];
 
-  // const data = [
+  // var data = [
   //   {
   //     key: 1,
   //     code: '126353',
@@ -97,27 +97,27 @@ const PanelDesign = (props) => {
       $city: String
       $district: String
       $address: String
+      $name: String
       $phoneNumber: String
       $constructionType: String
       $constructionFormat: String
       $startDate: String
     ) {
       searchCrew(
-        backCity_Title: $city
-        backDistrict_Title: $district
-        backMarketingAddress: $address
         format: $constructionFormat
+        backCity_Title: $city
+        adress: $address
+        date_start: $startDate
       ) {
         edges {
           node {
             id
-            backDistrict {
-              title
-            }
-            backCity {
-              title
-            }
-            backMarketingAddress
+            code
+            format
+            city
+            adress
+            status
+            date_start
           }
         }
       }
@@ -130,16 +130,19 @@ const PanelDesign = (props) => {
   if (data) {
     data1 = data.searchCrew.edges.map((item) => ({
       key: item.node.id,
+      code: item.node.code,
+      format: item.node.format,
       city: item.node.backCity ? item.node.backCity.title : '',
-      district: item.node.backDistrict ? item.node.backDistrict.title : '',
-      address: item.node.backMarketingAddress
+      adress: item.node.adress,
+      status: item.node.status,
+      date_start: item.node.date_start,
     }));
   }
 
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} title={`Назначеные_конструкции`} />
+        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные_конструкции`} />
       </div>
       <style>
         {`.outdoor-table-bar {
