@@ -21,7 +21,7 @@ const FilterBar = () => {
       </SearchTitle>
       <Collapse expandIconPosition={'right'}>
         <StyledPanel header="По дате" key="1">
-          <DatePicker style={{ width: '100%' }} />
+          <DatePicker style={{ width: '100%' }} format='DD/MM/YYYY' size={'large'}/>
         </StyledPanel>
         <StyledPanel header="По параметрам" key="2">
           <StyledSelect defaultValue="Выберите город" size={'large'}>

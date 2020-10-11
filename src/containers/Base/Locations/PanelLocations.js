@@ -9,8 +9,31 @@ import Table from '../../../components/Tablea';
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
 const LOCATIONS_T = gql`
-  {
-    searchLocation(id: "") {
+   query SearchLocation(
+     $city:String
+     $district:String
+     $post:String
+     $cadastralNumber:String
+     $targetPurpose:String
+     $resolutionNumber:String
+     $contract_Start:DateTime
+     $contract_End:DateTime
+     $area:String
+   
+
+     )
+     {
+    searchLocation(
+      city_Title:$city
+      district_Title: $district
+      postcode: $post
+      cadastralNumber: $cadastralNumber
+      targetPurpose: $targetPurpose
+      resolutionNumber: $resolutionNumber
+      contract_Start:$contract_Start
+      contract_End:$contract_End
+      area:$area
+    ) {
       edges {
         node {
           id
@@ -105,7 +128,7 @@ const PanelDesign = (props) => {
       contractNumber:"",
     },
   ];
-
+  console.log(filter);
   const { loading, error, data } = useQuery(LOCATIONS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;

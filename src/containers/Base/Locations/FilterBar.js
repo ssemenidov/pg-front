@@ -17,7 +17,7 @@ const FilterBar = () => {
   const onFinish = (values) => {
     setFilter(values);
 
-    console.log(filter);
+  
   };
 
   const onReset = () => {
@@ -66,15 +66,13 @@ const FilterBar = () => {
             <Form.Item name="resolutionNumber">
               <Input placeholder="Номер договора" size={'large'} />
             </Form.Item>
+            <Form.Item name="contract_Start">
+              <DatePicker placeholder="Дата начала" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+            </Form.Item>
+            <Form.Item name="contract_End">
+              <DatePicker placeholder="Дата окончания" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+            </Form.Item>
 
-            <StyledSelect defaultValue="Дата начала" size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
-            <StyledSelect defaultValue="Дата окончания " size={'large'}>
-              <Option value="case 1">case 1</Option>
-              <Option value="case 2">case 2</Option>
-            </StyledSelect>
           </StyledPanel>
           <StyledPanel header="По параметрам" key="3">
             <Form.Item name="area">
@@ -107,7 +105,7 @@ const FilterBar = () => {
           </StyledPanel>
         </Collapse>
         <BtnGroup>
-          <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>
+          <SubmitButton   htmlType="submit">Поиск</SubmitButton>
           <ResetButton onClick={onReset}>Очистить</ResetButton>
         </BtnGroup>
       </Form>

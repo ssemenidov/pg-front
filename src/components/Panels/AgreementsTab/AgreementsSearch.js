@@ -59,10 +59,10 @@ const AgreementsSearch = () => {
               <Input placeholder="Тип договора" size={'large'} />
             </Form.Item>
           </div>
-          <div style={{ margin: '0 0 0 ц0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
+          <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата начала действия договора</InputTitle>
             <Form.Item name="startdate" >
-            <DatePicker style={{ height: '40px', width: '203px' }} />
+            <DatePicker style={{ height: '40px', width: '203px' }} format='DD/MM/YYYY'/>
             </Form.Item>
           </div>
         </Row>
@@ -70,13 +70,13 @@ const AgreementsSearch = () => {
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Дата заключения договора</InputTitle>
             <Form.Item name="conclusiondate" >
-            <DatePicker style={{ height: '40px', width: '203px' }} />
+            <DatePicker style={{ height: '40px', width: '203px' }} format='DD/MM/YYYY'/>
             </Form.Item>
           </div>
           <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
             <InputTitle>Дата окончания действия договора</InputTitle>
             <Form.Item name="enddate" >
-            <DatePicker style={{ height: '40px', width: '203px' }} />
+            <DatePicker style={{ height: '40px', width: '203px' }} format='DD/MM/YYYY'/>
             </Form.Item>
           </div>
         </Row>
