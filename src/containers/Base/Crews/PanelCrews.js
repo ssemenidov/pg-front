@@ -42,55 +42,55 @@ const PanelDesign = (props) => {
     },
   ];
 
-  // var data = [
-  //   {
-  //     key: 1,
-  //     code: '126353',
-  //     format: 'Сениор',
-  //     city: 'Алматы',
-  //     adress: 'Достык 25',
-  //     status: 'Размещен',
-  //     date_start: '19.06.2020',
-  //   },
-  //   {
-  //     key: 2,
-  //     code: '126353',
-  //     format: 'Сениор',
-  //     city: 'Алматы',
-  //     adress: 'Достык 25',
-  //     status: 'Размещен',
-  //     date_start: '19.06.2020',
-  //   },
-  //   {
-  //     key: 3,
-  //     code: '126353',
-  //     format: 'Сениор',
-  //     city: 'Алматы',
-  //     adress: 'Достык 25',
-  //     status: 'Размещен',
-  //     date_start: '19.06.2020',
-  //   },
-  //   {
-  //     key: 4,
-  //     code: '126353',
-  //     format: 'Сениор',
-  //     city: 'Алматы',
-  //     adress: 'Достык 25',
-  //     status: 'Размещен',
-  //     date_start: '19.06.2020',
-  //   },
-  //   {
-  //     key: 5,
-  //     code: '126353',
-  //     format: 'Сениор',
-  //     city: 'Алматы',
-  //     adress: 'Достык 25',
-  //     status: 'Размещен',
-  //     date_start: '19.06.2020',
-  //   },
-  // ];
+  var data1 = [
+    {
+      key: 1,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
+    {
+      key: 2,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
+    {
+      key: 3,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
+    {
+      key: 4,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
+    {
+      key: 5,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
+  ];
 
-  let data1 = [];
+ 
 
   const CREWS_T = gql`
     query SearchCrew(
@@ -124,20 +124,20 @@ const PanelDesign = (props) => {
     }
   `;
   
-  const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
-  if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
-  if (data) {
-    data1 = data.searchCrew.edges.map((item) => ({
-      key: item.node.id,
-      code: item.node.code,
-      format: item.node.format,
-      city: item.node.backCity ? item.node.backCity.title : '',
-      adress: item.node.adress,
-      status: item.node.status,
-      date_start: item.node.date_start,
-    }));
-  }
+  // const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
+  // if (error) return <p>Error :(</p>;
+  // if (loading) return <h3></h3>;
+  // if (data) {
+  //   data1 = data.searchCrew.edges.map((item) => ({
+  //     key: item.node.id,
+  //     code: item.node.code,
+  //     format: item.node.format,
+  //     city: item.node.backCity ? item.node.backCity.title : '',
+  //     adress: item.node.adress,
+  //     status: item.node.status,
+  //     date_start: item.node.date_start,
+  //   }));
+  // }
 
   return (
     <>
