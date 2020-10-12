@@ -1,7 +1,7 @@
 import React, { useEffect, useState,createContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 import InnerForm from './TabPanel/TabPanelLocation';
-import { getCurrentLocation, resetCurrentLocation } from '../../../store/actions/locationActions';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../styles/styles';
 
@@ -9,12 +9,60 @@ export const locationContext = createContext();
 const Location = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({state:"state"});
+  const CONSTRUCT_ITEM = gql`
+  query SearchConstruction($id: ID!) {
+    searchConstruction(id: $id) {
+      edges {
+        node {
+          id
+          backCity {
+            title
+            id
+          }
+          backDistrict {
+            title
+          }
+          backPostcode
+          backOwner
+          backMarketingAddress
+          backCreatedAt
+          backComment
+          backFamilyConstruction
+          backUnderFamilyConstruction
+          backAvailabilityConstruction
+          backModelConstruction
+          backHasArea
+          otherImg
+
+          location {
+            city {
+              title
+            }
+            coordinate
+            cadastralNumber
+            areaActDate
+          }
+        }
+      }
+    }
+  }
+`;
+
+// const { error, data, loading } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
+
+// useMemo(() => {
+//   if (data) {
+//     setItem(data.searchConstruction.edges[0].node);
+//   }
+// }, [data]);
+// console.log(item);
+// if (error) return <h3>Error :(</h3>;
+// if (loading) return <h3></h3>;
+
   console.log(id);
-  const [showSearchBtn, setSearchBtn] = React.useState(false);
+
   const handleTabSelected = (index) => {
-    if (index === 1) {
-      setSearchBtn(true);
-    } else setSearchBtn(false);
+ 
   };
 
   return (
@@ -23,7 +71,7 @@ const Location = (props) => {
       <LeftBar className="left-bar">
         <SearchBtn />
       </LeftBar>
-      <InnerForm selectedTab={handleTabSelected}  />
+      <InnerForm   />
       <style>{`
         .left-bar {
           margin: 0 2vw 0 0;

@@ -32,7 +32,7 @@ const Locations = (props) => {
   const [createLocation, { data }] = useMutation(LOCATION_CREATE);
   useMemo(() => {
     if (data) {
-      history.push(`/base/locations/${data.createLocation.location.id}`);
+      history.push(`/base/locations/location/${data.createLocation.location.id}`);
     }
   }, [data]);
   const addLocation= () => {

@@ -52,6 +52,7 @@ export default function InnerForm(props) {
     history.go(0);
  
   };
+
   return (
     <form style={{ width: '100%', margin: '0 2vw 0 0' }}>
        <BreadCrumbs links={links} />
@@ -76,7 +77,7 @@ export default function InnerForm(props) {
         <STabs
           selectedTabClassName="is-selected"
           selectedTabPanelClassName="is-selected"
-          onSelect={(index) => props.selectedTab(index)}>
+         >
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
