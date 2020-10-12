@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { comProjectContext } from './Com_projects';
+
 import Table from '../../../components/Tablea';
 import { useHistory } from 'react-router';
+
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(comProjectContext);
   const columns = [
     {
       title: 'Код',
@@ -53,284 +59,344 @@ const PanelDesign = (props) => {
       width: 80,
     },
   ];
-  const data = [
-    {
-      key: 1,
-      code: '#1020050301323',
-      brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 2,
-      code: '#20200503323',
-      brand: 'CocaCola',
-      date: '28.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 3,
-      code: '#40201323',
-      brand: 'CocaCola',
-      date: '27.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 4,
-      code: '#20264354323',
-      brand: 'CocaCola',
-      date: '26.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 5,
-      code: '#2020050301325463',
-      brand: 'CocaCola',
-      date: '5.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-    {
-      key: 6,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      date: '1.05.2020',
-      advert: 'ТОО «Рекламодатель»',
-      advert_agency: 'ТОО «Агенство»',
-      city: 'Алматы',
-      sector: 'Безалкогольные напитки',
-      managerb: 'Иванов Иван Иванович',
-      manager: 'Иванов Иван Иванович',
-    },
-  ];
+  // const data = [
+  //   {
+  //     key: 1,
+  //     code: '#1020050301323',
+  //     brand: 'CocaCola',
+  //     date: '28.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 2,
+  //     code: '#20200503323',
+  //     brand: 'CocaCola',
+  //     date: '28.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 3,
+  //     code: '#40201323',
+  //     brand: 'CocaCola',
+  //     date: '27.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 4,
+  //     code: '#20264354323',
+  //     brand: 'CocaCola',
+  //     date: '26.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 5,
+  //     code: '#2020050301325463',
+  //     brand: 'CocaCola',
+  //     date: '5.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  //   {
+  //     key: 6,
+  //     code: '#2020050301323',
+  //     brand: 'CocaCola',
+  //     date: '1.05.2020',
+  //     advert: 'ТОО «Рекламодатель»',
+  //     advert_agency: 'ТОО «Агенство»',
+  //     city: 'Алматы',
+  //     sector: 'Безалкогольные напитки',
+  //     managerb: 'Иванов Иван Иванович',
+  //     manager: 'Иванов Иван Иванович',
+  //   },
+  // ];
+
+  let data1 = [];
+  
+  const COMPROJECT_T = gql`
+    query SearchComProject(
+      $date: String
+      $brand: String
+      $advertiser: String
+      $advAgency: String
+      $sector: String
+      $backOfficeManager: String
+      $sellManager: String
+    ) {
+      searchComProject(
+        brand: $brand
+        date: $date
+        advert: $advertiser
+        advert_agency: $advAgency
+        sector: $sector
+        managerb: $backOfficeManager
+        manager: $sellManager
+      ) {
+        edges {
+          node {
+            id
+            code
+            date
+            brand
+            advert
+            advert_agency
+            backCity {
+              title
+            }
+            sector
+            managerb
+            manager
+          }
+        }
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(COMPROJECT_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+  if (data) {
+    data1 = data.searchComProject.edges.map((item) => ({
+      key: item.node.id,
+      code: item.node.code,
+      brand: item.node.brand,
+      date: item.node.date,
+      advert: item.node.advert,
+      advert_agency: item.node.advert_agency,
+      city: item.node.backCity ? item.node.backCity.title : '',
+      sector: item.node.sector,
+      managerb: item.node.managerb,
+      manager: item.node.manager,
+
+    }))
+  }
 
   return (
     <>
@@ -338,8 +404,8 @@ const PanelDesign = (props) => {
         <Table
           style={{ width: '100%' }}
           columns={columns}
-          data={data}
-          history={useHistory()}
+          data={data1}
+          // history={useHistory()}
           link="/sales/project_card"
         />
       </div>

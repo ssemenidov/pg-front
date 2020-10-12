@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
+
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
 import PanelDesign from './PanelCom_projects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -13,8 +14,12 @@ import EditBtn from '../../../components/LeftBar/EditBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
 import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
+
+export const comProjectContext = createContext();
+
 const Com_projects = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [filter, setFilter] = useState({});
 
   const history = useHistory();
   const links = [
@@ -24,55 +29,57 @@ const Com_projects = () => {
   ];
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
-      <div className="flex-margin">
-        <LeftBar>
-          <SearchBtn onClick={() => setCollapsed(!collapsed)} />
-          <CreateBtn
-            text="Создать проект"
-            onClick={() => {
-              history.push('/sales/project_new');
-            }}
-          />
-        </LeftBar>
-        {collapsed && <FilterBar />}
-      </div>
-
-      <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
-        <BreadCrumbs links={links} />
-        <HeaderWrapper>
-          <HeaderTitleWrapper>
-            <TitleLogo />
-            <JobTitle>Коммерчeские Проекты</JobTitle>
-          </HeaderTitleWrapper>
-          <ButtonGroup>
-            <StyledButton
-              backgroundColor="#2C5DE5"
+    <comProjectContext.Provider value={[filter, setFilter]}>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div className="flex-margin">
+          <LeftBar>
+            <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+            <CreateBtn
+              text="Создать проект"
               onClick={() => {
                 history.push('/sales/project_new');
-              }}>
-              Создать Проект
-            </StyledButton>
-            <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
-          </ButtonGroup>
-        </HeaderWrapper>
-        <div style={{ display: 'flex' }}>
-          <PanelDesign style={{ flex: '0 1 auto' }} />
+              }}
+            />
+          </LeftBar>
+          {collapsed && <FilterBar />}
         </div>
-      </div>
 
-      <style>
-        {`
-         .flex-margin {
-            display: flex;
-            margin: 0 2vw 0 0;
-          }
-          .left-bar {
-            margin: 0 2vw 0 0;
-          }
-        `}
-      </style>
-    </div>
+        <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
+          <BreadCrumbs links={links} />
+          <HeaderWrapper>
+            <HeaderTitleWrapper>
+              <TitleLogo />
+              <JobTitle>Коммерчeские Проекты</JobTitle>
+            </HeaderTitleWrapper>
+            <ButtonGroup>
+              <StyledButton
+                backgroundColor="#2C5DE5"
+                onClick={() => {
+                  history.push('/sales/project_new');
+                }}>
+                Создать Проект
+              </StyledButton>
+              <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
+            </ButtonGroup>
+          </HeaderWrapper>
+          <div style={{ display: 'flex' }}>
+            <PanelDesign style={{ flex: '0 1 auto' }} />
+          </div>
+        </div>
+
+        <style>
+          {`
+          .flex-margin {
+              display: flex;
+              margin: 0 2vw 0 0;
+            }
+            .left-bar {
+              margin: 0 2vw 0 0;
+            }
+          `}
+        </style>
+      </div>
+    </comProjectContext.Provider>
   );
 };
 
