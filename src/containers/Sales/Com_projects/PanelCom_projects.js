@@ -405,7 +405,7 @@ const PanelDesign = (props) => {
           style={{ width: '100%' }}
           columns={columns}
           data={data1}
-          // history={useHistory()}
+          history={useHistory()}
           link="/sales/project_card"
         />
       </div>
