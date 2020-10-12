@@ -39,12 +39,49 @@ const LOCATION_DELETE = gql`
     }
   }
 `;
+const LOCATION_UPDATE = gql`
+  mutation(
+    $id: ID!
+    $area:String
+    $cadastralNumber: String
+    $targetPurpose: String
+    $comment: String
+    $address:String
+    $postcode:String
+    $city:ID
+  ) {
+    updateLocation(
+      id: $id
+      input: {
+        area:$area
+        cadastralNumber:$cadastralNumber
+        targetPurpose:$targetPurpose
+        comment: $comment
+        address:$address
+        postcode:$postcode
+        city:$city
+
+      }
+    ) {
+      location {
+        id
+      }
+    }
+  }
+`;
 export default function InnerForm(props) {
 
   const  [item,setItem] =useContext(locationContext);
  
   const history = useHistory();
+  const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation( LOCATION_DELETE);
+  const Update = () => {
+    updateLocation({ variables:  { ...item, city: item.city.id } });
+      
+    history.push(`/base/locations`);
+    history.go(0);
+  };
   const Delete = () => {
     console.log( item.id);
     deleteLocation({ variables: { id: item.id } });
@@ -64,9 +101,7 @@ export default function InnerForm(props) {
         <ButtonGroup>
           <StyledButton
             backgroundColor="#008556"
-            onClick={() => {
-              history.push(`/base/locations`);
-            }}>
+              onClick={Update}>
             Сохранить
           </StyledButton>
           <StyledButton backgroundColor="#D42D11" onClick={Delete}>Удалить</StyledButton>

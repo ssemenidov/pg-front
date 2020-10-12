@@ -137,7 +137,7 @@ const PanelDesign = (props) => {
       key: item.node.id,
       code: '#1020050301323',
       city: item.node.city ? item.node.city.title:'',
-      post: item.node.poscode,
+      post: item.node.postcode,
       district: item.node.district ? item.node.district.title:"",
       adress_j: item.node.address,
       cadastralNumber: item.node.cadastralNumber,

@@ -17,10 +17,13 @@ const Location = (props) => {
           id
           city {
             title
+            id
           }
           district {
             title
+            id
           }
+
           postcode
           area
           address

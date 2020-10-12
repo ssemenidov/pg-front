@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { locationContext } from '../../../../../containers/Base/Location/Location';
+
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import InputAnchor from '../../../../Inputs/InputAnchor';
 import { getLocationProps } from '../../../../../store/actions/locationActions';
@@ -6,35 +8,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyledSelect } from '../../../../../styles/styles';
 
 export const Address = (props) => {
-  const state = useSelector((state) => state.location.currentLocation);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(locationContext);
+
   return (
     <Medium>
       <BlockTitle>Адрес</BlockTitle>
       <BlockBody>
         <Row>
           <div style={{ width: '100%' }}>
-            {/* <InputTitle>Город</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.city : ''}
-              onChange={(e) => dispatch(getLocationProps('city', e.target.value))}
-              placeholder="Алматы"
-            /> */}
+         
             <InputTitle>Город</InputTitle>
-            <StyledSelect defaultValue={<span>Город</span>} suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+            <StyledSelect
+              defaultValue={item.city ? item.city.id : 'Город'}
+              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
+              <StyledSelect.Option value="Q2l0eU5vZGU6MQ==">Алматы</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6Mg==">Астана</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6Mw==">Караганда</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6NA==">Тараз</StyledSelect.Option>
             </StyledSelect>
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Район</InputTitle>
-            {/* <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.district : ''}
-              onChange={(e) => dispatch(getLocationProps('district', e.target.value))}
-              placeholder="Медеуский р-н."
-            /> */}
+       
             <StyledSelect defaultValue={<span>Район</span>} suffixIcon={null}>
               <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
               <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
@@ -44,29 +41,23 @@ export const Address = (props) => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
-            {/* <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.postalCode : ''}
-              onChange={(e) => dispatch(getLocationProps('postalCode', e.target.value))}
-              placeholder="1012034"
-            /> */}
-            <StyledSelect defaultValue={<span>Код района</span>} suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+      
+            <InputAnchor
+              value={item.postcode? item.postcode:""}
+              onChange={(e) => {setItem({...item, postcode:e.target.value})}}
+              placeholder="Код района"
+            />
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Юридический адрес</InputTitle>
-            {/* <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.legalAddress : ''}
-              onChange={(e) => dispatch(getLocationProps('legalAddress', e.target.value))}
+            <InputAnchor
+              value={item.address? item.address:""}
+              onChange={(e) => {setItem({...item, address:e.target.value})}}
               placeholder="Абая - ост. ГорВодоКанал"
-            /> */}
-            <StyledSelect defaultValue={<span>Юридический адрес</span>} suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            />
+  
           </div>
         </Row>
       </BlockBody>
