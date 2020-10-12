@@ -1,4 +1,4 @@
-import React, { useEffect, useState,createContext } from 'react';
+import React, { useEffect, useState,createContext, useMemo } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import InnerForm from './TabPanel/TabPanelLocation';
@@ -8,39 +8,32 @@ import { LeftBar } from '../../../styles/styles';
 export const locationContext = createContext();
 const Location = (props) => {
   const [id, setId] = useState(props.match.params.id);
-  const [item, setItem] = useState({state:"state"});
-  const CONSTRUCT_ITEM = gql`
-  query SearchConstruction($id: ID!) {
-    searchConstruction(id: $id) {
+  const [item, setItem] = useState({});
+  const LOCATION_ITEM = gql`
+  query SearchLocation($id: ID!) {
+    searchLocation(id: $id) {
       edges {
         node {
           id
-          backCity {
-            title
-            id
-          }
-          backDistrict {
+          city {
             title
           }
-          backPostcode
-          backOwner
-          backMarketingAddress
-          backCreatedAt
-          backComment
-          backFamilyConstruction
-          backUnderFamilyConstruction
-          backAvailabilityConstruction
-          backModelConstruction
-          backHasArea
-          otherImg
-
-          location {
-            city {
-              title
+          district {
+            title
+          }
+          postcode
+          area
+          address
+          coordinate
+          cadastralNumber
+          targetPurpose
+          comment
+          constructionSet {
+            edges {
+              node {
+                id
+              }
             }
-            coordinate
-            cadastralNumber
-            areaActDate
           }
         }
       }
@@ -48,25 +41,23 @@ const Location = (props) => {
   }
 `;
 
-// const { error, data, loading } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
+  const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });
 
-// useMemo(() => {
-//   if (data) {
-//     setItem(data.searchConstruction.edges[0].node);
-//   }
-// }, [data]);
-// console.log(item);
-// if (error) return <h3>Error :(</h3>;
-// if (loading) return <h3></h3>;
+  useMemo(() => {
+    if (data) {
+      setItem(data.searchLocation.edges[0].node);
+    }
+  }, [data]);
+  console.log(item);
+  if (error) return <h3>Error :(</h3>;
+  if (loading) return <h3></h3>;
 
   console.log(id);
 
-  const handleTabSelected = (index) => {
- 
-  };
+
 
   return (
-    <locationContext.Provider value={ id }>
+    <locationContext.Provider value={ [item, setItem] }>
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />

@@ -41,13 +41,13 @@ const LOCATION_DELETE = gql`
 `;
 export default function InnerForm(props) {
 
-  const  id =useContext(locationContext);
+  const  [item,setItem] =useContext(locationContext);
  
   const history = useHistory();
   const [deleteLocation] = useMutation( LOCATION_DELETE);
   const Delete = () => {
-    console.log(id);
-    deleteLocation({ variables: { id: id } });
+    console.log( item.id);
+    deleteLocation({ variables: { id: item.id } });
     history.push(`/base/locations`);
     history.go(0);
  
