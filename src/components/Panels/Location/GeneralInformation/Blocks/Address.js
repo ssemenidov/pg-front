@@ -11,7 +11,7 @@ export const Address = (props) => {
   const [item, setItem] = useContext(locationContext);
 
   return (
-    <Medium>
+    <Medium style={{    height: '100%'}}>
       <BlockTitle>Адрес</BlockTitle>
       <BlockBody>
         <Row>

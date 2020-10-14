@@ -16,8 +16,6 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 const Application = () => {
   const history = useHistory();
-  const [block, setBlock] = useState(0);
-
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
@@ -47,8 +45,7 @@ const Application = () => {
             <JobTitle>Приложение №202005123 - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block === 0 && (
-              <>
+          
                 <StyledButton
                   backgroundColor="#008556"
                   onClick={() => {
@@ -56,9 +53,8 @@ const Application = () => {
                   }}>
                   Выставить счет
                 </StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Выгрузка приложения</StyledButton>
-              </>
-            )}
+                <StyledButton backgroundColor="#D42D11">Удалить</StyledButton>
+          
           </ButtonGroup>
         </HeaderWrapper>
         <div style={{ display: 'flex' }}>
@@ -117,7 +113,7 @@ const Application = () => {
               </InfoLine>
             </InfoItem>
           </InfoList>
-          <PanelDesign style={{ flex: '0 1 auto' }} setBlock={setBlock} />
+          <PanelDesign style={{ flex: '0 1 auto' }}  />
         </div>
       </div>
 

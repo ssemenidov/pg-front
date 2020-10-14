@@ -35,7 +35,7 @@ const FilterBar = () => {
        <Collapse expandIconPosition={'right'}>
         <StyledPanel header="По дате" key="1">
           <Form.Item name="date">
-           <DatePicker placeholder="2020-01-01" style={{ width: '100%' }} />
+          <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
           </Form.Item>
         </StyledPanel>
         <StyledPanel header="По параметрам" key="2">

@@ -24,10 +24,8 @@ export const Construction = (props) => {
         </Row>
         <Row>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-          <p>Маркетинговый адрес</p>
-          <p>Алматы, Абая ост.</p>
-        
-
+          <InputTitle style={{ width: '45%' }}>Маркетинговый адрес</InputTitle>
+          <InputAnchor style={{ width: '50%' }} placeholder="Алматы, Абая ост." />
           </div>
         </Row>
         <Row style={{ borderBottom: '1px solid #d3dff0' }}>

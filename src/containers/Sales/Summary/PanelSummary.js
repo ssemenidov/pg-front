@@ -14,6 +14,11 @@ const PanelDesign = (props) => {
       width: 100,
     },
     {
+      title: 'Назначение стороны',
+      dataIndex: 'siderole',
+      width: 100,
+    },
+    {
       title: 'Адрес',
       dataIndex: 'address',
       width: 100,

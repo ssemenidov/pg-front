@@ -19,8 +19,8 @@ export const AkimatResolution = (props) => {
           </div>
           <div style={{ width: '49%' }}>
             <InputTitle>Дата</InputTitle>
-            <DatePicker style={{ height: '53px', width: '100%' }} />
-            {/* <InputAnchor placeholder="20.09.2021" /> */}
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+
           </div>
         </Row>
       </BlockBody>

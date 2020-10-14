@@ -3,7 +3,7 @@ import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styl
 import InputAnchor from '../../../../Inputs/InputAnchor';
 import Multiline from '../../../../Inputs/Multiline';
 import { useSelector, useDispatch } from 'react-redux';
-
+import {DatePicker,Select} from 'antd';
 export const Contract = (props) => {
   const current = useSelector((state) => state.construction.currentConstruction);
   const dispatch = useDispatch();
@@ -22,15 +22,15 @@ export const Contract = (props) => {
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Начало договора</InputTitle>
-            <InputAnchor placeholder="20.09.2021" />
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Регистрация договора</InputTitle>
-            <InputAnchor placeholder="20.09.2021" />
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Окончание договора</InputTitle>
-            <InputAnchor placeholder="20.09.2021" />
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
           </div>
         </Row>
       </BlockBody>

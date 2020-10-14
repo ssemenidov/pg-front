@@ -51,7 +51,12 @@ const Estimate = () => {
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             ) : (
+          
+        <>
+              <StyledButton backgroundColor="#008556"> Создать приложение  </StyledButton>
+              <StyledButton backgroundColor="#2C5DE5">Добавить в приложение </StyledButton>
               <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
+           </>
             )}
           </ButtonGroup>
         </HeaderWrapper>

@@ -141,14 +141,14 @@ const PanelDesign = (props) => {
         </>
       ),
       A2: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola Jacobs"></Tab>} placement="bottom">
+        <Popover content={<Tab history={useHistory()} title={<><span>Проект Coca-cola</span><br/><span>Проект Jacobs</span></>}></Tab>} placement="bottom">
           <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
           <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
             Coca-Cola
           </strong>
           <strong
             style={{
-              color: '#00284C',
+              color: 'rgb(63, 63, 209)',
               position: 'absolute',
               fontSize: '12px',
               margin: '20px 10px',

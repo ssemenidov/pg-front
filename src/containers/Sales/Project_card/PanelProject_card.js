@@ -34,6 +34,11 @@ const PanelDesign = (props) => {
       width: 100,
     },
     {
+      title: 'Статус',
+      dataIndex: 'status',
+      width: 100,
+    },
+    {
       title: 'Брендинг',
       dataIndex: 'branding',
       width: 100,
