@@ -35,15 +35,11 @@ const InnerForm = (props) => {
           <JobTitle>Документы</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          {block == 0 ? (
+          {block == 0 && (
             <Link to="/base/documents/agreement">
               <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
             </Link>
-          ) : (
-            <Link to="/base/documents/application_base">
-              <StyledButton backgroundColor="#2c5de5">Создать приложение</StyledButton>
-            </Link>
-          )}
+          ) }
         </ButtonGroup>
       </HeaderWrapper>
       <div>

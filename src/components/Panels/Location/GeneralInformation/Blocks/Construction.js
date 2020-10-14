@@ -24,14 +24,18 @@ export const Construction = (props) => {
         </Row>
         <Row>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-            <p>Формат</p>
-            <p>Сениор</p>
+          <p>Маркетинговый адрес</p>
+          <p>Алматы, Абая ост.</p>
+        
+
           </div>
         </Row>
         <Row style={{ borderBottom: '1px solid #d3dff0' }}>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-            <p>Маркетинговый адрес</p>
-            <p>Алматы, Абая ост.</p>
+          <p>Формат</p>
+            <p>Сениор</p>
+   
+     
           </div>
         </Row>
         <Row>

@@ -29,10 +29,7 @@ const FilterBar = () => {
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Почтовый индекс" size={'large'}>
-            <Option value="case 1">case 1</Option>
-            <Option value="case 2">case 2</Option>
-          </StyledSelect>
+  
         </StyledPanel>
         <StyledPanel header="По проекту" key="2">
           <StyledSelect defaultValue="Название проекта" size={'large'}>

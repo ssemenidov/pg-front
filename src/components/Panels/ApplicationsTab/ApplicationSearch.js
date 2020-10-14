@@ -29,31 +29,45 @@ const ApplicationSearch = () => {
       <Form form={form} onFinish={onFinish}>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Номер приложения</InputTitle>
-            <InputAnchor placeholder="Номер приложения" />
+          <InputTitle>Код проекта</InputTitle>
+            <InputAnchor placeholder="Код проекта" />
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
-            <InputTitle>Создатель</InputTitle>
-            <InputAnchor placeholder="Создатель" />
-          </div>
-        </Row>
-        <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Наименование контрагента</InputTitle>
-            <InputAnchor placeholder="Наименование контрагента" />
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
-            <InputTitle>Менеджер по продажам</InputTitle>
+          <InputTitle>Менеджер по продажам</InputTitle>
             <InputAnchor placeholder="Менеджер по продажам" />
+
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-            <InputTitle>Номер договора</InputTitle>
+          <InputTitle>Номер договора</InputTitle>
             <InputAnchor placeholder="Тип договора" />
+
+          </div>
+          <div style={{ margin: '0 0 0 0.75vw' }}>
+          <InputTitle>Менеджер бэк-офиса</InputTitle>
+            <InputAnchor placeholder="Менеджер бэк-офиса" />
+          </div>
+        </Row>
+        <Row>
+          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <InputTitle>Номер приложения</InputTitle>
+            <InputAnchor placeholder="Номер приложения" />
+           
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Период приложения</InputTitle>
+            <DatePicker style={{ height: '53px', width: '203px' }} />
+          </div>
+        </Row>
+        <Row>
+          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <InputTitle>Наименование контрагента</InputTitle>
+            <InputAnchor placeholder="Наименование контрагента" />
+           
+          </div>
+          <div style={{ margin: '0 0 0 0.75vw' }}>
+          <InputTitle>Дата создания</InputTitle>
             <DatePicker style={{ height: '53px', width: '203px' }} />
           </div>
         </Row>
@@ -63,12 +77,6 @@ const ApplicationSearch = () => {
             <InputAnchor placeholder="Бренд" />
   
           </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
-            <InputTitle>Дата создания</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
-          </div>
-        </Row>
-        <Row>
           <div>
             <InputTitle>Статус возврата</InputTitle>
             <Radio.Group  >
@@ -77,6 +85,7 @@ const ApplicationSearch = () => {
             </Radio.Group>
           </div>
         </Row>
+   
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
           <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>

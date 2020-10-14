@@ -10,7 +10,7 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(comProjectContext);
   const columns = [
     {
-      title: 'Код',
+      title: 'код рекламной стороны',
       dataIndex: 'code',
       width: 130,
       sorter: {

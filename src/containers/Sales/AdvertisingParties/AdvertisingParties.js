@@ -83,7 +83,7 @@ const AdvertisingParties = () => {
               <JobTitle>Справочник рекламных сторон</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
-              <StyledButton backgroundColor="#2C5DE5">Выгрузить стороны </StyledButton>
+           
               <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
             </ButtonGroup>
           </HeaderWrapper>

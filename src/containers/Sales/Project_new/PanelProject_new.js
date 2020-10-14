@@ -4,13 +4,13 @@ import { StyledButton } from '../../../styles/styles';
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Код',
+      title: 'код проекта',
       dataIndex: 'code',
       width: 130,
     },
     {
-      title: 'Text',
-      dataIndex: 'text',
+      title: 'Рекламная сторона',
+      dataIndex: 'side',
       width: 100,
     },
     {

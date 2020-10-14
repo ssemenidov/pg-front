@@ -4,10 +4,9 @@ import {
   FilterMenu,
   SearchTitle,
   FilterText,
-  StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker, Form } from 'antd';
+import { Select, Collapse, Checkbox, DatePicker, Form} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -36,58 +35,58 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="Поиск по адресу" key="1">
             <Form.Item name="city">
-              <StyledSelect defaultValue="Выберите город" size={'large'}>
+              <Select placeholder="Выберите город" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
             <Form.Item name="district">
-              <StyledSelect defaultValue="Выберите район" size={'large'}>
+              <Select placeholder="Выберите район" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
             <Form.Item name="address">
-              <StyledSelect defaultValue="Введите адрес" size={'large'}>
+              <Select placeholder="Введите адрес" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
           </StyledPanel>
 
           <StyledPanel header="Поиск по экипажу" key="2">
             <Form.Item name="name">
-              <StyledSelect defaultValue="Имя" size={'large'}>
+              <Select placeholder="Имя" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
             <Form.Item name="phoneNumber">
-              <StyledSelect defaultValue="Номер телефона" size={'large'}>
+              <Select placeholder="Номер телефона" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
           </StyledPanel>
 
           <StyledPanel header="Поиск по конструкции" key="4">
             <Form.Item name="constructionType">
-              <StyledSelect defaultValue="Тип конструкции" size={'large'}>
+              <Select placeholder="Тип конструкции" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
             <Form.Item name="constructionFormat">
-              <StyledSelect defaultValue="Формат конструкции" size={'large'}>
+              <Select placeholder="Формат конструкции" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
             <Form.Item name="startDate">
-              <StyledSelect defaultValue="Дата начала" size={'large'}>
+              <Select placeholder="Дата начала" size={'large'}>
                 <Option value="case 1">case 1</Option>
                 <Option value="case 2">case 2</Option>
-              </StyledSelect>
+              </Select>
             </Form.Item>
           </StyledPanel>
         </Collapse>

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Код',
+      title: 'код проекта',
       dataIndex: 'code',
       width: 130,
     },

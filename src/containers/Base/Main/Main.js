@@ -11,6 +11,7 @@ const Main = () => {
         <Link to="/base/locations">Список местоположений</Link>
         <Link to="/base/partners">Контрагенты</Link>
         <Link to="/base/documents/agreements">Документы</Link>
+        <Link to="/base/crews">Экипажи</Link>
       </StyledCard>
     </StyledDiv>
   );

@@ -40,7 +40,7 @@ const FilterBar = () => {
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Ответств. менеджер" size={'large'}>
+          <StyledSelect defaultValue="Менеджер бэк-офиса" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>

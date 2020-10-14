@@ -82,7 +82,7 @@ const FilterBar = () => {
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <StyledSelect defaultValue="Рекламная сторона" size={'large'}>
+          <StyledSelect defaultValue="Код рекламной стороны" size={'large'}>
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
@@ -90,10 +90,11 @@ const FilterBar = () => {
             <Option value="case 1">case 1</Option>
             <Option value="case 2">case 2</Option>
           </StyledSelect>
-          <Checkbox defaultChecked>
-            <span>Пакет</span>
-          </Checkbox>
-          <br />
+          <StyledSelect defaultValue="Пакет" size={'large'}>
+            <Option value="case 1">case 1</Option>
+            <Option value="case 2">case 2</Option>
+          </StyledSelect>
+       
           <Checkbox defaultChecked>Освещение</Checkbox>
         </StyledPanel>
       </Collapse>

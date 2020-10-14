@@ -12,7 +12,7 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(outContext);
   const columns = [
     {
-      title: 'Код',
+      title: 'код конструкции',
       dataIndex: 'code',
       width: 130,
     },

@@ -4,7 +4,6 @@ import {
   FilterMenu,
   SearchTitle,
   FilterText,
-  StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
 import { Select, Collapse, DatePicker, Form } from 'antd';
@@ -41,46 +40,46 @@ const FilterBar = () => {
         </StyledPanel>
         <StyledPanel header="По параметрам" key="2">
           <Form.Item name="projectCode">
-           <StyledSelect defaultValue="Код проекта  " size={'large'}>
+           <Select placeholder="Код проекта  " size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="applicationNumber">
-           <StyledSelect defaultValue="Номер приложения" size={'large'}>
+           <Select placeholder="Номер приложения" size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="brand">
-           <StyledSelect defaultValue="Бренд" size={'large'}>
+           <Select placeholder="Бренд" size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="advertiser">
-           <StyledSelect defaultValue="Рекламодатель" size={'large'}>
+           <Select placeholder="Рекламодатель" size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="advAgency">
-           <StyledSelect defaultValue="Рекламное агенство " size={'large'}>
+           <Select placeholder="Рекламное агенство " size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="respManager">
-            <StyledSelect defaultValue="Ответств. менеджер" size={'large'}>
+            <Select placeholder="Ответств. менеджер" size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
           <Form.Item name="advManager">
-           <StyledSelect defaultValue="Менеджер по продажам" size={'large'}>
+           <Select placeholder="Менеджер по продажам" size={'large'}>
              <Option value="case 1">case 1</Option>
              <Option value="case 2">case 2</Option>
-           </StyledSelect>
+           </Select>
           </Form.Item>
         </StyledPanel>
       </Collapse>

@@ -66,7 +66,7 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
   const columns = [
     {
-      title: 'Код',
+      title: 'код местоположения',
       dataIndex: 'code',
       width: 130,
     },

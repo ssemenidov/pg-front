@@ -15,7 +15,7 @@ import {
 const PanelDesign = (props) => {
   const columns = [
     {
-      title: 'Код',
+      title: 'код рекламной стороны',
       dataIndex: 'code',
       width: 130,
     },

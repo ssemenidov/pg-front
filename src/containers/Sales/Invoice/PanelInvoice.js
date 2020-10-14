@@ -9,7 +9,7 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(invoiceContext);
   const columns = [
     {
-      title: 'Код',
+      title: 'код проекта',
       dataIndex: 'code',
       width: 130,
     },
