@@ -124,20 +124,20 @@ const PanelDesign = (props) => {
     }
   `;
   
-  // const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
-  // if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
-  // if (data) {
-  //   data1 = data.searchCrew.edges.map((item) => ({
-  //     key: item.node.id,
-  //     code: item.node.code,
-  //     format: item.node.format,
-  //     city: item.node.backCity ? item.node.backCity.title : '',
-  //     adress: item.node.adress,
-  //     status: item.node.status,
-  //     date_start: item.node.date_start,
-  //   }));
-  // }
+  const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+  if (data) {
+    data1 = data.searchCrew.edges.map((item) => ({
+      key: item.node.id,
+      code: item.node.code,
+      format: item.node.format,
+      city: item.node.backCity ? item.node.backCity.title : '',
+      adress: item.node.adress,
+      status: item.node.status,
+      date_start: item.node.date_start,
+    }));
+  }
 
   return (
     <>

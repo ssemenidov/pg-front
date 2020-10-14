@@ -184,7 +184,9 @@ class Tablea extends React.Component {
               defaultPageSize: 10,
               showSizeChanger: true,
               placement: 'top',
-              pageSizeOptions: ['25', '50', '100'],
+              pageSizeOptions: ['25', '50', '100','1000'],
+              showSizeChanger: true,
+              total: this.props.data.length,
             }}
           />
         </Content>
@@ -242,7 +244,7 @@ class Tablea extends React.Component {
 
 export default Tablea;
 const StyledTable = styled(Table)`
-  margin-bottom: 150px;
+  margin-bottom: 190px;
   th,
   td {
     color: #1a1a1a !important;
