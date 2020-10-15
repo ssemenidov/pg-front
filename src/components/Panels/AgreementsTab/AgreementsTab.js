@@ -1,13 +1,12 @@
-import React,{useContext} from 'react';
+import React,{useContext, useState,createContext} from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import {  agreementsContext } from '../../../containers/Base/Documents/Agreements/PanelAgreements';
 import AgreementsSearch from './AgreementsSearch';
 import Table from '../../../components/Tablea';
-
+export const agreementsContext  = createContext();
 const AgreementsTab = () => {
-  const [filter, setFilter] = useContext(agreementsContext);
+  const [filter, setFilter] = useState({});
   const columns = [
     {
       title: 'Код договора',
@@ -40,9 +39,26 @@ const AgreementsTab = () => {
 
  
   const AGREEMENT_T = gql`
-  {
+  query SearchContract(
+    $initiator: String
+    $creator: String
+    $partnerTitle: String
+    $contractType: String
+    $start: DateTime
+    $registrationDate: DateTime
+    $end: DateTime
+    $returnStatus: Boolean
+    )
+    {
     searchContract(
-     id:""
+      initiator:$initiator
+      creator:$ creator
+      partnerTitle:$partnerTitle
+      contractType:$contractType
+      start:$ start
+      registrationDate:$registrationDate
+      end:$ end
+      returnStatus:$returnStatus
     ) {
       edges {
         node {
@@ -114,7 +130,6 @@ var data1 = [
   if (loading) return <h3></h3>;
 
   if (data) {
-console.log(data);
     data1 = data.searchContract.edges.map((item) => ({
 
       key: item.node.id,
@@ -130,7 +145,10 @@ console.log(data);
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
-        <AgreementsSearch />
+      <agreementsContext.Provider value={[filter,setFilter]}>
+      <AgreementsSearch />
+        </agreementsContext.Provider>
+
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>

@@ -30,51 +30,72 @@ const ApplicationSearch = () => {
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
           <InputTitle>Код проекта</InputTitle>
-            <InputAnchor placeholder="Код проекта" />
+          <Form.Item name="code" >
+              <Input placeholder="Код проекта" size={'large'} />
+            </Form.Item>
+          
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
           <InputTitle>Менеджер по продажам</InputTitle>
-            <InputAnchor placeholder="Менеджер по продажам" />
+          <Form.Item name="saleManager" >
+              <Input placeholder="Менеджер по продажам" size={'large'} />
+            </Form.Item>
+          
+        
 
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
           <InputTitle>Номер договора</InputTitle>
-            <InputAnchor placeholder="Тип договора" />
+             <Form.Item name="contractType" >
+              <Input placeholder="Тип договора" size={'large'} />
+            </Form.Item>
 
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
           <InputTitle>Менеджер бэк-офиса</InputTitle>
-            <InputAnchor placeholder="Менеджер бэк-офиса" />
+             <Form.Item name="backManager" >
+              <Input placeholder="Менеджер бэк-офиса" size={'large'} />
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
           <InputTitle>Номер приложения</InputTitle>
-            <InputAnchor placeholder="Номер приложения" />
+             <Form.Item name="application" >
+              <Input placeholder="Номер приложения" size={'large'} />
+            </Form.Item>
            
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Период приложения</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+            <Form.Item name="period" >
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '203px' }}/>
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
           <InputTitle>Наименование контрагента</InputTitle>
-            <InputAnchor placeholder="Наименование контрагента" />
+             <Form.Item name="partner" >
+              <Input placeholder="Наименование контрагента" size={'large'} />
+            </Form.Item>
            
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
           <InputTitle>Дата создания</InputTitle>
-            <DatePicker style={{ height: '53px', width: '203px' }} />
+          <Form.Item name="create" >
+          <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '203px' }}/>
+            </Form.Item>
           </div>
         </Row>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Бренд</InputTitle>
-            <InputAnchor placeholder="Бренд" />
+             <Form.Item name="brand" >
+              <Input placeholder="Бренд" size={'large'} />
+            </Form.Item>
   
           </div>
           <div>

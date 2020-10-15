@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
-
+import { Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { getLocationProps } from '../../../../../store/actions/locationActions';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { StyledSelect } from '../../../../../styles/styles';
 
 export const Address = (props) => {
@@ -42,20 +40,22 @@ export const Address = (props) => {
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
       
-            <InputAnchor
+            <Input
               value={item.postcode? item.postcode:""}
               onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               placeholder="Код района"
+              size={'large'}
             />
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Юридический адрес</InputTitle>
-            <InputAnchor
+            <Input
               value={item.address? item.address:""}
               onChange={(e) => {setItem({...item, address:e.target.value})}}
               placeholder="Абая - ост. ГорВодоКанал"
+              size={'large'}
             />
   
           </div>
