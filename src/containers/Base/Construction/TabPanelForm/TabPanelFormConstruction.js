@@ -118,7 +118,7 @@ const InnerForm = (props) => {
             Сохранить
           </StyledButton>
 
-          <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton>
+          {/* <StyledButton backgroundColor="#2c5de5">Создать конструкцию</StyledButton> */}
           <StyledButton backgroundColor="#d42d11" onClick={Delete}>
             Демонтировать
           </StyledButton>

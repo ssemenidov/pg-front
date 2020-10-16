@@ -36,10 +36,7 @@ const OutdoorFurniture = () => {
       history.push(`/base/construction/${data.createConstruction.construction.id}`);
     }
   }, [data]);
-  const addConstruct = () => {
-    createConstruction();
-  
-  };
+ 
   return (
     <outContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -71,7 +68,7 @@ const OutdoorFurniture = () => {
                   <JobTitle>Конструкции</JobTitle>
                 </HeaderTitleWrapper>
                 <ButtonGroup>
-                  <StyledButton backgroundColor="#008556" onClick={addConstruct}>
+                  <StyledButton backgroundColor="#008556" onClick={createConstruction}>
                     Создать конструкцию
                   </StyledButton>
                 </ButtonGroup>

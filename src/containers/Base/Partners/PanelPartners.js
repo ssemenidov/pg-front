@@ -45,7 +45,7 @@ const PanelDesign = (props) => {
       width: 50,
       fixed: 'right',
       render: (text, record) => (
-        <Link to="/base/partners/info">
+        <Link to={`/base/partners/partner/${record.key}`}>
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       ),

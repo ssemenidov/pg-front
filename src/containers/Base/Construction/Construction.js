@@ -4,9 +4,6 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import InnerForm from './TabPanelForm/TabPanelFormConstruction';
 
 import { Layout, Menu, Breadcrumb } from 'antd';
-import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import { LeftBar } from '../../../styles/styles';
-import { getCurrentConstruction, resetCurrentConstruction } from '../../../store/actions/constructionActions';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 

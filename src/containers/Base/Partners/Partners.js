@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useState, useContext, createContext, useMemo } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -19,11 +20,26 @@ import icon_pen from '../../../img/edit-icon.svg';
 
 const { Content, Sider } = Layout;
 export const partnersContext = createContext();
+const PARTNER_CREATE = gql`
+  mutation {
+    createPartner(input: {}) {
+      partner {
+        id
+      }
+    }
+  }
+`;
 const Partners = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
   const history = useHistory();
-
+  const [createPartner, { data }] = useMutation(PARTNER_CREATE);
+  useMemo(() => {
+    if (data) {
+      history.push(`/base/partners/partner/${data.createPartner.partner.id}`);
+    }
+  }, [data]);
+ 
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -49,7 +65,7 @@ const Partners = () => {
                 <JobTitle>Контрагенты</JobTitle>
               </HeaderTitleWrapper>
               <ButtonGroup>
-                <StyledButton backgroundColor="#008556" onClick={() => {}}>
+                <StyledButton backgroundColor="#008556" onClick={createPartner}>
                   Создать контрагента
                 </StyledButton>
                 <StyledButton backgroundColor="#2C5DE5" onClick={() => {}}>

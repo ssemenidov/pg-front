@@ -9,7 +9,7 @@ export default function ContactPerson() {
   const initialList = [ExtraRow];
   const [theList, setTheList] = useState(initialList);
   const state = useSelector((state) => state.contragents.currentContragent);
-  console.log(JSON.stringify(state) === '{}');
+
   const removeClickHandler = (e, index) => {
     e.preventDefault();
     let newList = [...theList];

@@ -1,20 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useMemo, useState, createContext } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
-import InnerForm from './TabPanelForm/TabPanelFormPartnersInfo';
+import InnerForm from './TabPanelForm/TabPanelFormPartner';
+
+import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
+export const partnerContext = createContext();
 const PartnersInfo = (props) => {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  console.log(current);
-  const handleTabSelected = (index) => {};
-  const [collapsed, setCollapsed] = useState(true);
+  const [id, setId] = useState(props.match.params.id);
+  const [item, setItem] = useState({});
+  const PARTNER_ITEM = gql`
+  query SearchPartner($id: ID!) {
+    searchPartner(id: $id) {
+      edges {
+        node {
+          id
+          partnerType {
+            title
+          }
+          title
+          brands {
+            edges {
+              node {
+                title
+              }
+            }
+          }
+          workingSector {
+            title
+          }
+          clientType {
+            title
+          }
+          
+        }
+      }
+    }
+  }
+`;
+
+const { error, data, loading } = useQuery(PARTNER_ITEM, { variables: { id: id } });
+
+useMemo(() => {
+  if (data) {
+    setItem(data.searchPartner.edges[0].node);
+  }
+}, [data]);
+console.log(item);
+if (error) return <h3>Error :(</h3>;
+if (loading) return <h3></h3>;
   return (
+    <partnerContext.Provider value={ [item, setItem]}>
     <Layout>
       <Layout>
         <Sider className="layout-sider"></Sider>
@@ -35,7 +76,7 @@ const PartnersInfo = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <InnerForm selectedTab={handleTabSelected} constructionID={props.match.params.id} />
+            <InnerForm  constructionID={props.match.params.id} />
           </Content>
         </Layout>
       </Layout>
@@ -61,6 +102,7 @@ const PartnersInfo = (props) => {
         `}
       </style>
     </Layout>
+    </partnerContext.Provider>
   );
 };
 

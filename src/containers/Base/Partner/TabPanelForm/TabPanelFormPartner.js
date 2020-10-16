@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router';
+
+import { partnerContext } from '../Partner';
 import PartnerInfo from '../../../../components/Panels/Partners/PartnerInfo/PartnerInfo';
 import RelatedProjects from '../../../../components/Panels/Partners/RelatedProjects/RelatedProjects';
 import RelatedBrands from '../../../../components/Panels/Partners/RelatedBrands/RelatedBrands';
@@ -34,7 +38,49 @@ const panel2 = <RelatedProjects />;
 const panel3 = <RelatedBrands />;
 const panel4 = <RelatedAdvertisers />;
 
+const PARTNER_DELETE = gql`
+  mutation Delete($id: ID!) {
+    deletePartner(id: $id) {
+      deletedId
+    }
+  }
+`;
+const PARTNER_UPDATE = gql`
+mutation(
+  $id: ID!
+
+) 
+{
+  updatePartner(
+    id: $id
+    input:{}
+  ) {
+    partner {
+     id
+    
+    }
+}
+}
+`;
+
 export default function TabPaneForm(props) {
+  const [item, setItem] = useContext(partnerContext );
+  const history = useHistory();
+
+  const [updateConstruction] = useMutation(PARTNER_UPDATE);
+  const [deleteConstruction] = useMutation(PARTNER_DELETE);
+  const Update = () => {
+    updateConstruction({ variables: item });
+      
+    history.push(`/base/partners`);
+    history.go(0);
+  };
+  const Delete = () => {
+    deleteConstruction({ variables: { id: item.id } });
+    history.push(`/base/partners`);
+    history.go(0);
+ 
+  };
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -43,16 +89,16 @@ export default function TabPaneForm(props) {
           <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton backgroundColor="#008556">Сохранить</StyledButton>
-          <StyledButton backgroundColor="#d42d11">Удалить</StyledButton>
-          <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
+          <StyledButton backgroundColor="#008556"  onClick={Update} >Сохранить</StyledButton>
+          <StyledButton backgroundColor="#d42d11"  onClick={Delete}>Удалить</StyledButton>
+          {/* <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton> */}
         </ButtonGroup>
       </HeaderWrapper>
       <div>
         <STabs
           selectedTabClassName="is-selected"
           selectedTabPanelClassName="is-selected"
-          onSelect={(index) => props.selectedTab(index)}>
+       >
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
