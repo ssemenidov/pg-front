@@ -15,6 +15,20 @@ const ApplicationsTab = () => {
       edges {
         node {
           id
+          contract {
+            id
+          }
+          creator
+          createdDate
+          brand
+          salesManager {
+            id
+          }
+          returnStatus
+          period
+          additionallyAgreement
+          createdAt
+          updatedAt
          
         }
       }
@@ -51,12 +65,11 @@ const ApplicationsTab = () => {
     },
   ];
 
-  const data1 = [
+  var data1 = [
     {
       key: 1,
       code: '#2020050301323',
       agreement: 'ИП Агенство',
-
       project: 'CocaCola',
       date_start: '29.05.2021',
       date_end: '29.05.2021',
@@ -106,14 +119,19 @@ const ApplicationsTab = () => {
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
 
-//   if (data) {
-// console.log(data);
-//     data1 = data. searchAttachment.edges.map((item) => ({
-
+  if (data) {
+    console.log(data);
+    data1 = data. searchAttachment.edges.map((item) => ({
+      key: item.node.id,
+      code: '#2020050301323',
+      agreement: 'ИП Агенство',
+      project: 'CocaCola',
+      date_start: '29.05.2021',
+      date_end: '29.05.2021',
     
     
-//     }));
-//   }
+    }));
+  }
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>

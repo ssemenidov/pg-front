@@ -29,9 +29,9 @@ const ApplicationSearch = () => {
       <Form form={form} onFinish={onFinish}>
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
-          <InputTitle>Код проекта</InputTitle>
+          <InputTitle>Код приложения</InputTitle>
           <Form.Item name="code" >
-              <Input placeholder="Код проекта" size={'large'} />
+              <Input placeholder="Код приложения" size={'large'} />
             </Form.Item>
           
           </div>
