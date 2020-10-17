@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 
 import Main from './containers/Main/Main';
 import MainBase from './containers/Base/Main/Main';
+import MainAdministration from './containers/Administration/Main/Main';
 import MainSales from './containers/Sales/Main/Main';
 import MainInstall from './containers/Installations/Main/Main';
 
@@ -37,6 +38,16 @@ import Summary from './containers/Sales/Summary/Summary';
 import Projects from './containers/Installations/Projects/Projects';
 import Orders from './containers/Installations/Orders/Orders';
 import Design from './containers/Installations/Design/Design';
+
+
+import Person from './containers/Administration/Person/Person';
+import AdminOutdoorFurniture from './containers/Administration/AdminOutdoorFurniture/AdminOutdoorFurniture';
+import AdminLocations from './containers/Administration/AdminLocations/AdminLocations'
+import Packages from './containers/Administration/Packages/Packages'
+import AdminCrews from './containers/Administration/AdminCrews/AdminCrews'
+import Prices from './containers/Administration/Prices/Prices'
+
+import { adminRoutes } from './containers/Administration/Main/adminRoutes';
 
 const App = () => {
   return (
@@ -74,6 +85,15 @@ const App = () => {
           <Route path="/installations" exact component={MainInstall} />
           <Route path="/installations/projects" component={Projects} />
           <Route path="/installations/orders" component={Orders} />
+
+          <Route path={adminRoutes.root.to} exact component={MainAdministration} />
+          <Route path={adminRoutes.person.to} component={Person} />
+          <Route path={adminRoutes.outdoor_furniture.to} component={AdminOutdoorFurniture} />
+          <Route path={adminRoutes.locations.to} component={AdminLocations} />
+          <Route path={adminRoutes.packages.to} component={Packages} />
+          <Route path={adminRoutes.crews.to} component={AdminCrews} />
+          <Route path={adminRoutes.prices.to} component={Prices} />
+
         </Switch>
       </BrowserRouter>
     </ConfigProvider>
