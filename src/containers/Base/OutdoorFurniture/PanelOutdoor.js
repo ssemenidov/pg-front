@@ -7,7 +7,15 @@ import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
-
+// $city: String
+// $district: String
+// $post: String
+// $InventNumber: String
+// backCity_Title: $city
+// backDistrict_Title: $district
+// backPostcode: $post
+// backMarketingAddress: $adress_m
+// buhInventNumber: $InventNumber
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(outContext);
   const columns = [
@@ -65,37 +73,38 @@ const PanelDesign = (props) => {
 
   const OUTDOOR_T = gql`
     query SearchConstruction(
-      $city: String
-      $district: String
-      $post: String
-      $adress_m: String
-      $InventNumber: String
       $format: String
       $actual: Boolean
       $coords: String
+      $adress_m: String
     ) {
       searchConstruction(
-        backCity_Title: $city
-        backDistrict_Title: $district
-        backPostcode: $post
-        backMarketingAddress: $adress_m
-        buhInventNumber: $InventNumber
         format: $format
         actual: $actual
-        otherCoord: $coords
+        coordinates: $coords
+        marketingAddress:$adress_m
+
       ) {
         edges {
           node {
             id
             buhInventNumber
-            backCity {
+            city {
+              id
               title
             }
-            backPostcode
-            backMarketingAddress
-            backLegalAddress
+            district{
+              id
+              title
+            }
+            postcode{
+              id
+              title
+            }
+            marketingAddress
+            legalAddress
             format
-            otherCoord
+            coordinates
             actual
           }
         }
@@ -110,12 +119,12 @@ const PanelDesign = (props) => {
     data1 = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
       code: '#1020050301323',
-      city: item.node.backCity ? item.node.backCity.title : '',
-      post: item.node.backPostcode,
-      adress_m: item.node.backMarketingAddress,
-      adress_j: item.node.backLegalAddress,
+      city: item.node.city ? item.node.city.title : '',
+      post: item.node.postcode ? item.node.postcode.title : '',
+      adress_m: item.node.marketingAddress,
+      adress_j: item.node.legalAddress,
       format: item.node.format,
-      coords: item.node.otherCoord,
+      coords: item.node.coordinates,
       fire: item.node.actual ? 'Да' : 'Нет',
     }));
   }

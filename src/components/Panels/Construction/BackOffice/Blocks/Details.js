@@ -31,7 +31,7 @@ export default function Details() {
             <InputTitle>Семейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backFamilyConstruction ? item.backFamilyConstruction : 'Семейство'}
+              defaultValue={item.backFamilyConstruction ? item.backFamilyConstruction : ''}
               onChange={(e) =>
                 setItem({ ...item, backFamilyConstruction: e.target.value  })
               }></StyledInput>
@@ -42,7 +42,7 @@ export default function Details() {
             
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backAvailabilityConstruction ? item.backAvailabilityConstruction : 'Доступность'}
+              defaultValue={item.backAvailabilityConstruction ? item.backAvailabilityConstruction : ''}
               onChange={(e) =>
                 setItem({ ...item, backAvailabilityConstruction: e.target.value  })
               }></StyledInput>
@@ -54,7 +54,7 @@ export default function Details() {
             <InputTitle>Подсемейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item. backUnderFamilyConstruction ? item. backUnderFamilyConstruction : 'Подсемейство'}
+              defaultValue={item. backUnderFamilyConstruction ? item. backUnderFamilyConstruction : ''}
               onChange={(e) =>
                 setItem({ ...item,  backUnderFamilyConstruction: e.target.value  })
               }></StyledInput>
@@ -65,9 +65,9 @@ export default function Details() {
             <InputTitle>Модель</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backModelConstruction ? item.backModelConstruction : 'Модель'}
+              defaultValue={item.modelConstruction ? item.modelConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item,  backModelConstruction: e.target.value  })
+                setItem({ ...item,  modelConstruction: e.target.value  })
               }></StyledInput>
            
           </div>
@@ -76,9 +76,9 @@ export default function Details() {
           <div>
             <InputTitle onClick={() => openNotification('bottomRight')}>Наличие земли (!)</InputTitle>
             <StyledRadio 
-              defaultValue={item.backHasArea ? item.backHasArea : null}
+              defaultValue={item.hasArea ? item.hasArea : false}
               onChange={(e) =>
-                setItem({ ...item,  backHasArea: e.target.value  })
+                setItem({ ...item,  hasArea: e.target.value  })
               }>
               <Radio value={true}>Есть</Radio>
               <Radio value={false}>Нет</Radio>

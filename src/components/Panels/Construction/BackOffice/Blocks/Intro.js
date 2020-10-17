@@ -20,10 +20,11 @@ export default function Intro() {
       <BlockBody>
         <Row>
           <div style={{ width: '35%' }}>
+         
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.backCity ? item.backCity.id : 'Город'}
-              onChange={(value) => setItem({ ...item, backCity: { ...item.backCity, id: value } })}>
+              defaultValue={item.city ? item.city.id : ''}
+              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
               <StyledSelect.Option value="Q2l0eU5vZGU6MQ==">Алматы</StyledSelect.Option>
               <StyledSelect.Option value="Q2l0eU5vZGU6Mg==">Астана</StyledSelect.Option>
               <StyledSelect.Option value="Q2l0eU5vZGU6Mw==">Караганда</StyledSelect.Option>
@@ -33,19 +34,22 @@ export default function Intro() {
           </div>
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.backDistrict ? item.backDistrict.title : 'Район'}
-              onChange={(e) =>
-                setItem({ ...item, backDistrict: { ...item.backDistrict, title: e.target.value } })
-              }></StyledInput>
+            <StyledSelect
+              defaultValue={item.district ? item.district.id : ''}
+              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE=">Турксибский</StyledSelect.Option>
+            
+            </StyledSelect>
           </div>
           <div style={{ width: '22%' }}>
             <InputTitle>Код района</InputTitle>
-            <StyledInput
-              prefix={<img src={mailIcon} />}
-              defaultValue={item.backPostcode ? item.backPostcode : 'Код'}
-              onChange={(e) => setItem({ ...item, backPostcode: e.target.value })}></StyledInput>
+            <StyledSelect
+              defaultValue={item.postcode ? item.postcode.id : ''}
+              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
+          
+            </StyledSelect>
+            
           </div>
         </Row>
         <Row>
@@ -53,15 +57,15 @@ export default function Intro() {
             <InputTitle>Владелец</InputTitle>
             <StyledInput
               prefix={<img src={ownerIcon} />}
-              defaultValue={item.backOwner ? item.backOwner : 'Владелец'}
-              onChange={(e) => setItem({ ...item, backOwner: e.target.value })}></StyledInput>
+              defaultValue={item.owner ? item.owner : ''}
+              onChange={(e) => setItem({ ...item, owner: e.target.value })}></StyledInput>
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backMarketingAddress ? item.backMarketingAddress : 'Адрес'}
-              onChange={(e) => setItem({ ...item, backMarketingAddress: e.target.value })}></StyledInput>
+              defaultValue={item.marketingAddress ? item.marketingAddress : ''}
+              onChange={(e) => setItem({ ...item, marketingAddress: e.target.value })}></StyledInput>
           </div>
         </Row>
         <Row>
@@ -72,7 +76,8 @@ export default function Intro() {
           <div style={{ width: '61%' }}>
             <InputTitle>Комментарий</InputTitle>
             <StyledInput
-              defaultValue={item.backComment ? item.backComment : '...'}
+              placeholder='...'
+              defaultValue={item.backComment ? item.backComment : ''}
               onChange={(e) => setItem({ ...item, backComment: e.target.value })}></StyledInput>
           </div>
         </Row>

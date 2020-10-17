@@ -20,33 +20,43 @@ const Construction = (props) => {
         edges {
           node {
             id
-            backCity {
+            city {
               title
               id
             }
-            backDistrict {
+            district {
               title
+              id
             }
-            backPostcode
-            backOwner
-            backMarketingAddress
-            backCreatedAt
+            postcode{
+              title
+              id
+            }
+            owner
+            marketingAddress
+            createdAt
             backComment
             backFamilyConstruction
             backUnderFamilyConstruction
             backAvailabilityConstruction
-            backModelConstruction
-            backHasArea
-            otherImg
+            modelConstruction
+            hasArea
+            crew{
+              id
+              name
 
-            location {
-              city {
-                title
-              }
-              coordinate
-              cadastralNumber
-              areaActDate
             }
+            techInventNumber
+            techPhoneConstruction
+            techProblem
+            techComment
+            statusConnection
+            obstruction
+            buhInventNumber
+            otherLink
+            coordinates
+            photo
+            
           }
         }
       }

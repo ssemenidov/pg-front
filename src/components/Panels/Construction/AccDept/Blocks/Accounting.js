@@ -1,25 +1,25 @@
-import React from 'react';
-import { BlockBody, Large, Row, BlockTitleText, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { getConstructionProps } from '../../../../../store/actions/constructionActions';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { BlockBody, Large, Row,  BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
+import anchorIcon from '../../../../../img/input/anchor.svg';
 export default function Accounting() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
+
+  const [item, setItem] = useContext(constructContext);
 
   return (
+
     <Large>
       <BlockTitle>Парамметры - 1С</BlockTitle>
       <BlockBody>
         <Row>
           <div style={{ width: '392px' }}>
             <InputTitle>Инвентарный номер</InputTitle>
-            <InputAnchor
-              value={current ? current.bookkeepInventoryNumber : ''}
-              placeholder="Инвентарный номер"
-              onChange={(e) => dispatch(getConstructionProps('bookkeepInventoryNumber', e.target.value))}
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.    buhInventNumber ? item.    buhInventNumber : ''}
+              onChange={(e) => setItem({ ...item,     buhInventNumber: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

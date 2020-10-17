@@ -94,30 +94,47 @@ const PanelDesign = (props) => {
 
   const CREWS_T = gql`
     query SearchCrew(
+      $name: String
+      $phone: String
       $city: String
       $district: String
-      $address: String
-      $name: String
-      $phoneNumber: String
-      $constructionType: String
-      $constructionFormat: String
-      $startDate: String
+      $adress: String
     ) {
       searchCrew(
-        format: $constructionFormat
-        backCity_Title: $city
-        adress: $address
-        date_start: $startDate
+        name: $name
+        phone:  $phone
+        construction_City_Title:  $city
+        construction_District_Title: $district
+        construction_MarketingAddress:  $adress
+       
       ) {
         edges {
           node {
             id
-            code
-            format
-            city
-            adress
-            status
-            date_start
+            phone
+            name
+          
+            constructionSet {
+              edges {
+                node {
+                  id
+                  code
+                  format
+                  statusConnection
+                  createdAt
+                  city {
+                    id
+                    title
+                  }
+                  legalAddress
+                  district {
+                    id
+                    title
+                  }
+
+                }
+              }
+            }
           }
         }
       }
@@ -128,15 +145,18 @@ const PanelDesign = (props) => {
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
   if (data) {
-    data1 = data.searchCrew.edges.map((item) => ({
+    if(data.searchCrew.edges[0])
+    {
+      data1 = data.searchCrew.edges[0].node.constructionSet.edges.map((item) => ({
       key: item.node.id,
       code: item.node.code,
       format: item.node.format,
-      city: item.node.backCity ? item.node.backCity.title : '',
-      adress: item.node.adress,
-      status: item.node.status,
-      date_start: item.node.date_start,
+      city: item.node.city  ? item.node.city.title : '',
+      adress: item.node.legalAddress,
+      status: item.node.statusConnection,
+      date_start: new Date(item.node.createdAt).toLocaleDateString('en-GB')
     }));
+  }
   }
 
   return (
