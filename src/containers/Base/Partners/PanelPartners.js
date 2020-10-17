@@ -88,8 +88,20 @@ const PanelDesign = (props) => {
   ];
 
   const PARTNERS_T = gql`
-    {
-      searchPartner(id: "") {
+  query SearchPartner(
+    $partner: String
+    $brand: String
+    $type: String
+    $sector: String
+    $binNumber: String
+  ) {
+      searchPartner(
+        title:$partner
+        brands_Title:$brand
+        advertisers_Title:$type
+        workingSector_Title:$sector
+        binNumber:$binNumber
+      ) {
         edges {
           node {
             id

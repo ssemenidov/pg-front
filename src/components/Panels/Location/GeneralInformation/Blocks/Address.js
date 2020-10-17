@@ -28,11 +28,12 @@ export const Address = (props) => {
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
-            <InputTitle>Район</InputTitle>
-       
-            <StyledSelect defaultValue={<span>Район</span>} suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+             <InputTitle>Район</InputTitle>
+            <StyledSelect
+              defaultValue={item.district && item.district.id }
+              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE=">Турксибский</StyledSelect.Option>
+            
             </StyledSelect>
           </div>
         </Row>

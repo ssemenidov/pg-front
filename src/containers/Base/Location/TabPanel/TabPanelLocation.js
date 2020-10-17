@@ -49,6 +49,7 @@ const LOCATION_UPDATE = gql`
     $address:String
     $postcode:String
     $city:ID
+    $district:ID
   ) {
     updateLocation(
       id: $id
@@ -60,6 +61,7 @@ const LOCATION_UPDATE = gql`
         address:$address
         postcode:$postcode
         city:$city
+        district:$district
 
       }
     ) {
@@ -77,7 +79,11 @@ export default function InnerForm(props) {
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation( LOCATION_DELETE);
   const Update = () => {
-    updateLocation({ variables:  { ...item, city: item.city.id } });
+    updateLocation({ variables:  {
+       ...item,
+       city: item.city.id,
+       district: item.district.id
+       } });
       
     history.push(`/base/locations`);
     history.go(0);
@@ -105,7 +111,7 @@ export default function InnerForm(props) {
             Сохранить
           </StyledButton>
           <StyledButton backgroundColor="#D42D11" onClick={Delete}>Удалить</StyledButton>
-          <StyledButton backgroundColor="#2c5de5">Добавить местоположение</StyledButton>
+          {/* <StyledButton backgroundColor="#2c5de5">Добавить местоположение</StyledButton> */}
         </ButtonGroup>
       </HeaderWrapper>
       <div>

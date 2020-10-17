@@ -51,7 +51,7 @@ const FilterBar = () => {
         </Collapse>
 
         <BtnGroup>
-          <SubmitButton htmlType="submit" onClick={() => alert('Фильтр')}>
+          <SubmitButton htmlType="submit" >
             Поиск
           </SubmitButton>
           <ResetButton onClick={onReset}>Очистить</ResetButton>
