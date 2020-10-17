@@ -12,16 +12,82 @@
 .PenSpacer {
   margin-left: 1rem;
   display: inline-block;
+  float:right;
+}
+
+.TrashSearchSpacer {
+  margin-left: 2rem;
+  display: inline-block;
+}
+
+.PenSearchSpacer {
+  margin-left: 2rem;
+  display: inline-block;
+  float:right;
+}
+
+.RadioLabel {
+  margin-left: 1rem;
+  display: inline-block;
 }
 
 .LinkStyle {
   color: #000000;
 }
 
-.EditTrashStyle{
+.EditTrashStyle {
   width: 1.2rem;
   height: 1.2rem;
   cursor: 'pointer';
+}
+
+.iPwcse.admin-construction-item-header {
+  margin: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.admin-search-input input {
+  padding-top: .4rem;
+  padding-bottom: .4rem;
+}
+
+.admin-search-input-search-text {
+  font-size: .9em;
+  font-weight: 500;
+}
+
+.admin-search-form-control .MuiFormControlLabel-label {
+  width: 100%;
+}
+
+.admin-search-form-control-selected {
+  background-color: #F0F3FE;
+}
+
+.resetPadding {
+  padding: 0
+}
+
+.grid-row-margin-1st {
+  margin-top: 1rem
+}
+
+.grid-row-margin-2nd {
+  margin-top: 2rem
+}
+
+.grid-col-central-margin {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.admin-radiobutton svg {
+  border: 1px solid #2C5DE5;
+  border-radius: 20px;
+  width: .8em;
+  height: .8em;
+
 }
 
 .layout-main {

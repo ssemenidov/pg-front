@@ -23,8 +23,8 @@ export function NavigationPanel({activeItem}) {
     <STabList>
       {adminRoutesArr.map(tab => {
         // console.log(tab.value, index)
-        return <Link to={tab.to} className="LinkStyle">
-          <STab key={tab.idx} className={tab.idx === activeItem.idx ? "is-selected" : ""}>
+        return <Link key={tab.idx} to={tab.to} className="LinkStyle">
+          <STab className={tab.idx === activeItem.idx ? "is-selected" : ""}>
             {tab.name}
           </STab>
         </Link>
