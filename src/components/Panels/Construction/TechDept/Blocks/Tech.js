@@ -1,5 +1,6 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import InputAnchor from '../../../../Inputs/InputAnchor';
@@ -8,8 +9,7 @@ import { StyledInput, StyledSelect } from '../../../../../styles/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 export default function Tech() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(constructContext);
   return (
     <Medium>
       <BlockTitle>Общие параметры</BlockTitle>
@@ -17,42 +17,29 @@ export default function Tech() {
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Экипаж</InputTitle>
-            {/* <InputAnchor
-              value={current ? current.crew : ""}
-              placeholder="Экипаж"
-              onChange={(e) => dispatch(getConstructionProps("crew", e.target.value))}
-            /> */}
             <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} />
-                  <span>Экипаж</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+              defaultValue={item.crew ? item.crew.id : ''}
+              onChange={(value) => setItem({ ...item, crew: { ...item.crew, id: value } })}>
+              <StyledSelect.Option value="Q3Jld05vZGU6MQ==">Тусупбеков</StyledSelect.Option>
+            
             </StyledSelect>
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Инвентарный номер</InputTitle>
-            {/* <InputAnchor
-              value={current ? current.generalInventoryNumber : ''}
-              placeholder="Инвентарный"
-              onChange={(e) => dispatch(getConstructionProps('generalInventoryNumber', e.target.value))}
-            /> */}
-            <StyledInput placeholder="Инвентарный номер" prefix={<img src={anchorIcon} />} />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.techInventNumber ? item.techInventNumber : ''}
+              onChange={(e) => setItem({ ...item, techInventNumber: e.target.value })}></StyledInput>
+          
           </div>
         </Row>
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Номер телефона конструкции</InputTitle>
-            {/* <InputAnchor
-              value={current ? current.constructionPhoneNumber : ''}
-              placeholder="Номер телефона"
-              onChange={(e) => dispatch(getConstructionProps('constructionPhoneNumber', e.target.value))}
-            /> */}
-            <StyledInput placeholder="Номер телефона" prefix={<img src={anchorIcon} />} />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.techPhoneConstruction ? item.techPhoneConstruction : ''}
+              onChange={(e) => setItem({ ...item, techPhoneConstruction: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

@@ -45,45 +45,57 @@ const CONSTRUCT_DELETE = gql`
 const CONSTRUCT_UPDATE = gql`
   mutation(
     $id: ID!
-    $backCity: ID
-    $backPostcode: String
-    $backOwner: String
-    $backMarketingAddress: String
+    $city: ID
+    $district: ID
+    $postcode: ID
+    $owner: String
+    $marketingAddress: String
     $backComment: String
     $backFamilyConstruction: String
     $backUnderFamilyConstruction: String
     $backAvailabilityConstruction: String
-    $backModelConstruction: String
-    $backHasArea: Boolean
+    $modelConstruction: String
+    $hasArea: Boolean
+    $crew: ID
+    $techInventNumber: String
+    $techPhoneConstruction: String
+    $techProblem: String
+    $techComment: String
+    $statusConnection: String
+    $obstruction: String
+    $buhInventNumber: String
+    $otherLink: String
+    $coordinates: String
   ) {
     updateConstruction(
       id: $id
       input: {
-        backCity: $backCity
-        backPostcode: $backPostcode
-        backOwner: $backOwner
-        backMarketingAddress: $backMarketingAddress
+        city: $city
+        district: $district
+        postcode:$postcode
+        owner: $owner
+        marketingAddress: $marketingAddress
         backComment: $backComment
         backFamilyConstruction:$backFamilyConstruction
         backUnderFamilyConstruction: $backUnderFamilyConstruction
         backAvailabilityConstruction: $backAvailabilityConstruction
-        backModelConstruction: $backModelConstruction
-        backHasArea: $backHasArea
+        modelConstruction:$modelConstruction
+        hasArea:$hasArea
+        crew: $crew
+        techInventNumber: $techInventNumber
+        techPhoneConstruction:$techPhoneConstruction
+        techProblem: $techProblem
+        techComment: $techComment
+        statusConnection:$statusConnection
+        obstruction: $obstruction
+        buhInventNumber:$buhInventNumber
+        otherLink: $otherLink
+        coordinates: $coordinates
+   
       }
     ) {
       construction {
-        backCity {
-          title
-        }
-        backDistrict {
-          title
-        }
-        backPostcode
-        backMarketingAddress
-        backLegalAddress
-        format
-        otherCoord
-        actual
+        id
       }
     }
   }
@@ -95,10 +107,15 @@ const InnerForm = (props) => {
   const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
   const Update = () => {
-    updateConstruction({ variables: { ...item, backCity: item.backCity.id } });
+    updateConstruction({ variables: {
+       ...item, city: item.city.id,
+        district:item.district.id,
+        postcode:item.postcode.id,
+        crew:item.crew.id
+       } });
       
-    history.push(`/base/outdoor_furniture`);
-    history.go(0);
+    // history.push(`/base/outdoor_furniture`);
+    // history.go(0);
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });
