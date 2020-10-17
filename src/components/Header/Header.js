@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import UserForm from './UserMenu/UserMenu';
 
+import { adminUrl, adminRoutesArr } from '../../containers/Administration/Main/adminRoutes'
+
 const Header = () => {
   const [active, SetActive] = useState(-1);
   const salesMenu = (
@@ -57,6 +59,17 @@ const Header = () => {
       </Menu.ItemGroup>
     </Menu>
   );
+  const adminMenu = (
+    <Menu onClick={() => SetActive(4)}>
+      <Menu.ItemGroup>
+        {adminRoutesArr.map(({key, idx, to, name}) =>
+          <Menu.Item key={key}>
+            <Link to={to}>{name}</Link>
+          </Menu.Item>
+        )}
+      </Menu.ItemGroup>
+    </Menu>
+  )
 
   return (
     <StyledHeader>
@@ -82,8 +95,14 @@ const Header = () => {
             Базы{' '}
           </Link>
         </Dropdown>
+
         <Link to="/installations/design">Отчеты</Link>
-        <Link to="/installations/design">Администрация</Link>
+
+        <Dropdown overlay={adminMenu}>
+          <Link to={adminUrl} onClick={() => SetActive(4)} className={active == 4 && 'active'}>
+            Администрация
+          </Link>
+        </Dropdown>
       </StyledList>
       <StyledBlock>
         <UserForm

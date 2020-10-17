@@ -1,0 +1,49 @@
+.EditPenStyle {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: 'pointer';
+}
+
+.TrashSpacer {
+  margin-left: 3rem;
+  display: inline-block;
+}
+
+.PenSpacer {
+  margin-left: 1rem;
+  display: inline-block;
+}
+
+.LinkStyle {
+  color: #000000;
+}
+
+.EditTrashStyle{
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: 'pointer';
+}
+
+.layout-main {
+  background: #fff !important;
+  height: 100% !important;
+  overflow-x: hidden;
+}
+
+.layout-sider {
+  background: #F5F7FA;
+  min-width: 80px !important;
+  max-width: 80px !important;
+
+  border-right: 1px solid #d3dff0 !important;
+}
+
+.layout-breadcrumb {
+  font-size: 11px;
+  margin: 0 0 30px 0;
+}
+
+.layout-breadcrumb a, .layout-breadcrumb span {
+  color: #8AA1C1 !important;
+}
+
