@@ -18,7 +18,7 @@ export default function Tech() {
           <div style={{ width: '48%' }}>
             <InputTitle>Экипаж</InputTitle>
             <StyledSelect
-              defaultValue={item.crew ? item.crew.id : ''}
+              defaultValue={item.crew && item.crew.id }
               onChange={(value) => setItem({ ...item, crew: { ...item.crew, id: value } })}>
               <StyledSelect.Option value="Q3Jld05vZGU6MQ==">Тусупбеков</StyledSelect.Option>
             

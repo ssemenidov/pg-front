@@ -103,6 +103,7 @@ const PanelDesign = (props) => {
             }
             marketingAddress
             legalAddress
+            legalAddress
             format
             coordinates
             actual

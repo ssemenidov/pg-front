@@ -18,8 +18,8 @@ export default function Accounting() {
             <InputTitle>Инвентарный номер</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.    buhInventNumber ? item.    buhInventNumber : ''}
-              onChange={(e) => setItem({ ...item,     buhInventNumber: e.target.value })}></StyledInput>
+              defaultValue={item.buhInventNumber ? item.buhInventNumber : ''}
+              onChange={(e) => setItem({ ...item,buhInventNumber: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>
