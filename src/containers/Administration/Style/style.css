@@ -113,3 +113,28 @@
   color: #8AA1C1 !important;
 }
 
+
+.slider-close-svg {
+  width: .8rem;
+  height: .8rem;
+  margin: auto auto;
+  display: block;
+  stroke:#000000;
+  stroke-width:3;
+}
+
+.slider-close {
+  display: flex;
+  align-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  /*padding: 1rem;*/
+  opacity: 0.4;
+}
+.slider-close:hover {
+  opacity: 1;
+}
+
+.slider-grid-padding {
+  padding: 1rem;
+}

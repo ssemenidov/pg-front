@@ -49,7 +49,7 @@ const PanelDesign = (props) => {
       width: 50,
       fixed: 'right',
       render: (text, record) => (
-        <React.Fragment>
+        <>
           <div className="PenSpacer"></div>
           <Link to={`/base/partners/partner/${record.key}`}>
             <img className="EditPenStyle" src={icon_pen} alt="" />
@@ -58,7 +58,7 @@ const PanelDesign = (props) => {
           <Link to={`/base/partners/partner/${record.key}`}>
             <img className="EditTrashStyle" src={icon_trash} alt="" />
           </Link>
-        </React.Fragment>
+        </>
       ),
     },
   ];

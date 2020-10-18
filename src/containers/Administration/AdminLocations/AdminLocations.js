@@ -1,8 +1,12 @@
-import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
+
 import React from 'react';
 import { Col, Grid, Row } from 'react-flexbox-grid';
-import AdminConstructionItem from '../AdminOutdoorFurniture/ConstructionItem';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
+import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
+import { adminRoutesMap } from '../Main/adminRoutes';
+import { AdminConstructionItem, GqlDatasource } from '../components/AdminConstructionItem';
+
 
 
 const stubCities = [
@@ -29,6 +33,35 @@ const stubStreets = [
   { name: "Кубеева" },
 ]
 
+const GET_CITIES = gql`
+  query SearchCity($title: String) {
+    searchCity(title: $title) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`
+
+const GET_DISTRICTS = gql`
+  query SearchCity($title: String) {
+    searchDistrict(title: $title) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`
+
+const srcCities = new GqlDatasource(GET_CITIES, "searchCity",  stubCities);
+const srcDistricts = new GqlDatasource(GET_DISTRICTS, "searchDistrict", stubDistricts);
+const srcStreets = new GqlDatasource(null, null, stubStreets);
 
 const AdminLocations = () => {
   return (
@@ -36,13 +69,13 @@ const AdminLocations = () => {
       <Grid fluid className="resetPadding">
         <Row xs={12}  className="grid-row-margin-1st">
           <Col xs={4}>
-            <AdminConstructionItem title="Список городов" values={stubCities}/>
+            <AdminConstructionItem title="Список городов" datasource={srcCities} />
           </Col>
           <Col xs={4}>
-            <AdminConstructionItem title="Список районов" values={stubDistricts}  className="grid-col-central-margin"/>
+            <AdminConstructionItem title="Список районов" datasource={srcDistricts}  className="grid-col-central-margin"/>
           </Col>
           <Col xs={4}>
-            <AdminConstructionItem title="Названия улиц" values={stubStreets}/>
+            <AdminConstructionItem title="Названия улиц" datasource={srcStreets}/>
           </Col>
         </Row>
       </Grid>

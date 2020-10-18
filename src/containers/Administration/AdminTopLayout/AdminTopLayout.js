@@ -1,11 +1,11 @@
 import { Layout } from 'antd';
-import { AdministrationBreadcrumb } from '../Main/Breadcrumb';
+import { AdministrationBreadcrumb } from '../components/AdminBreadcrumb';
 import { HeaderWrapper, StyledButton } from '../../../styles/styles';
-import { HeaderTitle } from '../Main/HeaderTitle';
+import { HeaderTitle } from '../components/HeaderTitle';
 import { adminTitle } from '../Main/adminRoutes';
 import { BtnExport, BtnPrint, BtnSettings, ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { colorAccent } from '../Main/Styles';
-import { NavigationPanel } from '../Main/NavigationPanel';
+import { colorAccent } from '../Style/Styles';
+import { NavigationPanel } from '../components/NavigationPanel';
 import React from 'react';
 
 export function AdminTopLayout({children, activeRoute, buttonName}) {

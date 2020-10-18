@@ -4,7 +4,7 @@ import { Breadcrumb, Layout } from 'antd';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import {adminUrl} from './adminRoutes'
+import {adminUrl} from '../Main/adminRoutes'
 
 
 export function AdministrationBreadcrumb({location}) {

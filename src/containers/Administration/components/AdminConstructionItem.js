@@ -7,7 +7,7 @@ import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../..
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyledButton } from '../../../styles/styles';
-import { colorAccent, colorAccent2, colorWhite, borderColor } from '../Main/Styles';
+import { colorAccent, colorAccent2, colorWhite, borderColor } from '../Style/Styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 // import { sendContragentValues } from '../../../../../store/actions/actions';
 
@@ -18,6 +18,7 @@ import icon_anchor from '../../../img/partners/bx-search-alt.svg';
 import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
 import icon_trash from '../../../img/administration/red_can.svg';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 
 
 function SearchInputField(props) {
@@ -160,12 +161,31 @@ const controlStylesLast = {
   padding: ".5rem 1rem .5rem .5rem",
 };
 
-export default function AdminConstructionItem({title, values, className}) {
+function Loading(props) {
+  return <h3></h3>
+}
+
+function Error(props) {
+  return <p>Error :(</p>
+}
+
+
+export class GqlDatasource {
+  constructor(dataQuery, methodName, stubData = [], selector = "title") {
+    this.query = dataQuery;
+    this.selector = (data) => data[methodName].edges.map(item => ({ key: item.node.id, name: item.node[selector] }));
+    this.filter = (value) => ({ [selector]: value });
+    this.enableStubs = true;
+    this.stubData = stubData;
+  }
+}
+
+
+function AdminConstructionItemComponent({title, className, values}) {
   const classes = useStyles();
-  const state = useSelector((state) => state.contragents.currentContragent);
-  const dispatch = useDispatch();
-  const lastIdx = values.length - 1;
   let [stateSelectedIdx, setStateSelectedIdx] = useState(-1);
+
+  const lastIdx = values.length - 1;
 
   let onChangeRadio = (event) => {
     setStateSelectedIdx(parseInt(event.target.value));
@@ -183,14 +203,14 @@ export default function AdminConstructionItem({title, values, className}) {
         <form action="" className={classes.root} style={formStyles}>
           <RadioGroup name="customized-radios">
             {values.map((val, idx) => <FormControlLabel
-                value={idx}
-                key={idx}
-                style={idx === lastIdx ? controlStylesLast : controlStyles }
-                className={idx === stateSelectedIdx ? "admin-search-form-control admin-search-form-control-selected"
-                  : "admin-search-form-control"}
-                control={<StyledRadio onChange={onChangeRadio} checked={idx === stateSelectedIdx}/>}
-                label={<EditableLabel name={val.name} />}
-              />)
+              value={idx}
+              key={idx}
+              style={idx === lastIdx ? controlStylesLast : controlStyles }
+              className={idx === stateSelectedIdx ? "admin-search-form-control admin-search-form-control-selected"
+                : "admin-search-form-control"}
+              control={<StyledRadio onChange={onChangeRadio} checked={idx === stateSelectedIdx}/>}
+              label={<EditableLabel name={val.name} />}
+            />)
 
             }
           </RadioGroup>
@@ -198,4 +218,32 @@ export default function AdminConstructionItem({title, values, className}) {
       </BlockBody>
     </Medium>
   );
+}
+
+function AdminConstructionItemDatasource(props) {
+  let datasource = props.datasource;
+  let searchValue = ""
+  let values;
+
+  const { loading, error, data } = useQuery(datasource.query, { variables: datasource.filter(searchValue) });
+  if (error) {
+    if (!datasource.enableStubs)
+      return <Error/>;
+    else
+      values = datasource.stubData;
+  } else {
+    if (loading)
+      return <Loading/>;
+    values = data ? datasource.selector(data) : [];
+  }
+
+  return <AdminConstructionItemComponent values={values} {...props} />;
+}
+
+
+export function AdminConstructionItem(props) {
+  if (props.datasource.query === null)
+    return <AdminConstructionItemComponent values={props.datasource.stubData} {...props} />
+  else
+    return <AdminConstructionItemDatasource {...props} />
 }
