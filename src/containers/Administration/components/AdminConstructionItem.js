@@ -189,7 +189,7 @@ const StyledFormControlLabel = styled(FormControlLabel)`
   & .MuiFormControlLabel-label {
     width: 100%;
   }
-  background-color: ${props => props.isSelected ? colorRadiobuttonSelected : undefined}
+  // background-color: ${props => props.isSelected ? colorRadiobuttonSelected : undefined}
 `;
 
 function AdminConstructionItemComponent({title, className, values}) {
@@ -201,6 +201,10 @@ function AdminConstructionItemComponent({title, className, values}) {
   let onChangeRadio = (event) => {
     setStateSelectedIdx(parseInt(event.target.value));
   };
+
+  let setBackground = ((isSelected, style) => {
+    return isSelected ? { ...style, backgroundColor: colorRadiobuttonSelected } : style;
+  });
 
   return (
     <Medium style={{ height: '100%' }} className={className}>
@@ -217,8 +221,8 @@ function AdminConstructionItemComponent({title, className, values}) {
             {values.map((val, idx) => <StyledFormControlLabel
               value={idx}
               key={idx}
-              style={idx === lastIdx ? controlStylesLast : controlStyles }
-              isSelected = {idx === stateSelectedIdx}
+              style={setBackground(idx === stateSelectedIdx, idx === lastIdx ? controlStylesLast : controlStyles)}
+              // isSelected = {idx === stateSelectedIdx}
               control={<StyledRadio onChange={onChangeRadio} checked={idx === stateSelectedIdx}/>}
               label={<EditableLabel name={val.name} />}
             />)
