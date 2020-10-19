@@ -1,9 +1,12 @@
 import React from 'react';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 
+
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from '../Main/adminRoutes';
-import { AdminConstructionItem, GqlDatasource } from '../components/AdminConstructionItem';
+import { AdminConstructionItem } from '../components/AdminConstructionItem';
+import { GqlDatasource } from '../components/gql_datasource';
+import { GridNoPadding, RowMargin1st, RowMargin2st } from '../components/Styled';
 
 const stubValues0 = [
   {name: "Сениор"},
@@ -44,8 +47,8 @@ const srcMarketSide = new GqlDatasource(null, null, stubMarketSide);
 const OutdoorFurniture = () => {
   return (
     <AdminTopLayout activeRoute={adminRoutesMap.outdoor_furniture}>
-      <Grid fluid className="resetPadding">
-        <Row xs={12}  className="grid-row-margin-1st">
+      <GridNoPadding fluid>
+        <RowMargin1st xs={12}>
           <Col xs={4}>
             <AdminConstructionItem title="Семейство" datasource={srcValues0}/>
           </Col>
@@ -55,8 +58,8 @@ const OutdoorFurniture = () => {
           <Col xs={4}>
             <AdminConstructionItem title="Модель" datasource={srcModel}/>
           </Col>
-        </Row>
-        <Row xs={12} className="grid-row-margin-2nd">
+        </RowMargin1st>
+        <RowMargin2st xs={12}>
           <Col xs={4}>
             <AdminConstructionItem title="Формат" datasource={srcFormat}/>
           </Col>
@@ -66,8 +69,8 @@ const OutdoorFurniture = () => {
           <Col xs={4}>
             <AdminConstructionItem title="Рекламная сторона" datasource={srcMarketSide}/>
           </Col>
-        </Row>
-      </Grid>
+        </RowMargin2st>
+      </GridNoPadding>
     </AdminTopLayout>
   );
 };

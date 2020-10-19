@@ -1,30 +1,39 @@
 import React, { useState } from 'react';
 import clsx from 'clsx'
-import InputAnchor from '../../../components/Inputs/InputAnchor';
-import Multiline from '../../../components/Inputs/Multiline';
-import SelectAnchor from '../../../components/Inputs/SelectAnchor';
-import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../components/Styles/StyledBlocks';
-import { makeStyles } from '@material-ui/core/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { StyledButton } from '../../../styles/styles';
-import { colorAccent, colorAccent2, colorWhite, borderColor } from '../Style/Styles';
-import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-// import { sendContragentValues } from '../../../../../store/actions/actions';
-
-import '../Style/style.css'
-import { TextField, RadioGroup, FormControlLabel, Radio, withStyles } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+
+import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/Styles/StyledBlocks';
+import { makeStyles } from '@material-ui/core/styles';
+import { StyledButton } from '../../../styles/styles';
+import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
+import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer } from '../components/Styled'
+
 import icon_anchor from '../../../img/partners/bx-search-alt.svg';
 import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
 import icon_trash from '../../../img/administration/red_can.svg';
-import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 
+import '../Style/style.css'
+
+const StyledInputAdornment = styled(InputAdornment)`
+  font-size: .9em;
+  font-weight: 500;
+  color: ${colorAccent}
+`;
+
+const StyledTextField = styled(TextField)`
+  & input {
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+  }
+`;
 
 function SearchInputField(props) {
   return (
-    <TextField
-      className="admin-search-input"
+    <StyledTextField
       style={{ width: '100%', background: 'white', marginTop: '1.5rem', ...props.style }}
       fullWidth
       id={props.id}
@@ -43,9 +52,9 @@ function SearchInputField(props) {
           </InputAdornment>
         ),
         endAdornment: (
-          <InputAdornment position="end" className="admin-search-input-search-text" style={{color: colorAccent}}>
+          <StyledInputAdornment position="end">
             <span>Найти</span>
-          </InputAdornment>
+          </StyledInputAdornment>
         ),
       }}
     />
@@ -115,13 +124,13 @@ function StyledRadio(props) {
 
 function EditableLabel(props) {
   return <div style={{width: "100%", display: "flex", flexFlow: "row wrap"}}>
-    <div className="RadioLabel">{props.name}</div>
+    <RadioLabel>{props.name}</RadioLabel>
     <div style={{marginLeft: "auto"}}></div>
-    <div className="PenSearchSpacer"></div>
+    <PenSearchSpacer />
     <Link to={`/base/partners/partner/`}>
-      <img className="EditPenStyle" src={icon_pen} alt="" />
+      <StyledPen src={icon_pen} alt="" />
     </Link>
-    <div className="TrashSearchSpacer"></div>
+    <TrashSearchSpacer />
     <Link to={`/base/partners/partner/`}>
       <img className="EditTrashStyle" src={icon_trash} alt="" />
     </Link>
@@ -169,17 +178,19 @@ function Error(props) {
   return <p>Error :(</p>
 }
 
+const StyledBlockTitle = styled(BlockTitle)`
+  margin: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+`;
 
-export class GqlDatasource {
-  constructor(dataQuery, methodName, stubData = [], selector = "title") {
-    this.query = dataQuery;
-    this.selector = (data) => data[methodName].edges.map(item => ({ key: item.node.id, name: item.node[selector] }));
-    this.filter = (value) => ({ [selector]: value });
-    this.enableStubs = true;
-    this.stubData = stubData;
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+  & .MuiFormControlLabel-label {
+    width: 100%;
   }
-}
-
+  background-color: ${props => props.isSelected ? colorRadiobuttonSelected : undefined}
+`;
 
 function AdminConstructionItemComponent({title, className, values}) {
   const classes = useStyles();
@@ -193,21 +204,21 @@ function AdminConstructionItemComponent({title, className, values}) {
 
   return (
     <Medium style={{ height: '100%' }} className={className}>
-      <BlockTitle className="admin-construction-item-header">{title}
+      <StyledBlockTitle>
+        {title}
         <StyledButton backgroundColor={colorAccent2}>
           Добавить
         </StyledButton>
-      </BlockTitle>
+      </StyledBlockTitle>
       <BlockBody>
         <SearchInputField name="Быстрый поиск"></SearchInputField>
         <form action="" className={classes.root} style={formStyles}>
           <RadioGroup name="customized-radios">
-            {values.map((val, idx) => <FormControlLabel
+            {values.map((val, idx) => <StyledFormControlLabel
               value={idx}
               key={idx}
               style={idx === lastIdx ? controlStylesLast : controlStyles }
-              className={idx === stateSelectedIdx ? "admin-search-form-control admin-search-form-control-selected"
-                : "admin-search-form-control"}
+              isSelected = {idx === stateSelectedIdx}
               control={<StyledRadio onChange={onChangeRadio} checked={idx === stateSelectedIdx}/>}
               label={<EditableLabel name={val.name} />}
             />)
@@ -221,29 +232,20 @@ function AdminConstructionItemComponent({title, className, values}) {
 }
 
 function AdminConstructionItemDatasource(props) {
-  let datasource = props.datasource;
   let searchValue = ""
-  let values;
+  let [values, isReactComponent] = props.datasource.query(searchValue);
 
-  const { loading, error, data } = useQuery(datasource.query, { variables: datasource.filter(searchValue) });
-  if (error) {
-    if (!datasource.enableStubs)
-      return <Error/>;
-    else
-      values = datasource.stubData;
-  } else {
-    if (loading)
-      return <Loading/>;
-    values = data ? datasource.selector(data) : [];
-  }
+  if (isReactComponent)
+    return values;
 
   return <AdminConstructionItemComponent values={values} {...props} />;
 }
 
 
 export function AdminConstructionItem(props) {
-  if (props.datasource.query === null)
+  if (props.datasource.queryIsEmpty())
     return <AdminConstructionItemComponent values={props.datasource.stubData} {...props} />
   else
     return <AdminConstructionItemDatasource {...props} />
 }
+

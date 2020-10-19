@@ -10,3 +10,7 @@ export const borderColor = '#d3dff0';
 export const borderColorDarken = '#c3cede';
 export const fontSizeTitle = "14px";
 export const colorTitle = "#1C305E";
+export const colorRadiobuttonSelected = "#F0F3FE";
+export const fontFamily = 'SF UI Display Light';
+export const fontSizeInput = '16px';
+export const fontWeightInput = 400;

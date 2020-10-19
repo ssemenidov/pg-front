@@ -5,7 +5,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from '../Main/adminRoutes';
-import { AdminConstructionItem, GqlDatasource } from '../components/AdminConstructionItem';
+import { AdminConstructionItem } from '../components/AdminConstructionItem';
+import { GqlDatasource } from '../components/gql_datasource';
+import { GridNoPadding, RowMargin1st } from '../components/Styled'
 
 
 
@@ -63,22 +65,23 @@ const srcCities = new GqlDatasource(GET_CITIES, "searchCity",  stubCities);
 const srcDistricts = new GqlDatasource(GET_DISTRICTS, "searchDistrict", stubDistricts);
 const srcStreets = new GqlDatasource(null, null, stubStreets);
 
+
 const AdminLocations = () => {
   return (
     <AdminTopLayout activeRoute={adminRoutesMap.locations}>
-      <Grid fluid className="resetPadding">
-        <Row xs={12}  className="grid-row-margin-1st">
+      <GridNoPadding fluid>
+        <RowMargin1st xs={12}>
           <Col xs={4}>
             <AdminConstructionItem title="Список городов" datasource={srcCities} />
           </Col>
           <Col xs={4}>
-            <AdminConstructionItem title="Список районов" datasource={srcDistricts}  className="grid-col-central-margin"/>
+            <AdminConstructionItem title="Список районов" datasource={srcDistricts} className="grid-col-central-margin"/>
           </Col>
           <Col xs={4}>
             <AdminConstructionItem title="Названия улиц" datasource={srcStreets}/>
           </Col>
-        </Row>
-      </Grid>
+        </RowMargin1st>
+      </GridNoPadding>
     </AdminTopLayout>
   );
 };

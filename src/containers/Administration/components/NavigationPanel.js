@@ -10,6 +10,11 @@ import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { STab, STabList } from '../../../components/Styles/TabPanelsStyles';
 import { Layout } from 'antd';
 
+
+const StyledLink = styled(Link)`
+  color: #000000;
+`
+
 export function NavigationPanel({activeItem}) {
   const activeItemStyle = {
     backgroundColor: colorAccent,
@@ -23,11 +28,13 @@ export function NavigationPanel({activeItem}) {
     <STabList>
       {adminRoutesArr.map(tab => {
         // console.log(tab.value, index)
-        return <Link key={tab.idx} to={tab.to} className="LinkStyle">
-          <STab className={tab.idx === activeItem.idx ? "is-selected" : ""}>
-            {tab.name}
-          </STab>
-        </Link>
+        return (
+          <StyledLink key={tab.idx} to={tab.to}>
+            <STab className={tab.idx === activeItem.idx ? "is-selected" : ""}>
+              {tab.name}
+            </STab>
+          </StyledLink>
+        )
       })}
     </STabList>
   </ControlToolbar>

@@ -1,93 +1,29 @@
-.EditPenStyle {
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: 'pointer';
-}
-
-.TrashSpacer {
-  margin-left: 3rem;
-  display: inline-block;
-}
-
-.PenSpacer {
-  margin-left: 1rem;
-  display: inline-block;
-  float:right;
-}
-
-.TrashSearchSpacer {
-  margin-left: 2rem;
-  display: inline-block;
-}
-
-.PenSearchSpacer {
-  margin-left: 2rem;
-  display: inline-block;
-  float:right;
-}
-
-.RadioLabel {
-  margin-left: 1rem;
-  display: inline-block;
-}
-
-.LinkStyle {
-  color: #000000;
-}
-
-.EditTrashStyle {
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: 'pointer';
-}
-
-.iPwcse.admin-construction-item-header {
-  margin: 0;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.admin-search-input input {
-  padding-top: .4rem;
-  padding-bottom: .4rem;
-}
-
-.admin-search-input-search-text {
-  font-size: .9em;
+.ant-select-dropdown .ant-select-item.ant-select-item-option {
+  font-family: 'SF UI Display Light', sans-serif;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 16px;
   font-weight: 500;
+  padding-top: .5rem;
 }
 
-.admin-search-form-control .MuiFormControlLabel-label {
-  width: 100%;
+.ant-select-dropdown .ant-select-item.ant-select-item-option:hover {
+  background-color: #E9EDF7;
 }
 
-.admin-search-form-control-selected {
-  background-color: #F0F3FE;
+.ant-select-dropdown .ant-select-item.ant-select-item-option.ant-select-item-option-selected {
+  background-color: #ffffff;
 }
 
-.resetPadding {
-  padding: 0
+.ant-select-dropdown .ant-select-item.ant-select-item-option.ant-select-item-option-selected:hover {
+  background-color: #E9EDF7;
 }
 
-.grid-row-margin-1st {
-  margin-top: 1rem
-}
 
-.grid-row-margin-2nd {
-  margin-top: 2rem
-}
 
 .grid-col-central-margin {
   margin-left: 1rem;
   margin-right: 1rem;
-}
-
-.admin-radiobutton svg {
-  border: 1px solid #2C5DE5;
-  border-radius: 20px;
-  width: .8em;
-  height: .8em;
-
 }
 
 .layout-main {
@@ -100,7 +36,6 @@
   background: #F5F7FA;
   min-width: 80px !important;
   max-width: 80px !important;
-
   border-right: 1px solid #d3dff0 !important;
 }
 
@@ -111,30 +46,4 @@
 
 .layout-breadcrumb a, .layout-breadcrumb span {
   color: #8AA1C1 !important;
-}
-
-
-.slider-close-svg {
-  width: .8rem;
-  height: .8rem;
-  margin: auto auto;
-  display: block;
-  stroke:#000000;
-  stroke-width:3;
-}
-
-.slider-close {
-  display: flex;
-  align-items: center;
-  width: 1.7rem;
-  height: 1.7rem;
-  /*padding: 1rem;*/
-  opacity: 0.4;
-}
-.slider-close:hover {
-  opacity: 1;
-}
-
-.slider-grid-padding {
-  padding: 1rem;
 }
