@@ -2,9 +2,7 @@ import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
 
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import Multiline from '../../../../Inputs/Multiline';
-import SelectAnchor from '../../../../Inputs/SelectAnchor';
+
 import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 export default function GeneralInfo() {

@@ -79,6 +79,7 @@ const PanelDesign = (props) => {
       $adress_m: String
     ) {
       searchConstruction(
+        
         format: $format
         actual: $actual
         coordinates: $coords

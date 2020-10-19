@@ -51,9 +51,9 @@ const CONSTRUCT_UPDATE = gql`
     $owner: String
     $marketingAddress: String
     $backComment: String
-    $backFamilyConstruction: String
-    $backUnderFamilyConstruction: String
-    $backAvailabilityConstruction: String
+    $familyConstruction: String
+    $underFamilyConstruction: String
+    $availabilityConstruction: String
     $modelConstruction: String
     $hasArea: Boolean
     $crew: ID
@@ -76,9 +76,9 @@ const CONSTRUCT_UPDATE = gql`
         owner: $owner
         marketingAddress: $marketingAddress
         backComment: $backComment
-        backFamilyConstruction:$backFamilyConstruction
-        backUnderFamilyConstruction: $backUnderFamilyConstruction
-        backAvailabilityConstruction: $backAvailabilityConstruction
+        familyConstruction:$familyConstruction
+        underFamilyConstruction: $underFamilyConstruction
+        availabilityConstruction: $availabilityConstruction
         modelConstruction:$modelConstruction
         hasArea:$hasArea
         crew: $crew
@@ -104,8 +104,9 @@ const InnerForm = (props) => {
   const [item, setItem] = useContext(constructContext);
   const history = useHistory();
 
-  const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
+  const [updateConstruction,{error}] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
+  
   const Update = () => {
     updateConstruction({ variables: {
        ...item, 

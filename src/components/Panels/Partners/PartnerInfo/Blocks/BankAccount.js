@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
+
 import { BlockBody, Quarter, BlockTitle, InputTitle, Row } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { sendContragentValues } from '../../../../../store/actions/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { StyledButton, StyledSelect , StyledInput} from '../../../../../styles/styles';
+
+import anchorIcon from '../../../../../img/input/anchor.svg';
+
 export default function BankAccount() {
-  const state = useSelector((state) => state.contragents.currentContragent);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(partnerContext);
   return (
     <Quarter style={{ height: '100%' }}>
       <BlockTitle>Банковский счет</BlockTitle>
@@ -13,41 +15,40 @@ export default function BankAccount() {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Банк получателя</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.destinationBank : ''}
-              onChange={(e) => dispatch(sendContragentValues('destinationBank', e.value))}
-              placeholder="АО «Банк получателя»"
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.legalAddress ? item.legalAddress : ''}
+              onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
+            
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>ИИК</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.iik : ''}
-              onChange={(e) => dispatch(sendContragentValues('iik', e.value))}
-              placeholder="ИИК"
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.iik ? item.iik : ''}
+              onChange={(e) => setItem({ ...item, iik: e.target.value })}></StyledInput>
+            
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>БИК</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.bik : ''}
-              onChange={(e) => dispatch(sendContragentValues('bik', e.value))}
-              placeholder="БИК"
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.bik ? item.bik : ''}
+              onChange={(e) => setItem({ ...item, bik: e.target.value })}></StyledInput>
+            
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%', marginBottom: '21px' }}>
             <InputTitle>Кбе</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.kbe : ''}
-              onChange={(e) => dispatch(sendContragentValues('kbe', e.value))}
-              placeholder="Кбе"
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.kbe ? item.kbe : ''}
+              onChange={(e) => setItem({ ...item, kbe: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

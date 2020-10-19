@@ -45,15 +45,24 @@ const PARTNER_DELETE = gql`
     }
   }
 `;
+//     postcode:$postcode
 const PARTNER_UPDATE = gql`
 mutation(
   $id: ID!
- $title:String
- $comment:String
- $workingSector:ID
- $partnerType:ID
- $clientType:ID
- $binNumber:String
+  $title:String
+  $comment:String
+  $workingSector:ID
+  $partnerType:ID
+  $clientType:ID
+  $binNumber:String
+  $city:ID
+  $district:ID
+  $legalAddress: String
+  $actualAddress: String
+  $bankRecipient: String
+  $iik: String
+  $bik: String
+  $kbe: String
 
 ) 
 {
@@ -66,6 +75,15 @@ mutation(
       binNumber:$binNumber
       partnerType:$partnerType
       clientType:$clientType
+      city:$city
+      district:$district
+      legalAddress:$legalAddress
+      actualAddress: $actualAddress
+      bankRecipient: $bankRecipient
+      iik: $iik
+      bik: $bik
+      kbe: $kbe
+
   
     }
   ) {
@@ -88,11 +106,12 @@ export default function TabPaneForm(props) {
       ...item,
       workingSector:item.workingSector && item.workingSector.id ,
       partnerType:item.partnerType && item.partnerType.id ,
-      clientType:item.clientType && item.clientType.id 
+      clientType:item.clientType && item.clientType.id ,
+      city:item.city && item.city.id ,
+      district:item.district && item.district.id ,
+      postcode:item.postcode && item.postcode.id ,
     } });
-      console.log({
-        ...item,
-        workingSector:item.workingSector.id });
+
     history.push(`/base/partners`);
     history.go(0);
   };

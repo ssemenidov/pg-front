@@ -31,9 +31,9 @@ export default function Details() {
             <InputTitle>Семейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.aamilyConstruction ? item.aamilyConstruction : ''}
+              defaultValue={item.familyConstruction ? item.familyConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item, aamilyConstruction: e.target.value  })
+                setItem({ ...item, familyConstruction: e.target.value  })
               }></StyledInput>
            
           </div>
@@ -54,7 +54,7 @@ export default function Details() {
             <InputTitle>Подсемейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item. underFamilyConstruction ? item. underFamilyConstruction : ''}
+              defaultValue={item.underFamilyConstruction ? item.underFamilyConstruction : ''}
               onChange={(e) =>
                 setItem({ ...item,  underFamilyConstruction: e.target.value  })
               }></StyledInput>

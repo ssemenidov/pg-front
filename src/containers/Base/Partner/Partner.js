@@ -36,15 +36,22 @@ const PartnersInfo = (props) => {
             title
           }
           binNumber
-          brands {
-            edges {
-              node {
-                id
-                title
-              }
-            }
+          city {
+            title
+            id
           }
-        
+          district {
+            title
+            id
+          }
+          postcode
+          legalAddress
+          actualAddress
+          bankRecipient
+          iik
+          bik
+          kbe
+          
          
       
           
