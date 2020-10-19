@@ -4,47 +4,18 @@ import { Form, Input } from 'antd';
 import {
   adaptiveRow, SliderCol, SliderFormItem, SliderGrid, StyledButtonSlider, StyledOption, StyledSelect
 } from '../components/SlidingBottomPanel/PanelComponents';
+import { CRUDForm } from '../components/SlidingBottomPanel/CRUDForm';
 
 import { RowMargin1st } from '../components/Styled';
 
 
-export function PersonCRUDForm({
-                                 actionText="Добавить",
-                                 onFinish=((values) => {}),
-                                 initialValues={level: "admin", position: "Менеджер"},
-                               }) {
-  let [form] = Form.useForm();
-
-  let [state, setState] = useState(initialValues)
-
-  for (let key in initialValues) {
-    if (state[key] !== initialValues[key]) {
-      setState(initialValues);
-      setTimeout(() => form.setFieldsValue(initialValues), 0);
-      break;
-    }
-  }
-
-  const validateMessages = {
-    required: 'Необходимо ввести ${label}!',
-    types: {
-      email: '${label} - некорректный email!',
-    },
-  };
+export function PersonCRUDForm({actionText="Добавить", ...props}) {
   const requiredProps = { rules: [ { required: true } ] };
-
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      requiredMark='optional'
-      validateMessages={validateMessages}
-      onFinish={onFinish}
-      initialValues={initialValues}
-    >
+    <CRUDForm {...props}>
       <SliderGrid fluid>
         <RowMargin1st {...adaptiveRow}>
-          <SliderCol title="Ф.И.О.">
+          <SliderCol>
             <SliderFormItem label="Ф.И.О." {...requiredProps} name='name'>
               <Input placeholder="Введите ФИО сотрудника" size={'large'} />
             </SliderFormItem>
@@ -83,6 +54,6 @@ export function PersonCRUDForm({
           </SliderCol>
         </RowMargin1st>
       </SliderGrid>
-    </Form>
+    </CRUDForm>
   );
 }

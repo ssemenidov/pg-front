@@ -10,7 +10,7 @@ import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton } from '../../../styles/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
-import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer } from '../components/Styled'
+import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio } from '../components/Styled'
 
 import icon_anchor from '../../../img/partners/bx-search-alt.svg';
 import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
@@ -61,102 +61,45 @@ function SearchInputField(props) {
   );
 }
 
+function handleEdit(event, value) {
+  console.log(event);
+  event.preventDefault();
+}
 
+function handleDelete(event, value) {
+  console.log(event);
+  event.preventDefault();
+}
 
-const useStylesRadio = makeStyles({
-  root: {
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
-  icon: {
-    borderRadius: '50%',
-    width: 16,
-    height: 16,
-    boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
-    backgroundColor: '#f5f8fa',
-    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
-    '$root.Mui-focusVisible &': {
-      outline: '2px auto rgba(19,124,189,.6)',
-      outlineOffset: 2,
-    },
-    'input:hover ~ &': {
-      backgroundColor: '#ebf1f5',
-    },
-    'input:disabled ~ &': {
-      boxShadow: 'none',
-      background: 'rgba(206,217,224,.5)',
-    },
-  },
-  checkedIcon: {
-    backgroundColor: colorAccent, // '#137cbd',
-    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
-    '&:before': {
-      display: 'block',
-      width: 16,
-      height: 16,
-      backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
-      content: '""',
-    },
-    'input:hover ~ &': {
-      backgroundColor: '#106ba3',
-    },
-  },
-});
-
-// Inspired by blueprintjs
-function StyledRadio(props) {
-  const classes = useStylesRadio();
-
+function EditableLabel({name, value, editHandler}) {
   return (
-    <Radio
-      checked={props.checked}
-      className={classes.root}
-      disableRipple
-      color="default"
-      checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-      icon={<span className={classes.icon} />}
-      {...props}
-      onChange={props.onChange}
-    />
+    <div style={{width: "100%", display: "flex", flexFlow: "row wrap"}}>
+      <RadioLabel>{name}</RadioLabel>
+      <div style={{marginLeft: "auto"}}></div>
+      <PenSearchSpacer />
+      <StyledPen src={icon_pen} alt="" onClick={(event) => editHandler(event, value)}/>
+      <TrashSearchSpacer />
+      <img className="EditTrashStyle" src={icon_trash} alt="" onClick={(event) => handleDelete(event, value)}/>
+    </div>
   );
 }
 
-function EditableLabel(props) {
-  return <div style={{width: "100%", display: "flex", flexFlow: "row wrap"}}>
-    <RadioLabel>{props.name}</RadioLabel>
-    <div style={{marginLeft: "auto"}}></div>
-    <PenSearchSpacer />
-    <Link to={`/base/partners/partner/`}>
-      <StyledPen src={icon_pen} alt="" />
-    </Link>
-    <TrashSearchSpacer />
-    <Link to={`/base/partners/partner/`}>
-      <img className="EditTrashStyle" src={icon_trash} alt="" />
-    </Link>
-  </div>;
-}
 
-const useStyles = makeStyles(() => ({
-  root: {
-    '& .MuiOutlinedInput-multiline': {
-      height: 123,
-      width: '100%',
-    },
-  },
-}));
+const StyledForm = styled.form`
+  background-color: ${colorWhite};
+  padding: 0;
+  border: 1px solid ${borderColor};
+  border-radius: 8px;
+  margin: 1rem 0;
+  overflow-y: scroll;
+  max-height: 16rem;
 
-const formStyles = {
-  backgroundColor: colorWhite,
-  // padding: ".5rem 0 .1rem 1rem",
-  padding: "0",
-  border: "1px solid",
-  borderColor: borderColor,
-  borderRadius: "8px",
-  margin: "1rem 0",
-  overflowY: "scroll",
-  maxHeight: "16rem"
-};
+  & .MuiOutlinedInput-multiline {
+    // height: 123px;
+    width: 100%;
+  }
+`;
+
 
 const controlStyles = {
   borderBottom: "1px solid",
@@ -170,13 +113,6 @@ const controlStylesLast = {
   padding: ".5rem 1rem .5rem .5rem",
 };
 
-function Loading(props) {
-  return <h3></h3>
-}
-
-function Error(props) {
-  return <p>Error :(</p>
-}
 
 const StyledBlockTitle = styled(BlockTitle)`
   margin: 0;
@@ -189,12 +125,17 @@ const StyledFormControlLabel = styled(FormControlLabel)`
   & .MuiFormControlLabel-label {
     width: 100%;
   }
-  // background-color: ${props => props.isSelected ? colorRadiobuttonSelected : undefined}
 `;
 
-function AdminConstructionItemComponent({title, className, values}) {
-  const classes = useStyles();
+
+export function AdminConstructionItem({title, datasource, className, selectHandler, appendHandler, editHandler}) {
+  let searchValue = ""
   let [stateSelectedIdx, setStateSelectedIdx] = useState(-1);
+
+  let [values, isReactComponent] = datasource.query(searchValue);
+  if (isReactComponent)
+    return values;
+
 
   const lastIdx = values.length - 1;
 
@@ -210,46 +151,38 @@ function AdminConstructionItemComponent({title, className, values}) {
     <Medium style={{ height: '100%' }} className={className}>
       <StyledBlockTitle>
         {title}
-        <StyledButton backgroundColor={colorAccent2}>
+        <StyledButton backgroundColor={colorAccent2} onClick={(event) => appendHandler(event)}>
           Добавить
         </StyledButton>
       </StyledBlockTitle>
       <BlockBody>
         <SearchInputField name="Быстрый поиск"></SearchInputField>
-        <form action="" className={classes.root} style={formStyles}>
+        <StyledForm action="">
           <RadioGroup name="customized-radios">
             {values.map((val, idx) => <StyledFormControlLabel
               value={idx}
               key={idx}
               style={setBackground(idx === stateSelectedIdx, idx === lastIdx ? controlStylesLast : controlStyles)}
               // isSelected = {idx === stateSelectedIdx}
-              control={<StyledRadio onChange={onChangeRadio} checked={idx === stateSelectedIdx}/>}
-              label={<EditableLabel name={val.name} />}
+              control={<StyledRadio
+                onChange={onChangeRadio} checked={idx === stateSelectedIdx}
+                onClick={() => (selectHandler ? selectHandler(val) : null)}
+              />}
+              label={<EditableLabel
+                name={val.name}
+                onSelect={() => (selectHandler ? selectHandler(val) : null)}
+                value={val}
+                editHandler={editHandler}
+              />}
             />)
 
             }
           </RadioGroup>
-        </form>
+        </StyledForm>
       </BlockBody>
     </Medium>
   );
-}
-
-function AdminConstructionItemDatasource(props) {
-  let searchValue = ""
-  let [values, isReactComponent] = props.datasource.query(searchValue);
-
-  if (isReactComponent)
-    return values;
-
-  return <AdminConstructionItemComponent values={values} {...props} />;
-}
 
 
-export function AdminConstructionItem(props) {
-  if (props.datasource.queryIsEmpty())
-    return <AdminConstructionItemComponent values={props.datasource.stubData} {...props} />
-  else
-    return <AdminConstructionItemDatasource {...props} />
 }
 

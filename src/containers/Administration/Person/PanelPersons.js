@@ -27,9 +27,9 @@ const personColumns = [
     render: (text, record) => (
       <>
         <PenSpacer />
-          <StyledPen src={icon_pen} alt="" onClick={(event) => editUser(event, record)} />
+        <StyledPen src={icon_pen} alt="" onClick={(event) => record.openEditSlider(event, record)} />
         <TrashSpacer/>
-          <EditTrashImg src={icon_trash} alt="" onClick={(event) => deleteUser(event, record)} />
+        <EditTrashImg src={icon_trash} alt="" onClick={(event) => deleteUser(event, record)} />
       </>
     ),
   },
@@ -86,10 +86,6 @@ const srcUsers = new GqlDatasource(GET_USERS, "users",  stubUsers, {
   })
 });
 
-
-function editUser(event, record) {
-  record.openEditSlider(event, record)
-}
 
 function deleteUser(event, record) {
   console.log('Delete', event, record)

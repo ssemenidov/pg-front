@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/client';
 import React from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 function Loading(props) {
   return <h3></h3>
@@ -8,6 +8,14 @@ function Loading(props) {
 function Error(props) {
   return <p>Error :(</p>
 }
+
+const EMPTY_QUERY = gql`
+  query StubQuery {
+    unexistsEntityStub {
+      stub
+    }
+  }
+`;
 
 export class GqlDatasource {
   constructor(dataQuery, methodName, stubData = [], options = {}) {
@@ -20,7 +28,8 @@ export class GqlDatasource {
     options = { ...defaultOptions, ...options };
     this.enableStubs = true;
 
-    this._query = dataQuery;
+
+    this._query = dataQuery ? dataQuery : EMPTY_QUERY;
 
     if (options.selectorFun) {
       this.selector = (data) => data[methodName].edges.map(item => (options.selectorFun(item.node)));
@@ -44,6 +53,10 @@ export class GqlDatasource {
 
   queryIsEmpty() {
     return this._query === null;
+  }
+
+  setFilter(filter) {
+    this.filter = filter;
   }
 
   query(searchValue = "") {

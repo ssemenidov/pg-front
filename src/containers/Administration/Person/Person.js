@@ -1,5 +1,6 @@
 import React, { useState, useContext, createContext, useMemo } from 'react';
 import { useHistory } from 'react-router';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 import PanelPerson from './PanelPersons'
 import { adminRoutesMap } from '../Main/adminRoutes';
@@ -15,11 +16,12 @@ function AddUserSlider({closeHandler}) {
   };
 
   return (
-    <SlidingBottomPanel title="Добавить нового сотрудника" height={450} onClose={closeHandler}>
+    <SlidingBottomPanel title="Добавить нового сотрудника" onClose={closeHandler}>
       <PersonCRUDForm actionText={"Добавить"} onFinish={onFinish}/>
     </SlidingBottomPanel>
   )
 }
+
 
 function EditUserSlider({closeHandler, initialValues}) {
   const onFinish = (values) => {
@@ -27,7 +29,7 @@ function EditUserSlider({closeHandler, initialValues}) {
   };
 
   return (
-    <SlidingBottomPanel title="Редактировать данные сотрудника" height={450} onClose={closeHandler}>
+    <SlidingBottomPanel title="Редактировать данные сотрудника" onClose={closeHandler}>
       <PersonCRUDForm actionText={"Сохранить изменения"} onFinish={onFinish} initialValues={initialValues}/>
     </SlidingBottomPanel>
   )
@@ -38,6 +40,7 @@ function Person(props) {
   const history = useHistory();
   const [sliderAddShowed, setSliderAddShowed] = useState(false);
   const [sliderEditShowed, setSliderEditShowed] = useState(false);
+
   const [editedUserData, setEditedUserData] = useState({
     accessLevel: false,
     email: null,

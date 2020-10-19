@@ -85,7 +85,7 @@ let SliderComponent450 = styled(Slider)`
     animation: ${slidingBottom450} 300ms ease-out 0s 1 normal;
 `;
 
-export default function SlidingBottomPanel({title, children, height=300, onClose=stubOnClose}) {
+export default function SlidingBottomPanel({title, children, onClose=stubOnClose}) {
   const ref = useRef(null)
   const onCloseHandler = ((event) => {
     ref.current.classList.add("animate-close-slider")

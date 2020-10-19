@@ -49,7 +49,7 @@ const GET_CITIES = gql`
 `
 
 const GET_DISTRICTS = gql`
-  query SearchCity($title: String) {
+  query SearchDistrict($title: String) {
     searchDistrict(title: $title) {
       edges {
         node {
