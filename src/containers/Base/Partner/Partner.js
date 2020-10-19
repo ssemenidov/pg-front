@@ -51,6 +51,12 @@ const PartnersInfo = (props) => {
           iik
           bik
           kbe
+          agencyCommissionType{
+            id
+            title
+
+          }
+          
           
          
       

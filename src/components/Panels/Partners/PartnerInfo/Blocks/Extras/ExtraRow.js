@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { partnerContext } from '../../../../../../containers/Base/Partner/Partner';
+
+import { StyledButton, StyledSelect , StyledInput} from '../../../../../../styles/styles';
 import { RedDeleteBtn } from '../../../../../Styles/ButtonStyles';
 import { InputTitle } from '../../../../../Styles/StyledBlocks';
 import { Row } from '../../../../../Styles/StyledBlocks';
 import red_can from '../../../../../../img/outdoor_furniture/red_can.svg';
-import InputAnchor from '../../../../../Inputs/InputAnchor';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import anchorIcon from '../../../../../../img/input/anchor.svg';
 
 const InputWrapper = styled.div`
   width: 30%;
 `;
 
 export default function ExtraRow(props) {
-  const state = useSelector((state) => state.contragents.currentContragent);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(partnerContext);
   return (
     <Row style={{ justifyContent: 'spaceBetween', padding: '0 7px 0 0' }}>
       <InputWrapper>
         <InputTitle>ФИО</InputTitle>
-        <InputAnchor
+        <StyledInput
+              prefix={<img src={anchorIcon} />}
+              ></StyledInput>
+        {/* <InputAnchor
           value={props.state ? props.state.fullname : ''}
           onChange={(e) => {
             dispatch(
@@ -34,11 +38,14 @@ export default function ExtraRow(props) {
             );
           }}
           placeholder="ФИО"
-        />
+        /> */}
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Телефон</InputTitle>
-        <InputAnchor
+        <StyledInput
+              prefix={<img src={anchorIcon} />}
+              ></StyledInput>
+        {/* <InputAnchor
           value={props.state ? props.state.phone : ''}
           onChange={(e) => {
             dispatch(
@@ -54,12 +61,15 @@ export default function ExtraRow(props) {
             );
           }}
           placeholder="Телефон"
-        />
+        /> */}
       </InputWrapper>
 
       <InputWrapper>
         <InputTitle>E-mail</InputTitle>
-        <InputAnchor
+        <StyledInput
+              prefix={<img src={anchorIcon} />}
+              ></StyledInput>
+        {/* <InputAnchor
           value={props.state ? props.state.email : ''}
           onChange={(e) => {
             dispatch(
@@ -75,7 +85,7 @@ export default function ExtraRow(props) {
             );
           }}
           placeholder="E-mail"
-        />
+        /> */}
       </InputWrapper>
       <RedDeleteBtn onClick={props.removeClickHandler}>
         <img src={red_can} alt="" />
