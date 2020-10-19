@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
-import { Input} from 'antd';
+import { Input,Butt} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../../styles/styles';
 
 export const EditInformation = (props) => {
   const [item, setItem] = useContext(locationContext);
@@ -9,7 +10,11 @@ export const EditInformation = (props) => {
 
   return (
     <Medium>
-      <BlockTitle>Редактирование информации</BlockTitle>
+      <BlockTitle>
+        <span>  Редактирование информации </span>
+      
+        <StyledButton backgroundColor="#fff" style={{color:"#003360"}}>Файл</StyledButton>
+         </BlockTitle>
       <BlockBody>
         <Row>
           <div style={{ width: '100%' }}>
