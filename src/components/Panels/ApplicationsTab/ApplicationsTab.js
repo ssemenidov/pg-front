@@ -2,6 +2,8 @@ import React, { useState, createContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import ApplicationSearch from './ApplicationSearch';
+import ApplicationsPanel from './ApplicationsPanel';
+
 import Table from '../../../components/Tablea';
 export const applicationsContext = createContext();
 const ApplicationsTab = () => {
@@ -137,19 +139,22 @@ const ApplicationsTab = () => {
     }));
   }
 
+
   return (
+    <applicationsContext.Provider value={[filter,setFilter]}>
     <div style={{ display: 'flex', width: '100%' }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
-        <applicationsContext.Provider value={[filter,setFilter]}>
+
         <ApplicationSearch />
-        </applicationsContext.Provider>
+ 
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>
-          <Table columns={columns} data={data1} notheader={true} />
+          <ApplicationsPanel></ApplicationsPanel>
         </div>
       </div>
     </div>
+    </applicationsContext.Provider>
   );
 };
 

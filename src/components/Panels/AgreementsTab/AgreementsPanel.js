@@ -146,8 +146,8 @@ const AgreementsPanel = () => {
       code: '#2020050301323',
       partner:  item.node.partner && item.node.partner.title,
       project: 'CocaCola',
-      date_start: new Date(item.node.start).toLocaleDateString('en-GB'),
-      date_end: new Date(item.node.end).toLocaleDateString('en-GB'),
+      date_start:item.node.start && new Date(item.node.start).toLocaleDateString('en-GB'),
+      date_end:item.node.end && new Date(item.node.end).toLocaleDateString('en-GB'),
     
     }));
   }
