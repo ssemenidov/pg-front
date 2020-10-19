@@ -13,6 +13,7 @@ const AgreementsSearch = () => {
     setFilter({...values,registrationDate:new Date(values.registrationDate),start:new Date(values.start),end:new Date(values.end)});
 
     console.log(values);
+    
   };
 
   const onReset = () => {

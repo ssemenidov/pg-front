@@ -65,11 +65,20 @@ const AgreementsTab = () => {
       edges {
         node {
           id
-          partner{
-            title
-          }
-          start 
-          end
+          creator
+          initiator
+          contractType
+          paymentDate
+          signatoryOne
+          signatoryTwo
+          basedOnDocument
+          returnStatus
+          contractPdf
+          additionallyAgreement
+          comment
+          createdAt
+          updatedAt
+
         }
       }
     }

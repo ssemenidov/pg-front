@@ -44,7 +44,7 @@ const InnerForm = (props) => {
         <STabs
           selectedTabClassName="is-selected"
           selectedTabPanelClassName="is-selected"
-          onSelect={(index) => props.selectedTab(index)}>
+          >
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
