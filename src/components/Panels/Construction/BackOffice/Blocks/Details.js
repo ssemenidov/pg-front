@@ -31,9 +31,9 @@ export default function Details() {
             <InputTitle>Семейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backFamilyConstruction ? item.backFamilyConstruction : ''}
+              defaultValue={item.aamilyConstruction ? item.aamilyConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item, backFamilyConstruction: e.target.value  })
+                setItem({ ...item, aamilyConstruction: e.target.value  })
               }></StyledInput>
            
           </div>
@@ -42,9 +42,9 @@ export default function Details() {
             
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.backAvailabilityConstruction ? item.backAvailabilityConstruction : ''}
+              defaultValue={item.availabilityConstruction ? item.availabilityConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item, backAvailabilityConstruction: e.target.value  })
+                setItem({ ...item, availabilityConstruction: e.target.value  })
               }></StyledInput>
            
           </div>
@@ -54,9 +54,9 @@ export default function Details() {
             <InputTitle>Подсемейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item. backUnderFamilyConstruction ? item. backUnderFamilyConstruction : ''}
+              defaultValue={item. underFamilyConstruction ? item. underFamilyConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item,  backUnderFamilyConstruction: e.target.value  })
+                setItem({ ...item,  underFamilyConstruction: e.target.value  })
               }></StyledInput>
            
           

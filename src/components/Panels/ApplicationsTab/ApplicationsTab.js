@@ -21,6 +21,10 @@ const ApplicationsTab = () => {
           creator
           createdDate
           brand
+          {
+            id
+            title
+          }
           salesManager {
             id
           }

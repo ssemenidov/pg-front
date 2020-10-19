@@ -44,7 +44,7 @@ const AgreementsSearch = () => {
         <Row>
           <div style={{ margin: '0 0.75vw 0 0' }}>
             <InputTitle>Наименование контрагента</InputTitle>
-            <Form.Item name="partnerTitle" >
+            <Form.Item name="partner_Title" >
               <Input placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
           </div>

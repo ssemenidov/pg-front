@@ -108,10 +108,11 @@ const InnerForm = (props) => {
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
   const Update = () => {
     updateConstruction({ variables: {
-       ...item, city: item.city.id,
-        district:item.district.id,
-        postcode:item.postcode.id,
-        crew:item.crew.id
+       ...item, 
+       city:item.city&&  item.city.id,
+        district:item.district && item.district.id,
+        postcode:item.postcode && item.postcode.id,
+        crew:item.crew && item.crew.id
        } });
       
     // history.push(`/base/outdoor_furniture`);

@@ -20,23 +20,33 @@ const PartnersInfo = (props) => {
       edges {
         node {
           id
-          partnerType {
+          title
+          workingSector {
+            id
             title
           }
-          title
+          comment
+
+          partnerType {
+            id
+            title
+          }
+          clientType {
+            id
+            title
+          }
+          binNumber
           brands {
             edges {
               node {
+                id
                 title
               }
             }
           }
-          workingSector {
-            title
-          }
-          clientType {
-            title
-          }
+        
+         
+      
           
         }
       }
@@ -96,7 +106,7 @@ if (loading) return <h3></h3>;
             font-size: 11px;
             margin: 0 0 20px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a,.layout-breadcrumb  span {
             color: #8AA1C1 !important;
           }
         `}

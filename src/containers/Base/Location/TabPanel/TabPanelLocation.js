@@ -81,8 +81,8 @@ export default function InnerForm(props) {
   const Update = () => {
     updateLocation({ variables:  {
        ...item,
-       city: item.city.id,
-       district: item.district.id
+       city:item.city &&  item.city.id,
+       district:item.district &&  item.district.id
        } });
       
     history.push(`/base/locations`);

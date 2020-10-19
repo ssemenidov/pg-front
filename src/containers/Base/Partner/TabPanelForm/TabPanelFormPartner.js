@@ -48,12 +48,26 @@ const PARTNER_DELETE = gql`
 const PARTNER_UPDATE = gql`
 mutation(
   $id: ID!
+ $title:String
+ $comment:String
+ $workingSector:ID
+ $partnerType:ID
+ $clientType:ID
+ $binNumber:String
 
 ) 
 {
   updatePartner(
     id: $id
-    input:{}
+    input:{
+      title:$title
+      comment:$comment
+      workingSector:$workingSector
+      binNumber:$binNumber
+      partnerType:$partnerType
+      clientType:$clientType
+  
+    }
   ) {
     partner {
      id
@@ -70,8 +84,15 @@ export default function TabPaneForm(props) {
   const [updateConstruction] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
   const Update = () => {
-    updateConstruction({ variables: item });
-      
+    updateConstruction({ variables: {
+      ...item,
+      workingSector:item.workingSector && item.workingSector.id ,
+      partnerType:item.partnerType && item.partnerType.id ,
+      clientType:item.clientType && item.clientType.id 
+    } });
+      console.log({
+        ...item,
+        workingSector:item.workingSector.id });
     history.push(`/base/partners`);
     history.go(0);
   };

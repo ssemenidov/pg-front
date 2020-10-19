@@ -105,8 +105,10 @@ const PanelDesign = (props) => {
         edges {
           node {
             id
+    
             partnerType {
               title
+              id
             }
             title
             brands {
@@ -118,9 +120,11 @@ const PanelDesign = (props) => {
             }
             workingSector {
               title
+              id
             }
             clientType {
               title
+              id
             }
           }
         }

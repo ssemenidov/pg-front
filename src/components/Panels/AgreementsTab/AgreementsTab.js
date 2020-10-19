@@ -42,18 +42,20 @@ const AgreementsTab = () => {
   query SearchContract(
     $initiator: String
     $creator: String
-    $partnerTitle: String
+    $partner_Title: String
     $contractType: String
     $start: DateTime
     $registrationDate: DateTime
     $end: DateTime
     $returnStatus: Boolean
+
+
     )
     {
     searchContract(
       initiator:$initiator
       creator:$ creator
-      partnerTitle:$partnerTitle
+      partner_Title:$partner_Title
       contractType:$contractType
       start:$ start
       registrationDate:$registrationDate
@@ -63,7 +65,9 @@ const AgreementsTab = () => {
       edges {
         node {
           id
-          partnerTitle
+          partner{
+            title
+          }
           start 
           end
         }
@@ -134,7 +138,7 @@ var data1 = [
 
       key: item.node.id,
       code: '#2020050301323',
-      partner:  item.node.partnerTitle,
+      partner:  item.node.partner && item.node.partner.title,
       project: 'CocaCola',
       date_start: new Date(item.node.start).toLocaleDateString('en-GB'),
       date_end: new Date(item.node.end).toLocaleDateString('en-GB'),
