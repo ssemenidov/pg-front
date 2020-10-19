@@ -71,26 +71,34 @@ const Slider = styled.div`
     z-index: 1000;
     border-radius: 8px;
     background-color: ${colorWhite};
-    //border: 1px solid #d3dff0 ;
     box-shadow: 0 0 17px rgba(0, 0, 0, 0.2);
-  `;
+`;
+
+
+const slidingBottom450 = keyframes`
+    from { bottom: -450px; }
+    to { bottom: -10px; }
+`;
+
+let SliderComponent450 = styled(Slider)`
+    height: 450px;
+    animation: ${slidingBottom450} 300ms ease-out 0s 1 normal;
+`;
 
 export default function SlidingBottomPanel({title, children, height=300, onClose=stubOnClose}) {
-  const slidingBottom = keyframes`
-    from { bottom: -${height}px; }
-    to { bottom: -10px; }
-  `;
-  let SliderComponent = styled(Slider)`
-    height: ${height}px;
-    animation: ${slidingBottom} 400ms ease-out 0s 1 normal;
-  `;
+  const ref = useRef(null)
+  const onCloseHandler = ((event) => {
+    ref.current.classList.add("animate-close-slider")
+    ref.current.classList.add("close-animation")
+    setTimeout(onClose, 270);
+  });
 
-  return <SliderComponent>
+  return <SliderComponent450 ref={ref}>
     <TitleContainerBlock>
       <TitleText>{title}</TitleText>
-      <CloseButton onClick={onClose}/>
+      <CloseButton onClick={onCloseHandler}/>
     </TitleContainerBlock>
     {children}
-  </SliderComponent>
+  </SliderComponent450>
 }
 

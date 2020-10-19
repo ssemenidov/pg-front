@@ -14,6 +14,7 @@ import { GqlDatasource } from '../components/gql_datasource';
 
 const sorterObj = { compare: (a, b) => a.localeCompare(b), multiple: 1 }
 
+
 const personColumns = [
   { title: 'Код',       dataIndex: 'key',      width: 100, sorter: sorterObj },
   { title: 'Ф.И.О',     dataIndex: 'name',     width: 100, sorter: sorterObj },
@@ -26,13 +27,9 @@ const personColumns = [
     render: (text, record) => (
       <>
         <PenSpacer />
-        <Link to={`/base/partners/partner/${record.key}`}>
-          <StyledPen src={icon_pen} alt="" />
-        </Link>
+          <StyledPen src={icon_pen} alt="" onClick={(event) => editUser(event, record)} />
         <TrashSpacer/>
-        <Link to={`/base/partners/partner/${record.key}`}>
-          <EditTrashImg src={icon_trash} alt="" />
-        </Link>
+          <EditTrashImg src={icon_trash} alt="" onClick={(event) => deleteUser(event, record)} />
       </>
     ),
   },
@@ -84,35 +81,31 @@ const srcUsers = new GqlDatasource(GET_USERS, "users",  stubUsers, {
     position: node.comment,
     phone: node.phone,
     email: node.email,
-    accessLevel: node.isStaff
+    accessLevel: node.isStaff,
+    id: node.id
   })
 });
 
-const PanelDesign = (props) => {
 
+function editUser(event, record) {
+  record.openEditSlider(event, record)
+}
+
+function deleteUser(event, record) {
+  console.log('Delete', event, record)
+}
+
+function PanelDesign({openEditSlider}) {
   let [values, isReactComponent] = srcUsers.query();
   if (isReactComponent)
     return values;
 
-  // const [filter, setFilter] = useContext(partnersContext);
-  // const { loading, error, data } = useQuery(PARTNERS_T, { variables: filter });
-  // if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
-  // console.log(data);
+  for (let value of values) {
+    value["openEditSlider"] = openEditSlider;
+  }
 
-  let data = null;
 
-  // if (data) {
-  //   data1 = data.searchPartner.edges.map((item) => ({
-  //     key: item.node.id,
-  //     type: item.node.partnerType ? item.node.partnerType.title : '',
-  //     partner: item.node.title,
-  //     brand: 'CocaCola',
-  //     sector: item.node.workingSector ? item.node.workingSector.title : '',
-  //     client: item.node.clientType ? item.node.clientType.title : '',
-  //   }));
-  // }
-
+  // let values = srcUsers.stubData;
   return (
     <StyledOutdoorTableBar>
       <Table style={{ width: '100%' }} columns={personColumns} data={values} notheader={true} />

@@ -8,7 +8,7 @@ import { colorAccent } from '../Style/Styles';
 import { NavigationPanel } from '../components/NavigationPanel';
 import React from 'react';
 
-export function AdminTopLayout({children, activeRoute, buttonName}) {
+export function AdminTopLayout({children, activeRoute, buttonName, buttonClickHandler}) {
   return (
     <Layout>
       <Layout>
@@ -18,7 +18,7 @@ export function AdminTopLayout({children, activeRoute, buttonName}) {
             <HeaderTitle title={adminTitle} />
             {
               buttonName && <ButtonGroup>
-                <StyledButton backgroundColor={colorAccent}>
+                <StyledButton backgroundColor={colorAccent} onClick={buttonClickHandler}>
                   {buttonName}
                 </StyledButton>
               </ButtonGroup>
