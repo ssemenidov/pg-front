@@ -50,6 +50,8 @@ const LOCATION_UPDATE = gql`
     $postcode:String
     $city:ID
     $district:ID
+    $areaAct:String
+    $resolutionNumber:String
   ) {
     updateLocation(
       id: $id
@@ -62,6 +64,8 @@ const LOCATION_UPDATE = gql`
         postcode:$postcode
         city:$city
         district:$district
+        areaAct:$areaAct
+        resolutionNumber:$resolutionNumber
 
       }
     ) {
