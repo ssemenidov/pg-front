@@ -1,27 +1,29 @@
-.EditPenStyle {
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: 'pointer';
+.ant-select-dropdown .ant-select-item.ant-select-item-option {
+  font-family: 'SF UI Display Light', sans-serif;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+  padding-top: .5rem;
 }
 
-.TrashSpacer {
-  margin-left: 3rem;
-  display: inline-block;
+.ant-select-dropdown .ant-select-item.ant-select-item-option:hover {
+  background-color: #E9EDF7;
 }
 
-.PenSpacer {
+.ant-select-dropdown .ant-select-item.ant-select-item-option.ant-select-item-option-selected {
+  background-color: #ffffff;
+}
+
+.ant-select-dropdown .ant-select-item.ant-select-item-option.ant-select-item-option-selected:hover {
+  background-color: #E9EDF7;
+}
+
+
+
+.grid-col-central-margin {
   margin-left: 1rem;
-  display: inline-block;
-}
-
-.LinkStyle {
-  color: #000000;
-}
-
-.EditTrashStyle{
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: 'pointer';
+  margin-right: 1rem;
 }
 
 .layout-main {
@@ -34,7 +36,6 @@
   background: #F5F7FA;
   min-width: 80px !important;
   max-width: 80px !important;
-
   border-right: 1px solid #d3dff0 !important;
 }
 
@@ -46,4 +47,3 @@
 .layout-breadcrumb a, .layout-breadcrumb span {
   color: #8AA1C1 !important;
 }
-
