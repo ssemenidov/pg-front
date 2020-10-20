@@ -51,10 +51,8 @@ const CONSTRUCT_UPDATE = gql`
     $owner: String
     $marketingAddress: String
     $backComment: String
-    $familyConstruction: String
-    $underFamilyConstruction: String
-    $availabilityConstruction: String
-    $modelConstruction: String
+
+
     $hasArea: Boolean
     $crew: ID
     $techInventNumber: String
@@ -76,10 +74,7 @@ const CONSTRUCT_UPDATE = gql`
         owner: $owner
         marketingAddress: $marketingAddress
         backComment: $backComment
-        familyConstruction:$familyConstruction
-        underFamilyConstruction: $underFamilyConstruction
-        availabilityConstruction: $availabilityConstruction
-        modelConstruction:$modelConstruction
+        
         hasArea:$hasArea
         crew: $crew
         techInventNumber: $techInventNumber

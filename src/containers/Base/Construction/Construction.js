@@ -34,12 +34,9 @@ const Construction = (props) => {
             }
             owner
             marketingAddress
-            createdAt
             backComment
-            familyConstruction
-            underFamilyConstruction
-            availabilityConstruction
-            modelConstruction
+           
+        
             hasArea
             crew{
               id
