@@ -67,7 +67,6 @@ function stubOnClose(event) {
 const Slider = styled.div`
     width: calc(100% - 30px);
     position: fixed;
-    bottom: -10px;
     z-index: 1000;
     border-radius: 8px;
     background-color: ${colorWhite};
@@ -75,30 +74,23 @@ const Slider = styled.div`
 `;
 
 
-const slidingBottom450 = keyframes`
-    from { bottom: -450px; }
-    to { bottom: -10px; }
-`;
-
-let SliderComponent450 = styled(Slider)`
-    height: 450px;
-    animation: ${slidingBottom450} 300ms ease-out 0s 1 normal;
-`;
-
-export default function SlidingBottomPanel({title, children, onClose=stubOnClose}) {
+export function SlidingBottomPanel({title, children, onClose=stubOnClose, classNameSuffix}) {
   const ref = useRef(null)
+  const classNameAnimationOpen = `slider-${classNameSuffix}-op`
+  const classNameAnimationClose = `slider-${classNameSuffix}-cl`
+
   const onCloseHandler = ((event) => {
-    ref.current.classList.add("animate-close-slider")
-    ref.current.classList.add("close-animation")
-    setTimeout(onClose, 270);
+    ref.current.classList.remove(classNameAnimationOpen);
+    ref.current.classList.add(classNameAnimationClose);
+    setTimeout(onClose, 300);
   });
 
-  return <SliderComponent450 ref={ref}>
+  return <Slider ref={ref} className={classNameAnimationOpen}>
     <TitleContainerBlock>
       <TitleText>{title}</TitleText>
       <CloseButton onClick={onCloseHandler}/>
     </TitleContainerBlock>
     {children}
-  </SliderComponent450>
+  </Slider>
 }
 

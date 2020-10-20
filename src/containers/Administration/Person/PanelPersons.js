@@ -73,17 +73,22 @@ const GET_USERS = gql`
   }
 `;
 
-const srcUsers = new GqlDatasource(GET_USERS, "users",  stubUsers, {
+
+const srcUsers = new GqlDatasource({
+  query: GET_USERS,
+  method: "users",
+  stub: stubUsers,
   filterFunEmpty: true,
-  selectorFun: (node) => ({
-    key: node.username,
-    name: `${node.firstName} ${node.lastName}`,
-    position: node.comment,
-    phone: node.phone,
-    email: node.email,
-    accessLevel: node.isStaff,
-    id: node.id
-  })
+  selectorFun: (data => (
+    data.users.edges.map(item => ({
+      key: item.node.username,
+      name: `${item.node.firstName} ${item.node.lastName}`,
+      position: item.node.comment,
+      phone: item.node.phone,
+      email: item.node.email,
+      accessLevel: item.node.isStaff,
+      id: item.node.id
+  }))))
 });
 
 

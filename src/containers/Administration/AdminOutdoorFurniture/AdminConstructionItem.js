@@ -71,7 +71,7 @@ function handleDelete(event, value) {
   event.preventDefault();
 }
 
-function EditableLabel({name, value, editHandler}) {
+function EditableLabel({name, value, editHandler, deleteHandler}) {
   return (
     <div style={{width: "100%", display: "flex", flexFlow: "row wrap"}}>
       <RadioLabel>{name}</RadioLabel>
@@ -79,7 +79,7 @@ function EditableLabel({name, value, editHandler}) {
       <PenSearchSpacer />
       <StyledPen src={icon_pen} alt="" onClick={(event) => editHandler(event, value)}/>
       <TrashSearchSpacer />
-      <img className="EditTrashStyle" src={icon_trash} alt="" onClick={(event) => handleDelete(event, value)}/>
+      <img className="EditTrashStyle" src={icon_trash} alt="" onClick={(event) => deleteHandler(event, value)}/>
     </div>
   );
 }
@@ -128,11 +128,14 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `;
 
 
-export function AdminConstructionItem({title, datasource, className, selectHandler, appendHandler, editHandler}) {
-  let searchValue = ""
-  let [stateSelectedIdx, setStateSelectedIdx] = useState(-1);
+export function AdminConstructionItem({ location,
+                                        className,
+                                        selectHandler,
+                                        appendHandler,
+                                        editHandler,
+                                        deleteHandler}) {
 
-  let [values, isReactComponent] = datasource.query(searchValue);
+  let [values, isReactComponent] = location.src.query(location.getSearchVariables());
   if (isReactComponent)
     return values;
 
@@ -140,7 +143,7 @@ export function AdminConstructionItem({title, datasource, className, selectHandl
   const lastIdx = values.length - 1;
 
   let onChangeRadio = (event) => {
-    setStateSelectedIdx(parseInt(event.target.value));
+    location.setStateSelectedIdx(parseInt(event.target.value));
   };
 
   let setBackground = ((isSelected, style) => {
@@ -150,7 +153,7 @@ export function AdminConstructionItem({title, datasource, className, selectHandl
   return (
     <Medium style={{ height: '100%' }} className={className}>
       <StyledBlockTitle>
-        {title}
+        {location.title}
         <StyledButton backgroundColor={colorAccent2} onClick={(event) => appendHandler(event)}>
           Добавить
         </StyledButton>
@@ -159,22 +162,31 @@ export function AdminConstructionItem({title, datasource, className, selectHandl
         <SearchInputField name="Быстрый поиск"></SearchInputField>
         <StyledForm action="">
           <RadioGroup name="customized-radios">
-            {values.map((val, idx) => <StyledFormControlLabel
-              value={idx}
-              key={idx}
-              style={setBackground(idx === stateSelectedIdx, idx === lastIdx ? controlStylesLast : controlStyles)}
-              // isSelected = {idx === stateSelectedIdx}
-              control={<StyledRadio
-                onChange={onChangeRadio} checked={idx === stateSelectedIdx}
-                onClick={() => (selectHandler ? selectHandler(val) : null)}
-              />}
-              label={<EditableLabel
-                name={val.name}
-                onSelect={() => (selectHandler ? selectHandler(val) : null)}
-                value={val}
-                editHandler={editHandler}
-              />}
-            />)
+            {
+              values.map((val, idx) => (
+              <StyledFormControlLabel
+                value={idx}
+                key={idx}
+                style={setBackground(
+                  idx === location.stateSelectedIdx,
+                  idx === lastIdx ? controlStylesLast : controlStyles)}
+                // isSelected = {idx === location.stateSelectedIdx}
+                control={
+                  <StyledRadio
+                    onChange={onChangeRadio} checked={idx === location.stateSelectedIdx}
+                    onClick={() => (selectHandler ? selectHandler(val) : null)}
+                  />
+                }
+                label={
+                  <EditableLabel
+                    name={val !== null ? val.name : ""}
+                    onSelect={() => (selectHandler ? selectHandler(val) : null)}
+                    value={val}
+                    editHandler={editHandler}
+                    deleteHandler={deleteHandler}
+                  />
+                }
+              />))
 
             }
           </RadioGroup>
