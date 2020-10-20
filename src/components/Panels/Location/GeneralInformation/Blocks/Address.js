@@ -4,8 +4,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 import { Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
+import anchorIcon from '../../../../../img/input/anchor.svg';
 
-import { StyledSelect } from '../../../../../styles/styles';
+import { StyledSelect,StyledInput } from '../../../../../styles/styles';
 const CITY_T = gql`
     {
       searchCity {
@@ -72,7 +73,8 @@ export const Address = (props) => {
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
       
-            <Input
+            <StyledInput
+             prefix={<img src={anchorIcon} />} 
               value={item.postcode? item.postcode:""}
               onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               placeholder="Код района"
@@ -83,7 +85,8 @@ export const Address = (props) => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Юридический адрес</InputTitle>
-            <Input
+            <StyledInput
+             prefix={<img src={anchorIcon} />} 
               value={item.address? item.address:""}
               onChange={(e) => {setItem({...item, address:e.target.value})}}
               placeholder="Абая - ост. ГорВодоКанал"

@@ -1,14 +1,11 @@
 import React from 'react';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import InputAnchor from '../../../../Inputs/InputAnchor';
-import Multiline from '../../../../Inputs/Multiline';
 import { RedDeleteBtn, SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
 import red_can from '../../../../../img/outdoor_furniture/red_can.svg';
-import { useSelector, useDispatch } from 'react-redux';
 
 export const Construction = (props) => {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
+
   return (
     <Medium>
       <BlockTitle>Конструкция - номер</BlockTitle>
