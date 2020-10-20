@@ -53,8 +53,10 @@ const PartnersInfo = (props) => {
           kbe
           agencyCommissionType{
             id
-            title
-
+          }
+          agencyCommission
+          agencyCommissionNds{
+            id
           }
           
           

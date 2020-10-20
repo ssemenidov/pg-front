@@ -19,30 +19,32 @@ export default function Commissions() {
         <Row>
           <InputWrapper>
             <InputTitle>Тип АК</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-             ></StyledInput>
+            <StyledSelect
+              defaultValue={item.agencyCommissionType && item.agencyCommissionType.id }
+              onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
+
+            </StyledSelect>
       
           </InputWrapper>
           <InputWrapper>
             <InputTitle>Агентская коммисия</InputTitle>
             <StyledInput
-              prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.agencyCommission ? item.agencyCommission : ''}
+              onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}></StyledInput>
           </InputWrapper>
           <InputWrapper>
             <InputTitle>АК распространяется</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-             ></StyledInput>
+            <StyledSelect>
+
+            </StyledSelect>
             
           </InputWrapper>
           <InputWrapper>
             <InputTitle>На какие услуги распространяется АК</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+            <StyledSelect>
 
+            </StyledSelect>
           </InputWrapper>
         </Row>
       </BlockBody>

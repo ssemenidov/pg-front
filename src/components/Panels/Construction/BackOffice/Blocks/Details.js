@@ -29,23 +29,19 @@ export default function Details() {
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Семейство конструкции</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.familyConstruction ? item.familyConstruction : ''}
-              onChange={(e) =>
-                setItem({ ...item, familyConstruction: e.target.value  })
-              }></StyledInput>
-           
+           <StyledSelect
+              defaultValue={item.familyConstruction && item.familyConstruction.id }
+              onChange={(value) => setItem({ ...item, familyConstruction: { ...item.familyConstruction, id: value } })}>
+              
+            </StyledSelect>
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Доступность конструкции</InputTitle>
-            
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.availabilityConstruction ? item.availabilityConstruction : ''}
-              onChange={(e) =>
-                setItem({ ...item, availabilityConstruction: e.target.value  })
-              }></StyledInput>
+               <StyledSelect
+              defaultValue={item.availabilityConstruction && item.availabilityConstruction.id }
+              onChange={(value) => setItem({ ...item, availabilityConstruction: { ...item.availabilityConstruction, id: value } })}>
+              
+            </StyledSelect>
            
           </div>
         </Row>

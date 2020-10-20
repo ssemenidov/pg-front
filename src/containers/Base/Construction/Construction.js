@@ -58,6 +58,20 @@ const Construction = (props) => {
               edges {
                 node {
                   id
+                  format {
+                    id
+                  }
+                  side {
+                    id
+                  }
+                  advertisingSide {
+                    id
+                  }
+                  purposeSide {
+                    id
+                  }
+                  size
+                  availabilitySide
                 }
               }
             }

@@ -63,6 +63,7 @@ mutation(
   $iik: String
   $bik: String
   $kbe: String
+  $agencyCommission:Int
 
 ) 
 {
@@ -83,6 +84,7 @@ mutation(
       iik: $iik
       bik: $bik
       kbe: $kbe
+      agencyCommission:$agencyCommission
 
   
     }
