@@ -19,6 +19,14 @@
   background-color: #E9EDF7;
 }
 
+@keyframes closeslider450 {
+  from { bottom: -10px; }
+  to { bottom: -450px; }
+}
+
+.animate-close-slider.close-animation {
+  animation: closeslider450 300ms ease-out 0s 1 normal;
+}
 
 
 .grid-col-central-margin {
