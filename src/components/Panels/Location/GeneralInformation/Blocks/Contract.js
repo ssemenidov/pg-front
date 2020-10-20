@@ -24,6 +24,7 @@ export const Contract = (props) => {
             <InputTitle>Начало договора</InputTitle>
             <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
           </div>
+          
           <div style={{ width: '19%' }}>
             <InputTitle>Регистрация договора</InputTitle>
             <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>

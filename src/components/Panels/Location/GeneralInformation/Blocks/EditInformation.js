@@ -15,6 +15,7 @@ export const EditInformation = (props) => {
       
         <StyledButton backgroundColor="#fff" style={{color:"#003360"}}>Файл</StyledButton>
          </BlockTitle>
+         
       <BlockBody>
         <Row>
           <div style={{ width: '100%' }}>

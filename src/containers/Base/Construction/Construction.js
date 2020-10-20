@@ -54,6 +54,13 @@ const Construction = (props) => {
             coordinates
             photo
             
+            constructionSide {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
           }
         }
       }
