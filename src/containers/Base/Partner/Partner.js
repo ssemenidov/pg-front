@@ -58,6 +58,17 @@ const PartnersInfo = (props) => {
           agencyCommissionNds{
             id
           }
+          contactPerson {
+            edges {
+              node {
+                id
+                name
+                email
+                phone
+              }
+            }
+          }
+
           
           
          
