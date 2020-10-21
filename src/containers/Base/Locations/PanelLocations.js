@@ -19,7 +19,7 @@ const LOCATIONS_T = gql`
      $contract_Start:DateTime
      $contract_End:DateTime
      $area:String
-   
+
 
      )
      {
@@ -57,64 +57,87 @@ const LOCATIONS_T = gql`
               }
             }
           }
+          contract {
+            code
+          }
         }
       }
     }
   }
 `;
+
+const initColumns = [
+  {
+    title: 'код местоположения',
+    dataIndex: 'code',
+    width: 130,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Город',
+    dataIndex: 'city',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Почтовый индекс',
+    dataIndex: 'post',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Район',
+    dataIndex: 'district',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Адрес юридический',
+    dataIndex: 'adress_j',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Кадастровый номер',
+    dataIndex: 'cadastralNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Площадь',
+    dataIndex: 'area',
+    width: 100,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Номер договора',
+    dataIndex: 'contractNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    width: 40,
+    title: '',
+    render: (text, record) => (
+      <Link to={{ pathname: `/base/locations/location/${record.key}` }}>
+        <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+      </Link>
+    ),
+  },
+];
+
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
-  const columns = [
-    {
-      title: 'код местоположения',
-      dataIndex: 'code',
-      width: 130,
-    },
-    {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 80,
-    },
-    {
-      title: 'Почтовый индекс',
-      dataIndex: 'post',
-      width: 80,
-    },
-    {
-      title: 'Район',
-      dataIndex: 'district',
-      width: 80,
-    },
-    {
-      title: 'Адрес юридический',
-      dataIndex: 'adress_j',
-      width: 150,
-    },
-    {
-      title: 'Кадастровый номер',
-      dataIndex: 'cadastralNumber',
-      width: 150,
-    },
-    {
-      title: 'Площадь',
-      dataIndex: 'area',
-      width: 100,
-    },
-    {
-      title: 'Номер договора',
-      dataIndex: 'contractNumber',
-      width: 150,
-    },
-    {
-      width: 40,
-      title: '',
-      render: (text, record) => (
-        <Link to={{ pathname: `/base/locations/location/${record.key}` }}>
-          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-        </Link>
-      ),
-    },
-  ];
+  const [columns, setColumns] = useState(initColumns);
+
   var data1 = [
     {
       key: 1,
@@ -142,13 +165,41 @@ const PanelDesign = (props) => {
       adress_j: item.node.address,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber:"",
+      contractNumber: item.node.contract ? item.node.contract.code : "",
     }));
   }
+
+  const changeColumns = (dataIndex) => {
+    let localColumns = columns.map((col, index) => {
+      if(col.dataIndex  && col.dataIndex === dataIndex) {
+        col.isShowed = !col.isShowed;
+
+        if(col.isShowed) {
+          col.className = 'show'
+        } else {
+          col.className = 'hide'
+        }
+
+        return col
+      }
+      return col
+    })
+
+    console.log('localColumns ', localColumns)
+
+    setColumns(localColumns)
+  };
+
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns}
+          data={data1}
+          enableChoosePeriod={false}
+          changeColumns={changeColumns}
+        />
       </div>
       <style>
         {`.outdoor-table-bar {

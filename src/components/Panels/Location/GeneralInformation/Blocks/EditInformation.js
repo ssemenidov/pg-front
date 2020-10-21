@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
-import { Input,Butt} from 'antd';
+import {Input, Butt, Select} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../../styles/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
@@ -14,10 +14,11 @@ export const EditInformation = (props) => {
     <Medium>
       <BlockTitle>
         <span>  Редактирование информации </span>
-      
+
         <StyledButton backgroundColor="#fff" style={{color:"#003360"}}>Файл</StyledButton>
-         </BlockTitle>
-         
+
+      </BlockTitle>
+
       <BlockBody>
         <Row>
           <div style={{ width: '100%' }}>
@@ -46,19 +47,26 @@ export const EditInformation = (props) => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Целевое назначение</InputTitle>
-            <StyledInput
-            prefix={<img src={anchorIcon} />}
-              value={item.targetPurpose ? item.targetPurpose :""}
-              onChange={(e) => {setItem({...item, targetPurpose:e.target.value})}}
+            <StyledSelect
               placeholder="Рекламно-информационный объект"
               size={'large'}
-            />
+              defaultValue={item.targetPurpose ? item.targetPurpose.id :""}
+              onChange={(value) => setItem({ ...item, targetPurpose: { ...item.targetPurpose, id: value } })}>
+              {item.targetPurpose && item.targetPurpose.map((item)=>
+                <StyledSelect.Option
+                  key ={item.node.id}
+                  value={item.node.id}
+                >
+                  {item.node.title}
+                </StyledSelect.Option>
+              )}
+            </StyledSelect>
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Комментарий</InputTitle>
-      
+
             <StyledInput.TextArea rows={2}
               value={item.comment ? item.comment :""}
               onChange={(e) => {setItem({...item, comment:e.target.value})}}
