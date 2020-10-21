@@ -19,14 +19,22 @@
   background-color: #E9EDF7;
 }
 
-@keyframes closeslider450 {
-  from { bottom: -10px; }
-  to { bottom: -450px; }
+.slider-user-op { height: 300px; animation: k-slider-op-300 220ms ease-out 0s 1 normal; bottom: -10px; }
+.slider-user-cl { height: 300px; animation: k-slider-cl-300 220ms ease-in  0s 1 normal; bottom: -330px; }
+.slider-loca-op { height: 200px; animation: k-slider-op-200 200ms ease-out 0s 1 normal; bottom: -10px; }
+.slider-loca-cl { height: 200px; animation: k-slider-cl-200 200ms ease-in  0s 1 normal; bottom: -230px; }
+
+@media (max-width: 991px) {
+  .slider-user-op { height: 450px; animation: k-slider-op-450 230ms ease-out 0s 1 normal; bottom: -10px; }
+  .slider-user-cl { height: 450px; animation: k-slider-cl-450 230ms ease-in  0s 1 normal; bottom: -480px; }
 }
 
-.animate-close-slider.close-animation {
-  animation: closeslider450 300ms ease-out 0s 1 normal;
-}
+@keyframes k-slider-op-450 { from { bottom: -450px; } to { bottom: -10px;  } }
+@keyframes k-slider-cl-450 { from { bottom: -10px;  } to { bottom: -480px; } }
+@keyframes k-slider-op-300 { from { bottom: -300px; } to { bottom: -10px;  } }
+@keyframes k-slider-cl-300 { from { bottom: -10px;  } to { bottom: -330px; } }
+@keyframes k-slider-op-200 { from { bottom: -200px; } to { bottom: -10px;  } }
+@keyframes k-slider-cl-200 { from { bottom: -10px;  } to { bottom: -230px; } }
 
 
 .grid-col-central-margin {
@@ -55,3 +63,6 @@
 .layout-breadcrumb a, .layout-breadcrumb span {
   color: #8AA1C1 !important;
 }
+
+
+
