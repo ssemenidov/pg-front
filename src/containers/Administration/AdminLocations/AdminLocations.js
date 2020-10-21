@@ -8,80 +8,34 @@ import { adminRoutesMap } from '../Main/adminRoutes';
 import { AdminConstructionItem } from '../AdminOutdoorFurniture/AdminConstructionItem';
 import { GqlDatasource } from '../components/gql_datasource';
 import { GridNoPadding, RowMargin1st } from '../components/Styled'
-import { LocationState } from '../components/location_state';
-import { srcAdvSide } from '../AdminOutdoorFurniture/LocationDatasources';
+import { LocationState } from '../AdminOutdoorFurniture/location_state';
+import { srcAdvSide } from '../AdminOutdoorFurniture/OutdoorFurnitureDatasources';
 import { SliderState } from '../components/SlidingBottomPanel/SliderState';
 import { AddSlider, EditSlider } from '../AdminOutdoorFurniture/Sliders';
 import { RadiobuttonCRUDWithSearch } from '../AdminOutdoorFurniture/RadiobuttonCRUDWithSearch';
 
-
-const stubStreets = [
-  { name: "Майлина", childs: null },
-  { name: "Монтажная", childs: null },
-  { name: "Захарова", childs: null },
-  { name: "Мирная", childs: null },
-  { name: "Кубеева", childs: null },
-];
-
-const stubDistricts = [
-  { name: "Медеуский", childs: stubStreets },
-  { name: "Турксибский", childs: stubStreets },
-  { name: "Алмалинский", childs: stubStreets },
-  { name: "Ауэзовский", childs: stubStreets },
-  { name: "Бостандыкский", childs: stubStreets },
-];
-
-const stubCities = [
-  { name: "Актау", childs: stubDistricts },
-  { name: "Алматы", childs: {} },
-  { name: "Атырау", childs: stubDistricts },
-  { name: "Актобе", childs: stubDistricts },
-  { name: "Балхаш", childs: stubDistricts },
-];
+import { srcCountries, srcCities, srcDistricts } from './LocationDatasources';
 
 
+const APPEND_TITLES = [
+  "Страну", "Город", "Район"
+]
 
-const GET_CITIES = gql`
-  query SearchCity($title: String) {
-    searchCity(title: $title) {
-      edges {
-        node {
-          id
-          title
-        }
-      }
-    }
-  }
-`
-
-const GET_DISTRICTS = gql`
-  query SearchDistrict($title: String) {
-    searchDistrict(title: $title) {
-      edges {
-        node {
-          id
-          title
-        }
-      }
-    }
-  }
-`
-
-const srcCities = new GqlDatasource({query: GET_CITIES, method: "searchCity",  stub: stubCities});
-const srcDistricts = new GqlDatasource({query: GET_DISTRICTS, method: "searchDistrict", stub: stubDistricts});
-const srcStreets = new GqlDatasource({query: null, method: null, stub: stubStreets});
-
+const APPEND_TITLES2 = [
+  "страны", "города", "района"
+]
 
 const AdminLocations = () => {
-  const streets = new LocationState({title: "Названия улиц", datasource: srcStreets, idx: 2});
-  const districts = new LocationState({title: "Список районов", datasource: srcDistricts, idx: 1});
-  const cities = new LocationState({title: "Список городов", datasource: srcCities, idx: 0});
+  // const streets = new LocationState({title: "Названия улиц", datasource: srcStreets, idx: 2});
+  const districts = new LocationState({title: "Список районов", datasource: srcDistricts, idx: 2});
+  const cities = new LocationState({title: "Список городов", datasource: srcCities, idx: 1});
+  const countries = new LocationState({title: "Список стран", datasource: srcCountries, idx: 0});
   districts.setParent(cities)
-  streets.setParent(districts)
+  cities.setParent(countries)
 
   const sliderState = new SliderState({name: "", key: ""})
-  const chain = [ cities, districts, streets ];
-  const propCtx = { chain, sliderState }
+  const chain = [ countries, cities, districts ];
+  const propCtx = { chain, sliderState, APPEND_TITLES, APPEND_TITLES2  }
 
   return (
     <AdminTopLayout activeRoute={adminRoutesMap.locations}>
@@ -90,13 +44,13 @@ const AdminLocations = () => {
       <GridNoPadding fluid>
         <RowMargin1st xs={12}>
           <Col xs={4}>
-            <RadiobuttonCRUDWithSearch location={cities} propCtx={propCtx} />
+            <RadiobuttonCRUDWithSearch location={countries} propCtx={propCtx} />
           </Col>
           <Col xs={4}>
-            <AdminConstructionItem location={districts} propCtx={propCtx} className="grid-col-central-margin"/>
+            <RadiobuttonCRUDWithSearch location={cities} propCtx={propCtx} className="grid-col-central-margin"/>
           </Col>
           <Col xs={4}>
-            <AdminConstructionItem location={streets} propCtx={propCtx} />
+            <RadiobuttonCRUDWithSearch location={districts} propCtx={propCtx} />
           </Col>
         </RowMargin1st>
       </GridNoPadding>

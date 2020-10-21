@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton } from '../../../styles/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
 import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio } from '../components/Styled'
+import useDebounce from '../components/useDebounce';
 
 import icon_anchor from '../../../img/partners/bx-search-alt.svg';
 import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
@@ -31,19 +32,19 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-function SearchInputField(props) {
+function SearchInputField({id, type, value, name, onChange, style}) {
   return (
     <StyledTextField
-      style={{ width: '100%', background: 'white', marginTop: '1.5rem', ...props.style }}
+      style={{ width: '100%', background: 'white', marginTop: '1.5rem', ...style }}
       fullWidth
-      id={props.id}
-      type={props.type}
+      id={id}
+      type={type}
       placeholder="Быстрый поиск"
-      value={props.value}
+      value={value}
       variant="outlined"
       required
-      name={props.name}
-      onChange={props.onChange}
+      name={name}
+      onChange={onChange}
       InputProps={{
         style: { fontSize: '.9rem', paddingTop: 0 },
         startAdornment: (
@@ -128,18 +129,30 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `;
 
 
-export function AdminConstructionItem({ location,
-                                        className,
-                                        selectHandler,
-                                        appendHandler,
-                                        editHandler,
-                                        deleteHandler}) {
-
-  let [values, isReactComponent] = location.src.query(location.getSearchVariables());
-  if (isReactComponent)
+function filterValues(searchedTerm, values, key) {
+  if (searchedTerm === "")
     return values;
 
+  const rxp = new RegExp(searchedTerm, "i");
 
+  let newFilteredValues = []
+  for (let val of values) {
+    if (val[key].search(rxp) >= 0) {
+      newFilteredValues.push(val);
+    }
+  }
+  return newFilteredValues;
+}
+
+
+function AdminConstructionPopulatedItem({ location,
+                                          values,
+                                          className,
+                                          selectHandler,
+                                          appendHandler,
+                                          editHandler,
+                                          deleteHandler})
+{
   const lastIdx = values.length - 1;
 
   let onChangeRadio = (event) => {
@@ -150,6 +163,20 @@ export function AdminConstructionItem({ location,
     return isSelected ? { ...style, backgroundColor: colorRadiobuttonSelected } : style;
   });
 
+  let onSearchChange = (event) => location.setSearchTerm(event.target.value);
+
+  // Хук вернет только последне значение (которое мы передали) ...
+  // ... если прошло более 500ms с последнего вызова.
+  // Иначе он вернет предыдущее значение searchTerm.
+  const debouncedSearchTerm = useDebounce(location.searchTerm, 500);
+
+  let filteredValues = filterValues(debouncedSearchTerm, values, "name");
+  filteredValues.sort(
+    function(a, b) {
+      return a.name.localeCompare(b.name);
+    }
+  )
+
   return (
     <Medium style={{ height: '100%' }} className={className}>
       <StyledBlockTitle>
@@ -159,34 +186,34 @@ export function AdminConstructionItem({ location,
         </StyledButton>
       </StyledBlockTitle>
       <BlockBody>
-        <SearchInputField name="Быстрый поиск"></SearchInputField>
+        <SearchInputField name="Быстрый поиск" onChange={onSearchChange} />
         <StyledForm action="">
           <RadioGroup name="customized-radios">
             {
-              values.map((val, idx) => (
-              <StyledFormControlLabel
-                value={idx}
-                key={idx}
-                style={setBackground(
-                  idx === location.stateSelectedIdx,
-                  idx === lastIdx ? controlStylesLast : controlStyles)}
-                // isSelected = {idx === location.stateSelectedIdx}
-                control={
-                  <StyledRadio
-                    onChange={onChangeRadio} checked={idx === location.stateSelectedIdx}
-                    onClick={() => (selectHandler ? selectHandler(val) : null)}
-                  />
-                }
-                label={
-                  <EditableLabel
-                    name={val !== null ? val.name : ""}
-                    onSelect={() => (selectHandler ? selectHandler(val) : null)}
-                    value={val}
-                    editHandler={editHandler}
-                    deleteHandler={deleteHandler}
-                  />
-                }
-              />))
+              filteredValues.map((val, idx) => (
+                <StyledFormControlLabel
+                  value={idx}
+                  key={idx}
+                  style={setBackground(
+                    idx === location.stateSelectedIdx,
+                    idx === lastIdx ? controlStylesLast : controlStyles)}
+                  // isSelected = {idx === location.stateSelectedIdx}
+                  control={
+                    <StyledRadio
+                      onChange={onChangeRadio} checked={idx === location.stateSelectedIdx}
+                      onClick={() => (selectHandler ? selectHandler(val) : null)}
+                    />
+                  }
+                  label={
+                    <EditableLabel
+                      name={val !== null ? val.name : ""}
+                      onSelect={() => (selectHandler ? selectHandler(val) : null)}
+                      value={val}
+                      editHandler={editHandler}
+                      deleteHandler={deleteHandler}
+                    />
+                  }
+                />))
 
             }
           </RadioGroup>
@@ -194,7 +221,14 @@ export function AdminConstructionItem({ location,
       </BlockBody>
     </Medium>
   );
+}
 
 
+export function AdminConstructionItem({ location, ...props})
+{
+  let [values, isReactComponent] = location.src.query(location.getSearchVariables());
+  return isReactComponent
+    ? values
+    : <AdminConstructionPopulatedItem location={location} values={values} {...props} />;
 }
 
