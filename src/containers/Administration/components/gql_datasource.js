@@ -1,9 +1,10 @@
 import React from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
-import '../Style/spinner.css'
+import { Spin } from 'antd';
+
 
 function Loading(props) {
-  return <div className="loader">Loading...</div>;
+  return <Spin size="large" delay={500}/>
 }
 
 function Error(props) {
@@ -64,13 +65,19 @@ export class GqlDatasource {
       this.filter = (value) => {}
     }
 
+
     this.stubData = stub;
+    this.query = this.query.bind(this);
     this.useAdd = this.useAdd.bind(this);
     this.add = this.add.bind(this);
     this.useDel = this.useDel.bind(this);
     this.del = this.del.bind(this);
     this.useUpd = this.useUpd.bind(this);
     this.upd = this.upd.bind(this);
+  }
+
+  loader() {
+    return <Loading/>;
   }
 
   queryIsEmpty() {
@@ -94,7 +101,7 @@ export class GqlDatasource {
         return [this.stubData, false];
     } else {
       if (loading)
-        return [<Loading/>, true];
+        return [this.loader(), true];
       return [data ? this.selector(data) : [], false];
     }
   }
@@ -105,7 +112,11 @@ export class GqlDatasource {
     return this._addMutation;
   }
 
-  add(values) { return this._addMutation({ variables: values }); }
+  add(values) {
+    values = {title: values.title};
+    console.log('ff', values);
+    return this._addMutation({ variables: values });
+  }
 
   useDel() {
     let [deleteMutation] = useMutation(this._del, { refetchQueries: [{query: this._query}] });

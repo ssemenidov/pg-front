@@ -66,7 +66,6 @@ const GET_USERS = gql`
           isStaff
           phone
           email
-          comment
         }
       }
     }
@@ -83,12 +82,13 @@ const srcUsers = new GqlDatasource({
     data.users.edges.map(item => ({
       key: item.node.username,
       name: `${item.node.firstName} ${item.node.lastName}`,
-      position: item.node.comment,
+      position: "",
       phone: item.node.phone,
       email: item.node.email,
       accessLevel: item.node.isStaff,
       id: item.node.id
-  }))))
+  })))),
+  loaderBig: false
 });
 
 

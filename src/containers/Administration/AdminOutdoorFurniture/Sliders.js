@@ -8,7 +8,6 @@ export function AddSlider({sliderState}) {
     let parent = sliderState.caller.parent;
     let result;
     if (parent) {
-      console.log(parent.selected.key);
       result = sliderState.caller.src.add({
         id: parent.selected.key,
         title: values.name
@@ -18,10 +17,7 @@ export function AddSlider({sliderState}) {
       result = sliderState.caller.src.add({ title: values.name })
     }
 
-    result
-      .then(value => { sliderState.caller.src.refetch(); })
-      .catch(reason => { console.log(reason); })
-    ;
+    sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
   };
 
   return (
@@ -44,11 +40,7 @@ export function EditSlider({sliderState}) {
       title: values.name,
       id: sliderState.editedData.key
     })
-    console.log('update', values, sliderState.editedData);
-    result
-      .then(value => { sliderState.caller.src.refetch(); })
-      .catch(reason => { console.log(reason); })
-    ;
+    sliderState.caller.showCRUDMessageAndRefetch(result, "Изменение");
   };
 
   return (

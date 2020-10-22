@@ -8,10 +8,10 @@ import { GridNoPadding, RowMargin1st, RowMargin2st } from '../components/Styled'
 import { SlidingBottomPanel } from '../components/SlidingBottomPanel/SlidingBottomPanel';
 import { LocationCRUDForm } from './LocationCRUDForm';
 import { SliderState } from '../components/SlidingBottomPanel/SliderState';
-import { LocationState } from '../components/location_state';
+import { LocationState } from './location_state';
 import { AddSlider, EditSlider } from './Sliders';
 import { RadiobuttonCRUDWithSearch } from './RadiobuttonCRUDWithSearch';
-import {srcFamily, srcSubFamily, srcModel, srcFormat, srcSide, srcAdvSide } from './LocationDatasources'
+import {srcFamily, srcSubFamily, srcModel, srcFormat, srcSide, srcAdvSide } from './OutdoorFurnitureDatasources'
 
 
 const APPEND_TITLES = [
