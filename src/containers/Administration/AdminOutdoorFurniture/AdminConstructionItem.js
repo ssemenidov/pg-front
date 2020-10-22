@@ -10,12 +10,10 @@ import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton } from '../../../styles/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
-import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio } from '../components/Styled'
+import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio, StyledTrash } from '../components/Styled'
 import useDebounce from '../components/useDebounce';
 
 import icon_anchor from '../../../img/partners/bx-search-alt.svg';
-import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
-import icon_trash from '../../../img/administration/red_can.svg';
 
 import '../Style/style.css'
 
@@ -78,9 +76,9 @@ function EditableLabel({name, value, editHandler, deleteHandler}) {
       <RadioLabel>{name}</RadioLabel>
       <div style={{marginLeft: "auto"}}></div>
       <PenSearchSpacer />
-      <StyledPen src={icon_pen} alt="" onClick={(event) => editHandler(event, value)}/>
+      <StyledPen onClick={(event) => editHandler(event, value)}/>
       <TrashSearchSpacer />
-      <img className="EditTrashStyle" src={icon_trash} alt="" onClick={(event) => deleteHandler(event, value)}/>
+      <StyledTrash className="EditTrashStyle" alt="" onClick={(event) => deleteHandler(event, value)}/>
     </div>
   );
 }

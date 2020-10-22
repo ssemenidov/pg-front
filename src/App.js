@@ -46,6 +46,7 @@ import AdminLocations from './containers/Administration/AdminLocations/AdminLoca
 import Packages from './containers/Administration/Packages/Packages'
 import AdminCrews from './containers/Administration/AdminCrews/AdminCrews'
 import Prices from './containers/Administration/Prices/Prices'
+import TestImageUpload from './containers/Administration/Main/TestImageUpload'
 
 import { adminRoutes } from './containers/Administration/Main/adminRoutes';
 
@@ -93,6 +94,7 @@ const App = () => {
           <Route path={adminRoutes.packages.to} component={Packages} />
           <Route path={adminRoutes.crews.to} component={AdminCrews} />
           <Route path={adminRoutes.prices.to} component={Prices} />
+          {/*<Route path={adminRoutes.test_image.to} component={TestImageUpload} />*/}
 
         </Switch>
       </BrowserRouter>

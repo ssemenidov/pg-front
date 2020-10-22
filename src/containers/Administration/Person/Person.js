@@ -56,8 +56,8 @@ function Person(props) {
       buttonClickHandler={sliderState.createAdd}
     >
       {sliderState.addShowed && <AddUserSlider closeHandler={sliderState.closeAdd}/>}
-      {(sliderState.editShowed && !sliderState.addShowed) && <EditUserSlider closeHandler={sliderState.closeEdit}
-                                                                             initialValues={sliderState.editedData}/>}
+      {sliderState.editMustShowed() && <EditUserSlider closeHandler={sliderState.closeEdit}
+                                                       initialValues={sliderState.editedData}/>}
 
       <PanelPerson style={{ flex: '0 1 auto' }} history={history} openEditSlider={sliderState.createEdit}/>
     </AdminTopLayout>

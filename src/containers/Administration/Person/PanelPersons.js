@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
-
-import Table from '../../../components/Tablea';
-import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import icon_pen from '../../../img/administration/edit-icon-transparent.svg';
-import icon_trash from '../../../img/administration/red_can.svg';
-import { StyledPen, TrashSpacer, PenSpacer, EditTrashImg } from '../components/Styled'
+import Table from '../../../components/Tablea';
+
+import { StyledPen, TrashSpacer, PenSpacer, StyledTrash } from '../components/Styled'
 import '../Style/style.css'
 import { GqlDatasource } from '../components/gql_datasource';
 
@@ -27,9 +23,9 @@ const personColumns = [
     render: (text, record) => (
       <>
         <PenSpacer />
-        <StyledPen src={icon_pen} alt="" onClick={(event) => record.openEditSlider(event, record)} />
+        <StyledPen onClick={(event) => record.openEditSlider(event, record)} />
         <TrashSpacer/>
-        <EditTrashImg src={icon_trash} alt="" onClick={(event) => deleteUser(event, record)} />
+        <StyledTrash onClick={(event) => deleteUser(event, record)} />
       </>
     ),
   },
