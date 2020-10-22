@@ -25,9 +25,8 @@ export const OpacityInputTitle = styled(InputTitle)`
     opacity: 0;
 `
 
-export function SliderCol({title, children}) {
+export function SliderCol({children}) {
   return <SliderCellColRaw {...adaptivCol}>
-    {/*{title ? <InputTitle>{title}</InputTitle> : <OpacityInputTitle>.</OpacityInputTitle>}*/}
     {children}
   </SliderCellColRaw>
 }

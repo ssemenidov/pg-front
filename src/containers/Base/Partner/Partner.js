@@ -61,15 +61,19 @@ const PartnersInfo = (props) => {
           contactPerson {
             edges {
               node {
-                phone
-                email
-                partner {
-                  id
-                }
+                id
                 name
+                email
+                phone
               }
             }
           }
+
+
+
+
+
+
         }
       }
     }
@@ -83,11 +87,11 @@ useMemo(() => {
     setItem(data.searchPartner.edges[0].node);
   }
 }, [data]);
-
+console.log(item);
 if (error) return <h3>Error :(</h3>;
 if (loading) return <h3></h3>;
   return (
-    <partnerContext.Provider value={[item, setItem]}>
+    <partnerContext.Provider value={ [item, setItem]}>
     <Layout>
       <Layout>
         <Sider className="layout-sider"></Sider>
@@ -108,7 +112,7 @@ if (loading) return <h3></h3>;
               margin: 0,
               minHeight: 280,
             }}>
-            <InnerForm constructionID={props.match.params.id}/>
+            <InnerForm  constructionID={props.match.params.id} />
           </Content>
         </Layout>
       </Layout>

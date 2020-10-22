@@ -3,7 +3,7 @@ import { AdministrationBreadcrumb } from '../components/AdminBreadcrumb';
 import { HeaderWrapper, StyledButton } from '../../../styles/styles';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { adminTitle } from '../Main/adminRoutes';
-import { BtnExport, BtnPrint, BtnSettings, ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { colorAccent } from '../Style/Styles';
 import { NavigationPanel } from '../components/NavigationPanel';
 import React from 'react';

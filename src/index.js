@@ -11,10 +11,32 @@ import constructionReducer from './store/reducer/constructionReducer';
 import contragentsReducer from './store/reducer/contragentsReducer';
 import locationsReducer from './store/reducer/locationsReducer';
 import locationReducer from './store/reducer/locationReducer';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+
+const httpLink = createHttpLink({
+  uri: 'https://allbot.online/api/',
+});
+
+
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+  console.log('token', token);
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `JWT ${token}` : "",
+    }
+  }
+});
 
 const client = new ApolloClient({
-  uri: 'https://allbot.online/api/',
+  link:  authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
