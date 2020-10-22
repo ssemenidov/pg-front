@@ -15,13 +15,34 @@ const InputWrapper = styled.div`
 
 export default function ExtraRow(props) {
   const [item, setItem] = useContext(partnerContext);
+  const { dataRow , index, theList, setTheList } = props;
+
+  const handleInput = (e, nameField) => {
+    const newTheList = theList;
+    newTheList[index] = {
+      ...theList[index],
+      node: {
+        ...theList[index].node,
+        [nameField]: e.target.value
+      }
+    };
+
+    // console.log('newTheList ', newTheList)
+    setTheList(newTheList);
+
+    console.log('theList ', theList)
+  }
+
+
   return (
     <Row style={{ justifyContent: 'spaceBetween', padding: '0 7px 0 0' }}>
       <InputWrapper>
         <InputTitle>ФИО</InputTitle>
         <StyledInput
-              prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+          prefix={<img src={anchorIcon} />}
+          defaultValue={dataRow.node.name && dataRow.node.name}
+          onChange={(e) => handleInput(e, 'name')}
+        ></StyledInput>
         {/* <InputAnchor
           value={props.state ? props.state.fullname : ''}
           onChange={(e) => {
@@ -44,7 +65,8 @@ export default function ExtraRow(props) {
         <InputTitle>Телефон</InputTitle>
         <StyledInput
               prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+              defaultValue={dataRow.phone && dataRow.phone}
+        ></StyledInput>
         {/* <InputAnchor
           value={props.state ? props.state.phone : ''}
           onChange={(e) => {
@@ -67,8 +89,9 @@ export default function ExtraRow(props) {
       <InputWrapper>
         <InputTitle>E-mail</InputTitle>
         <StyledInput
-              prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+          prefix={<img src={anchorIcon} />}
+          defaultValue={dataRow.email && dataRow.email}
+        ></StyledInput>
         {/* <InputAnchor
           value={props.state ? props.state.email : ''}
           onChange={(e) => {

@@ -31,7 +31,6 @@ export default function GeneralInfo() {
                     onChange={(value) => setItem({ ...item, workingSector: { ...item.workingSector, id: value } })}>
                     <StyledSelect.Option value="V29ya2luZ1NlY3Rvck5vZGU6MQ==">Сектор1</StyledSelect.Option>
                   </StyledSelect>
-                 
                 </div>
               </Row>
             </Column>
@@ -51,10 +50,11 @@ export default function GeneralInfo() {
                 <InputTitle>Тип контрагента</InputTitle>
                 <StyledSelect
                     defaultValue={item.partnerType && item.partnerType.id }
-                    onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}>
+                    onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}
+                >
                     <StyledSelect.Option value="UGFydG5lclR5cGVOb2RlOjE=">Тип1</StyledSelect.Option>
                   </StyledSelect>
-                
+
               </div>
             </Column>
             <Column style={{ width: '45%' }}>
@@ -75,7 +75,7 @@ export default function GeneralInfo() {
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.binNumber ? item.binNumber : ''}
-              onChange={(e) => setItem({ ...item,    binNumber: e.target.value })}></StyledInput>
+              onChange={(e) => setItem({ ...item, binNumber: e.target.value })}></StyledInput>
               </div>
             </Column>
           </Row>

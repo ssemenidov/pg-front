@@ -65,7 +65,7 @@ mutation(
   $kbe: String
   $agencyCommission:Int
 
-) 
+)
 {
   updatePartner(
     id: $id
@@ -86,18 +86,18 @@ mutation(
       kbe: $kbe
       agencyCommission:$agencyCommission
 
-  
+
     }
   ) {
     partner {
      id
-    
+
     }
 }
 }
 `;
 
-export default function TabPaneForm(props) {
+export default function   TabPaneForm(props) {
   const [item, setItem] = useContext(partnerContext );
   const history = useHistory();
 
@@ -121,7 +121,6 @@ export default function TabPaneForm(props) {
     deleteConstruction({ variables: { id: item.id } });
     history.push(`/base/partners`);
     history.go(0);
- 
   };
   return (
     <form style={{ width: '100%' }}>

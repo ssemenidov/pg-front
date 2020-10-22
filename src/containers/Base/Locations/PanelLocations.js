@@ -19,7 +19,7 @@ const LOCATIONS_T = gql`
      $contract_Start:DateTime
      $contract_End:DateTime
      $area:String
-
+     $comment:String
 
      )
      {
@@ -33,6 +33,7 @@ const LOCATIONS_T = gql`
       contract_Start:$contract_Start
       contract_End:$contract_End
       area:$area
+      comment: $comment
     ) {
       edges {
         node {
@@ -124,6 +125,34 @@ const initColumns = [
     isShowed: true
   },
   {
+    title: 'Маркетинговый адрес',
+    dataIndex: 'marketingAddress',
+    width: 150,
+    className: 'hide',
+    isShowed: false
+  },
+  {
+    title: 'Количество конструкций',
+    dataIndex: 'constructionQuantity',
+    width: 150,
+    className: 'hide',
+    isShowed: false
+  },
+  {
+    title: 'Целевое назначение',
+    dataIndex: 'targetPurpose',
+    width: 150,
+    className: 'hide',
+    isShowed: false
+  },
+  {
+    title: 'Коментарий',
+    dataIndex: 'comment',
+    width: 150,
+    className: 'hide',
+    isShowed: false
+  },
+  {
     width: 40,
     title: '',
     render: (text, record) => (
@@ -149,6 +178,10 @@ const PanelDesign = (props) => {
       cadastralNumber: '34756824',
       area: '32 га',
       contractNumber:"",
+      marketingAddress: "",
+      constructionQuantity: "",
+      targetPurpose: "",
+      comment: "",
     },
   ];
 
@@ -166,6 +199,10 @@ const PanelDesign = (props) => {
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
       contractNumber: item.node.contract ? item.node.contract.code : "",
+      marketingAddress: "не нашел на беке",
+      constructionQuantity: item.node.constructionSet.edges ? item.node.constructionSet.edges.length : 0,
+      targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
+      comment: item.node.comment ? item.node.comment : ""
     }));
   }
 
@@ -185,9 +222,7 @@ const PanelDesign = (props) => {
       return col
     })
 
-    console.log('localColumns ', localColumns)
-
-    setColumns(localColumns)
+    setColumns(localColumns);
   };
 
   return (
