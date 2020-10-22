@@ -1,15 +1,11 @@
 
 import React from 'react';
-import { Col, Grid, Row } from 'react-flexbox-grid';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { Col } from 'react-flexbox-grid';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from '../Main/adminRoutes';
-import { AdminConstructionItem } from '../AdminOutdoorFurniture/AdminConstructionItem';
-import { GqlDatasource } from '../components/gql_datasource';
 import { GridNoPadding, RowMargin1st } from '../components/Styled'
 import { LocationState } from '../AdminOutdoorFurniture/location_state';
-import { srcAdvSide } from '../AdminOutdoorFurniture/OutdoorFurnitureDatasources';
 import { SliderState } from '../components/SlidingBottomPanel/SliderState';
 import { AddSlider, EditSlider } from '../AdminOutdoorFurniture/Sliders';
 import { RadiobuttonCRUDWithSearch } from '../AdminOutdoorFurniture/RadiobuttonCRUDWithSearch';
@@ -26,7 +22,6 @@ const APPEND_TITLES2 = [
 ]
 
 const AdminLocations = () => {
-  // const streets = new LocationState({title: "Названия улиц", datasource: srcStreets, idx: 2});
   const districts = new LocationState({title: "Список районов", datasource: srcDistricts, idx: 2});
   const cities = new LocationState({title: "Список городов", datasource: srcCities, idx: 1});
   const countries = new LocationState({title: "Список стран", datasource: srcCountries, idx: 0});
