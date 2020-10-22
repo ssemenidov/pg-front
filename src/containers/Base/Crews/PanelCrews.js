@@ -119,7 +119,7 @@ const PanelDesign = (props) => {
                 node {
                   id
                   code
-                  format
+               
                   statusConnection
                   createdAt
                   city {
