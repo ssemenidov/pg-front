@@ -66,29 +66,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Сборка и деплой через Gulp
-Для автоматической сборки и деплоя через FTP необходимо:
- 1. Создать в корне проекта файл `.env.production.local`
- 2. Записать в него значения логина и пароля ftp сервера по аналогии с `.env.production`:
-    1. `DEPLOY_LOGIN=логин_ftp`
-    2. `DEPLOY_PASWORD=пароль_ftp`
-    3. `REACT_APP_BACKEND_URL=`https://ptc.pgdigital.kz`
-    - запись последнего пункта обязательна, т.к. react-create-app не читает `.env.production` при наличии `env.production.local` 
-    и без перезаписи этого параметра в сборку попадет url dev-версии бекэнда.
-    
- 3. Если значение адреса развертывания `DEPLOY_URL`, каталога развертывания `DEPLOY_FOLDER` отличаются от заданных в `.env.production` - сконфигурировать также и их.
- 4. Выполнить команду `npx gulp bdeploy` 
-    1. Если что-то пошло не так, последовательно выполнить `npx gulp build`, затем `npx gulp deploy` чтобы понять на каком этапе.
- 5. Для удаления сборочного каталога можно выполнить `npx gulp rmbuild`
- 
- Замечание: При сборке production версии, create-react-app автоматически 
- заменяет в JS `process.env.REACT_APP_BACKEND_URL` на его значение.
-  (см. https://create-react-app.dev/docs/adding-custom-environment-variables )
- 
- 
- 
- 
- 
- 
- 

@@ -28,7 +28,10 @@ export class LocationState {
     this.idx = idx;
     this.title = title;
     this.selected = selected;
-    this.setSelected = setSelected;
+    this.setSelected = (val) => {
+      console.log(title, val);
+      setSelected(val);
+    }
     this.stateSelectedIdx = stateSelectedIdx;
     this.setStateSelectedIdx = setStateSelectedIdx;
     this.src = datasource;
