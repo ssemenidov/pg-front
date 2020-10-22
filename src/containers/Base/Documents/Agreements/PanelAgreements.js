@@ -34,7 +34,7 @@ const InnerForm = (props) => {
         </HeaderTitleWrapper>
         <ButtonGroup>
           {block == 0 && (
-            <Link to="/base/documents/agreement">
+            <Link to="/base/documents/agreement/123">
               <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
             </Link>
           ) }
