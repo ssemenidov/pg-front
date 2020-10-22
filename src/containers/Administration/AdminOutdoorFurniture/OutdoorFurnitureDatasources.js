@@ -8,27 +8,32 @@ const stubAdvSide = [
   {name: "Скроллерная A3", childs: null},
 ];
 const stubSide = [
-  {name: "Скроллерная A", childs: stubAdvSide},
-  {name: "Скроллерная B", childs: stubAdvSide},
+  // {name: "Скроллерная A", childs: stubAdvSide},
+  // {name: "Скроллерная B", childs: stubAdvSide},
+  {name: "API ERROR", childs: stubAdvSide},
 ];
 const stubFormat = [
-  {name: "Ситилайт Decaux", childs: {}},
-  {name: "Ситилайт Decaux MUPI", childs: stubSide},
+  // {name: "Ситилайт Decaux", childs: {}},
+  // {name: "Ситилайт Decaux MUPI", childs: stubSide},
+  {name: "API ERROR", childs: stubSide},
 ];
 const stubModel = [
-  {name: "CIP Forum", childs: stubFormat},
-  {name: "CIP Szekely", childs: stubFormat},
+  // {name: "CIP Forum", childs: stubFormat},
+  // {name: "CIP Szekely", childs: stubFormat},
+  {name: "API ERROR", childs: stubFormat},
 ];
 const stubSubFamilies = [
+  {name: "API ERROR", childs: stubModel},
   // {name: "Европейское", childs: stubModel},
   // {name: "Европейское2", childs: stubModel},
 ];
 const stubFamilies = [
-  {name: "Сениор", childs: {}},
-  {name: "Мюпи", childs: stubSubFamilies},
-  {name: "Флагштоки", childs: stubSubFamilies},
-  {name: "Остановки", childs: {}},
-  {name: "Созданная конструкция №1", childs: stubSubFamilies},
+  {name: "API ERROR", childs: {}},
+  // {name: "Сениор", childs: {}},
+  // {name: "Мюпи", childs: stubSubFamilies},
+  // {name: "Флагштоки", childs: stubSubFamilies},
+  // {name: "Остановки", childs: {}},
+  // {name: "Созданная конструкция №1", childs: stubSubFamilies},
 ];
 
 
@@ -101,12 +106,10 @@ export const srcFamily = new GqlDatasource({
 
 const ADD_UNDERFAMILY = gql`
   mutation($id: [ID], $title: String) {
-    createUnderFamilyConstruction(
-      input: {
-        familyConstruction: $id,
-        title: $title
-      }
-    ) {
+    createUnderFamilyConstruction(input: {
+      title: $title,
+      familyConstruction: $id
+    }) {
       underFamilyConstruction {
         id
       }
@@ -174,6 +177,7 @@ const GET_MODELS = gql`
             edges {
               node {
                 id
+                title
               }
             }
           }
@@ -183,41 +187,43 @@ const GET_MODELS = gql`
   }
 `
 
-// const ADD_MODEL = gql`
-//   mutation($title: String) {
-//     createModelConstruction(
-//       input: {
-//         title: $title
-//       }
-//     ) {
-//       familyConstruction {
-//         id
-//         title
-//       }
-//     }
-//   }
-// `;
+const ADD_MODEL = gql`
+  mutation($id: [ID], $title: String) {
+    createModelConstruction(
+      input: {
+        title: $title
+        underFamilyConstruction: $id
+      }
+    ) {
+      modelConstruction  {
+        id
+      }
+    }
+  }`;
 
-// const DELETE_MODEL = gql`
-//   mutation($id: ID!) {
-//     deleteFamilyConstruction(id: $id) {
-//       found,
-//       deletedId
-//     }
-//   }
-// `;
-//
-// const UPDATE_MODEL = gql`
-//   mutation($id: ID!, $title: String) {
-//     updateFamilyConstruction(id: $id, input: {
-//       title: $title
-//     }) {
-//       familyConstruction {
-//         id
-//       }
-//     }
-//   }
-// `;
+const DELETE_MODEL = gql`
+  mutation($id: ID!) {
+    deleteModelConstruction(id: $id) {
+      found
+    }
+  }
+`;
+
+
+const UPDATE_MODEL = gql`
+  mutation($id: ID!, $title: String) {
+    updateModelConstruction(
+      id: $id
+      input: {
+        title: $title
+      }
+    ) {
+      modelConstruction {
+        id
+      }
+    }
+  }
+`;
 
 
 export const srcModel = new GqlDatasource({
@@ -225,12 +231,152 @@ export const srcModel = new GqlDatasource({
   selectorFun: selectSubconstructions("searchUnderFamilyConstruction", "modelConstruction"),
   filterFun: simpleFilterFun,
   stub: stubModel,
-  // add: ADD_UNDERFAMILY,
-  // upd: UPDATE_UNDERFAMILY,
-  // del: DELETE_UNDERFAMILY,
+  add: ADD_MODEL,
+  upd: UPDATE_MODEL,
+  del: DELETE_MODEL,
 });
 
 
-export const srcFormat = new GqlDatasource({query: null, method: null, stub: stubFormat});
-export const srcSide = new GqlDatasource({query: null, method: null, stub: stubSide});
+const GET_FORMATS = gql`
+  query($id: ID, $title: String) {
+    searchModelConstruction(id: $id, title: $title) {
+      edges {
+        node {
+          format {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const ADD_FORMAT = gql`
+  mutation($id: [ID], $title: String) {
+    createFormat(
+      input: {
+        title: $title
+        modelConstruction: $id
+      }
+    ) {
+      format  {
+        id
+      }
+    }
+  }`;
+
+const DELETE_FORMAT = gql`
+  mutation($id: ID!) {
+    deleteFormat(id: $id) {
+      found
+    }
+  }
+`;
+
+
+const UPDATE_FORMAT = gql`
+  mutation($id: ID!, $title: String) {
+    updateFormat(
+      id: $id
+      input: {
+        title: $title
+      }
+    ) {
+      format {
+        id
+      }
+    }
+  }
+`;
+
+
+export const srcFormat = new GqlDatasource({
+  query: GET_FORMATS,
+  selectorFun: selectSubconstructions("searchModelConstruction", "format"),
+  filterFun: simpleFilterFun,
+  stub: stubFormat,
+  add: ADD_FORMAT,
+  upd: UPDATE_FORMAT,
+  del: DELETE_FORMAT,
+});
+
+
+const GET_SIDES = gql`
+  query($id: ID, $title: String) {
+    searchFormat(id: $id, title: $title) {
+      edges {
+        node {
+          constructionSide {
+            edges {
+              node {
+                id
+                side {
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const ADD_SIDE = gql`
+  mutation($id: [ID], $title: String) {
+    createConstructionSide(
+      input: {
+        title: $title
+        modelConstruction: $id
+      }
+    ) {
+      format  {
+        id
+      }
+    }
+  }`;
+
+
+const DELETE_SIDE = gql`
+  mutation($id: ID!) {
+    deleteConstructionSide(id: $id) {
+      found
+    }
+  }
+`;
+
+
+const UPDATE_SIDE = gql`
+  mutation($id: ID!, $title: String) {
+    updateConstructionSide(
+      id: $id
+      input: {
+        title: $title
+      }
+    ) {
+      constructionSide {
+        id
+      }
+    }
+  }
+`;
+
+
+export const srcSide = new GqlDatasource({
+  query: GET_SIDES,
+  selectorFun: selectSubconstructions("searchFormat", "constructionSide"),
+  filterFun: simpleFilterFun,
+  stub: stubSide,
+  add: ADD_SIDE,
+  upd: UPDATE_SIDE,
+  del: DELETE_SIDE,
+});
+
+
+
 export const srcAdvSide = new GqlDatasource({query: null, method: null, stub: stubAdvSide});
