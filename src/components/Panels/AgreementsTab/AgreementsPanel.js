@@ -4,6 +4,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import Table from '../../../components/Tablea';
 import {  agreementsContext } from './AgreementsTab';
+
+import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
 const AgreementsPanel = () => {
     const [filter, setFilter] = useContext(agreementsContext);
     const columns = [
@@ -33,6 +36,15 @@ const AgreementsPanel = () => {
             title: 'Дата окончания',
             dataIndex: 'date_end',
             width: 100,
+            },
+            {
+              width: 40,
+              title: '',
+              render: (text, record) => (
+                <Link to={{ pathname: `/base/documents/agreement/${record.key}` }}>
+                  <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+                </Link>
+              ),
             },
         ];
     const AGREEMENT_T = gql`

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../../components/Tablea';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
-import InputAnchor from '../../../../components/Inputs/InputAnchor';
-import DatePicker from '../../../../components/Inputs/DatePicker';
+import { Select,DatePicker} from 'antd';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
 
-import { useHistory } from 'react-router';
+import anchorIcon from '../../../../img/input/anchor.svg';
+
 const PanelDesign = (props) => {
   const columns = [
     {
@@ -98,72 +99,88 @@ const PanelDesign = (props) => {
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Наименование контрагента</InputTitle>
-                <InputAnchor placeholder="Наименование контрагента" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Дата заключения</InputTitle>
-                <DatePicker value={new Date()} />
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
               </div>
             </Row>
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Начало действия</InputTitle>
-                <DatePicker value={new Date()} />
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Окончание действия</InputTitle>
-                <DatePicker value={new Date()} />
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
               </div>
             </Row>
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Создатель</InputTitle>
-                <InputAnchor placeholder="Создатель" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 ц0.75vw' }}>
                 <InputTitle>Инициатор</InputTitle>
-                <InputAnchor placeholder="Инициатор" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
             </Row>
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Тип договора</InputTitle>
-                <InputAnchor placeholder="Тип договора" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Срок оплаты</InputTitle>
-                <InputAnchor placeholder="Срок оплаты" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
             </Row>
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Подписант в именительном падеже</InputTitle>
-                <InputAnchor placeholder="Подписант в именительном падеже" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
-                <InputAnchor placeholder="Подписант в родительном падеже" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
             </Row>
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
-                <InputAnchor placeholder="Документ" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Статус возврата</InputTitle>
-                <InputAnchor placeholder="Нет" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
             </Row>
-            <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
-                <InputTitle>Документы</InputTitle>
-              </div>
-            </Row>
+
             <Row>
               <div style={{ margin: '0 0.75vw 0 0' }}>
                 <InputTitle>Комментарий</InputTitle>
-                <InputAnchor placeholder="Комментарий" />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+             ></StyledInput>
               </div>
             </Row>
           </BlockBody>
