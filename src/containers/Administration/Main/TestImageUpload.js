@@ -1,32 +1,64 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { Upload, message, Button } from 'antd';
+import { Modal, Upload, message, Button } from 'antd';
 import { Input } from 'antd';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from './adminRoutes';
 
-const uploadProps = {
-  name: 'file',
-  action: 'https://allbot.online/',
-  headers: {
-    // authorization: 'authorization-text',
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
 
 function TestImageUpload(props) {
   let refInput = useRef(null);
   let refId = useRef(null);
+
+  let [visible, setVisible] = useState(false)
+  let [codeValue, setCodeValue] = useState("");
+  let [title, setTitle] = useState("");
+
+  const showModal = () => setVisible(true);
+  const handleOk = e => setVisible(false);
+  const handleCancel = e => setVisible(false);
+
+  function handleResult(result, isError) {
+    console.log(result);
+    setTitle(isError ? "Error" : "Done");
+    if (isError) {
+      setCodeValue(`TypeError: ${result.name} ${result.message}`)
+      showModal();
+      return;
+    }
+
+    const reader = result.body.getReader();
+    // read() returns a promise that resolves
+    // when a value has been received
+    let resultEncoded = ""
+    reader.read().then(function processText({ done, value }) {
+      const valueEncoded = new TextDecoder("utf-8").decode(value)
+      resultEncoded = resultEncoded + valueEncoded;
+      // Result objects contain two properties:
+      // done  - true if the stream has already given you all its data.
+      // value - some data. Always undefined when done is true.
+      if (done) {
+        resultEncoded = (
+          `Type: ${result.type}\n`
+        + `URL: ${result.url}\n`
+        + `Ok: ${result.false}\n`
+        + `Status: ${result.status}\n`
+        + `StatusText: ${result.statusText}\n`
+        + `Headers: ${JSON.stringify(result.headers)}\n`
+        + `\n`
+        + `Body:\n`
+        + `${resultEncoded}`
+        );
+        setCodeValue(resultEncoded)
+        console.log(resultEncoded);
+        showModal();
+        return;
+      }
+      return reader.read().then(processText);
+    })
+  }
+
 
   let clickHandler = (event) => {
     let construction_id = refId.current.state.value;
@@ -35,12 +67,12 @@ function TestImageUpload(props) {
     formData.append('construction_id', construction_id);
     formData.append('construction_img', file);
 
-    fetch('https://allbot.online/', {
+    fetch(process.env.REACT_APP_BACKEND_URL + 'img/construction', {
       method: 'POST',
       body: formData
     })
-      .then(result => message.success(`Done: ${result}`))
-      .catch(reason => message.error(`Error: ${reason}`));
+      .then(result => { handleResult(result, false); })
+      .catch(reason => { handleResult(reason, true); });
   };
 
   return (
@@ -54,6 +86,16 @@ function TestImageUpload(props) {
       <div>
         <Button onClick={clickHandler}>Отправить</Button>
       </div>
+      <Modal
+        title={title}
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <pre>
+          {codeValue}
+        </pre>
+      </Modal>
     </AdminTopLayout>
   );
 };

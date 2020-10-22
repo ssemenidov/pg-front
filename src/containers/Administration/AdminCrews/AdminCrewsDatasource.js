@@ -32,6 +32,10 @@ const GET_CREWS = gql`
           id
           name
           phone
+          city {
+            id
+            title
+          }
         }
       }
     }
@@ -44,11 +48,11 @@ export const srcCrews = new GqlDatasource({
   method: "searchCrew",
   stub: stubCrews,
   filterFunEmpty: true,
-  selectorFun: (data => (
-    data.searchCrew.edges.map(item => ({
+  selectorFun: (data => data.searchCrew.edges.map(item => ({
       key: item.node.id,
       name: item.node.name,
       phone: item.node.phone,
-      city: item.node.city,
-    })))),
+      cityId: item.node.city === null ? null : item.node.city.id,
+      cityTitle: item.node.city === null ? null : item.node.city.title,
+    }))),
 });
