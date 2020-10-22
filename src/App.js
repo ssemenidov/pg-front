@@ -94,7 +94,7 @@ const App = () => {
           <Route path={adminRoutes.packages.to} component={Packages} />
           <Route path={adminRoutes.crews.to} component={AdminCrews} />
           <Route path={adminRoutes.prices.to} component={Prices} />
-          <Route path={adminRoutes.test_image.to} component={TestImageUpload} />
+          {/*<Route path={adminRoutes.test_image.to} component={TestImageUpload} />*/}
 
         </Switch>
       </BrowserRouter>

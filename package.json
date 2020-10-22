@@ -52,8 +52,7 @@
     "dev": "react-scripts start",
     "start": "serve -s build",
     "build": "react-scripts build",
-    "heroku-postbuild": "npm run build",
-    "gulp": "./node_modules/gulp/bin/gulp.js"
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -75,13 +74,8 @@
     "@material-ui/icons": "^4.9.1",
     "clsx": "^1.1.1",
     "create-react-class": "^15.6.3",
-    "dotenv": "^8.2.0",
-    "fancy-log": "^1.3.3",
-    "gulp": "^4.0.2",
     "match-sorter": "^4.2.0",
     "react-tabs": "^3.1.1",
-    "rimraf": "^3.0.2",
-    "vinyl-ftp": "^0.6.1",
     "yandex-map-react": "^1.1.1"
   }
 }
