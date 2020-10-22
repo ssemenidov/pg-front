@@ -58,7 +58,7 @@ const Location = (props) => {
       setItem(data.searchLocation.edges[0].node);
     }
   }, [data]);
-  console.log(item);
+  console.log('item ', item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
 

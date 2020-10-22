@@ -78,7 +78,7 @@ const LOCATION_UPDATE = gql`
 export default function InnerForm(props) {
 
   const  [item,setItem] =useContext(locationContext);
- 
+
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation( LOCATION_DELETE);
@@ -88,16 +88,15 @@ export default function InnerForm(props) {
        city:item.city &&  item.city.id,
        district:item.district &&  item.district.id
        } });
-      
+
     history.push(`/base/locations`);
     history.go(0);
   };
   const Delete = () => {
-    console.log( item.id);
+    console.log(item.id);
     deleteLocation({ variables: { id: item.id } });
     history.push(`/base/locations`);
     history.go(0);
- 
   };
 
   return (
@@ -110,11 +109,22 @@ export default function InnerForm(props) {
         </HeaderTitleWrapper>
         <ButtonGroup>
           <StyledButton
+            backgroundColor="#2c5de5"
+            onClick={Update}
+          >
+            Добавить конструкцию
+          </StyledButton>
+          <StyledButton
             backgroundColor="#008556"
               onClick={Update}>
             Сохранить
           </StyledButton>
-          <StyledButton backgroundColor="#D42D11" onClick={Delete}>Удалить</StyledButton>
+          <StyledButton
+            backgroundColor="#D42D11"
+            onClick={Delete}
+          >
+            Удалить
+          </StyledButton>
           {/* <StyledButton backgroundColor="#2c5de5">Добавить местоположение</StyledButton> */}
         </ButtonGroup>
       </HeaderWrapper>
@@ -126,7 +136,7 @@ export default function InnerForm(props) {
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
-            
+
                 return <STab key={index}>{tab.value}</STab>;
               })}
             </STabList>

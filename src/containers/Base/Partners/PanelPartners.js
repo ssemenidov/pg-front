@@ -104,7 +104,7 @@ const PanelDesign = (props) => {
         edges {
           node {
             id
-    
+
             partnerType {
               title
               id
@@ -149,7 +149,13 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns}
+          data={data1}
+          enableChoosePeriod={false}
+          enableChooseQuantityColumn={false}
+        />
       </div>
 
       <style>

@@ -18,6 +18,7 @@ import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertica
 // buhInventNumber: $InventNumber
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(outContext);
+
   const columns = [
     {
       title: 'код конструкции',
@@ -73,18 +74,14 @@ const PanelDesign = (props) => {
 
   const OUTDOOR_T = gql`
     query SearchConstruction(
-      $format: String
       $actual: Boolean
       $coords: String
       $adress_m: String
     ) {
       searchConstruction(
-        
-        format: $format
         actual: $actual
         coordinates: $coords
         marketingAddress:$adress_m
-
       ) {
         edges {
           node {
@@ -105,9 +102,32 @@ const PanelDesign = (props) => {
             marketingAddress
             legalAddress
             legalAddress
-            format
             coordinates
             actual
+            familyConstruction {
+              id,
+              title,
+              underFamilyConstruction {
+                edges {
+                  node {
+                    modelConstruction {
+                      edges {
+                        node {
+                          title,
+                          format {
+                            edges {
+                              node {
+                                title
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -134,7 +154,12 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns} data={data1}
+          enableChoosePeriod={false}
+          enableChooseQuantityColumn={false}
+        />
       </div>
 
       <style>
