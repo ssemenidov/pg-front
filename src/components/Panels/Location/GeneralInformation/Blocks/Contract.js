@@ -16,21 +16,27 @@ export const Contract = (props) => {
         <Row>
           <div style={{ width: '19%' }}>
             <InputTitle>Статус оформления</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}      
-              ></StyledInput>
+            <StyledSelect>
+              <StyledSelect.Option value='case 1'>case 1</StyledSelect.Option>
+            </StyledSelect>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Номер договора</InputTitle>
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={anchorIcon} />}
               ></StyledInput>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Начало договора</InputTitle>
-            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+            <DatePicker
+              placeholder="01/01/2020"
+              size={'large'}
+              format='DD/MM/YYYY'
+              style={{ width: '100%' }}
+              onChange={(e) => {setItem({...item, areaAct:e.target.value})}}
+            />
           </div>
-          
+
           <div style={{ width: '19%' }}>
             <InputTitle>Регистрация договора</InputTitle>
             <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>

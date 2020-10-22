@@ -30,7 +30,7 @@ const tabs = [
   { value: 'Общая информация' },
   { value: 'Связанные проекты' },
   { value: 'Связанные бренды' },
-  { value: 'Связанные рекламодатели' },
+  { value: 'Связанные рекламодатели' }
 ];
 
 const panel1 = <PartnerInfo />;
@@ -130,6 +130,7 @@ export default function   TabPaneForm(props) {
           <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
+           <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>
           <StyledButton backgroundColor="#008556"  onClick={Update} >Сохранить</StyledButton>
           <StyledButton backgroundColor="#d42d11"  onClick={Delete}>Удалить</StyledButton>
           {/* <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton> */}
