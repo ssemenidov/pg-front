@@ -68,7 +68,42 @@ const PartnersInfo = (props) => {
               }
             }
           }
-
+          projects {
+            edges {
+              node {
+                code
+                title
+                brand {
+                  id
+                }
+                client {
+                  id
+                }
+                agencyCommission
+              }
+            }
+          }
+          brands {
+            edges {
+              node {
+                code
+                title
+                workingSector {
+                  title
+                }
+                createdAt
+              }
+            }
+          }
+          advertisers {
+            edges {
+              node {
+                code
+                title
+                createdAt
+              }
+            }
+          }
 
 
 

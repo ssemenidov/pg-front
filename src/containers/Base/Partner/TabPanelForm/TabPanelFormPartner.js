@@ -98,7 +98,7 @@ mutation(
 `;
 
 export default function   TabPaneForm(props) {
-  const [item, setItem] = useContext(partnerContext );
+  const [item, setItem] = useContext(partnerContext);
   const history = useHistory();
 
   const [updateConstruction] = useMutation(PARTNER_UPDATE);

@@ -1,8 +1,83 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import Table from '../../../Tablea';
+import { partnerContext } from "../../../../containers/Base/Partner/Partner";
+
+const columns = [
+  {
+    title: 'Код',
+    dataIndex: 'code',
+
+    width: 50,
+  },
+  {
+    title: 'Бренд',
+    dataIndex: 'brand',
+
+    width: 100,
+  },
+  {
+    title: 'Сектор деятельности',
+    dataIndex: 'workingSector',
+
+    width: 100,
+  },
+  {
+    title: 'Привязано',
+    dataIndex: 'createdAt',
+
+    width: 100,
+  },
+];
+const initData = [
+  {
+    key: 1,
+    code: '2020053012',
+    brand: 'CocaCola',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 2,
+    code: '2020053012',
+    brand: 'CocaCola',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 3,
+    code: '2020053012',
+    brand: 'CocaCola',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 4,
+    code: '2020053012',
+    brand: 'CocaCola',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+]; //нужно убрать этот масив initData после того как проверим правильность данных с бека
 
 const RelatedBrands = () => {
+  const [item] = useContext(partnerContext);
+  const [data, setData] = useState([]);
+
+  useMemo(() => {
+    if(item.brands.edges && item.brands.edges.length) {
+      const brandsList = item.brands.edges.node.map((item, index) => ({
+        key: index,
+        code: item.code,
+        brand: item.title,
+        workingSector: item.workingSector ? item.workingSector.title : '',
+        createdAt: item.createdAt,
+      }));
+
+      setData(brandsList);
+    }
+  }, [item]);
+
   // const columns = React.useMemo(() => makeColumns, []);
   // const data = React.useMemo(() => makeData, []);
 
@@ -11,75 +86,13 @@ const RelatedBrands = () => {
   //     <Table columns={columns} data={data} />
   //   </>
   // );
-  const columns = [
-    {
-      title: 'Код',
-      dataIndex: 'col1',
 
-      width: 50,
-    },
-    {
-      title: 'Название',
-      dataIndex: 'col2',
-
-      width: 100,
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'col3',
-
-      width: 100,
-    },
-    {
-      title: 'Сектор деятельности',
-      dataIndex: 'col4',
-
-      width: 100,
-    },
-    {
-      title: 'Привязано',
-      dataIndex: 'col5',
-
-      width: 100,
-    },
-  ];
-
-  const data = [
-    {
-      key: 1,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'Производство напитков',
-      col5: '29.05.2020',
-    },
-    {
-      key: 2,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'Производство напитков',
-      col5: '29.05.2020',
-    },
-    {
-      key: 3,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'Производство напитков',
-      col5: '29.05.2020',
-    },
-    {
-      key: 4,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'Производство напитков',
-      col5: '29.05.2020',
-    },
-  ];
-
-  return <Table columns={columns} data={data} select={true} notheader={true} />;
+  return <Table
+    columns={columns}
+    data={data}
+    select={true}
+    notheader={true}
+  />;
 };
 
 export default RelatedBrands;
