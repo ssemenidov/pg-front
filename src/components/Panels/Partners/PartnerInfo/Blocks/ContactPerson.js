@@ -30,6 +30,10 @@ export default function ContactPerson() {
   }
 
 
+  useMemo(() => {
+      console.log('test ', item)
+  }, [item])
+
   return (
     <Large>
       <BlockTitle style={{ padding: '10px 26px 15px 24px' }}>

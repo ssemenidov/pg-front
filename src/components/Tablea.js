@@ -17,6 +17,7 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
+
 let settingmenu = (
   <Menu>
     <Menu.Item>
@@ -77,7 +78,7 @@ class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
-    columns: this.props.columns,
+    columnsTable: this.props.columnsTable,
   };
   components = {
     header: {
@@ -86,17 +87,17 @@ class Tablea extends React.Component {
   };
 
   handleResize = (index) => (e, { size }) => {
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
+    this.setState(({ columnsTable }) => {
+      const nextColumns = [...columnsTable];
       nextColumns[index] = {
         ...nextColumns[index],
         width: size.width,
       };
-      return { columns: nextColumns };
+      return { columnsTable: nextColumns };
     });
   };
   render() {
-    const columns = this.state.columns.map((col, index) => ({
+    const columnsTable = this.props.columnsTable.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -108,8 +109,8 @@ class Tablea extends React.Component {
       settingmenu = (
         <Menu>
           {
-            this.state.columns.filter((col, index) => (
-              index !== this.state.columns.indexOf(this.state.columns[this.state.columns.length - 1])
+            this.props.columnsForPopup.filter((col, index) => (
+              index !== this.props.columnsForPopup.indexOf(this.props.columnsForPopup[this.props.columnsForPopup.length - 1])
             )).map(col => (
               <Menu.Item key={col.dataIndex}>
                 <Checkbox
@@ -213,7 +214,7 @@ class Tablea extends React.Component {
             }
             bordered
             components={this.components}
-            columns={columns}
+            columns={columnsTable}
             dataSource={this.props.data}
             scroll={{ y: 500 }}
             pagination={{
@@ -299,13 +300,6 @@ const StyledTable = styled(Table)`
   .ant-table {
     border: 1px solid #d3dff0 !important;
     border-radius: 8px;
-  }
-
-  .ant-table .show {
-    display: table-cell;
-  }
-  .ant-table .hide {
-    display: none;
   }
 
   .ant-table-row td:not(:first-child) {

@@ -67,7 +67,7 @@ const LOCATIONS_T = gql`
   }
 `;
 
-const initColumns = [
+const initColumnsForPopup = [
   {
     title: 'код местоположения',
     dataIndex: 'code',
@@ -153,6 +153,74 @@ const initColumns = [
     isShowed: false
   },
   {
+    dataIndex: 'btn-remove',
+    width: 40,
+    title: '',
+    render: (text, record) => (
+      <Link to={{ pathname: `/base/locations/location/${record.key}` }}>
+        <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+      </Link>
+    ),
+  },
+];
+const initColumnsTable = [
+  {
+    title: 'код местоположения',
+    dataIndex: 'code',
+    width: 130,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Город',
+    dataIndex: 'city',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Почтовый индекс',
+    dataIndex: 'post',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Район',
+    dataIndex: 'district',
+    width: 80,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Адрес юридический',
+    dataIndex: 'adress_j',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Кадастровый номер',
+    dataIndex: 'cadastralNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Площадь',
+    dataIndex: 'area',
+    width: 100,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Номер договора',
+    dataIndex: 'contractNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
     width: 40,
     title: '',
     render: (text, record) => (
@@ -165,7 +233,8 @@ const initColumns = [
 
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
-  const [columns, setColumns] = useState(initColumns);
+  const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
+  const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
   var data1 = [
     {
@@ -207,22 +276,27 @@ const PanelDesign = (props) => {
   }
 
   const changeColumns = (dataIndex) => {
-    let localColumns = columns.map((col, index) => {
+    let localColumnsForPopup = columnsForPopup.map((col, index) => {
       if(col.dataIndex  && col.dataIndex === dataIndex) {
         col.isShowed = !col.isShowed;
-
-        if(col.isShowed) {
-          col.className = 'show'
-        } else {
-          col.className = 'hide'
-        }
 
         return col
       }
       return col
     })
 
-    setColumns(localColumns);
+    setColumnsForPopup(localColumnsForPopup);
+
+    const newColumnTables = localColumnsForPopup.filter(item => {
+      if(item.isShowed) {
+        return item
+      }
+      if(item.dataIndex === 'btn-remove') {
+        return item
+      }
+    });
+
+    setColumnsTable(newColumnTables);
   };
 
   return (
@@ -230,7 +304,8 @@ const PanelDesign = (props) => {
       <div className="outdoor-table-bar">
         <Table
           style={{ width: '100%' }}
-          columns={columns}
+          columnsForPopup={columnsForPopup}
+          columnsTable={columnsTable}
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
