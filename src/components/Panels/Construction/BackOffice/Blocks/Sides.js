@@ -1,69 +1,49 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 import { BlockBody, BlockTitle, BlockTitleText, Large } from '../../../../Styles/StyledBlocks';
 import { BtnSuccess } from '../../../../Styles/ButtonStyles';
 import ExtraRow from './Extras/ExtraRow';
-import { getConstructionProps } from '../../../../../store/actions/constructionActions';
-import { useSelector } from 'react-redux';
-
-export default function Sides() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const initialList = [ExtraRow];
-  const [theList, setTheList] = useState(initialList);
-
-  const removeClickHandler = (e, index) => {
-    e.preventDefault();
-    let newList = [...theList];
-
-    if (index > -1) {
-      newList.splice(index, 1);
+const SiDE_CREATE = gql`
+  mutation CreateConstructionSide(
+    $id: ID
+  ){
+    createConstructionSide(input: {
+      construction: $id
+    }) {
+      constructionSide {
+        id
+      }
     }
-    setTheList(newList);
-  };
+  }
+`;
+export default function Sides() {
+  const [item, setItem] = useContext(constructContext);
+  const [createConstruction, { data }] = useMutation(SiDE_CREATE);
+  const create=(e)=>{
+    createConstruction({variables:item});
+  }
 
-  const addClickHandler = (e) => {
-    e.preventDefault();
-    setTheList([...theList, ExtraRow]);
-  };
-
+ 
   return (
     <Large>
       <BlockTitle>
         <BlockTitleText>Стороны конструкции</BlockTitleText>
-        <BtnSuccess onClick={addClickHandler}>Добавить сторону</BtnSuccess>
+        <BtnSuccess onClick={create}>Добавить сторону</BtnSuccess>
       </BlockTitle>
       <BlockBody>
-        {current.sides.map((side) => {
+        {item.constructionSide && item.constructionSide.edges.map((side,index) => {
           return (
-            <div key={side._id || 1}>
+            <div key={index}>
               <ExtraRow
-                getConstructionProps={getConstructionProps}
-                current={side}
+              index={index}
+
               />
             </div>
           );
         })}
-        {/* {current.sides
-          ? current.sides.map((side) => {
-              return (
-                <div key={side._id}>
-                  <ExtraRow
-                    getConstructionProps={getConstructionProps}
-                    current={side}
-                    removeClickHandler={(e) => removeClickHandler(e, side._id)}
-                  />
-                </div>
-              );
-            })
-          : theList.map((row, index) => {
-              return (
-                <div key={index}>
-                  <ExtraRow
-                    current={current}
-                    removeClickHandler={(e) => removeClickHandler(e, index)}
-                  />
-                </div>
-              );
-            })} */}
+      
       </BlockBody>
     </Large>
   );

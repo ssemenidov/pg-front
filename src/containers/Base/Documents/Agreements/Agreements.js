@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { Layout, Menu, Breadcrumb } from 'antd';
 
 import PanelAgreements from './PanelAgreements';
@@ -9,7 +10,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const Agreements = (props) => {
-  const handleTabSelected = (index) => {};
+  const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   return (
     <Layout>
@@ -32,7 +33,7 @@ const Agreements = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <PanelAgreements selectedTab={handleTabSelected} constructionID={props.match.params.id} />
+            <PanelAgreements history={history} constructionID={props.match.params.id} />
           </Content>
         </Layout>
       </Layout>

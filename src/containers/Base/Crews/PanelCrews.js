@@ -43,51 +43,51 @@ const PanelDesign = (props) => {
   ];
 
   var data1 = [
-    {
-      key: 1,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
-    {
-      key: 2,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
-    {
-      key: 3,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
-    {
-      key: 4,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
-    {
-      key: 5,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
+    // {
+    //   key: 1,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
+    // {
+    //   key: 2,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
+    // {
+    //   key: 3,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
+    // {
+    //   key: 4,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
+    // {
+    //   key: 5,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
   ];
 
  
@@ -119,7 +119,7 @@ const PanelDesign = (props) => {
                 node {
                   id
                   code
-                  format
+               
                   statusConnection
                   createdAt
                   city {

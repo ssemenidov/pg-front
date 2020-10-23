@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { locationContext } from '../../../../../containers/Base/Location/Location';
+import { Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import Multiline from '../../../../Inputs/Multiline';
-import { useSelector, useDispatch } from 'react-redux';
 import { DatePicker } from 'antd';
 
 export const GroundAct = (props) => {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(locationContext);
   return (
     <Medium>
       <BlockTitle>Акт на землю</BlockTitle>
@@ -15,7 +13,12 @@ export const GroundAct = (props) => {
         <Row>
           <div style={{ width: '49%' }}>
             <InputTitle>Номер</InputTitle>
-            <InputAnchor placeholder="347856345" />
+            <Input
+        
+              value={item.areaAct ? item.areaAct :""}
+              onChange={(e) => {setItem({...item, areaAct:e.target.value})}}
+              size={'large'}
+            />
           </div>
           <div style={{ width: '49%' }}>
             <InputTitle>Дата</InputTitle>

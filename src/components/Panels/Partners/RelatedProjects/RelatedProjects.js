@@ -1,76 +1,100 @@
-import React from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 //import Table from '../../../Table/Table';
 import Table from '../../../Tablea';
 
+import { partnerContext } from "../../../../containers/Base/Partner/Partner";
+
+const initData = [
+  {
+    key: 1,
+    code: '2020053012',
+    title: 'Летняя акция',
+    brand: 'CocaCola',
+    client: 'ТОО Coca Cola',
+    agencyCommission: 'да',
+  },
+  {
+    key: 2,
+    code: '2020053012',
+    title: 'Летняя акция',
+    brand: 'CocaCola',
+    client: 'ТОО Coca Cola',
+    agencyCommission: 'да',
+  },
+  {
+    key: 3,
+    code: '2020053012',
+    title: 'Летняя акция',
+    brand: 'CocaCola',
+    client: 'ТОО Coca Cola',
+    agencyCommission: 'да',
+  },
+  {
+    key: 4,
+    code: '2020053012',
+    title: 'Летняя акция',
+    brand: 'CocaCola',
+    client: 'ТОО Coca Cola',
+    agencyCommission: 'да',
+  }
+]; //нужно убрать этот масив initData после того как проверим правильность данных с бека
+const columns = [
+  {
+    title: 'Код',
+    dataIndex: 'code',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Название',
+    dataIndex: 'title',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Бренд',
+    dataIndex: 'brand',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Клиент',
+    dataIndex: 'client',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Агентская комиссия',
+    dataIndex: 'agencyCommission',
+    key: 'name',
+    width: 100,
+  },
+];
+
 const RelatedProjects = () => {
-  const columns = [
-    {
-      title: 'Код',
-      dataIndex: 'col1',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Название',
-      dataIndex: 'col2',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'col3',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Клиент',
-      dataIndex: 'col4',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Агентская комиссия',
-      dataIndex: 'col5',
-      key: 'name',
-      width: 100,
-    },
-  ];
+  const [item, setItem] = useContext(partnerContext);
+  const [data, setData] = useState([]);
 
-  const data = [
-    {
-      key: 1,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      key: 2,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      key: 3,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-    {
-      key: 4,
-      col1: '2020053012',
-      col2: 'Летняя акция',
-      col3: 'CocaCola',
-      col4: 'ТОО Coca Cola',
-      col5: 'да',
-    },
-  ];
+  useMemo(() => {
+    if(item.projects.edges && item.projects.edges.length) {
+      const projectList = item.projects.edges.node.map((item, index) => ({
+        key: index,
+        code: item.code,
+        title: item.title,
+        brand: item.brand,
+        client: item.client,
+        agencyCommission: item.agencyCommission,
+      }));
 
-  return <Table columns={columns} data={data} select={true} notheader={true} />;
+      setData(projectList);
+    }
+  }, [item]);
+
+  return <Table
+    columns={columns}
+    data={data}
+    select={true}
+    notheader={true}
+  />;
 };
 export default RelatedProjects;

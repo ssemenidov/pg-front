@@ -15,6 +15,10 @@ const Location = (props) => {
       edges {
         node {
           id
+          area
+          cadastralNumber
+          targetPurpose
+          comment
           city {
             title
             id
@@ -23,14 +27,9 @@ const Location = (props) => {
             title
             id
           }
-
           postcode
-          area
           address
           coordinate
-          cadastralNumber
-          targetPurpose
-          comment
           constructionSet {
             edges {
               node {
@@ -38,6 +37,14 @@ const Location = (props) => {
               }
             }
           }
+          areaAct
+          areaActDate
+          resolutionNumber
+					resolutionNumberDate
+          contract {
+            id
+          }
+
         }
       }
     }
@@ -51,7 +58,7 @@ const Location = (props) => {
       setItem(data.searchLocation.edges[0].node);
     }
   }, [data]);
-  console.log(item);
+  console.log('item ', item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
 

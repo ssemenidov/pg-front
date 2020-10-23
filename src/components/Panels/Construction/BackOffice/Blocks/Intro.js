@@ -1,19 +1,44 @@
 import React, { useContext } from 'react';
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { getConstructionProps } from '../../../../../store/actions/constructionActions';
 
-import cityIcon from '../../../../../img/input/input-city.svg';
 import anchorIcon from '../../../../../img/input/anchor.svg';
-import mailIcon from '../../../../../img/input/mail.svg';
 import ownerIcon from '../../../../../img/input/owner.svg';
-
+const CITY_T = gql`
+    {
+      searchCity {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+  const DISTRICT_T = gql`
+    {
+      searchDistrict {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
 export default function Intro() {
   const [item, setItem] = useContext(constructContext);
-
+  const city = useQuery( CITY_T).data;
+  const district = useQuery( DISTRICT_T).data;
+  if (!city || !district){
+    return <span></span>;
+  }
   return (
     <Medium>
       <BlockTitle>Общая информация</BlockTitle>
@@ -23,28 +48,30 @@ export default function Intro() {
          
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.city ? item.city.id : ''}
+              defaultValue={item.city ? item.city.id :""}
               onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
-              <StyledSelect.Option value="Q2l0eU5vZGU6MQ==">Алматы</StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6Mg==">Астана</StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6Mw==">Караганда</StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6NA==">Тараз</StyledSelect.Option>
+             {city && city.searchCity.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
+             )}
+             
             </StyledSelect>
    
           </div>
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={item.district ? item.district.id : ''}
+              defaultValue={item.district ? item.district.id :""}
               onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
-              <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE=">Турксибский</StyledSelect.Option>
-            
+             {district && district.searchDistrict.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
+             )}
+             
             </StyledSelect>
           </div>
           <div style={{ width: '22%' }}>
             <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={item.postcode ? item.postcode.id : ''}
+              defaultValue={item.postcode && item.postcode.id }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
               <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
           

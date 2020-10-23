@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+
+
 import { BlockBody, Large, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import styled from 'styled-components';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { sendContragentValues } from '../../../../../store/actions/actions';
-import { useSelector, useDispatch } from 'react-redux';
-
+import anchorIcon from '../../../../../img/input/anchor.svg';
 const InputWrapper = styled.div`
   width: 22%;
 `;
 
 export default function Commissions() {
-  const state = useSelector((state) => state.contragents.currentContragent);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(partnerContext);
   return (
     <Large>
       <BlockTitle style={{ padding: '15px 26px 15px 24px' }}>Агентская коммисия</BlockTitle>
@@ -19,35 +19,32 @@ export default function Commissions() {
         <Row>
           <InputWrapper>
             <InputTitle>Тип АК</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.agencyComissionType : ''}
-              onChange={(e) => dispatch(sendContragentValues('agencyComissionType', e.target.value))}
-              placeholder="В процентах"
-            />
+            <StyledSelect
+              defaultValue={item.agencyCommissionType && item.agencyCommissionType.id }
+              onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
+
+            </StyledSelect>
+      
           </InputWrapper>
           <InputWrapper>
             <InputTitle>Агентская коммисия</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.agencyComission : ''}
-              onChange={(e) => dispatch(sendContragentValues('agencyComission', e.target.value))}
-              placeholder="10"
-            />
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.agencyCommission ? item.agencyCommission : ''}
+              onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}></StyledInput>
           </InputWrapper>
           <InputWrapper>
             <InputTitle>АК распространяется</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.agencyDistributed : ''}
-              onChange={(e) => dispatch(sendContragentValues('agencyDistributed', e.target.value))}
-              placeholder="Без НДС"
-            />
+            <StyledSelect>
+
+            </StyledSelect>
+            
           </InputWrapper>
           <InputWrapper>
             <InputTitle>На какие услуги распространяется АК</InputTitle>
-            <InputAnchor
-              value={Object.keys(state).length !== 0 ? state.agencyServices : ''}
-              onChange={(e) => dispatch(sendContragentValues('agencyServices', e.target.value))}
-              placeholder="Печать"
-            />
+            <StyledSelect>
+
+            </StyledSelect>
           </InputWrapper>
         </Row>
       </BlockBody>

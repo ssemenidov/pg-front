@@ -51,10 +51,8 @@ const CONSTRUCT_UPDATE = gql`
     $owner: String
     $marketingAddress: String
     $backComment: String
-    $backFamilyConstruction: String
-    $backUnderFamilyConstruction: String
-    $backAvailabilityConstruction: String
-    $modelConstruction: String
+
+
     $hasArea: Boolean
     $crew: ID
     $techInventNumber: String
@@ -76,10 +74,7 @@ const CONSTRUCT_UPDATE = gql`
         owner: $owner
         marketingAddress: $marketingAddress
         backComment: $backComment
-        backFamilyConstruction:$backFamilyConstruction
-        backUnderFamilyConstruction: $backUnderFamilyConstruction
-        backAvailabilityConstruction: $backAvailabilityConstruction
-        modelConstruction:$modelConstruction
+        
         hasArea:$hasArea
         crew: $crew
         techInventNumber: $techInventNumber
@@ -104,14 +99,16 @@ const InnerForm = (props) => {
   const [item, setItem] = useContext(constructContext);
   const history = useHistory();
 
-  const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
+  const [updateConstruction,{error}] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
+  
   const Update = () => {
     updateConstruction({ variables: {
-       ...item, city: item.city.id,
-        district:item.district.id,
-        postcode:item.postcode.id,
-        crew:item.crew.id
+       ...item, 
+       city:item.city&&  item.city.id,
+        district:item.district && item.district.id,
+        postcode:item.postcode && item.postcode.id,
+        crew:item.crew && item.crew.id
        } });
       
     // history.push(`/base/outdoor_furniture`);

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
 import {
   BlockBody,
   BlockTitleText,
@@ -10,13 +12,11 @@ import {
 } from '../../../../Styles/StyledBlocks';
 import { BtnStyledSecondary } from '../../../../Styles/ButtonStyles';
 import photo from '../../../../../img/outdoor_furniture/photo_load.png';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { getConstructionProps } from '../../../../../store/actions/constructionActions';
-import { useSelector, useDispatch } from 'react-redux';
+import anchorIcon from '../../../../../img/input/anchor.svg';
+
 
 export default function Others() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
+  const [item, setItem] = useContext(constructContext);
   const loadClickHandler = (e) => {
     e.preventDefault();
     alert('loading');
@@ -32,19 +32,19 @@ export default function Others() {
           <div style={{ width: '60%' }}>
             <div>
               <InputTitle>Ссылка</InputTitle>
-              <InputAnchor
-                value={current ? current.link : ''}
-                placeholder="Ссылка"
-                onChange={(e) => dispatch(getConstructionProps('link', e.target.value))}
-              />
+              <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.otherLink ? item.otherLink : ''}
+              onChange={(e) => setItem({ ...item, otherLink: e.target.value })}></StyledInput>
+
             </div>
             <div style={{ marginTop: '20px' }}>
               <InputTitle>Координаты</InputTitle>
-              <InputAnchor
-                value={current ? current.coordinates : ''}
-                placeholder="Координаты"
-                onChange={(e) => dispatch(getConstructionProps('coordinates', e.target.value))}
-              />
+              <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.coordinates ? item.coordinates : ''}
+              onChange={(e) => setItem({ ...item, coordinates: e.target.value })}></StyledInput>
+
             </div>
           </div>
         </Row>

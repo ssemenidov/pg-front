@@ -18,7 +18,7 @@ const FilterBar = () => {
   const onFinish = (values) => {
     setFilter(values);
 
-    console.log(filter);
+    console.log('values ', values);
   };
 
   const onReset = () => {
@@ -62,13 +62,19 @@ const FilterBar = () => {
 
           <StyledPanel header="По параметрам" key="4">
             <Form.Item name="family">
-              <Input placeholder="Семейство" size={'large'} />
+              <Select placeholder="Семейство" size={'large'}>
+                <Option value="case 1">case 1</Option>
+                <Option value="case 2">case 2</Option>
+              </Select>
             </Form.Item>
             <Form.Item name="InventNumber">
               <Input placeholder="Инвентарный номер 1С" size={'large'} />
             </Form.Item>
             <Form.Item name="format">
-              <Input placeholder="Формат" size={'large'} />
+              <Select placeholder="Формат" size={'large'}>
+                <Option value="case 1">case 1</Option>
+                <Option value="case 2">case 2</Option>
+              </Select>
             </Form.Item>
             <Form.Item name="actual">
               <StyledSelect showSearch placeholder="Горит / Не горит" size={'large'}>

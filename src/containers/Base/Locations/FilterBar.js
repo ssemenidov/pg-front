@@ -17,7 +17,7 @@ const FilterBar = () => {
   const onFinish = (values) => {
     setFilter(values);
 
-  
+
   };
 
   const onReset = () => {
@@ -59,7 +59,10 @@ const FilterBar = () => {
               <Input placeholder="Кадастровый номер" size={'large'} />
             </Form.Item>
             <Form.Item name="targetPurpose">
-              <Input placeholder="Целевое назначение" size={'large'} />
+              <Select placeholder="Целевое назначение" size={'large'}>
+                <Option value="case 1">case 1</Option>
+                <Option value="case 2">case 2</Option>
+              </Select>
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">

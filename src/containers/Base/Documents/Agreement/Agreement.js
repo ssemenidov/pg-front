@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState ,createContext} from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 import PanelAgreement from './PanelAgreement';
 
 import { Layout, Menu, Breadcrumb, Table } from 'antd';
@@ -10,13 +12,64 @@ import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
-
+export const agreementContext = createContext();
 const { Header, Content, Sider } = Layout;
+const AGREEMENT_ITEM = gql`
+  query SearchContract(
+    $id:ID!
+  )
+    {
+    searchContract(
+      id:$id
+    ) {
+      edges {
+        node {
+          id
+          partner{
+            id
+            title
+          }
+          start
+          end
+        
+          creator
+          initiator
+          contractType
+          paymentDate
+          signatoryOne
+          signatoryTwo
+          basedOnDocument
+          returnStatus
+          contractPdf
+          additionallyAgreement
+          comment
+          createdAt
+          updatedAt
 
-const OutdoorFurniture = () => {
+        }
+      }
+    }
+  }
+`;
+const OutdoorFurniture = (props) => {
+  const [id, setId] = useState(props.match.params.id);
+  const [item, setItem] = useState({});
+  
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
+  const { error, data, loading } = useQuery(AGREEMENT_ITEM , { variables: { id: id } });
+    useMemo(() => {
+    if (data) {
+      console.log(data);
+      setItem(data.searchContract.edges[0].node);
+    }
+  }, [data]);
+  console.log(item);
+  // if (error) return <h3>Error :(</h3>;
+  // if (loading) return <h3></h3>;
+
   return (
+    <agreementContext.Provider value={ [item, setItem] }>
     <Layout>
       <Layout>
         <Sider className="layout-sider"></Sider>
@@ -44,7 +97,7 @@ const OutdoorFurniture = () => {
                 <JobTitle>Проект</JobTitle>
               </HeaderTitleWrapper>
               <ButtonGroup>
-                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/documents/agreement`)}>
+                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/documents/agreement/123`)}>
                   Сохранить
                 </StyledButton>
               </ButtonGroup>
@@ -77,6 +130,7 @@ const OutdoorFurniture = () => {
         `}
       </style>
     </Layout>
+    </agreementContext.Provider>
   );
 };
 export default OutdoorFurniture;

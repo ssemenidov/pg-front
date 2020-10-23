@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
+
 import { Radio, notification } from 'antd';
 import styled from 'styled-components';
 
 import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect } from '../../../../../styles/styles';
-import GroupRadio from '../../../../Inputs/GroupRadio';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
-import { getConstructionProps } from '../../../../../store/actions/constructionActions';
+import { StyledButton, StyledSelect , StyledInput} from '../../../../../styles/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 export default function Adress() {
-  const current = useSelector((state) => state.construction.currentConstruction);
-  const dispatch = useDispatch();
-
+  const [item, setItem] = useContext(partnerContext);
   return (
     <Quarter style={{ height: '100%' }}>
       <BlockTitle>Адрес</BlockTitle>
@@ -24,47 +19,32 @@ export default function Adress() {
             <InputTitle>Город</InputTitle>
 
             <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Алматы</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+              defaultValue={item.city && item.city.id }
+              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
+              <StyledSelect.Option value="Q2l0eU5vZGU6MQ==">Алматы</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6Mg==">Астана</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6Mw==">Караганда</StyledSelect.Option>
+              <StyledSelect.Option value="Q2l0eU5vZGU6NA==">Тараз</StyledSelect.Option>
             </StyledSelect>
           </div>
         </Row>
         <Row>
           <div style={{ width: '58%' }}>
-            <InputTitle>Доступность конструкции</InputTitle>
-
+          <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>Медеуский р-н.</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+              defaultValue={item.district && item.district.id }
+              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE=">Турксибский</StyledSelect.Option>
+            
             </StyledSelect>
           </div>
           <div style={{ width: '38%' }}>
-            <InputTitle>Почтовый индекс</InputTitle>
-
+            <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>1012034.</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
+              defaultValue={item.postcode && item.postcode.id }
+              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
+          
             </StyledSelect>
           </div>
         </Row>
@@ -72,34 +52,20 @@ export default function Adress() {
           <div style={{ width: '100%' }}>
             <InputTitle>Юридический адрес</InputTitle>
 
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>пр.Достык 25, офис 52</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.legalAddress ? item.legalAddress : ''}
+              onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Фактический адрес</InputTitle>
 
-            <StyledSelect
-              defaultValue={
-                <>
-                  <img src={anchorIcon} alt="" />
-                  <span>пр.Достык 25, офис 52</span>
-                </>
-              }
-              suffixIcon={null}>
-              <StyledSelect.Option value="Option1">Выбор 1</StyledSelect.Option>
-              <StyledSelect.Option value="Option2">Выбор 2</StyledSelect.Option>
-            </StyledSelect>
+            <StyledInput
+              prefix={<img src={anchorIcon} />}      
+              defaultValue={item.actualAddress ? item.actualAddress : ''}
+              onChange={(e) => setItem({ ...item, actualAddress: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

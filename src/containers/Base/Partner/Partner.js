@@ -20,24 +20,95 @@ const PartnersInfo = (props) => {
       edges {
         node {
           id
-          partnerType {
+          title
+          workingSector {
+            id
             title
           }
-          title
-          brands {
-            edges {
-              node {
-                title
-              }
-            }
-          }
-          workingSector {
+          comment
+
+          partnerType {
+            id
             title
           }
           clientType {
+            id
             title
           }
-          
+          binNumber
+          city {
+            title
+            id
+          }
+          district {
+            title
+            id
+          }
+          postcode
+          legalAddress
+          actualAddress
+          bankRecipient
+          iik
+          bik
+          kbe
+          agencyCommissionType{
+            id
+          }
+          agencyCommission
+          agencyCommissionNds{
+            id
+          }
+          contactPerson {
+            edges {
+              node {
+                id
+                name
+                email
+                phone
+              }
+            }
+          }
+          projects {
+            edges {
+              node {
+                code
+                title
+                brand {
+                  id
+                }
+                client {
+                  id
+                }
+                agencyCommission
+              }
+            }
+          }
+          brands {
+            edges {
+              node {
+                code
+                title
+                workingSector {
+                  title
+                }
+                createdAt
+              }
+            }
+          }
+          advertisers {
+            edges {
+              node {
+                code
+                title
+                createdAt
+              }
+            }
+          }
+
+
+
+
+
         }
       }
     }
@@ -96,7 +167,7 @@ if (loading) return <h3></h3>;
             font-size: 11px;
             margin: 0 0 20px 0;
           }
-          .layout-breadcrumb a, span {
+          .layout-breadcrumb a,.layout-breadcrumb  span {
             color: #8AA1C1 !important;
           }
         `}
