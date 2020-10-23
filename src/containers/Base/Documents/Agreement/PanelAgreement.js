@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
 import Table from '../../../../components/Tablea';
+import { agreementContext } from './Agreement';
+
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import { Select,DatePicker} from 'antd';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
@@ -7,6 +10,7 @@ import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/
 import anchorIcon from '../../../../img/input/anchor.svg';
 
 const PanelDesign = (props) => {
+  const  [item,setItem] =useContext(agreementContext);
   const columns = [
     {
       title: 'Код договора',
@@ -101,6 +105,9 @@ const PanelDesign = (props) => {
                 <InputTitle>Наименование контрагента</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.partner ? item.partner.title:""}
+              // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
+              
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
@@ -123,12 +130,17 @@ const PanelDesign = (props) => {
                 <InputTitle>Создатель</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+
+              defaultValue={item.creator ? item.creator:""}
+              onChange={(value) => setItem({ ...item, creator: value})}
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 ц0.75vw' }}>
                 <InputTitle>Инициатор</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.initiator ? item.initiator:""}
+              onChange={(value) => setItem({ ...item, initiator: value})}
              ></StyledInput>
               </div>
             </Row>
@@ -137,12 +149,16 @@ const PanelDesign = (props) => {
                 <InputTitle>Тип договора</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.contractType ? item.contractType:""}
+              onChange={(value) => setItem({ ...item, contractType: value})}
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Срок оплаты</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.paymentDate ? item.paymentDate:""}
+              onChange={(value) => setItem({ ...item, paymentDate: value})}
              ></StyledInput>
               </div>
             </Row>
@@ -151,12 +167,16 @@ const PanelDesign = (props) => {
                 <InputTitle>Подписант в именительном падеже</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.signatoryOne ? item.signatoryOne:""}
+              onChange={(value) => setItem({ ...item, signatoryOne: value})}
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              defaultValue={item.signatoryTwo ? item.signatoryTwo:""}
+              onChange={(value) => setItem({ ...item, signatoryTwo: value})}
              ></StyledInput>
               </div>
             </Row>
@@ -165,12 +185,18 @@ const PanelDesign = (props) => {
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
+              onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>
                 <InputTitle>Статус возврата</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
+              onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
               </div>
             </Row>
@@ -180,6 +206,9 @@ const PanelDesign = (props) => {
                 <InputTitle>Комментарий</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.comment ? item.comment:""}
+              onChange={(value) => setItem({ ...item, comment: value})}
              ></StyledInput>
               </div>
             </Row>
