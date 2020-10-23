@@ -281,11 +281,13 @@ class Tablea extends React.Component {
 
 Tablea.propTypes = {
   enableChoosePeriod: PropTypes.bool,
-  enableChooseQuantityColumn: PropTypes.bool
+  enableChooseQuantityColumn: PropTypes.bool,
+  columnsForPopup: PropTypes.array
 };
 Tablea.defaultProps = {
   enableChoosePeriod: true,
-  enableChooseQuantityColumn: true
+  enableChooseQuantityColumn: true,
+  columnsForPopup: []
 };
 
 export default Tablea;
