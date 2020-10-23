@@ -2,10 +2,12 @@ import { GqlDatasource } from '../components/gql_datasource';
 import { gql } from '@apollo/client';
 
 
+
 const stubAdvSide = [
-  {name: "Скроллерная A1", childs: null},
-  {name: "Скроллерная A2", childs: null},
-  {name: "Скроллерная A3", childs: null},
+  // {name: "Скроллерная A1", childs: null},
+  // {name: "Скроллерная A2", childs: null},
+  // {name: "Скроллерная A3", childs: null},
+  {name: "API ERROR", childs: null},
 ];
 const stubSide = [
   // {name: "Скроллерная A", childs: stubAdvSide},
@@ -35,6 +37,39 @@ const stubFamilies = [
   // {name: "Остановки", childs: {}},
   // {name: "Созданная конструкция №1", childs: stubSubFamilies},
 ];
+
+function checkSubkeyEmpty(
+  data, subKey, key
+) {
+  return data === null
+    || data[key].edges.length === 0
+    || data[key].edges.length === 0
+    || data[key].edges[0].node[subKey] === null
+    ;
+}
+
+export function defaultMapSubgroup(item) {
+  return {key: item.node.id, name: item.node.title};
+}
+
+
+export function defaultMapSubgroupTop(data, key, subKey, mapSubgroup) {
+  return data[key].edges[0].node[subKey].edges.map( (item) => { return mapSubgroup(item); } );
+}
+
+
+export function selectOutdoorFurnitureSubgroup(key, subKey, mapSubgroup=defaultMapSubgroup,
+                                        mapSubgroupTop=defaultMapSubgroupTop) {
+  return ((data) => {
+    if (checkSubkeyEmpty(data, subKey, key))
+      return [];
+
+    return mapSubgroupTop(data, key, subKey, mapSubgroup);
+  });
+}
+
+
+const simpleFilterFun = (searchValue) => searchValue;
 
 
 const GET_FAMILIES = gql`
@@ -142,32 +177,6 @@ const DELETE_UNDERFAMILY = gql`
     }
   }
 `;
-
-
-function checkSubkeyEmpty(
-  data, subKey, key
-) {
-  return data === null
-    || data[key].edges.length === 0
-    || data[key].edges.length === 0
-    || data[key].edges[0].node[subKey] === null
-    ;
-}
-
-function defaultMapSubgroup(item) { return {key: item.node.id, name: item.node.title}; }
-
-function selectOutdoorFurnitureSubgroup(key, subKey, mapSubgroup=defaultMapSubgroup) {
-  return ((data) => {
-    if (checkSubkeyEmpty(data, subKey, key))
-      return [];
-    console.log('selectOutdoorFurnitureSubgroup:', data);
-
-    return data[key].edges[0].node[subKey].edges.map( (item) => { return mapSubgroup(item); } );
-  });
-}
-
-
-const simpleFilterFun = (searchValue) => searchValue;
 
 export const srcSubFamily = new GqlDatasource({
   query: GET_FAMILIES,
@@ -372,7 +381,7 @@ const ADD_CONSTRUCTION_SIDE = gql`
 `;
 
 
-const DELETE_SIDE = gql`
+const DELETE_CONSTRUCTION_SIDE = gql`
   mutation($id: ID!) {
     deleteConstructionSide(id: $id) {
       found
@@ -380,6 +389,13 @@ const DELETE_SIDE = gql`
   }
 `;
 
+const DELETE_SIDE = gql`
+  mutation($sideId: ID!) {
+    deleteSide(id: $sideId) {
+      found
+    }
+  }
+`;
 
 const UPDATE_SIDE = gql`
   mutation($sideId: ID!, $title: String) {
@@ -409,11 +425,82 @@ export const srcSide = new GqlDatasource({
   add: ADD_SIDE,
   add2: ADD_CONSTRUCTION_SIDE,
   upd: UPDATE_SIDE,
-  del: DELETE_SIDE,
+  del: DELETE_CONSTRUCTION_SIDE,
+  del2: DELETE_SIDE,
   description: "стороны",
   add2ValuesSelector: value => ({sideId: value.data.createSide.side.id}),
 });
 
 
+const GET_ADV_SIDES = gql`
+  query($id: ID) {
+    searchConstructionSide(id: $id) {
+      edges {
+        node {
+          id
+          advertisingSide {
+            id
+            title
+          }
+        }
+      }
+    }
+  }
+`
 
-export const srcAdvSide = new GqlDatasource({query: null, method: null, stub: stubAdvSide});
+
+const ADD_ADV_SIDE = gql`
+  mutation($id: [ID], $title: String) {
+    createAdvertisingSide(
+      input: {
+        title: $title,
+        constructionSide: $id
+      }
+    ) {
+      advertisingSide  {
+        id
+      }
+    }
+  }
+`;
+
+
+const DELETE_ADV_SIDE = gql`
+  mutation($id: ID!) {
+    deleteAdvertisingSide(id: $id) {
+      found
+    }
+  }
+`;
+
+
+const UPDATE_ADV_SIDE = gql`
+  mutation($id: ID!, $title: String) {
+    updateAdvertisingSide(id:$id, input: { title: $title }) {
+      advertisingSide {
+        id
+      }
+    }
+  }
+`;
+
+
+export const srcAdvSide = new GqlDatasource({
+  query: GET_ADV_SIDES,
+  selectorFun: selectOutdoorFurnitureSubgroup(
+    "searchConstructionSide",
+    "advertisingSide",
+    null,
+    (data, key, subKey) => ([{ key: data[key].edges[0].node[subKey].id,
+                                            name: data[key].edges[0].node[subKey].title }]),
+  ),
+  filterFun: simpleFilterFun,
+  stub: stubAdvSide,
+  add: ADD_ADV_SIDE,
+  upd: UPDATE_ADV_SIDE,
+  del: DELETE_ADV_SIDE,
+});
+
+
+
+

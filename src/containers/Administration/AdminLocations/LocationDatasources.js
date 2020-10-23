@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 import { GqlDatasource } from '../components/gql_datasource';
+import {
+  selectOutdoorFurnitureSubgroup,
+  defaultMapSubgroup
+} from '../AdminOutdoorFurniture/OutdoorFurnitureDatasources';
+
 
 const stubStreets = [
   { name: "Майлина", childs: null },
@@ -15,22 +20,25 @@ const stubDistricts = [
   { name: "Алмалинский", childs: stubStreets },
   { name: "Ауэзовский", childs: stubStreets },
   { name: "Бостандыкский", childs: stubStreets },
+  {name: "API UNIMPLEMENTED YET", childs: null},
 ];
 
 const stubCities = [
-  { name: "Актау", childs: stubDistricts },
-  { name: "Алматы", childs: {} },
-  { name: "Атырау", childs: stubDistricts },
-  { name: "Актобе", childs: stubDistricts },
-  { name: "Балхаш", childs: stubDistricts },
+  // { name: "Актау", childs: stubDistricts },
+  // { name: "Алматы", childs: {} },
+  // { name: "Атырау", childs: stubDistricts },
+  // { name: "Актобе", childs: stubDistricts },
+  // { name: "Балхаш", childs: stubDistricts },
+  {name: "API ERROR", childs: null},
 ];
 
 const stubCountries = [
-  { name: "Республика Казахстан", childs: stubCities },
-  { name: "Российская Федерация", childs: {} },
-  { name: "Монголия", childs: {} },
-  { name: "Узбекистан", childs: {} },
-  { name: "Киргизия", childs: {} },
+  // { name: "Республика Казахстан", childs: stubCities },
+  // { name: "Российская Федерация", childs: {} },
+  // { name: "Монголия", childs: {} },
+  // { name: "Узбекистан", childs: {} },
+  // { name: "Киргизия", childs: {} },
+  {name: "API ERROR", childs: null},
 ];
 
 
@@ -47,6 +55,7 @@ const GET_COUNTRIES = gql`
   }
 `;
 
+
 const ADD_COUNTRY = gql`
   mutation($title: String) {
     createCountry(
@@ -61,6 +70,7 @@ const ADD_COUNTRY = gql`
   }
 `;
 
+
 const DELETE_COUNTRY = gql`
   mutation($id: ID!) {
     deleteCountry(id: $id) {
@@ -68,6 +78,7 @@ const DELETE_COUNTRY = gql`
     }
   }
 `;
+
 
 const UPDATE_COUNTRY = gql`
   mutation($id: ID!, $title: String) {
@@ -83,6 +94,7 @@ const UPDATE_COUNTRY = gql`
   }
 `;
 
+
 export const srcCountries = new GqlDatasource({
   query: GET_COUNTRIES,
   method: "searchCountry",
@@ -92,26 +104,30 @@ export const srcCountries = new GqlDatasource({
   del: DELETE_COUNTRY,
 });
 
+
 const GET_CITIES = gql`
-  query SearchCity($title: String) {
-    searchCity(title: $title) {
+  query($id: ID) {
+    searchCountry(id: $id) {
       edges {
         node {
-          id
-          title
+          city {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
         }
       }
     }
   }
 `;
 
-// TODO: города должны быть связаны со странами
+
 const ADD_CITY = gql`
-  mutation($title: String) {
-    createCity(input: {
-      title: $title
-    }
-    ) {
+  mutation($title: String, $countryId: [ID]) {
+    createCity(input: { title: $title, country: $countryId }) {
       city {
         id
       }
@@ -119,9 +135,14 @@ const ADD_CITY = gql`
   }
 `;
 
-// const DELETE_CITY = gql`
-//
-// `;
+
+const DELETE_CITY = gql`
+  mutation($id: ID!) {
+    deleteCity(id: $id) {
+      found
+    }
+  }
+`;
 
 const UPDATE_CITY = gql`
   mutation($id: ID!, $title: String) {
@@ -137,14 +158,16 @@ const UPDATE_CITY = gql`
   }
 `;
 
+
 export const srcCities = new GqlDatasource({
   query: GET_CITIES,
-  method: "searchCity",
+  selectorFun: selectOutdoorFurnitureSubgroup("searchCountry", "city"),
   stub: stubCities,
   upd: UPDATE_CITY,
   add: ADD_CITY,
-
+  del: DELETE_CITY,
 });
+
 
 // const ADD_DISTRICT = gql`
 //

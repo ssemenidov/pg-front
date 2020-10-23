@@ -135,9 +135,8 @@ export class GqlDatasource {
   apiAdd(values, cb) {
     let firstAddPromise = this._addMutation({ variables: values });
     if (!this._hasAdd2) {
-      if (cb) {
-        cb(firstAddPromise);
-      }
+        if (cb)
+          cb(firstAddPromise);
     }
     else {
       firstAddPromise
@@ -179,22 +178,30 @@ export class GqlDatasource {
   }
 
   useDel2() {
-    let [deleteMutation] = useMutation(this._del, { refetchQueries: [{query: this._query}] });
-    this._deleteMutation = deleteMutation;
-    return this._deleteMutation;
+    let [deleteMutation2] = useMutation(this._del, { refetchQueries: [{query: this._query}] });
+    this._deleteMutation2 = deleteMutation2;
+    return this._deleteMutation2;
   }
 
   apiDel(values, cb) {
     let firstDelPromise = this._deleteMutation({ variables: values })
     if (!this._hasDel2) {
-      if (cb) {
+      if (cb)
         cb(firstDelPromise);
-      }
     }
     else {
-
+      firstDelPromise
+        .then(resultOfFirstAdd => {
+          let secondAddPromise = this._deleteMutation2({ variables: values });
+          if (cb)
+            cb(secondAddPromise);
+        })
+        .catch(reason => {
+          message.error({ content: `Удаление ${this.description} не выполнено. Ошибка: ${reason.message}`,
+            duration: 3, style: messageStyle
+          });
+        })
     }
-
   }
 
   useUpd() {
