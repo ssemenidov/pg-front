@@ -9,7 +9,7 @@ import { DatePicker } from 'antd';
 export const AkimatResolution = (props) => {
   const [item, setItem] = useContext(locationContext);
   return (
-    
+
     <Medium>
       <BlockTitle>Постановление от акимата</BlockTitle>
       <BlockBody>
@@ -17,7 +17,7 @@ export const AkimatResolution = (props) => {
           <div style={{ width: '49%' }}>
             <InputTitle>Номер</InputTitle>
             <Input
-        
+
               value={item.resolutionNumber ? item.resolutionNumber :""}
               onChange={(e) => {setItem({...item, resolutionNumber:e.target.value})}}
               size={'large'}
@@ -25,9 +25,8 @@ export const AkimatResolution = (props) => {
           </div>
           <div style={{ width: '49%' }}>
             <InputTitle>Дата</InputTitle>
-            <DatePicker   
-
-            placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+            <DatePicker
+              placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
 
           </div>
         </Row>

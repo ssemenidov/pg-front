@@ -9,6 +9,8 @@ import {DatePicker,Select,Input} from 'antd';
 export const Contract = (props) => {
   const [item, setItem] = useContext(locationContext);
 
+  console.log('contranct ', item)
+
   return (
     <Medium>
       <BlockTitle>Договор аренды</BlockTitle>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,createContext, useMemo } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import InnerForm from './TabPanel/TabPanelLocation';
@@ -54,7 +54,7 @@ const Location = (props) => {
   const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });
 
   useMemo(() => {
-    if (data) {
+    if (data && data.searchLocation.edges.length) {
       setItem(data.searchLocation.edges[0].node);
     }
   }, [data]);
