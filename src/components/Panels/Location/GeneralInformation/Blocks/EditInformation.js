@@ -47,20 +47,13 @@ export const EditInformation = (props) => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Целевое назначение</InputTitle>
-            <StyledSelect
+            <StyledInput
               placeholder="Рекламно-информационный объект"
               size={'large'}
-              defaultValue={item.targetPurpose ? item.targetPurpose.id :""}
-              onChange={(value) => setItem({ ...item, targetPurpose: { ...item.targetPurpose, id: value } })}>
-              {item.targetPurpose && item.targetPurpose.map((item)=>
-                <StyledSelect.Option
-                  key ={item.node.id}
-                  value={item.node.id}
-                >
-                  {item.node.title}
-                </StyledSelect.Option>
-              )}
-            </StyledSelect>
+              defaultValue={item.targetPurpose ? item.targetPurpose:""}
+              onChange={(value) => setItem({ ...item, targetPurpose: value  })}>
+              
+            </StyledInput>
           </div>
         </Row>
         <Row>

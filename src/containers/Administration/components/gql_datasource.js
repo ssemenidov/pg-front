@@ -33,6 +33,7 @@ export class GqlDatasource {
     stub,
     method = null,
     add = null,
+    add2 = null,
     del = null,
     upd = null,
     selector = "title",
@@ -45,6 +46,7 @@ export class GqlDatasource {
 
     this._query = query ? query : EMPTY_QUERY;
     this._add = add ? add : EMPTY_MUTATION;
+    this._add2 = add2 ? add2 : EMPTY_MUTATION;
     this._del = del ? del : EMPTY_MUTATION;
     this._upd = upd ? upd : EMPTY_MUTATION;
 
@@ -108,13 +110,24 @@ export class GqlDatasource {
 
   useAdd() {
     let [addMutation] = useMutation(this._add, { refetchQueries: [{query: this._query}] });
+
     this._addMutation = addMutation;
     return this._addMutation;
   }
 
   add(values) {
-    values = {title: values.title};
-    console.log('ff', values);
+    console.log(values);
+    return this._addMutation({ variables: values });
+  }
+
+  useAdd2() {
+    let [addMutation2] = useMutation(this._add, { refetchQueries: [{query: this._query}] });
+    this._addMutation2 = addMutation2;
+    return this._addMutation2;
+  }
+
+  add2(values) {
+    console.log(values);
     return this._addMutation({ variables: values });
   }
 

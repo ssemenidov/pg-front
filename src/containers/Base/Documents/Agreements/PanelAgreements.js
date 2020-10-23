@@ -1,4 +1,6 @@
-import React, { useState,createContext } from 'react';
+import React, { useState,createContext, useMemo } from 'react';
+
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
@@ -22,9 +24,34 @@ STab.tabsRole = 'Tab';
 const tabs = [{ value: 'Договора' }, { value: 'Приложения' }];
 const panel1 = <AgreementsTab />;
 const panel2 = <ApplicationsTab />;
+const CONTRACT_CREATE = gql`
+  mutation {
+    createContract(input: {
 
+    }) {
+      contract {
+        id
+      }
+    }
+  }
+`;
 const InnerForm = (props) => {
   const [block, setBlock] = useState(0);
+  const history = props.history;
+  const [  createContract, { data }] = useMutation(CONTRACT_CREATE);
+  useMemo(() => {
+    if (data) {
+      
+     history.push(`/base/documents/agreement/${data.createContract.contract.id}`);
+    }
+  }, [data]);
+  const addContract= (e) => {
+
+    createContract();
+    e.preventDefault();
+
+    
+  };
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -34,9 +61,8 @@ const InnerForm = (props) => {
         </HeaderTitleWrapper>
         <ButtonGroup>
           {block == 0 && (
-            <Link to="/base/documents/agreement/123">
-              <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton>
-            </Link>
+              <StyledButton backgroundColor="#2c5de5" onClick={addContract}>Создать договор</StyledButton>
+       
           ) }
         </ButtonGroup>
       </HeaderWrapper>

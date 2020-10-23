@@ -25,6 +25,13 @@ const AGREEMENT_ITEM = gql`
       edges {
         node {
           id
+          partner{
+            id
+            title
+          }
+          start
+          end
+        
           creator
           initiator
           contractType
@@ -62,6 +69,7 @@ const OutdoorFurniture = (props) => {
   // if (loading) return <h3></h3>;
 
   return (
+    <agreementContext.Provider value={ [item, setItem] }>
     <Layout>
       <Layout>
         <Sider className="layout-sider"></Sider>
@@ -122,6 +130,7 @@ const OutdoorFurniture = (props) => {
         `}
       </style>
     </Layout>
+    </agreementContext.Provider>
   );
 };
 export default OutdoorFurniture;
