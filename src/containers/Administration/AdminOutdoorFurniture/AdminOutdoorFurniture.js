@@ -25,7 +25,19 @@ const APPEND_TITLES2 = [
 
 function OutdoorFurniture() {
   const advSide = new LocationState({title: "Рекламная сторона", datasource: srcAdvSide, idx: 5});
-  const side = new LocationState({title: "Сторона", datasource: srcSide, childType: advSide, idx: 4});
+
+  const side = new LocationState({
+    title: "Сторона",
+    datasource: srcSide,
+    childType: advSide,
+    idx: 4,
+    updFilter: (values, sliderState) => ({
+      title: values.name,
+      sideId: sliderState.editedData.sideId,
+      id: sliderState.editedData.key
+    })
+  });
+
   const format = new LocationState({title: "Формат", datasource: srcFormat, childType: side, idx: 3});
   const model = new LocationState({title: "Модель", datasource: srcModel, childType: format, idx: 2});
   const subFamily = new LocationState({title: "Подсемейство", datasource: srcSubFamily, childType: model, idx: 1});

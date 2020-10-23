@@ -5,7 +5,7 @@ import { Grid, Row } from 'react-flexbox-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Radio } from '@material-ui/core';
 
-import { colorAccent } from '../Style/Styles';
+import { colorAccent, fontFamily, fontSizeInput } from '../Style/Styles';
 
 
 export const TrashSpacer = styled.div`
@@ -174,3 +174,13 @@ export const StyledTrash = styled(StyledTransparentTrashBlock)`
       opacity: 1;
   }
 `;
+
+
+export const messageStyle = {
+  fontFamily: `${fontFamily}, sans-serif`,
+  fontSize: fontSizeInput,
+  lineHeight: fontSizeInput,
+  fontWeight: 300,
+  whiteSpace: "nowrap",
+  paddingTop: "1rem"
+}

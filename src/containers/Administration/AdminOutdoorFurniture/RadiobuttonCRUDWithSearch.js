@@ -62,7 +62,7 @@ export function RadiobuttonCRUDWithSearch({location, propCtx: { chain, sliderSta
 
   let deleteHandler = (event, record) => {
     event.preventDefault();
-    location.showCRUDMessageAndRefetch(location.src.del({id: record.key}), "Удаление");
+    location.showCRUDMessageAndRefetch(location.src.apiDel({id: record.key}), "Удаление");
   }
 
   if (

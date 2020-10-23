@@ -12,7 +12,6 @@ import { RadiobuttonCRUDWithSearch } from '../AdminOutdoorFurniture/RadiobuttonC
 
 import { srcCountries, srcCities, srcDistricts } from './LocationDatasources';
 
-
 const APPEND_TITLES = [
   "Страну", "Город", "Район"
 ]

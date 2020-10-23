@@ -36,7 +36,7 @@ export class SliderState {
 
     // onClick={(event) => record.openEditSlider(event, record)}
     this.createEdit = ((event, record, title, title2, location) => {
-      let newState = Object.fromEntries(Object.keys(editedData).map((key) => [key, record[key]]));
+      let newState = Object.fromEntries(Object.keys(record).map((key) => [key, record[key]]));
       setEditedData(newState);
 
       if (addShowed)

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spin } from 'antd';
+import { message } from 'antd';
+
+import { messageStyle } from '../components/Styled';
 
 
 function Loading(props) {
@@ -35,19 +38,29 @@ export class GqlDatasource {
     add = null,
     add2 = null,
     del = null,
+    del2 = null,
     upd = null,
     selector = "title",
     selectorFun = null,
     filterFun = null,
     filterFunEmpty = false,
+    description = null,
+    add2ValuesSelector = null,
   }) {
     this.enableStubs = true;
+    this.description = description;
 
 
     this._query = query ? query : EMPTY_QUERY;
     this._add = add ? add : EMPTY_MUTATION;
     this._add2 = add2 ? add2 : EMPTY_MUTATION;
+    this._hasAdd2 = add2 ? true : false;
+    this._add2ValuesSelector = add2ValuesSelector;
+
     this._del = del ? del : EMPTY_MUTATION;
+    this._del2 = del2 ? del2 : EMPTY_MUTATION;
+    this._hasDel2 = del2 ? true : false;
+
     this._upd = upd ? upd : EMPTY_MUTATION;
 
     if (selectorFun) {
@@ -69,13 +82,18 @@ export class GqlDatasource {
 
 
     this.stubData = stub;
-    this.query = this.query.bind(this);
+    this.apiQuery = this.apiQuery.bind(this);
+
     this.useAdd = this.useAdd.bind(this);
-    this.add = this.add.bind(this);
+    this.apiAdd = this.apiAdd.bind(this);
+    this.apiAdd2 = this.apiAdd2.bind(this);
+
     this.useDel = this.useDel.bind(this);
-    this.del = this.del.bind(this);
+    this.useDel2 = this.useDel2.bind(this);
+    this.apiDel = this.apiDel.bind(this);
+
     this.useUpd = this.useUpd.bind(this);
-    this.upd = this.upd.bind(this);
+    this.apiUpd = this.apiUpd.bind(this);
   }
 
   loader() {
@@ -90,7 +108,7 @@ export class GqlDatasource {
     this.filter = filter;
   }
 
-  query(searchValue = "") {
+  apiQuery(searchValue = "") {
     console.assert(this._query !== null);
     const { loading, error, data, refetch } = useQuery(this._query, { variables: this.filter(searchValue) });
 
@@ -110,25 +128,48 @@ export class GqlDatasource {
 
   useAdd() {
     let [addMutation] = useMutation(this._add, { refetchQueries: [{query: this._query}] });
-
     this._addMutation = addMutation;
     return this._addMutation;
   }
 
-  add(values) {
-    console.log(values);
-    return this._addMutation({ variables: values });
+  apiAdd(values, cb) {
+    let firstAddPromise = this._addMutation({ variables: values });
+    if (!this._hasAdd2) {
+      if (cb) {
+        cb(firstAddPromise);
+      }
+    }
+    else {
+      firstAddPromise
+        .then(resultOfFirstAdd => {
+          let secondAddValues = values;
+          if (this._add2ValuesSelector) {
+            secondAddValues = {...values, ...this._add2ValuesSelector(resultOfFirstAdd)}
+          }
+          console.log('secondAddValues', secondAddValues);
+          let secondAddPromise = this._addMutation2({ variables: secondAddValues });
+          if (cb) {
+            cb(secondAddPromise);
+          }
+        })
+        .catch(reason => {
+          message.error({
+            content: `Добавление ${this.description} не выполнено. Ошибка: ${reason.message}`,
+            duration: 3, style: messageStyle
+          });
+        })
+    }
   }
 
   useAdd2() {
-    let [addMutation2] = useMutation(this._add, { refetchQueries: [{query: this._query}] });
+    let [addMutation2] = useMutation(this._add2, { refetchQueries: [{query: this._query}] });
     this._addMutation2 = addMutation2;
     return this._addMutation2;
   }
 
-  add2(values) {
+  apiAdd2(values) {
     console.log(values);
-    return this._addMutation({ variables: values });
+    return this._addMutation2({ variables: values });
   }
 
   useDel() {
@@ -137,7 +178,24 @@ export class GqlDatasource {
     return this._deleteMutation;
   }
 
-  del(values) { return this._deleteMutation({ variables: values }); }
+  useDel2() {
+    let [deleteMutation] = useMutation(this._del, { refetchQueries: [{query: this._query}] });
+    this._deleteMutation = deleteMutation;
+    return this._deleteMutation;
+  }
+
+  apiDel(values, cb) {
+    let firstDelPromise = this._deleteMutation({ variables: values })
+    if (!this._hasDel2) {
+      if (cb) {
+        cb(firstDelPromise);
+      }
+    }
+    else {
+
+    }
+
+  }
 
   useUpd() {
     let [updateMutation] = useMutation(this._upd, { refetchQueries: [{query: this._query}] });
@@ -145,6 +203,8 @@ export class GqlDatasource {
     return this._updateMutation;
   }
 
-  upd(values) { return this._updateMutation({ variables: values }); }
-
+  apiUpd(values) {
+    console.log('apiUpd', values);
+    return this._updateMutation({ variables: values });
+  }
 }

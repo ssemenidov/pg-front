@@ -73,6 +73,7 @@ const ADD_FAMILY = gql`
   }
 `;
 
+
 const DELETE_FAMILY = gql`
   mutation($id: ID!) {
     deleteFamilyConstruction(id: $id) {
@@ -117,6 +118,7 @@ const ADD_UNDERFAMILY = gql`
   }
 `;
 
+
 const UPDATE_UNDERFAMILY = gql`
   mutation($id: ID!, $title: String) {
     updateUnderFamilyConstruction(
@@ -132,6 +134,7 @@ const UPDATE_UNDERFAMILY = gql`
   }
 `;
 
+
 const DELETE_UNDERFAMILY = gql`
   mutation($id: ID!) {
     deleteUnderFamilyConstruction(id: $id) {
@@ -140,26 +143,35 @@ const DELETE_UNDERFAMILY = gql`
   }
 `;
 
-function selectSubconstructions(key, subKey) {
-  return ((data) => {
-    if (data === null
-      || data[key].edges.length === 0
-      || data[key].edges.length === 0
-      || data[key].edges[0].node[subKey] === null
-    )
-      return [];
 
-    return data[key].edges[0].node[subKey].edges.map(
-      (item) => { console.log('mapped',  item); return {key: item.node.id, name: item.node.title}; }
-    );
+function checkSubkeyEmpty(
+  data, subKey, key
+) {
+  return data === null
+    || data[key].edges.length === 0
+    || data[key].edges.length === 0
+    || data[key].edges[0].node[subKey] === null
+    ;
+}
+
+function defaultMapSubgroup(item) { return {key: item.node.id, name: item.node.title}; }
+
+function selectOutdoorFurnitureSubgroup(key, subKey, mapSubgroup=defaultMapSubgroup) {
+  return ((data) => {
+    if (checkSubkeyEmpty(data, subKey, key))
+      return [];
+    console.log('selectOutdoorFurnitureSubgroup:', data);
+
+    return data[key].edges[0].node[subKey].edges.map( (item) => { return mapSubgroup(item); } );
   });
 }
+
 
 const simpleFilterFun = (searchValue) => searchValue;
 
 export const srcSubFamily = new GqlDatasource({
   query: GET_FAMILIES,
-  selectorFun: selectSubconstructions("searchFamilyConstruction", "underFamilyConstruction"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchFamilyConstruction", "underFamilyConstruction"),
   filterFun: simpleFilterFun,
   stub: stubSubFamilies,
   add: ADD_UNDERFAMILY,
@@ -187,6 +199,7 @@ const GET_MODELS = gql`
   }
 `
 
+
 const ADD_MODEL = gql`
   mutation($id: [ID], $title: String) {
     createModelConstruction(
@@ -199,7 +212,9 @@ const ADD_MODEL = gql`
         id
       }
     }
-  }`;
+  }
+`;
+
 
 const DELETE_MODEL = gql`
   mutation($id: ID!) {
@@ -228,7 +243,7 @@ const UPDATE_MODEL = gql`
 
 export const srcModel = new GqlDatasource({
   query: GET_MODELS,
-  selectorFun: selectSubconstructions("searchUnderFamilyConstruction", "modelConstruction"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchUnderFamilyConstruction", "modelConstruction"),
   filterFun: simpleFilterFun,
   stub: stubModel,
   add: ADD_MODEL,
@@ -268,7 +283,9 @@ const ADD_FORMAT = gql`
         id
       }
     }
-  }`;
+  }
+`;
+
 
 const DELETE_FORMAT = gql`
   mutation($id: ID!) {
@@ -297,7 +314,7 @@ const UPDATE_FORMAT = gql`
 
 export const srcFormat = new GqlDatasource({
   query: GET_FORMATS,
-  selectorFun: selectSubconstructions("searchModelConstruction", "format"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchModelConstruction", "format"),
   filterFun: simpleFilterFun,
   stub: stubFormat,
   add: ADD_FORMAT,
@@ -316,6 +333,7 @@ const GET_SIDES = gql`
               node {
                 id
                 side {
+                  id
                   title
                 }
               }
@@ -327,19 +345,31 @@ const GET_SIDES = gql`
   }
 `
 
+
 const ADD_SIDE = gql`
-  mutation($id: [ID], $title: String) {
-    createConstructionSide(
-      input: {
-        title: $title
-        modelConstruction: $id
-      }
-    ) {
-      format  {
+  mutation($title: String) {
+    createSide(input: { title: $title }) {
+      side {
         id
       }
     }
-  }`;
+  }
+`;
+
+const ADD_CONSTRUCTION_SIDE = gql`
+  mutation($id: ID, $sideId: ID) {
+    createConstructionSide(
+      input: {
+        side: $sideId
+        format: $id
+      }
+    ) {
+      constructionSide  {
+        id
+      }
+    }
+  }
+`;
 
 
 const DELETE_SIDE = gql`
@@ -352,14 +382,14 @@ const DELETE_SIDE = gql`
 
 
 const UPDATE_SIDE = gql`
-  mutation($id: ID!, $title: String) {
-    updateConstructionSide(
-      id: $id
+  mutation($sideId: ID!, $title: String) {
+    updateSide(
+      id: $sideId
       input: {
         title: $title
       }
     ) {
-      constructionSide {
+      side {
         id
       }
     }
@@ -369,12 +399,19 @@ const UPDATE_SIDE = gql`
 
 export const srcSide = new GqlDatasource({
   query: GET_SIDES,
-  selectorFun: selectSubconstructions("searchFormat", "constructionSide"),
+  selectorFun: selectOutdoorFurnitureSubgroup(
+    "searchFormat",
+    "constructionSide",
+    item => ({key: item.node.id, name: item.node.side.title, sideId: item.node.side.id}),
+  ),
   filterFun: simpleFilterFun,
   stub: stubSide,
   add: ADD_SIDE,
+  add2: ADD_CONSTRUCTION_SIDE,
   upd: UPDATE_SIDE,
   del: DELETE_SIDE,
+  description: "стороны",
+  add2ValuesSelector: value => ({sideId: value.data.createSide.side.id}),
 });
 
 

@@ -93,7 +93,7 @@ function deleteUser(event, record) {
 }
 
 function PanelDesign({openEditSlider}) {
-  let [values, isReactComponent] = srcUsers.query();
+  let [values, isReactComponent] = srcUsers.apiQuery();
   if (isReactComponent)
     return values;
 
