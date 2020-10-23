@@ -78,7 +78,7 @@ class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
-    columnsTable: this.props.columnsTable,
+    columns: this.props.columns,
   };
   components = {
     header: {
@@ -87,17 +87,17 @@ class Tablea extends React.Component {
   };
 
   handleResize = (index) => (e, { size }) => {
-    this.setState(({ columnsTable }) => {
-      const nextColumns = [...columnsTable];
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns];
       nextColumns[index] = {
         ...nextColumns[index],
         width: size.width,
       };
-      return { columnsTable: nextColumns };
+      return { columns: nextColumns };
     });
   };
   render() {
-    const columnsTable = this.props.columnsTable.map((col, index) => ({
+    const columns = this.props.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -214,7 +214,7 @@ class Tablea extends React.Component {
             }
             bordered
             components={this.components}
-            columns={columnsTable}
+            columns={columns}
             dataSource={this.props.data}
             scroll={{ y: 500 }}
             pagination={{

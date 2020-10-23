@@ -305,7 +305,7 @@ const PanelDesign = (props) => {
         <Table
           style={{ width: '100%' }}
           columnsForPopup={columnsForPopup}
-          columnsTable={columnsTable}
+          columns={columnsTable}
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
