@@ -51,7 +51,9 @@ const LOCATION_UPDATE = gql`
     $city:ID
     $district:ID
     $areaAct:String
+    $areaActDate: DateTime
     $resolutionNumber:String
+    $resolutionNumberDate: DateTime
   ) {
     updateLocation(
       id: $id
@@ -65,8 +67,9 @@ const LOCATION_UPDATE = gql`
         city:$city
         district:$district
         areaAct:$areaAct
+        areaActDate: $areaActDate
         resolutionNumber:$resolutionNumber
-
+        resolutionNumberDate: $resolutionNumberDate
       }
     ) {
       location {

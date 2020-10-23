@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
@@ -8,8 +8,6 @@ import anchorIcon from '../../../../../img/input/anchor.svg';
 import {DatePicker,Select,Input} from 'antd';
 export const Contract = (props) => {
   const [item, setItem] = useContext(locationContext);
-
-  console.log('contranct ', item)
 
   return (
     <Medium>
@@ -26,7 +24,9 @@ export const Contract = (props) => {
             <InputTitle>Номер договора</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              ></StyledInput>
+              defaultValue={item.areaAct ? item.areaAct : ''}
+              onChange={(e) => {setItem({...item, areaAct: e.target.value})}}
+            ></StyledInput>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Начало договора</InputTitle>
@@ -35,7 +35,6 @@ export const Contract = (props) => {
               size={'large'}
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
-              onChange={(e) => {setItem({...item, areaAct:e.target.value})}}
             />
           </div>
 

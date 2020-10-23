@@ -29,8 +29,6 @@ export const Construction = (props) => {
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           <p>Формат</p>
             <p>Сениор</p>
-   
-     
           </div>
         </Row>
         <Row>
