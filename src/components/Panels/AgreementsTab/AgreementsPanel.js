@@ -66,14 +66,21 @@ const AgreementsPanel = () => {
       creator:$ creator
       partner_Title:$partner_Title
       contractType:$contractType
-      start:$ start
+      start:$start
       registrationDate:$registrationDate
-      end:$ end
+      end:$end
       returnStatus:$returnStatus
     ) {
       edges {
         node {
           id
+          partner{
+            id
+            title
+          }
+          start
+          end
+        
           creator
           initiator
           contractType
