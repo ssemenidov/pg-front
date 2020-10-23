@@ -40,14 +40,14 @@ export default function Others() {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
+  console.log('fjfjf ', item)
+
   const loadClickHandler = (e) => {
     e.preventDefault();
     alert('loading');
   };
 
   const handleChange = info => {
-    console.log('info.file.status ', info.file.status)
-
     if (info.file.status === 'uploading') {
       setLoading(true)
       return;
@@ -63,6 +63,27 @@ export default function Others() {
       message.error(`${info.file.name} is not a upload`);
       setLoading(false);
     }
+  };
+
+  const uploadImg = (fileInput) => {
+    console.log('fileInput ', fileInput)
+
+    let construction_id = item.id;
+    let file = fileInput;
+    let formData = new FormData();
+    formData.append('construction_id', 10);
+    formData.append('construction_img', file);
+
+    fetch('https://allbot.online/img/construction', {
+      method: 'POST',
+      body: formData
+    })
+      .then(() => {
+        console.log('img send')
+      })
+      .catch(error => {
+        console.log('error ', error)
+      });
   };
 
   return (
@@ -105,7 +126,7 @@ export default function Others() {
           <Upload
               name="avatar"
               showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action={uploadImg}
               beforeUpload={beforeUpload}
               onChange={handleChange}
           >
