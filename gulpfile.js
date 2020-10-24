@@ -8,6 +8,8 @@ const fs = require('fs');
 const os = require('os');
 const { spawn } = require("child_process");
 const dotenv = require('dotenv');
+const rsync = require('gulp-rsync');
+
 
 function rmbuild() {
   var cwd = process.cwd();
@@ -49,10 +51,9 @@ function build_production(alldone) {
   )();
 };
 
-
-function deploy_production_ftp() {
-  let production = null;
-  let productionLocal = null;
+function genGetKey() {
+  let production = {};
+  let productionLocal = {};
   if (fs.existsSync('.env.production')) {
     let b = fs.readFileSync('.env.production');
     production = dotenv.parse(b);
@@ -61,7 +62,14 @@ function deploy_production_ftp() {
     let b = fs.readFileSync('.env.production.local');
     productionLocal = dotenv.parse(b);
   }
-  let getKey = (key, localCfg, commonCfg) => productionLocal[key] || production[key];
+
+  let getKey = (key) => productionLocal[key] || production[key];
+  return getKey;
+}
+
+
+function deploy_production_ftp() {
+  let getKey = genGetKey();
 
   let conn = ftp.create({
     host:      getKey("DEPLOY_URL"),
@@ -75,9 +83,31 @@ function deploy_production_ftp() {
     .pipe(conn.dest(getKey("DEPLOY_FOLDER")));
 }
 
+
+function deploy_production_rsync() {
+  let getKey = genGetKey();
+
+  return gulp.src(['build/**'])
+    .pipe(rsync({
+      root: 'build',
+      hostname: `${getKey("DEPLOY_SFTP_USER")}@${getKey("DEPLOY_URL")}`,
+      destination: getKey("DEPLOY_SFTP_DIRECTORY"),
+      // exclude: config.deploy.exclude_html, // Excludes files from deploy
+      recursive: true,
+      archive: true,
+      silent: false,
+      compress: true,
+      clean: true,
+      omit_dir_times: true,
+      no_perms: true,
+    }));
+}
+
+
 gulp.task('build', function(cb) { return build_production(cb); });
 gulp.task('deploy', function() { return deploy_production_ftp(); });
-gulp.task('bdeploy', function(cb) {
-  return gulp.series("build", "deploy", (done) => { done(); cb(); })();
-});
+gulp.task('sdeploy', function() { return deploy_production_rsync(); });
+gulp.task('bdeploy', function(cb) { return gulp.series("build", "deploy", (done) => { done(); cb(); })(); });
+gulp.task('bsdeploy', function(cb) { return gulp.series("build", "sdeploy", (done) => { done(); cb(); })(); });
+
 gulp.task('rmbuild', function(cb) { rmbuild(); cb() });
