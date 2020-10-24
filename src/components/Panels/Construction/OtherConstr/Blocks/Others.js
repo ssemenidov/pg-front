@@ -40,8 +40,6 @@ export default function Others() {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
-  console.log('fjfjf ', item)
-
   const loadClickHandler = (e) => {
     e.preventDefault();
     alert('loading');
@@ -66,12 +64,10 @@ export default function Others() {
   };
 
   const uploadImg = (fileInput) => {
-    console.log('fileInput ', fileInput)
-
-    let construction_id = item.id;
+    let construction_id =  Buffer.from(item.id, 'base64').toString('ascii').match(/\d/gi).join('');
     let file = fileInput;
     let formData = new FormData();
-    formData.append('construction_id', 10);
+    formData.append('construction_id', construction_id);
     formData.append('construction_img', file);
 
     fetch('https://allbot.online/img/construction', {
@@ -79,10 +75,12 @@ export default function Others() {
       body: formData
     })
       .then(() => {
-        console.log('img send')
+        handleChange()
       })
       .catch(error => {
         console.log('error ', error)
+        message.error(`Image is not a upload`);
+        setLoading(false);
       });
   };
 
@@ -126,9 +124,8 @@ export default function Others() {
           <Upload
               name="avatar"
               showUploadList={false}
-              action={uploadImg}
+              customRequest={uploadImg}
               beforeUpload={beforeUpload}
-              onChange={handleChange}
           >
             <BtnStyledSecondary type="button">
               Загрузить фото
