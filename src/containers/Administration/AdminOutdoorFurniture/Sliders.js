@@ -6,18 +6,16 @@ import { LocationCRUDForm } from './LocationCRUDForm';
 export function AddSlider({sliderState}) {
   const addItem = (values) => {
     let parent = sliderState.caller.parent;
-    let result;
+    let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
     if (parent) {
-      result = sliderState.caller.src.add({
+      sliderState.caller.src.apiAdd({
         id: parent.selected.key,
         title: values.name
-      })
+      }, cb)
     }
     else {
-      result = sliderState.caller.src.add({ title: values.name })
+      sliderState.caller.src.apiAdd({ title: values.name }, cb)
     }
-
-    sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
   };
 
   return (
@@ -36,10 +34,7 @@ export function AddSlider({sliderState}) {
 
 export function EditSlider({sliderState}) {
   const saveChanges  = (values) => {
-    let result = sliderState.caller.src.upd({
-      title: values.name,
-      id: sliderState.editedData.key
-    })
+    let result = sliderState.caller.src.apiUpd(sliderState.caller.updFilter(values, sliderState));
     sliderState.caller.showCRUDMessageAndRefetch(result, "Изменение");
   };
 

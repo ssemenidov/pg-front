@@ -2,10 +2,12 @@ import { GqlDatasource } from '../components/gql_datasource';
 import { gql } from '@apollo/client';
 
 
+
 const stubAdvSide = [
-  {name: "Скроллерная A1", childs: null},
-  {name: "Скроллерная A2", childs: null},
-  {name: "Скроллерная A3", childs: null},
+  // {name: "Скроллерная A1", childs: null},
+  // {name: "Скроллерная A2", childs: null},
+  // {name: "Скроллерная A3", childs: null},
+  {name: "API ERROR", childs: null},
 ];
 const stubSide = [
   // {name: "Скроллерная A", childs: stubAdvSide},
@@ -35,6 +37,39 @@ const stubFamilies = [
   // {name: "Остановки", childs: {}},
   // {name: "Созданная конструкция №1", childs: stubSubFamilies},
 ];
+
+function checkSubkeyEmpty(
+  data, subKey, key
+) {
+  return data === null
+    || data[key].edges.length === 0
+    || data[key].edges.length === 0
+    || data[key].edges[0].node[subKey] === null
+    ;
+}
+
+export function defaultMapSubgroup(item) {
+  return {key: item.node.id, name: item.node.title};
+}
+
+
+export function defaultMapSubgroupTop(data, key, subKey, mapSubgroup) {
+  return data[key].edges[0].node[subKey].edges.map( (item) => { return mapSubgroup(item); } );
+}
+
+
+export function selectOutdoorFurnitureSubgroup(key, subKey, mapSubgroup=defaultMapSubgroup,
+                                        mapSubgroupTop=defaultMapSubgroupTop) {
+  return ((data) => {
+    if (checkSubkeyEmpty(data, subKey, key))
+      return [];
+
+    return mapSubgroupTop(data, key, subKey, mapSubgroup);
+  });
+}
+
+
+const simpleFilterFun = (searchValue) => searchValue;
 
 
 const GET_FAMILIES = gql`
@@ -72,6 +107,7 @@ const ADD_FAMILY = gql`
     }
   }
 `;
+
 
 const DELETE_FAMILY = gql`
   mutation($id: ID!) {
@@ -117,6 +153,7 @@ const ADD_UNDERFAMILY = gql`
   }
 `;
 
+
 const UPDATE_UNDERFAMILY = gql`
   mutation($id: ID!, $title: String) {
     updateUnderFamilyConstruction(
@@ -132,6 +169,7 @@ const UPDATE_UNDERFAMILY = gql`
   }
 `;
 
+
 const DELETE_UNDERFAMILY = gql`
   mutation($id: ID!) {
     deleteUnderFamilyConstruction(id: $id) {
@@ -140,26 +178,9 @@ const DELETE_UNDERFAMILY = gql`
   }
 `;
 
-function selectSubconstructions(key, subKey) {
-  return ((data) => {
-    if (data === null
-      || data[key].edges.length === 0
-      || data[key].edges.length === 0
-      || data[key].edges[0].node[subKey] === null
-    )
-      return [];
-
-    return data[key].edges[0].node[subKey].edges.map(
-      (item) => { console.log('mapped',  item); return {key: item.node.id, name: item.node.title}; }
-    );
-  });
-}
-
-const simpleFilterFun = (searchValue) => searchValue;
-
 export const srcSubFamily = new GqlDatasource({
   query: GET_FAMILIES,
-  selectorFun: selectSubconstructions("searchFamilyConstruction", "underFamilyConstruction"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchFamilyConstruction", "underFamilyConstruction"),
   filterFun: simpleFilterFun,
   stub: stubSubFamilies,
   add: ADD_UNDERFAMILY,
@@ -187,6 +208,7 @@ const GET_MODELS = gql`
   }
 `
 
+
 const ADD_MODEL = gql`
   mutation($id: [ID], $title: String) {
     createModelConstruction(
@@ -199,7 +221,9 @@ const ADD_MODEL = gql`
         id
       }
     }
-  }`;
+  }
+`;
+
 
 const DELETE_MODEL = gql`
   mutation($id: ID!) {
@@ -228,7 +252,7 @@ const UPDATE_MODEL = gql`
 
 export const srcModel = new GqlDatasource({
   query: GET_MODELS,
-  selectorFun: selectSubconstructions("searchUnderFamilyConstruction", "modelConstruction"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchUnderFamilyConstruction", "modelConstruction"),
   filterFun: simpleFilterFun,
   stub: stubModel,
   add: ADD_MODEL,
@@ -268,7 +292,9 @@ const ADD_FORMAT = gql`
         id
       }
     }
-  }`;
+  }
+`;
+
 
 const DELETE_FORMAT = gql`
   mutation($id: ID!) {
@@ -297,7 +323,7 @@ const UPDATE_FORMAT = gql`
 
 export const srcFormat = new GqlDatasource({
   query: GET_FORMATS,
-  selectorFun: selectSubconstructions("searchModelConstruction", "format"),
+  selectorFun: selectOutdoorFurnitureSubgroup("searchModelConstruction", "format"),
   filterFun: simpleFilterFun,
   stub: stubFormat,
   add: ADD_FORMAT,
@@ -316,6 +342,7 @@ const GET_SIDES = gql`
               node {
                 id
                 side {
+                  id
                   title
                 }
               }
@@ -327,22 +354,34 @@ const GET_SIDES = gql`
   }
 `
 
+
 const ADD_SIDE = gql`
-  mutation($id: [ID], $title: String) {
-    createConstructionSide(
-      input: {
-        title: $title
-        modelConstruction: $id
-      }
-    ) {
-      format  {
+  mutation($title: String) {
+    createSide(input: { title: $title }) {
+      side {
         id
       }
     }
-  }`;
+  }
+`;
+
+const ADD_CONSTRUCTION_SIDE = gql`
+  mutation($id: ID, $sideId: ID) {
+    createConstructionSide(
+      input: {
+        side: $sideId
+        format: $id
+      }
+    ) {
+      constructionSide  {
+        id
+      }
+    }
+  }
+`;
 
 
-const DELETE_SIDE = gql`
+const DELETE_CONSTRUCTION_SIDE = gql`
   mutation($id: ID!) {
     deleteConstructionSide(id: $id) {
       found
@@ -350,16 +389,23 @@ const DELETE_SIDE = gql`
   }
 `;
 
+const DELETE_SIDE = gql`
+  mutation($sideId: ID!) {
+    deleteSide(id: $sideId) {
+      found
+    }
+  }
+`;
 
 const UPDATE_SIDE = gql`
-  mutation($id: ID!, $title: String) {
-    updateConstructionSide(
-      id: $id
+  mutation($sideId: ID!, $title: String) {
+    updateSide(
+      id: $sideId
       input: {
         title: $title
       }
     ) {
-      constructionSide {
+      side {
         id
       }
     }
@@ -369,14 +415,92 @@ const UPDATE_SIDE = gql`
 
 export const srcSide = new GqlDatasource({
   query: GET_SIDES,
-  selectorFun: selectSubconstructions("searchFormat", "constructionSide"),
+  selectorFun: selectOutdoorFurnitureSubgroup(
+    "searchFormat",
+    "constructionSide",
+    item => ({key: item.node.id, name: item.node.side.title, sideId: item.node.side.id}),
+  ),
   filterFun: simpleFilterFun,
   stub: stubSide,
   add: ADD_SIDE,
+  add2: ADD_CONSTRUCTION_SIDE,
   upd: UPDATE_SIDE,
-  del: DELETE_SIDE,
+  del: DELETE_CONSTRUCTION_SIDE,
+  del2: DELETE_SIDE,
+  description: "стороны",
+  add2ValuesSelector: value => ({sideId: value.data.createSide.side.id}),
+});
+
+
+const GET_ADV_SIDES = gql`
+  query($id: ID) {
+    searchConstructionSide(id: $id) {
+      edges {
+        node {
+          id
+          advertisingSide {
+            id
+            title
+          }
+        }
+      }
+    }
+  }
+`
+
+
+const ADD_ADV_SIDE = gql`
+  mutation($id: [ID], $title: String) {
+    createAdvertisingSide(
+      input: {
+        title: $title,
+        constructionSide: $id
+      }
+    ) {
+      advertisingSide  {
+        id
+      }
+    }
+  }
+`;
+
+
+const DELETE_ADV_SIDE = gql`
+  mutation($id: ID!) {
+    deleteAdvertisingSide(id: $id) {
+      found
+    }
+  }
+`;
+
+
+const UPDATE_ADV_SIDE = gql`
+  mutation($id: ID!, $title: String) {
+    updateAdvertisingSide(id:$id, input: { title: $title }) {
+      advertisingSide {
+        id
+      }
+    }
+  }
+`;
+
+
+export const srcAdvSide = new GqlDatasource({
+  query: GET_ADV_SIDES,
+  selectorFun: selectOutdoorFurnitureSubgroup(
+    "searchConstructionSide",
+    "advertisingSide",
+    null,
+    (data, key, subKey) => ([{ key: data[key].edges[0].node[subKey].id,
+                                            name: data[key].edges[0].node[subKey].title }]),
+  ),
+  filterFun: simpleFilterFun,
+  stub: stubAdvSide,
+  add: ADD_ADV_SIDE,
+  upd: UPDATE_ADV_SIDE,
+  del: DELETE_ADV_SIDE,
 });
 
 
 
-export const srcAdvSide = new GqlDatasource({query: null, method: null, stub: stubAdvSide});
+

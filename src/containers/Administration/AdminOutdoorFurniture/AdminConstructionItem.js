@@ -224,7 +224,7 @@ function AdminConstructionPopulatedItem({ location,
 
 export function AdminConstructionItem({ location, ...props})
 {
-  let [values, isReactComponent] = location.src.query(location.getSearchVariables());
+  let [values, isReactComponent] = location.src.apiQuery(location.getSearchVariables());
   return isReactComponent
     ? values
     : <AdminConstructionPopulatedItem location={location} values={values} {...props} />;
