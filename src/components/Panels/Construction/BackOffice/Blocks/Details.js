@@ -29,23 +29,19 @@ export default function Details() {
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Семейство конструкции</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.backFamilyConstruction ? item.backFamilyConstruction : ''}
-              onChange={(e) =>
-                setItem({ ...item, backFamilyConstruction: e.target.value  })
-              }></StyledInput>
-           
+           <StyledSelect
+              defaultValue={item.familyConstruction && item.familyConstruction.id }
+              onChange={(value) => setItem({ ...item, familyConstruction: { ...item.familyConstruction, id: value } })}>
+              
+            </StyledSelect>
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Доступность конструкции</InputTitle>
-            
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.backAvailabilityConstruction ? item.backAvailabilityConstruction : ''}
-              onChange={(e) =>
-                setItem({ ...item, backAvailabilityConstruction: e.target.value  })
-              }></StyledInput>
+               <StyledSelect
+              defaultValue={item.availabilityConstruction && item.availabilityConstruction.id }
+              onChange={(value) => setItem({ ...item, availabilityConstruction: { ...item.availabilityConstruction, id: value } })}>
+              
+            </StyledSelect>
            
           </div>
         </Row>
@@ -54,9 +50,9 @@ export default function Details() {
             <InputTitle>Подсемейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item. backUnderFamilyConstruction ? item. backUnderFamilyConstruction : ''}
+              defaultValue={item.underFamilyConstruction ? item.underFamilyConstruction : ''}
               onChange={(e) =>
-                setItem({ ...item,  backUnderFamilyConstruction: e.target.value  })
+                setItem({ ...item,  underFamilyConstruction: e.target.value  })
               }></StyledInput>
            
           

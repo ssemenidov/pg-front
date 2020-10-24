@@ -3,6 +3,7 @@ import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropd
 import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
 import { browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
@@ -16,7 +17,8 @@ import settingsIcon from '../img/header-bar/settings.svg';
 import collapseUpIcon from '../img/input/collapse-up.svg';
 import collapseDownIcon from '../img/input/collapse-down.svg';
 const { Content, Sider } = Layout;
-const settingmenu = (
+
+let settingmenu = (
   <Menu>
     <Menu.Item>
       <Checkbox>1 menu item</Checkbox>
@@ -95,44 +97,74 @@ class Tablea extends React.Component {
     });
   };
   render() {
-    const columns = this.state.columns.map((col, index) => ({
+    const columns = this.props.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
         onResize: this.handleResize(index),
       }),
     }));
+
+    if(this.props.enableChooseQuantityColumn) {
+      settingmenu = (
+        <Menu>
+          {
+            this.props.columnsForPopup.filter((col, index) => (
+              index !== this.props.columnsForPopup.indexOf(this.props.columnsForPopup[this.props.columnsForPopup.length - 1])
+            )).map(col => (
+              <Menu.Item key={col.dataIndex}>
+                <Checkbox
+                  checked={col.isShowed}
+                  onClick={() => this.props.changeColumns(col.dataIndex)}
+                >
+                  {col.title}
+                </Checkbox>
+              </Menu.Item>
+            ))
+          }
+        </Menu>
+      )
+    }
+
     return (
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         {!this.props.notheader && (
           <div className="header-bar">
-            {this.props.title ? (
-              <h6 style={{ width: 'max-content' }}>{this.props.title}</h6>
-            ) : (
-              <div>
-                <div>
-                  <Button className="header-btn">
-                    <img src={plusIcon} />
-                  </Button>
-                  <Button className="header-btn">
-                    <img src={minusIcon} />
-                  </Button>
-                </div>
-                <Select
-                  defaultValue="Дата"
-                  style={{ marginLeft: '20px' }}
-                  onChange={(value) => {
-                    console.log(value);
-                    this.setState({ datetype: value });
-                  }}>
-                  <Select.Option value="date">Дата</Select.Option>
-                  <Select.Option value="week">Неделя</Select.Option>
-                  <Select.Option value="month">Месяц</Select.Option>
-                  <Select.Option value="year">Год</Select.Option>
-                </Select>
-                <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
-              </div>
-            )}
+            {
+              this.props.enableChoosePeriod
+              ? (
+                <React.Fragment>
+                  {this.props.title ? (
+                    <h6 style={{ width: 'max-content' }}>{this.props.title}</h6>
+                  ) : (
+                    <div>
+                      <div>
+                        <Button className="header-btn">
+                          <img src={plusIcon} />
+                        </Button>
+                        <Button className="header-btn">
+                          <img src={minusIcon} />
+                        </Button>
+                      </div>
+                      <Select
+                        defaultValue="Дата"
+                        style={{ marginLeft: '20px' }}
+                        onChange={(value) => {
+                          console.log(value);
+                          this.setState({ datetype: value });
+                        }}>
+                        <Select.Option value="date">Дата</Select.Option>
+                        <Select.Option value="week">Неделя</Select.Option>
+                        <Select.Option value="month">Месяц</Select.Option>
+                        <Select.Option value="year">Год</Select.Option>
+                      </Select>
+                      <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
+                    </div>
+                  )}
+                </React.Fragment>
+              )
+              : (<div></div>)
+            }
             <div>
               <Input
                 style={{ marginLeft: '20px' }}
@@ -150,11 +182,16 @@ class Tablea extends React.Component {
                 <span>Экспорт</span>
               </Button>
 
-              <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
-                <Button style={{ marginLeft: '5px' }} className="header-btn">
-                  <img src={settingsIcon} />
-                </Button>
-              </Dropdown>
+              {
+                this.props.enableChooseQuantityColumn
+                && (
+                  <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
+                    <Button style={{ marginLeft: '5px' }} className="header-btn">
+                      <img src={settingsIcon} />
+                    </Button>
+                  </Dropdown>
+                )
+              }
             </div>
           </div>
         )}
@@ -241,6 +278,17 @@ class Tablea extends React.Component {
     );
   }
 }
+
+Tablea.propTypes = {
+  enableChoosePeriod: PropTypes.bool,
+  enableChooseQuantityColumn: PropTypes.bool,
+  columnsForPopup: PropTypes.array
+};
+Tablea.defaultProps = {
+  enableChoosePeriod: true,
+  enableChooseQuantityColumn: true,
+  columnsForPopup: []
+};
 
 export default Tablea;
 const StyledTable = styled(Table)`

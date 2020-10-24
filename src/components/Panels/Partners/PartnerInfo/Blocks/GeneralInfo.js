@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
 
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import Multiline from '../../../../Inputs/Multiline';
-import SelectAnchor from '../../../../Inputs/SelectAnchor';
+
 import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
+import anchorIcon from '../../../../../img/input/anchor.svg';
 export default function GeneralInfo() {
   const [item, setItem] = useContext(partnerContext);
   return (
@@ -17,43 +17,30 @@ export default function GeneralInfo() {
               <Row style={{ padding: '0' }}>
                 <div style={{ width: '100%' }}>
                   <InputTitle>Наименование контрагента</InputTitle>
-                  <InputAnchor
-                  
-                    placeholder="Контрагент"
-                  
-                  />
+                  <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.title ? item.title : ''}
+              onChange={(e) => setItem({ ...item, title: e.target.value })}></StyledInput>
                 </div>
               </Row>
               <Row style={{ paddingBottom: '0' }}>
                 <div style={{ width: '100%' }}>
                   <InputTitle>Сектор деятельности</InputTitle>
-                  <InputAnchor
-
-                    placeholder="Производство напитков"
-                  
-                    
-                  />
+                  <StyledSelect
+                    defaultValue={item.workingSector && item.workingSector.id }
+                    onChange={(value) => setItem({ ...item, workingSector: { ...item.workingSector, id: value } })}>
+                    <StyledSelect.Option value="V29ya2luZ1NlY3Rvck5vZGU6MQ==">Сектор1</StyledSelect.Option>
+                  </StyledSelect>
                 </div>
               </Row>
             </Column>
             <Column style={{ width: '45%', marginBottom: 'auto' }}>
               <InputTitle>Комментарий</InputTitle>
-              <Multiline
-                style={{ width: '100%' }}
-              
-                inputProps={{ maxLength: 450, rows: 186, cols: 10 }}
-          
-              />
-              {/* <div style={{ width: "100%" }}>
-                    <InputTitle>Бренд</InputTitle>
-                    <InputAnchor
-                      value={Object.keys(state).length !== 0 ? state.brand : ""}
-                      placeholder="Бренд"
-                      onChange={(e) =>
-                        dispatch(sendContragentValues("brand", e.target.value))
-                      }
-                    />
-                  </div> */}
+              <StyledInput.TextArea rows={2}
+              value={item.comment ? item.comment :""}
+              onChange={(e) => {setItem({...item, comment:e.target.value})}}
+              size={'large'}
+            />
             </Column>
           </Row>
 
@@ -61,28 +48,23 @@ export default function GeneralInfo() {
             <Column style={{ width: '45%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип контрагента</InputTitle>
-                <SelectAnchor
+                <StyledSelect
+                    defaultValue={item.partnerType && item.partnerType.id }
+                    onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}
+                >
+                    <StyledSelect.Option value="UGFydG5lclR5cGVOb2RlOjE=">Тип1</StyledSelect.Option>
+                  </StyledSelect>
 
-                
-                  placeholder="Тип контрагента"
-                  options={[
-                    { label: 'Рекламодатель', value: 'Рекламодатель' },
-                    {
-                      label: 'Рекламное агентство',
-                      value: 'Рекламное агентство',
-                    },
-                    { label: 'Поставщик', value: 'Поставщик' },
-                  ]}
-                />
               </div>
             </Column>
             <Column style={{ width: '45%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип клиента</InputTitle>
-                <InputAnchor
-             
-                  placeholder="Тип клиента"
-                />
+                <StyledSelect
+                    defaultValue={item.clientType && item.clientType.id }
+                    onChange={(value) => setItem({ ...item, clientType: { ...item.clientType, id: value } })}>
+                    <StyledSelect.Option value="Q2xpZW50VHlwZU5vZGU6MQ==">Тип1</StyledSelect.Option>
+                  </StyledSelect>
               </div>
             </Column>
           </Row>
@@ -90,10 +72,10 @@ export default function GeneralInfo() {
             <Column style={{ width: '45%', marginBottom: '21px' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>БИН компании</InputTitle>
-                <InputAnchor
-            
-                  placeholder="Тип клиента"
-                />
+                <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item.binNumber ? item.binNumber : ''}
+              onChange={(e) => setItem({ ...item, binNumber: e.target.value })}></StyledInput>
               </div>
             </Column>
           </Row>

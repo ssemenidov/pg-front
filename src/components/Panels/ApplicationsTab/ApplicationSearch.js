@@ -109,7 +109,7 @@ const ApplicationSearch = () => {
    
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
-          <SubmitButton onClick={() => alert('Фильтр')}  htmlType="submit">Поиск</SubmitButton>
+          <SubmitButton  htmlType="submit">Поиск</SubmitButton>
           <ResetButton style={{    marginRight: 'auto'}} onClick={onReset}>Очистить</ResetButton>
         </BtnGroup>
         </Row>

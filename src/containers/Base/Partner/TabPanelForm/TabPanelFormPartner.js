@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 
@@ -27,10 +27,22 @@ STab.tabsRole = 'Tab';
 STabPanel.tabsRole = 'TabPanel';
 
 const tabs = [
-  { value: 'Общая информация' },
-  { value: 'Связанные проекты' },
-  { value: 'Связанные бренды' },
-  { value: 'Связанные рекламодатели' },
+  {
+    value: 'Общая информация',
+    slug: 'general-info'
+  },
+  {
+    value: 'Связанные проекты',
+    slug: 'related-projects'
+  },
+  {
+    value: 'Связанные бренды',
+    slug: 'related-brands'
+  },
+  {
+    value: 'Связанные рекламодатели',
+    slug: 'related-advertisers'
+  }
 ];
 
 const panel1 = <PartnerInfo />;
@@ -45,33 +57,76 @@ const PARTNER_DELETE = gql`
     }
   }
 `;
+//     postcode:$postcode
 const PARTNER_UPDATE = gql`
 mutation(
   $id: ID!
+  $title:String
+  $comment:String
+  $workingSector:ID
+  $partnerType:ID
+  $clientType:ID
+  $binNumber:String
+  $city:ID
+  $district:ID
+  $legalAddress: String
+  $actualAddress: String
+  $bankRecipient: String
+  $iik: String
+  $bik: String
+  $kbe: String
+  $agencyCommission:Int
 
-) 
+)
 {
   updatePartner(
     id: $id
-    input:{}
+    input:{
+      title:$title
+      comment:$comment
+      workingSector:$workingSector
+      binNumber:$binNumber
+      partnerType:$partnerType
+      clientType:$clientType
+      city:$city
+      district:$district
+      legalAddress:$legalAddress
+      actualAddress: $actualAddress
+      bankRecipient: $bankRecipient
+      iik: $iik
+      bik: $bik
+      kbe: $kbe
+      agencyCommission:$agencyCommission
+
+
+    }
   ) {
     partner {
      id
-    
+
     }
 }
 }
 `;
 
-export default function TabPaneForm(props) {
-  const [item, setItem] = useContext(partnerContext );
+export default function   TabPaneForm(props) {
+  const [item, setItem] = useContext(partnerContext);
+  const [activeTab, setActiveTab] = useState('general-info');
   const history = useHistory();
 
   const [updateConstruction] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
   const Update = () => {
-    updateConstruction({ variables: item });
-      
+    updateConstruction({ variables: {
+      ...item,
+      workingSector:item.workingSector && item.workingSector.id ,
+      partnerType:item.partnerType && item.partnerType.id ,
+      clientType:item.clientType && item.clientType.id ,
+      city:item.city && item.city.id ,
+      district:item.district && item.district.id ,
+      postcode:item.postcode && item.postcode.id ,
+    } });
+
     history.push(`/base/partners`);
     history.go(0);
   };
@@ -79,8 +134,20 @@ export default function TabPaneForm(props) {
     deleteConstruction({ variables: { id: item.id } });
     history.push(`/base/partners`);
     history.go(0);
- 
   };
+
+  const btnAddSome = () => {
+    switch (activeTab) {
+      case "related-projects":
+        return <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>
+      case 'related-brands':
+        return <StyledButton backgroundColor="#2c5de5">Добавить бренд</StyledButton>
+      case 'related-advertisers':
+        return <StyledButton backgroundColor="#2c5de5">Добавить контрагента</StyledButton>
+      default: return
+    }
+  }
+
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
@@ -89,6 +156,7 @@ export default function TabPaneForm(props) {
           <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
+          { btnAddSome() }
           <StyledButton backgroundColor="#008556"  onClick={Update} >Сохранить</StyledButton>
           <StyledButton backgroundColor="#d42d11"  onClick={Delete}>Удалить</StyledButton>
           {/* <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton> */}
@@ -100,11 +168,16 @@ export default function TabPaneForm(props) {
           selectedTabPanelClassName="is-selected"
        >
           <ControlToolbar position="static">
-            <STabList>
-              {tabs.map((tab, index) => {
-                // console.log(tab.value, index)
-                return <STab key={index}>{tab.value}</STab>;
-              })}
+            <STabList
+            >
+              {tabs.map((tab) => (
+                <STab
+                  key={tab.slug}
+                  onClick={() => { setActiveTab(tab.slug) }}
+                >
+                  {tab.value}
+                </STab>
+              ))}
             </STabList>
 
             <ToolbarControl>

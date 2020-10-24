@@ -1,72 +1,89 @@
-import React from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 
 import Table from '../../../Tablea';
+import { partnerContext } from "../../../../containers/Base/Partner/Partner";
+
+const columns = [
+  {
+    title: 'Код',
+    dataIndex: 'code',
+    key: 'name',
+    width: 50,
+  },
+  {
+    title: 'Рекламодатель',
+    dataIndex: 'title',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Сектор деятельности',
+    dataIndex: 'workingSector',
+    key: 'name',
+    width: 100,
+  },
+  {
+    title: 'Привязано',
+    dataIndex: 'createdAt',
+    key: 'name',
+    width: 100,
+  },
+];
+const initData = [
+  {
+    key: 1,
+    code: '2020053012',
+    title: 'TOO Рекламодатель',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 2,
+    code: '2020053012',
+    title: 'TOO Рекламодатель',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 3,
+    code: '2020053012',
+    title: 'TOO Рекламодатель',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 4,
+    code: '2020053012',
+    title: 'TOO Рекламодатель',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  },
+  {
+    key: 5,
+    code: '2020053012',
+    title: 'TOO Рекламодатель',
+    workingSector: 'Производство напитков',
+    createdAt: '29.05.2020',
+  }
+]; //нужно убрать этот масив initData после того как проверим правильность данных с бека
 
 const RelatedAdvertisers = (props) => {
-  const columns = [
-    {
-      title: 'Код',
-      dataIndex: 'col1',
-      key: 'name',
-      width: 50,
-    },
-    {
-      title: 'Рекламодатель',
-      dataIndex: 'col2',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Сектор деятельности',
-      dataIndex: 'col3',
-      key: 'name',
-      width: 100,
-    },
-    {
-      title: 'Привязано',
-      dataIndex: 'col4',
-      key: 'name',
-      width: 100,
-    },
-  ];
+  const [item] = useContext(partnerContext);
+  const [data, setData] = useState([]);
 
-  const data = [
-    {
-      key: 1,
-      col1: '2020053012',
-      col2: 'TOO Рекламодатель',
-      col3: 'Производство напитков',
-      col4: '29.05.2020',
-    },
-    {
-      key: 2,
-      col1: '2020053012',
-      col2: 'TOO Рекламодатель',
-      col3: 'Производство напитков',
-      col4: '29.05.2020',
-    },
-    {
-      key: 3,
-      col1: '2020053012',
-      col2: 'TOO Рекламодатель',
-      col3: 'Производство напитков',
-      col4: '29.05.2020',
-    },
-    {
-      key: 4,
-      col1: '2020053012',
-      col2: 'TOO Рекламодатель',
-      col3: 'Производство напитков',
-      col4: '29.05.2020',
-    },
-    {
-      key: 5,
-      col1: '2020053012',
-      col2: 'TOO Рекламодатель',
-      col3: 'Производство напитков',
-      col4: '29.05.2020',
-    },
-  ];
+  useMemo(() => {
+    if(item.advertisers.edges && item.advertisers.edges.length) {
+      const advertisersList = item.advertisers.edges.node.map((item, index) => ({
+        key: index,
+        code: item.code,
+        title: item.title,
+        workingSector: item.workingSector ? item.workingSector.title : '',
+        createdAt: item.createdAt,
+      }));
+
+      setData(advertisersList);
+    }
+  }, [item]);
 
   return (
     <>

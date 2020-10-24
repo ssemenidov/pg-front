@@ -34,12 +34,9 @@ const Construction = (props) => {
             }
             owner
             marketingAddress
-            createdAt
             backComment
-            backFamilyConstruction
-            backUnderFamilyConstruction
-            backAvailabilityConstruction
-            modelConstruction
+           
+        
             hasArea
             crew{
               id
@@ -57,6 +54,27 @@ const Construction = (props) => {
             coordinates
             photo
             
+            constructionSide {
+              edges {
+                node {
+                  id
+                  format {
+                    id
+                  }
+                  side {
+                    id
+                  }
+                  advertisingSide {
+                    id
+                  }
+                  purposeSide {
+                    id
+                  }
+                  size
+                  availabilitySide
+                }
+              }
+            }
           }
         }
       }

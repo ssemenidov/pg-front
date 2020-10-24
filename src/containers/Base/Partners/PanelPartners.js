@@ -86,15 +86,28 @@ const PanelDesign = (props) => {
       client: 'По личным связям',
     },
   ];
-
+//    $type: String
+// advertisers_Title:$type
   const PARTNERS_T = gql`
-    {
-      searchPartner(id: "") {
+  query SearchPartner(
+    $partner: String
+    $brand: String
+    $sector: String
+    $binNumber: String
+  ) {
+      searchPartner(
+        title:$partner
+        brands_Title:$brand
+        workingSector_Title:$sector
+        binNumber:$binNumber
+      ) {
         edges {
           node {
             id
+
             partnerType {
               title
+              id
             }
             title
             brands {
@@ -106,9 +119,11 @@ const PanelDesign = (props) => {
             }
             workingSector {
               title
+              id
             }
             clientType {
               title
+              id
             }
           }
         }
@@ -134,7 +149,13 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns}
+          data={data1}
+          enableChoosePeriod={false}
+          enableChooseQuantityColumn={false}
+        />
       </div>
 
       <style>

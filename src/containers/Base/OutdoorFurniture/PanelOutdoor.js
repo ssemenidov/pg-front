@@ -7,17 +7,10 @@ import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
-// $city: String
-// $district: String
-// $post: String
-// $InventNumber: String
-// backCity_Title: $city
-// backDistrict_Title: $district
-// backPostcode: $post
-// backMarketingAddress: $adress_m
-// buhInventNumber: $InventNumber
+
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(outContext);
+
   const columns = [
     {
       title: 'код конструкции',
@@ -73,17 +66,23 @@ const PanelDesign = (props) => {
 
   const OUTDOOR_T = gql`
     query SearchConstruction(
-      $format: String
+      $city: String
+      $district: String
+      $adress_m: String
+      $adress_j: String
+      $InventNumber: String
       $actual: Boolean
       $coords: String
-      $adress_m: String
     ) {
       searchConstruction(
-        format: $format
+        city_Title: $city
+        district_Title: $district
+        marketingAddress: $adress_m
+        legalAddress:$adress_j
+        buhInventNumber: $InventNumber
         actual: $actual
         coordinates: $coords
-        marketingAddress:$adress_m
-
+  
       ) {
         edges {
           node {
@@ -103,9 +102,33 @@ const PanelDesign = (props) => {
             }
             marketingAddress
             legalAddress
-            format
+            legalAddress
             coordinates
             actual
+            familyConstruction {
+              id,
+              title,
+              underFamilyConstruction {
+                edges {
+                  node {
+                    modelConstruction {
+                      edges {
+                        node {
+                          title,
+                          format {
+                            edges {
+                              node {
+                                title
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -132,7 +155,12 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} />
+        <Table
+          style={{ width: '100%' }}
+          columns={columns} data={data1}
+          enableChoosePeriod={false}
+          enableChooseQuantityColumn={false}
+        />
       </div>
 
       <style>
