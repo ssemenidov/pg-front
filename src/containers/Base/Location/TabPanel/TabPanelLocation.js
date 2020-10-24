@@ -78,6 +78,7 @@ const LOCATION_UPDATE = gql`
     }
   }
 `;
+
 export default function InnerForm(props) {
 
   const  [item,setItem] =useContext(locationContext);
@@ -88,15 +89,14 @@ export default function InnerForm(props) {
   const Update = () => {
     updateLocation({ variables:  {
        ...item,
-       city:item.city &&  item.city.id,
-       district:item.district &&  item.district.id
+        city:item.city &&  item.city.id,
+        district:item.district &&  item.district.id,
        } });
 
     history.push(`/base/locations`);
     history.go(0);
   };
   const Delete = () => {
-    console.log(item.id);
     deleteLocation({ variables: { id: item.id } });
     history.push(`/base/locations`);
     history.go(0);
@@ -119,7 +119,9 @@ export default function InnerForm(props) {
           </StyledButton>
           <StyledButton
             backgroundColor="#008556"
-              onClick={Update}>
+            type="button"
+            onClick={Update}
+          >
             Сохранить
           </StyledButton>
           <StyledButton

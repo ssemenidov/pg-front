@@ -63,24 +63,28 @@ export default function Others() {
     }
   };
 
-  const uploadImg = (fileInput) => {
+  const uploadImg = ({ file, onSuccess }) => {
     let construction_id =  Buffer.from(item.id, 'base64').toString('ascii').match(/\d/gi).join('');
-    let file = fileInput;
+    let entity =  Buffer.from(item.id, 'base64').toString('ascii').split(':')[0];
+    let fileInput = file;
     let formData = new FormData();
     formData.append('construction_id', construction_id);
-    formData.append('construction_img', file);
+    formData.append('file', fileInput);
+    formData.append('id', construction_id);
+    formData.append('entity', entity);
 
-    fetch('https://allbot.online/img/construction', {
+    fetch('https://allbot.online/file_upload/', {
       method: 'POST',
       body: formData
     })
-      .then(() => {
-        handleChange()
+      .then((response) => {
+        console.log('response ', response)
+        onSuccess("ok");
       })
       .catch(error => {
         console.log('error ', error)
-        message.error(`Image is not a upload`);
-        setLoading(false);
+        // message.error(`Image is not a upload`);
+        // setLoading(false);
       });
   };
 
@@ -126,6 +130,7 @@ export default function Others() {
               showUploadList={false}
               customRequest={uploadImg}
               beforeUpload={beforeUpload}
+              onChange={handleChange}
           >
             <BtnStyledSecondary type="button">
               Загрузить фото
@@ -133,8 +138,7 @@ export default function Others() {
                 loading &&
                 <CircularProgress
                     size={10}
-                    color="#ffffff"
-                    style={{ marginLeft: 10 }}
+                    style={{ marginLeft: 10, color: '#ffffff' }}
                 />
               }
             </BtnStyledSecondary>

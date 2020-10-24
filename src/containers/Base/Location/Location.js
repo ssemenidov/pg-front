@@ -43,8 +43,11 @@ const Location = (props) => {
 					resolutionNumberDate
           contract {
             id
+            code
+            registrationDate
+            start
+            end
           }
-
         }
       }
     }
