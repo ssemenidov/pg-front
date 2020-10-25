@@ -54,6 +54,11 @@ const LOCATION_UPDATE = gql`
     $areaActDate: DateTime
     $resolutionNumber:String
     $resolutionNumberDate: DateTime
+    $rentContractEnd: DateTime
+    $rentContractStart: DateTime
+    $rentContractNumber: String
+    $rentContractCreatedAt: DateTime
+    $rentRegistrationStatus: String
   ) {
     updateLocation(
       id: $id
@@ -70,6 +75,11 @@ const LOCATION_UPDATE = gql`
         areaActDate: $areaActDate
         resolutionNumber:$resolutionNumber
         resolutionNumberDate: $resolutionNumberDate
+        rentContractEnd: $rentContractEnd
+        rentContractStart: $rentContractStart
+        rentContractNumber: $rentContractNumber
+        rentContractCreatedAt: $rentContractCreatedAt
+        rentRegistrationStatus: $rentRegistrationStatus
       }
     ) {
       location {

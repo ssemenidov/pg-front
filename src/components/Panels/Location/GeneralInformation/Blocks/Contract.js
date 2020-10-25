@@ -21,7 +21,7 @@ export const Contract = (props) => {
     }
   }
 
-  function handleChange(value) {
+  function handleChangeSelect(value) {
     setItem({
       ...item,
       rentRegistrationStatus: value
@@ -40,7 +40,8 @@ export const Contract = (props) => {
           <div style={{ width: '19%' }}>
             <InputTitle>Статус оформления</InputTitle>
             <StyledSelect
-              onChange={handleChange}
+              onChange={handleChangeSelect}
+              defaultValue={item.rentRegistrationStatus ? item.rentRegistrationStatus : ''}
             >
               <StyledSelect.Option value='case 1'>case 1</StyledSelect.Option>
               <StyledSelect.Option value='case 2'>case 2</StyledSelect.Option>
