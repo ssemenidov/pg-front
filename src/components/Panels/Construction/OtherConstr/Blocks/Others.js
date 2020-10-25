@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Upload, message  } from 'antd';
+import {Upload, message, Modal} from 'antd';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
@@ -16,6 +16,7 @@ import {
 import { BtnStyledSecondary } from '../../../../Styles/ButtonStyles';
 import photo from '../../../../../img/outdoor_furniture/photo_load.png';
 import anchorIcon from '../../../../../img/input/anchor.svg';
+import {AdminTopLayout} from "../../../../../containers/Administration/AdminTopLayout/AdminTopLayout";
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -39,6 +40,14 @@ export default function Others() {
   const [item, setItem] = useContext(constructContext);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+
+  let [visible, setVisible] = useState(false)
+  let [codeValue, setCodeValue] = useState("");
+  let [title, setTitle] = useState("");
+
+  const showModal = () => setVisible(true);
+  const handleOk = e => setVisible(false);
+  const handleCancel = e => setVisible(false);
 
   const loadClickHandler = (e) => {
     e.preventDefault();
@@ -77,8 +86,36 @@ export default function Others() {
       method: 'POST',
       body: formData
     })
-      .then((response) => {
-        console.log('response ', response)
+      .then((result) => {
+        const reader = result.body.getReader();
+        // read() returns a promise that resolves
+        // when a value has been received
+        let resultEncoded = ""
+        reader.read().then(function processText({ done, value }) {
+          const valueEncoded = new TextDecoder("utf-8").decode(value)
+          resultEncoded = resultEncoded + valueEncoded;
+          // Result objects contain two properties:
+          // done  - true if the stream has already given you all its data.
+          // value - some data. Always undefined when done is true.
+          if (done) {
+            resultEncoded = (
+              `Type: ${result.type}\n`
+              + `URL: ${result.url}\n`
+              + `Ok: ${result.false}\n`
+              + `Status: ${result.status}\n`
+              + `StatusText: ${result.statusText}\n`
+              + `Headers: ${JSON.stringify(result.headers)}\n`
+              + `\n`
+              + `Body:\n`
+              + `${resultEncoded}`
+            );
+            setCodeValue(resultEncoded)
+            console.log(resultEncoded);
+            showModal();
+            return;
+          }
+          return reader.read().then(processText);
+        })
         onSuccess("ok");
       })
       .catch(error => {
@@ -146,6 +183,16 @@ export default function Others() {
 
         </Row>
       </BlockBody>
+      <Modal
+        title={title}
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <pre>
+          {codeValue}
+        </pre>
+      </Modal>
     </Medium>
   );
 }

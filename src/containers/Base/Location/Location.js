@@ -41,13 +41,12 @@ const Location = (props) => {
           areaActDate
           resolutionNumber
 					resolutionNumberDate
-          contract {
-            id
-            code
-            registrationDate
-            start
-            end
-          }
+
+          rentContractEnd
+          rentContractStart
+          rentContractNumber
+          rentContractCreatedAt
+          rentRegistrationStatus
         }
       }
     }

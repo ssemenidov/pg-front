@@ -11,18 +11,21 @@ export const Contract = (props) => {
   const [item, setItem] = useContext(locationContext);
 
   function onChangeDatePicker(date, fieldName) {
-    console.log('date ', date);
     const dateNow = date && date;
 
     if(dateNow) {
       setItem({
         ...item,
-        contract: {
-          ...item.contract,
-          [fieldName]: new Date(dateNow)
-        }
+        [fieldName]: new Date(dateNow)
       })
     }
+  }
+
+  function handleChange(value) {
+    setItem({
+      ...item,
+      rentRegistrationStatus: value
+    })
   }
 
   useEffect(() => {
@@ -36,16 +39,21 @@ export const Contract = (props) => {
         <Row>
           <div style={{ width: '19%' }}>
             <InputTitle>Статус оформления</InputTitle>
-            <StyledSelect>
+            <StyledSelect
+              onChange={handleChange}
+            >
               <StyledSelect.Option value='case 1'>case 1</StyledSelect.Option>
+              <StyledSelect.Option value='case 2'>case 2</StyledSelect.Option>
+              <StyledSelect.Option value='case 3'>case 3</StyledSelect.Option>
+              <StyledSelect.Option value='case 4'>case 4</StyledSelect.Option>
             </StyledSelect>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Номер договора</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.contract ? item.contract.code : ''}
-              onChange={(e) => {setItem({...item, contract: { ...item.contract, code: e.target.value }})}}
+              defaultValue={item.rentContractNumber ? item.rentContractNumber : ''}
+              onChange={(e) => {setItem({...item, rentContractNumber: e.target.value })}}
             ></StyledInput>
           </div>
           <div style={{ width: '19%' }}>
@@ -55,8 +63,8 @@ export const Contract = (props) => {
               size={'large'}
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
-              defaultValue={item.contract ? moment(item.contract.start) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'start')}
+              defaultValue={item.rentContractStart ? moment(item.rentContractStart) : ''}
+              onChange={(e) => onChangeDatePicker(e, 'rentContractStart')}
             />
           </div>
 
@@ -67,8 +75,8 @@ export const Contract = (props) => {
               size={'large'}
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
-              defaultValue={item.contract ? moment(item.contract.registrationDate) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'registrationDate')}
+              defaultValue={item.rentContractCreatedAt ? moment(item.rentContractCreatedAt) : ''}
+              onChange={(e) => onChangeDatePicker(e, 'rentContractCreatedAt')}
             />
           </div>
           <div style={{ width: '19%' }}>
@@ -78,8 +86,8 @@ export const Contract = (props) => {
               size={'large'}
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
-              defaultValue={item.contract ? moment(item.contract.end) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'end')}
+              defaultValue={item.rentContractEnd ? moment(item.rentContractEnd) : ''}
+              onChange={(e) => onChangeDatePicker(e, 'rentContractEnd')}
             />
           </div>
         </Row>

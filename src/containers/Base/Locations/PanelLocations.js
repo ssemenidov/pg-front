@@ -16,8 +16,8 @@ const LOCATIONS_T = gql`
      $cadastralNumber:String
      $targetPurpose:String
      $resolutionNumber:String
-     $contract_Start:DateTime
-     $contract_End:DateTime
+     $rentContractStart:DateTime
+     $rentContractEnd:DateTime
      $area:String
      $comment:String
 
@@ -30,8 +30,8 @@ const LOCATIONS_T = gql`
       cadastralNumber: $cadastralNumber
       targetPurpose: $targetPurpose
       resolutionNumber: $resolutionNumber
-      contract_Start:$contract_Start
-      contract_End:$contract_End
+      rentContractStart:$rentContractStart
+      rentContractEnd:$rentContractEnd
       area:$area
       comment: $comment
     ) {
@@ -58,9 +58,7 @@ const LOCATIONS_T = gql`
               }
             }
           }
-          contract {
-            code
-          }
+          rentContractNumber
         }
       }
     }
@@ -267,7 +265,7 @@ const PanelDesign = (props) => {
       adress_j: item.node.address,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber: item.node.contract ? item.node.contract.code : "",
+      contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
       marketingAddress: "не нашел на беке",
       constructionQuantity: item.node.constructionSet.edges ? item.node.constructionSet.edges.length : 0,
       targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
