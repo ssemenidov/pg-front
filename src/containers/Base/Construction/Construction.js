@@ -9,6 +9,9 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
+// advertisingSide {
+//   id
+// }
 export const constructContext = createContext();
 const Construction = (props) => {
   const [id, setId] = useState(props.match.params.id);
@@ -64,9 +67,7 @@ const Construction = (props) => {
                   side {
                     id
                   }
-                  advertisingSide {
-                    id
-                  }
+                  
                   purposeSide {
                     id
                   }

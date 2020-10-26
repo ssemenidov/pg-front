@@ -30,8 +30,8 @@ const LOCATIONS_T = gql`
       cadastralNumber: $cadastralNumber
       targetPurpose: $targetPurpose
       resolutionNumber: $resolutionNumber
-      contract_Start:$contract_Start
-      contract_End:$contract_End
+      rentContractStart:$contract_Start
+      rentContractEnd:$contract_End
       area:$area
       comment: $comment
     ) {
@@ -58,9 +58,7 @@ const LOCATIONS_T = gql`
               }
             }
           }
-          contract {
-            code
-          }
+          
         }
       }
     }
