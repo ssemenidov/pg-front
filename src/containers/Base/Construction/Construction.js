@@ -9,6 +9,9 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
+// advertisingSide {
+//   id
+// }
 export const constructContext = createContext();
 // advertisingSide {
 //   id
