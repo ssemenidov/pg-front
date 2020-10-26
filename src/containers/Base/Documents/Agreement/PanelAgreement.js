@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 import Table from '../../../../components/Tablea';
 import { agreementContext } from './Agreement';
@@ -6,96 +7,143 @@ import { agreementContext } from './Agreement';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import { Select,DatePicker} from 'antd';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
-
+import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import anchorIcon from '../../../../img/input/anchor.svg';
 
+const CONTRACT_UPDATE = gql`
+mutation(
+  $id:ID!
+  $creator:String
+) {
+  updateContract(
+    id:$id
+    input: {
+      creator:$creator
+    }
+  ) {
+    contract {
+      id
+    }
+  }
+}
+`;
+
+const columns = [
+  {
+    title: 'Код договора',
+    dataIndex: 'code',
+
+    width: 130,
+  },
+  {
+    title: 'Бренд',
+    dataIndex: 'brand',
+
+    width: 100,
+  },
+  {
+    title: 'Сектор деятельности',
+    dataIndex: 'sector',
+    width: 100,
+  },
+  {
+    title: 'Создано',
+    dataIndex: 'create',
+    width: 100,
+  },
+  {
+    title: 'Создатель',
+    dataIndex: 'creator',
+    width: 100,
+  },
+  {
+    title: 'Приложение',
+    dataIndex: 'application',
+    width: 100,
+  },
+];
+
+var data = [
+  {
+    key: 1,
+    code: '#2020050301323',
+    brand: 'CocaCola',
+    sector: 'Производство напитков',
+    create: '29.05.2020',
+    creator: 'Колобов Анемподист',
+    application: '02394.pdf',
+  },
+  {
+    key: 2,
+    code: '#2020050301323',
+    brand: 'CocaCola',
+    sector: 'Производство напитков',
+    create: '29.05.2020',
+    creator: 'Колобов Анемподист',
+    application: '02394.pdf',
+  },
+  {
+    key: 3,
+    code: '#2020050301323',
+    brand: 'CocaCola',
+    sector: 'Производство напитков',
+    create: '29.05.2020',
+    creator: 'Колобов Анемподист',
+    application: '02394.pdf',
+  },
+  {
+    key: 4,
+    code: '#2020050301323',
+    brand: 'CocaCola',
+    sector: 'Производство напитков',
+    create: '29.05.2020',
+    creator: 'Колобов Анемподист',
+    application: '02394.pdf',
+  },
+  {
+    key: 5,
+    code: '#2020050301323',
+    brand: 'CocaCola',
+    sector: 'Производство напитков',
+    create: '29.05.2020',
+    creator: 'Колобов Анемподист',
+    application: '02394.pdf',
+  },
+];
 const PanelDesign = (props) => {
   const  [item,setItem] =useContext(agreementContext);
-  const columns = [
-    {
-      title: 'Код договора',
-      dataIndex: 'code',
-
-      width: 130,
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'brand',
-
-      width: 100,
-    },
-    {
-      title: 'Сектор деятельности',
-      dataIndex: 'sector',
-      width: 100,
-    },
-    {
-      title: 'Создано',
-      dataIndex: 'create',
-      width: 100,
-    },
-    {
-      title: 'Создатель',
-      dataIndex: 'creator',
-      width: 100,
-    },
-    {
-      title: 'Приложение',
-      dataIndex: 'application',
-      width: 100,
-    },
-  ];
-
-  const data = [
-    {
-      key: 1,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      sector: 'Производство напитков',
-      create: '29.05.2020',
-      creator: 'Колобов Анемподист',
-      application: '02394.pdf',
-    },
-    {
-      key: 2,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      sector: 'Производство напитков',
-      create: '29.05.2020',
-      creator: 'Колобов Анемподист',
-      application: '02394.pdf',
-    },
-    {
-      key: 3,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      sector: 'Производство напитков',
-      create: '29.05.2020',
-      creator: 'Колобов Анемподист',
-      application: '02394.pdf',
-    },
-    {
-      key: 4,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      sector: 'Производство напитков',
-      create: '29.05.2020',
-      creator: 'Колобов Анемподист',
-      application: '02394.pdf',
-    },
-    {
-      key: 5,
-      code: '#2020050301323',
-      brand: 'CocaCola',
-      sector: 'Производство напитков',
-      create: '29.05.2020',
-      creator: 'Колобов Анемподист',
-      application: '02394.pdf',
-    },
-  ];
-
+  const [updateContract] = useMutation(CONTRACT_UPDATE);
+  const Update = () => {
+    console.log(item);
+    updateContract({ variables: {
+       ...item
+       } });
+    // history.push(`/base/outdoor_furniture`);
+    // history.go(0);
+  };
+  if (item.attachmentSet && item.attachmentSet.edges.length){
+    data = item.attachmentSet.edges.map((attach) => ({
+      key: attach.node.id,
+     
+    }));
+  }
   return (
-    <>
+    <form>
+    <HeaderWrapper>
+    <HeaderTitleWrapper>
+      <TitleLogo />
+      <JobTitle>Проект</JobTitle>
+    </HeaderTitleWrapper>
+    <ButtonGroup>
+      <StyledButton backgroundColor="#008556" >
+        Сохранить
+      </StyledButton>
+    </ButtonGroup>
+  </HeaderWrapper>
+    <div style={{ display: 'flex' }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
         <Medium>
           <BlockTitle>Редактирование информации</BlockTitle>
@@ -226,7 +274,8 @@ const PanelDesign = (props) => {
           `}
         </style>
       </div>
-    </>
+    </div>
+    </form>
   );
 };
 

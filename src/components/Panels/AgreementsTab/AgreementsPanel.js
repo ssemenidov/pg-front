@@ -159,6 +159,7 @@ const AgreementsPanel = () => {
   if (loading) return <h3></h3>;
 
   if (data) {
+    console.log(data);
     data1 = data.searchContract.edges.map((item) => ({
 
       key: item.node.id,
@@ -169,6 +170,7 @@ const AgreementsPanel = () => {
       date_end:item.node.end && new Date(item.node.end).toLocaleDateString('en-GB'),
     
     }));
+  
   }
 
   return (
