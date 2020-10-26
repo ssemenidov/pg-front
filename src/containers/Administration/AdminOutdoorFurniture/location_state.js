@@ -2,21 +2,15 @@ import { useState } from 'react';
 
 
 import { message } from 'antd';
-import { fontFamily, fontWeightInput, fontSizeInput } from '../Style/Styles';
+import { messageStyle } from '../components/Styled';
 import '../Style/style.css'
 
-const messageStyle = {
-  fontFamily: `${fontFamily}, sans-serif`,
-  fontSize: fontSizeInput,
-  lineHeight: fontSizeInput,
-  fontWeight: 300,
-  whiteSpace: "nowrap",
-  paddingTop: "1rem"
+function defaultUpdFilter(values, sliderState) {
+  return { title: values.name, id: sliderState.editedData.key };
 }
 
-
 export class LocationState {
-  constructor({ datasource, title, idx, childType = null }) {
+  constructor({ datasource, title, idx, childType = null, updFilter = defaultUpdFilter }) {
     let [selected, setSelected] = useState({});
     let [stateSelectedIdx, setStateSelectedIdx] = useState(-1);
 
@@ -24,6 +18,9 @@ export class LocationState {
     const [searchTerm, setSearchTerm] = useState('');
     this.searchTerm = searchTerm;
     this.setSearchTerm = setSearchTerm;
+
+    // Фильтр объекта переменных, передаваемых вызову api Update
+    this.updFilter = updFilter;
 
     this.idx = idx;
     this.title = title;
@@ -34,7 +31,9 @@ export class LocationState {
     this.src = datasource;
     this.childType = childType;
     datasource.useAdd();
+    datasource.useAdd2();
     datasource.useDel();
+    datasource.useDel2();
     datasource.useUpd();
     this.parent = null;
     this.refetch = this.refetch.bind(this);

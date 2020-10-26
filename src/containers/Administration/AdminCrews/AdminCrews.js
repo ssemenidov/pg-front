@@ -73,7 +73,7 @@ function EditCrewSlider({closeHandler, initialValues}) {
 
 
 function PanelCrews({openEditSlider}) {
-  let [values, isReactComponent] = srcCrews.query();
+  let [values, isReactComponent] = srcCrews.apiQuery();
 
   if (isReactComponent)
     return values;
