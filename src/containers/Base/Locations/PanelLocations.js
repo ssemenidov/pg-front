@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
@@ -231,6 +232,7 @@ const initColumnsTable = [
 
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
+  const history = useHistory();
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
@@ -307,6 +309,14 @@ const PanelDesign = (props) => {
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/locations/location/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
       <style>

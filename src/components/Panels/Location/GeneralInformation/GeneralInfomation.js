@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
+import { useHistory } from 'react-router';
+
 import EditInformation from './Blocks/EditInformation';
 import Address from './Blocks/Address';
 import { YMaps, Map, Placemark, ListBox } from 'react-yandex-maps';
@@ -6,11 +8,36 @@ import Contract from './Blocks/Contract';
 import AkimatResolution from './Blocks/AkimatResolution';
 import GroundAct from './Blocks/GroundAct';
 import Construction from './Blocks/Construction';
-import { getCurrentLocation } from '../../../../store/actions/locationActions';
-import { useDispatch, useSelector } from 'react-redux';
+import { locationContext } from "../../../../containers/Base/Location/Location";
 
 const GeneralInformation = () => {
+  const  [item, setItem] = useContext(locationContext);
+  const history = useHistory();
+
   let newCoords;
+
+  const { constructionSet } = item;
+
+  const removeConstruction = (e, id) => {
+    e.preventDefault();
+
+    let edgesLocal = constructionSet.edges;
+
+    edgesLocal = edgesLocal.filter(el => el.id == id);
+
+    setItem({
+      ...item,
+      constructionSet: {
+        edges: edgesLocal
+      }
+    })
+  }
+  const openConstruction = (e, id) => {
+    e.preventDefault();
+
+    history.push(`/base/construction/${id}`);
+    history.go(0);
+  }
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -45,18 +72,21 @@ const GeneralInformation = () => {
           </Map>
         </YMaps>
       </div>
-      <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
-        <Construction />
-      </div>
-      <div style={{ flex: '1 0 23%', margin: '1vw' }}>
-        <Construction />
-      </div>
-      <div style={{ flex: '1 0 23%', margin: '1vw' }}>
-        <Construction />
-      </div>
-      <div style={{ flex: '1 0 23%', margin: '1vw 0 1vw 1vw' }}>
-        <Construction />
-      </div>
+
+      {
+        constructionSet && constructionSet.edges.length
+        ? constructionSet.edges.map((construction) => (
+            <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
+              <Construction
+                key={construction.id}
+                remove={(e) => removeConstruction(e, construction.id)}
+                open={(e) => openConstruction(e, construction.id)}
+              />
+            </div>
+          ))
+        : ''
+      }
+
       <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
         <AkimatResolution />
       </div>

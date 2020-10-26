@@ -8,8 +8,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
-const PanelDesign = (props) => {
+const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setConstructionsIdSet }) => {
   const [filter, setFilter] = useContext(outContext);
+  const history = useHistory();
 
   const columns = [
     {
@@ -82,7 +83,7 @@ const PanelDesign = (props) => {
         buhInventNumber: $InventNumber
         actual: $actual
         coordinates: $coords
-  
+
       ) {
         edges {
           node {
@@ -160,6 +161,17 @@ const PanelDesign = (props) => {
           columns={columns} data={data1}
           enableChoosePeriod={false}
           enableChooseQuantityColumn={false}
+          select={flagAddConstructionToLocation}
+          constructionsIdSet={constructionsIdSet}
+          setConstructionsIdSet={setConstructionsIdSet}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/construction/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
 

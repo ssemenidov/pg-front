@@ -30,10 +30,12 @@ const Location = (props) => {
           postcode
           address
           coordinate
-          constructionSet {
+           constructionSet {
             edges {
               node {
-                id
+                id,
+                code,
+                marketingAddress
               }
             }
           }
@@ -60,13 +62,8 @@ const Location = (props) => {
       setItem(data.searchLocation.edges[0].node);
     }
   }, [data]);
-  console.log('item ', item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
-
-  console.log(id);
-
-
 
   return (
     <locationContext.Provider value={ [item, setItem] }>

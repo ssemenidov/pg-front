@@ -90,8 +90,7 @@ const LOCATION_UPDATE = gql`
 `;
 
 export default function InnerForm(props) {
-
-  const  [item,setItem] =useContext(locationContext);
+  const  [item, setItem] =useContext(locationContext);
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
@@ -111,6 +110,13 @@ export default function InnerForm(props) {
     history.push(`/base/locations`);
     history.go(0);
   };
+  const addConstruction = (e) => {
+    e.preventDefault();
+
+    history.push(`/base/locations/location/${item.id}/add_outdoor_furniture`);
+    history.go(0);
+  }
+
 
   return (
     <form style={{ width: '100%', margin: '0 2vw 0 0' }}>
@@ -123,7 +129,8 @@ export default function InnerForm(props) {
         <ButtonGroup>
           <StyledButton
             backgroundColor="#2c5de5"
-            onClick={Update}
+            type="button"
+            onClick={(e) => addConstruction(e)}
           >
             Добавить конструкцию
           </StyledButton>

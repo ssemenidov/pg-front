@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Table } from 'antd';
 import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
+import PropTypes from 'prop-types';
 
 export default class AdvertisingParties extends Component {
-
   state = {
     columns: this.props.columns
   };
@@ -39,6 +39,7 @@ export default class AdvertisingParties extends Component {
   };
 
   render() {
+    const { loading, footer } = this.props;
     const columns = this.state.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
@@ -49,16 +50,33 @@ export default class AdvertisingParties extends Component {
     return (
       <StyledTable
         pagination={true}
-        rowSelection={{
-          ...this.rowSelection,
-        }}
+        rowSelection={
+          false ? {
+            ...this.rowSelection,
+          } : null
+        }
         components={this.components}
         columns={columns}
         dataSource={this.data}
+        loading={loading}
+        footer={
+          footer
+          ? () => footer
+          : undefined
+        }
       />
     );
   }
 }
+
+AdvertisingParties.propTypes = {
+  loading: PropTypes.bool,
+  footer: PropTypes.string
+};
+AdvertisingParties.defaultProps = {
+  loading: false,
+  footer: undefined
+};
 
 const ResizableTitle = (props) => {
   const { onResize, width, ...restProps } = props;
