@@ -51,7 +51,15 @@ const LOCATION_UPDATE = gql`
     $city:ID
     $district:ID
     $areaAct:String
+    $areaActDate: DateTime
     $resolutionNumber:String
+    $resolutionNumberDate: DateTime
+    $rentContractEnd: DateTime
+    $rentContractStart: DateTime
+    $rentContractNumber: String
+    $rentContractCreatedAt: DateTime
+    $rentRegistrationStatus: String
+    $construction: [ID]
   ) {
     updateLocation(
       id: $id
@@ -65,8 +73,15 @@ const LOCATION_UPDATE = gql`
         city:$city
         district:$district
         areaAct:$areaAct
+        areaActDate: $areaActDate
         resolutionNumber:$resolutionNumber
-
+        resolutionNumberDate: $resolutionNumberDate
+        rentContractEnd: $rentContractEnd
+        rentContractStart: $rentContractStart
+        rentContractNumber: $rentContractNumber
+        rentContractCreatedAt: $rentContractCreatedAt
+        rentRegistrationStatus: $rentRegistrationStatus
+        construction: $construction
       }
     ) {
       location {
@@ -75,29 +90,41 @@ const LOCATION_UPDATE = gql`
     }
   }
 `;
-export default function InnerForm(props) {
 
-  const  [item,setItem] =useContext(locationContext);
+export default function InnerForm(props) {
+  const  [item, setItem] =useContext(locationContext);
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation( LOCATION_DELETE);
   const Update = () => {
+    let constructionIdList = null;
+    if(item.construction && item.construction.edges) {
+      constructionIdList = item.construction.edges.map(item => item.node.id);
+    }
+
     updateLocation({ variables:  {
-       ...item,
-       city:item.city &&  item.city.id,
-       district:item.district &&  item.district.id
+        ...item,
+        city:item.city &&  item.city.id,
+        district:item.district &&  item.district.id,
+        construction: constructionIdList
        } });
 
     history.push(`/base/locations`);
     history.go(0);
   };
   const Delete = () => {
-    console.log(item.id);
     deleteLocation({ variables: { id: item.id } });
     history.push(`/base/locations`);
     history.go(0);
   };
+  const addConstruction = (e) => {
+    e.preventDefault();
+
+    history.push(`/base/locations/location/${item.id}/add_outdoor_furniture`);
+    history.go(0);
+  }
+
 
   return (
     <form style={{ width: '100%', margin: '0 2vw 0 0' }}>
@@ -110,13 +137,16 @@ export default function InnerForm(props) {
         <ButtonGroup>
           <StyledButton
             backgroundColor="#2c5de5"
-            onClick={Update}
+            type="button"
+            onClick={(e) => addConstruction(e)}
           >
             Добавить конструкцию
           </StyledButton>
           <StyledButton
             backgroundColor="#008556"
-              onClick={Update}>
+            type="button"
+            onClick={Update}
+          >
             Сохранить
           </StyledButton>
           <StyledButton

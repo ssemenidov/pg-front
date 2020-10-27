@@ -67,18 +67,12 @@ const ResizableTitle = (props) => {
   );
 };
 
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {},
-  getCheckboxProps: (record) => ({
-    disabled: record.name === 'Disabled User',
-    name: record.name,
-  }),
-};
 class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
     columns: this.props.columns,
+    // selectedRowKeys: []
   };
   components = {
     header: {
@@ -96,7 +90,10 @@ class Tablea extends React.Component {
       return { columns: nextColumns };
     });
   };
+
+
   render() {
+    const { onRow } = this.props;
     const columns = this.props.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
@@ -125,6 +122,17 @@ class Tablea extends React.Component {
         </Menu>
       )
     }
+
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        this.props.setConstructionsIdSet(selectedRowKeys);
+      },
+      getCheckboxProps: (record) => ({
+        disabled: record.name === 'Disabled User',
+        name: record.name,
+      }),
+      selectedRowKeys: this.props.constructionsIdSet
+    };
 
     return (
       <div style={{ width: '100%', overflowX: 'hidden' }}>
@@ -197,15 +205,7 @@ class Tablea extends React.Component {
         )}
         <Content>
           <StyledTable
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: (event) => {
-                  {
-                    this.props.history && this.props.history.push(this.props.link);
-                  }
-                },
-              };
-            }}
+            onRow={onRow}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,
@@ -282,12 +282,14 @@ class Tablea extends React.Component {
 Tablea.propTypes = {
   enableChoosePeriod: PropTypes.bool,
   enableChooseQuantityColumn: PropTypes.bool,
-  columnsForPopup: PropTypes.array
+  columnsForPopup: PropTypes.array,
+  onRow: PropTypes.func
 };
 Tablea.defaultProps = {
   enableChoosePeriod: true,
   enableChooseQuantityColumn: true,
-  columnsForPopup: []
+  columnsForPopup: [],
+  onRow: () => undefined
 };
 
 export default Tablea;

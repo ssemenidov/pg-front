@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
@@ -16,8 +17,8 @@ const LOCATIONS_T = gql`
      $cadastralNumber:String
      $targetPurpose:String
      $resolutionNumber:String
-     $contract_Start:DateTime
-     $contract_End:DateTime
+     $rentContractStart:DateTime
+     $rentContractEnd:DateTime
      $area:String
      $comment:String
 
@@ -30,8 +31,8 @@ const LOCATIONS_T = gql`
       cadastralNumber: $cadastralNumber
       targetPurpose: $targetPurpose
       resolutionNumber: $resolutionNumber
-      rentContractStart:$contract_Start
-      rentContractEnd:$contract_End
+      rentContractStart:$rentContractStart
+      rentContractEnd:$rentContractEnd
       area:$area
       comment: $comment
     ) {
@@ -51,14 +52,14 @@ const LOCATIONS_T = gql`
           cadastralNumber
           targetPurpose
           comment
-          constructionSet {
+          construction {
             edges {
               node {
                 id
               }
             }
           }
-          
+          rentContractNumber
         }
       }
     }
@@ -231,6 +232,7 @@ const initColumnsTable = [
 
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
+  const history = useHistory();
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
@@ -265,9 +267,9 @@ const PanelDesign = (props) => {
       adress_j: item.node.address,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber: item.node.contract ? item.node.contract.code : "",
+      contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
       marketingAddress: "не нашел на беке",
-      constructionQuantity: item.node.constructionSet.edges ? item.node.constructionSet.edges.length : 0,
+      constructionQuantity: item.node.construction.edges ? item.node.construction.edges.length : 0,
       targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
       comment: item.node.comment ? item.node.comment : ""
     }));
@@ -307,6 +309,14 @@ const PanelDesign = (props) => {
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/locations/location/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
       <style>

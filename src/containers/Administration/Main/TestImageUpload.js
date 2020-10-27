@@ -20,7 +20,6 @@ function TestImageUpload(props) {
   const handleCancel = e => setVisible(false);
 
   function handleResult(result, isError) {
-    console.log(result);
     setTitle(isError ? "Error" : "Done");
     if (isError) {
       setCodeValue(`TypeError: ${result.name} ${result.message}`)

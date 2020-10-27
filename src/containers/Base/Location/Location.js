@@ -1,4 +1,4 @@
-import React, { useEffect, useState,createContext, useMemo } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import InnerForm from './TabPanel/TabPanelLocation';
@@ -32,10 +32,34 @@ const Location = (props) => {
           postcode
           address
           coordinate
-          constructionSet {
+          construction {
             edges {
               node {
-                id
+                id,
+                marketingAddress,
+                code,
+                familyConstruction {
+                  underFamilyConstruction {
+                    edges {
+                      node {
+                        modelConstruction {
+                          edges {
+                            node {
+                              format {
+                                edges {
+                                  node {
+                                    id
+                                    title
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -43,8 +67,12 @@ const Location = (props) => {
           areaActDate
           resolutionNumber
 					resolutionNumberDate
-         
 
+          rentContractEnd
+          rentContractStart
+          rentContractNumber
+          rentContractCreatedAt
+          rentRegistrationStatus
         }
       }
     }
@@ -54,17 +82,12 @@ const Location = (props) => {
   const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });
 
   useMemo(() => {
-    if (data) {
+    if (data && data.searchLocation.edges.length) {
       setItem(data.searchLocation.edges[0].node);
     }
   }, [data]);
-  console.log('item ', item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
-
-  console.log(id);
-
-
 
   return (
     <locationContext.Provider value={ [item, setItem] }>

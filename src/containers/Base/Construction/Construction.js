@@ -9,9 +9,6 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-// advertisingSide {
-//   id
-// }
 export const constructContext = createContext();
 // advertisingSide {
 //   id
@@ -41,8 +38,8 @@ const Construction = (props) => {
             owner
             marketingAddress
             backComment
-            createdAt
-        
+
+
             hasArea
             crew{
               id
@@ -59,7 +56,7 @@ const Construction = (props) => {
             otherLink
             coordinates
             photo
-            
+
             constructionSide {
               edges {
                 node {
@@ -70,7 +67,13 @@ const Construction = (props) => {
                   side {
                     id
                   }
-                  
+                  advertisingSide {
+                    edges {
+                      node {
+                        id
+                      }
+                    }
+                  }
                   purposeSide {
                     id
                   }
