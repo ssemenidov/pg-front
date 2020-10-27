@@ -37,7 +37,6 @@ const Locations = (props) => {
   }, [data]);
   const addLocation= () => {
     createLocation();
-    
   };
   return (
     <locationsContext.Provider value={[filter, setFilter]}>
@@ -80,7 +79,7 @@ const Locations = (props) => {
           {`
           .locations-table{
             display:flex;
-            
+
           }
           .locations-table-bar{
             display: flex;

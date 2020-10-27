@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { Popover } from 'antd'
 import icon_book from "../../img/outdoor_furniture/bx-book.svg";
 
 //Styles for OutdoorFurniture & Outdoor furniture container
@@ -90,4 +91,10 @@ export const LeftBarStyled = styled.div`
   justify-content: center;
   margin-top: 2px;
   height: 100%;
+`;
+
+export const PopupStyled = styled(Popover)`
+  font-family: "SF UI Display Light", sans-serif;
+  padding: 0;
+  min-width: 200px;
 `;

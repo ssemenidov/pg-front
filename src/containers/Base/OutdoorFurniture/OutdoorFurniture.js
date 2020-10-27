@@ -1,7 +1,7 @@
-import React, { useState, useContext, createContext, useMemo } from 'react';
+import React, {useState, useContext, createContext, useMemo, useEffect} from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import {useHistory, useParams} from 'react-router';
 
 import PanelOutdoor from './PanelOutdoor';
 import FilterBar from './FilterBar';
@@ -26,17 +26,69 @@ const CONSTRUCT_CREATE = gql`
   }
 `;
 
+const ADD_CONSTRUCT_TO_LOCATION = gql`
+  mutation (
+  $id: ID!
+  $construction: [ID]
+) {
+  updateLocation(
+    id: $id
+    input: {
+      construction: $construction
+    }
+  ) {
+    location {
+      id
+    }
+  }
+}
+`;
+
 const OutdoorFurniture = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
+  const [flagAddConstructionToLocation, setFlagAddConstructionToLocation] = useState(false);
+  const [constructionsIdSet, setConstructionsIdSet] = useState([]);
+  const { id } = useParams();
   const [createConstruction, { data }] = useMutation(CONSTRUCT_CREATE);
+  const [updateLocation] = useMutation(ADD_CONSTRUCT_TO_LOCATION);
+
   useMemo(() => {
     if (data) {
       history.push(`/base/construction/${data.createConstruction.construction.id}`);
     }
   }, [data]);
- 
+
+  useEffect(() => {
+    showConfigForAddConstructionToLocation();
+  }, [id]);
+
+  const showConfigForAddConstructionToLocation= () => {
+    setFlagAddConstructionToLocation(Boolean(id));
+  }
+
+  const addConstruction = () => {
+    if(constructionsIdSet && constructionsIdSet.length) {
+      updateLocation({ variables: {
+          id: id,
+          construction: constructionsIdSet
+        }})
+          .then((response) => {
+            console.log(response)
+
+            history.push(`/base/locations/location/${id}`);
+            history.go(0);
+          })
+          .catch(error => {
+            alert('Конструкция не добавлена! Что то поломалось :(')
+            console.error(error)
+          })
+    } else {
+      alert('Конструкция не выбрана')
+    }
+  }
+
   return (
     <outContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -68,13 +120,32 @@ const OutdoorFurniture = () => {
                   <JobTitle>Конструкции</JobTitle>
                 </HeaderTitleWrapper>
                 <ButtonGroup>
-                  <StyledButton backgroundColor="#008556" onClick={createConstruction}>
+                  {
+                    flagAddConstructionToLocation
+                    && (
+                      <StyledButton
+                        backgroundColor="#2c5de5"
+                        onClick={addConstruction}
+                      >
+                        Добавить конструкцию
+                      </StyledButton>
+                    )
+                  }
+                  <StyledButton
+                    backgroundColor="#008556"
+                    onClick={createConstruction}
+                  >
                     Создать конструкцию
                   </StyledButton>
                 </ButtonGroup>
               </HeaderWrapper>
               <div style={{ display: 'flex' }}>
-                <PanelOutdoor style={{ flex: '0 1 auto' }} />
+                <PanelOutdoor
+                  style={{ flex: '0 1 auto' }}
+                  flagAddConstructionToLocation={flagAddConstructionToLocation}
+                  constructionsIdSet={constructionsIdSet}
+                  setConstructionsIdSet={setConstructionsIdSet}
+                />
               </div>
             </Content>
           </Layout>
