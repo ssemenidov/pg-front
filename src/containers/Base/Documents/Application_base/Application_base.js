@@ -13,7 +13,7 @@ import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 
 const { Header, Content, Sider } = Layout;
 
-const OutdoorFurniture = () => {
+const ApplicationsBase = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   return (
@@ -79,4 +79,4 @@ const OutdoorFurniture = () => {
     </Layout>
   );
 };
-export default OutdoorFurniture;
+export default ApplicationsBase;

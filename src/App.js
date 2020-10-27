@@ -23,7 +23,8 @@ import Partner from './containers/Base/Partner/Partner';
 import Brand from './containers/Base/Brand/Brand';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
-import Application_base from './containers/Base/Documents/Application_base/Application_base';
+import ApplicationsBase from './containers/Base/Documents/Application_base/Application_base';
+import ApplicationBase  from './containers/Base/Documents/Application/Application';
 import Crews from './containers/Base/Crews/Crews';
 
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
@@ -81,7 +82,8 @@ const App = () => {
           <Route path="/base/locations/location/:id?/add_outdoor_furniture" exact component={OutdoorFurniture} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
           <Route path="/base/documents/agreement/:id?" exact component={Agreement} />
-          <Route path="/base/documents/application_base" exact component={Application_base} />
+          <Route path="/base/documents/application_base" exact component={ApplicationsBase} />
+          <Route path="/base/documents/application/:id?" exact component={ApplicationBase} />
 
           <Route path="/base/crews" component component={Crews} />
 
