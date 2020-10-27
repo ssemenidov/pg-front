@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
-import styled from 'styled-components';
+import React from 'react';
 import { Resizable } from 'react-resizable';
-import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
-import arrowLeft from '../img/header-bar/arrow-left.svg';
-import arrowRight from '../img/header-bar/arrow-right.svg';
-import calendarIcon from '../img/header-bar/calendar.svg';
 import searchInputIcon from '../img/header-bar/search-icon.svg';
 import printerIcon from '../img/header-bar/printer.svg';
 import exportIcon from '../img/header-bar/export.svg';
 import settingsIcon from '../img/header-bar/settings.svg';
-import collapseUpIcon from '../img/input/collapse-up.svg';
-import collapseDownIcon from '../img/input/collapse-down.svg';
-const { Content, Sider } = Layout;
 
+const { Content } = Layout;
 let settingmenu = (
   <Menu>
     <Menu.Item>
@@ -72,7 +66,6 @@ class Tablea extends React.Component {
     selectionType: 'checkbox',
     datetype: 'date',
     columns: this.props.columns,
-    // selectedRowKeys: []
   };
   components = {
     header: {
@@ -90,7 +83,6 @@ class Tablea extends React.Component {
       return { columns: nextColumns };
     });
   };
-
 
   render() {
     const { onRow } = this.props;

@@ -20,6 +20,7 @@ import Construction from './containers/Base/Construction/Construction';
 import Locations from './containers/Base/Locations/Locations';
 import Location from './containers/Base/Location/Location';
 import Partner from './containers/Base/Partner/Partner';
+import Brand from './containers/Base/Brand/Brand';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
 import Application_base from './containers/Base/Documents/Application_base/Application_base';
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/partner/:id?" exact component={Partner} />
+          <Route path="/base/partner/brand/:id?" exact component={Brand} />
           <Route path="/base/construction/:id?" exact component={Construction} />
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
