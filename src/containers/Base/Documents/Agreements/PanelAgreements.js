@@ -11,12 +11,13 @@ import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { Link } from 'react-router-dom';
+import {  Input } from 'antd';
 import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
 import settings_icon from '../../../../img/outdoor_furniture/table_icons/setting.svg';
-
+import searchInputIcon from '../../../../img/header-bar/search-icon.svg';
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
 STab.tabsRole = 'Tab';
@@ -81,7 +82,13 @@ const InnerForm = (props) => {
                 );
               })}
             </STabList>
-            <ToolbarControl>
+            <ToolbarControl style={{width:"40%",minWidth:"270px"}}>
+              <Input
+                  style={{ marginLeft: '20px' }}
+                  placeholder="Быстрый поиск"
+                  suffix="Найти"
+                  prefix={<img src={searchInputIcon} />}
+                />
               <BtnPrint>
                 <img src={print_icon} alt="" />
               </BtnPrint>

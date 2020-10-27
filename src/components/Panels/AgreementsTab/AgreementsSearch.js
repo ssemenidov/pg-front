@@ -5,6 +5,7 @@ import {  agreementsContext } from './AgreementsTab';
 import { Radio, DatePicker ,Form,Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
+import styled from 'styled-components';
 
 const AgreementsSearch = () => {
   const [form] = Form.useForm();
@@ -27,74 +28,73 @@ const AgreementsSearch = () => {
       <BlockBody>
       <Form form={form} onFinish={onFinish}>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <SearchItem>
             <InputTitle>Номер договора</InputTitle>
             <Form.Item name="resolutionNumber" >
               <Input 
               placeholder="Номер договора" size={'large'} />
             </Form.Item>
-          </div>
-          <div style={{ margin: '0 0 0  0.75vw' }}>
+          </SearchItem>
+          <SearchItem>
             <InputTitle>Инициатор</InputTitle>
             <Form.Item name="initiator" >
               <Input placeholder="Инициатор" size={'large'} />
             </Form.Item>
-          </div>
+          </SearchItem>
         
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <SearchItem>
             <InputTitle>Наименование контрагента</InputTitle>
             <Form.Item name="partner_Title" >
               <Input placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          </SearchItem>
+          <SearchItem>
             <InputTitle>Создатель</InputTitle>
             <Form.Item name="creator" >
               <Input placeholder="Создатель" size={'large'} />
             </Form.Item>
-          </div>
+          </SearchItem>
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <SearchItem>
             <InputTitle>Тип договора</InputTitle>
             <Form.Item name="contractType" >
               <Input placeholder="Тип договора" size={'large'} />
             </Form.Item>
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
+          </SearchItem>
+          <SearchItem>
             <InputTitle>Дата начала действия договора</InputTitle>
             <Form.Item name="start" >
-            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '203px' }}/>
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '100%' }}/>
             </Form.Item>
-          </div>
+          </SearchItem>
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+          <SearchItem>
             <InputTitle>Дата заключения договора</InputTitle>
             <Form.Item name="registrationDate" >
-            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '203px' }}/>
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
             </Form.Item>
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw', display: 'flex', flexDirection: ' column', alignItems: 'flex-end' }}>
+          </SearchItem>
+          <SearchItem>
             <InputTitle>Дата окончания действия договора</InputTitle>
             <Form.Item name="end" >
-            <DatePicker style={{  width: '203px' }} placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' />
-           
+            <DatePicker style={{  width: '100%' }} placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' />
             </Form.Item>
-          </div>
+          </SearchItem>
         </Row>
         <Row>
-          <div>
-            <InputTitle>Статус возврата</InputTitle>
+        <SearchItem>
+          <InputTitle>Статус возврата</InputTitle>
             <Form.Item name="returnStatus" >
             <Radio.Group >
               <Radio value={1}>Есть</Radio>
               <Radio value={2}>Нет</Radio>
             </Radio.Group>
             </Form.Item>
-          </div>
+          </SearchItem>
         </Row>
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
@@ -109,3 +109,13 @@ const AgreementsSearch = () => {
 };
 
 export default AgreementsSearch;
+const SearchItem = styled.div`
+  margin: 0 0.75vw 0 0.75vw;
+  display: flex;
+  flex-direction: column;
+
+  width:45%;
+  .ant-form-item{
+    margin-bottom:0;
+  }
+`;
