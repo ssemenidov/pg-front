@@ -4,7 +4,7 @@ import InputAnchor from '../../../../Inputs/InputAnchor';
 import { RedDeleteBtn, SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
 import red_can from '../../../../../img/outdoor_furniture/red_can.svg';
 
-export const Construction = ({ code, marketingAddress, remove, open }) => {
+export const Construction = ({ code, marketingAddress, familyConstruction, remove, open }) => {
 
   return (
     <Medium>
@@ -14,8 +14,8 @@ export const Construction = ({ code, marketingAddress, remove, open }) => {
           <div style={{ width: '100%' }}>
             <InputTitle>Код конструкции</InputTitle>
             <InputAnchor
-              placeholder={code}
-              value={code}
+              placeholder="050001.00361.01"
+              value={code ? code : 'Нет данных'}
             />
           </div>
         </Row>
@@ -27,15 +27,25 @@ export const Construction = ({ code, marketingAddress, remove, open }) => {
           <InputTitle style={{ width: '45%' }}>Маркетинговый адрес</InputTitle>
           <InputAnchor
             style={{ width: '50%' }}
-            placeholder={marketingAddress}
-            value={marketingAddress}
+            placeholder="Алматы, Абая ост."
+            value={marketingAddress ? marketingAddress : 'Нет данных'}
           />
           </div>
         </Row>
         <Row style={{ borderBottom: '1px solid #d3dff0' }}>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           <p>Формат</p>
-            <p>Сениор</p>
+            <p>
+              {
+                (
+                  familyConstruction
+                  && familyConstruction.underFamilyConstruction
+                  && familyConstruction.underFamilyConstruction.edges.length
+                )
+                ? 'null'
+                : 'Нет данных'
+              }
+            </p>
           </div>
         </Row>
         <Row>

@@ -59,6 +59,7 @@ const LOCATION_UPDATE = gql`
     $rentContractNumber: String
     $rentContractCreatedAt: DateTime
     $rentRegistrationStatus: String
+    $construction: [ID]
   ) {
     updateLocation(
       id: $id
@@ -80,6 +81,7 @@ const LOCATION_UPDATE = gql`
         rentContractNumber: $rentContractNumber
         rentContractCreatedAt: $rentContractCreatedAt
         rentRegistrationStatus: $rentRegistrationStatus
+        construction: $construction
       }
     ) {
       location {
@@ -96,10 +98,16 @@ export default function InnerForm(props) {
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation( LOCATION_DELETE);
   const Update = () => {
+    let constructionIdList = null;
+    if(item.construction && item.construction.edges) {
+      constructionIdList = item.construction.edges.map(item => item.node.id);
+    }
+
     updateLocation({ variables:  {
-       ...item,
+        ...item,
         city:item.city &&  item.city.id,
         district:item.district &&  item.district.id,
+        construction: constructionIdList
        } });
 
     history.push(`/base/locations`);

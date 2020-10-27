@@ -30,12 +30,34 @@ const Location = (props) => {
           postcode
           address
           coordinate
-           constructionSet {
+          construction {
             edges {
               node {
                 id,
+                marketingAddress,
                 code,
-                marketingAddress
+                familyConstruction {
+                  underFamilyConstruction {
+                    edges {
+                      node {
+                        modelConstruction {
+                          edges {
+                            node {
+                              format {
+                                edges {
+                                  node {
+                                    id
+                                    title
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }

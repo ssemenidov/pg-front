@@ -52,7 +52,7 @@ const LOCATIONS_T = gql`
           cadastralNumber
           targetPurpose
           comment
-          constructionSet {
+          construction {
             edges {
               node {
                 id
@@ -269,7 +269,7 @@ const PanelDesign = (props) => {
       area: item.node.area,
       contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
       marketingAddress: "не нашел на беке",
-      constructionQuantity: item.node.constructionSet.edges ? item.node.constructionSet.edges.length : 0,
+      constructionQuantity: item.node.construction.edges ? item.node.construction.edges.length : 0,
       targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
       comment: item.node.comment ? item.node.comment : ""
     }));

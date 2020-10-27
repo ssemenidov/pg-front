@@ -16,18 +16,18 @@ const GeneralInformation = () => {
 
   let newCoords;
 
-  const { constructionSet } = item;
+  const { construction } = item;
 
   const removeConstruction = (e, id) => {
     e.preventDefault();
 
-    let edgesLocal = constructionSet.edges;
+    let edgesLocal = construction.edges;
 
-    edgesLocal = edgesLocal.filter(el => el.id == id);
+    edgesLocal = edgesLocal.filter(el => el.node.id != id);
 
     setItem({
       ...item,
-      constructionSet: {
+      construction: {
         edges: edgesLocal
       }
     })
@@ -74,13 +74,15 @@ const GeneralInformation = () => {
       </div>
 
       {
-        constructionSet && constructionSet.edges.length
-        ? constructionSet.edges.map((construction) => (
-            <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
+        construction && construction.edges.length
+        ? construction.edges.map(({ node }, index) => (
+            <div key={`${node.id}-${index}`} style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
               <Construction
-                key={construction.id}
-                remove={(e) => removeConstruction(e, construction.id)}
-                open={(e) => openConstruction(e, construction.id)}
+                remove={(e) => removeConstruction(e, node.id)}
+                open={(e) => openConstruction(e, node.id)}
+                {
+                  ...node
+                }
               />
             </div>
           ))
