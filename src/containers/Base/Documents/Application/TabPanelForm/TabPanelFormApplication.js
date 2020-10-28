@@ -8,7 +8,7 @@ import { TitleLogo } from '../../../../../components/Styles/ComponentsStyles';
 import {
   StyledButton, HeaderWrapper, HeaderTitleWrapper,
   StyledInput, StyledSelect
-} from '../../../../../styles/styles';
+} from '../../../../../components/Styles/DesignList/styles';
 
 import owner from "../../../../../img/input/owner.svg";
 import suitcase from "../../../../../img/input/suitcase.svg";

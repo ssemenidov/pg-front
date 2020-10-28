@@ -5,7 +5,7 @@ import { Radio, notification } from 'antd';
 import styled from 'styled-components';
 
 import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect , StyledInput} from '../../../../../styles/styles';
+import { StyledButton, StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 export default function Adress() {
@@ -35,7 +35,7 @@ export default function Adress() {
               defaultValue={item.district && item.district.id }
               onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
               <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE=">Турксибский</StyledSelect.Option>
-            
+
             </StyledSelect>
           </div>
           <div style={{ width: '38%' }}>
@@ -44,7 +44,7 @@ export default function Adress() {
               defaultValue={item.postcode && item.postcode.id }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
               <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
-          
+
             </StyledSelect>
           </div>
         </Row>
@@ -53,7 +53,7 @@ export default function Adress() {
             <InputTitle>Юридический адрес</InputTitle>
 
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={anchorIcon} />}
               defaultValue={item.legalAddress ? item.legalAddress : ''}
               onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
           </div>
@@ -63,7 +63,7 @@ export default function Adress() {
             <InputTitle>Фактический адрес</InputTitle>
 
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={anchorIcon} />}
               defaultValue={item.actualAddress ? item.actualAddress : ''}
               onChange={(e) => setItem({ ...item, actualAddress: e.target.value })}></StyledInput>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState,createContext, useMemo } from 'react';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
@@ -41,7 +41,7 @@ const InnerForm = (props) => {
   const [  createContract, { data }] = useMutation(CONTRACT_CREATE);
   useMemo(() => {
     if (data) {
-      
+
      history.push(`/base/documents/agreement/${data.createContract.contract.id}`);
     }
   }, [data]);
@@ -50,7 +50,7 @@ const InnerForm = (props) => {
     createContract();
     e.preventDefault();
 
-    
+
   };
   return (
     <form style={{ width: '100%' }}>
@@ -62,7 +62,7 @@ const InnerForm = (props) => {
         <ButtonGroup>
           {block == 0 && (
               <StyledButton backgroundColor="#2c5de5" onClick={addContract}>Создать договор</StyledButton>
-       
+
           ) }
         </ButtonGroup>
       </HeaderWrapper>
@@ -96,10 +96,10 @@ const InnerForm = (props) => {
               </BtnSettings>
             </ToolbarControl>
           </ControlToolbar>
-       
+
           <STabPanel>{panel1}</STabPanel>
           <STabPanel>{panel2}</STabPanel>
-       
+
         </STabs>
       </div>
     </form>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 
 
 import { BlockBody, Large, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
@@ -24,12 +24,12 @@ export default function Commissions() {
               onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
 
             </StyledSelect>
-      
+
           </InputWrapper>
           <InputWrapper>
             <InputTitle>Агентская коммисия</InputTitle>
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={anchorIcon} />}
               defaultValue={item.agencyCommission ? item.agencyCommission : ''}
               onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}></StyledInput>
           </InputWrapper>
@@ -38,7 +38,7 @@ export default function Commissions() {
             <StyledSelect>
 
             </StyledSelect>
-            
+
           </InputWrapper>
           <InputWrapper>
             <InputTitle>На какие услуги распространяется АК</InputTitle>

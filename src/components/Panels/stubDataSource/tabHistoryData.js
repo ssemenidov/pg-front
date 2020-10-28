@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import moment from 'moment';
 
-import { PopupStyled } from '../components/Styles/ComponentsStyles';
+import { PopupStyled } from '../../Styles/ComponentsStyles';
 
 class TabHistoryData {
   constructor(node) {

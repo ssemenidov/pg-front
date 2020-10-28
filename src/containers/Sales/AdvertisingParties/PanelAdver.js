@@ -4,7 +4,7 @@ import { Popover } from 'antd';
 import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
 import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
 import Tab from './Tab';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import { useHistory } from 'react-router';
 
 const PanelDesign = (props) => {

@@ -9,7 +9,7 @@ import {
   Chip, DesignList, DesignListItem, DropdownBtn1,
   StyledButton, HeaderWrapper, HeaderTitleWrapper,
   StyledInput, StyledSelect
-} from '../../../../styles/styles';
+} from '../../../../components/Styles/DesignList/styles';
 
 import searchInputIcon from "../../../../img/header-bar/search-icon.svg";
 import printerIcon from "../../../../img/header-bar/printer.svg";

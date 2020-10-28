@@ -3,7 +3,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import InnerForm from './TabPanel/TabPanelLocation';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import { LeftBar } from '../../../styles/styles';
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
 
 export const locationContext = createContext();
 const Location = (props) => {

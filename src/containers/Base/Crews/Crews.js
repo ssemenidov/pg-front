@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 
-import { LeftBar } from '../../../styles/styles';
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
 import Table from '../../../components/TableResizable/Table';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import oval from '../../../img/Oval.svg';
@@ -135,8 +135,8 @@ const Crews = () => {
             .layout-breadcrumb a, .layout-breadcrumb   span {
               color: #8AA1C1 !important;
             }
-          
-          
+
+
           `}
         </style>
       </Layout>

@@ -15,7 +15,7 @@ import exportIcon from '../../../../img/header-bar/export.svg';
 import settingsIcon from '../../../../img/header-bar/settings.svg';
 
 import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';

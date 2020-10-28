@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PanelDesign from './PanelProject_card';
 import { Input } from 'antd';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { InfoList, InfoItem, InfoLine, InfoValue, InfoInput, InfoTitle } from '../../../components/Styles/InfoPanel';
 
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -148,7 +148,7 @@ const Project_card = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-          
+
           }
         `}
       </style>

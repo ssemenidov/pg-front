@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 import { Input, Select, Upload, message } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../../styles/styles';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
-import { StyledSelect,StyledInput } from '../../../../../styles/styles';
+import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 export const EditInformation = (props) => {
   const [item, setItem] = useContext(locationContext);
   const [fileList, setFileList] = useState([]);

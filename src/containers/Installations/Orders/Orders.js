@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButto, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButto, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelOrders';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -51,7 +51,7 @@ const Orders = () => {
           .left-bar {
             margin: 0 2vw 0 0;
           }
-        
+
         `}
       </style>
     </div>

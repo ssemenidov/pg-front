@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { Input, Checkbox } from 'antd';
 import PanelDesign from './PanelEstimate';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
@@ -51,7 +51,7 @@ const Estimate = () => {
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             ) : (
-          
+
         <>
               <StyledButton backgroundColor="#008556"> Создать приложение  </StyledButton>
               <StyledButton backgroundColor="#2C5DE5">Добавить в приложение </StyledButton>
@@ -188,7 +188,7 @@ const Estimate = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-          } 
+          }
         `}
       </style>
     </div>

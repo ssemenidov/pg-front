@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { AdministrationBreadcrumb } from '../components/AdminBreadcrumb';
-import { HeaderWrapper, StyledButton } from '../../../styles/styles';
+import { HeaderWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { adminTitle } from '../Main/adminRoutes';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';

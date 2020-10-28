@@ -5,7 +5,7 @@ import { agreementContext } from './Agreement';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import { Select,DatePicker} from 'antd';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../components/Styles/DesignList/styles';
 
 import anchorIcon from '../../../../img/input/anchor.svg';
 
@@ -107,7 +107,7 @@ const PanelDesign = (props) => {
               prefix={<img src={anchorIcon} />}
               defaultValue={item.partner ? item.partner.title:""}
               // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
-              
+
              ></StyledInput>
               </div>
               <div style={{ margin: '0 0 0 0.75vw' }}>

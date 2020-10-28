@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../../containers/Base/Partner/Partner';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import { StyledButton, StyledSelect , StyledInput} from '../../../../../../styles/styles';
+import { StyledButton, StyledSelect , StyledInput} from '../../../../../Styles/DesignList/styles';
 import { RedDeleteBtn } from '../../../../../Styles/ButtonStyles';
 import { InputTitle } from '../../../../../Styles/StyledBlocks';
 import { Row } from '../../../../../Styles/StyledBlocks';

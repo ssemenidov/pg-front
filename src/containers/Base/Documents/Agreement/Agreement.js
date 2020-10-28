@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 
 import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 export const agreementContext = createContext();
@@ -31,7 +31,7 @@ const AGREEMENT_ITEM = gql`
           }
           start
           end
-        
+
           creator
           initiator
           contractType
@@ -54,7 +54,7 @@ const AGREEMENT_ITEM = gql`
 const OutdoorFurniture = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({});
-  
+
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const { error, data, loading } = useQuery(AGREEMENT_ITEM , { variables: { id: id } });

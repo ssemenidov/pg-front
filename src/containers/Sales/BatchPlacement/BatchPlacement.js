@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PanelBatch from './PanelBatch';
-import { LeftBar } from '../../../styles/styles';
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
 import { useHistory } from 'react-router';
 
 import FilterBar from './FilterBar';
@@ -162,7 +162,7 @@ const BatchPlacement = () => {
         .ant-select ant-select-selection-item span {
           color: #656565 !important;
         }
-      
+
         .filter-panel-parameters {
           display: flex;
           flex-direction: column;

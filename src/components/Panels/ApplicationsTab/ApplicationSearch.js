@@ -7,7 +7,7 @@ import InputAnchor from '../../Inputs/InputAnchor';
 //import DatePicker from '../../Inputs/DatePicker';
 import GroupRadio from '../../Inputs/GroupRadio';
 import { Radio, DatePicker,Form,Input } from 'antd';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../Styles/DesignList/styles';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 const ApplicationSearch = () => {
@@ -33,15 +33,15 @@ const ApplicationSearch = () => {
           <Form.Item name="code" >
               <Input placeholder="Код приложения" size={'large'} />
             </Form.Item>
-          
+
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
           <InputTitle>Менеджер по продажам</InputTitle>
           <Form.Item name="saleManager" >
               <Input placeholder="Менеджер по продажам" size={'large'} />
             </Form.Item>
-          
-        
+
+
 
           </div>
         </Row>
@@ -66,7 +66,7 @@ const ApplicationSearch = () => {
              <Form.Item name="application" >
               <Input placeholder="Номер приложения" size={'large'} />
             </Form.Item>
-           
+
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
             <InputTitle>Период приложения</InputTitle>
@@ -81,7 +81,7 @@ const ApplicationSearch = () => {
              <Form.Item name="partner" >
               <Input placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
-           
+
           </div>
           <div style={{ margin: '0 0 0 0.75vw' }}>
           <InputTitle>Дата создания</InputTitle>
@@ -96,7 +96,7 @@ const ApplicationSearch = () => {
              <Form.Item name="brand" >
               <Input placeholder="Бренд" size={'large'} />
             </Form.Item>
-  
+
           </div>
           <div>
             <InputTitle>Статус возврата</InputTitle>
@@ -106,7 +106,7 @@ const ApplicationSearch = () => {
             </Radio.Group>
           </div>
         </Row>
-   
+
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
           <SubmitButton  htmlType="submit">Поиск</SubmitButton>

@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 
 import Table from '../../../TableResizable/Table';
 
-import TabHistoryData from '../../../../stubDataSource/tabHistoryData';
+import TabHistoryData from '../../stubDataSource/tabHistoryData';
 
 const LOCATION_ITEM_HISTORY = gql`
   query searchLogs($id: ID) {

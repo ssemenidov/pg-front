@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect , StyledInput} from '../../../../../styles/styles';
+import { StyledButton, StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 import {DatePicker,Select,Input} from 'antd';

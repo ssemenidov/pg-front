@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { Input } from 'antd';
 import PanelDesign from './PanelApplication';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -45,7 +45,7 @@ const Application = () => {
             <JobTitle>Приложение №202005123 - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-          
+
                 <StyledButton
                   backgroundColor="#008556"
                   onClick={() => {
@@ -54,7 +54,7 @@ const Application = () => {
                   Выставить счет
                 </StyledButton>
                 <StyledButton backgroundColor="#D42D11">Удалить</StyledButton>
-          
+
           </ButtonGroup>
         </HeaderWrapper>
         <div style={{ display: 'flex' }}>
@@ -122,7 +122,7 @@ const Application = () => {
           .left-bar {
             margin: 0 2vw 0 0;
           }
-         
+
         `}
       </style>
     </div>

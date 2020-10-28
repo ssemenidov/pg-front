@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../../components/Styles/DesignList/styles';
 const PanelDesign = (props) => {
   const columns = [
     {

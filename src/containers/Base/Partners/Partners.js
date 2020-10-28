@@ -12,7 +12,7 @@ import styled from 'styled-components';
 
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
@@ -39,7 +39,7 @@ const Partners = () => {
       history.push(`/base/partners/partner/${data.createPartner.partner.id}`);
     }
   }, [data]);
- 
+
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -100,9 +100,9 @@ const Partners = () => {
           .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
-          
-      
-         
+
+
+
         `}
         </style>
       </Layout>
