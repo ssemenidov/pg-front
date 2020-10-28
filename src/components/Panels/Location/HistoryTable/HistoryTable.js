@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { gql, useQuery } from '@apollo/client';
-import moment from 'moment';
-import { Button } from 'antd'
 
 import Table from '../../../TableResizable/Table';
-import { PopupStyled } from "../../../Styles/ComponentsStyles";
+
+import TabHistoryData from '../../../../stubDataSource/tabHistoryData';
 
 const LOCATION_ITEM_HISTORY = gql`
   query searchLogs($id: ID) {
@@ -100,7 +99,7 @@ const initData = [
   }
 ];
 
-export const HistoryTable = (props) => {
+export const HistoryTable = () => {
   const { id } = useParams();
   const [historyData, setHistoryData] = useState(initData);
   const { error, data, loading } = useQuery(LOCATION_ITEM_HISTORY, { variables: { id: id } });
@@ -108,37 +107,9 @@ export const HistoryTable = (props) => {
   useMemo(() => {
     if (data && data.searchLogs && data.searchLogs.edges) {
 
-      let localData = data.searchLogs.edges.map(({ node }) => ({
-        key: node.id && node.id,
-        code: node.recordId && `#${node.recordId}`,
-        date: node.changed && moment(node.changed).subtract(10, 'days').calendar(),
-        manager: node.user ? `${node.user.firstName} ${node.user.lastName}` : '',
-        type: node.actionOnModel && node.actionOnModel,
-        after: (
-          <PopupStyled
-            style={{ padding: 0 }}
-            placement="bottom"
-            content={
-              Object.keys(JSON.parse(JSON.stringify(eval('(function(){return ' + node.data + ';})()')))).map(objKey => (
-                <p
-                  key={objKey}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    borderBottom: '1px solid #f0f0f0',
-                    paddingBottom: 10
-                  }}
-                >
-                  <span>{ objKey }: </span>
-                  <span>{ JSON.parse(JSON.stringify(eval('(function(){return ' + node.data + ';})()')))[objKey] }</span>
-                </p>
-              ))
-            }
-          >
-            <Button type="primary">Показать данные</Button>
-          </PopupStyled>
-        )
-      }));
+      let localData = data.searchLogs.edges.map(({ node }) => (
+        new TabHistoryData(node).getData()
+      ));
 
       setHistoryData(localData);
     }

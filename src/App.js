@@ -85,7 +85,7 @@ const App = () => {
           <Route path="/base/documents/application_base" exact component={ApplicationsBase} />
           <Route path="/base/documents/application/:id?" exact component={ApplicationBase} />
 
-          <Route path="/base/crews" component component={Crews} />
+          <Route path="/base/crews" component={Crews} />
 
           <Route path="/installations/design" component={Design} />
           <Route path="/installations" exact component={MainInstall} />
