@@ -76,7 +76,7 @@ const InnerForm = (props) => {
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />
-            <JobTitle>Приложение № 2020050301323</JobTitle>
+            <JobTitle>Приложение №{item.id && item.id}</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
             <StyledButton backgroundColor="#008556">
@@ -171,13 +171,22 @@ const InnerForm = (props) => {
                           <InputTitle>Наименование контрагента</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            value={item.partner ? item.partner.edges[0].node.title :""}
+                            value={
+                              item.partner && item.partner.edges
+                              && item.partner.edges[0]
+                              && item.partner.edges[0].node
+                              && item.partner.edges[0].node.title
+                            }
                             onChange={(e) => {setItem({
                               ...item,
                               partner: {
                                 edges: [{
                                   node: {
-                                    ...item.partner.edges[0].node,
+                                    ...(
+                                      item.partner && item.partner.edges
+                                      && item.partner.edges[0]
+                                      && item.partner.edges[0].node
+                                    ),
                                     title: e.target.value
                                   }
                                 }]
@@ -216,7 +225,7 @@ const InnerForm = (props) => {
                           <InputTitle>Бренд</InputTitle>
                           <StyledInput
                             prefix={<img src={owner} />}
-                            value={item.project ? item.project.brand.title :""}
+                            value={item.project && item.project.brand && item.project.brand.title}
                             onChange={(e) => {setItem({
                               ...item,
                               project: {
