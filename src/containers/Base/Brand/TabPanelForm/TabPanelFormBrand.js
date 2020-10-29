@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
+import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 import { Button, Checkbox, Dropdown, Input, Menu, Divider } from 'antd';
 
@@ -10,6 +11,7 @@ import {
   StyledButton, HeaderWrapper, HeaderTitleWrapper,
   StyledInput, StyledSelect
 } from '../../../../components/Styles/DesignList/styles';
+import useDebounce from '../../../../containers/Administration/components/useDebounce';
 
 import searchInputIcon from "../../../../img/header-bar/search-icon.svg";
 import printerIcon from "../../../../img/header-bar/printer.svg";
@@ -70,21 +72,174 @@ let tempDropdownList = (
   </Menu>
 );
 
+const WORKING_SECTOR_LIST = gql`
+ query searchWorkingSector {
+  searchWorkingSector {
+    edges {
+      node {
+        id
+        title
+      }
+    }
+  }
+ }
+`;
+const SEARCH_PARTNER = gql`
+  query searchPartner($title: String) {
+      searchPartner(title: $title) {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+`;
+const SAVE_BRAND = gql`
+  mutation updateBrand(
+      $id: ID!
+      $title: String
+      $workingSector: ID
+      $partner: [ID]
+    ) {
+      updateBrand(
+        id: $id
+        input: {
+          title: $title
+          workingSector: $workingSector
+          partner: $partner
+        }
+      ) {
+        brand {
+          id
+        }
+      }
+    }
+`;
+
 const InnerForm = (props) => {
   const [item, setItem] = useContext(constructBrand);
+  const [workingSectors, setWorkingSectors] = useState(null);
+
+  const [partnerValue, setPartnerValue] = useState(undefined);
+  const [partnerData, setPartnerData] = useState([]);
+  const [partnerSearchText, setPartnerSearchText] = useState('');
+  const [partnerLoading, setPartnerLoading] = useState(false);
+
+  const workingSectorResponse = useQuery(WORKING_SECTOR_LIST);
+  const [saveDataBrand] = useMutation(SAVE_BRAND);
+  const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
+  const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
+
+  useMemo(() => {
+    if(workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
+      setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges)
+    }
+  }, [workingSectorResponse.data]);
+
+  const handleSearchPartner = (value) => {
+    setPartnerSearchText(value);
+  };
+  const handleChangePartner = (value) => {
+    setPartnerValue(value);
+  };
+
+  useEffect(() => {
+    getPartner({
+      variables: {
+        title: debouncedSearchTerm
+      }
+    });
+    setPartnerLoading(loading);
+  }, [debouncedSearchTerm]);
+  useMemo(() => {
+    if(data && data.searchPartner.edges) {
+      setPartnerData(data.searchPartner.edges);
+      setPartnerLoading(loading);
+    }
+  }, [data]);
+
+  const addPartnerToBrand = (e) => {
+    e.preventDefault();
+
+    if(partnerValue) {
+      const localEdges = item.partner ? item.partner.edges : [];
+      const partnerItem = partnerData.filter(item => item.node.id == partnerValue);
+
+      if(localEdges.filter(item => item.node.id == partnerValue)[0]) {
+        alert('Этот контрагент уже добавлен');
+        return
+      }
+
+      localEdges.push({
+        node: {
+          id: partnerItem[0].node.id,
+          title: partnerItem[0].node.title
+        }
+      });
+
+      setItem({
+        ...item,
+        partner: {
+          edges: localEdges
+        }
+      });
+    }
+  };
+  const removePartnerFromBrand = (e, id) => {
+    e.preventDefault();
+
+    let localEdges = item.partner ? item.partner.edges : [];
+    localEdges = localEdges.filter(item => item.node.id != id);
+
+    setItem({
+      ...item,
+      partner: {
+        edges: localEdges
+      }
+    });
+  };
+
+  const saveData = (e) => {
+    e.preventDefault();
+
+    if(!item.id) return;
+
+    let partnerIdList = [];
+    if(item.partner && item.partner.edges) {
+      partnerIdList = item.partner.edges.map(item => item.node.id)
+    }
+
+    saveDataBrand({
+      variables: {
+        id: item.id && item.id,
+        title: item.title && item.title,
+        workingSector: item.workingSector && item.workingSector.id,
+        partner: partnerIdList
+      }
+    });
+  };
 
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Бренд - CocaCola</JobTitle>
+          <JobTitle>Бренд - { item.title && item.title }</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton backgroundColor="#008556">
+          <StyledButton
+            backgroundColor="#008556"
+            type="button"
+            onClick={(e) => saveData(e)}
+          >
             Сохранить
           </StyledButton>
-          <StyledButton backgroundColor="#2C5DE5">
+          <StyledButton
+            backgroundColor="#2C5DE5"
+            type="button"
+          >
             Выгрузить данные
           </StyledButton>
         </ButtonGroup>
@@ -103,7 +258,8 @@ const InnerForm = (props) => {
                           <InputTitle>Наименование</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            defaultValue="CocaCola"
+                            value={item.title ? item.title : ''}
+                            onChange={(e) => {setItem({...item, title: e.target.value})}}
                           ></StyledInput>
                         </div>
                       </Row>
@@ -113,13 +269,26 @@ const InnerForm = (props) => {
                         <InputTitle>Сектор деятельности</InputTitle>
                         <StyledSelect
                           prefix={<img src={owner} />}
-                          defaultValue="Безалкогольные напинки"
+                          defaultValue={item.workingSector ? item.workingSector.id: ''}
+                          loading={workingSectorResponse.loading}
+                          onChange={(value) => setItem({
+                            ...item,
+                            workingSector: {
+                              ...item.workingSector,
+                              id: value
+                            }
+                          })}
                         >
-                          <StyledSelect.Option
-                            value="Безалкогольные напинки"
-                          >
-                            Безалкогольные напинки
-                          </StyledSelect.Option>
+                          {
+                            workingSectors && workingSectors.map(({ node }) => (
+                              <StyledSelect.Option
+                                key={node.id}
+                                value={node.id}
+                              >
+                                { node.title }
+                              </StyledSelect.Option>
+                            ))
+                          }
                         </StyledSelect>
                       </div>
                     </Column>
@@ -130,28 +299,48 @@ const InnerForm = (props) => {
                       <div style={{ width: '100%',  marginBottom: '5px', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                         <div style={{ width: '80%' }}>
                           <InputTitle>Контрагенты</InputTitle>
-                          <StyledInput
-                            prefix={<img src={owner} />}
-                            defaultValue="Контрагент 4"
-                          ></StyledInput>
+
+                          <StyledSelect
+                            showSearch
+                            value={partnerValue}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={handleSearchPartner}
+                            onChange={handleChangePartner}
+                            notFoundContent={null}
+                            loading={partnerLoading}
+                          >
+                            {
+                              partnerData && partnerData.map(({ node }) => (
+                                <StyledSelect.Option key={node.id} value={node.id}>
+                                  { node.title ? node.title : 'Нет названия' }
+                                </StyledSelect.Option>
+                              ))
+                            }
+                          </StyledSelect>
                         </div>
-                        <StyledButton backgroundColor="#008556">
+                        <StyledButton
+                          backgroundColor="#008556"
+                          type="button"
+                          onClick={addPartnerToBrand}
+                        >
                           Добавить
                         </StyledButton>
                       </div>
                       <div style={{ width: '80%', display: 'flex', flexWrap: 'wrap' }}>
-                        <Chip >
-                          <img src={chipIcon} alt="icon"/>
-                          <span>Контрагент 1</span>
-                        </Chip>
-                        <Chip >
-                          <img src={chipIcon} alt="icon"/>
-                          <span>Контрагент 2</span>
-                        </Chip>
-                        <Chip >
-                          <img src={chipIcon} alt="icon"/>
-                          <span>Контрагент 3</span>
-                        </Chip>
+                        {
+                          item.partner && item.partner.edges.map(({ node }) => (
+                            <Chip key={node.id}>
+                              <img
+                                src={chipIcon}
+                                alt="icon"
+                                onClick={(e) => removePartnerFromBrand(e, node.id)}
+                              />
+                              <span>{ node.title }</span>
+                            </Chip>
+                          ))
+                        }
                       </div>
                     </Column>
                   </Row>

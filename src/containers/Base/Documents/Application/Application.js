@@ -1,5 +1,6 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
 import { Layout, Breadcrumb } from 'antd';
 
 import InnerForm from './TabPanelForm/TabPanelFormApplication';
@@ -10,8 +11,56 @@ const { Content, Sider } = Layout;
 
 export const constructApplication = createContext();
 
+const APPLICATION_ITEM = gql`
+ query searchApplication($id: ID) {
+    searchApplication(id: $id) {
+      edges {
+      node {
+        id
+        reservation {
+          edges {
+            node {
+              dateFrom
+              dateTo
+            }
+          }
+        }
+        project {
+          title
+          creator
+          createdAt
+          brand {
+            id
+            title
+          }
+          partner {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+    }
+  }
+`;
+
 const ApplicationBase = (props) => {
+  const [ id ] = useState(props.match.params.id);
   const [item, setItem] = useState({});
+
+  const { error, data, loading } = useQuery( APPLICATION_ITEM, { variables: { id } } )
+
+  useMemo(() => {
+    if (data && data.searchApplication.edges.length) {
+      setItem(data.searchApplication.edges[0].node);
+    }
+  }, [data]);
+  if (error) return <h3>Error :(</h3>;
+  if (loading) return <h3></h3>;
 
   return (
     <constructApplication.Provider value={[item, setItem]}>

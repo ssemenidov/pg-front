@@ -96,7 +96,7 @@ export default function InnerForm(props) {
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
-  const [deleteLocation] = useMutation( LOCATION_DELETE);
+  const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
     let constructionIdList = null;
     if(item.construction && item.construction.edges) {

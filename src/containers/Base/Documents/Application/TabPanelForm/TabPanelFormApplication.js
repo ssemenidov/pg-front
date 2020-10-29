@@ -10,8 +10,8 @@ import {
   StyledInput, StyledSelect
 } from '../../../../../components/Styles/DesignList/styles';
 
-import owner from "../../../../../img/input/owner.svg";
-import suitcase from "../../../../../img/input/suitcase.svg";
+import owner from '../../../../../img/input/owner.svg';
+import suitcase from '../../../../../img/input/suitcase.svg';
 
 import { constructApplication } from '../Application';
 
@@ -60,119 +60,119 @@ const InnerForm = (props) => {
   };
 
   return (
-    <form style={{ width: '100%' }}>
-      <HeaderWrapper>
-        <HeaderTitleWrapper>
-          <TitleLogo />
-          <JobTitle>Приложение № 2020050301323</JobTitle>
-        </HeaderTitleWrapper>
-        <ButtonGroup>
-          <StyledButton backgroundColor="#008556">
-            Сохранить
-          </StyledButton>
-        </ButtonGroup>
-      </HeaderWrapper>
-      <div>
-        <Grid fluid className="resetPadding" style={{ padding: 0 }}>
-          <Row xs={12}>
-            <Col xs={12}>
-              <Medium>
-                <BlockTitle>Редактирование информации</BlockTitle>
-                <div className="block-edit-info" >
-                  <RowStyled style={{ alignItems: 'flex-start' }}>
-                    <Column className="block-edit-info__column" style={{ width: '45%', marginRight: '77px' }}>
-                      <div style={{ width: '100%' }}>
-                        <InputTitle>Документы</InputTitle>
-                        <Upload
-                          {...uploadConfig}
-                          fileList={fileList}
-                        >
-                          <StyledButton
-                            type="button"
-                            className="block-edit-info__btn-upload"
+      <form style={{ width: '100%' }}>
+        <HeaderWrapper>
+          <HeaderTitleWrapper>
+            <TitleLogo />
+            <JobTitle>Приложение № 2020050301323</JobTitle>
+          </HeaderTitleWrapper>
+          <ButtonGroup>
+            <StyledButton backgroundColor="#008556">
+              Сохранить
+            </StyledButton>
+          </ButtonGroup>
+        </HeaderWrapper>
+        <div>
+          <Grid fluid className="resetPadding" style={{ padding: 0 }}>
+            <Row xs={12}>
+              <Col xs={12}>
+                <Medium>
+                  <BlockTitle>Редактирование информации</BlockTitle>
+                  <div className="block-edit-info" >
+                    <RowStyled style={{ alignItems: 'flex-start' }}>
+                      <Column className="block-edit-info__column" style={{ width: '45%', marginRight: '77px' }}>
+                        <div style={{ width: '100%' }}>
+                          <InputTitle>Документы</InputTitle>
+                          <Upload
+                            {...uploadConfig}
+                            fileList={fileList}
                           >
-                            Загрузить скан приложения (.pdf)
-                          </StyledButton>
-                        </Upload>
-                      </div>
-                    </Column>
-                    <Column className="block-edit-info__column">
-                      <div style={{ width: '100%', marginBottom: '23px' }}>
-                        <InputTitle>Дата создания</InputTitle>
-                        <DatePicker
-                          placeholder="01/01/2020"
-                          size={'large'}
-                          format='DD/MM/YYYY'
-                          style={{ width: '100%' }}
-                        />
-                      </div>
-                      <div style={{ width: '100%' }}>
-                        <InputTitle>Номер договора</InputTitle>
-                        <StyledInput
-                          prefix={<img src={owner} />}
-                          defaultValue="98457345"
-                        ></StyledInput>
-                      </div>
-                    </Column>
-                    <Column className="block-edit-info__column">
-                      <div style={{ width: '100%', marginBottom: '23px' }}>
-                        <InputTitle>Создатель</InputTitle>
-                        <StyledInput
-                          prefix={<img src={owner} />}
-                          defaultValue="Макаров Ульян"
-                        ></StyledInput>
-                      </div>
-                      <div style={{ width: '100%' }}>
-                        <InputTitle>Менеджер по продажам</InputTitle>
-                        <StyledInput
-                          prefix={<img src={suitcase} />}
-                          defaultValue="ИП Агенство"
-                        ></StyledInput>
-                      </div>
-                    </Column>
-                    <Column className="block-edit-info__column">
-                      <div style={{ width: '100%', marginBottom: '23px' }}>
-                        <InputTitle>Наименование контрагента</InputTitle>
-                        <StyledInput
-                          prefix={<img src={suitcase} />}
-                          defaultValue="ИП Агенство"
-                        ></StyledInput>
-                      </div>
-                      <div style={{ width: '100%' }}>
-                        <InputTitle>Статус возвтрата</InputTitle>
-                        <StyledSelect
-                          prefix={<img src={owner} />}
-                          defaultValue="Нет"
-                        >
-                          <StyledSelect.Option
-                            value="Нет"
+                            <StyledButton
+                              type="button"
+                              className="block-edit-info__btn-upload"
+                            >
+                              Загрузить скан приложения (.pdf)
+                            </StyledButton>
+                          </Upload>
+                        </div>
+                      </Column>
+                      <Column className="block-edit-info__column">
+                        <div style={{ width: '100%', marginBottom: '23px' }}>
+                          <InputTitle>Дата создания</InputTitle>
+                          <DatePicker
+                            placeholder="01/01/2020"
+                            size={'large'}
+                            format='DD/MM/YYYY'
+                            style={{ width: '100%' }}
+                          />
+                        </div>
+                        <div style={{ width: '100%' }}>
+                          <InputTitle>Номер договора</InputTitle>
+                          <StyledInput
+                            prefix={<img src={owner} />}
+                            defaultValue="98457345"
+                          ></StyledInput>
+                        </div>
+                      </Column>
+                      <Column className="block-edit-info__column">
+                        <div style={{ width: '100%', marginBottom: '23px' }}>
+                          <InputTitle>Создатель</InputTitle>
+                          <StyledInput
+                            prefix={<img src={owner} />}
+                            defaultValue="Макаров Ульян"
+                          ></StyledInput>
+                        </div>
+                        <div style={{ width: '100%' }}>
+                          <InputTitle>Менеджер по продажам</InputTitle>
+                          <StyledInput
+                            prefix={<img src={suitcase} />}
+                            defaultValue="ИП Агенство"
+                          ></StyledInput>
+                        </div>
+                      </Column>
+                      <Column className="block-edit-info__column">
+                        <div style={{ width: '100%', marginBottom: '23px' }}>
+                          <InputTitle>Наименование контрагента</InputTitle>
+                          <StyledInput
+                            prefix={<img src={suitcase} />}
+                            defaultValue="ИП Агенство"
+                          ></StyledInput>
+                        </div>
+                        <div style={{ width: '100%' }}>
+                          <InputTitle>Статус возвтрата</InputTitle>
+                          <StyledSelect
+                            prefix={<img src={owner} />}
+                            defaultValue="Нет"
                           >
-                            Нет
-                          </StyledSelect.Option>
-                        </StyledSelect>
-                      </div>
-                    </Column>
-                    <Column className="block-edit-info__column">
-                      <div style={{ width: '100%', marginBottom: '23px' }}>
-                        <InputTitle>Бренд</InputTitle>
-                        <StyledInput
-                          prefix={<img src={owner} />}
-                          defaultValue="CocaCola"
-                        ></StyledInput>
-                      </div>
-                      <div style={{ width: '100%' }}>
-                        <InputTitle>Период приложения</InputTitle>
-                        <StyledInput
-                          prefix={<img src={owner} />}
-                          defaultValue="19.05.2020 - 25.08.2020"
-                        ></StyledInput>
-                      </div>
-                    </Column>
-                  </RowStyled>
-                </div>
-              </Medium>
-              <style>
-                {`
+                            <StyledSelect.Option
+                              value="Нет"
+                            >
+                              Нет
+                            </StyledSelect.Option>
+                          </StyledSelect>
+                        </div>
+                      </Column>
+                      <Column className="block-edit-info__column">
+                        <div style={{ width: '100%', marginBottom: '23px' }}>
+                          <InputTitle>Бренд</InputTitle>
+                          <StyledInput
+                            prefix={<img src={owner} />}
+                            defaultValue="CocaCola"
+                          ></StyledInput>
+                        </div>
+                        <div style={{ width: '100%' }}>
+                          <InputTitle>Период приложения</InputTitle>
+                          <StyledInput
+                            prefix={<img src={owner} />}
+                            defaultValue="19.05.2020 - 25.08.2020"
+                          ></StyledInput>
+                        </div>
+                      </Column>
+                    </RowStyled>
+                  </div>
+                </Medium>
+                <style>
+                  {`
                   .block-edit-info {
                     padding-left: 30px;
                     padding-right: 30px;
@@ -221,12 +221,12 @@ const InnerForm = (props) => {
                     width: auto !important;
                   }
                 `}
-              </style>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    </form>
+                </style>
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+      </form>
   );
 };
 
