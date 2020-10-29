@@ -29,6 +29,7 @@ const APPLICATION_ITEM = gql`
           title
           creator
           createdAt
+          comment
           brand {
             id
             title

@@ -65,7 +65,6 @@ export const Address = (props) => {
              {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
              )}
-
             </StyledSelect>
           </div>
         </Row>

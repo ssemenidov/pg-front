@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Col, Grid, Row } from 'react-flexbox-grid';
-import { Upload, DatePicker} from 'antd';
+import {Upload, DatePicker, Input} from 'antd';
 
 import { ButtonGroup } from '../../../../../components/Styles/ButtonStyles';
 import { BlockTitle, Column, InputTitle, JobTitle, Medium, Row as RowStyled } from '../../../../../components/Styles/StyledBlocks';
@@ -14,6 +14,7 @@ import owner from '../../../../../img/input/owner.svg';
 import suitcase from '../../../../../img/input/suitcase.svg';
 
 import { constructApplication } from '../Application';
+import moment from "moment";
 
 const InnerForm = (props) => {
   const [item, setItem] = useContext(constructApplication);
@@ -58,6 +59,17 @@ const InnerForm = (props) => {
       setFileList(fileList)
     },
   };
+
+  function onChangeDatePicker(date) {
+    const dateNow = date && date;
+
+    if(dateNow) {
+      setItem({...item, project: {
+        ...item.project,
+        createdAt: new Date(dateNow)
+      }});
+    }
+  }
 
   return (
       <form style={{ width: '100%' }}>
@@ -104,6 +116,8 @@ const InnerForm = (props) => {
                             size={'large'}
                             format='DD/MM/YYYY'
                             style={{ width: '100%' }}
+                            defaultValue={item.project ? moment(item.project.createdAt) : ''}
+                            onChange={onChangeDatePicker}
                           />
                         </div>
                         <div style={{ width: '100%' }}>
@@ -111,6 +125,14 @@ const InnerForm = (props) => {
                           <StyledInput
                             prefix={<img src={owner} />}
                             defaultValue="98457345"
+                            value={item.project ? item.project.code :""}
+                            onChange={(e) => {setItem({
+                              ...item,
+                              project: {
+                                ...item.project,
+                                code: e.target.value
+                              }
+                            })}}
                           ></StyledInput>
                         </div>
                       </Column>
@@ -119,14 +141,28 @@ const InnerForm = (props) => {
                           <InputTitle>Создатель</InputTitle>
                           <StyledInput
                             prefix={<img src={owner} />}
-                            defaultValue="Макаров Ульян"
+                            value={item.project ? item.project.creator :""}
+                            onChange={(e) => {setItem({
+                              ...item,
+                              project: {
+                                ...item.project,
+                                creator: e.target.value
+                              }
+                            })}}
                           ></StyledInput>
                         </div>
                         <div style={{ width: '100%' }}>
                           <InputTitle>Менеджер по продажам</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            defaultValue="ИП Агенство"
+                            value={item.project ? item.project.comment :""}
+                            onChange={(e) => {setItem({
+                              ...item,
+                              project: {
+                                ...item.project,
+                                comment: e.target.value
+                              }
+                            })}}
                           ></StyledInput>
                         </div>
                       </Column>
@@ -135,17 +171,40 @@ const InnerForm = (props) => {
                           <InputTitle>Наименование контрагента</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            defaultValue="ИП Агенство"
+                            value={item.partner ? item.partner.edges[0].node.title :""}
+                            onChange={(e) => {setItem({
+                              ...item,
+                              partner: {
+                                edges: [{
+                                  node: {
+                                    ...item.partner.edges[0].node,
+                                    title: e.target.value
+                                  }
+                                }]
+                              }
+                            })}}
                           ></StyledInput>
                         </div>
                         <div style={{ width: '100%' }}>
                           <InputTitle>Статус возвтрата</InputTitle>
                           <StyledSelect
                             prefix={<img src={owner} />}
-                            defaultValue="Нет"
+                            defaultValue={item.project ? item.project.returnStatus: false}
+                            onChange={(value) => {setItem({
+                              ...item,
+                              project: {
+                                ...item.project,
+                                returnStatus: value
+                              }
+                            })}}
                           >
                             <StyledSelect.Option
-                              value="Нет"
+                              value={true}
+                            >
+                              Да
+                            </StyledSelect.Option>
+                            <StyledSelect.Option
+                              value={false}
                             >
                               Нет
                             </StyledSelect.Option>
@@ -157,7 +216,17 @@ const InnerForm = (props) => {
                           <InputTitle>Бренд</InputTitle>
                           <StyledInput
                             prefix={<img src={owner} />}
-                            defaultValue="CocaCola"
+                            value={item.project ? item.project.brand.title :""}
+                            onChange={(e) => {setItem({
+                              ...item,
+                              project: {
+                                ...item.project,
+                                brand: {
+                                  ...item.project.brand,
+                                  title: e.target.value
+                                }
+                              }
+                            })}}
                           ></StyledInput>
                         </div>
                         <div style={{ width: '100%' }}>
