@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { crewsContext } from './Crews';
-
 import { useQuery, gql, useMutation } from '@apollo/client';
 
+import styled from 'styled-components';
+import { List } from 'antd';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import Table from '../../../components/Tablea';
-
+import oval from '../../../img/Oval.svg';
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
+  const[current,setCurrent]=useState(0);
   const columns = [
     {
       title: 'Код конструкции',
@@ -89,7 +92,6 @@ const PanelDesign = (props) => {
     //   date_start: '19.06.2020',
     // },
   ];
-
  
 
   const CREWS_T = gql`
@@ -145,9 +147,10 @@ const PanelDesign = (props) => {
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
   if (data) {
-    if(data.searchCrew.edges[0])
+
+    if(data.searchCrew.edges[current])
     {
-      data1 = data.searchCrew.edges[0].node.constructionSet.edges.map((item) => ({
+      data1 = data.searchCrew.edges[current].node.constructionSet.edges.map((item) => ({
       key: item.node.id,
       code: item.node.code,
       format: item.node.format,
@@ -158,11 +161,23 @@ const PanelDesign = (props) => {
     }));
   }
   }
-
   return (
     <>
+     <StyledCrewsBlock>
+        <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
+        <List>
+         {data.searchCrew.edges.map((item,index)=>
+           <StyledListItem key={index} onClick={()=>{  setCurrent(index)}}>
+           <img src={oval} alt="" />
+           <span>{item.node.name}</span>
+         </StyledListItem>
+         )}
+        </List>
+      </StyledCrewsBlock>
+      <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
         <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные_конструкции`} />
+      </div>
       </div>
       <style>
         {`.outdoor-table-bar {
@@ -175,3 +190,17 @@ const PanelDesign = (props) => {
 };
 
 export default PanelDesign;
+const StyledCrewsBlock = styled.div`
+  border-radius: 8px;
+  width: 330px;
+  margin-right: 15px;
+  border: 1px solid #d3dff0;
+  padding: 15px;
+`;
+const StyledListItem = styled(List.Item)`
+  display: flex;
+  justify-content: flex-start;
+  span {
+    margin-left: 20px;
+  }
+`;

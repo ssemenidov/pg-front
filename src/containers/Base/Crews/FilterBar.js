@@ -8,6 +8,8 @@ import {
 } from '../../../components/Styles/StyledFilters';
 import { Select, Collapse, Checkbox, DatePicker, Form,Input} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
 const { Option } = Select;
 const { Panel } = Collapse;
 const FilterBar = () => {
