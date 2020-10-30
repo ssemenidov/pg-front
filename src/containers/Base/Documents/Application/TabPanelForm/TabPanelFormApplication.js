@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Col, Grid, Row } from 'react-flexbox-grid';
-import {Upload, DatePicker, Input} from 'antd';
+import { Upload, DatePicker } from 'antd';
+import moment from 'moment';
 
 import { ButtonGroup } from '../../../../../components/Styles/ButtonStyles';
 import { BlockTitle, Column, InputTitle, JobTitle, Medium, Row as RowStyled } from '../../../../../components/Styles/StyledBlocks';
@@ -14,9 +15,8 @@ import owner from '../../../../../img/input/owner.svg';
 import suitcase from '../../../../../img/input/suitcase.svg';
 
 import { constructApplication } from '../Application';
-import moment from "moment";
 
-const InnerForm = (props) => {
+const InnerForm = () => {
   const [item, setItem] = useContext(constructApplication);
   const [fileList, setFileList] = useState([]);
 
@@ -60,7 +60,7 @@ const InnerForm = (props) => {
     },
   };
 
-  function onChangeDatePicker(date) {
+  const onChangeDatePicker = (date) => {
     const dateNow = date && date;
 
     if(dateNow) {
@@ -71,6 +71,39 @@ const InnerForm = (props) => {
     }
   }
 
+  const handlerRangePicker = ([dateFrom, dateTo]) => {
+    if(dateFrom) {
+      setItem({...item, reservation: {
+        edges: [
+          ...(item.reservation ? item.reservation.edges : []),
+          {
+            node: {
+              dateFrom: new Date(dateFrom)
+            }
+          }
+        ]
+      }});
+    }
+    if(dateTo) {
+      setItem({...item, reservation: {
+        edges: [
+          ...(item.reservation ? item.reservation.edges : []),
+          {
+            node: {
+              dateTo: new Date(dateTo)
+            }
+          }
+        ]
+      }});
+    }
+  }
+
+  const saveChangedData = (e) => {
+    e.preventDefault();
+
+
+  }
+
   return (
       <form style={{ width: '100%' }}>
         <HeaderWrapper>
@@ -79,7 +112,11 @@ const InnerForm = (props) => {
             <JobTitle>Приложение №{item.id && item.id}</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            <StyledButton backgroundColor="#008556">
+            <StyledButton
+              backgroundColor="#008556"
+              type="button"
+              onClick={(e) => saveChangedData(e)}
+            >
               Сохранить
             </StyledButton>
           </ButtonGroup>
@@ -240,10 +277,30 @@ const InnerForm = (props) => {
                         </div>
                         <div style={{ width: '100%' }}>
                           <InputTitle>Период приложения</InputTitle>
-                          <StyledInput
+                          <DatePicker.RangePicker
                             prefix={<img src={owner} />}
-                            defaultValue="19.05.2020 - 25.08.2020"
-                          ></StyledInput>
+                            defaultValue={[
+                              moment(
+                                (item.reservation
+                                  && item.reservation.edges
+                                  && item.reservation.edges[0]
+                                  && item.reservation.edges[0].node
+                                  && item.reservation.edges[0].node.dateFrom)
+                                  ? item.reservation.edges[0].node.dateFrom
+                                  : new Date(), "YYYY/MM/DD"),
+                              moment((item.reservation
+                                && item.reservation.edges
+                                && item.reservation.edges[0]
+                                && item.reservation.edges[0].node
+                                && item.reservation.edges[0].node.dateTo)
+                                ? item.reservation.edges[0].node.dateTo
+                                : new Date(), "YYYY/MM/DD")
+                            ]}
+                            format="YYYY/MM/DD"
+                            onChange={handlerRangePicker}
+                            size={'large'}
+                            style={{ width: '100%' }}
+                          />
                         </div>
                       </Column>
                     </RowStyled>

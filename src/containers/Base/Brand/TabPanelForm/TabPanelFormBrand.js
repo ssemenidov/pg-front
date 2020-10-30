@@ -85,8 +85,8 @@ const WORKING_SECTOR_LIST = gql`
  }
 `;
 const SEARCH_PARTNER = gql`
-  query searchPartner($title: String) {
-      searchPartner(title: $title) {
+  query searchPartner($title_Icontains: String) {
+      searchPartner(title_Icontains: $title_Icontains) {
         edges {
           node {
             id
@@ -148,7 +148,7 @@ const InnerForm = (props) => {
   useEffect(() => {
     getPartner({
       variables: {
-        title: debouncedSearchTerm
+        title_Icontains: debouncedSearchTerm
       }
     });
     setPartnerLoading(loading);
