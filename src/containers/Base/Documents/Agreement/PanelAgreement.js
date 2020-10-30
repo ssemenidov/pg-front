@@ -12,7 +12,7 @@ import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../sty
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import anchorIcon from '../../../../img/input/anchor.svg';
-
+import styled from 'styled-components';
 const CONTRACT_UPDATE = gql`
 mutation(
   $id:ID!
@@ -149,7 +149,7 @@ const PanelDesign = (props) => {
           <BlockTitle>Редактирование информации</BlockTitle>
           <BlockBody>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+            <SearchItem>
                 <InputTitle>Наименование контрагента</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
@@ -157,24 +157,24 @@ const PanelDesign = (props) => {
               // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
               
              ></StyledInput>
-              </div>
-              <div style={{ margin: '0 0 0 0.75vw' }}>
+            </SearchItem>
+               <SearchItem>
                 <InputTitle>Дата заключения</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
-              </div>
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
+               </SearchItem>
             </Row>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem>
                 <InputTitle>Начало действия</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
-              </div>
-              <div style={{ margin: '0 0 0 0.75vw' }}>
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
+               </SearchItem>
+               <SearchItem>
                 <InputTitle>Окончание действия</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '207px' }}/>
-              </div>
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
+               </SearchItem>
             </Row>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem>
                 <InputTitle>Создатель</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
@@ -182,54 +182,54 @@ const PanelDesign = (props) => {
               defaultValue={item.creator ? item.creator:""}
               onChange={(value) => setItem({ ...item, creator: value})}
              ></StyledInput>
-              </div>
-              <div style={{ margin: '0 0 0 ц0.75vw' }}>
+               </SearchItem>
+               <SearchItem>
                 <InputTitle>Инициатор</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.initiator ? item.initiator:""}
               onChange={(value) => setItem({ ...item, initiator: value})}
              ></StyledInput>
-              </div>
+               </SearchItem>
             </Row>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem>
                 <InputTitle>Тип договора</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.contractType ? item.contractType:""}
               onChange={(value) => setItem({ ...item, contractType: value})}
              ></StyledInput>
-              </div>
-              <div style={{ margin: '0 0 0 0.75vw' }}>
+               </SearchItem>
+               <SearchItem>
                 <InputTitle>Срок оплаты</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.paymentDate ? item.paymentDate:""}
               onChange={(value) => setItem({ ...item, paymentDate: value})}
              ></StyledInput>
-              </div>
+               </SearchItem>
             </Row>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem>
                 <InputTitle>Подписант в именительном падеже</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.signatoryOne ? item.signatoryOne:""}
               onChange={(value) => setItem({ ...item, signatoryOne: value})}
              ></StyledInput>
-              </div>
-              <div style={{ margin: '0 0 0 0.75vw' }}>
+               </SearchItem>
+               <SearchItem>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.signatoryTwo ? item.signatoryTwo:""}
               onChange={(value) => setItem({ ...item, signatoryTwo: value})}
              ></StyledInput>
-              </div>
+               </SearchItem>
             </Row>
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem>
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
@@ -237,8 +237,8 @@ const PanelDesign = (props) => {
               defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
-              </div>
-              <div style={{ margin: '0 0 0 0.75vw' }}>
+               </SearchItem>
+               <SearchItem>
                 <InputTitle>Статус возврата</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
@@ -246,26 +246,27 @@ const PanelDesign = (props) => {
               defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
-              </div>
+               </SearchItem>
             </Row>
 
             <Row>
-              <div style={{ margin: '0 0.75vw 0 0' }}>
+               <SearchItem style={{width:"100%"}}>
                 <InputTitle>Комментарий</InputTitle>
-                <StyledInput
-              prefix={<img src={anchorIcon} />}
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.comment ? item.comment:""}
-              onChange={(value) => setItem({ ...item, comment: value})}
-             ></StyledInput>
-              </div>
+                <StyledInput.TextArea rows={2}
+                placeholder="..."
+               defaultValue={item.comment ? item.comment:""}
+               onChange={(value) => setItem({ ...item, comment: value})}
+              size={'large'}
+            />
+                
+               </SearchItem>
             </Row>
           </BlockBody>
         </Medium>
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden', width: '100%' }}>
         <div className="outdoor-table-bar">
-          <Table style={{ width: '100%' }} columns={columns} data={data} />
+          <Table style={{ width: '100%' }} columns={columns} data={data}  title={`Связанные_проекты`}/>
         </div>
         <style>
           {`.outdoor-table-bar {
@@ -280,3 +281,13 @@ const PanelDesign = (props) => {
 };
 
 export default PanelDesign;
+const SearchItem = styled.div`
+  margin: 0 0.75vw 0 0.75vw;
+  display: flex;
+  flex-direction: column;
+
+  width:45%;
+  .ant-form-item{
+    margin-bottom:0;
+  }
+`;

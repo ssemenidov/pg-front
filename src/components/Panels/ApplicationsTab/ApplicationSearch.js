@@ -96,16 +96,19 @@ const ApplicationSearch = () => {
             <InputTitle>Бренд</InputTitle>
              <Form.Item name="brand" >
               <Input placeholder="Бренд" size={'large'} />
-            </Form.Item>
+              </Form.Item>
   
           </SearchItem> 
-          <div>
+          <SearchItem> 
+
             <InputTitle>Статус возврата</InputTitle>
-            <Radio.Group  >
-              <Radio value={1}>Есть</Radio>
+            <Form.Item name="returnStatus" >
+            <Radio.Group   style={{width:"100%"}}>
+              <Radio value={1}style={{    width: "50%"}}>Есть</Radio>
               <Radio value={2}>Нет</Radio>
             </Radio.Group>
-          </div>
+            </Form.Item>
+            </SearchItem> 
         </Row>
    
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>

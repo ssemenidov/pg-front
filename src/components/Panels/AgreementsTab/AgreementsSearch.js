@@ -89,9 +89,9 @@ const AgreementsSearch = () => {
         <SearchItem>
           <InputTitle>Статус возврата</InputTitle>
             <Form.Item name="returnStatus" >
-            <Radio.Group >
-              <Radio value={1}>Есть</Radio>
-              <Radio value={2}>Нет</Radio>
+            <Radio.Group style={{width:"100%"}}>
+              <Radio value={1}style={{    width: "50%"}}>Есть</Radio>
+              <Radio value={2} >Нет</Radio>
             </Radio.Group>
             </Form.Item>
           </SearchItem>
