@@ -51,7 +51,7 @@ const CONSTRUCT_UPDATE = gql`
     $owner: String
     $marketingAddress: String
     $backComment: String
-
+   
 
     $hasArea: Boolean
     $crew: ID
@@ -74,7 +74,7 @@ const CONSTRUCT_UPDATE = gql`
         owner: $owner
         marketingAddress: $marketingAddress
         backComment: $backComment
-        
+       
         hasArea:$hasArea
         crew: $crew
         techInventNumber: $techInventNumber

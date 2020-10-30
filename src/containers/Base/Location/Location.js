@@ -4,7 +4,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import InnerForm from './TabPanel/TabPanelLocation';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../styles/styles';
-
+// contract {
+//   id
+// }
 export const locationContext = createContext();
 const Location = (props) => {
   const [id, setId] = useState(props.match.params.id);

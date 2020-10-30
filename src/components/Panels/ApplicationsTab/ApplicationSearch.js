@@ -9,6 +9,7 @@ import GroupRadio from '../../Inputs/GroupRadio';
 import { Radio, DatePicker,Form,Input } from 'antd';
 import { StyledButton } from '../../../styles/styles';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
+import styled from 'styled-components';
 
 const ApplicationSearch = () => {
   const [form] = Form.useForm();
@@ -28,14 +29,14 @@ const ApplicationSearch = () => {
       <BlockBody>
       <Form form={form} onFinish={onFinish}>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+         <SearchItem>
           <InputTitle>Код приложения</InputTitle>
           <Form.Item name="code" >
               <Input placeholder="Код приложения" size={'large'} />
             </Form.Item>
           
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          </SearchItem> 
+           <SearchItem> 
           <InputTitle>Менеджер по продажам</InputTitle>
           <Form.Item name="saleManager" >
               <Input placeholder="Менеджер по продажам" size={'large'} />
@@ -43,68 +44,71 @@ const ApplicationSearch = () => {
           
         
 
-          </div>
+          </SearchItem> 
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+         <SearchItem> 
           <InputTitle>Номер договора</InputTitle>
              <Form.Item name="contractType" >
               <Input placeholder="Тип договора" size={'large'} />
             </Form.Item>
 
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          </SearchItem> 
+           <SearchItem> 
           <InputTitle>Менеджер бэк-офиса</InputTitle>
              <Form.Item name="backManager" >
               <Input placeholder="Менеджер бэк-офиса" size={'large'} />
             </Form.Item>
-          </div>
+          </SearchItem> 
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+         <SearchItem> 
           <InputTitle>Номер приложения</InputTitle>
              <Form.Item name="application" >
               <Input placeholder="Номер приложения" size={'large'} />
             </Form.Item>
            
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          </SearchItem> 
+           <SearchItem> 
             <InputTitle>Период приложения</InputTitle>
             <Form.Item name="period" >
-            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '203px' }}/>
+            <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '100%' }}/>
             </Form.Item>
-          </div>
+          </SearchItem> 
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+         <SearchItem> 
           <InputTitle>Наименование контрагента</InputTitle>
              <Form.Item name="partner" >
               <Input placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
            
-          </div>
-          <div style={{ margin: '0 0 0 0.75vw' }}>
+          </SearchItem> 
+           <SearchItem> 
           <InputTitle>Дата создания</InputTitle>
           <Form.Item name="create" >
-          <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '203px' }}/>
+          <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
             </Form.Item>
-          </div>
+          </SearchItem> 
         </Row>
         <Row>
-          <div style={{ margin: '0 0.75vw 0 0' }}>
+         <SearchItem> 
             <InputTitle>Бренд</InputTitle>
              <Form.Item name="brand" >
               <Input placeholder="Бренд" size={'large'} />
-            </Form.Item>
+              </Form.Item>
   
-          </div>
-          <div>
+          </SearchItem> 
+          <SearchItem> 
+
             <InputTitle>Статус возврата</InputTitle>
-            <Radio.Group  >
-              <Radio value={1}>Есть</Radio>
+            <Form.Item name="returnStatus" >
+            <Radio.Group   style={{width:"100%"}}>
+              <Radio value={1}style={{    width: "50%"}}>Есть</Radio>
               <Radio value={2}>Нет</Radio>
             </Radio.Group>
-          </div>
+            </Form.Item>
+            </SearchItem> 
         </Row>
    
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -125,3 +129,13 @@ const ApplicationSearch = () => {
 };
 
 export default ApplicationSearch;
+const SearchItem = styled.div`
+  margin: 0 0.75vw 0 0.75vw;
+  display: flex;
+  flex-direction: column;
+
+  width:45%;
+  .ant-form-item{
+    margin-bottom:0;
+  }
+`;

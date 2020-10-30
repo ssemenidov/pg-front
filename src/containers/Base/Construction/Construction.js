@@ -10,6 +10,9 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 export const constructContext = createContext();
+// advertisingSide {
+//   id
+//  }
 const Construction = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({});

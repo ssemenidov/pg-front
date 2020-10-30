@@ -44,27 +44,47 @@ const ApplicationsPanel = () => {
         dataIndex: 'code',
 
         width: 130,
+        sorter: {
+          compare: (a, b) => a.code.length - b.code.length,
+          multiple: 1,
+        },
         },
         {
         title: 'Контрагент',
         dataIndex: 'agreement',
 
         width: 100,
+        sorter: {
+          compare: (a, b) => a.agreement.length - b.agreement.length,
+          multiple: 1,
+        },
         },
         {
         title: 'Проект',
         dataIndex: 'project',
         width: 100,
+        sorter: {
+          compare: (a, b) => a.project.length - b.project.length,
+          multiple: 1,
+        },
         },
         {
         title: 'Дата  заключения',
         dataIndex: 'date_start',
         width: 100,
+        sorter: {
+          compare: (a, b) => a.date_start.length - b.date_start.length,
+          multiple: 1,
+        },
         },
         {
         title: 'Дата окончания',
         dataIndex: 'date_end',
         width: 100,
+        sorter: {
+          compare: (a, b) => a.date_end.length - b.date_end.length,
+          multiple: 1,
+        },
         },
     ];
 
