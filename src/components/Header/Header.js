@@ -48,6 +48,9 @@ const Header = () => {
           <Link to="/base/locations">Список местоположений</Link>
         </Menu.Item>
         <Menu.Item>
+          <Link to="/base/brands">Бренды</Link>
+        </Menu.Item>
+        <Menu.Item>
           <Link to="/base/partners">Контрагенты</Link>
         </Menu.Item>
         <Menu.Item>
