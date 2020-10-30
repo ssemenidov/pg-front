@@ -5,7 +5,7 @@ import Table from '../../../../components/Tablea';
 import { agreementContext } from './Agreement';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
-import { Select,DatePicker} from 'antd';
+import { Select,DatePicker,Upload} from 'antd';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
@@ -135,7 +135,7 @@ const PanelDesign = (props) => {
     <HeaderWrapper>
     <HeaderTitleWrapper>
       <TitleLogo />
-      <JobTitle>Проект</JobTitle>
+      <JobTitle>Договор № 2020050301323</JobTitle>
     </HeaderTitleWrapper>
     <ButtonGroup>
       <StyledButton backgroundColor="#008556" >
@@ -247,12 +247,35 @@ const PanelDesign = (props) => {
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
                </SearchItem>
+    
             </Row>
-
+            <Row>
+            <SearchItem style={{width:"100%"}}>
+            <InputTitle>Документы</InputTitle>
+            <StyledUpload >
+            <StyledButton
+              backgroundColor="#2C5DE5"
+              type="button"
+            >
+              Загрузить скан договора (.pdf)
+            </StyledButton>
+          
+          </StyledUpload>
+          <br/>
+          <StyledUpload>
+            <StyledButton
+              backgroundColor="#2C5DE5"
+              type="button"
+            >
+              Загрузить доп соглашение (.pdf)
+            </StyledButton>
+          </StyledUpload>
+          </SearchItem>
+          </Row>
             <Row>
                <SearchItem style={{width:"100%"}}>
                 <InputTitle>Комментарий</InputTitle>
-                <StyledInput.TextArea rows={2}
+                <StyledInput.TextArea rows={3}
                 placeholder="..."
                defaultValue={item.comment ? item.comment:""}
                onChange={(value) => setItem({ ...item, comment: value})}
@@ -290,4 +313,9 @@ const SearchItem = styled.div`
   .ant-form-item{
     margin-bottom:0;
   }
+`;
+const StyledUpload= styled(Upload)`
+width: 100%;
+display:flex;
+justify-content:space-between;
 `;
