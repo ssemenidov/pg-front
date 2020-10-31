@@ -146,12 +146,12 @@ const PanelDesign = (props) => {
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
   const [brands, setBrands] = useState(initData);
 
-  // const { loading, error, data } = useQuery(BRANDS_T, { variables: filter });
-  // if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
-  // if (data) {
-  //   setBrands(data.searchLocation.edges.map((item) => (stubDataBrands(item))))
-  // }
+  const { loading, error, data } = useQuery(BRANDS_T, { variables: filter });
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
+  if (data) {
+    setBrands(data.searchLocation.edges.map((item) => (stubDataBrands(item))))
+  }
 
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {
