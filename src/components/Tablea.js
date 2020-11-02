@@ -6,16 +6,13 @@ import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
+import attachIcon from '../img/header-bar/attach.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
-import arrowLeft from '../img/header-bar/arrow-left.svg';
-import arrowRight from '../img/header-bar/arrow-right.svg';
-import calendarIcon from '../img/header-bar/calendar.svg';
 import searchInputIcon from '../img/header-bar/search-icon.svg';
 import printerIcon from '../img/header-bar/printer.svg';
 import exportIcon from '../img/header-bar/export.svg';
 import settingsIcon from '../img/header-bar/settings.svg';
-import collapseUpIcon from '../img/input/collapse-up.svg';
-import collapseDownIcon from '../img/input/collapse-down.svg';
+
 const { Content, Sider } = Layout;
 
 let settingmenu = (
@@ -143,7 +140,10 @@ class Tablea extends React.Component {
               ? (
                 <React.Fragment>
                   {this.props.title ? (
-                    <h6 style={{ width: 'max-content' }}>{this.props.title}</h6>
+                    <div style={{display:"flex",alignItems:"center",height:"100%"}}>
+                    <img src={ attachIcon} alt=""/>
+                    <span style={{ minWidth: 'max-content' ,fontWeight:"600",marginLeft:"12px"}}>{this.props.title}</span>
+                  </div>
                   ) : (
                     <div>
                       <div>

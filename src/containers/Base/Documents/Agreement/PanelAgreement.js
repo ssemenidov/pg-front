@@ -289,7 +289,7 @@ const PanelDesign = (props) => {
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden', width: '100%' }}>
         <div className="outdoor-table-bar">
-          <Table style={{ width: '100%' }} columns={columns} data={data}  title={`Связанные_проекты`}/>
+          <Table style={{ width: '100%' }} columns={columns} data={data}  title={`Связанные проекты`}/>
         </div>
         <style>
           {`.outdoor-table-bar {

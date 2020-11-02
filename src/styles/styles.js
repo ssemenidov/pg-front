@@ -7,12 +7,8 @@ export const LeftBar = styled.div`
   display: flex;
   alight-items: center;
   flex-direction: column;
-<<<<<<< HEAD
-  width: 60px;
-=======
   min-width: 60px;
   max-width: 60px;
->>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
 `;
 
 export const StyledButton = styled.button`
