@@ -3,11 +3,13 @@ import { constructContext } from '../../../../../containers/Base/Construction/Co
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
-
+import { DatePicker } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
 import ownerIcon from '../../../../../img/input/owner.svg';
+import Moment from 'react-moment';
+import moment from 'moment';
 const CITY_T = gql`
     {
       searchCity {
@@ -98,7 +100,14 @@ export default function Intro() {
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Дата создания</InputTitle>
-            <StyledDatePicker />
+            <DatePicker placeholder="01/01/2020"
+             size={'large'}
+             format='DD/MM/YYYY'
+             style={{  width: '203px' }}
+             defaultValue={item.createdAt ? moment(item.createdAt) : ''}
+             onChange={(date) => setItem({ ...item, createdAt:new Date(date) })}
+             />
+
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Комментарий</InputTitle>

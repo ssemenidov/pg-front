@@ -33,7 +33,7 @@ const Agreements = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <PanelAgreements history={history} constructionID={props.match.params.id} />
+            <PanelAgreements history={history}  />
           </Content>
         </Layout>
       </Layout>

@@ -4,7 +4,7 @@ import FilterBar from './FilterBar';
 
 import { Layout, Menu, Breadcrumb, List } from 'antd';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+
 import { useHistory } from 'react-router';
 
 import { LeftBar } from '../../../components/Styles/DesignList/styles';
@@ -16,7 +16,7 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import oval from '../../../img/Oval.svg';
+
 
 const { Content, Sider } = Layout;
 
@@ -63,54 +63,9 @@ const Crews = () => {
                 </ButtonGroup>
               </HeaderWrapper>
               <div style={{ display: 'flex' }}>
-                <StyledCrewsBlock>
-                  <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
-                  <List>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                    <StyledListItem>
-                      <img src={oval} alt="" />
-                      <span>Кузьмин Виталий</span>
-                    </StyledListItem>
-                  </List>
-                </StyledCrewsBlock>
-                <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
+                
                   <PanelCrews style={{ flex: '0 1 auto' }} />
-                </div>
+               
               </div>
             </Content>
           </Layout>
@@ -144,19 +99,6 @@ const Crews = () => {
   );
 };
 
-const StyledCrewsBlock = styled.div`
-  border-radius: 8px;
-  width: 330px;
-  margin-right: 15px;
-  border: 1px solid #d3dff0;
-  padding: 15px;
-`;
-const StyledListItem = styled(List.Item)`
-  display: flex;
-  justify-content: flex-start;
-  span {
-    margin-left: 20px;
-  }
-`;
+
 
 export default Crews;

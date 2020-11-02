@@ -8,13 +8,10 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
 import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
-import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
-import { JobTitle } from '../../../../components/Styles/StyledBlocks';
+
 export const agreementContext = createContext();
 const { Header, Content, Sider } = Layout;
-const AGREEMENT_ITEM = gql`
+const CONTRACT_ITEM = gql`
   query SearchContract(
     $id:ID!
   )
@@ -45,28 +42,36 @@ const AGREEMENT_ITEM = gql`
           comment
           createdAt
           updatedAt
+          attachmentSet {
+            edges {
+              node {
+                id
+              }
+            }
+          }
 
         }
       }
     }
   }
 `;
+
 const OutdoorFurniture = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({});
 
   const history = useHistory();
-  const [collapsed, setCollapsed] = useState(true);
-  const { error, data, loading } = useQuery(AGREEMENT_ITEM , { variables: { id: id } });
-    useMemo(() => {
+  const { error, data, loading } = useQuery(CONTRACT_ITEM , { variables: { id: id } });
+
+  useMemo(() => {
     if (data) {
-      console.log(data);
       setItem(data.searchContract.edges[0].node);
     }
   }, [data]);
-  console.log(item);
-  // if (error) return <h3>Error :(</h3>;
-  // if (loading) return <h3></h3>;
+console.log(item);
+  if (error) return <h3>Error :(</h3>;
+
+
 
   return (
     <agreementContext.Provider value={ [item, setItem] }>
@@ -91,20 +96,10 @@ const OutdoorFurniture = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <HeaderWrapper>
-              <HeaderTitleWrapper>
-                <TitleLogo />
-                <JobTitle>Проект</JobTitle>
-              </HeaderTitleWrapper>
-              <ButtonGroup>
-                <StyledButton backgroundColor="#008556" onClick={() => history.push(`/base/documents/agreement/123`)}>
-                  Сохранить
-                </StyledButton>
-              </ButtonGroup>
-            </HeaderWrapper>
-            <div style={{ display: 'flex' }}>
-              <PanelAgreement style={{ flex: '0 1 auto' }} />
-            </div>
+
+
+              <PanelAgreement  />
+
           </Content>
         </Layout>
       </Layout>

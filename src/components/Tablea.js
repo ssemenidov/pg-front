@@ -5,13 +5,15 @@ import styled from 'styled-components';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
+import attachIcon from '../img/header-bar/attach.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
 import searchInputIcon from '../img/header-bar/search-icon.svg';
 import printerIcon from '../img/header-bar/printer.svg';
 import exportIcon from '../img/header-bar/export.svg';
 import settingsIcon from '../img/header-bar/settings.svg';
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
+
 let settingmenu = (
   <Menu>
     <Menu.Item>
@@ -135,7 +137,10 @@ class Tablea extends React.Component {
               ? (
                 <React.Fragment>
                   {this.props.title ? (
-                    <h6 style={{ width: 'max-content' }}>{this.props.title}</h6>
+                    <div style={{display:"flex",alignItems:"center",height:"100%"}}>
+                    <img src={ attachIcon} alt=""/>
+                    <span style={{ minWidth: 'max-content' ,fontWeight:"600",marginLeft:"12px"}}>{this.props.title}</span>
+                  </div>
                   ) : (
                     <div>
                       <div>

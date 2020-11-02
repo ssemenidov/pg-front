@@ -6,8 +6,15 @@ import {
   FilterText,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker, Form,Input} from 'antd';
+import { Select, Collapse, Checkbox, DatePicker, Form} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
+import { StyledButton, StyledSelect , StyledInput} from '../../../styles/styles';
+
+import cityIcon from '../../../img/input/input-city.svg';
+import ownerIcon from '../../../img/input/owner.svg';
+import phoneIcon from '../../../img/input/phone.svg';
+import constructionIcon from '../../../img/input/construction.svg';
+import marketIcon from '../../../img/input/market.svg';
 const { Option } = Select;
 const { Panel } = Collapse;
 const FilterBar = () => {
@@ -32,7 +39,7 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="Поиск по адресу" key="1">
           <Form.Item name="city">
-              <Select placeholder="Город" size={'large'}>
+              <Select placeholder="Город" size={'large'} menuItemSelectedIcon={<img src={  cityIcon } />}>
                 <Option value="Алматы">Алматы</Option>
                 <Option value="Астана">Астана</Option>
                 <Option value="Караганда">Караганда</Option>
@@ -46,26 +53,30 @@ const FilterBar = () => {
               </Select>
             </Form.Item>
             <Form.Item name="address">
-              <Input placeholder="Введите адрес" size={'large'}/>
+              <StyledInput 
+              placeholder="Адрес" 
+              size={'large'}
+              prefix={<img src={  cityIcon } />}
+                        />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Поиск по экипажу" key="2">
             <Form.Item name="name">
-              <Input placeholder="Имя" size={'large'}/>
+              <StyledInput placeholder="Имя" size={'large'}  prefix={<img src={  ownerIcon } />}/>
             </Form.Item>
             <Form.Item name="phoneNumber">
-              <Input placeholder="Номер телефона" size={'large'}/>
+              <StyledInput placeholder="Номер телефона" size={'large'} prefix={<img src={  phoneIcon }/>}/>
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Поиск по конструкции" key="4">
             <Form.Item name="constructionType">
-              <Input placeholder="Тип конструкции" size={'large'}/>
+              <StyledInput placeholder="Тип конструкции" size={'large'} prefix={<img src={  constructionIcon }/>}/>
             </Form.Item>
             <Form.Item name="constructionFormat">
-              <Input placeholder="Формат конструкции" size={'large'}/>
+              <StyledInput placeholder="Формат конструкции" size={'large'} prefix={<img src={  phoneIcon }/>}/>
             </Form.Item>
             <Form.Item name="startDate">
-              <Input placeholder="Дата начала" size={'large'}/>
+              <StyledInput placeholder="Дата начала" size={'large'} prefix={<img src={  marketIcon }/>}/>
             </Form.Item>
           </StyledPanel>
         </Collapse>

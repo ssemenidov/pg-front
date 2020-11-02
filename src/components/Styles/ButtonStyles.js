@@ -96,7 +96,7 @@ export const ResetButton = styled.button`
 export const SubmitButton = styled.button`
   padding: 10px 20px;
   background: #2c5de5;
-  margin-right: 10px;
+  margin-right: 27px;
   border: 1px solid #2c5de5;
   border-radius: 4px;
   font-family: 'SF UI Display Light', sans-serif;
@@ -131,7 +131,8 @@ export const BtnSuccess = styled.button`
 `;
 
 export const RedDeleteBtn = styled.button`
-  height: 55px;
+  height: 40px;
+  width:40px;
   border: 1px solid #d42d11;
   box-sizing: border-box;
   border-radius: 4px;

@@ -5,6 +5,8 @@ import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/
 
 import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import anchorIcon from '../../../../../img/input/anchor.svg';
+
+import porfolioIcon from '../../../../../img/input/portfolio.svg';
 export default function GeneralInfo() {
   const [item, setItem] = useContext(partnerContext);
   return (
@@ -13,12 +15,12 @@ export default function GeneralInfo() {
       <BlockBody>
         <form action="" >
           <Row>
-            <Column style={{ width: '45%' }}>
+            <Column style={{ width: '48%' }}>
               <Row style={{ padding: '0' }}>
                 <div style={{ width: '100%' }}>
                   <InputTitle>Наименование контрагента</InputTitle>
                   <StyledInput
-              prefix={<img src={anchorIcon} />}
+              prefix={<img src={porfolioIcon} />}
               defaultValue={item.title ? item.title : ''}
               onChange={(e) => setItem({ ...item, title: e.target.value })}></StyledInput>
                 </div>
@@ -34,9 +36,10 @@ export default function GeneralInfo() {
                 </div>
               </Row>
             </Column>
-            <Column style={{ width: '45%', marginBottom: 'auto' }}>
+            <Column style={{ width: '48%', marginBottom: 'auto' }}>
               <InputTitle>Комментарий</InputTitle>
-              <StyledInput.TextArea rows={2}
+              <StyledInput.TextArea rows={5}
+              placeholder="..."
               value={item.comment ? item.comment :""}
               onChange={(e) => {setItem({...item, comment:e.target.value})}}
               size={'large'}
@@ -45,7 +48,7 @@ export default function GeneralInfo() {
           </Row>
 
           <Row>
-            <Column style={{ width: '45%' }}>
+            <Column style={{ width: '48%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип контрагента</InputTitle>
                 <StyledSelect
@@ -57,7 +60,7 @@ export default function GeneralInfo() {
 
               </div>
             </Column>
-            <Column style={{ width: '45%' }}>
+            <Column style={{ width: '48%' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип клиента</InputTitle>
                 <StyledSelect
@@ -69,7 +72,7 @@ export default function GeneralInfo() {
             </Column>
           </Row>
           <Row>
-            <Column style={{ width: '45%', marginBottom: '21px' }}>
+            <Column style={{ width: '48%', marginBottom: '21px' }}>
               <div style={{ width: '100%' }}>
                 <InputTitle>БИН компании</InputTitle>
                 <StyledInput
