@@ -90,7 +90,6 @@ const RelatedBrands = () => {
   return <Table
     columns={columns}
     data={data}
-    select={true}
     notheader={true}
   />;
 };

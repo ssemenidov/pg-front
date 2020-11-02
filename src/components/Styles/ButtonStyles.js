@@ -131,7 +131,8 @@ export const BtnSuccess = styled.button`
 `;
 
 export const RedDeleteBtn = styled.button`
-  height: 55px;
+  height: 40px;
+  width:40px;
   border: 1px solid #d42d11;
   box-sizing: border-box;
   border-radius: 4px;

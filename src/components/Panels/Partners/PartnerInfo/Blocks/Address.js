@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledButton, StyledSelect , StyledInput} from '../../../../../styles/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
-
+import houseIcon from '../../../../../img/input/house.svg';
 export default function Adress() {
   const [item, setItem] = useContext(partnerContext);
   return (
@@ -53,7 +53,7 @@ export default function Adress() {
             <InputTitle>Юридический адрес</InputTitle>
 
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={ houseIcon } />}      
               defaultValue={item.legalAddress ? item.legalAddress : ''}
               onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
           </div>
@@ -63,7 +63,7 @@ export default function Adress() {
             <InputTitle>Фактический адрес</InputTitle>
 
             <StyledInput
-              prefix={<img src={anchorIcon} />}      
+              prefix={<img src={ houseIcon } />}      
               defaultValue={item.actualAddress ? item.actualAddress : ''}
               onChange={(e) => setItem({ ...item, actualAddress: e.target.value })}></StyledInput>
           </div>
