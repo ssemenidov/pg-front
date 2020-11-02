@@ -8,7 +8,7 @@ import {
 } from '../../../components/Styles/StyledFilters';
 import { Select, Collapse, Checkbox, DatePicker, Form} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { StyledButton, StyledSelect , StyledInput} from '../../../styles/styles';
+import { StyledButton, StyledSelect , StyledInput} from '../../../components/Styles/DesignList/styles';
 
 import cityIcon from '../../../img/input/input-city.svg';
 import ownerIcon from '../../../img/input/owner.svg';
@@ -53,8 +53,8 @@ const FilterBar = () => {
               </Select>
             </Form.Item>
             <Form.Item name="address">
-              <StyledInput 
-              placeholder="Адрес" 
+              <StyledInput
+              placeholder="Адрес"
               size={'large'}
               prefix={<img src={  cityIcon } />}
                         />

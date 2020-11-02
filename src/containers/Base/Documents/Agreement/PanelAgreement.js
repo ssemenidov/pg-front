@@ -6,9 +6,9 @@ import { agreementContext } from './Agreement';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import { Select,DatePicker,Upload} from 'antd';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import anchorIcon from '../../../../img/input/anchor.svg';
