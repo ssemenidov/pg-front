@@ -130,11 +130,10 @@ const ApplicationSearch = () => {
 
 export default ApplicationSearch;
 const SearchItem = styled.div`
-  margin: 0 0.75vw 0 0.75vw;
   display: flex;
   flex-direction: column;
 
-  width:45%;
+  width:48%;
   .ant-form-item{
     margin-bottom:0;
   }

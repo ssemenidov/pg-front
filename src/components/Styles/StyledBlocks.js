@@ -56,7 +56,7 @@ export const BlockBody = styled.div`
 export const Row = styled.div`
   width: 100%;
   display: flex;
-  padding: 1.5vw 0;
+  padding: 0.9vw 0;
   align-items: flex-end;
   justify-content: space-between;
 `;
