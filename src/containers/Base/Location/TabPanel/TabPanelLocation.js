@@ -15,7 +15,7 @@ import exportIcon from '../../../../img/header-bar/export.svg';
 import settingsIcon from '../../../../img/header-bar/settings.svg';
 
 import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
@@ -96,7 +96,7 @@ export default function InnerForm(props) {
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
-  const [deleteLocation] = useMutation( LOCATION_DELETE);
+  const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
     let constructionIdList = null;
     if(item.construction && item.construction.edges) {

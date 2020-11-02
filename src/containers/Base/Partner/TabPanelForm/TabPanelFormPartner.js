@@ -16,7 +16,7 @@ import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../styles/styles';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../components/Styles/DesignList/styles';
 
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';

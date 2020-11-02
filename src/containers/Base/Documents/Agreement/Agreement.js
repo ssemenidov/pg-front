@@ -28,7 +28,7 @@ const CONTRACT_ITEM = gql`
           }
           start
           end
-        
+
           creator
           initiator
           contractType
@@ -59,10 +59,10 @@ const CONTRACT_ITEM = gql`
 const OutdoorFurniture = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({});
-  
+
   const history = useHistory();
   const { error, data, loading } = useQuery(CONTRACT_ITEM , { variables: { id: id } });
-  
+
   useMemo(() => {
     if (data) {
       setItem(data.searchContract.edges[0].node);
@@ -96,10 +96,10 @@ console.log(item);
               margin: 0,
               minHeight: 280,
             }}>
-            
-        
+
+
               <PanelAgreement  />
-     
+
           </Content>
         </Layout>
       </Layout>

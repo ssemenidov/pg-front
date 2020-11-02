@@ -5,7 +5,7 @@ import { Radio, notification } from 'antd';
 import styled from 'styled-components';
 
 import { BlockBody, Row, Medium, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect,StyledInput } from '../../../../../styles/styles';
+import { StyledButton, StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 import GroupRadio from '../../../../Inputs/GroupRadio';
 import InputAnchor from '../../../../Inputs/InputAnchor';
 import { SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
@@ -32,7 +32,7 @@ export default function Details() {
            <StyledSelect
               defaultValue={item.familyConstruction && item.familyConstruction.id }
               onChange={(value) => setItem({ ...item, familyConstruction: { ...item.familyConstruction, id: value } })}>
-              
+
             </StyledSelect>
           </div>
           <div style={{ width: '48%' }}>
@@ -40,9 +40,9 @@ export default function Details() {
                <StyledSelect
               defaultValue={item.availabilityConstruction && item.availabilityConstruction.id }
               onChange={(value) => setItem({ ...item, availabilityConstruction: { ...item.availabilityConstruction, id: value } })}>
-              
+
             </StyledSelect>
-           
+
           </div>
         </Row>
         <Row>
@@ -54,8 +54,8 @@ export default function Details() {
               onChange={(e) =>
                 setItem({ ...item,  underFamilyConstruction: e.target.value  })
               }></StyledInput>
-           
-          
+
+
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Модель</InputTitle>
@@ -65,13 +65,13 @@ export default function Details() {
               onChange={(e) =>
                 setItem({ ...item,  modelConstruction: e.target.value  })
               }></StyledInput>
-           
+
           </div>
         </Row>
         <Row>
           <div>
             <InputTitle onClick={() => openNotification('bottomRight')}>Наличие земли (!)</InputTitle>
-            <StyledRadio 
+            <StyledRadio
               defaultValue={item.hasArea ? item.hasArea : false}
               onChange={(e) =>
                 setItem({ ...item,  hasArea: e.target.value  })

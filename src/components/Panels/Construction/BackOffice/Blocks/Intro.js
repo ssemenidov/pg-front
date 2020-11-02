@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 import { DatePicker } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 
@@ -47,7 +47,7 @@ export default function Intro() {
       <BlockBody>
         <Row>
           <div style={{ width: '35%' }}>
-         
+
             <InputTitle>Город</InputTitle>
             <StyledSelect
               defaultValue={item.city ? item.city.id :""}
@@ -55,9 +55,9 @@ export default function Intro() {
              {city && city.searchCity.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
              )}
-             
+
             </StyledSelect>
-   
+
           </div>
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
@@ -67,7 +67,7 @@ export default function Intro() {
              {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
              )}
-             
+
             </StyledSelect>
           </div>
           <div style={{ width: '22%' }}>
@@ -76,9 +76,9 @@ export default function Intro() {
               defaultValue={item.postcode && item.postcode.id }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
               <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
-          
+
             </StyledSelect>
-            
+
           </div>
         </Row>
         <Row>
@@ -101,13 +101,13 @@ export default function Intro() {
           <div style={{ width: '35%' }}>
             <InputTitle>Дата создания</InputTitle>
             <DatePicker placeholder="01/01/2020"
-             size={'large'} 
+             size={'large'}
              format='DD/MM/YYYY'
              style={{  width: '203px' }}
              defaultValue={item.createdAt ? moment(item.createdAt) : ''}
              onChange={(date) => setItem({ ...item, createdAt:new Date(date) })}
              />
-            
+
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Комментарий</InputTitle>

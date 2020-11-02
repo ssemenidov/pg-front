@@ -7,7 +7,7 @@ import InputAnchor from '../../Inputs/InputAnchor';
 //import DatePicker from '../../Inputs/DatePicker';
 import GroupRadio from '../../Inputs/GroupRadio';
 import { Radio, DatePicker,Form,Input } from 'antd';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../Styles/DesignList/styles';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import styled from 'styled-components';
 
@@ -34,72 +34,72 @@ const ApplicationSearch = () => {
           <Form.Item name="code" >
               <Input placeholder="Код приложения" size={'large'} />
             </Form.Item>
-          
-          </SearchItem> 
-           <SearchItem> 
+
+          </SearchItem>
+           <SearchItem>
           <InputTitle>Менеджер по продажам</InputTitle>
           <Form.Item name="saleManager" >
               <Input placeholder="Менеджер по продажам" size={'large'} />
             </Form.Item>
-          
-        
 
-          </SearchItem> 
+
+
+          </SearchItem>
         </Row>
         <Row>
-         <SearchItem> 
+         <SearchItem>
           <InputTitle>Номер договора</InputTitle>
              <Form.Item name="contractType" >
               <Input placeholder="Тип договора" size={'large'} />
             </Form.Item>
 
-          </SearchItem> 
-           <SearchItem> 
+          </SearchItem>
+           <SearchItem>
           <InputTitle>Менеджер бэк-офиса</InputTitle>
              <Form.Item name="backManager" >
               <Input placeholder="Менеджер бэк-офиса" size={'large'} />
             </Form.Item>
-          </SearchItem> 
+          </SearchItem>
         </Row>
         <Row>
-         <SearchItem> 
+         <SearchItem>
           <InputTitle>Номер приложения</InputTitle>
              <Form.Item name="application" >
               <Input placeholder="Номер приложения" size={'large'} />
             </Form.Item>
-           
-          </SearchItem> 
-           <SearchItem> 
+
+          </SearchItem>
+           <SearchItem>
             <InputTitle>Период приложения</InputTitle>
             <Form.Item name="period" >
             <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{  width: '100%' }}/>
             </Form.Item>
-          </SearchItem> 
+          </SearchItem>
         </Row>
         <Row>
-         <SearchItem> 
+         <SearchItem>
           <InputTitle>Наименование контрагента</InputTitle>
              <Form.Item name="partner" >
               <Input placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
-           
-          </SearchItem> 
-           <SearchItem> 
+
+          </SearchItem>
+           <SearchItem>
           <InputTitle>Дата создания</InputTitle>
           <Form.Item name="create" >
           <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
             </Form.Item>
-          </SearchItem> 
+          </SearchItem>
         </Row>
         <Row>
-         <SearchItem> 
+         <SearchItem>
             <InputTitle>Бренд</InputTitle>
              <Form.Item name="brand" >
               <Input placeholder="Бренд" size={'large'} />
               </Form.Item>
-  
-          </SearchItem> 
-          <SearchItem> 
+
+          </SearchItem>
+          <SearchItem>
 
             <InputTitle>Статус возврата</InputTitle>
             <Form.Item name="returnStatus" >
@@ -108,9 +108,9 @@ const ApplicationSearch = () => {
               <Radio value={2}>Нет</Radio>
             </Radio.Group>
             </Form.Item>
-            </SearchItem> 
+            </SearchItem>
         </Row>
-   
+
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
           <SubmitButton  htmlType="submit">Поиск</SubmitButton>

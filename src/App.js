@@ -20,10 +20,13 @@ import Construction from './containers/Base/Construction/Construction';
 import Locations from './containers/Base/Locations/Locations';
 import Location from './containers/Base/Location/Location';
 import Partner from './containers/Base/Partner/Partner';
+import Brand from './containers/Base/Brand/Brand';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
-import Application_base from './containers/Base/Documents/Application_base/Application_base';
+import ApplicationsBase from './containers/Base/Documents/Application_base/Application_base';
+import ApplicationBase  from './containers/Base/Documents/Application/Application';
 import Crews from './containers/Base/Crews/Crews';
+import Brands from './containers/Base/Brands/Brands';
 
 import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
 import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
@@ -71,17 +74,20 @@ const App = () => {
 
           <Route path="/base" exact component={MainBase} />
           <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
+          <Route path="/base/brands" exact component={Brands} />
           <Route path="/base/partners" exact component={Partners} />
           <Route path="/base/partners/partner/:id?" exact component={Partner} />
+          <Route path="/base/partner/brand/:id?" exact component={Brand} />
           <Route path="/base/construction/:id?" exact component={Construction} />
           <Route path="/base/locations" exact component={Locations} />
           <Route path="/base/locations/location/:id?" exact component={Location} />
           <Route path="/base/locations/location/:id?/add_outdoor_furniture" exact component={OutdoorFurniture} />
           <Route path="/base/documents/agreements" exact component={Agreements} />
           <Route path="/base/documents/agreement/:id?" exact component={Agreement} />
-          <Route path="/base/documents/application_base" exact component={Application_base} />
+          <Route path="/base/documents/application_base" exact component={ApplicationsBase} />
+          <Route path="/base/documents/application/:id?" exact component={ApplicationBase} />
 
-          <Route path="/base/crews" component component={Crews} />
+          <Route path="/base/crews" component={Crews} />
 
           <Route path="/installations/design" component={Design} />
           <Route path="/installations" exact component={MainInstall} />

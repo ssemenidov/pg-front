@@ -16,7 +16,7 @@ import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../styles/styles';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../components/Styles/DesignList/styles';
 
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
@@ -51,7 +51,7 @@ const CONSTRUCT_UPDATE = gql`
     $owner: String
     $marketingAddress: String
     $backComment: String
-   
+
 
     $hasArea: Boolean
     $crew: ID
@@ -74,7 +74,7 @@ const CONSTRUCT_UPDATE = gql`
         owner: $owner
         marketingAddress: $marketingAddress
         backComment: $backComment
-       
+
         hasArea:$hasArea
         crew: $crew
         techInventNumber: $techInventNumber
@@ -86,7 +86,7 @@ const CONSTRUCT_UPDATE = gql`
         buhInventNumber:$buhInventNumber
         otherLink: $otherLink
         coordinates: $coordinates
-   
+
       }
     ) {
       construction {
@@ -101,16 +101,16 @@ const InnerForm = (props) => {
 
   const [updateConstruction,{error}] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
-  
+
   const Update = () => {
     updateConstruction({ variables: {
-       ...item, 
+       ...item,
        city:item.city&&  item.city.id,
         district:item.district && item.district.id,
         postcode:item.postcode && item.postcode.id,
         crew:item.crew && item.crew.id
        } });
-      
+
     // history.push(`/base/outdoor_furniture`);
     // history.go(0);
   };
@@ -118,7 +118,7 @@ const InnerForm = (props) => {
     deleteConstruction({ variables: { id: item.id } });
     history.push(`/base/outdoor_furniture`);
     history.go(0);
- 
+
   };
   return (
     <form style={{ width: '100%' }}>

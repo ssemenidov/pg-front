@@ -7,7 +7,7 @@ export const ControlToolbar = styled.div`
     width: 100%;
     height: 42px;
     border-radius: 6px;
-    padding: 0 10px;
+    padding: 11px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;

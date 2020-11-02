@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 
 
 import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';

@@ -1,16 +1,14 @@
-import React, { useEffect, useState, createContext, useMemo } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useState, createContext, useMemo } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
 import InnerForm from './TabPanel/TabPanelLocation';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import { LeftBar } from '../../../styles/styles';
-// contract {
-//   id
-// }
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
+
 export const locationContext = createContext();
 const Location = (props) => {
-  const [id, setId] = useState(props.match.params.id);
-  const [item, setItem] = useState({});
+  const [ id ] = useState(props.match.params.id);
+  const [ item, setItem ] = useState({});
   const LOCATION_ITEM = gql`
   query SearchLocation($id: ID!) {
     searchLocation(id: $id) {

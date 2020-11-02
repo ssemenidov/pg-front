@@ -1,4 +1,4 @@
-import { HeaderTitleWrapper, HeaderWrapper } from '../../../styles/styles';
+import { HeaderTitleWrapper, HeaderWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import React from 'react';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProject_new';
 
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -143,7 +143,7 @@ const Project_card = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-          
+
           }
         `}
       </style>

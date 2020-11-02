@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 import { BlockBody, Large, Row,  BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 export default function Accounting() {

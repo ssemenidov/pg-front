@@ -8,7 +8,7 @@ import { TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/cor
 
 import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/Styles/StyledBlocks';
 import { makeStyles } from '@material-ui/core/styles';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
 import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio, StyledTrash } from '../components/Styled'
 import useDebounce from '../components/useDebounce';

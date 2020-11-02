@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import Table from '../../../components/Tablea';
-import { StyledButton } from '../../../styles/styles';
+import { StyledButton } from '../../../components/Styles/DesignList/styles';
 
 import styled from 'styled-components';
 

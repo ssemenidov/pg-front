@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 
 import { BlockBody, BlockTitle, BlockTitleText, InputTitle, Medium, Row } from '../../../../Styles/StyledBlocks';
-import { StyledInput, StyledSelect } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect } from '../../../../Styles/DesignList/styles';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
@@ -29,7 +29,7 @@ export default function TechParams() {
               onChange={(e) => setItem({ ...item, techComment: e.target.value })}></StyledInput>
           </div>
         </Row>
-        <Row>            
+        <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Статус по подключению</InputTitle>
             <StyledInput

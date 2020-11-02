@@ -6,7 +6,7 @@ import { Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
-import { StyledSelect,StyledInput } from '../../../../../styles/styles';
+import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 const CITY_T = gql`
     {
       searchCity {
@@ -44,7 +44,7 @@ export const Address = (props) => {
       <BlockBody>
         <Row>
           <div style={{ width: '100%' }}>
-         
+
             <InputTitle>Город</InputTitle>
             <StyledSelect
               defaultValue={item.city ? item.city.id :""}
@@ -52,7 +52,7 @@ export const Address = (props) => {
              {city && city.searchCity.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
              )}
-             
+
             </StyledSelect>
           </div>
         </Row>
@@ -65,16 +65,15 @@ export const Address = (props) => {
              {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
              )}
-             
             </StyledSelect>
           </div>
         </Row>
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
-      
+
             <StyledInput
-             prefix={<img src={anchorIcon} />} 
+             prefix={<img src={anchorIcon} />}
               value={item.postcode? item.postcode:""}
               onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               placeholder="Код района"
@@ -86,13 +85,13 @@ export const Address = (props) => {
           <div style={{ width: '100%' }}>
             <InputTitle>Юридический адрес</InputTitle>
             <StyledInput
-             prefix={<img src={anchorIcon} />} 
+             prefix={<img src={anchorIcon} />}
               value={item.address? item.address:""}
               onChange={(e) => {setItem({...item, address:e.target.value})}}
               placeholder="Абая - ост. ГорВодоКанал"
               size={'large'}
             />
-  
+
           </div>
         </Row>
       </BlockBody>

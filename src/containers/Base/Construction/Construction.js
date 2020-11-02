@@ -100,7 +100,7 @@ const Construction = (props) => {
   if (loading) return <h3></h3>;
 
   return (
-    <constructContext.Provider value={ [item, setItem]}>
+    <constructContext.Provider value={[item, setItem]}>
       <Layout>
         <Layout>
           <Sider className="layout-sider"></Sider>

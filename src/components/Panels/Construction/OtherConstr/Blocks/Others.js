@@ -3,7 +3,7 @@ import {Upload, message, Modal} from 'antd';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 import {
   BlockBody,
   BlockTitleText,

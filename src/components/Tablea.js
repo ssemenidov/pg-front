@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
-import styled from 'styled-components';
+import React from 'react';
 import { Resizable } from 'react-resizable';
-import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import attachIcon from '../img/header-bar/attach.svg';
@@ -69,7 +68,6 @@ class Tablea extends React.Component {
     selectionType: 'checkbox',
     datetype: 'date',
     columns: this.props.columns,
-    // selectedRowKeys: []
   };
   components = {
     header: {
@@ -87,7 +85,6 @@ class Tablea extends React.Component {
       return { columns: nextColumns };
     });
   };
-
 
   render() {
     const { onRow } = this.props;
@@ -222,7 +219,6 @@ class Tablea extends React.Component {
               showSizeChanger: true,
               placement: 'top',
               pageSizeOptions: ['25', '50', '100','1000'],
-              showSizeChanger: true,
               total: this.props.data.length,
             }}
           />

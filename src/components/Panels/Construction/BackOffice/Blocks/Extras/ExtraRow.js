@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { InputTitle, Row, BlockBody } from '../../../../../Styles/StyledBlocks';
 
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../../Styles/DesignList/styles';
 
 import { RedDeleteBtn } from '../../../../../Styles/ButtonStyles';
 import red_can from '../../../../../../img/outdoor_furniture/red_can.svg';
@@ -34,7 +34,7 @@ export default function ExtraRow(props) {
     <Row>
       <InputWrapper>
         <InputTitle>Формат</InputTitle>
-       
+
         <StyledSelect
               defaultValue={side.format && side.format.id }
               onChange={(value) => setItem({ ...item, format: { ...item.format, id: value } })}>
@@ -42,7 +42,7 @@ export default function ExtraRow(props) {
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Сторона</InputTitle>
-      
+
         <StyledSelect
               defaultValue={side.side && side.side.id }
               onChange={(value) => setItem({ ...item, side: { ...item.side, id: value } })}>
@@ -50,7 +50,7 @@ export default function ExtraRow(props) {
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Рекламная сторона</InputTitle>
-       
+
         <StyledSelect
               defaultValue={side.advertisingSide && side.advertisingSide.id }
               onChange={(value) => setItem({ ...item, advertisingSide: { ...item.advertisingSide, id: value } })}>

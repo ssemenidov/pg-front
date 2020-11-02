@@ -24,5 +24,3 @@ export const adminRoutes = {
 export const adminRoutesArr = Object.entries(adminRoutesMap).map(
       x => { return { key: x[0], ...x[1]} }
   ).sort((a,b) => a.idx < b.idx)
-
-

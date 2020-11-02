@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
+import { useParams } from 'react-router';
+import { gql, useQuery } from '@apollo/client';
 
 import Table from '../../../TableResizable/Table';
-import { useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
-import moment from "moment";
 
-const LOCATION_ITEM_HISTORY = gql`
+import TabHistoryData from '../../stubDataSource/tabHistoryData';
+
+const CONSTRUCTION_ITEM_HISTORY = gql`
   query searchLogs($id: ID) {
     searchLogs(id: $id) {
     edges {
@@ -109,20 +110,14 @@ const initData = [
 export default function ConstructionHist() {
   const { id } = useParams();
   const [historyData, setHistoryData] = useState(initData);
-  const { error, data, loading } = useQuery(LOCATION_ITEM_HISTORY, { variables: { id: id } });
+  const { error, data, loading } = useQuery(CONSTRUCTION_ITEM_HISTORY, { variables: { id: id } });
 
   useMemo(() => {
     if (data && data.searchLogs && data.searchLogs.edges) {
 
-      let localData = data.searchLogs.edges.map(({ node }) => ({
-        key: node.id && node.id,
-        code: '#123123123',
-        date: node.changed && moment(node.changed).subtract(10, 'days').calendar(),
-        manager: node.user ? `${node.user.firstName} ${node.user.lastName}` : '',
-        type: node.actionOnModel && node.actionOnModel,
-        before: 'Пенелопа Круз',
-        after: 'Пенелопа Круз',
-      }));
+      let localData = data.searchLogs.edges.map(({ node }) => (
+        new TabHistoryData(node).getData()
+      ));
 
       setHistoryData(localData);
     }

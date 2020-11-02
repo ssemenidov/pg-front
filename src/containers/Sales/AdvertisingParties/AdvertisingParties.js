@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
@@ -83,7 +83,7 @@ const AdvertisingParties = () => {
               <JobTitle>Справочник рекламных сторон</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
-           
+
               <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
             </ButtonGroup>
           </HeaderWrapper>
@@ -254,7 +254,7 @@ const AdvertisingParties = () => {
           .ant-select ant-select-selection-item span {
             color: #656565 !important;
           }
-         
+
           .filter-panel-parameters {
             display: flex;
             flex-direction: column;
@@ -331,7 +331,7 @@ const AdvertisingParties = () => {
             align-items: center;
             padding: 15px 30px;
             border: 1px solid #FF5800 !important ;
-    
+
           }
           .header-page-btn:hover span {
             color:#FF5800 !important;
@@ -340,7 +340,7 @@ const AdvertisingParties = () => {
             color: #fff  !important;
             font-weight: 600;
           }
-       
+
           .page-label span{
             position: absolute;
             padding-left: 10px;

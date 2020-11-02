@@ -6,9 +6,9 @@ import { agreementContext } from './Agreement';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import { Select,DatePicker,Upload} from 'antd';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../styles/styles';
+import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../styles/styles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import anchorIcon from '../../../../img/input/anchor.svg';
@@ -127,7 +127,7 @@ const PanelDesign = (props) => {
   if (item.attachmentSet && item.attachmentSet.edges.length){
     data = item.attachmentSet.edges.map((attach) => ({
       key: attach.node.id,
-     
+
     }));
   }
   return (
@@ -155,7 +155,7 @@ const PanelDesign = (props) => {
               prefix={<img src={anchorIcon} />}
               defaultValue={item.partner ? item.partner.title:""}
               // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
-              
+
              ></StyledInput>
             </SearchItem>
                <SearchItem>
@@ -247,7 +247,7 @@ const PanelDesign = (props) => {
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>
                </SearchItem>
-    
+
             </Row>
             <Row>
             <SearchItem style={{width:"100%"}}>
@@ -259,7 +259,7 @@ const PanelDesign = (props) => {
             >
               Загрузить скан договора (.pdf)
             </StyledButton>
-          
+
           </StyledUpload>
           <br/>
           <StyledUpload>
@@ -281,7 +281,7 @@ const PanelDesign = (props) => {
                onChange={(value) => setItem({ ...item, comment: value})}
               size={'large'}
             />
-                
+
                </SearchItem>
             </Row>
           </BlockBody>

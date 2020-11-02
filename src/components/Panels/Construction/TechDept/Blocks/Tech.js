@@ -5,7 +5,7 @@ import { constructContext } from '../../../../../containers/Base/Construction/Co
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import InputAnchor from '../../../../Inputs/InputAnchor';
 import { getConstructionProps } from '../../../../../store/actions/constructionActions';
-import { StyledInput, StyledSelect } from '../../../../../styles/styles';
+import { StyledInput, StyledSelect } from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 export default function Tech() {
@@ -21,7 +21,7 @@ export default function Tech() {
               defaultValue={item.crew && item.crew.id }
               onChange={(value) => setItem({ ...item, crew: { ...item.crew, id: value } })}>
               <StyledSelect.Option value="Q3Jld05vZGU6MQ==">Тусупбеков</StyledSelect.Option>
-            
+
             </StyledSelect>
           </div>
           <div style={{ width: '48%' }}>
@@ -30,7 +30,7 @@ export default function Tech() {
               prefix={<img src={anchorIcon} />}
               defaultValue={item.techInventNumber ? item.techInventNumber : ''}
               onChange={(e) => setItem({ ...item, techInventNumber: e.target.value })}></StyledInput>
-          
+
           </div>
         </Row>
         <Row>

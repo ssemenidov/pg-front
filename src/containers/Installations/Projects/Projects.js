@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LeftBar, StyledButton, HeaderTitleWrapper, HeaderWrapper } from '../../../styles/styles';
+import { LeftBar, StyledButton, HeaderTitleWrapper, HeaderWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProjects';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';

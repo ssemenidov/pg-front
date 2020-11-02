@@ -6,10 +6,10 @@ import FilterBar from './FilterBar';
 
 import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import { LeftBar } from '../../../styles/styles';
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../styles/styles';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
