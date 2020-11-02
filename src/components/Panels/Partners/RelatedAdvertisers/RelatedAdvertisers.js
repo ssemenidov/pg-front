@@ -87,7 +87,7 @@ const RelatedAdvertisers = (props) => {
 
   return (
     <>
-      <Table columns={columns} data={data} select={true} notheader={true} />
+      <Table columns={columns} data={data}  notheader={true} />
     </>
   );
 };

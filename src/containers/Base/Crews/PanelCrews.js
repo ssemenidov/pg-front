@@ -176,7 +176,7 @@ const PanelDesign = (props) => {
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные_конструкции`} />
+        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />
       </div>
       </div>
       <style>

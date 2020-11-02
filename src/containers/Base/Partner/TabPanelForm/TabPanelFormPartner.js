@@ -3,6 +3,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 
 import { partnerContext } from '../Partner';
+import {  Input } from 'antd';
 import PartnerInfo from '../../../../components/Panels/Partners/PartnerInfo/PartnerInfo';
 import RelatedProjects from '../../../../components/Panels/Partners/RelatedProjects/RelatedProjects';
 import RelatedBrands from '../../../../components/Panels/Partners/RelatedBrands/RelatedBrands';
@@ -20,28 +21,24 @@ import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../sty
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
 import settings_icon from '../../../../img/outdoor_furniture/table_icons/setting.svg';
-
+import searchInputIcon from '../../../../img/header-bar/search-icon.svg';
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
 STab.tabsRole = 'Tab';
 STabPanel.tabsRole = 'TabPanel';
 
 const tabs = [
-  {
+ {
     value: 'Общая информация',
-    slug: 'general-info'
   },
   {
     value: 'Связанные проекты',
-    slug: 'related-projects'
   },
   {
     value: 'Связанные бренды',
-    slug: 'related-brands'
   },
   {
     value: 'Связанные рекламодатели',
-    slug: 'related-advertisers'
   }
 ];
 
@@ -112,6 +109,7 @@ mutation(
 export default function   TabPaneForm(props) {
   const [item, setItem] = useContext(partnerContext);
   const [activeTab, setActiveTab] = useState('general-info');
+  const [block,setBlock]=useState(0);
   const history = useHistory();
 
   const [updateConstruction] = useMutation(PARTNER_UPDATE);
@@ -137,12 +135,12 @@ export default function   TabPaneForm(props) {
   };
 
   const btnAddSome = () => {
-    switch (activeTab) {
-      case "related-projects":
+    switch (block) {
+      case 1:
         return <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>
-      case 'related-brands':
+      case 2:
         return <StyledButton backgroundColor="#2c5de5">Добавить бренд</StyledButton>
-      case 'related-advertisers':
+      case 3:
         return <StyledButton backgroundColor="#2c5de5">Добавить контрагента</StyledButton>
       default: return
     }
@@ -170,10 +168,10 @@ export default function   TabPaneForm(props) {
           <ControlToolbar position="static">
             <STabList
             >
-              {tabs.map((tab) => (
+              {tabs.map((tab,index) => (
                 <STab
-                  key={tab.slug}
-                  onClick={() => { setActiveTab(tab.slug) }}
+                  key={index}
+                  onClick={() => { setBlock(index) }}
                 >
                   {tab.value}
                 </STab>
@@ -181,6 +179,14 @@ export default function   TabPaneForm(props) {
             </STabList>
 
             <ToolbarControl>
+              {block==1 &&
+              <Input
+                style={{ marginLeft: '20px' ,overflowX:"hidden",minWidth:"35px"}}
+                placeholder="Быстрый поиск"
+                suffix="Найти"
+                prefix={<img src={searchInputIcon} />}
+              />}
+            
               <BtnPrint>
                 <img src={print_icon} alt="" />
               </BtnPrint>
