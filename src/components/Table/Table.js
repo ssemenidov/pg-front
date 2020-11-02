@@ -1,5 +1,5 @@
-import React from "react";
-import { useSticky } from "react-table-sticky";
+import React from 'react';
+import { useSticky } from 'react-table-sticky';
 import {
   useAsyncDebounce,
   useBlockLayout,
@@ -8,7 +8,7 @@ import {
   usePagination,
   useResizeColumns,
   useTable,
-} from "react-table";
+} from 'react-table';
 import settings_icon from "../../img/outdoor_furniture/table_icons/setting.svg";
 import export_icon from "../../img/outdoor_furniture/table_icons/export_icon.svg";
 import print_icon from "../../img/outdoor_furniture/table_icons/print.svg";

@@ -1,4 +1,4 @@
-import collapseIcon from '../../../../img/collapse-icon.svg';
+import collapseIcon from '../../../img/collapse-icon.svg';
 
 export const sidebarInfoData = [
   {

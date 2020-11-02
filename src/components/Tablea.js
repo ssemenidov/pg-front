@@ -214,7 +214,6 @@ class Tablea extends React.Component {
               showSizeChanger: true,
               placement: 'top',
               pageSizeOptions: ['25', '50', '100','1000'],
-              showSizeChanger: true,
               total: this.props.data.length,
             }}
           />

@@ -231,3 +231,26 @@ export const DropdownBtn1 = styled.div`
     height: 7px;
   }
 `;
+
+export const CustomTabList = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CustomTabBtn = styled.button`
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-family: 'SF UI Display Light', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  background: transparent;
+  color: #252525;
+  text-transform: uppercase;
+  border: 0;
+
+  &.active {
+    background: #2C5DE5;
+    color: #FFFFFF;
+  }
+`;
