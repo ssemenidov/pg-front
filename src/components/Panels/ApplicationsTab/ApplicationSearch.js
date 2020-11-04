@@ -8,6 +8,9 @@ import { Radio, DatePicker,Form,Input } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 import anchorIcon from '../../../img/input/anchor.svg';
+import ownerIcon from '../../../img/input/owner.svg';
+import portfolioIcon from '../../../img/input/portfolio.svg';
+import grateIcon from '../../../img/input/grate.svg';
 const ApplicationSearch = () => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(applicationsContext);
@@ -36,7 +39,7 @@ const ApplicationSearch = () => {
            <SearchItem>
           <InputTitle>Менеджер по продажам</InputTitle>
           <Form.Item name="saleManager" >
-              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Менеджер по продажам" size={'large'} />
+              <StyledInput   prefix={<img src={ ownerIcon } />} placeholder="Менеджер по продажам" size={'large'} />
             </Form.Item>
 
 
@@ -47,14 +50,14 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Номер договора</InputTitle>
              <Form.Item name="contractType" >
-              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Тип договора" size={'large'} />
+              <StyledInput   prefix={<img src={ grateIcon } />} placeholder="Номер договора" size={'large'} />
             </Form.Item>
 
           </SearchItem>
            <SearchItem>
           <InputTitle>Менеджер бэк-офиса</InputTitle>
              <Form.Item name="backManager" >
-              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Менеджер бэк-офиса" size={'large'} />
+              <StyledInput   prefix={<img src={ ownerIcon } />} placeholder="Менеджер бэк-офиса" size={'large'} />
             </Form.Item>
           </SearchItem>
         </Row>
@@ -62,7 +65,7 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Номер приложения</InputTitle>
              <Form.Item name="application" >
-              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Номер приложения" size={'large'} />
+              <StyledInput   prefix={<img src={ grateIcon } />} placeholder="Номер приложения" size={'large'} />
             </Form.Item>
 
           </SearchItem>
@@ -77,7 +80,7 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Наименование контрагента</InputTitle>
              <Form.Item name="partner" >
-              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Наименование контрагента" size={'large'} />
+              <StyledInput   prefix={<img src={ portfolioIcon } />} placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
 
           </SearchItem>

@@ -66,9 +66,9 @@ const FilterBar = () => {
 
           <StyledPanel header="По параметрам" key="4">
             <Form.Item name="family">
-              <StyledSelect placeholder="Семейство" size={'large'}>
-                <StyledSelect.Option value="case 1">case 1</StyledSelect.Option>
-                <StyledSelect.Option value="case 2">case 2</StyledSelect.Option>
+              <StyledSelect placeholder={<><img src={anchorIcon} /><span>Семейство</span> </>} size={'large'}>
+                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
+                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 2</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
             <Form.Item name="InventNumber">

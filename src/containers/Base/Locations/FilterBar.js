@@ -13,6 +13,11 @@ import anchorIcon from '../../../img/input/anchor.svg';
 import cityIcon from '../../../img/input/city.svg';
 import districtIcon from '../../../img/input/district.svg';
 import postIcon from '../../../img/input/post.svg';
+import houseIcon from '../../../img/input/house.svg';
+import grateIcon from '../../../img/input/grate.svg';
+import flagIcon from '../../../img/input/flag.svg';
+import commentIcon from '../../../img/input/comment.svg';
+import areaIcon from '../../../img/input/area.svg';
 
 const { Panel } = Collapse;
 const FilterBar = () => {
@@ -55,24 +60,24 @@ const FilterBar = () => {
               <StyledInput prefix={<img src={postIcon} />} placeholder="Почтовый индекс" size={'large'} />
             </Form.Item>
             <Form.Item name="adress_m">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Адрес маркетинговый" size={'large'} />
+              <StyledInput prefix={<img src={houseIcon} />} placeholder="Адрес маркетинговый" size={'large'} />
             </Form.Item>
             <Form.Item name="adress_j">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Адрес юридический" size={'large'} />
+              <StyledInput prefix={<img src={houseIcon} />} placeholder="Адрес юридический" size={'large'} />
             </Form.Item>
             <Form.Item name="cadastralNumber">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Кадастровый номер" size={'large'} />
+              <StyledInput prefix={<img src={grateIcon} />} placeholder="Кадастровый номер" size={'large'} />
             </Form.Item>
             <Form.Item name="targetPurpose">
-              <StyledSelect placeholder={<><img src={anchorIcon} /><span>Целевое назначение</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span>назначение 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span>назначение 2</span></StyledSelect.Option>
+              <StyledSelect placeholder={<><img src={flagIcon} /><span>Целевое назначение</span> </>} size={'large'}>
+                <StyledSelect.Option value="case 1"><img src={flagIcon} /><span>назначение 1</span></StyledSelect.Option>
+                <StyledSelect.Option value="case 2"><img src={flagIcon} /><span>назначение 2</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">
             <Form.Item name="resolutionNumber">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Номер договора" size={'large'} />
+              <StyledInput prefix={<img src={grateIcon} />} placeholder="Номер договора" size={'large'} />
             </Form.Item>
             <Form.Item name="contract_Start">
               <DatePicker placeholder="Дата начала" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
@@ -84,13 +89,13 @@ const FilterBar = () => {
           </StyledPanel>
           <StyledPanel header="По параметрам" key="3">
             <Form.Item name="area">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Площадь" size={'large'} />
+              <StyledInput prefix={<img src={areaIcon} />} placeholder="Площадь" size={'large'} />
             </Form.Item>
             <Form.Item name="format">
               <StyledInput prefix={<img src={anchorIcon} />} placeholder="Формат" size={'large'} />
             </Form.Item>
             <Form.Item name="comment">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Комментарий" size={'large'} />
+              <StyledInput prefix={<img src={commentIcon} />} placeholder="Комментарий" size={'large'} />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Другое" key="4">

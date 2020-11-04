@@ -8,6 +8,9 @@ import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/Sty
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
 import anchorIcon from '../../../img/input/anchor.svg';
+import ownerIcon from '../../../img/input/owner.svg';
+import portfolioIcon from '../../../img/input/portfolio.svg';
+import contractIcon from '../../../img/input/contract.svg';
 const AgreementsSearch = () => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(agreementsContext);
@@ -40,7 +43,7 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Инициатор</InputTitle>
             <Form.Item name="initiator" >
-              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Инициатор" size={'large'} />
+              <StyledInput  prefix={<img src={ ownerIcon } />} placeholder="Инициатор" size={'large'} />
             </Form.Item>
           </SearchItem>
         
@@ -49,13 +52,13 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Наименование контрагента</InputTitle>
             <Form.Item name="partner_Title" >
-              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Наименование контрагента" size={'large'} />
+              <StyledInput  prefix={<img src={ portfolioIcon } />} placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>
             <InputTitle>Создатель</InputTitle>
             <Form.Item name="creator" >
-              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Создатель" size={'large'} />
+              <StyledInput  prefix={<img src={ ownerIcon } />} placeholder="Создатель" size={'large'} />
             </Form.Item>
           </SearchItem>
         </Row>
@@ -63,7 +66,7 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Тип договора</InputTitle>
             <Form.Item name="contractType" >
-              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Тип договора" size={'large'} />
+              <StyledInput  prefix={<img src={ contractIcon } />} placeholder="Тип договора" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>

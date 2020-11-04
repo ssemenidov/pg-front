@@ -74,6 +74,8 @@ export const InputTitle = styled.h4`
   line-height: 16px;
   text-align: start;
   color: #1a1a1a;
+  display:flex;
+  align-items:flex-end;
   font-family: 'SF UI Display Light', sans-serif;
 `;
 

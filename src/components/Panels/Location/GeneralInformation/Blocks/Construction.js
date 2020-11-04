@@ -5,6 +5,7 @@ import { RedDeleteBtn, SecondaryBtnStyled } from '../../../../Styles/ButtonStyle
 import red_can from '../../../../../img/outdoor_furniture/red_can.svg';
 import tvIcon from '../../../../../img/input/tv.svg';
 import anchorIcon from '../../../../../img/input/anchor.svg';
+import infoIcon from '../../../../../img/input/info.svg';
 
 export const Construction = ({ code, marketingAddress, familyConstruction, remove, open }) => {
 
@@ -25,7 +26,7 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
           </div>
         </Row>
         <Row style={{ borderTop: '1px solid #d3dff0' }}>
-          <InputTitle>Информация о конструкции</InputTitle>
+          <InputTitle ><img src={infoIcon} style={{marginRight:"12px"}} /><span> Информация о конструкции</span></InputTitle>
         </Row>
         <Row>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>

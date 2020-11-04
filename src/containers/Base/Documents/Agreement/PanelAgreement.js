@@ -12,6 +12,10 @@ import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../com
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import anchorIcon from '../../../../img/input/anchor.svg';
+import ownerIcon from '../../../../img/input/owner.svg';
+import portfolioIcon from '../../../../img/input/portfolio.svg';
+import grateIcon from '../../../../img/input/grate.svg';
+import contractIcon from '../../../../img/input/contract.svg';
 import styled from 'styled-components';
 const CONTRACT_UPDATE = gql`
 mutation(
@@ -152,11 +156,12 @@ const PanelDesign = (props) => {
             <SearchItem>
                 <InputTitle>Наименование контрагента</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.partner ? item.partner.title:""}
-              // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
+                placeholder="ИП Агенство"
+                prefix={<img src={portfolioIcon} />}
+                defaultValue={item.partner ? item.partner.title:""}
+                // onChange={(value) => setItem({ ...item, partner: {...item.partner,title:value}  })}
 
-             ></StyledInput>
+                ></StyledInput>
             </SearchItem>
                <SearchItem>
                 <InputTitle>Дата заключения</InputTitle>
@@ -177,16 +182,18 @@ const PanelDesign = (props) => {
                <SearchItem>
                 <InputTitle>Создатель</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+                  placeholder="Макаров Ульян"
+                  prefix={<img src={ownerIcon} />}
 
-              defaultValue={item.creator ? item.creator:""}
-              onChange={(value) => setItem({ ...item, creator: value})}
+                  defaultValue={item.creator ? item.creator:""}
+                  onChange={(value) => setItem({ ...item, creator: value})}
              ></StyledInput>
                </SearchItem>
                <SearchItem>
                 <InputTitle>Инициатор</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+                placeholder="Макаров Ульян"
+              prefix={<img src={ownerIcon} />}
               defaultValue={item.initiator ? item.initiator:""}
               onChange={(value) => setItem({ ...item, initiator: value})}
              ></StyledInput>
@@ -196,7 +203,8 @@ const PanelDesign = (props) => {
                <SearchItem>
                 <InputTitle>Тип договора</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+                 placeholder="С поставщиком"
+              prefix={<img src={contractIcon} />}
               defaultValue={item.contractType ? item.contractType:""}
               onChange={(value) => setItem({ ...item, contractType: value})}
              ></StyledInput>
@@ -214,7 +222,8 @@ const PanelDesign = (props) => {
                <SearchItem>
                 <InputTitle>Подписант в именительном падеже</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+                placeholder="Абрамов Андриан"
+              prefix={<img src={ownerIcon} />}
               defaultValue={item.signatoryOne ? item.signatoryOne:""}
               onChange={(value) => setItem({ ...item, signatoryOne: value})}
              ></StyledInput>
@@ -222,7 +231,8 @@ const PanelDesign = (props) => {
                <SearchItem>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+                placeholder="Макарова Ульяна"
+              prefix={<img src={ownerIcon} />}
               defaultValue={item.signatoryTwo ? item.signatoryTwo:""}
               onChange={(value) => setItem({ ...item, signatoryTwo: value})}
              ></StyledInput>
@@ -232,7 +242,8 @@ const PanelDesign = (props) => {
                <SearchItem>
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
                 <StyledInput
-              prefix={<img src={anchorIcon} />}
+      
+                placeholder="Документ"
               prefix={<img src={anchorIcon} />}
               defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
@@ -242,7 +253,7 @@ const PanelDesign = (props) => {
                 <InputTitle>Статус возврата</InputTitle>
                 <StyledInput
               prefix={<img src={anchorIcon} />}
-              prefix={<img src={anchorIcon} />}
+              placeholder="Нет"
               defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
               onChange={(value) => setItem({ ...item, basedOnDocument: value})}
              ></StyledInput>

@@ -10,6 +10,7 @@ import {  Collapse,  Form } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 import anchorIcon from '../../../img/input/anchor.svg';
+import grateIcon from '../../../img/input/grate.svg';
 
 const { Panel } = Collapse;
 const FilterBar = () => {
@@ -46,7 +47,7 @@ const FilterBar = () => {
           </StyledPanel>
           <StyledPanel header=" По БИН" key="2">
             <Form.Item name="binNumber">
-              <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Введите БИН" size={'large'} />
+              <StyledInput   prefix={<img src={grateIcon} />} placeholder="Введите БИН" size={'large'} />
             </Form.Item>
           </StyledPanel>
         </Collapse>
