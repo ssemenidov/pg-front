@@ -16,32 +16,56 @@ const PanelDesign = (props) => {
       dataIndex: 'code',
 
       width: 130,
+      sorter: {
+        compare: (a, b) => a.code.localeCompare(b.code),
+        multiple: 1,
+      },  
     },
     {
       title: 'Формат',
       dataIndex: 'format',
 
       width: 100,
+      sorter: {
+        compare: (a, b) => a.format.localeCompare(b.format),
+        multiple: 1,
+      },  
     },
     {
       title: 'Город',
       dataIndex: 'city',
       width: 100,
+      sorter: {
+        compare: (a, b) => a.city.localeCompare(b.city),
+        multiple: 1,
+      },  
     },
     {
       title: 'Адрес',
       dataIndex: 'adress',
       width: 100,
+       sorter: {
+            compare: (a, b) => a.adress.localeCompare(b.adress),
+            multiple: 1,
+          },  
     },
     {
       title: 'Статус',
       dataIndex: 'status',
       width: 100,
+       sorter: {
+            compare: (a, b) => a.status.localeCompare(b.status),
+            multiple: 1,
+          },  
     },
     {
       title: 'Дата начала ',
       dataIndex: 'date_start',
       width: 100,
+       sorter: {
+            compare: (a, b) => a.date_start.localeCompare(b.date_start),
+            multiple: 1,
+          },  
     },
   ];
 

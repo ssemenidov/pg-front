@@ -168,28 +168,41 @@ const initColumnsTable = [
     dataIndex: 'code',
     width: 130,
     className: 'show',
-    isShowed: true
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.code.localeCompare(b.code),
+      multiple: 1,
+    }, 
+
   },
   {
     title: 'Город',
     dataIndex: 'city',
     width: 80,
     className: 'show',
-    isShowed: true
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.city.localeCompare(b.city),
+      multiple: 1,
+    }, 
   },
   {
     title: 'Почтовый индекс',
     dataIndex: 'post',
     width: 80,
     className: 'show',
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Район',
     dataIndex: 'district',
     width: 80,
     className: 'show',
-    isShowed: true
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.district.localeCompare(b.district),
+      multiple: 1,
+    },
   },
   {
     title: 'Адрес юридический',
