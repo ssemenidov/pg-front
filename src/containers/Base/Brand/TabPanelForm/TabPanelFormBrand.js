@@ -72,6 +72,22 @@ let tempDropdownList = (
   </Menu>
 );
 
+const DESIGN_LIST = gql`
+  query searchDesign {
+    searchDesign {
+    edges {
+      node {
+        id
+        img
+        isCurrent
+        startedAt
+        title
+      }
+    }
+  }
+  }
+`;
+
 const WORKING_SECTOR_LIST = gql`
  query searchWorkingSector {
   searchWorkingSector {
@@ -122,6 +138,8 @@ const InnerForm = (props) => {
   const [item, setItem] = useContext(constructBrand);
   const [workingSectors, setWorkingSectors] = useState(null);
 
+  const [designList, setDesignList] = useState(null);
+
   const [partnerValue, setPartnerValue] = useState(undefined);
   const [partnerData, setPartnerData] = useState([]);
   const [partnerSearchText, setPartnerSearchText] = useState('');
@@ -130,6 +148,7 @@ const InnerForm = (props) => {
   const workingSectorResponse = useQuery(WORKING_SECTOR_LIST);
   const [saveDataBrand] = useMutation(SAVE_BRAND);
   const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
+  const designData = useQuery(DESIGN_LIST);
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
 
   useMemo(() => {
@@ -159,6 +178,15 @@ const InnerForm = (props) => {
       setPartnerLoading(loading);
     }
   }, [data]);
+
+  useMemo(() => {
+    const localDesignList = designData.data && designData.data.searchDesign && designData.data.searchDesign.edges.map(item => ({
+      ...item,
+      isChecked: false
+    }));
+
+    setDesignList(localDesignList);
+  }, [designData.data]);
 
   const addPartnerToBrand = (e) => {
     e.preventDefault();
@@ -448,28 +476,7 @@ const InnerForm = (props) => {
               `}
               </style>
               <DesignList className="design-list">
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
+
                 <DesignListItem className="design-list__item archive-design">
                   <div className="design-list__item-b-image">
                     <img src={designIcon} alt="design icon" className="design-list__item-image"/>
@@ -492,226 +499,37 @@ const InnerForm = (props) => {
                     </div>
                   </div>
                 </DesignListItem>
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item current-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
+
+                {
+                  designList && designList.map(item => (
+                    <DesignListItem className={`design-list__item ${item.isCurrent ? 'current-design' : 'archive-design'}`}>
+                      <div className="design-list__item-b-image">
+                        <img src={designIcon} alt="design icon" className="design-list__item-image"/>
+                        <p className="design-list__item-label">
+                          {
+                            item.isCurrent
+                            ? 'текущий дизайн'
+                            : 'архив'
+                          }
+                        </p>
+                      </div>
+                      <h6 className="design-list__item-title">
+                        <span>{ item.title }</span>
+                      </h6>
+                      <div className="design-list__item-footer">
+                        <Checkbox checked={item.isChecked}>Выбрать</Checkbox>
+                        <div className="design-list__item-btn-group">
+                          <Button className="design-list__item-btn">
+                            <img src={printerIcon} />
+                          </Button>
+                          <Button className="design-list__item-btn">
+                            <img src={deleteIcon} />
+                          </Button>
+                        </div>
+                      </div>
+                    </DesignListItem>
+                  ))
+                }
               </DesignList>
             </Col>
           </Row>

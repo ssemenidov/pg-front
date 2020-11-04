@@ -19,24 +19,25 @@ export const changeColumns = (
 
   setColumnsForPopup(localColumnsForPopup);
 
-  const newColumnTables = localColumnsForPopup.filter(item => {
-    if(item.children && item.children.length) {
-      item.children = item.children.filter(el => {
-        if(el.isShowed) {
-          return el
-        }
-      });
-
+  let filterColumnTables = (columnsTable) => {
+    let filterPredicate = _item => {
+      return (
+        (_item.children && _item.children.length > 0) ||
+        (_item.children === undefined && (_item.isShowed || _item.dataIndex === 'btn-remove'))
+    )
+    };
+    return columnsTable.filter(filterPredicate).map(_item => {
+      let item = { ..._item };
+      if (item.children) {
+        item.children = item.children.filter(el => {
+          if (el.isShowed) {
+            return el
+          }
+        });
+      }
       return item;
-    }
-    if(item.isShowed) {
-      return item
-    }
-    if(item.dataIndex === 'btn-remove') {
-      return item
-    }
-  });
+    }).filter(filterPredicate);
+  }
 
-  console.log('newColumnTables ', newColumnTables)
-  setColumnsTable(newColumnTables);
+  setColumnsTable([...filterColumnTables(localColumnsForPopup)]);
 };

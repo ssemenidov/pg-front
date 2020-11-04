@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 import { Button, Checkbox, Dropdown, Input, Menu } from 'antd';
 
 import searchInputIcon from '../../img/header-bar/search-icon.svg';
@@ -41,11 +41,11 @@ let columnsListPopup = (
 
 const HeaderBar = (props) => {
   const {
-    children, enableEditQuantityOfColumns, listOfColumns,
+    children, enableEditQuantityOfColumns,
     columnsConfig
   } = props;
 
-  if(enableEditQuantityOfColumns && listOfColumns) {
+  if(enableEditQuantityOfColumns && columnsConfig && columnsConfig.columnsForPopup) {
     const menuItemLocal = (data) => (
       <Menu.Item key={data.dataIndex}>
         <Checkbox
@@ -63,7 +63,7 @@ const HeaderBar = (props) => {
     columnsListPopup = (
       <Menu>
         {
-          listOfColumns.map((col, index) => {
+          columnsConfig.columnsForPopup.map((col, index) => {
             if(col.children) {
               return (
                   <Menu.ItemGroup key={index} title={col.title}>

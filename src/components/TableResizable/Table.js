@@ -40,7 +40,7 @@ export default class AdvertisingParties extends Component {
 
   render() {
     const { loading, footer } = this.props;
-    const columns = this.state.columns.map((col, index) => ({
+    const columns = this.props.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -145,5 +145,32 @@ const StyledTable = styled(Table)`
 
   svg {
     vertical-align: unset;
+  }
+
+  .ant-table-content {
+    overflow: auto;
+  }
+  margin-bottom: 190px;
+  th,
+  td {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+  }
+
+  .ant-table {
+    border: 1px solid #d3dff0 !important;
+    border-radius: 8px;
+  }
+
+  .ant-table-row td:not(:first-child) {
+    padding: 5px !important;
+  }
+
+  th {
+    background: transparent !important;
+  }
+
+  .ant-table-body tr td:not(:first-child) {
+    background: #f5f7fa !important;
   }
 `;
