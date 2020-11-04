@@ -29,9 +29,11 @@ export default function GeneralInfo() {
                 <div style={{ width: '100%' }}>
                   <InputTitle>Сектор деятельности</InputTitle>
                   <StyledSelect
-                    defaultValue={item.workingSector && item.workingSector.id }
+                    defaultValue={item.workingSector ? item.workingSector.id: <img src={anchorIcon} /> }
                     onChange={(value) => setItem({ ...item, workingSector: { ...item.workingSector, id: value } })}>
-                    <StyledSelect.Option value="V29ya2luZ1NlY3Rvck5vZGU6MQ==">Сектор1</StyledSelect.Option>
+                    <StyledSelect.Option value="V29ya2luZ1NlY3Rvck5vZGU6MQ=="> 
+                    <img src={anchorIcon} /> <span>Сектор1</span>
+                     </StyledSelect.Option>
                   </StyledSelect>
                 </div>
               </Row>
@@ -52,10 +54,14 @@ export default function GeneralInfo() {
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип контрагента</InputTitle>
                 <StyledSelect
-                    defaultValue={item.partnerType && item.partnerType.id }
+                    defaultValue={item.partnerType ? item.partnerType.id: <img src={anchorIcon} /> }
                     onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}
                 >
-                    <StyledSelect.Option value="UGFydG5lclR5cGVOb2RlOjE=">Тип1</StyledSelect.Option>
+                    <StyledSelect.Option value="UGFydG5lclR5cGVOb2RlOjE=">
+                    <img src={anchorIcon} />
+                    <span>Тип1</span>
+                      
+                      </StyledSelect.Option>
                   </StyledSelect>
 
               </div>
@@ -64,9 +70,13 @@ export default function GeneralInfo() {
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип клиента</InputTitle>
                 <StyledSelect
-                    defaultValue={item.clientType && item.clientType.id }
+                    defaultValue={item.clientType ? item.clientType.id : <img src={anchorIcon} />}
                     onChange={(value) => setItem({ ...item, clientType: { ...item.clientType, id: value } })}>
-                    <StyledSelect.Option value="Q2xpZW50VHlwZU5vZGU6MQ==">Тип1</StyledSelect.Option>
+                    <StyledSelect.Option value="Q2xpZW50VHlwZU5vZGU6MQ==">
+                      <img src={anchorIcon} /> 
+                      <span>Тип1</span>
+                      
+                      </StyledSelect.Option>
                   </StyledSelect>
               </div>
             </Column>

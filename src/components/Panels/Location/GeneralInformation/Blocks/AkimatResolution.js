@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
+import moment from "moment";
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
-import { Input} from 'antd';
 import { DatePicker } from 'antd';
-import moment from "moment";
+import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 
+import numberIcon from '../../../../../img/input/number.svg';
 export const AkimatResolution = (props) => {
   const [item, setItem] = useContext(locationContext);
 
@@ -25,7 +25,8 @@ export const AkimatResolution = (props) => {
         <Row>
           <div style={{ width: '49%' }}>
             <InputTitle>Номер</InputTitle>
-            <Input
+            <StyledInput
+              prefix={<img src={numberIcon} />}
               value={item.resolutionNumber ? item.resolutionNumber :""}
               onChange={(e) => {setItem({...item, resolutionNumber:e.target.value})}}
               size={'large'}

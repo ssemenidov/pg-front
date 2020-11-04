@@ -1,12 +1,13 @@
 import React, { useState,useContext } from 'react';
-
 import {  agreementsContext } from './AgreementsTab';
 
-import { Radio, DatePicker ,Form,Input} from 'antd';
+import styled from 'styled-components';
+import { Radio, DatePicker ,Form} from 'antd';
+import { StyledSelect,StyledInput } from '../../Styles/DesignList/styles';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-import styled from 'styled-components';
 
+import anchorIcon from '../../../img/input/anchor.svg';
 const AgreementsSearch = () => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(agreementsContext);
@@ -31,14 +32,15 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Номер договора</InputTitle>
             <Form.Item name="resolutionNumber" >
-              <Input 
+              <StyledInput  
+                prefix={<img src={ anchorIcon } />}
               placeholder="Номер договора" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>
             <InputTitle>Инициатор</InputTitle>
             <Form.Item name="initiator" >
-              <Input placeholder="Инициатор" size={'large'} />
+              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Инициатор" size={'large'} />
             </Form.Item>
           </SearchItem>
         
@@ -47,13 +49,13 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Наименование контрагента</InputTitle>
             <Form.Item name="partner_Title" >
-              <Input placeholder="Наименование контрагента" size={'large'} />
+              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>
             <InputTitle>Создатель</InputTitle>
             <Form.Item name="creator" >
-              <Input placeholder="Создатель" size={'large'} />
+              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Создатель" size={'large'} />
             </Form.Item>
           </SearchItem>
         </Row>
@@ -61,7 +63,7 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Тип договора</InputTitle>
             <Form.Item name="contractType" >
-              <Input placeholder="Тип договора" size={'large'} />
+              <StyledInput  prefix={<img src={ anchorIcon } />} placeholder="Тип договора" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>

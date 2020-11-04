@@ -36,7 +36,7 @@ export default function ExtraRow(props) {
         <InputTitle>Формат</InputTitle>
 
         <StyledSelect
-              defaultValue={side.format && side.format.id }
+              defaultValue={side.format ? side.format.id:<img src={anchorIcon} /> }
               onChange={(value) => setItem({ ...item, format: { ...item.format, id: value } })}>
         </StyledSelect>
       </InputWrapper>
@@ -44,7 +44,7 @@ export default function ExtraRow(props) {
         <InputTitle>Сторона</InputTitle>
 
         <StyledSelect
-              defaultValue={side.side && side.side.id }
+              defaultValue={side.side ? side.side.id :<img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, side: { ...item.side, id: value } })}>
         </StyledSelect>
       </InputWrapper>
@@ -52,14 +52,15 @@ export default function ExtraRow(props) {
         <InputTitle>Рекламная сторона</InputTitle>
 
         <StyledSelect
-              defaultValue={side.advertisingSide && side.advertisingSide.id }
+              defaultValue={side.advertisingSide ? (<><img src={anchorIcon} />{side.advertisingSide.id}</>) :<img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, advertisingSide: { ...item.advertisingSide, id: value } })}>
+        
         </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Назначение стороны</InputTitle>
         <StyledSelect
-              defaultValue={side.purposeSide && side.purposeSide.id }
+              defaultValue={side.purposeSide ? side.purposeSide.id :<img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, purposeSide: { ...item.purposeSide, id: value } })}>
         </StyledSelect>
       </InputWrapper>

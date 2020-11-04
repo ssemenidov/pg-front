@@ -110,8 +110,8 @@ export default function InnerForm(props) {
         construction: constructionIdList
        } });
 
-    history.push(`/base/locations`);
-    history.go(0);
+    // history.push(`/base/locations`);
+    // history.go(0);
   };
   const Delete = () => {
     deleteLocation({ variables: { id: item.id } });

@@ -88,7 +88,8 @@ const GeneralInformation = () => {
           ))
         : ''
       }
-
+  
+      <br/>
       <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
         <AkimatResolution />
       </div>

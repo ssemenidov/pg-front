@@ -199,6 +199,7 @@ const StyledCrewsBlock = styled.div`
 `;
 const StyledListItem = styled(List.Item)`
   display: flex;
+  cursor:pointer;
   justify-content: flex-start;
   span {
     margin-left: 20px;

@@ -20,9 +20,13 @@ export default function Commissions() {
           <InputWrapper>
             <InputTitle>Тип АК</InputTitle>
             <StyledSelect
-              defaultValue={item.agencyCommissionType && item.agencyCommissionType.id }
+              defaultValue={item.agencyCommissionType ? item.agencyCommissionType.id: <img src={anchorIcon} />  }
               onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
 
+            {/* <StyledSelect.Option>
+            <img src={anchorIcon} />
+             <span>Тип1</span>
+            </StyledSelect.Option> */}
             </StyledSelect>
 
           </InputWrapper>
@@ -35,15 +39,20 @@ export default function Commissions() {
           </InputWrapper>
           <InputWrapper>
             <InputTitle>АК распространяется</InputTitle>
-            <StyledSelect>
-
+            <StyledSelect
+            defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
+            onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
+            >
             </StyledSelect>
 
           </InputWrapper>
           <InputWrapper>
             <InputTitle>На какие услуги распространяется АК</InputTitle>
-            <StyledSelect>
+            <StyledSelect
+            defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
+            onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
 
+            >
             </StyledSelect>
           </InputWrapper>
         </Row>

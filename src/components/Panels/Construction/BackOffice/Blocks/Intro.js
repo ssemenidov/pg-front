@@ -1,15 +1,19 @@
 import React, { useContext } from 'react';
-import { constructContext } from '../../../../../containers/Base/Construction/Construction';
+import moment from 'moment';
 import { useQuery, gql, useMutation } from '@apollo/client';
+
+import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 import { DatePicker } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
+import cityIcon from '../../../../../img/input/city.svg';
+import districtIcon from '../../../../../img/input/district.svg';
+import postIcon from '../../../../../img/input/post.svg';
 import ownerIcon from '../../../../../img/input/owner.svg';
-import Moment from 'react-moment';
-import moment from 'moment';
+
 const CITY_T = gql`
     {
       searchCity {
@@ -50,11 +54,14 @@ export default function Intro() {
 
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.city ? item.city.id :""}
+              defaultValue={item.city ? item.city.id : <img src={cityIcon} />}
               onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
-             {city && city.searchCity.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
-             )}
+              {city && city.searchCity.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <img src={cityIcon} />
+                  <span>{item.node.title}</span>
+                </StyledSelect.Option>
+              )}
 
             </StyledSelect>
 
@@ -62,10 +69,13 @@ export default function Intro() {
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={item.district ? item.district.id :""}
+              defaultValue={item.district ? item.district.id :  <img src={districtIcon} />}
               onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
              {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>{item.node.title}</StyledSelect.Option>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={districtIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
              )}
 
             </StyledSelect>
@@ -73,9 +83,12 @@ export default function Intro() {
           <div style={{ width: '22%' }}>
             <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={item.postcode && item.postcode.id }
+              defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
-              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">1234</StyledSelect.Option>
+              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">
+              <img src={postIcon} />
+              <span> 1234</span>
+                </StyledSelect.Option>
 
             </StyledSelect>
 
@@ -103,7 +116,7 @@ export default function Intro() {
             <DatePicker placeholder="01/01/2020"
              size={'large'}
              format='DD/MM/YYYY'
-             style={{  width: '203px' }}
+             style={{  width: '100%' }}
              defaultValue={item.createdAt ? moment(item.createdAt) : ''}
              onChange={(date) => setItem({ ...item, createdAt:new Date(date) })}
              />

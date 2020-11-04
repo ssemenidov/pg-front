@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 
-import { locationContext } from '../../../../../containers/Base/Location/Location';
-import { Input} from 'antd';
-import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { DatePicker } from 'antd';
+import { locationContext } from '../../../../../containers/Base/Location/Location';
+import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 
+import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
+import numberIcon from '../../../../../img/input/number.svg';
 
 export const GroundAct = (props) => {
   const [item, setItem] = useContext(locationContext);
@@ -25,7 +26,8 @@ export const GroundAct = (props) => {
         <Row>
           <div style={{ width: '49%' }}>
             <InputTitle>Номер</InputTitle>
-            <Input
+            <StyledInput
+              prefix={<img src={numberIcon} />}
               value={item.areaAct ? item.areaAct :""}
               onChange={(e) => {setItem({...item, areaAct:e.target.value})}}
               size={'large'}
