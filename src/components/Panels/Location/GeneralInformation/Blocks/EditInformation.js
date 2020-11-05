@@ -1,4 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import {gql, useMutation} from "@apollo/client";
+
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 import { Input, Select, Upload, message } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
@@ -6,27 +8,106 @@ import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../Sty
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
+import {useParams} from "react-router";
 
+const UPLOAD_DOCUMENTS = gql`
+  mutation($id: ID! $document: Upload, $prolongation: Upload) {
+    updateLocation(
+      id: $id,
+      input: {
+        document: $document,
+        prolongation: $prolongation
+      }
+    ) {
+      location {
+        id
+        document
+        prolongation
+      }
+    }
+  }
+`;
 
-export const EditInformation = (props) => {
+export const EditInformation = () => {
+  const { id } = useParams();
+
   const [item, setItem] = useContext(locationContext);
   const [fileList, setFileList] = useState([]);
+  const [uploadDocument] = useMutation(UPLOAD_DOCUMENTS);
+
+  useEffect(() => {
+    if(item.document) {
+      setFileList([{
+        uid: '-1',
+        name: item.document.replace('location/', ''),
+        status: 'done',
+        url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${item.document}`,
+      }])
+    }
+  }, []);
+
+  const uploadRequest = (info) => {
+    uploadDocument({
+      variables: {
+        id: id,
+        document: info.file
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateLocation.location.document;
+
+        setItem({
+          ...item,
+          document: url
+        })
+
+        let fileList = [{
+          uid: '-1',
+          name: info.file.name,
+          status: 'done',
+          url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${url}`,
+        }];
+
+        setFileList(fileList);
+        message.success('File uploaded successfully');
+      })
+      .catch((error) => {
+        message.error('Is not a upload');
+        console.error(error);
+      })
+  }
+  const removeDoc = () => {
+    uploadDocument({
+      variables: {
+        id: id,
+        document: null
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateLocation.location.document;
+
+        setItem({
+          ...item,
+          document: url
+        })
+
+        setFileList([]);
+        message.success('File deleted successfully');
+      })
+      .catch((error) => {
+        message.error('Something went wrong');
+        console.error(error);
+      })
+  }
 
   const uploadConfig = {
     name: 'file',
-    onChange(info) {
-      let fileList = [...info.fileList];
-      fileList = fileList.slice(-2);
-      fileList = fileList.map(file => {
-        if (file.response) {
-          // Component will show file.url:link
-          file.url = file.response.url;
-        }
-        return file;
-      });
-
-      setFileList(fileList);
+    customRequest(info) {
+      uploadRequest(info);
     },
+    onRemove() {
+      removeDoc();
+    }
   };
 
   return (
