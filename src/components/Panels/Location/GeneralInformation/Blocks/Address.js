@@ -8,7 +8,7 @@ import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 import cityIcon from '../../../../../img/input/city.svg';
 import districtIcon from '../../../../../img/input/district.svg';
-
+import postIcon from '../../../../../img/input/post.svg';
 const CITY_T = gql`
     {
       searchCity {
@@ -21,7 +21,7 @@ const CITY_T = gql`
       }
     }
   `;
-  const DISTRICT_T = gql`
+const DISTRICT_T = gql`
     {
       searchDistrict {
         edges {
@@ -33,11 +33,25 @@ const CITY_T = gql`
       }
     }
   `;
+const POST_T = gql`
+  {
+    searchPostcode {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`; 
 export const Address = (props) => {
   const [item, setItem] = useContext(locationContext);
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
-  if (!city || !district){
+  const post = useQuery( POST_T).data;
+
+  if (!city || !district || !post){
     return <span></span>;
   }
   return (
@@ -80,14 +94,16 @@ export const Address = (props) => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
-
-            <StyledInput
-             prefix={<img src={anchorIcon} />}
-              value={item.postcode? item.postcode:""}
-              onChange={(e) => {setItem({...item, postcode:e.target.value})}}
-              placeholder="Код района"
-              size={'large'}
-            />
+             <StyledSelect
+              defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
+              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              {post && post.searchPostcode.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={postIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+             )}
+            </StyledSelect>
           </div>
         </Row>
         <Row>

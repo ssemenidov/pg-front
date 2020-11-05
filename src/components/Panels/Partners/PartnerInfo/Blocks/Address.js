@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
+import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 
 import styled from 'styled-components';
 import { Radio } from 'antd';
-
 import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
 
@@ -13,9 +13,50 @@ import districtIcon from '../../../../../img/input/district.svg';
 import houseIcon from '../../../../../img/input/house.svg';
 import postIcon from '../../../../../img/input/post.svg';
 
-
+const CITY_T = gql`
+    {
+      searchCity {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+const DISTRICT_T = gql`
+    {
+      searchDistrict {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+  const POST_T = gql`
+  {
+    searchPostcode {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;  
 export default function Adress() {
   const [item, setItem] = useContext(partnerContext);
+  const city = useQuery( CITY_T).data;
+  const district = useQuery( DISTRICT_T).data;
+  const post = useQuery( POST_T).data;
+  if (!city || !district || !post){
+    return <span></span>;
+  }
   return (
     <Quarter style={{ height: '100%' }}>
       <BlockTitle>Адрес</BlockTitle>
@@ -23,14 +64,15 @@ export default function Adress() {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Город</InputTitle>
-
             <StyledSelect
-              defaultValue={item.city ? item.city.id:  <img src={cityIcon} />}
+              defaultValue={item.city ? item.city.id : <img src={cityIcon} />}
               onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
-              <StyledSelect.Option value="Q2l0eU5vZGU6MQ==">  <img src={cityIcon} /><span> Алматы</span></StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6Mg==">  <img src={cityIcon} /><span>Астана</span></StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6Mw==">  <img src={cityIcon} /><span>Караганда</span></StyledSelect.Option>
-              <StyledSelect.Option value="Q2l0eU5vZGU6NA==">  <img src={cityIcon} /><span>Тараз</span></StyledSelect.Option>
+              {city && city.searchCity.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <img src={cityIcon} />
+                  <span>{item.node.title}</span>
+                </StyledSelect.Option>
+              )}
             </StyledSelect>
           </div>
         </Row>
@@ -38,9 +80,14 @@ export default function Adress() {
           <div style={{ width: '58%' }}>
           <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={item.district ? item.district.id: <img src={districtIcon} /> }
+              defaultValue={item.district ? item.district.id :  <img src={districtIcon} />}
               onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
-              <StyledSelect.Option value="RGlzdHJpY3ROb2RlOjE="> <img src={districtIcon} /> <span>Турксибский</span></StyledSelect.Option>
+              {district && district.searchDistrict.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={districtIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+              )}
             </StyledSelect>
           </div>
           <div style={{ width: '38%' }}>
@@ -48,8 +95,14 @@ export default function Adress() {
             <StyledSelect
               defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
-              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE="><img src={postIcon} /> <span>1234</span> </StyledSelect.Option>
+              {post && post.searchPostcode.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={postIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+             )}
             </StyledSelect>
+
           </div>
         </Row>
         <Row>
