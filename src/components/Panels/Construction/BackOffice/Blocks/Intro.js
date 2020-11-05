@@ -75,7 +75,6 @@ export default function Intro() {
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
-
             </StyledSelect>
 
           </div>
@@ -90,7 +89,6 @@ export default function Intro() {
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
              )}
-
             </StyledSelect>
           </div>
           <div style={{ width: '22%' }}>
@@ -104,7 +102,6 @@ export default function Intro() {
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
              )}
-
             </StyledSelect>
 
           </div>
