@@ -40,8 +40,9 @@ export default function Details() {
             <InputTitle>Доступность конструкции</InputTitle>
                <StyledSelect
               defaultValue={item.availabilityConstruction ? item.availabilityConstruction.id:<img src={anchorIcon} /> }
-              onChange={(value) => setItem({ ...item, availabilityConstruction: { ...item.availabilityConstruction, id: value } })}>
-
+              onChange={(value) => setItem({ ...item, availabilityConstruction:  value  })}>
+                  <StyledSelect.Option value={true}><img src={anchorIcon} /><span> Доступна</span></StyledSelect.Option>
+                  <StyledSelect.Option value={false}><img src={anchorIcon} /><span>Недоступна</span></StyledSelect.Option>
             </StyledSelect>
 
           </div>

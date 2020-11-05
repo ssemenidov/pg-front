@@ -73,10 +73,15 @@ export default function ExtraRow(props) {
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Доступность стороны</InputTitle>
-        <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={side.availabilitySide ? side.availabilitySide : ''}
-              onChange={(e) => setItem({ ...item, availabilitySide: e.target.value })}></StyledInput>
+        <StyledSelect
+          prefix={<img src={anchorIcon} />}
+          defaultValue={side.availabilitySide ? side.availabilitySide : <img src={anchorIcon} />}
+          onChange={(value) => setItem({ ...item, availabilitySide: value })}>
+            <StyledSelect.Option value={true}><img src={anchorIcon} /><span> Доступна</span></StyledSelect.Option>
+            <StyledSelect.Option value={false}><img src={anchorIcon} /><span>Недоступна</span></StyledSelect.Option>
+        </StyledSelect>
+      
+
       </InputWrapper>
       <RedDeleteBtn onClick={deleteSide}>
         <img src={red_can} alt="" />
