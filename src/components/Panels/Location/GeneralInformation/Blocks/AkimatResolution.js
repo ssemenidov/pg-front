@@ -7,7 +7,7 @@ import { Input} from 'antd';
 import { DatePicker } from 'antd';
 import moment from "moment";
 
-export const AkimatResolution = (props) => {
+export const AkimatResolution = () => {
   const [item, setItem] = useContext(locationContext);
 
   function onChangeDatePicker(date) {

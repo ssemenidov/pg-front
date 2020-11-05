@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactToPrint  from 'react-to-print';
 import { Button, Checkbox, Dropdown, Input, Menu } from 'antd';
 
 import searchInputIcon from '../../img/header-bar/search-icon.svg';
@@ -42,7 +43,7 @@ let columnsListPopup = (
 const HeaderBar = (props) => {
   const {
     children, enableEditQuantityOfColumns,
-    columnsConfig
+    columnsConfig, printData
   } = props;
 
   if(enableEditQuantityOfColumns && columnsConfig && columnsConfig.columnsForPopup) {
@@ -94,9 +95,29 @@ const HeaderBar = (props) => {
           suffix="Найти"
           prefix={<img src={searchInputIcon} />}
         />
-        <Button style={{ marginLeft: '5px' }} className="header-btn">
-          <img src={printerIcon} />
-        </Button>
+        {
+          printData && (
+            <div style={{ display: 'none' }}>
+              {
+                printData.element
+              }
+            </div>
+          )
+        }
+        <ReactToPrint
+          trigger={() => (
+            <Button
+              style={{ marginLeft: '5px' }}
+              className="header-btn"
+              disabled={!printData}
+            >
+              <img src={printerIcon} />
+            </Button>
+          )}
+          content={() => {
+            return printData && printData.refData.current['printListBlocks']
+          }}
+        />
         <Button
           style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
           className="header-btn"
