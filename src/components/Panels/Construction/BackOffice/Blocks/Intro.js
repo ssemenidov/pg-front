@@ -26,7 +26,7 @@ const CITY_T = gql`
       }
     }
   `;
-  const DISTRICT_T = gql`
+const DISTRICT_T = gql`
     {
       searchDistrict {
         edges {
@@ -38,11 +38,24 @@ const CITY_T = gql`
       }
     }
   `;
+  const POST_T = gql`
+  {
+    searchPostcode {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;  
 export default function Intro() {
   const [item, setItem] = useContext(constructContext);
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
-  if (!city || !district){
+  const post = useQuery( POST_T).data;
+  if (!city || !district || !post){
     return <span></span>;
   }
   return (
@@ -85,10 +98,12 @@ export default function Intro() {
             <StyledSelect
               defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
               onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
-              <StyledSelect.Option value="UG9zdGNvZGVOb2RlOjE=">
-              <img src={postIcon} />
-              <span> 1234</span>
-                </StyledSelect.Option>
+              {post && post.searchPostcode.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={postIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+             )}
 
             </StyledSelect>
 
