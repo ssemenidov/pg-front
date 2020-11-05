@@ -69,11 +69,7 @@ const Construction = (props) => {
                     id
                   }
                   advertisingSide {
-                    edges {
-                      node {
-                        id
-                      }
-                    }
+                    id
                   }
                   purposeSide {
                     id
