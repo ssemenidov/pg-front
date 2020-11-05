@@ -4,12 +4,14 @@ import {
   FilterMenu,
   SearchTitle,
   FilterText,
-  StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker, Form, Input } from 'antd';
+import {  Collapse,  Form } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-const { Option } = Select;
+import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import anchorIcon from '../../../img/input/anchor.svg';
+import grateIcon from '../../../img/input/grate.svg';
+
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -31,21 +33,21 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="По параметрам" key="1">
             <Form.Item name="partner">
-              <Input placeholder="Контрагент" size={'large'} />
+              <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Контрагент" size={'large'} />
             </Form.Item>
             <Form.Item name="brand">
-              <Input placeholder="Бренд" size={'large'} />
+              <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Бренд" size={'large'} />
             </Form.Item>
             <Form.Item name="type">
-              <Input placeholder="Тип Контрагента" size={'large'} />
+              <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Тип Контрагента" size={'large'} />
             </Form.Item>
             <Form.Item name="sector">
-              <Input placeholder="Cектор деятельности" size={'large'} />
+              <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Cектор деятельности" size={'large'} />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header=" По БИН" key="2">
             <Form.Item name="binNumber">
-              <Input placeholder="Введите БИН" size={'large'} />
+              <StyledInput   prefix={<img src={grateIcon} />} placeholder="Введите БИН" size={'large'} />
             </Form.Item>
           </StyledPanel>
         </Collapse>

@@ -47,9 +47,7 @@ const InnerForm = (props) => {
     }
   }, [data]);
   const addContract= (e) => {
-
     createContract();
-    //e.preventDefault();
 
 
   };

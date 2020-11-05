@@ -17,41 +17,58 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
       title: 'код конструкции',
       dataIndex: 'code',
       width: 130,
+      sorter: {
+        compare: (a, b) => a.date_start.localeCompare(b.date_start),
+        multiple: 1,
+      }, 
     },
     {
       title: 'Город',
       dataIndex: 'city',
       width: 80,
+     sorter: {
+            compare: (a, b) => a.city.localeCompare(b.city),
+            multiple: 1,
+          }, 
     },
     {
       title: 'Почтовый индекс',
       dataIndex: 'post',
       width: 80,
+     sorter: {
+            compare: (a, b) => a.post.localeCompare(b.post),
+            multiple: 1,
+          }, 
     },
     {
       title: 'Адрес маркетинговый',
       dataIndex: 'adress_m',
       width: 150,
+   
     },
     {
       title: 'Адрес юридический',
       dataIndex: 'adress_j',
       width: 150,
+  
     },
     {
       title: 'Формат',
       dataIndex: 'format',
       width: 150,
+
     },
     {
       title: 'Координаты',
       dataIndex: 'coords',
       width: 150,
+
     },
     {
       title: 'Горит',
       dataIndex: 'fire',
       width: 80,
+
     },
     {
       width: 40,

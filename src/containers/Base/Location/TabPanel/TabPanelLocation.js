@@ -47,9 +47,9 @@ const LOCATION_UPDATE = gql`
     $targetPurpose: String
     $comment: String
     $address:String
-    $postcode:String
     $city:ID
     $district:ID
+
     $areaAct:String
     $areaActDate: DateTime
     $resolutionNumber:String
@@ -69,9 +69,9 @@ const LOCATION_UPDATE = gql`
         targetPurpose:$targetPurpose
         comment: $comment
         address:$address
-        postcode:$postcode
         city:$city
         district:$district
+        
         areaAct:$areaAct
         areaActDate: $areaActDate
         resolutionNumber:$resolutionNumber
@@ -110,8 +110,8 @@ export default function InnerForm(props) {
         construction: constructionIdList
        } });
 
-    history.push(`/base/locations`);
-    history.go(0);
+    // history.push(`/base/locations`);
+    // history.go(0);
   };
   const Delete = () => {
     deleteLocation({ variables: { id: item.id } });

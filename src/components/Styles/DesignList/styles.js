@@ -7,12 +7,8 @@ export const LeftBar = styled.div`
   display: flex;
   alight-items: center;
   flex-direction: column;
-<<<<<<< HEAD
-  width: 60px;
-=======
   min-width: 60px;
   max-width: 60px;
->>>>>>> ce94380bf0f0431b270030a453ef417744c5a209
 `;
 
 export const StyledButton = styled.button`
@@ -43,23 +39,30 @@ export const HeaderTitleWrapper = styled.div`
 // Input components
 
 export const StyledSelect = styled(Select)`
-  color: #656565;
+
   display: flex;
   align-items: center;
-
+  font-size: 14px;
+  font-weight:500;
   & > div {
     height: 40px !important;
     display: flex;
     align-items: center;
   }
-
-  .ant-select-selection-item span {
-    color: #656565 !important;
+  .ant-select-selection-placeholder >span{
+    margin-left: 5px;
+  }
+  .ant-select-selection-item > span {
+    font-size: 14px;
     margin-left: 5px;
   }
 `;
 
 export const StyledInput = styled(Input)`
+  .ant-input{
+    font-size: 14px;
+  }
+  
   height: 40px;
   color: #656565;
 `;

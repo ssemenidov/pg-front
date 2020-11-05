@@ -45,7 +45,7 @@ const ApplicationsPanel = () => {
 
         width: 130,
         sorter: {
-          compare: (a, b) => a.code.length - b.code.length,
+          compare: (a, b) => a.code.localeCompare(b.code),
           multiple: 1,
         },
         },
@@ -55,7 +55,7 @@ const ApplicationsPanel = () => {
 
         width: 100,
         sorter: {
-          compare: (a, b) => a.agreement.length - b.agreement.length,
+          compare: (a, b) => a.agreement.localeCompare(b.agreement),
           multiple: 1,
         },
         },
@@ -64,7 +64,7 @@ const ApplicationsPanel = () => {
         dataIndex: 'project',
         width: 100,
         sorter: {
-          compare: (a, b) => a.project.length - b.project.length,
+          compare: (a, b) => a.project.localeCompare(b.project),
           multiple: 1,
         },
         },
@@ -73,7 +73,7 @@ const ApplicationsPanel = () => {
         dataIndex: 'date_start',
         width: 100,
         sorter: {
-          compare: (a, b) => a.date_start.length - b.date_start.length,
+          compare: (a, b) => a.date_start.localeCompare(b.date_start),
           multiple: 1,
         },
         },
@@ -82,7 +82,7 @@ const ApplicationsPanel = () => {
         dataIndex: 'date_end',
         width: 100,
         sorter: {
-          compare: (a, b) => a.date_end.length - b.date_end.length,
+          compare: (a, b) => a.date_end.localeCompare(b.date_end),
           multiple: 1,
         },
         },

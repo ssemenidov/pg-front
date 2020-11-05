@@ -23,7 +23,7 @@ export const EditInformation = () => {
             <InputTitle>Площадь (га)</InputTitle>
             <StyledInput
             prefix={<img src={anchorIcon} />}
-              value={item.area ? item.area :""}
+            defaultValue={item.area ? item.area :""}
               onChange={(e) => {setItem({...item, area:e.target.value})}}
               placeholder="34"
               size={'large'}
@@ -35,7 +35,7 @@ export const EditInformation = () => {
             <InputTitle>Кадастровый номер</InputTitle>
             <StyledInput
             prefix={<img src={anchorIcon} />}
-            value={item.cadastralNumber ? item.cadastralNumber :""}
+            defaultValue={item.cadastralNumber ? item.cadastralNumber :""}
             onChange={(e) => {setItem({...item, cadastralNumber:e.target.value})}}
               placeholder="00-000-000-000"
               size={'large'}
@@ -47,9 +47,10 @@ export const EditInformation = () => {
             <InputTitle>Целевое назначение</InputTitle>
             <StyledInput
               placeholder="Рекламно-информационный объект"
+              prefix={<img src={anchorIcon} />}
               size={'large'}
               defaultValue={item.targetPurpose ? item.targetPurpose:""}
-              onChange={(value) => setItem({ ...item, targetPurpose: value  })}>
+              onChange={(e) => setItem({ ...item, targetPurpose: e.target.value  })}>
 
             </StyledInput>
           </div>

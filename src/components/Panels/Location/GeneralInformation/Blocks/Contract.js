@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from 'react';
+import moment from "moment";
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
+import {DatePicker,Select,Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledButton, StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
+import bellIcon from '../../../../../img/input/bell.svg';
+import grateIcon from '../../../../../img/input/grate.svg';
 
-import {DatePicker,Select,Input} from 'antd';
-import moment from "moment";
 export const Contract = (props) => {
   const [item, setItem] = useContext(locationContext);
 
@@ -41,18 +43,18 @@ export const Contract = (props) => {
             <InputTitle>Статус оформления</InputTitle>
             <StyledSelect
               onChange={handleChangeSelect}
-              defaultValue={item.rentRegistrationStatus ? item.rentRegistrationStatus : ''}
+              defaultValue={item.rentRegistrationStatus ? item.rentRegistrationStatus :  <img src={bellIcon} />}
             >
-              <StyledSelect.Option value='case 1'>case 1</StyledSelect.Option>
-              <StyledSelect.Option value='case 2'>case 2</StyledSelect.Option>
-              <StyledSelect.Option value='case 3'>case 3</StyledSelect.Option>
-              <StyledSelect.Option value='case 4'>case 4</StyledSelect.Option>
+              <StyledSelect.Option value='case 1'> <img src={bellIcon} /> case 1</StyledSelect.Option>
+              <StyledSelect.Option value='case 2'> <img src={bellIcon} /> case 2</StyledSelect.Option>
+              <StyledSelect.Option value='case 3'> <img src={bellIcon} /> case 3</StyledSelect.Option>
+              <StyledSelect.Option value='case 4'> <img src={bellIcon} /> case 4</StyledSelect.Option>
             </StyledSelect>
           </div>
           <div style={{ width: '19%' }}>
             <InputTitle>Номер договора</InputTitle>
             <StyledInput
-              prefix={<img src={anchorIcon} />}
+              prefix={<img src={grateIcon} />}
               defaultValue={item.rentContractNumber ? item.rentContractNumber : ''}
               onChange={(e) => {setItem({...item, rentContractNumber: e.target.value })}}
             ></StyledInput>

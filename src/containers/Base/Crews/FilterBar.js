@@ -6,16 +6,18 @@ import {
   FilterText,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker, Form} from 'antd';
+import {  Collapse, Checkbox, DatePicker, Form} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { StyledButton, StyledSelect , StyledInput} from '../../../components/Styles/DesignList/styles';
+import { StyledButton,StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 
+import anchorIcon from '../../../img/input/anchor.svg';
+import districtIcon from '../../../img/input/district.svg';
+import postIcon from '../../../img/input/post.svg';
 import cityIcon from '../../../img/input/input-city.svg';
 import ownerIcon from '../../../img/input/owner.svg';
 import phoneIcon from '../../../img/input/phone.svg';
 import constructionIcon from '../../../img/input/construction.svg';
 import marketIcon from '../../../img/input/market.svg';
-const { Option } = Select;
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -39,18 +41,19 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="Поиск по адресу" key="1">
           <Form.Item name="city">
-              <Select placeholder="Город" size={'large'} menuItemSelectedIcon={<img src={  cityIcon } />}>
-                <Option value="Алматы">Алматы</Option>
-                <Option value="Астана">Астана</Option>
-                <Option value="Караганда">Караганда</Option>
-                <Option value="Тараз">Тараз</Option>
-                <Option value="Актау">Актау</Option>
-              </Select>
+              <StyledSelect placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}
+              >
+                <StyledSelect.Option value="Алматы"><img src={cityIcon} /><span> Алматы</span></StyledSelect.Option>
+                <StyledSelect.Option value="Астана"><img src={cityIcon} /><span> Астана</span></StyledSelect.Option>
+                <StyledSelect.Option value="Караганда"><img src={cityIcon} /><span> Караганда</span></StyledSelect.Option>
+                <StyledSelect.Option value="Тараз"><img src={cityIcon} /><span> Тараз</span></StyledSelect.Option>
+                <StyledSelect.Option value="Актау"><img src={cityIcon} /><span> Актау</span></StyledSelect.Option>
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="district">
-              <Select placeholder="Район" size={'large'}>
-                <Option value="Турксибский">Турксибский</Option>
-              </Select>
+              <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
+                <StyledSelect.Option value="Турксибский"><img src={districtIcon} /><span>Турксибский</span></StyledSelect.Option>
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="address">
               <StyledInput

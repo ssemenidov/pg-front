@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
-
 import {  applicationsContext } from './ApplicationsTab';
 
-import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
-import InputAnchor from '../../Inputs/InputAnchor';
-//import DatePicker from '../../Inputs/DatePicker';
-import GroupRadio from '../../Inputs/GroupRadio';
-import { Radio, DatePicker,Form,Input } from 'antd';
-import { StyledButton } from '../../Styles/DesignList/styles';
-import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import styled from 'styled-components';
+import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
+import { StyledSelect,StyledInput } from '../../Styles/DesignList/styles';
+import { Radio, DatePicker,Form,Input } from 'antd';
+import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
+import anchorIcon from '../../../img/input/anchor.svg';
+import ownerIcon from '../../../img/input/owner.svg';
+import portfolioIcon from '../../../img/input/portfolio.svg';
+import grateIcon from '../../../img/input/grate.svg';
 const ApplicationSearch = () => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(applicationsContext);
@@ -32,14 +32,14 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Код приложения</InputTitle>
           <Form.Item name="code" >
-              <Input placeholder="Код приложения" size={'large'} />
+              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Код приложения" size={'large'} />
             </Form.Item>
 
           </SearchItem>
            <SearchItem>
           <InputTitle>Менеджер по продажам</InputTitle>
           <Form.Item name="saleManager" >
-              <Input placeholder="Менеджер по продажам" size={'large'} />
+              <StyledInput   prefix={<img src={ ownerIcon } />} placeholder="Менеджер по продажам" size={'large'} />
             </Form.Item>
 
 
@@ -50,14 +50,14 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Номер договора</InputTitle>
              <Form.Item name="contractType" >
-              <Input placeholder="Тип договора" size={'large'} />
+              <StyledInput   prefix={<img src={ grateIcon } />} placeholder="Номер договора" size={'large'} />
             </Form.Item>
 
           </SearchItem>
            <SearchItem>
           <InputTitle>Менеджер бэк-офиса</InputTitle>
              <Form.Item name="backManager" >
-              <Input placeholder="Менеджер бэк-офиса" size={'large'} />
+              <StyledInput   prefix={<img src={ ownerIcon } />} placeholder="Менеджер бэк-офиса" size={'large'} />
             </Form.Item>
           </SearchItem>
         </Row>
@@ -65,7 +65,7 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Номер приложения</InputTitle>
              <Form.Item name="application" >
-              <Input placeholder="Номер приложения" size={'large'} />
+              <StyledInput   prefix={<img src={ grateIcon } />} placeholder="Номер приложения" size={'large'} />
             </Form.Item>
 
           </SearchItem>
@@ -80,7 +80,7 @@ const ApplicationSearch = () => {
          <SearchItem>
           <InputTitle>Наименование контрагента</InputTitle>
              <Form.Item name="partner" >
-              <Input placeholder="Наименование контрагента" size={'large'} />
+              <StyledInput   prefix={<img src={ portfolioIcon } />} placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
 
           </SearchItem>
@@ -95,7 +95,7 @@ const ApplicationSearch = () => {
          <SearchItem>
             <InputTitle>Бренд</InputTitle>
              <Form.Item name="brand" >
-              <Input placeholder="Бренд" size={'large'} />
+              <StyledInput   prefix={<img src={ anchorIcon } />} placeholder="Бренд" size={'large'} />
               </Form.Item>
 
           </SearchItem>

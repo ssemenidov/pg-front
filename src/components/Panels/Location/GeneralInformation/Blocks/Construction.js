@@ -1,8 +1,11 @@
 import React from 'react';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import InputAnchor from '../../../../Inputs/InputAnchor';
+import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 import { RedDeleteBtn, SecondaryBtnStyled } from '../../../../Styles/ButtonStyles';
 import red_can from '../../../../../img/outdoor_furniture/red_can.svg';
+import tvIcon from '../../../../../img/input/tv.svg';
+import anchorIcon from '../../../../../img/input/anchor.svg';
+import infoIcon from '../../../../../img/input/info.svg';
 
 export const Construction = ({ code, marketingAddress, familyConstruction, remove, open }) => {
 
@@ -13,23 +16,30 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Код конструкции</InputTitle>
-            <InputAnchor
+            <StyledInput
+              prefix={<img src={tvIcon} />}
               placeholder="050001.00361.01"
-              value={code ? code : 'Нет данных'}
+              defaultValue={code ? code : 'Нет данных'}
+              //onChange={(e) => {setItem({...item, postcode:e.target.value})}}
+              size={'large'}
             />
           </div>
         </Row>
         <Row style={{ borderTop: '1px solid #d3dff0' }}>
-          <InputTitle>Информация о конструкции</InputTitle>
+          <InputTitle ><img src={infoIcon} style={{marginRight:"12px"}} /><span> Информация о конструкции</span></InputTitle>
         </Row>
         <Row>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           <InputTitle style={{ width: '45%' }}>Маркетинговый адрес</InputTitle>
-          <InputAnchor
-            style={{ width: '50%' }}
-            placeholder="Алматы, Абая ост."
-            value={marketingAddress ? marketingAddress : 'Нет данных'}
-          />
+          <StyledInput
+              prefix={<img src={anchorIcon} />}
+              style={{ width: '50%' }}
+              placeholder="Алматы, Абая ост."
+              defaultValue={marketingAddress ? marketingAddress : 'Нет данных'}
+              //onChange={(e) => {setItem({...item, postcode:e.target.value})}}
+              size={'large'}
+            />
+         
           </div>
         </Row>
         <Row style={{ borderBottom: '1px solid #d3dff0' }}>

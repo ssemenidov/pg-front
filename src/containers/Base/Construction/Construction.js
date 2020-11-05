@@ -37,6 +37,7 @@ const Construction = (props) => {
             }
             owner
             marketingAddress
+            createdAt
             backComment
             photo
             hasArea
