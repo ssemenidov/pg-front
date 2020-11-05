@@ -19,7 +19,7 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
             <StyledInput
               prefix={<img src={tvIcon} />}
               placeholder="050001.00361.01"
-              value={code ? code : 'Нет данных'}
+              defaultValue={code ? code : 'Нет данных'}
               //onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               size={'large'}
             />
@@ -35,7 +35,7 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
               prefix={<img src={anchorIcon} />}
               style={{ width: '50%' }}
               placeholder="Алматы, Абая ост."
-              value={marketingAddress ? marketingAddress : 'Нет данных'}
+              defaultValue={marketingAddress ? marketingAddress : 'Нет данных'}
               //onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               size={'large'}
             />

@@ -38,6 +38,7 @@ export const GroundAct = (props) => {
             <DatePicker
               placeholder="01/01/2020"
               size={'large'}
+              format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.areaActDate ? moment(item.areaActDate) : ''}
               onChange={onChangeDatePicker}

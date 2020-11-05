@@ -114,7 +114,8 @@ export default function   TabPaneForm(props) {
 
   const [updateConstruction] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
-  const Update = () => {
+  const Update = (e) => {
+    e.preventDefault();
     updateConstruction({ variables: {
       ...item,
       workingSector:item.workingSector && item.workingSector.id ,
@@ -125,8 +126,8 @@ export default function   TabPaneForm(props) {
       postcode:item.postcode && item.postcode.id ,
     } });
 
-    history.push(`/base/partners`);
-    history.go(0);
+    // history.push(`/base/partners`);
+    // history.go(0);
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });

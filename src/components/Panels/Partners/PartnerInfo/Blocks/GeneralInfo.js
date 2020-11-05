@@ -1,14 +1,57 @@
 import React, { useContext } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 
 
 import { BlockBody, Medium, Row, Column, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import anchorIcon from '../../../../../img/input/anchor.svg';
-
 import porfolioIcon from '../../../../../img/input/portfolio.svg';
+const SECTOR_T = gql`
+    {
+      searchWorkingSector {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+const PARTNER_T = gql`
+    {
+      searchPartnerType {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+  const CLIENT_T = gql`
+  {
+    searchClientType {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;  
 export default function GeneralInfo() {
   const [item, setItem] = useContext(partnerContext);
+  const sector = useQuery( SECTOR_T).data;
+  const partner = useQuery( PARTNER_T).data;
+  const client = useQuery( CLIENT_T).data;
+  if (!sector || !client || !partner){
+    return <span></span>;
+  }
   return (
     <Medium style={{ height: '100%' }}>
       <BlockTitle>Общая информация</BlockTitle>
@@ -31,9 +74,12 @@ export default function GeneralInfo() {
                   <StyledSelect
                     defaultValue={item.workingSector ? item.workingSector.id: <img src={anchorIcon} /> }
                     onChange={(value) => setItem({ ...item, workingSector: { ...item.workingSector, id: value } })}>
-                    <StyledSelect.Option value="V29ya2luZ1NlY3Rvck5vZGU6MQ=="> 
-                    <img src={anchorIcon} /> <span>Сектор1</span>
-                     </StyledSelect.Option>
+                    {sector && sector.searchWorkingSector.edges.map((item)=>
+                    <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                      <img src={anchorIcon} />
+                      <span>{item.node.title}</span>
+                    </StyledSelect.Option>
+                    )}
                   </StyledSelect>
                 </div>
               </Row>
@@ -54,16 +100,15 @@ export default function GeneralInfo() {
               <div style={{ width: '100%' }}>
                 <InputTitle>Тип контрагента</InputTitle>
                 <StyledSelect
-                    defaultValue={item.partnerType ? item.partnerType.id: <img src={anchorIcon} /> }
-                    onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}
-                >
-                    <StyledSelect.Option value="UGFydG5lclR5cGVOb2RlOjE=">
-                    <img src={anchorIcon} />
-                    <span>Тип1</span>
-                      
-                      </StyledSelect.Option>
-                  </StyledSelect>
-
+                  defaultValue={item.partnerType ? item.partnerType.id: <img src={anchorIcon} /> }
+                  onChange={(value) => setItem({ ...item, partnerType: { ...item.partnerType, id: value } })}>
+                  {partner && partner.searchPartnerType.edges.map((item)=>
+                    <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                      <img src={anchorIcon} />
+                      <span>{item.node.title}</span>
+                    </StyledSelect.Option>
+                    )}
+                </StyledSelect>
               </div>
             </Column>
             <Column style={{ width: '48%' }}>
@@ -72,11 +117,12 @@ export default function GeneralInfo() {
                 <StyledSelect
                     defaultValue={item.clientType ? item.clientType.id : <img src={anchorIcon} />}
                     onChange={(value) => setItem({ ...item, clientType: { ...item.clientType, id: value } })}>
-                    <StyledSelect.Option value="Q2xpZW50VHlwZU5vZGU6MQ==">
-                      <img src={anchorIcon} /> 
-                      <span>Тип1</span>
-                      
-                      </StyledSelect.Option>
+                    {client && client.searchClientType.edges.map((item)=>
+                    <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                      <img src={anchorIcon} />
+                      <span>{item.node.title}</span>
+                    </StyledSelect.Option>
+                    )}
                   </StyledSelect>
               </div>
             </Column>

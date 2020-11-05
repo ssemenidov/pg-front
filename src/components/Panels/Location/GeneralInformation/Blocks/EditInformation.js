@@ -101,7 +101,7 @@ export const EditInformation = (props) => {
               prefix={<img src={anchorIcon} />}
               size={'large'}
               defaultValue={item.targetPurpose ? item.targetPurpose:""}
-              onChange={(value) => setItem({ ...item, targetPurpose: value  })}>
+              onChange={(e) => setItem({ ...item, targetPurpose: e.target.value  })}>
 
             </StyledInput>
           </div>

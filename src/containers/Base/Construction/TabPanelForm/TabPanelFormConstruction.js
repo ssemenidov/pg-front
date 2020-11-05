@@ -50,6 +50,7 @@ const CONSTRUCT_UPDATE = gql`
     $postcode: ID
     $owner: String
     $marketingAddress: String
+
     $backComment: String
 
 
@@ -99,10 +100,11 @@ const InnerForm = (props) => {
   const [item, setItem] = useContext(constructContext);
   const history = useHistory();
 
-  const [updateConstruction,{error}] = useMutation(CONSTRUCT_UPDATE);
+  const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
 
-  const Update = () => {
+  const Update = (e) => {
+    e.preventDefault();
     updateConstruction({ variables: {
        ...item,
        city:item.city&&  item.city.id,
