@@ -38,8 +38,7 @@ const Construction = (props) => {
             owner
             marketingAddress
             backComment
-
-
+            photo
             hasArea
             crew{
               id

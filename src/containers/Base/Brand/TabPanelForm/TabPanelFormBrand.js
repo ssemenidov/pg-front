@@ -75,16 +75,23 @@ let tempDropdownList = (
 const DESIGN_LIST = gql`
   query searchDesign {
     searchDesign {
-    edges {
-      node {
-        id
-        img
-        isCurrent
-        startedAt
-        title
+      edges {
+        node {
+          id
+          img
+          isCurrent
+          startedAt
+          title
+        }
       }
     }
   }
+`;
+const DELETE_DESIGN = gql`
+  mutation deleteDesign($id: ID!) {
+    deleteDesign(id: $id) {
+      found
+    }
   }
 `;
 
@@ -134,7 +141,7 @@ const SAVE_BRAND = gql`
     }
 `;
 
-const InnerForm = (props) => {
+const InnerForm = () => {
   const [item, setItem] = useContext(constructBrand);
   const [workingSectors, setWorkingSectors] = useState(null);
 
@@ -150,6 +157,7 @@ const InnerForm = (props) => {
   const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
   const designData = useQuery(DESIGN_LIST);
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
+  const [deleteDesign] = useMutation(DELETE_DESIGN);
 
   useMemo(() => {
     if(workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
@@ -180,9 +188,14 @@ const InnerForm = (props) => {
   }, [data]);
 
   useMemo(() => {
-    const localDesignList = designData.data && designData.data.searchDesign && designData.data.searchDesign.edges.map(item => ({
-      ...item,
-      isChecked: false
+    const { data } = designData;
+    const localDesignList = designData.data
+      && designData.data.searchDesign
+      && designData.data.searchDesign.edges.map(({ node }) => ({
+      node: {
+        ...node,
+        isChecked: false
+      }
     }));
 
     setDesignList(localDesignList);
@@ -228,7 +241,6 @@ const InnerForm = (props) => {
       }
     });
   };
-
   const saveData = (e) => {
     e.preventDefault();
 
@@ -248,6 +260,20 @@ const InnerForm = (props) => {
       }
     });
   };
+
+  const selectDesign = (index, isChecked) => {
+    let localDesignList = designList;
+    localDesignList[index].node.isChecked = isChecked.target.checked;
+
+    setDesignList(localDesignList);
+  };
+  const deleteSide = (id) => {
+    let localDesignList = designList.filter(({ node }) => node.id !== id);
+
+    setDesignList(localDesignList);
+
+    deleteDesign({ variables:{ id } });
+  }
 
   return (
     <form style={{ width: '100%' }}>
@@ -388,17 +414,11 @@ const InnerForm = (props) => {
             </Col>
             <Col xs={7}>
               <div className="header-bar">
-                <Dropdown
-                  overlay={tempDropdownList}
-                  trigger={['click']}
-                  placement="bottomRight"
-                >
-                  <DropdownBtn1 className="dropdown-btn-1" style={{marginLeft: '17px'}}>
-                    <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo"/>
-                    <h6 className="dropdown-btn-1__title">Архив дизайнов</h6>
-                    <img src={collapseDown} className="dropdown-btn-1__arrow" alt=""/>
-                  </DropdownBtn1>
-                </Dropdown>
+                <DropdownBtn1 className="dropdown-btn-1" style={{marginLeft: '17px'}}>
+                  <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo"/>
+                  <h6 className="dropdown-btn-1__title">Архив дизайнов</h6>
+                </DropdownBtn1>
+
                 <div>
                   <Input
                     style={{ marginLeft: '20px' }}
@@ -476,53 +496,40 @@ const InnerForm = (props) => {
               `}
               </style>
               <DesignList className="design-list">
-
-                <DesignListItem className="design-list__item archive-design">
-                  <div className="design-list__item-b-image">
-                    <img src={designIcon} alt="design icon" className="design-list__item-image"/>
-                    <p className="design-list__item-label">
-                      текущий дизайн
-                    </p>
-                  </div>
-                  <h6 className="design-list__item-title">
-                    <span>Название дизайна</span>
-                  </h6>
-                  <div className="design-list__item-footer">
-                    <Checkbox>Выбрать</Checkbox>
-                    <div className="design-list__item-btn-group">
-                      <Button className="design-list__item-btn">
-                        <img src={printerIcon} />
-                      </Button>
-                      <Button className="design-list__item-btn">
-                        <img src={deleteIcon} />
-                      </Button>
-                    </div>
-                  </div>
-                </DesignListItem>
-
                 {
-                  designList && designList.map(item => (
-                    <DesignListItem className={`design-list__item ${item.isCurrent ? 'current-design' : 'archive-design'}`}>
+                  designList && designList.map(({ node }, index) => (
+                    <DesignListItem
+                      key={node.id}
+                      className={`design-list__item ${node.isCurrent ? 'current-design' : 'archive-design'}`}
+                    >
                       <div className="design-list__item-b-image">
-                        <img src={designIcon} alt="design icon" className="design-list__item-image"/>
+                        <img src={`/${node.img}`} alt="design icon" className="design-list__item-image"/>
                         <p className="design-list__item-label">
                           {
-                            item.isCurrent
+                            node.isCurrent
                             ? 'текущий дизайн'
                             : 'архив'
                           }
                         </p>
                       </div>
                       <h6 className="design-list__item-title">
-                        <span>{ item.title }</span>
+                        <span>{ node.title }</span>
                       </h6>
                       <div className="design-list__item-footer">
-                        <Checkbox checked={item.isChecked}>Выбрать</Checkbox>
+                        <Checkbox
+                          defaultValue={node.isChecked}
+                          onChange={(e) => selectDesign(index, e)}
+                        >
+                          Выбрать
+                        </Checkbox>
                         <div className="design-list__item-btn-group">
                           <Button className="design-list__item-btn">
                             <img src={printerIcon} />
                           </Button>
-                          <Button className="design-list__item-btn">
+                          <Button
+                            className="design-list__item-btn"
+                            onClick={() => deleteSide(node.id)}
+                          >
                             <img src={deleteIcon} />
                           </Button>
                         </div>
