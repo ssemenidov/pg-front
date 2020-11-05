@@ -1,4 +1,5 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
+import ReactToPrint  from 'react-to-print';
 import { Button, Checkbox, Dropdown, Input, Menu } from 'antd';
 
 import searchInputIcon from '../../img/header-bar/search-icon.svg';
@@ -41,11 +42,11 @@ let columnsListPopup = (
 
 const HeaderBar = (props) => {
   const {
-    children, enableEditQuantityOfColumns, listOfColumns,
-    columnsConfig
+    children, enableEditQuantityOfColumns,
+    columnsConfig, printData
   } = props;
 
-  if(enableEditQuantityOfColumns && listOfColumns) {
+  if(enableEditQuantityOfColumns && columnsConfig && columnsConfig.columnsForPopup) {
     const menuItemLocal = (data) => (
       <Menu.Item key={data.dataIndex}>
         <Checkbox
@@ -63,7 +64,7 @@ const HeaderBar = (props) => {
     columnsListPopup = (
       <Menu>
         {
-          listOfColumns.map((col, index) => {
+          columnsConfig.columnsForPopup.map((col, index) => {
             if(col.children) {
               return (
                   <Menu.ItemGroup key={index} title={col.title}>
@@ -94,9 +95,29 @@ const HeaderBar = (props) => {
           suffix="Найти"
           prefix={<img src={searchInputIcon} />}
         />
-        <Button style={{ marginLeft: '5px' }} className="header-btn">
-          <img src={printerIcon} />
-        </Button>
+        {
+          printData && (
+            <div style={{ display: 'none' }}>
+              {
+                printData.element
+              }
+            </div>
+          )
+        }
+        <ReactToPrint
+          trigger={() => (
+            <Button
+              style={{ marginLeft: '5px' }}
+              className="header-btn"
+              disabled={!printData}
+            >
+              <img src={printerIcon} />
+            </Button>
+          )}
+          content={() => {
+            return printData && printData.refData.current['printListBlocks']
+          }}
+        />
         <Button
           style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
           className="header-btn"

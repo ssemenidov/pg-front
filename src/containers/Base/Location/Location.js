@@ -16,6 +16,8 @@ const Location = (props) => {
         node {
           id
           area
+          document
+          prolongation
           cadastralNumber
           targetPurpose
           comment

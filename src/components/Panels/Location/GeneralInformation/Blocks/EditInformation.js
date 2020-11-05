@@ -1,71 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+
 import { locationContext } from '../../../../../containers/Base/Location/Location';
-import { Input, Select, Upload, message } from 'antd';
+
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../Styles/DesignList/styles';
+import { StyledInput } from '../../../../Styles/DesignList/styles';
+
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
-import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
-export const EditInformation = (props) => {
+
+export const EditInformation = () => {
   const [item, setItem] = useContext(locationContext);
-  const [fileList, setFileList] = useState([]);
-
-  const uploadConfig = {
-    name: 'file',
-    customRequest: ({ file }) => {
-      let location_id =  Buffer.from(item.id, 'base64').toString('ascii').match(/\d/gi).join('');
-      let entity =  Buffer.from(item.id, 'base64').toString('ascii').split(':')[0];
-      let fileInput = file;
-      let formData = new FormData();
-      formData.append('file', fileInput);
-      formData.append('id', location_id);
-      formData.append('entity', entity);
-
-      fetch('https://allbot.online/file_upload/', {
-        method: 'POST',
-        body: formData
-      })
-        .then(() => {
-          console.log('file is upload')
-        })
-        .catch(error => {
-          console.log('error ', error);
-        });
-    },
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      let fileList = [...info.fileList];
-      fileList = fileList.slice(-2);
-      fileList = fileList.map(file => {
-        if (file.response) {
-          // Component will show file.url:link
-          file.url = file.response.url;
-        }
-        return file;
-      });
-
-      setFileList(fileList)
-    },
-  };
 
   return (
     <Medium>
       <BlockTitle>
           <span style={{ maxWidth: '160px', marginBottom: 10 }}> Редактирование информации </span>
-          <Upload
-            {...uploadConfig}
-            fileList={fileList}
-          >
-            <StyledButton
-              backgroundColor="#fff"
-              style={{color:"#003360"}}
-              type="button"
-            >
-              Файл
-            </StyledButton>
-          </Upload>
       </BlockTitle>
 
       <BlockBody>

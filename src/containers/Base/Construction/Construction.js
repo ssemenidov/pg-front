@@ -39,8 +39,7 @@ const Construction = (props) => {
             marketingAddress
             createdAt
             backComment
-
-
+            photo
             hasArea
             crew{
               id

@@ -23,24 +23,6 @@ const InnerForm = () => {
   const uploadConfig = {
     name: 'file',
     customRequest: ({ file }) => {
-      // let location_id =  Buffer.from(item.id, 'base64').toString('ascii').match(/\d/gi).join('');
-      // let entity =  Buffer.from(item.id, 'base64').toString('ascii').split(':')[0];
-      // let fileInput = file;
-      // let formData = new FormData();
-      // formData.append('file', fileInput);
-      // formData.append('id', location_id);
-      // formData.append('entity', entity);
-
-      // fetch('https://allbot.online/file_upload/', {
-      //   method: 'POST',
-      //   body: formData
-      // })
-      //   .then(() => {
-      //     console.log('file is upload')
-      //   })
-      //   .catch(error => {
-      //     console.log('error ', error);
-      //   });
     },
     headers: {
       authorization: 'authorization-text',

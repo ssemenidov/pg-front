@@ -8,6 +8,7 @@ import Contract from './Blocks/Contract';
 import AkimatResolution from './Blocks/AkimatResolution';
 import GroundAct from './Blocks/GroundAct';
 import Construction from './Blocks/Construction';
+import Documents from './Blocks/Documents';
 import { locationContext } from "../../../../containers/Base/Location/Location";
 
 const GeneralInformation = () => {
@@ -98,6 +99,9 @@ const GeneralInformation = () => {
       </div>
       <div style={{ flex: '1 0 100%', margin: '1vw 0' }}>
         <Contract />
+      </div>
+      <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
+        <Documents/>
       </div>
     </div>
   );

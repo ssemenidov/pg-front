@@ -214,12 +214,12 @@ export const DropdownBtn1 = styled.div`
   width: 189px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
+  justify-content: flex-start;
 
   .dropdown-btn-1__logo {
     width: 20px;
     height: 20px;
+    margin-right: 12px;
   }
   .dropdown-btn-1__title {
     font-family: 'SF UI Display Light', sans-serif;
