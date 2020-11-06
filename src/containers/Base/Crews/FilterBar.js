@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
+
 import { crewsContext } from './Crews';
 import {
   FilterMenu,
@@ -18,6 +20,43 @@ import ownerIcon from '../../../img/input/owner.svg';
 import phoneIcon from '../../../img/input/phone.svg';
 import constructionIcon from '../../../img/input/construction.svg';
 import marketIcon from '../../../img/input/market.svg';
+const CITY_T = gql`
+    {
+      searchCity {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+const DISTRICT_T = gql`
+    {
+      searchDistrict {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+const POST_T = gql`
+  {
+    searchPostcode {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`; 
+
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -31,7 +70,12 @@ const FilterBar = () => {
   const onReset = () => {
     form.resetFields();
   };
-
+  const city = useQuery( CITY_T).data;
+  const district = useQuery( DISTRICT_T).data;
+  const post = useQuery( POST_T).data;
+  // if (!city || !district || !post){
+  //   return <span></span>;
+  // }
   return (
     <FilterMenu>
       <SearchTitle>
@@ -41,18 +85,24 @@ const FilterBar = () => {
         <Collapse expandIconPosition={'right'}>
           <StyledPanel header="Поиск по адресу" key="1">
           <Form.Item name="city">
-              <StyledSelect placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}
-              >
-                <StyledSelect.Option value="Алматы"><img src={cityIcon} /><span> Алматы</span></StyledSelect.Option>
-                <StyledSelect.Option value="Астана"><img src={cityIcon} /><span> Астана</span></StyledSelect.Option>
-                <StyledSelect.Option value="Караганда"><img src={cityIcon} /><span> Караганда</span></StyledSelect.Option>
-                <StyledSelect.Option value="Тараз"><img src={cityIcon} /><span> Тараз</span></StyledSelect.Option>
-                <StyledSelect.Option value="Актау"><img src={cityIcon} /><span> Актау</span></StyledSelect.Option>
+              <StyledSelect
+                placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
+                {city && city.searchCity.edges.map((item)=>
+                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={cityIcon} />
+                    <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+                )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="district">
               <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
-                <StyledSelect.Option value="Турксибский"><img src={districtIcon} /><span>Турксибский</span></StyledSelect.Option>
+              {district && district.searchDistrict.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <img src={districtIcon} />
+                  <span>{item.node.title}</span>
+                </StyledSelect.Option>
+              )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="address">
