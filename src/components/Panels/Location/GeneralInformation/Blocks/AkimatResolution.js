@@ -9,15 +9,6 @@ import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
 import numberIcon from '../../../../../img/input/number.svg';
 export const AkimatResolution = (props) => {
   const [item, setItem] = useContext(locationContext);
-
-  function onChangeDatePicker(date) {
-    const dateNow = date && date;
-
-    if(dateNow) {
-      setItem({...item, resolutionNumberDate: new Date(dateNow)});
-    }
-  }
-
   return (
     <Medium>
       <BlockTitle>Постановление от акимата</BlockTitle>
@@ -40,7 +31,7 @@ export const AkimatResolution = (props) => {
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.resolutionNumberDate ? moment(item.resolutionNumberDate) : ''}
-              onChange={onChangeDatePicker}
+              onChange={(date) => setItem({ ...item, resolutionNumberDate:new Date(date) })}
             />
           </div>
         </Row>

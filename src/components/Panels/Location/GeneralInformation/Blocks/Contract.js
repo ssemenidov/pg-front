@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import moment from "moment";
+import moment from 'moment';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
 import {DatePicker,Select,Input} from 'antd';
@@ -67,7 +67,7 @@ export const Contract = (props) => {
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.rentContractStart ? moment(item.rentContractStart) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'rentContractStart')}
+              onChange={(date) => setItem({ ...item, rentContractStart:new Date(date) })}
             />
           </div>
 
@@ -79,7 +79,7 @@ export const Contract = (props) => {
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.rentContractCreatedAt ? moment(item.rentContractCreatedAt) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'rentContractCreatedAt')}
+              onChange={(date) => setItem({ ...item, rentContractCreatedAt:new Date(date) })}
             />
           </div>
           <div style={{ width: '19%' }}>
@@ -90,7 +90,7 @@ export const Contract = (props) => {
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.rentContractEnd ? moment(item.rentContractEnd) : ''}
-              onChange={(e) => onChangeDatePicker(e, 'rentContractEnd')}
+              onChange={(date) => setItem({ ...item, rentContractEnd:new Date(date) })}
             />
           </div>
         </Row>

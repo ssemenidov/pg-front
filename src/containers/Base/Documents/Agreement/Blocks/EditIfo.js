@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import { agreementContext } from '../Agreement';
 
@@ -29,23 +30,41 @@ export const EditInformation = () => {
 
                 ></StyledInput>
             </SearchItem>
-               <SearchItem>
+            <SearchItem>
                 <InputTitle>Дата заключения</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
-               </SearchItem>
+                <DatePicker placeholder="01/01/2020"
+                  size={'large'}
+                  format='DD/MM/YYYY'
+                  style={{  width: '100%' }}
+                  defaultValue={item.registrationDate ? moment(item.registrationDate) : ''}
+                  onChange={(date) => setItem({ ...item, registrationDate:new Date(date) })}
+                  />
+              </SearchItem>
             </Row>
             <Row>
-               <SearchItem>
+              <SearchItem>
                 <InputTitle>Начало действия</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
-               </SearchItem>
-               <SearchItem>
+                <DatePicker placeholder="01/01/2020" 
+                size={'large'} 
+                format='DD/MM/YYYY'
+                style={{  width: '100%' }}
+                defaultValue={item.start ? moment(item.start) : ''}
+                onChange={(date) => setItem({ ...item, start:new Date(date) })}
+                />
+              </SearchItem>
+              <SearchItem>
                 <InputTitle>Окончание действия</InputTitle>
-                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
-               </SearchItem>
+                <DatePicker placeholder="01/01/2020"
+                  size={'large'}
+                  format='DD/MM/YYYY'
+                  style={{  width: '100%' }}
+                  defaultValue={item.end ? moment(item.end) : ''}
+                  onChange={(date) => setItem({ ...item, end:new Date(date) })}
+                  />
+              </SearchItem>
             </Row>
             <Row>
-               <SearchItem>
+              <SearchItem>
                 <InputTitle>Создатель</InputTitle>
                 <StyledInput
                   placeholder="Макаров Ульян"
@@ -53,55 +72,55 @@ export const EditInformation = () => {
 
                   defaultValue={item.creator ? item.creator:""}
                   onChange={(e) => setItem({ ...item, creator: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
-               <SearchItem>
+                ></StyledInput>
+              </SearchItem>
+              <SearchItem>
                 <InputTitle>Инициатор</InputTitle>
                 <StyledInput
                 placeholder="Макаров Ульян"
               prefix={<img src={ownerIcon} />}
               defaultValue={item.initiator ? item.initiator:""}
               onChange={(e) => setItem({ ...item, initiator: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
+                ></StyledInput>
+              </SearchItem>
             </Row>
             <Row>
-               <SearchItem>
+              <SearchItem>
                 <InputTitle>Тип договора</InputTitle>
                 <StyledInput
-                 placeholder="С поставщиком"
-              prefix={<img src={contractIcon} />}
-              defaultValue={item.contractType ? item.contractType:""}
-              onChange={(e) => setItem({ ...item, contractType: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
-               <SearchItem>
+                placeholder="С поставщиком"
+                prefix={<img src={contractIcon} />}
+                defaultValue={item.contractType ? item.contractType:""}
+                onChange={(e) => setItem({ ...item, contractType: e.target.value})}
+              ></StyledInput>
+              </SearchItem>
+              <SearchItem>
                 <InputTitle>Срок оплаты</InputTitle>
                 <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
-               </SearchItem>
+              </SearchItem>
             </Row>
             <Row>
-               <SearchItem>
+              <SearchItem>
                 <InputTitle>Подписант в именительном падеже</InputTitle>
                 <StyledInput
-                placeholder="Абрамов Андриан"
-              prefix={<img src={ownerIcon} />}
-              defaultValue={item.signatoryOne ? item.signatoryOne:""}
-              onChange={(e) => setItem({ ...item, signatoryOne: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
-               <SearchItem>
+                  placeholder="Абрамов Андриан"
+                  prefix={<img src={ownerIcon} />}
+                  defaultValue={item.signatoryOne ? item.signatoryOne:""}
+                  onChange={(e) => setItem({ ...item, signatoryOne: e.target.value})}
+                />
+              </SearchItem>
+              <SearchItem>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
                 <StyledInput
                 placeholder="Макарова Ульяна"
-              prefix={<img src={ownerIcon} />}
-              defaultValue={item.signatoryTwo ? item.signatoryTwo:""}
-              onChange={(e) => setItem({ ...item, signatoryTwo: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
+                prefix={<img src={ownerIcon} />}
+                defaultValue={item.signatoryTwo ? item.signatoryTwo:""}
+                onChange={(e) => setItem({ ...item, signatoryTwo: e.target.value})}
+                />
+              </SearchItem>
             </Row>
             <Row>
-               <SearchItem>
+              <SearchItem>
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
                 <StyledInput
       
@@ -109,15 +128,15 @@ export const EditInformation = () => {
               prefix={<img src={anchorIcon} />}
               defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
               onChange={(e) => setItem({ ...item, basedOnDocument: e.target.value})}
-             ></StyledInput>
-               </SearchItem>
-               <SearchItem>
+              ></StyledInput>
+              </SearchItem>
+              <SearchItem>
                 <InputTitle>Статус возврата</InputTitle>
                 <StyledSelect
               placeholder="Нет"
               defaultValue={item.returnStatus ? item.returnStatus : <img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, returnStatus: value})}
-             >
+              >
                 <StyledSelect.Option  value={true}>
                   <img src={anchorIcon} />
                   <span>Да</span>
@@ -126,11 +145,8 @@ export const EditInformation = () => {
                   <img src={anchorIcon} />
                   <span>Нет</span>
                 </StyledSelect.Option>
-             </StyledSelect>
-
-
-               </SearchItem>
-
+              </StyledSelect>
+            </SearchItem>
             </Row>
             <Row>
             <SearchItem style={{width:"100%"}}>
@@ -157,19 +173,19 @@ export const EditInformation = () => {
           </SearchItem>
           </Row>
             <Row>
-               <SearchItem style={{width:"100%"}}>
+              <SearchItem style={{width:"100%"}}>
                 <InputTitle>Комментарий</InputTitle>
                 <StyledInput.TextArea rows={3}
                 placeholder="..."
-               defaultValue={item.comment ? item.comment:""}
-               onChange={(e) => setItem({ ...item, comment: e.target.value})}
-              size={'large'}
+                defaultValue={item.comment ? item.comment:""}
+                onChange={(e) => setItem({ ...item, comment: e.target.value})}
+                size={'large'}
             />
 
-               </SearchItem>
-            </Row>
-          </BlockBody>
-        </Medium>
+          </SearchItem>
+        </Row>
+      </BlockBody>
+    </Medium>
   );
 };
 

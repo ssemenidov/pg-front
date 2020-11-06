@@ -13,6 +13,7 @@ import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 const CONTRACT_UPDATE = gql`
 mutation(
   $id:ID!
+
   $initiator:String
   $creator:String
   $contractType: String
@@ -25,6 +26,7 @@ mutation(
   updateContract(
     id:$id
     input: {
+
       initiator:$initiator
       creator:$creator
       contractType:$contractType
