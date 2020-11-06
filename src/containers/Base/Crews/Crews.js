@@ -1,4 +1,5 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext,useMemo } from 'react';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import PanelCrews from './PanelCrews';
 import FilterBar from './FilterBar';
 
@@ -19,13 +20,28 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 
 
 const { Content, Sider } = Layout;
-
+const CREW_CREATE = gql`
+mutation {
+  createCrew(input: {}) {
+    crew {
+      id
+    }
+  }
+}
+`;
 export const crewsContext = createContext();
 
 const Crews = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
+  const [createCrew, { data }] = useMutation(CREW_CREATE);
+  useMemo(() => {
+    if (data) {
+      alert("Page not created")
+     //history.push(`/base/crews/crew/${data.createCrew.crew.id}`);
+    }
+  }, [data]);
   return (
     <crewsContext.Provider value={[filter, setFilter]}>
       <Layout>
@@ -57,7 +73,7 @@ const Crews = () => {
                   <JobTitle>Экипажи</JobTitle>
                 </HeaderTitleWrapper>
                 <ButtonGroup>
-                  <StyledButton backgroundColor="#008556" onClick={() => alert('click')}>
+                  <StyledButton backgroundColor="#008556" onClick={createCrew}>
                     Создать новое
                   </StyledButton>
                 </ButtonGroup>
