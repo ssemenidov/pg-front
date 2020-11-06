@@ -77,11 +77,7 @@ export const EditInformation = () => {
                </SearchItem>
                <SearchItem>
                 <InputTitle>Срок оплаты</InputTitle>
-                <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.paymentDate ? item.paymentDate:""}
-              onChange={(e) => setItem({ ...item, paymentDate: e.target.value})}
-             ></StyledInput>
+                <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY'style={{  width: '100%' }}/>
                </SearchItem>
             </Row>
             <Row>
@@ -117,12 +113,22 @@ export const EditInformation = () => {
                </SearchItem>
                <SearchItem>
                 <InputTitle>Статус возврата</InputTitle>
-                <StyledInput
-              prefix={<img src={anchorIcon} />}
+                <StyledSelect
               placeholder="Нет"
-              defaultValue={item.basedOnDocument ? item.basedOnDocument:""}
-              onChange={(e) => setItem({ ...item, basedOnDocument: e.target.value})}
-             ></StyledInput>
+              defaultValue={item.returnStatus ? item.returnStatus : <img src={anchorIcon} />}
+              onChange={(value) => setItem({ ...item, returnStatus: value})}
+             >
+                <StyledSelect.Option  value={true}>
+                  <img src={anchorIcon} />
+                  <span>Да</span>
+                </StyledSelect.Option>
+                <StyledSelect.Option  value={false}>
+                  <img src={anchorIcon} />
+                  <span>Нет</span>
+                </StyledSelect.Option>
+             </StyledSelect>
+
+
                </SearchItem>
 
             </Row>
@@ -133,8 +139,9 @@ export const EditInformation = () => {
             <StyledButton
               backgroundColor="#2C5DE5"
               type="button"
+              style={{width:"260px"}}
             >
-              Загрузить скан договора (.pdf)
+              Загрузить скан  договора (.pdf) 
             </StyledButton>
 
           </StyledUpload>

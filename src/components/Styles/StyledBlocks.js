@@ -6,6 +6,7 @@ export const Quarter = styled.div`
   background: #f5f7fa;
   border: 1px solid #d3dff0;
   border-radius: 8px;
+  height:100%;
 `;
 
 export const Medium = styled.div`
@@ -14,6 +15,7 @@ export const Medium = styled.div`
   background: #f5f7fa;
   border: 1px solid #d3dff0;
   border-radius: 8px;
+  height:100%;
 `;
 
 export const Large = styled.div`
@@ -23,7 +25,7 @@ export const Large = styled.div`
   background: #f5f7fa;
   border: 1px solid #d3dff0;
   border-radius: 8px;
-  margin-bottom: 20px;
+  height:100%;
 `;
 
 export const BlockTitle = styled.div`

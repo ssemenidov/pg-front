@@ -11,7 +11,7 @@ export default function Accounting() {
   return (
 
     <Large>
-      <BlockTitle>Парамметры - 1С</BlockTitle>
+      <BlockTitle>Параметры - 1С</BlockTitle>
       <BlockBody>
         <Row>
           <div style={{ width: '392px' }}>
