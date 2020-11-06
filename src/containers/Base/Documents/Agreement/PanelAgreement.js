@@ -13,12 +13,29 @@ import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 const CONTRACT_UPDATE = gql`
 mutation(
   $id:ID!
+
   $initiator:String
+  $creator:String
+  $contractType: String
+  $signatoryOne: String
+  $signatoryTwo: String
+  $basedOnDocument: String
+  $returnStatus: Boolean
+  $comment: String
 ) {
   updateContract(
     id:$id
     input: {
+
       initiator:$initiator
+      creator:$creator
+      contractType:$contractType
+      signatoryOne:$signatoryOne
+      signatoryTwo:$signatoryTwo
+      basedOnDocument:$basedOnDocument
+      returnStatus:$returnStatus
+      comment:$comment
+
     }
   ) {
     contract {
@@ -143,7 +160,7 @@ const PanelDesign = (props) => {
       </StyledButton>
     </ButtonGroup>
   </HeaderWrapper>
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex',marginBottom:"20px"  }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
         <EditInfo></EditInfo>
       </div>

@@ -10,15 +10,6 @@ import numberIcon from '../../../../../img/input/number.svg';
 
 export const GroundAct = (props) => {
   const [item, setItem] = useContext(locationContext);
-
-  function onChangeDatePicker(date) {
-    const dateNow = date && date;
-
-    if(dateNow) {
-      setItem({...item, areaActDate: new Date(dateNow)});
-    }
-  }
-
   return (
     <Medium>
       <BlockTitle>Акт на землю</BlockTitle>
@@ -41,7 +32,7 @@ export const GroundAct = (props) => {
               format='DD/MM/YYYY'
               style={{ width: '100%' }}
               defaultValue={item.areaActDate ? moment(item.areaActDate) : ''}
-              onChange={onChangeDatePicker}
+              onChange={(date) => setItem({ ...item, areaActDate:new Date(date) })}
             />
           </div>
         </Row>

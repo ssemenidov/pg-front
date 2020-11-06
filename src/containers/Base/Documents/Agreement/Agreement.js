@@ -26,6 +26,7 @@ const CONTRACT_ITEM = gql`
             id
             title
           }
+          registrationDate
           start
           end
 
