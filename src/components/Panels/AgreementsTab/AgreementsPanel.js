@@ -109,14 +109,14 @@ const AgreementsPanel = () => {
 
           }
 
-
+          # contractType
           paymentDate
           signatoryOne
           signatoryTwo
           basedOnDocument
           returnStatus
           contractPdf
-     
+          # additionallyAgreement
           comment
           createdAt
           updatedAt
