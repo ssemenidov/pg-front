@@ -1,17 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useMemo } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { Layout, Menu, Breadcrumb } from 'antd';
 
 import PanelAgreements from './PanelAgreements';
-import { Link } from 'react-router-dom';
+
+
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
+import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
+import { JobTitle } from '../../../../components/Styles/StyledBlocks';
+import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
+const CONTRACT_CREATE = gql`
+  mutation {
+    createContract(input: {
 
+    }) {
+      contract {
+        id
+      }
+    }
+  }
+`;
 const Agreements = (props) => {
-  const history = useHistory();
+  const [block, setBlock] = useState(0);
+  const history =useHistory();
   const [collapsed, setCollapsed] = useState(true);
+  const [  createContract, { data }] = useMutation(CONTRACT_CREATE);
+  useMemo(() => {
+    if (data) {
+
+     history.push(`/base/documents/agreement/${data.createContract.contract.id}`);
+    }
+  }, [data]);
   return (
     <Layout>
       <Layout>
@@ -33,7 +58,21 @@ const Agreements = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-            <PanelAgreements history={history}  />
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Документы</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                {block == 0 && (
+                    <StyledButton backgroundColor="#2c5de5" onClick={  createContract}>Создать договор</StyledButton>
+
+                ) }
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex' }}>
+            <PanelAgreements  />
+            </div>
           </Content>
         </Layout>
       </Layout>

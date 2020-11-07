@@ -7,10 +7,7 @@ import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
 import AgreementsTab from '../../../../components/Panels/AgreementsTab/AgreementsTab';
 import ApplicationsTab from '../../../../components/Panels/ApplicationsTab/ApplicationsTab';
-import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
-import { JobTitle } from '../../../../components/Styles/StyledBlocks';
-import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
-import { Link } from 'react-router-dom';
+
 import {  Input } from 'antd';
 import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 
@@ -25,47 +22,11 @@ STab.tabsRole = 'Tab';
 const tabs = [{ value: 'Договора' }, { value: 'Приложения' }];
 const panel1 = <AgreementsTab />;
 const panel2 = <ApplicationsTab />;
-const CONTRACT_CREATE = gql`
-  mutation {
-    createContract(input: {
 
-    }) {
-      contract {
-        id
-      }
-    }
-  }
-`;
 const InnerForm = (props) => {
   const [block, setBlock] = useState(0);
-  const history = props.history;
-  const [  createContract, { data }] = useMutation(CONTRACT_CREATE);
-  useMemo(() => {
-    if (data) {
-
-     history.push(`/base/documents/agreement/${data.createContract.contract.id}`);
-    }
-  }, [data]);
-  const addContract= (e) => {
-    createContract();
-
-
-  };
   return (
     <form style={{ width: '100%' }}>
-      <HeaderWrapper>
-        <HeaderTitleWrapper>
-          <TitleLogo />
-          <JobTitle>Документы</JobTitle>
-        </HeaderTitleWrapper>
-        <ButtonGroup>
-          {block == 0 && (
-              <StyledButton backgroundColor="#2c5de5" onClick={addContract}>Создать договор</StyledButton>
-
-          ) }
-        </ButtonGroup>
-      </HeaderWrapper>
-      <div>
         <STabs
           selectedTabClassName="is-selected"
           selectedTabPanelClassName="is-selected"
@@ -106,7 +67,6 @@ const InnerForm = (props) => {
           <STabPanel>{panel2}</STabPanel>
 
         </STabs>
-      </div>
     </form>
   );
 };
