@@ -82,10 +82,10 @@ const AgreementsPanel = () => {
     )
     {
     searchContract(
-      initiator:$initiator
-      creator:$ creator
+      initiator_Name:$initiator
+      creator_Name:$creator
       partner_Title:$partner_Title
-      contractType:$contractType
+      contractType_Name:$contractType
       start:$start
       registrationDate:$registrationDate
       end:$end
@@ -101,16 +101,22 @@ const AgreementsPanel = () => {
           start
           end
         
-          creator
-          initiator
-          contractType
+          creator{
+            name
+          }
+          initiator{
+            name
+
+          }
+
+          # contractType
           paymentDate
           signatoryOne
           signatoryTwo
           basedOnDocument
           returnStatus
           contractPdf
-          additionallyAgreement
+          # additionallyAgreement
           comment
           createdAt
           updatedAt
@@ -185,7 +191,7 @@ const AgreementsPanel = () => {
 
       key: item.node.id,
       code: `#2020050301323${index}`,
-      partner:  item.node.partner ? item.node.partner.title:"",
+      partner:  item.node.partner ? item.node.partner.name:"",
       project: 'CocaCola',
       date_start:item.node.start && new Date(item.node.start).toLocaleDateString('en-GB'),
       date_end:item.node.end && new Date(item.node.end).toLocaleDateString('en-GB'),

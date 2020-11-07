@@ -79,92 +79,58 @@ const PanelDesign = (props) => {
     //   status: 'Размещен',
     //   date_start: '19.06.2020',
     // },
-    // {
-    //   key: 2,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
-    // {
-    //   key: 3,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
-    // {
-    //   key: 4,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
-    // {
-    //   key: 5,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
+ 
   ];
  
 
   const CREWS_T = gql`
-    query SearchCrew(
-      $name: String
-      $phone: String
-      $city: String
-      $district: String
-      $adress: String
+  query SearchCrew(
+    $name: String
+    $phone: String
+    $city: String
+    $district: String
+    $adress: String
+  ) {
+    searchCrew(
+      name: $name
+      phone:  $phone
+      city_Title:$city
+      
+      constructions_Location_Postcode_District_Title: $district
+      constructions_Location_MarketingAddress_Address:  $adress
+     
     ) {
-      searchCrew(
-        name: $name
-        phone:  $phone
-        construction_City_Title:  $city
-        construction_District_Title: $district
-        construction_MarketingAddress:  $adress
-       
-      ) {
-        edges {
-          node {
-            id
-            phone
-            name
-          
-            constructionSet {
-              edges {
-                node {
-                  id
-                  code
-               
-                  statusConnection
-                  createdAt
-                  city {
-                    id
-                    title
-                  }
-                  legalAddress
-                  district {
-                    id
-                    title
-                  }
+      edges {
+        node {
+          id
+          phone
+          name
+          constructions {
+            edges {
+              node {
+                id
+                code
+             
+                statusConnection
+                createdAt
+                
+                # city {
+                #   id
+                #   title
+                # }
+                # legalAddress
+                # district {
+                #   id
+                #   title
+                # }
 
-                }
               }
             }
           }
         }
       }
     }
+  }
   `;
   
   const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
