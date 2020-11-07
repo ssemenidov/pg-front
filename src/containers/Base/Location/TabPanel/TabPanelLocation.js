@@ -30,7 +30,7 @@ const panel2 = <HistoryTable />;
 const links = [
   { id: '', value: 'Главная' },
   { id: 'base', value: 'Базы' },
-  { id: 'base/locations', value: 'Список проектов' },
+  { id: 'base/locations', value: 'Список местоположений' },
 ];
 const LOCATION_DELETE = gql`
   mutation Delete($id: ID!) {
@@ -71,7 +71,7 @@ const LOCATION_UPDATE = gql`
         address:$address
         city:$city
         district:$district
-        
+
         areaAct:$areaAct
         areaActDate: $areaActDate
         resolutionNumber:$resolutionNumber

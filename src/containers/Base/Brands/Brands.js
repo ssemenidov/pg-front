@@ -21,8 +21,8 @@ import FilterBar from './FilterBar';
 
 const BRAND_CREATE = gql`
   mutation {
-    createLocation(input: {}) {
-      location {
+    createBrand(input: {}) {
+      brand {
         id
       }
     }
@@ -35,16 +35,15 @@ const Brands = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
-  const [createLocation, { data }] = useMutation(BRAND_CREATE);
+  const [createBrand, { data }] = useMutation(BRAND_CREATE);
 
   useMemo(() => {
     if (data) {
-      history.push(`/base/locations/location/${data.createLocation.location.id}`);
+      history.push(`/base/partner/brand/${data.createBrand.brand.id}`);
     }
   }, [data]);
   const addBrand= () => {
-    alert('Еще нет страницы создания бренда');
-    // createLocation();
+    createBrand();
   };
   return (
     <brandsContext.Provider value={[filter, setFilter]}>
@@ -63,7 +62,9 @@ const Brands = () => {
             <Breadcrumb.Item>
               <Link to="/base/">Базы</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Бренды</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/base/brands">Бренды</Link>
+            </Breadcrumb.Item>
           </Breadcrumb>
           <HeaderWrapper>
             <HeaderTitleWrapper>
@@ -73,7 +74,8 @@ const Brands = () => {
             <ButtonGroup>
               <StyledButton
                 backgroundColor="#008556"
-                  onClick={addBrand}
+                type="button"
+                onClick={addBrand}
                 >
                 Создать бренд
               </StyledButton>

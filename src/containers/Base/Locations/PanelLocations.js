@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 
 import { useQuery, gql } from '@apollo/client';
 import {Link} from 'react-router-dom';
-import { useHistory } from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
@@ -172,7 +172,7 @@ const initColumnsTable = [
     sorter: {
       compare: (a, b) => a.code.localeCompare(b.code),
       multiple: 1,
-    }, 
+    },
 
   },
   {
@@ -184,7 +184,7 @@ const initColumnsTable = [
     sorter: {
       compare: (a, b) => a.city.localeCompare(b.city),
       multiple: 1,
-    }, 
+    },
   },
   {
     title: 'Почтовый индекс',
@@ -246,6 +246,7 @@ const initColumnsTable = [
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
   const history = useHistory();
+  const location = useLocation();
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
@@ -267,7 +268,12 @@ const PanelDesign = (props) => {
     },
   ];
 
-  const { loading, error, data } = useQuery(LOCATIONS_T, { variables: filter });
+  const { loading, error, data, refetch } = useQuery(LOCATIONS_T, { variables: filter });
+
+  useEffect(() => {
+    refetch();
+  }, [location])
+
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
   if (data) {

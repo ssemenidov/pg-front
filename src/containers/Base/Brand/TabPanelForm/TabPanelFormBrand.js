@@ -25,6 +25,7 @@ import hyperlink from "../../../../img/hyperlink.svg";
 import designIcon from "../../../../img/brand/design-icon.png";
 
 import { constructBrand } from '../Brand';
+import {useParams} from "react-router";
 
 
 const PrintBlock = React.forwardRef(({ data }, ref) => (
@@ -121,6 +122,7 @@ const SAVE_BRAND = gql`
 `;
 
 const InnerForm = () => {
+  const { id } = useParams();
   const [item, setItem] = useContext(constructBrand);
   const [workingSectors, setWorkingSectors] = useState(null);
   const inputRef = useRef([]);
@@ -225,7 +227,7 @@ const InnerForm = () => {
   const saveData = (e) => {
     e.preventDefault();
 
-    if(!item.id) return;
+    if(!id) return;
 
     let partnerIdList = [];
     if(item.partner && item.partner.edges) {
@@ -234,7 +236,7 @@ const InnerForm = () => {
 
     saveDataBrand({
       variables: {
-        id: item.id && item.id,
+        id: id && id,
         title: item.title && item.title,
         workingSector: item.workingSector && item.workingSector.id,
         partner: partnerIdList
