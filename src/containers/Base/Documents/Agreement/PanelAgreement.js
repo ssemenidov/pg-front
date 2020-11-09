@@ -128,12 +128,11 @@ var data = [
   },
 ];
 const PanelDesign = (props) => {
-  const  [item,setItem] =useContext(agreementContext);
+  const  [item, setItem] =useContext(agreementContext);
   const [updateContract] = useMutation(CONTRACT_UPDATE);
   const Update = (e) => {
-    console.log(item);
     e.preventDefault();
-    updateContract({ variables: 
+    updateContract({ variables:
        item
 
         });
@@ -141,14 +140,14 @@ const PanelDesign = (props) => {
     // history.push(`/base/outdoor_furniture`);
     // history.go(0);
   };
-  if (item.attachmentSet && item.attachmentSet.edges.length){
+  if (item.attachmentSet && item.attachmentSet.edges.length) {
     data = item.attachmentSet.edges.map((attach) => ({
       key: attach.node.id,
 
     }));
   }
   return (
-    <form>
+    <div>
     <HeaderWrapper>
     <HeaderTitleWrapper>
       <TitleLogo />
@@ -176,7 +175,7 @@ const PanelDesign = (props) => {
         </style>
       </div>
     </div>
-    </form>
+    </div>
   );
 };
 

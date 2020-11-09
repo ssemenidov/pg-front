@@ -11,25 +11,23 @@ import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertica
 
 const LOCATIONS_T = gql`
    query SearchLocation(
-     $city:String
-     $district:String
-     $post:String
-     $cadastralNumber:String
-     $targetPurpose:String
-     $resolutionNumber:String
-     $rentContractStart:DateTime
-     $rentContractEnd:DateTime
-     $area:String
-     $comment:String
-
-     )
-     {
+     $city: String
+     $district: String
+     $post: String
+     $cadastralNumber: String
+     $targetPurpose: String
+     $resolutionNumber: String
+     $rentContractStart: DateTime
+     $rentContractEnd :DateTime
+     $area: Float
+     $comment: String
+) {
     searchLocation(
-      city_Title:$city
-      district_Title: $district
-      postcode: $post
+      postcode_District_City_Title:$city
+      postcode_District_Title: $district
+      postcode_Title: $post
       cadastralNumber: $cadastralNumber
-      targetPurpose: $targetPurpose
+      purposeLocation_Title: $targetPurpose
       resolutionNumber: $resolutionNumber
       rentContractStart:$rentContractStart
       rentContractEnd:$rentContractEnd
@@ -39,20 +37,33 @@ const LOCATIONS_T = gql`
       edges {
         node {
           id
-          city {
+          postcode {
+            id
             title
+            district {
+              id
+              title
+              city {
+                id
+                title
+              }
+            }
           }
-          district {
-            title
-          }
-          postcode
           area
-          address
+          legalAddress {
+            address
+          }
+          marketingAddress {
+            address
+          }
           coordinate
           cadastralNumber
-          targetPurpose
+          purposeLocation {
+            title
+          }
+          rentContractNumber
           comment
-          construction {
+          constructions {
             edges {
               node {
                 id
@@ -279,18 +290,18 @@ const PanelDesign = (props) => {
   if (data) {
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
-      code: '#1020050301323',
-      city: item.node.city ? item.node.city.title:'',
+      code: item.node.id,
+      city: item.node.postcode && item.node.postcode.district && item.node.postcode.district.city && item.node.postcode.district.city.title,
       post: item.node.postcode,
-      district: item.node.district ? item.node.district.title:"",
-      adress_j: item.node.address,
+      district: item.node.postcode && item.node.postcode.district,
+      adress_j: item.node.legalAddress && item.node.legalAddress.address,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
-      marketingAddress: "не нашел на беке",
-      constructionQuantity: item.node.construction.edges ? item.node.construction.edges.length : 0,
-      targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
-      comment: item.node.comment ? item.node.comment : ""
+      contractNumber: item.rentContractNumber,
+      marketingAddress: item.marketingAddress && item.marketingAddress.address,
+      constructionQuantity: item.node.constructions.edges ? item.node.constructions.edges.length : 0,
+      targetPurpose: item.node.purposeLocation && item.node.purposeLocation.title,
+      comment: item.node.comment
     }));
   }
 

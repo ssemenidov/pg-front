@@ -6,10 +6,8 @@ import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../components/Styles/DesignList/styles';
 
 export const locationContext = createContext();
-const Location = (props) => {
-  const [ id ] = useState(props.match.params.id);
-  const [ item, setItem ] = useState({});
-  const LOCATION_ITEM = gql`
+
+const LOCATION_ITEM = gql`
   query SearchLocation($id: ID!) {
     searchLocation(id: $id) {
       edges {
@@ -78,6 +76,10 @@ const Location = (props) => {
     }
   }
 `;
+
+const Location = (props) => {
+  const [ id ] = useState(props.match.params.id);
+  const [ item, setItem ] = useState({});
 
   const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });
 
