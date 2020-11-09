@@ -14,28 +14,30 @@ const CONTRACT_UPDATE = gql`
 mutation(
   $id:ID!
 
-  $initiator:String
-  $creator:String
-  $contractType: String
+  $initiator: ID
+  $creator: ID
+  $contractType: ID
+  $partner: ID
+
   $signatoryOne: String
   $signatoryTwo: String
   $basedOnDocument: String
   $returnStatus: Boolean
   $comment: String
+  $paymentDate: DateTime
 ) {
   updateContract(
     id:$id
     input: {
-
       initiator:$initiator
       creator:$creator
+      partner:$partner
       contractType:$contractType
       signatoryOne:$signatoryOne
       signatoryTwo:$signatoryTwo
       basedOnDocument:$basedOnDocument
       returnStatus:$returnStatus
       comment:$comment
-
     }
   ) {
     contract {
@@ -79,7 +81,6 @@ const columns = [
     width: 100,
   },
 ];
-
 var data = [
   {
     key: 1,
@@ -127,35 +128,54 @@ var data = [
     application: '02394.pdf',
   },
 ];
+
 const PanelDesign = (props) => {
-  const  [item,setItem] =useContext(agreementContext);
+  const  [item, setItem] =useContext(agreementContext);
   const [updateContract] = useMutation(CONTRACT_UPDATE);
   const Update = (e) => {
-    console.log(item);
     e.preventDefault();
-    updateContract({ variables: 
-       item
-
-        });
-
-    // history.push(`/base/outdoor_furniture`);
-    // history.go(0);
+    updateContract({
+      variables: {
+        id: item.id,
+        initiator: item.initiatorId,
+        creator: item.creatorId,
+        partner: item.partnerId,
+        contractType: item.contractTypeId,
+        signatoryOne: item.signatoryOne,
+        signatoryTwo: item.signatoryTwo,
+        basedOnDocument: item.basedOnDocument,
+        returnStatus: item.returnStatus,
+        comment: item.comment
+      }
+    });
   };
-  if (item.attachmentSet && item.attachmentSet.edges.length){
-    data = item.attachmentSet.edges.map((attach) => ({
-      key: attach.node.id,
+  useEffect(() => {
+    if (item.contractAttachments && item.contractAttachments.edges.length) {
+      data = item.contractAttachments.edges.map(({ node }) => ({
+        key: node.id,
+        code: node.code,
+        brand: node.project && node.project.brand && node.project.brand.title,
+        sector: node.project && node.project.brand && node.project.brand.workingSector && node.project.brand.workingSector.title,
+        create: node.createdDate,
+        creator: node.creator && node.creator.name,
+        application: node.project && node.project.title
+      }));
+    }
+  }, []);
 
-    }));
-  }
   return (
-    <form>
+    <div>
     <HeaderWrapper>
     <HeaderTitleWrapper>
       <TitleLogo />
-      <JobTitle>Договор № 2020050301323</JobTitle>
+      <JobTitle>Договор № { item.code }</JobTitle>
     </HeaderTitleWrapper>
     <ButtonGroup>
-      <StyledButton backgroundColor="#008556" onClick={Update} >
+      <StyledButton
+        backgroundColor="#008556"
+        type="button"
+        onClick={Update}
+      >
         Сохранить
       </StyledButton>
     </ButtonGroup>
@@ -176,7 +196,7 @@ const PanelDesign = (props) => {
         </style>
       </div>
     </div>
-    </form>
+    </div>
   );
 };
 

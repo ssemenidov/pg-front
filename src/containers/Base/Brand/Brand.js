@@ -63,7 +63,9 @@ const Brand = (props) => {
               <Breadcrumb.Item>
                 <Link to="/base/">Базы</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>Бренды</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/base/brands">Бренды</Link>
+              </Breadcrumb.Item>
             </Breadcrumb>
             <Content
               className="site-layout-background"

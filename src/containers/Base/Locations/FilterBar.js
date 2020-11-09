@@ -55,7 +55,7 @@ const DISTRICT_T = gql`
       }
     }
   }
-`; 
+`;
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -72,7 +72,7 @@ const FilterBar = () => {
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
   const post = useQuery( POST_T).data;
-  // if (!city || !district || !post){
+  // if (!city || !district || !post) {
   //   return <span></span>;
   // }
   return (
@@ -112,7 +112,7 @@ const FilterBar = () => {
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
-              </StyledSelect>           
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="adress_m">
               <StyledInput prefix={<img src={houseIcon} />} placeholder="Адрес маркетинговый" size={'large'} />
@@ -179,9 +179,9 @@ const FilterBar = () => {
       </Form>
       <style>
         {`
-        .ant-collapse-content{
-           background-color: #f5f7fa !important;
-        }
+          .ant-collapse-content{
+             background-color: #f5f7fa !important;
+          }
         `}
       </style>
     </FilterMenu>

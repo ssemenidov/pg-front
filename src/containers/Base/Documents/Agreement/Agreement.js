@@ -12,12 +12,12 @@ import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 export const agreementContext = createContext();
 const { Header, Content, Sider } = Layout;
 const CONTRACT_ITEM = gql`
-  query SearchContract(
+  query searchContract(
     $id:ID!
   )
     {
     searchContract(
-      id:$id
+      id: $id
     ) {
       edges {
         node {
@@ -26,15 +26,21 @@ const CONTRACT_ITEM = gql`
             id
             title
           }
+          registrationDate
           start
           end
           creator{
+            id
             name
           }
           initiator{
+            id
             name
           }
-          # contractType
+          contractType {
+            id
+            name
+          }
           paymentDate
           signatoryOne
           signatoryTwo
@@ -45,6 +51,15 @@ const CONTRACT_ITEM = gql`
           comment
           createdAt
           updatedAt
+          contractAttachments {
+            edges {
+              node {
+                id
+                additionallyAgreement
+              }
+            }
+          }
+
         }
       }
     }
@@ -61,11 +76,8 @@ const OutdoorFurniture = (props) => {
       setItem(data.searchContract.edges[0].node);
     }
   }, [data]);
-  console.log(item);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <h3></h3>;
-
-
 
   return (
     <agreementContext.Provider value={ [item, setItem] }>
@@ -90,10 +102,7 @@ const OutdoorFurniture = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-
-
               <PanelAgreement  />
-
           </Content>
         </Layout>
       </Layout>

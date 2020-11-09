@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {Link} from 'react-router-dom';
-import { useHistory } from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 import { useQuery, gql } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
@@ -11,56 +11,24 @@ import { brandsContext } from './Brands';
 import { stubDataBrands } from './stubDataSource';
 
 const BRANDS_T = gql`
-   query SearchLocation(
-     $city:String
-     $district:String
-     $post:String
-     $cadastralNumber:String
-     $targetPurpose:String
-     $resolutionNumber:String
-     $rentContractStart:DateTime
-     $rentContractEnd:DateTime
-     $area:String
-     $comment:String
-
-     )
-     {
-    searchLocation(
-      city_Title:$city
-      district_Title: $district
-      postcode: $post
-      cadastralNumber: $cadastralNumber
-      targetPurpose: $targetPurpose
-      resolutionNumber: $resolutionNumber
-      rentContractStart:$rentContractStart
-      rentContractEnd:$rentContractEnd
-      area:$area
-      comment: $comment
-    ) {
+  query searchBrand {
+    searchBrand {
       edges {
         node {
           id
-          city {
+          title
+          workingSector {
+            id
             title
           }
-          district {
-            title
-          }
-          postcode
-          area
-          address
-          coordinate
-          cadastralNumber
-          targetPurpose
-          comment
-          construction {
+          partner {
             edges {
               node {
                 id
+                title
               }
             }
           }
-          rentContractNumber
         }
       }
     }
@@ -141,17 +109,24 @@ const initData = [
 
 const PanelDesign = (props) => {
   const history = useHistory();
+  const location = useLocation();
   const [filter, setFilter] = useContext(brandsContext);
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
   const [brands, setBrands] = useState(initData);
 
-  // const { loading, error, data } = useQuery(BRANDS_T, { variables: filter });
-  // if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
-  // if (data) {
-  //   setBrands(data.searchLocation.edges.map((item) => (stubDataBrands(item))))
-  // }
+  const { loading, error, data, refetch } = useQuery(BRANDS_T, { variables: filter });
+
+  useMemo(() => {
+    refetch()
+  }, [location]);
+  useMemo(() => {
+    if (data && data.searchBrand && data.searchBrand.edges) {
+      setBrands(data.searchBrand.edges.map((item) => (stubDataBrands(item))))
+    }
+  }, [data]);
+  if (error) return <p>Error :(</p>;
+  if (loading) return <h3></h3>;
 
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {
