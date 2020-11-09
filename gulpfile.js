@@ -68,7 +68,7 @@ function genGetKey() {
 }
 
 
-function deploy_production_ftp() {
+function deploy_production_ftp(cb) {
   let getKey = genGetKey();
 
   let conn = ftp.create({
@@ -79,15 +79,32 @@ function deploy_production_ftp() {
     log: (data) => fancylog(data),
   });
 
-  return gulp.src(['build/**'], {buffer: false})
-    .pipe(conn.dest(getKey("DEPLOY_FOLDER")));
+  return gulp.series(
+    () => gulp.src(
+      path.join('.', 'build', '**'),
+      {
+        buffer: false,
+        base: path.join('.', 'build')
+      }
+    ).pipe(conn.dest(getKey("DEPLOY_FOLDER"))),
+    () => {
+      return gulp.src(
+        path.join('.', 'build', 'static', '**'),
+        {
+          buffer: false,
+          base: path.join('.', 'build', 'static')
+        }
+      ).pipe(conn.dest(getKey("DEPLOY_BACKEND_FOLDER")));
+    },
+    (done) => { done(); cb() }
+  )()
 }
 
 
 function deploy_production_rsync() {
   let getKey = genGetKey();
 
-  return gulp.src(['build/**'])
+  return gulp.src(path.join('build', '**'))
     .pipe(rsync({
       root: 'build',
       hostname: `${getKey("DEPLOY_SFTP_USER")}@${getKey("DEPLOY_URL")}`,
@@ -105,7 +122,7 @@ function deploy_production_rsync() {
 
 
 gulp.task('build', function(cb) { return build_production(cb); });
-gulp.task('deploy', function() { return deploy_production_ftp(); });
+gulp.task('deploy', function(cb) { return deploy_production_ftp(cb);  });
 gulp.task('sdeploy', function() { return deploy_production_rsync(); });
 gulp.task('bdeploy', function(cb) { return gulp.series("build", "deploy", (done) => { done(); cb(); })(); });
 gulp.task('bsdeploy', function(cb) { return gulp.series("build", "sdeploy", (done) => { done(); cb(); })(); });
