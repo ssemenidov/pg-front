@@ -15,68 +15,40 @@ const Location = (props) => {
       edges {
         node {
           id
-          area
-          document
-          prolongation
-          cadastralNumber
-          targetPurpose
-          comment
-          city {
-            title
+      
+      # city {
+      #   title
+      # }
+      # district {
+      #   title
+      # }
+      postcode {
+        id
+      }
+      area
+      marketingAddress {
+        id
+        address
+      }
+      coordinate
+      cadastralNumber
+      purposeLocation {
+        id
+        title
+      }
+      comment
+      constructions {
+        edges {
+          node {
             id
           }
-          district {
-            title
-            id
-          }
-          postcode
-          address
-          coordinate
-          construction {
-            edges {
-              node {
-                id,
-                marketingAddress,
-                code,
-                familyConstruction {
-                  underFamilyConstruction {
-                    edges {
-                      node {
-                        modelConstruction {
-                          edges {
-                            node {
-                              format {
-                                edges {
-                                  node {
-                                    id
-                                    title
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          areaAct
-          areaActDate
-          resolutionNumber
-					resolutionNumberDate
-
-          rentContractEnd
-          rentContractStart
-          rentContractNumber
-          rentContractCreatedAt
-          rentRegistrationStatus
         }
       }
+      rentContractNumber
     }
   }
+}
+}
 `;
 
   const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });

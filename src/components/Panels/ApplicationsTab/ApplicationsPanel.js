@@ -9,7 +9,7 @@ const ApplicationsPanel = () => {
     const APPLICATION_T = gql`
     {
       searchAttachment(
-       id:""
+      id:""
       ) {
         edges {
           node {
@@ -22,11 +22,12 @@ const ApplicationsPanel = () => {
               name
             }
             createdDate
-            brand
-            {
-              id
-              title
-            }
+            
+            # brand
+            # {
+            #   id
+            #   title
+            # }
             salesManager {
               id
             }
@@ -34,8 +35,6 @@ const ApplicationsPanel = () => {
             periodStartDate
             periodEndDate
             additionallyAgreement
-            createdAt
-            updatedAt
            
           }
         }
