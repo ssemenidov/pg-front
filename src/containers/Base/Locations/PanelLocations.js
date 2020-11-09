@@ -40,27 +40,36 @@ searchLocation(
     node {
       id
 
-      # city {
-      #   title
-      # }
-      # district {
-      #   title
-      # }
       postcode {
         id
+        title
+        district {
+          id
+          title
+          city {
+            id
+            title
+          }
+        }
       }
-      area
+      comment
       marketingAddress {
         id
         address
       }
+      legalAddress{
+        id
+        address
+      }
+      area
       coordinate
       cadastralNumber
+      rentContractNumber
       purposeLocation {
         id
         title
       }
-      comment
+
       constructions {
         edges {
           node {
@@ -68,7 +77,7 @@ searchLocation(
           }
         }
       }
-      rentContractNumber
+
     }
   }
 }
@@ -179,7 +188,7 @@ const initColumnsTable = [
     className: 'show',
     isShowed: true,
     sorter: {
-      compare: (a, b) => a.code.localeCompare(b.code),
+      compare: (a, b) => {a.code && a.code.localeCompare(b.code) },
       multiple: 1,
     },
 
@@ -201,6 +210,10 @@ const initColumnsTable = [
     width: 80,
     className: 'show',
     isShowed: true,
+    sorter: {
+      compare: (a, b) => a.post.localeCompare(b.post),
+      multiple: 1,
+    },
   },
   {
     title: 'Район',
@@ -289,17 +302,17 @@ const PanelDesign = (props) => {
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
       code: '#1020050301323',
-      city: item.node.city ? item.node.city.title:'',
-      post: item.node.postcode,
-      district: item.node.district ? item.node.district.title:"",
-      adress_j: item.node.address,
+      city: (item.node.postcode  && item.node.postcode.district && item.node.postcode.district.city) && item.node.postcode.district.city.title,
+      district: (item.node.postcode  && item.node.postcode.district) && item.node.postcode.district.title ,
+      post: item.node.postcode && item.node.postcode.title,
+      adress_j: item.node.legalAddress && item.node.legalAddress.address,
+      marketingAddress:  item.node.marketingAddress && item.node.marketingAddress.address,
+      contractNumber: item.node.rentContractNumber ,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
-      marketingAddress: "не нашел на беке",
       constructionQuantity: item.node.constructions.edges ? item.node.constructions.edges.length : 0,
-      targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
-      comment: item.node.comment ? item.node.comment : ""
+      targetPurpose: item.node.purposeLocation &&item.node.purposeLocation.title ,
+      comment: item.node.comment ,
     }));
   }
 
