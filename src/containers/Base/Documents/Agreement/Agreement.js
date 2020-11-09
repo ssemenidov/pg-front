@@ -26,26 +26,22 @@ const CONTRACT_ITEM = gql`
             id
             title
           }
-          registrationDate
           start
           end
-
-          creator {
-            username
-          }
-          initiator {
-            username
-          }
-          contractType {
-            id
+          creator{
             name
           }
+          initiator{
+            name
+          }
+          # contractType
           paymentDate
           signatoryOne
           signatoryTwo
           basedOnDocument
           returnStatus
           contractPdf
+          # additionallyAgreement
           comment
           createdAt
           updatedAt
@@ -70,7 +66,7 @@ const OutdoorFurniture = (props) => {
   const { error, data, loading } = useQuery(CONTRACT_ITEM , { variables: { id: id } });
 
   useMemo(() => {
-    if (data) {
+    if (data && data.searchContract.edges.length ) {
       setItem(data.searchContract.edges[0].node);
     }
   }, [data]);

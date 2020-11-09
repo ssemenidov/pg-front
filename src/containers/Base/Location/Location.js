@@ -4,82 +4,63 @@ import { useQuery, gql } from '@apollo/client';
 import InnerForm from './TabPanel/TabPanelLocation';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { LeftBar } from '../../../components/Styles/DesignList/styles';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader'
 
 export const locationContext = createContext();
-
-const LOCATION_ITEM = gql`
-  query SearchLocation($id: ID!) {
-    searchLocation(id: $id) {
-      edges {
-        node {
-          id
-          area
-          document
-          prolongation
-          cadastralNumber
-          targetPurpose
-          comment
-          city {
-            title
+const Location = (props) => {
+  const [ id ] = useState(props.match.params.id);
+  const [ item, setItem ] = useState({});
+  const LOCATION_ITEM = gql`
+    query SearchLocation($id: ID!) {
+      searchLocation(id: $id) {
+        edges {
+          node {
             id
-          }
-          district {
-            title
-            id
-          }
-          postcode
-          address
-          coordinate
-          construction {
-            edges {
-              node {
-                id,
-                marketingAddress,
-                code,
-                familyConstruction {
-                  underFamilyConstruction {
-                    edges {
-                      node {
-                        modelConstruction {
-                          edges {
-                            node {
-                              format {
-                                edges {
-                                  node {
-                                    id
-                                    title
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
+            area
+            document
+            cadastralNumber
+            comment
+            postcode {
+              title
+              district {
+                title
+                city {
+                  title
+                }
+              }
+            }
+            marketingAddress {
+              address
+            }
+            coordinate
+            constructions {
+              edges {
+                node {
+                  id
+                  code
+                  format {
+                    title
                   }
                 }
               }
             }
+            areaAct
+            areaActDate
+            resolutionNumber
+            resolutionNumberDate
+            rentContractEnd
+            rentContractStart
+            rentContractNumber
+            rentContractCreatedAt
+            registrationStatusLocation {
+              title
+              subcathegory
+            }
           }
-          areaAct
-          areaActDate
-          resolutionNumber
-					resolutionNumberDate
-
-          rentContractEnd
-          rentContractStart
-          rentContractNumber
-          rentContractCreatedAt
-          rentRegistrationStatus
         }
       }
     }
-  }
 `;
-
-const Location = (props) => {
-  const [ id ] = useState(props.match.params.id);
-  const [ item, setItem ] = useState({});
 
   const { error, data, loading } = useQuery( LOCATION_ITEM, { variables: { id: id } });
 
@@ -89,7 +70,7 @@ const Location = (props) => {
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
-  if (loading) return <h3></h3>;
+  if (loading) return <LoadingAntd/>;
 
   return (
     <locationContext.Provider value={ [item, setItem] }>
@@ -97,7 +78,7 @@ const Location = (props) => {
       <LeftBar className="left-bar">
         <SearchBtn />
       </LeftBar>
-      <InnerForm   />
+      <InnerForm />
       <style>{`
         .left-bar {
           margin: 0 2vw 0 0;
@@ -106,7 +87,6 @@ const Location = (props) => {
     </div>
     </locationContext.Provider>
   );
-
 };
 
 export default Location;

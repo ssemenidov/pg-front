@@ -6,6 +6,8 @@ import InnerForm from './TabPanelForm/TabPanelFormConstruction';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader'
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -14,8 +16,6 @@ export const constructContext = createContext();
 //   id
 //  }
 const Construction = (props) => {
-  const [id, setId] = useState(props.match.params.id);
-  const [item, setItem] = useState({});
 
   const CONSTRUCT_ITEM = gql`
     query SearchConstruction($id: ID!) {
@@ -23,57 +23,64 @@ const Construction = (props) => {
         edges {
           node {
             id
-            city {
-              title
-              id
+            location {
+              postcode {
+                title
+                district {
+                  title
+                  city {
+                    title
+                    id
+                  }
+                }
+              }
+              marketingAddress {
+                address
+              }
+              hasArea
+              coordinate
             }
-            district {
+            presentationUrl
+            isNonrts
+            nonrtsOwner {
               title
-              id
             }
-            postcode{
-              title
-              id
-            }
-            owner
-            marketingAddress
+            backComment
             createdAt
             backComment
             photo
-            hasArea
-            crew{
+            crew {
               id
               name
-
             }
             techInventNumber
             techPhoneConstruction
             techProblem
-            techComment
             statusConnection
             obstruction
             buhInventNumber
-            otherLink
-            coordinates
             photo
-
-            constructionSide {
+            ownedSides {
               edges {
                 node {
                   id
-                  format {
-                    id
-                  }
-                  side {
-                    id
-                  }
                   advertisingSide {
                     id
+                    title
+                    side {
+                      id
+                      title
+                      size
+                      format {
+                        id
+                        title
+                      }
+                    }
                   }
                   purposeSide {
                     id
+                    title
                   }
-                  size
                   availabilitySide
                 }
               }
@@ -84,16 +91,18 @@ const Construction = (props) => {
     }
   `;
 
-  const { error, data, loading } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
+  const [id, setId] = useState(props.match.params.id);
+  const {error, data, loading} = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
+  const [item, setItem] = useState({});
 
   useMemo(() => {
-    if (data) {
+    if (data && data.searchConstruction.edges.length) {
       setItem(data.searchConstruction.edges[0].node);
     }
   }, [data]);
   console.log(item);
   if (error) return <h3>Error :(</h3>;
-  if (loading) return <h3></h3>;
+  if (loading) return <LoadingAntd/>;
 
   return (
     <constructContext.Provider value={[item, setItem]}>

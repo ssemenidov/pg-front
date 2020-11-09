@@ -92,7 +92,7 @@ const LOCATION_UPDATE = gql`
 `;
 
 export default function InnerForm(props) {
-  const  [item, setItem] =useContext(locationContext);
+  const  [item, setItem] = useContext(locationContext);
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);

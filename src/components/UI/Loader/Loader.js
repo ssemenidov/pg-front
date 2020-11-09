@@ -1,8 +1,9 @@
 import React from "react";
 import {Spinner} from "reactstrap";
 import "./Loader.css";
+import { Spin } from 'antd';
 
-const Loader = () => {
+export function Loader() {
   return (
     <div className="overlay">
       <Spinner
@@ -14,4 +15,8 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export function LoadingAntd(props) {
+  return <Spin size="large" delay={500}/>
+}
+
+

@@ -118,8 +118,12 @@ const PanelDesign = (props) => {
               }
             }
             workingSector {
-              title
-              id
+              edges {
+                node {
+                  id
+                  title
+                }
+              }
             }
             clientType {
               title

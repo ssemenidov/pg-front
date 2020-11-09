@@ -83,74 +83,76 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
   let data1 = [];
 
   const OUTDOOR_T = gql`
-    query SearchConstruction(
-      $city: String
-      $district: String
-      $adress_m: String
-      $adress_j: String
-      $InventNumber: String
-      $actual: Boolean
-      $coords: String
-    ) {
-      searchConstruction(
-        city_Title: $city
-        district_Title: $district
-        marketingAddress: $adress_m
-        legalAddress:$adress_j
-        buhInventNumber: $InventNumber
-        actual: $actual
-        coordinates: $coords
+  query SearchConstruction(
+    $city: String
+    $district: String
+    $adress_m: String
+    $adress_j: String
+    $InventNumber: String
+    $actual: Boolean
+    $coords: String
+  ) {
+    searchConstruction(
+      
+      location_Postcode_District_City_Title: $city
+      location_Postcode_District_Title: $district
+      location_MarketingAddress_Address: $adress_m
+      location_LegalAddress_Address:$adress_j
+      buhInventNumber: $InventNumber
+      active: $actual
+      location_Coordinate: $coords
 
-      ) {
-        edges {
-          node {
-            id
-            buhInventNumber
-            city {
-              id
-              title
-            }
-            district{
-              id
-              title
-            }
-            postcode{
-              id
-              title
-            }
-            marketingAddress
-            legalAddress
-            legalAddress
-            coordinates
-            actual
-            familyConstruction {
-              id,
-              title,
-              underFamilyConstruction {
-                edges {
-                  node {
-                    modelConstruction {
-                      edges {
-                        node {
-                          title,
-                          format {
-                            edges {
-                              node {
-                                title
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+    ) {
+      edges {
+        node {
+          id
+          buhInventNumber
+          
+          # city {
+          #   id
+          #   title
+          # }
+          # district{
+          #   id
+          #   title
+          # }
+          # postcode{
+          #   id
+          #   title
+          # }
+          # marketingAddress
+          # legalAddress
+          # legalAddress
+          # coordinates
+          # actual
+          # familyConstruction {
+          #   id,
+          #   title,
+          #   underFamilyConstruction {
+          #     edges {
+          #       node {
+          #         modelConstruction {
+          #           edges {
+          #             node {
+          #               title,
+          #               format {
+          #                 edges {
+          #                   node {
+          #                     title
+          #                   }
+          #                 }
+          #               }
+          #             }
+          #           }
+          #         }
+          #       }
+          #     }
+          #   }
+          # }
         }
       }
     }
+  }
   `;
 
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });

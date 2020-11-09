@@ -7,36 +7,39 @@ import Table from '../../../components/Tablea';
 const ApplicationsPanel = () => {
     const [filter, setFilter] = useContext(applicationsContext);
     const APPLICATION_T = gql`
-  {
-    searchAttachment(
-     id:""
-    ) {
-      edges {
-        node {
-          id
-          contract {
+    {
+      searchAttachment(
+      id:""
+      ) {
+        edges {
+          node {
             id
+            contract {
+              id
+            }
+            creator {
+              id
+              name
+            }
+            createdDate
+            
+            # brand
+            # {
+            #   id
+            #   title
+            # }
+            salesManager {
+              id
+            }
+            returnStatus
+            periodStartDate
+            periodEndDate
+            additionallyAgreement
+           
           }
-          creator
-          createdDate
-          brand
-          {
-            id
-            title
-          }
-          salesManager {
-            id
-          }
-          returnStatus
-          period
-          additionallyAgreement
-          createdAt
-          updatedAt
-         
         }
       }
     }
-  }
 `;
     const columns = [
         {

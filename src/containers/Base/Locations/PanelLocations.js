@@ -10,71 +10,69 @@ import Table from '../../../components/Tablea';
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
 const LOCATIONS_T = gql`
-   query SearchLocation(
-     $city: String
-     $district: String
-     $post: String
-     $cadastralNumber: String
-     $targetPurpose: String
-     $resolutionNumber: String
-     $rentContractStart: DateTime
-     $rentContractEnd :DateTime
-     $area: Float
-     $comment: String
+query SearchLocation(
+  $city:String
+  $district:String
+  $post:String
+  $cadastralNumber:String
+  $targetPurpose:String
+  $resolutionNumber:String
+  $rentContractStart:DateTime
+  $rentContractEnd:DateTime
+  $area:Float
+  $comment:String
+
+  )
+  {
+searchLocation(
+  postcode_Title: $post
+  postcode_District_Title: $district
+  postcode_District_City_Title:$city
+  cadastralNumber: $cadastralNumber
+  purposeLocation_Title: $targetPurpose
+  resolutionNumber: $resolutionNumber
+  rentContractStart:$rentContractStart
+  rentContractEnd:$rentContractEnd
+  area:$area
+  comment: $comment
 ) {
-    searchLocation(
-      postcode_District_City_Title:$city
-      postcode_District_Title: $district
-      postcode_Title: $post
-      cadastralNumber: $cadastralNumber
-      purposeLocation_Title: $targetPurpose
-      resolutionNumber: $resolutionNumber
-      rentContractStart:$rentContractStart
-      rentContractEnd:$rentContractEnd
-      area:$area
-      comment: $comment
-    ) {
-      edges {
-        node {
-          id
-          postcode {
+  edges {
+    node {
+      id
+
+      # city {
+      #   title
+      # }
+      # district {
+      #   title
+      # }
+      postcode {
+        id
+      }
+      area
+      marketingAddress {
+        id
+        address
+      }
+      coordinate
+      cadastralNumber
+      purposeLocation {
+        id
+        title
+      }
+      comment
+      constructions {
+        edges {
+          node {
             id
-            title
-            district {
-              id
-              title
-              city {
-                id
-                title
-              }
-            }
           }
-          area
-          legalAddress {
-            address
-          }
-          marketingAddress {
-            address
-          }
-          coordinate
-          cadastralNumber
-          purposeLocation {
-            title
-          }
-          rentContractNumber
-          comment
-          constructions {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-          rentContractNumber
         }
       }
+      rentContractNumber
     }
   }
+}
+}
 `;
 
 const initColumnsForPopup = [
@@ -290,18 +288,18 @@ const PanelDesign = (props) => {
   if (data) {
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
-      code: item.node.id,
-      city: item.node.postcode && item.node.postcode.district && item.node.postcode.district.city && item.node.postcode.district.city.title,
+      code: '#1020050301323',
+      city: item.node.city ? item.node.city.title:'',
       post: item.node.postcode,
-      district: item.node.postcode && item.node.postcode.district,
-      adress_j: item.node.legalAddress && item.node.legalAddress.address,
+      district: item.node.district ? item.node.district.title:"",
+      adress_j: item.node.address,
       cadastralNumber: item.node.cadastralNumber,
       area: item.node.area,
-      contractNumber: item.rentContractNumber,
-      marketingAddress: item.marketingAddress && item.marketingAddress.address,
+      contractNumber: item.rentContractNumber ? item.rentContractNumber : "",
+      marketingAddress: "не нашел на беке",
       constructionQuantity: item.node.constructions.edges ? item.node.constructions.edges.length : 0,
-      targetPurpose: item.node.purposeLocation && item.node.purposeLocation.title,
-      comment: item.node.comment
+      targetPurpose: item.node.targetPurpose ? item.node.targetPurpose : "",
+      comment: item.node.comment ? item.node.comment : ""
     }));
   }
 

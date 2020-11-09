@@ -43,53 +43,33 @@ const CONSTRUCT_DELETE = gql`
   }
 `;
 const CONSTRUCT_UPDATE = gql`
-  mutation(
-    $id: ID!
-    $city: ID
-    $district: ID
-    $postcode: ID
-    $owner: String
-    $marketingAddress: String
-
+  mutation ($id: ID!,
+    $isNonRts: Boolean,
+    $nonrtsOwner: ID,
     $backComment: String
-
-
-    $hasArea: Boolean
     $crew: ID
     $techInventNumber: String
     $techPhoneConstruction: String
     $techProblem: String
-    $techComment: String
-    $statusConnection: String
+    $statusConnection: Boolean
     $obstruction: String
     $buhInventNumber: String
     $otherLink: String
-    $coordinates: String
   ) {
-    updateConstruction(
-      id: $id
+    updateConstruction(id: $id
       input: {
-        city: $city
-        district: $district
-        postcode:$postcode
-        owner: $owner
-        marketingAddress: $marketingAddress
+        isNonrts: $isNonRts
+        nonrtsOwner: $nonrtsOwner
         backComment: $backComment
-
-        hasArea:$hasArea
         crew: $crew
         techInventNumber: $techInventNumber
-        techPhoneConstruction:$techPhoneConstruction
+        techPhoneConstruction: $techPhoneConstruction
         techProblem: $techProblem
-        techComment: $techComment
-        statusConnection:$statusConnection
+        statusConnection: $statusConnection
         obstruction: $obstruction
-        buhInventNumber:$buhInventNumber
-        otherLink: $otherLink
-        coordinates: $coordinates
-
-      }
-    ) {
+        buhInventNumber: $buhInventNumber
+        presentationUrl: $otherLink
+      }) {
       construction {
         id
       }
@@ -107,10 +87,13 @@ const InnerForm = (props) => {
     e.preventDefault();
     updateConstruction({ variables: {
        ...item,
-       city:item.city&&  item.city.id,
-        district:item.district && item.district.id,
-        postcode:item.postcode && item.postcode.id,
-        crew:item.crew && item.crew.id
+        // TODO: PTCDEC-225 Реализовать логику обновления местоположений для конструкций. Все адресные данные вынесены
+        //  в Location. Нужно искать Location при обновлении и если его нет, создавать новый.
+        // city:item.city && item.city.id,
+        // district:item.district && item.district.id,
+        // postcode:item.postcode && item.postcode.id,
+        crew:item.crew && item.crew.id,
+        isNonRts: false
        } });
 
     // history.push(`/base/outdoor_furniture`);

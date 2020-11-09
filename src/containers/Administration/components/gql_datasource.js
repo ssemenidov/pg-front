@@ -4,11 +4,7 @@ import { Spin } from 'antd';
 import { message } from 'antd';
 
 import { messageStyle } from '../components/Styled';
-
-
-function Loading(props) {
-  return <Spin size="large" delay={500}/>
-}
+import { LoadingAntd } from '../../../components/UI/Loader/Loader'
 
 function Error(props) {
   return <p>Error :(</p>
@@ -97,7 +93,7 @@ export class GqlDatasource {
   }
 
   loader() {
-    return <Loading/>;
+    return <LoadingAntd/>;
   }
 
   queryIsEmpty() {
