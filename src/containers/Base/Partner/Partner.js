@@ -15,104 +15,105 @@ const PartnersInfo = (props) => {
   const [id, setId] = useState(props.match.params.id);
   const [item, setItem] = useState({});
   const PARTNER_ITEM = gql`
-  query SearchPartner($id: ID!) {
-    searchPartner(id: $id) {
-      edges {
-        node {
-          id
-          title
-          workingSector {
+    query SearchPartner($id: ID!) {
+      searchPartner(id: $id) {
+        edges {
+          node {
             id
             title
-          }
-          comment
-
-          partnerType {
-            id
-            title
-          }
-          clientType {
-            id
-            title
-          }
-          binNumber
-          city {
-            title
-            id
-          }
-          district {
-            title
-            id
-          }
-          postcode
-          legalAddress
-          actualAddress
-          bankRecipient
-          iik
-          bik
-          kbe
-          agencyCommissionType{
-            id
-          }
-          agencyCommission
-          agencyCommissionNds{
-            id
-          }
-          contactPerson {
-            edges {
-              node {
-                id
-                name
-                email
-                phone
-              }
-            }
-          }
-          projects {
-            edges {
-              node {
-                code
-                title
-                brand {
+            workingSector {
+              edges {
+                node {
                   id
-                }
-                client {
-                  id
-                }
-                agencyCommission
-              }
-            }
-          }
-          brands {
-            edges {
-              node {
-                code
-                title
-                workingSector {
                   title
                 }
-                createdAt
               }
             }
-          }
-          advertisers {
-            edges {
-              node {
-                code
+            comment
+            partnerType {
+              id
+              title
+            }
+            clientType {
+              id
+              title
+            }
+            binNumber
+            legalAddressPostcode {
+              id
+              title
+              district {
+                id
                 title
-                createdAt
+                city {
+                  id
+                  title
+                }
+              }
+            }
+
+            legalAddress
+            actualAddress
+            bankRecipient
+            iik
+            bik
+            kbe
+            agencyCommissionType {
+              id
+              title
+            }
+            agencyCommissionValue
+            isAgencyCommissionWithNds
+
+            contactPersons {
+              edges {
+                node {
+                  id
+                  name
+                  email
+                  phone
+                }
+              }
+            }
+            projects {
+              edges {
+                node {
+                  code
+                  title
+                  brand {
+                    id
+                  }
+                  client {
+                    id
+                  }
+                  agencyCommission
+                }
+              }
+            }
+            brands {
+              edges {
+                node {
+                  code
+                  title
+                  workingSector {
+                    title
+                  }
+                  createdAt
+                }
+              }
+            }
+            advertisers {
+              edges {
+                node {
+                  title
+                  binNumber
+                }
               }
             }
           }
-
-
-
-
-
         }
       }
     }
-  }
 `;
 
 const { error, data, loading } = useQuery(PARTNER_ITEM, { variables: { id: id } });
