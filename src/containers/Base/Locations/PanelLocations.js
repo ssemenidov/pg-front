@@ -6,6 +6,7 @@ import {useHistory, useLocation} from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
+import Preloader from '../../../components/Preloader/Preloader';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
@@ -297,7 +298,7 @@ const PanelDesign = (props) => {
   }, [location])
 
   if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
+  if (loading) return <Preloader/>;
   if (data) {
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
