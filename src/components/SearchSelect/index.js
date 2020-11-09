@@ -6,7 +6,7 @@ import { StyledSelect } from '../Styles/DesignList/styles';
 
 const SearchSelect = (props) => {
   const {
-    value, defaultValue,
+    value, defaultValue, nestedField = 'title',
     onChange, getData, nameOfQuery, icon,
     responseDataInfo = {data: null, loading: false}
   } = props;
@@ -26,6 +26,7 @@ const SearchSelect = (props) => {
   useEffect(() => {
     const { data, loading } = responseDataInfo;
     if(data && data[nameOfQuery].edges) {
+      if(nameOfQuery === 'user')
       setLocalResponseData(data[nameOfQuery].edges);
       setLoading(loading);
     }
@@ -48,7 +49,7 @@ const SearchSelect = (props) => {
         localResponseData && localResponseData.map(({ node }) => (
           <StyledSelect.Option key={node.id} value={node.id}>
             <img src={icon} />
-            <span>{ node.title ? node.title : 'Нет названия' }</span>
+            <span>{ node[nestedField] ? node[nestedField] : 'Нет названия' }</span>
           </StyledSelect.Option>
         ))
       }

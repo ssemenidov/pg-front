@@ -17,6 +17,7 @@ mutation(
   $initiator: ID
   $creator: ID
   $contractType: ID
+  $partner: ID
 
   $signatoryOne: String
   $signatoryTwo: String
@@ -28,16 +29,15 @@ mutation(
   updateContract(
     id:$id
     input: {
-
       initiator:$initiator
       creator:$creator
+      partner:$partner
       contractType:$contractType
       signatoryOne:$signatoryOne
       signatoryTwo:$signatoryTwo
       basedOnDocument:$basedOnDocument
       returnStatus:$returnStatus
       comment:$comment
-
     }
   ) {
     contract {
@@ -139,6 +139,7 @@ const PanelDesign = (props) => {
         id: item.id,
         initiator: item.initiatorId,
         creator: item.creatorId,
+        partner: item.partnerId,
         contractType: item.contractTypeId,
         signatoryOne: item.signatoryOne,
         signatoryTwo: item.signatoryTwo,

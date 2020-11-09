@@ -31,11 +31,68 @@ const SEARCH_PARTNER = gql`
     }
   }
 `;
+const SEARCH_CONTRACT_TYPE = gql`
+  query searchContractType(
+    $name_Icontains: String
+  ) {
+    searchContractType(
+      name_Icontains: $name_Icontains
+    ) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const SEARCH_CREATORS = gql`
+  query searchUser(
+    $name_Icontains: String
+  ) {
+  searchUser(
+    name_Icontains: $name_Icontains
+    ) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const SEARCH_INITIATORS = gql`
+  query searchUser(
+    $id: ID!
+    $initiator_Name_Icontains: String
+  ) {
+    searchUser(id: $id) {
+      initiatedContracts(
+        initiator_Name_Icontains: $initiator_Name_Icontains
+      ) {
+        edges {
+          node {
+            id
+            initiator {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+}
+`;
 
 export const EditInformation = () => {
   const [item, setItem] = useContext(agreementContext);
 
   const [getPartner, partnerInfo] = useLazyQuery(SEARCH_PARTNER);
+  const [getContractType, contractTypeInfo] = useLazyQuery(SEARCH_CONTRACT_TYPE);
+  const [getCreators, creatorsInfo] = useLazyQuery(SEARCH_CREATORS);
+  const [getInitiators, initiatorsInfo] = useLazyQuery(SEARCH_CREATORS);
 
   useEffect(() => {
     console.log('item ', item)
@@ -51,6 +108,8 @@ export const EditInformation = () => {
                 <SearchSelect
                   value={item.partnerId ? item.partnerId : (item.partner && item.partner.id)}
                   defaultValue={<img src={portfolioIcon} />}
+                  icon={portfolioIcon}
+                  nestedField="title"
                   onChange={(value) => setItem({
                     ...item,
                     partnerId: value
@@ -62,7 +121,6 @@ export const EditInformation = () => {
                   })}
                   responseDataInfo={partnerInfo}
                   nameOfQuery="searchPartner"
-                  icon={portfolioIcon}
                 />
             </SearchItem>
             <SearchItem>
@@ -101,17 +159,24 @@ export const EditInformation = () => {
             <Row>
               <SearchItem>
                 <InputTitle>Создатель</InputTitle>
-                <StyledInput
-                  placeholder="Макаров Ульян"
-                  prefix={<img src={ownerIcon} />}
-                  defaultValue={item.creator ? item.creator.name : ""}
-                  onChange={(e) => setItem({
+
+                <SearchSelect
+                  value={item.creatorId ? item.creatorId : (item.creator && item.creator.id)}
+                  defaultValue={<img src={ownerIcon} />}
+                  icon={ownerIcon}
+                  nestedField="name"
+                  onChange={(value) => setItem({
                     ...item,
-                    creator: {
-                      name: e.target.value
+                    creatorId: value
+                  })}
+                  getData={(value) => getCreators({
+                    variables: {
+                      name_Icontains: value
                     }
                   })}
-                ></StyledInput>
+                  responseDataInfo={creatorsInfo}
+                  nameOfQuery="searchUser"
+                />
               </SearchItem>
               <SearchItem>
                 <InputTitle>Инициатор</InputTitle>
@@ -131,17 +196,24 @@ export const EditInformation = () => {
             <Row>
               <SearchItem>
                 <InputTitle>Тип договора</InputTitle>
-                <StyledInput
-                placeholder="С поставщиком"
-                prefix={<img src={contractIcon} />}
-                defaultValue={item.contractType ? item.contractType.name : ""}
-                onChange={(e) => setItem({
-                  ...item,
-                  contractType: {
-                    name: e.target.value
-                  }
-                })}
-              ></StyledInput>
+                <SearchSelect
+                  placeholder="С поставщиком"
+                  value={item.contractTypeId ? item.contractTypeId : (item.contractType && item.contractType.id)}
+                  defaultValue={<img src={contractIcon} />}
+                  icon={contractIcon}
+                  nestedField="name"
+                  onChange={(value) => setItem({
+                    ...item,
+                    contractTypeId: value
+                  })}
+                  getData={(value) => getContractType({
+                    variables: {
+                      name_Icontains: value
+                    }
+                  })}
+                  responseDataInfo={contractTypeInfo}
+                  nameOfQuery="searchContractType"
+                />
               </SearchItem>
               <SearchItem>
                 <InputTitle>Срок оплаты</InputTitle>
