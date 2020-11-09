@@ -26,15 +26,21 @@ const CONTRACT_ITEM = gql`
             id
             title
           }
+          registrationDate
           start
           end
           creator{
+            id
             name
           }
           initiator{
+            id
             name
           }
-          # contractType
+          contractType {
+            id
+            name
+          }
           paymentDate
           signatoryOne
           signatoryTwo
