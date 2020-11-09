@@ -110,7 +110,6 @@ const PanelDesign = (props) => {
               node {
                 id
                 code
-             
                 statusConnection
                 createdAt
                 
@@ -140,7 +139,7 @@ const PanelDesign = (props) => {
 
     if(data.searchCrew.edges[current])
     {
-      data1 = data.searchCrew.edges[current].node.constructionSet.edges.map((item) => ({
+      data1 = data.searchCrew.edges[current].node.constructions.edges.map((item) => ({
       key: item.node.id,
       code: item.node.code,
       format: item.node.format,
