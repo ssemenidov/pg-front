@@ -23,71 +23,59 @@ const Construction = (props) => {
         edges {
           node {
             id
-            city {
-              title
-              id
-            }
-            district {
-              title
-              id
-            }
-            postcode{
-              title
-              id
-            }
-            owner
-            marketingAddress
-            createdAt
-            backComment
-            photo
-            hasArea
-            crew{
-              id
-              name
-
-            }
-            techInventNumber
-            techPhoneConstruction
-            techProblem
-            techComment
-            statusConnection
-            obstruction
-            buhInventNumber
-            otherLink
-            coordinates
-            photo
-
-            constructionSide {
-              edges {
-                node {
-                  id
-                  format {
-                    id
-                  }
-                  side {
-                    id
-                  }
-                  advertisingSide {
-                    id
-                  }
-                  purposeSide {
-                    id
-                  }
-                  size
-                  availabilitySide
-                }
-              }
-            }
-          }
+          buhInventNumber
+          
+          # city {
+          #   id
+          #   title
+          # }
+          # district{
+          #   id
+          #   title
+          # }
+          # postcode{
+          #   id
+          #   title
+          # }
+          # marketingAddress
+          # legalAddress
+          # legalAddress
+          # coordinates
+          # actual
+          # familyConstruction {
+          #   id,
+          #   title,
+          #   underFamilyConstruction {
+          #     edges {
+          #       node {
+          #         modelConstruction {
+          #           edges {
+          #             node {
+          #               title,
+          #               format {
+          #                 edges {
+          #                   node {
+          #                     title
+          #                   }
+          #                 }
+          #               }
+          #             }
+          #           }
+          #         }
+          #       }
+          #     }
+          #   }
+          # }
         }
       }
     }
+  }
   `;
 
   const { error, data, loading } = useQuery(CONSTRUCT_ITEM, { variables: { id: id } });
 
   useMemo(() => {
-    if (data) {
+    if (data && data.searchConstruction.edges.length) {
       setItem(data.searchConstruction.edges[0].node);
     }
   }, [data]);
