@@ -68,21 +68,17 @@ const PanelDesign = (props) => {
           },  
     },
   ];
-
   var data1 = [
-    // {
-    //   key: 1,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
- 
+    {
+      key: 1,
+      code: '126353',
+      format: 'Сениор',
+      city: 'Алматы',
+      adress: 'Достык 25',
+      status: 'Размещен',
+      date_start: '19.06.2020',
+    },
   ];
- 
-
   const CREWS_T = gql`
   query SearchCrew(
     $name: String
@@ -131,10 +127,11 @@ const PanelDesign = (props) => {
     }
   }
   `;
-  
+  const string="Кузьмин Виталий";
   const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   if (loading) return <h3></h3>;
+
   if (data) {
 
     if(data.searchCrew.edges[current])
@@ -152,15 +149,16 @@ const PanelDesign = (props) => {
   }
   return (
     <>
-     <StyledCrewsBlock>
+      <StyledCrewsBlock>
         <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
         <List>
-         {data.searchCrew.edges.map((item,index)=>
-           <StyledListItem key={index} onClick={()=>{  setCurrent(index)}}>
-           <img src={oval} alt="" />
-           <span>{item.node.name}</span>
-         </StyledListItem>
-         )}
+        {data.searchCrew.edges.map((item,index)=>
+          <StyledListItem key={index} onClick={()=>{  setCurrent(index)}}>
+          <StyledIcon>{string.charAt(0)}</StyledIcon>
+          <span>{string}</span>
+          {/* <span>{item.node.name}</span> */}
+        </StyledListItem>
+        )}
         </List>
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
@@ -190,7 +188,19 @@ const StyledListItem = styled(List.Item)`
   display: flex;
   cursor:pointer;
   justify-content: flex-start;
+  font-weight:600;
   span {
     margin-left: 20px;
   }
 `;
+const StyledIcon =styled.div`
+  width:28px;
+  height:28px;
+  background-image: url(${oval});
+  display: flex;
+  font-size: 14px;
+  font-weight:600;
+  justify-content: center;
+  align-items:center;
+
+`
