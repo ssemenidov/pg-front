@@ -31,7 +31,7 @@ const FilterBar = () => {
       </SearchTitle>
       <Form form={form} onFinish={onFinish}>
         <Collapse expandIconPosition={'right'}>
-          <StyledPanel header="По параметрам" key="1">
+          <StyledPanel header="Поиск по параметрам" key="1">
             <Form.Item name="partner">
               <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Контрагент" size={'large'} />
             </Form.Item>
@@ -45,7 +45,7 @@ const FilterBar = () => {
               <StyledInput   prefix={<img src={anchorIcon} />} placeholder="Cектор деятельности" size={'large'} />
             </Form.Item>
           </StyledPanel>
-          <StyledPanel header=" По БИН" key="2">
+          <StyledPanel header="Поиск по БИН" key="2">
             <Form.Item name="binNumber">
               <StyledInput   prefix={<img src={grateIcon} />} placeholder="Введите БИН" size={'large'} />
             </Form.Item>

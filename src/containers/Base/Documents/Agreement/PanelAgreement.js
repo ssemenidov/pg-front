@@ -33,11 +33,13 @@ mutation(
       creator:$creator
       partner:$partner
       contractType:$contractType
+
       signatoryOne:$signatoryOne
       signatoryTwo:$signatoryTwo
       basedOnDocument:$basedOnDocument
       returnStatus:$returnStatus
       comment:$comment
+      paymentDate:$paymentDate
     }
   ) {
     contract {

@@ -7,7 +7,7 @@ import { StyledSelect } from '../Styles/DesignList/styles';
 const SearchSelect = (props) => {
   const {
     value, defaultValue, nestedField = 'title',
-    onChange, getData, nameOfQuery, icon,
+    onChange, getData, nameOfQuery, icon, flagSearchInitiator = false,
     responseDataInfo = {data: null, loading: false}
   } = props;
 
@@ -26,8 +26,11 @@ const SearchSelect = (props) => {
   useEffect(() => {
     const { data, loading } = responseDataInfo;
     if(data && data[nameOfQuery].edges) {
-      if(nameOfQuery === 'user')
-      setLocalResponseData(data[nameOfQuery].edges);
+      if(data[nameOfQuery].edges.node && data[nameOfQuery].edges.node.initiatedContracts && flagSearchInitiator) {
+        setLocalResponseData(data[nameOfQuery].edges.node.initiatedContracts.edges)
+      } else {
+        setLocalResponseData(data[nameOfQuery].edges);
+      }
       setLoading(loading);
     }
   }, [responseDataInfo.data]);
@@ -46,12 +49,23 @@ const SearchSelect = (props) => {
       loading={loading}
     >
       {
-        localResponseData && localResponseData.map(({ node }) => (
-          <StyledSelect.Option key={node.id} value={node.id}>
-            <img src={icon} />
-            <span>{ node[nestedField] ? node[nestedField] : 'Нет названия' }</span>
-          </StyledSelect.Option>
-        ))
+        flagSearchInitiator
+        ? (
+            localResponseData && localResponseData.map(({ node }) => (
+              <StyledSelect.Option key={node.initiator.id} value={node.initiator.id}>
+                <img src={icon} />
+                <span>{ node.initiator ? node.initiator.name : 'Нет названия' }</span>
+              </StyledSelect.Option>
+            ))
+          )
+        : (
+            localResponseData && localResponseData.map(({ node }) => (
+              <StyledSelect.Option key={node.id} value={node.id}>
+                <img src={icon} />
+                <span>{ node[nestedField] ? node[nestedField] : 'Нет названия' }</span>
+              </StyledSelect.Option>
+            ))
+          )
       }
     </StyledSelect>
   )
