@@ -17,11 +17,14 @@ query SearchLocation(
   $post:String
   $cadastralNumber:String
   $targetPurpose:String
+  $area:Float
+  $comment:String
   $resolutionNumber:String
   $rentContractStart:DateTime
   $rentContractEnd:DateTime
-  $area:Float
-  $comment:String
+  $areaAct:String
+  $rentContractNumber:String
+
 
   )
   {
@@ -31,16 +34,19 @@ searchLocation(
   postcode_District_City_Title:$city
   cadastralNumber: $cadastralNumber
   purposeLocation_Title: $targetPurpose
+  area:$area
+  comment: $comment
   resolutionNumber: $resolutionNumber
   rentContractStart:$rentContractStart
   rentContractEnd:$rentContractEnd
-  area:$area
-  comment: $comment
+  rentContractNumber: $rentContractNumber
+  areaAct:$areaAct
+
+
 ) {
   edges {
     node {
       id
-
       postcode {
         id
         title
@@ -64,13 +70,13 @@ searchLocation(
       }
       area
       coordinate
+      resolutionNumber
       cadastralNumber
       rentContractNumber
       purposeLocation {
         id
         title
       }
-
       constructions {
         edges {
           node {
@@ -290,7 +296,7 @@ const PanelDesign = (props) => {
       comment: "",
     },
   ];
-
+  console.log(filter);
   const { loading, error, data, refetch } = useQuery(LOCATIONS_T, { variables: filter });
 
   useEffect(() => {
@@ -351,14 +357,14 @@ const PanelDesign = (props) => {
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                history.push(`/base/locations/location/${record.key}`);
-                history.go(0);
-              }
-            };
-          }}
+          // onRow={(record) => {
+          //   return {
+          //     onClick: () => {
+          //       history.push(`/base/locations/location/${record.key}`);
+          //       history.go(0);
+          //     }
+          //   };
+          // }}
         />
       </div>
       <style>
