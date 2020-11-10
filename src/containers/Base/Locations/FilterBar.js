@@ -44,7 +44,7 @@ const DISTRICT_T = gql`
       }
     }
   `;
-  const POST_T = gql`
+const POST_T = gql`
   {
     searchPostcode {
       edges {
@@ -56,6 +56,19 @@ const DISTRICT_T = gql`
     }
   }
 `;
+const PURPSOSE_T = gql`
+  {
+    searchLocPurpose {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -72,6 +85,7 @@ const FilterBar = () => {
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
   const post = useQuery( POST_T).data;
+  const purpose = useQuery( PURPSOSE_T).data;
   // if (!city || !district || !post) {
   //   return <span></span>;
   // }
@@ -87,7 +101,7 @@ const FilterBar = () => {
               <StyledSelect
                 placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
-                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                     <img src={cityIcon} />
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -97,7 +111,7 @@ const FilterBar = () => {
             <Form.Item name="district">
               <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
               {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                   <img src={districtIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
@@ -107,7 +121,7 @@ const FilterBar = () => {
             <Form.Item name="post">
               <StyledSelect placeholder={<><img src={postIcon} /><span>Почтовый индекс</span> </>} size={'large'}>
               {post && post.searchPostcode.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                   <img src={postIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
@@ -125,13 +139,17 @@ const FilterBar = () => {
             </Form.Item>
             <Form.Item name="targetPurpose">
               <StyledSelect placeholder={<><img src={flagIcon} /><span>Целевое назначение</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={flagIcon} /><span>назначение 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={flagIcon} /><span>назначение 2</span></StyledSelect.Option>
+              {purpose && purpose.searchLocPurpose.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
+                  <img src={flagIcon} />
+                  <span>{item.node.title}</span>
+                </StyledSelect.Option>
+              )}
               </StyledSelect>
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">
-            <Form.Item name="resolutionNumber">
+            <Form.Item name="rentContractNumber">
               <StyledInput prefix={<img src={grateIcon} />} placeholder="Номер договора" size={'large'} />
             </Form.Item>
             <Form.Item name="contract_Start">
@@ -154,14 +172,14 @@ const FilterBar = () => {
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Другое" key="4">
-            <Form.Item name="1">
+            <Form.Item name="resolutionNumber">
               <StyledInput prefix={<img src={anchorIcon} />} placeholder="Поставновление от акимата" size={'large'} />
             </Form.Item>
 
             <Form.Item name="areaAct">
               <StyledInput prefix={<img src={anchorIcon} />} placeholder="Акт на землю" size={'large'} />
             </Form.Item>
-            <Form.Item name="2">
+            <Form.Item name="registrationStatusLocation">
               <StyledInput prefix={<img src={anchorIcon} />} placeholder="Статус оформления" size={'large'} />
             </Form.Item>
           </StyledPanel>

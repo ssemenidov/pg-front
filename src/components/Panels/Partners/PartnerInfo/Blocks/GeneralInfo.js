@@ -86,7 +86,7 @@ export default function GeneralInfo() {
             </Column>
             <Column style={{ width: '48%', marginBottom: 'auto' }}>
               <InputTitle>Комментарий</InputTitle>
-              <StyledInput.TextArea rows={5}
+              <StyledInput.TextArea rows={5} autoSize={{ minRows: 5, maxRows: 5} }
               placeholder="..."
               value={item.comment ? item.comment :""}
               onChange={(e) => {setItem({...item, comment:e.target.value})}}
