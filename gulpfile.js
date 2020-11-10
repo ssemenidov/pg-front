@@ -86,44 +86,53 @@ function deploy_production_ftp(cb) {
         buffer: false,
         base: path.join('.', 'build')
       }
-    ).pipe(conn.dest(getKey("DEPLOY_FOLDER"))),
+    ).pipe(conn.dest(getKey('DEPLOY_FOLDER'))),
     () => {
       return gulp.src(
         path.join('.', 'build', 'static', '**'),
         {
           buffer: false,
-          base: path.join('.', 'build', 'static')
+          base: path.join('.', 'build')
         }
-      ).pipe(conn.dest(getKey("DEPLOY_BACKEND_FOLDER")));
+      ).pipe(conn.dest(getKey('DEPLOY_BACKEND_FOLDER')));
     },
     (done) => { done(); cb() }
   )()
 }
 
 
-function deploy_production_rsync() {
+function deploy_production_rsync(cb) {
   let getKey = genGetKey();
+  let srcPath = path.join('build', '**')
+  let hostName = `${getKey('DEPLOY_SFTP_USER')}@${getKey('DEPLOY_URL')}`
+  let dest = getKey("DEPLOY_SFTP_DIRECTORY")
+  let dest_backend = getKey("DEPLOY_SFTP_BACKEND_DIRECTORY") + '/static'
+  console.log('src', srcPath, 'host', hostName, 'dst', dest)
+  const rsync_args = {
+    // exclude: config.deploy.exclude_html, // Excludes files from deploy
+    hostname: hostName,
+    recursive: true,
+    archive: true,
+    silent: false,
+    compress: true,
+    clean: true,
+    omit_dir_times: true,
+    no_perms: true,
+  }
 
-  return gulp.src(path.join('build', '**'))
-    .pipe(rsync({
-      root: 'build',
-      hostname: `${getKey("DEPLOY_SFTP_USER")}@${getKey("DEPLOY_URL")}`,
-      destination: getKey("DEPLOY_SFTP_DIRECTORY"),
-      // exclude: config.deploy.exclude_html, // Excludes files from deploy
-      recursive: true,
-      archive: true,
-      silent: false,
-      compress: true,
-      clean: true,
-      omit_dir_times: true,
-      no_perms: true,
-    }));
+  return gulp.series(
+    () => gulp.src(srcPath)
+      .pipe(rsync({ root: 'build', destination: dest, ...rsync_args })),
+    () => gulp.src(path.join('build', 'static', '**'))
+      .pipe(rsync({ root: path.join('build', 'static'), destination: dest_backend, ...rsync_args })),
+    (done) => { done(); cb(); }
+  )();
 }
 
 
 gulp.task('build', function(cb) { return build_production(cb); });
 gulp.task('deploy', function(cb) { return deploy_production_ftp(cb);  });
-gulp.task('sdeploy', function() { return deploy_production_rsync(); });
+gulp.task('sdeploy', function(cb) { return deploy_production_rsync(cb); });
 gulp.task('bdeploy', function(cb) { return gulp.series("build", "deploy", (done) => { done(); cb(); })(); });
 gulp.task('bsdeploy', function(cb) { return gulp.series("build", "sdeploy", (done) => { done(); cb(); })(); });
 
