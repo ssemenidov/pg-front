@@ -7,19 +7,21 @@ import { List } from 'antd';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import Table from '../../../components/Tablea';
 import oval from '../../../img/Oval.svg';
+import Preloader from '../../../components/Preloader/Preloader';
+
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
   const[current,setCurrent]=useState(null);
   const columns = [
     {
-      title: 'Код конструкции',
+      title: 'Инвентарный номер конструкции (ОТО)',
       dataIndex: 'code',
 
       width: 130,
       sorter: {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Формат',
@@ -29,7 +31,7 @@ const PanelDesign = (props) => {
       sorter: {
         compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Город',
@@ -38,7 +40,7 @@ const PanelDesign = (props) => {
       sorter: {
         compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Адрес',
@@ -47,7 +49,7 @@ const PanelDesign = (props) => {
        sorter: {
             compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
             multiple: 1,
-          },  
+          },
     },
     {
       title: 'Статус',
@@ -56,7 +58,7 @@ const PanelDesign = (props) => {
        sorter: {
             compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
             multiple: 1,
-          },  
+          },
     },
     {
       title: 'Дата начала ',
@@ -65,7 +67,7 @@ const PanelDesign = (props) => {
        sorter: {
             compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
             multiple: 1,
-          },  
+          },
     },
   ];
   var data1 = [
@@ -106,7 +108,7 @@ const PanelDesign = (props) => {
   `;
   const CREWS_CONSTRUCT_T = gql`
   query SearchCrew(
-    $id:ID!
+    $id:ID
     $city: String
     $district: String
     $adress: String
@@ -133,6 +135,7 @@ const PanelDesign = (props) => {
                 }
                 statusConnection
                 createdAt
+                techInventNumber
                 location {
                   postcode {
                     title
@@ -157,14 +160,17 @@ const PanelDesign = (props) => {
   }
   `;
   const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
-  const crew_construct = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} }).data;
+  const {error, loading, data} = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} })
+
+  const crew_construct = data;
   if (crew_construct) {
     if(crew_construct.searchCrew.edges[0])
     {
       console.log(crew_construct);
       data1 = crew_construct.searchCrew.edges[0].node.constructions.edges.map((item,index) => ({
       key: item.node.id,
-      code: item.node.code ? item.node.code : (""+index),
+      // code: item.node.location ? (item.node.location.postcode ? item.node.location.postcode.title : (""+index)) : (""+index),
+      code: item.node.techInventNumber ? item.node.techInventNumber : "",
       format: item.node.format && item.node.format.title,
       city: item.node.location && item.node.location.postcode.district.city.title,
       adress: item.node.location &&  item.node.location.marketingAddress.address,
@@ -192,7 +198,8 @@ const PanelDesign = (props) => {
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />
+        {loading && <Preloader size={'large'}/>}
+        {!loading && <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />}
       </div>
       </div>
       <style>
