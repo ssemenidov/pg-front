@@ -139,7 +139,7 @@ class Tablea extends React.Component {
                   {this.props.title ? (
                     <div style={{display:"flex",alignItems:"center",height:"100%", paddingLeft: 12}}>
                     <img src={ attachIcon} alt=""/>
-                    <span style={{ minWidth: 'max-content' ,fontWeight:"600",marginLeft:"12px"}}>{this.props.title}</span>
+                    <span style={{ minWidth: 'max-content' ,fontWeight:"600",marginLeft:"12px",fontSize:"16px"}}>{this.props.title}</span>
                    </div>
                   ) : (
                     <div>

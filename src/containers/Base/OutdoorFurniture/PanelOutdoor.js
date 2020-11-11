@@ -20,7 +20,7 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
       sorter: {
         compare: (a, b) => a.date_start.localeCompare(b.date_start),
         multiple: 1,
-      }, 
+      },
     },
     {
       title: 'Город',
@@ -29,7 +29,7 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
      sorter: {
             compare: (a, b) => a.city.localeCompare(b.city),
             multiple: 1,
-          }, 
+          },
     },
     {
       title: 'Почтовый индекс',
@@ -38,19 +38,19 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
      sorter: {
             compare: (a, b) => a.post.localeCompare(b.post),
             multiple: 1,
-          }, 
+          },
     },
     {
       title: 'Адрес маркетинговый',
       dataIndex: 'adress_m',
       width: 150,
-   
+
     },
     {
       title: 'Адрес юридический',
       dataIndex: 'adress_j',
       width: 150,
-  
+
     },
     {
       title: 'Формат',
@@ -93,21 +93,21 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
     $coords: String
   ) {
     searchConstruction(
-      
+
       location_Postcode_District_City_Title: $city
       location_Postcode_District_Title: $district
       location_MarketingAddress_Address: $adress_m
       location_LegalAddress_Address:$adress_j
       buhInventNumber: $InventNumber
       active: $actual
-      location_Coordinate: $coords
+      coordinate: $coords
 
     ) {
       edges {
         node {
           id
           buhInventNumber
-          
+
           # city {
           #   id
           #   title

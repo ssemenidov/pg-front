@@ -17,9 +17,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const CONTRACT_CREATE = gql`
   mutation {
-    createContract(input: {
-
-    }) {
+    createContract(input: {}) {
       contract {
         id
       }
@@ -30,7 +28,7 @@ const Agreements = (props) => {
   const [block, setBlock] = useState(0);
   const history =useHistory();
   const [collapsed, setCollapsed] = useState(true);
-  const [  createContract, { data }] = useMutation(CONTRACT_CREATE);
+  const [ createContract , { data }] = useMutation(CONTRACT_CREATE);
   useMemo(() => {
     if (data) {
 
@@ -65,8 +63,13 @@ const Agreements = (props) => {
               </HeaderTitleWrapper>
               <ButtonGroup>
                 {block == 0 && (
-                    <StyledButton backgroundColor="#2c5de5" onClick={  createContract}>Создать договор</StyledButton>
-
+                    <StyledButton
+                      backgroundColor="#2c5de5"
+                      type="button"
+                      onClick={createContract}
+                    >
+                      Создать договор
+                    </StyledButton>
                 ) }
               </ButtonGroup>
             </HeaderWrapper>
