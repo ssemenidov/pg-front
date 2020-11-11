@@ -21,7 +21,7 @@ const BRANDS_T = gql`
             id
             title
           }
-          partner {
+          partners {
             edges {
               node {
                 id
@@ -107,7 +107,7 @@ const initData = [
   },
 ];
 
-const PanelDesign = (props) => {
+const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) => {
   const history = useHistory();
   const location = useLocation();
   const [filter, setFilter] = useContext(brandsContext);
@@ -162,6 +162,10 @@ const PanelDesign = (props) => {
           data={brands}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
+
+          select={flagAddBrandForPartner}
+          constructionsIdSet={brandsIdSet}
+          setConstructionsIdSet={setBrandsIdSet}
           // onRow={(record) => {
           //   return {
           //     onClick: () => {

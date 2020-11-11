@@ -52,8 +52,14 @@ const PartnersInfo = (props) => {
               }
             }
 
-            legalAddress
-            actualAddress
+            legalAddress {
+              id
+              address
+            }
+            actualAddress {
+              id
+              address
+            }
             bankRecipient
             iik
             bik
