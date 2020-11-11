@@ -88,7 +88,7 @@ const FilterBar = () => {
               <StyledSelect
                 placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
-                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <StyledSelect.Option key ={item.node.title} value={item.node.title}>
                     <img src={cityIcon} />
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -98,14 +98,14 @@ const FilterBar = () => {
             <Form.Item name="district">
               <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
               {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                   <img src={districtIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
               </StyledSelect>
             </Form.Item>
-            <Form.Item name="address">
+            <Form.Item name="adress">
               <StyledInput
               placeholder="Адрес"
               size={'large'}
