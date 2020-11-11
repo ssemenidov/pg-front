@@ -32,17 +32,21 @@ const Location = (props) => {
             marketingAddress {
               address
             }
-            coordinate
             constructions {
               edges {
                 node {
                   id
                   code
+                  coordinates
                   format {
                     title
                   }
                 }
               }
+            }
+            familyConstruction {
+              id
+              title
             }
             areaAct
             areaActDate

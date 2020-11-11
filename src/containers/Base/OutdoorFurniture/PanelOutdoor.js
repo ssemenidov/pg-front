@@ -5,71 +5,29 @@ import Table from '../../../components/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import Preloader from '../../../components/Preloader/Preloader';
+import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
+
 
 const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setConstructionsIdSet }) => {
   const [filter, setFilter] = useContext(outContext);
   const history = useHistory();
 
   const columns = [
-    {
-      title: 'код конструкции',
-      dataIndex: 'code',
-      width: 130,
-      sorter: {
-        compare: (a, b) => a.date_start.localeCompare(b.date_start),
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 80,
-     sorter: {
-            compare: (a, b) => a.city.localeCompare(b.city),
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Почтовый индекс',
-      dataIndex: 'post',
-      width: 80,
-     sorter: {
-            compare: (a, b) => a.post.localeCompare(b.post),
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Адрес маркетинговый',
-      dataIndex: 'adress_m',
-      width: 150,
-
-    },
-    {
-      title: 'Адрес юридический',
-      dataIndex: 'adress_j',
-      width: 150,
-
-    },
-    {
-      title: 'Формат',
-      dataIndex: 'format',
-      width: 150,
-
-    },
-    {
-      title: 'Координаты',
-      dataIndex: 'coords',
-      width: 150,
-
-    },
-    {
-      title: 'Горит',
-      dataIndex: 'fire',
-      width: 80,
-
-    },
+    column('Город', 'city', 80),
+    column('Район', 'district', 80),
+    column('Почтовый индекс', 'post', 80),
+    column('Адрес маркетинговый', 'adress_m', 150),
+    column('Адрес юридический', 'adress_m', 150),
+    column('Формат', 'format', 150),
+    column('Инвентарный номер (ОТО)', 'inv_oto', 150),
+    column('Инвентарный номер (Бух)', 'inv_buh', 150),
+    column('Номер телефона конструкции', 'phone', 150),
+    column('Координаты', 'coords', 150),
+    column('Горит', 'fire', 80),
     {
       width: 40,
       title: '',
@@ -80,95 +38,81 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
       ),
     },
   ];
-  let data1 = [];
+  let populated_data = [];
 
   const OUTDOOR_T = gql`
-  query SearchConstruction(
-    $city: String
-    $district: String
-    $adress_m: String
-    $adress_j: String
-    $InventNumber: String
-    $actual: Boolean
-    $coords: String
-  ) {
-    searchConstruction(
-
-      location_Postcode_District_City_Title: $city
-      location_Postcode_District_Title: $district
-      location_MarketingAddress_Address: $adress_m
-      location_LegalAddress_Address:$adress_j
-      buhInventNumber: $InventNumber
-      active: $actual
-      coordinate: $coords
-
-    ) {
-      edges {
-        node {
-          id
-          buhInventNumber
-
-          # city {
-          #   id
-          #   title
-          # }
-          # district{
-          #   id
-          #   title
-          # }
-          # postcode{
-          #   id
-          #   title
-          # }
-          # marketingAddress
-          # legalAddress
-          # legalAddress
-          # coordinates
-          # actual
-          # familyConstruction {
-          #   id,
-          #   title,
-          #   underFamilyConstruction {
-          #     edges {
-          #       node {
-          #         modelConstruction {
-          #           edges {
-          #             node {
-          #               title,
-          #               format {
-          #                 edges {
-          #                   node {
-          #                     title
-          #                   }
-          #                 }
-          #               }
-          #             }
-          #           }
-          #         }
-          #       }
-          #     }
-          #   }
-          # }
-        }
-      }
-    }
-  }
+     query searchConstruction(
+       $city: String,
+       $district: String,
+       $adress_m: String,
+       $adress_j: String,
+       $InventNumber: String,
+       $actual: Boolean,
+       $coords: String) {
+       searchConstruction(
+         location_Postcode_District_City_Title: $city,
+         location_Postcode_District_Title: $district,
+         location_MarketingAddress_Address: $adress_m,
+         location_LegalAddress_Address: $adress_j,
+         buhInventNumber: $InventNumber,
+         active: $actual,
+         coordinates,: $coords) {
+         edges {
+           node {
+             id
+             coordinates
+             backComment
+             techInventNumber
+             buhInventNumber
+             techPhoneConstruction
+             techProblem
+             techProblemComment
+             statusConnection
+             obstruction
+             active
+             format {
+               title
+             }
+             location {
+               marketingAddress {
+                 address
+               }
+               legalAddress {
+                 address
+               }
+               postcode {
+                 title
+                 district {
+                   title
+                   city {
+                     title
+                   }
+                 }
+               }
+             }
+           }
+         }
+       }
+     }
   `;
 
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
   if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
+  if (loading) return <Preloader size={'large'}/>;
   if (data) {
-    data1 = data.searchConstruction.edges.map((item) => ({
+    populated_data = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
-      code: '#1020050301323',
-      city: item.node.city ? item.node.city.title : '',
-      post: item.node.postcode ? item.node.postcode.title : '',
-      adress_m: item.node.marketingAddress,
-      adress_j: item.node.legalAddress,
-      format: item.node.format,
+      city: item.node.location ? item.node.location.postcode.district.city.title  : '',
+      post: item.node.location ? item.node.location.postcode.title : '',
+      district: item.node.location ? item.node.location.postcode.district.title : '',
+      adress_m: item.node.location ? null2strKey(item.node.location.marketingAddress, 'address') : '',
+      adress_j: item.node.location ? null2strKey(item.node.location.legalAddress, 'address') : '',
+      inv_oto: null2str(item.node.techInventNumber),
+      inv_buh: null2str(item.node.buhInventNumber),
+      phone: null2str(item.node.techPhoneConstruction),
+      format: null2strKey(item.node.format, 'title'),
       coords: item.node.coordinates,
-      fire: item.node.actual ? 'Да' : 'Нет',
+      fire: item.node.statusConnection ? 'Да' : 'Нет',
     }));
   }
 
@@ -177,7 +121,7 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
       <div className="outdoor-table-bar">
         <Table
           style={{ width: '100%' }}
-          columns={columns} data={data1}
+          columns={columns} data={populated_data}
           enableChoosePeriod={false}
           enableChooseQuantityColumn={false}
           select={flagAddConstructionToLocation}

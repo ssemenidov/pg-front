@@ -7,6 +7,7 @@ import {useHistory, useLocation} from 'react-router';
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
 import Preloader from '../../../components/Preloader/Preloader';
+import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
@@ -56,6 +57,10 @@ query SearchLocation(
               }
             }
           }
+          familyConstruction {
+            id
+            title
+          }
           comment
           resolutionNumber
           resolutionNumberDate
@@ -98,22 +103,6 @@ query SearchLocation(
 `;
 
 
-const column = (title, dataIndex, width, isShowed, sorter=true) => {
-  let result = {
-    title: title,
-    dataIndex: dataIndex,
-    width: width,
-    className: (isShowed ? 'show' : 'hide'),
-    isShowed: isShowed,
-  }
-  if (sorter) {
-    result.sorter = {
-      compare: (a, b) => a[dataIndex] && a[dataIndex].localeCompare(b[dataIndex]),
-      multiple: 1,
-    }
-  }
-  return result
-};
 
 
 const initColumnsForPopup = [
@@ -210,9 +199,6 @@ const PanelDesign = (props) => {
   if (error) return <p>Error :(</p>;
   if (loading) return <Preloader size={'large'}/>;
   if (data) {
-    let null2str = (item) => item ? item : '';
-    let null2strKey = (item, key) => item ? null2str(item[key]) : '';
-    let null2bool = (item) => item ? item : false;
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
       hasArea: null2bool(item.node.hasArea),
