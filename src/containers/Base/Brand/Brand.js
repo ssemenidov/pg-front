@@ -21,7 +21,7 @@ const BRAND_ITEM = gql`
             id
             title
           }
-          partner {
+          partners {
             edges {
               node {
                 id

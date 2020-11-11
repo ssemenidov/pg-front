@@ -1,7 +1,7 @@
 import React, {useState, useContext, createContext, useMemo, useEffect} from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import {useHistory, useParams} from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import PanelOutdoor from './PanelOutdoor';
 import FilterBar from './FilterBar';
@@ -61,12 +61,8 @@ const OutdoorFurniture = () => {
   }, [data]);
 
   useEffect(() => {
-    showConfigForAddConstructionToLocation();
-  }, [id]);
-
-  const showConfigForAddConstructionToLocation= () => {
     setFlagAddConstructionToLocation(Boolean(id));
-  }
+  }, [id]);
 
   const addConstruction = () => {
     if(constructionsIdSet && constructionsIdSet.length) {
@@ -75,8 +71,6 @@ const OutdoorFurniture = () => {
           construction: constructionsIdSet
         }})
           .then((response) => {
-            console.log(response)
-
             history.push(`/base/locations/location/${id}`);
             history.go(0);
           })

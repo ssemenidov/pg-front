@@ -135,12 +135,25 @@ export default function   TabPaneForm(props) {
     history.go(0);
   };
 
+  const addBrand = (e) => {
+    e.preventDefault();
+
+    history.push(`/base/partners/partner/${item.id}/brands`);
+    history.go(0);
+  }
+
   const btnAddSome = () => {
     switch (block) {
       case 1:
         return <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>
       case 2:
-        return <StyledButton backgroundColor="#2c5de5">Добавить бренд</StyledButton>
+        return <StyledButton
+          backgroundColor="#2c5de5"
+          type="button"
+          onClick={addBrand}
+        >
+          Привязать бренд
+        </StyledButton>
       case 3:
         return <StyledButton backgroundColor="#2c5de5">Добавить контрагента</StyledButton>
       default: return
@@ -187,7 +200,7 @@ export default function   TabPaneForm(props) {
                 suffix="Найти"
                 prefix={<img src={searchInputIcon} />}
               />}
-            
+
               <BtnPrint>
                 <img src={print_icon} alt="" />
               </BtnPrint>

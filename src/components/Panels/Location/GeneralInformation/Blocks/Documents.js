@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { gql, useMutation } from '@apollo/client';
 
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 import { Upload, message } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../Styles/DesignList/styles';
+import { StyledButton } from '../../../../Styles/DesignList/styles';
 
-import {useParams} from "react-router";
 
 const UPLOAD_DOCUMENTS = gql`
   mutation($id: ID! $document: Upload, $prolongation: Upload) {

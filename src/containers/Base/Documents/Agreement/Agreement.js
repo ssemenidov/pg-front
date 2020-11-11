@@ -47,6 +47,7 @@ const CONTRACT_ITEM = gql`
           basedOnDocument
           returnStatus
           contractPdf
+          additionallyAgreementPdf
           # additionallyAgreement
           comment
           createdAt
@@ -94,7 +95,10 @@ const OutdoorFurniture = (props) => {
             <Breadcrumb.Item>
               <Link to="/base/">Базы</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Список Проектов</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/base/documents/agreements">Договора</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Договор</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             className="site-layout-background"
@@ -102,7 +106,7 @@ const OutdoorFurniture = (props) => {
               margin: 0,
               minHeight: 280,
             }}>
-              <PanelAgreement  />
+              <PanelAgreement/>
           </Content>
         </Layout>
       </Layout>

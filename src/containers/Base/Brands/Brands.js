@@ -1,6 +1,6 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, {createContext, useEffect, useMemo, useState} from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { gql, useMutation } from '@apollo/client';
 import { Breadcrumb } from 'antd';
 
@@ -18,6 +18,7 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 import PanelDesign from './PanelBrands';
 import FilterBar from './FilterBar';
+import PanelOutdoor from "../OutdoorFurniture/PanelOutdoor";
 
 const BRAND_CREATE = gql`
   mutation {
@@ -29,22 +30,70 @@ const BRAND_CREATE = gql`
   }
 `;
 
+const ADD_BRAND_TO_PARTNER = gql`
+  mutation updatePartner(
+    $id: ID!
+    $brands: [ID]!
+  ) {
+    updatePartner(
+      id: $id
+      input: {
+        brands: $brands
+      }
+    ) {
+      partner {
+        id
+      }
+    }
+  }
+`;
+
 export const brandsContext = createContext();
 
 const Brands = () => {
   const history = useHistory();
+  const { id } = useParams();
+
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
+  const [flagAddBrandForPartner, setFlagAddBrandForPartner] = useState(false);
+  const [brandsIdSet, setBrandsIdSet] = useState([]);
+
   const [createBrand, { data }] = useMutation(BRAND_CREATE);
+  const [updateBrands] = useMutation(ADD_BRAND_TO_PARTNER);
 
   useMemo(() => {
     if (data) {
       history.push(`/base/partner/brand/${data.createBrand.brand.id}`);
     }
   }, [data]);
+  useEffect(() => {
+    setFlagAddBrandForPartner(Boolean(id));
+  }, [id]);
+
   const addBrand= () => {
     createBrand();
   };
+
+  const addBrandForPartner = () => {
+    if(brandsIdSet && brandsIdSet.length) {
+      updateBrands({ variables: {
+          id: id,
+          brands: brandsIdSet
+        }})
+        .then((response) => {
+          history.push(`/base/partners/partner/${id}`);
+          history.go(0);
+        })
+        .catch(error => {
+          alert('Бренд не добавлен! Что то поломалось :(')
+          console.error(error)
+        })
+    } else {
+      alert('Бренд не выбран!')
+    }
+  }
+
   return (
     <brandsContext.Provider value={[filter, setFilter]}>
       <div className="locations-table">
@@ -72,6 +121,17 @@ const Brands = () => {
               <JobTitle>Бренды</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
+              {
+                flagAddBrandForPartner
+                && (
+                  <StyledButton
+                    backgroundColor="#2c5de5"
+                    onClick={addBrandForPartner}
+                  >
+                    Привязать бренд
+                  </StyledButton>
+                )
+              }
               <StyledButton
                 backgroundColor="#008556"
                 type="button"
@@ -82,7 +142,13 @@ const Brands = () => {
             </ButtonGroup>
           </HeaderWrapper>
           <div style={{ display: 'flex' }}>
-            <PanelDesign style={{ flex: '0 1 auto' }} history={history} />
+            <PanelDesign
+              style={{ flex: '0 1 auto' }}
+              history={history}
+              flagAddBrandForPartner={flagAddBrandForPartner}
+              brandsIdSet={brandsIdSet}
+              setBrandsIdSet={setBrandsIdSet}
+            />
           </div>
         </div>
         <style>
