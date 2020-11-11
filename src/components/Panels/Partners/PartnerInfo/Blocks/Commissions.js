@@ -3,7 +3,6 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
 
-
 import { BlockBody, Large, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import styled from 'styled-components';
 import anchorIcon from '../../../../../img/input/anchor.svg';
@@ -39,7 +38,7 @@ export default function Commissions() {
   const agency = useQuery( AGENCY_T).data;
   const agencyDistribute = useQuery( AGENCY_DISTRIBUTE_T).data;
 
-  if (!agency || !agencyDistribute ){
+  if (!agency || !agencyDistribute ) {
     return <span></span>;
   }
   return (
@@ -59,29 +58,37 @@ export default function Commissions() {
                 </StyledSelect.Option>
               )}
             </StyledSelect>
-
           </InputWrapper>
           <InputWrapper>
             <InputTitle>Агентская коммисия</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
               defaultValue={item.agencyCommission ? item.agencyCommission : ''}
-              onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}></StyledInput>
+              onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}
+            ></StyledInput>
           </InputWrapper>
           <InputWrapper>
             <InputTitle>АК распространяется</InputTitle>
             <StyledSelect
-            defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
-            onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
+              defaultValue={item.isAgencyCommissionWithNds ? item.isAgencyCommissionWithNds : <img src={anchorIcon} />}
+              onChange={(value) => setItem({ ...item, isAgencyCommissionWithNds: value })}
             >
+              <StyledSelect.Option key="yes" value={true}>
+                <img src={anchorIcon} />
+                <span>на сумму с НДС</span>
+              </StyledSelect.Option>
+              <StyledSelect.Option key="no" value={false}>
+                <img src={anchorIcon} />
+                <span>на сумму без НДС</span>
+              </StyledSelect.Option>
             </StyledSelect>
 
           </InputWrapper>
           <InputWrapper>
             <InputTitle>На какие услуги распространяется АК</InputTitle>
             <StyledSelect
-            defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
-            onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
+              defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
+              onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
             >
               {agencyDistribute && agencyDistribute.searchAgencyCommissionDistribute.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.title}>

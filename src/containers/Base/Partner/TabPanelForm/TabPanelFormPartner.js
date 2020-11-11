@@ -54,56 +54,52 @@ const PARTNER_DELETE = gql`
     }
   }
 `;
-//     postcode:$postcode
+
 const PARTNER_UPDATE = gql`
-mutation(
-  $id: ID!
-  $title:String
-  $comment:String
-  $workingSector:ID
-  $partnerType:ID
-  $clientType:ID
-  $binNumber:String
-  $city:ID
-  $district:ID
-  $legalAddress: String
-  $actualAddress: String
-  $bankRecipient: String
-  $iik: String
-  $bik: String
-  $kbe: String
-  $agencyCommission:Int
-
-)
-{
-  updatePartner(
-    id: $id
-    input:{
-      title:$title
-      comment:$comment
-      workingSector:$workingSector
-      binNumber:$binNumber
-      partnerType:$partnerType
-      clientType:$clientType
-      city:$city
-      district:$district
-      legalAddress:$legalAddress
-      actualAddress: $actualAddress
-      bankRecipient: $bankRecipient
-      iik: $iik
-      bik: $bik
-      kbe: $kbe
-      agencyCommission:$agencyCommission
-
-
-    }
-  ) {
-    partner {
-     id
-
-    }
-}
-}
+  mutation(
+    $id: ID!
+    $title:String
+    $comment:String
+    $workingSector:[ID]
+    $partnerType:ID
+    $clientType:ID
+    $binNumber:String
+    #$city:ID
+    $district:ID
+    $legalAddress: ID
+    $actualAddress: ID
+    $bankRecipient: String
+    $iik: String
+    $bik: String
+    $kbe: String
+    #$agencyCommission:Int
+  )
+  {
+    updatePartner(
+      id: $id
+      input:{
+        title:$title
+        comment:$comment
+        workingSector:$workingSector
+        binNumber:$binNumber
+        partnerType:$partnerType
+        clientType:$clientType
+        #city:$city
+        district:$district
+        legalAddress:$legalAddress
+        actualAddress: $actualAddress
+        bankRecipient: $bankRecipient
+        iik: $iik
+        bik: $bik
+        kbe: $kbe
+        #agencyCommission:$agencyCommission
+      }
+    ) {
+      partner {
+       id
+      }
+  }
+  }
 `;
 
 export default function   TabPaneForm(props) {
@@ -118,7 +114,7 @@ export default function   TabPaneForm(props) {
     e.preventDefault();
     updateConstruction({ variables: {
       ...item,
-      workingSector:item.workingSector && item.workingSector.id ,
+      workingSector:[].push(item.workingSector && item.workingSector.id) ,
       partnerType:item.partnerType && item.partnerType.id ,
       clientType:item.clientType && item.clientType.id ,
       city:item.city && item.city.id ,
