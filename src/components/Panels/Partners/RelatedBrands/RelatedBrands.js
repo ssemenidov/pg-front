@@ -66,12 +66,12 @@ const RelatedBrands = () => {
 
   useMemo(() => {
     if(item.brands.edges && item.brands.edges.length) {
-      const brandsList = item.brands.edges.node.map((item, index) => ({
+      const brandsList = item.brands.edges.map((item, index) => ({
         key: index,
-        code: item.code,
-        brand: item.title,
-        workingSector: item.workingSector ? item.workingSector.title : '',
-        createdAt: item.createdAt,
+        code: item.node.code,
+        brand: item.node.title,
+        workingSector: item.node.workingSector ? item.node.workingSector.title : '',
+        createdAt: item.node.createdAt,
       }));
 
       setData(brandsList);
