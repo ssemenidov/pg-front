@@ -88,11 +88,11 @@ const PanelDesign = (props) => {
     $adress: String
   ) {
     searchCrew(
-      name: $name
-      phone:  $phone
-      city_Title:$city
+      name_Icontains: $name
+      phone_Icontains:$phone
+      constructions_Location_Postcode_District_City_Title:$city
       constructions_Location_Postcode_District_Title: $district
-      constructions_Location_MarketingAddress_Address:  $adress
+      constructions_Location_MarketingAddress_Address_Icontains:$adress
     ) {
       edges {
         node {
@@ -113,9 +113,9 @@ const PanelDesign = (props) => {
   ) {
     searchCrew(
       id:$id
-      city_Title:$city
+      constructions_Location_Postcode_District_City_Title:$city
       constructions_Location_Postcode_District_Title: $district
-      constructions_Location_MarketingAddress_Address:  $adress
+      constructions_Location_MarketingAddress_Address_Icontains:  $adress
     ) {
       edges {
         node {
@@ -156,7 +156,7 @@ const PanelDesign = (props) => {
     }
   }
   `;
-  const crews = useQuery(CREWS_T, { variables: filter }).data;
+  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
   const crew_construct = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} }).data;
   if (crew_construct) {
     if(crew_construct.searchCrew.edges[0])
