@@ -1,6 +1,6 @@
-import React, { useState, useContext, createContext, useMemo } from 'react';
+import React, {useState, useContext, createContext, useMemo, useEffect} from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import PanelPartners from './PanelPartners';
@@ -17,6 +17,7 @@ import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import icon_pen from '../../../img/edit-icon.svg';
+import PanelDesign from "../Brands/PanelBrands";
 
 const { Content, Sider } = Layout;
 export const partnersContext = createContext();
@@ -39,13 +40,36 @@ const CONTRACT_CREATE = gql`
     }
   }
 `;
+const ADD_ADVERTISER_TO_PARTNER = gql`
+  mutation updatePartner(
+    $id: ID!
+    $advertisers: [ID]
+  ) {
+    updatePartner(
+      id: $id
+      input: {
+        advertisers: $advertisers
+      }
+    ) {
+      partner {
+        id
+      }
+    }
+  }
+`;
 
 const Partners = () => {
+  const history = useHistory();
+  const { id } = useParams();
+
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
-  const history = useHistory();
+  const [flagAddAdvertiserForPartner, setFlagAddAdvertiserForPartner] = useState(false);
+  const [advertiserIdSet, setAdvertiserIdSet] = useState([]);
+
   const [createPartner, { data }] = useMutation(PARTNER_CREATE);
   const [createContract, createContractData] = useMutation(CONTRACT_CREATE);
+  const [updatePartner] = useMutation(ADD_ADVERTISER_TO_PARTNER);
 
   useMemo(() => {
     if (data) {
@@ -57,6 +81,28 @@ const Partners = () => {
       history.push(`/base/documents/agreement/${createContractData.data.createContract.contract.id}`);
     }
   }, [createContractData.data]);
+  useEffect(() => {
+    setFlagAddAdvertiserForPartner(Boolean(id));
+  }, [id]);
+
+  const addAdvertiserForPartner = () => {
+    if(advertiserIdSet && advertiserIdSet.length) {
+      updatePartner({ variables: {
+          id: id,
+          advertisers: advertiserIdSet
+        }})
+        .then((response) => {
+          history.push(`/base/partners/partner/${id}`);
+          history.go(0);
+        })
+        .catch(error => {
+          alert('Бренд не добавлен! Что то поломалось :(')
+          console.error(error)
+        })
+    } else {
+      alert('Бренд не выбран!')
+    }
+  }
 
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
@@ -83,6 +129,17 @@ const Partners = () => {
                 <JobTitle>Контрагенты</JobTitle>
               </HeaderTitleWrapper>
               <ButtonGroup>
+                {
+                  flagAddAdvertiserForPartner
+                  && (
+                    <StyledButton
+                      backgroundColor="#2c5de5"
+                      onClick={addAdvertiserForPartner}
+                    >
+                      Привязать контрагента
+                    </StyledButton>
+                  )
+                }
                 <StyledButton backgroundColor="#008556" onClick={createPartner}>
                   Создать контрагента
                 </StyledButton>
@@ -96,7 +153,13 @@ const Partners = () => {
               </ButtonGroup>
             </HeaderWrapper>
             <div style={{ display: 'flex' }}>
-              <PanelPartners style={{ flex: '0 1 auto' }} history={history} />
+              <PanelPartners
+                style={{ flex: '0 1 auto' }}
+                history={history}
+                flagAddAdvertiserForPartner={flagAddAdvertiserForPartner}
+                advertiserIdSet={advertiserIdSet}
+                setAdvertiserIdSet={setAdvertiserIdSet}
+              />
             </div>
           </Layout>
         </Layout>

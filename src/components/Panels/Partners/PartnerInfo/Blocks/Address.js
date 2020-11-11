@@ -37,7 +37,7 @@ const DISTRICT_T = gql`
       }
     }
   `;
-  const POST_T = gql`
+const POST_T = gql`
   {
     searchPostcode {
       edges {
@@ -48,7 +48,7 @@ const DISTRICT_T = gql`
       }
     }
   }
-`;  
+`;
 export default function Adress() {
   const [item, setItem] = useContext(partnerContext);
   const city = useQuery( CITY_T).data;
@@ -93,8 +93,8 @@ export default function Adress() {
           <div style={{ width: '38%' }}>
             <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
-              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              defaultValue={item.legalAddressPostcode ? item.legalAddressPostcode.id : <img src={postIcon} /> }
+              onChange={(value) => setItem({ ...item, legalAddressPostcodeId: value })}>
               {post && post.searchPostcode.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                     <img src={postIcon} />

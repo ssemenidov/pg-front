@@ -54,56 +54,52 @@ const PARTNER_DELETE = gql`
     }
   }
 `;
-//     postcode:$postcode
+
 const PARTNER_UPDATE = gql`
-mutation(
-  $id: ID!
-  $title:String
-  $comment:String
-  $workingSector:ID
-  $partnerType:ID
-  $clientType:ID
-  $binNumber:String
-  $city:ID
-  $district:ID
-  $legalAddress: String
-  $actualAddress: String
-  $bankRecipient: String
-  $iik: String
-  $bik: String
-  $kbe: String
-  $agencyCommission:Int
-
-)
-{
-  updatePartner(
-    id: $id
-    input:{
-      title:$title
-      comment:$comment
-      workingSector:$workingSector
-      binNumber:$binNumber
-      partnerType:$partnerType
-      clientType:$clientType
-      city:$city
-      district:$district
-      legalAddress:$legalAddress
-      actualAddress: $actualAddress
-      bankRecipient: $bankRecipient
-      iik: $iik
-      bik: $bik
-      kbe: $kbe
-      agencyCommission:$agencyCommission
-
-
-    }
-  ) {
-    partner {
-     id
-
-    }
-}
-}
+  mutation(
+    $id: ID!
+    $title:String
+    $comment:String
+    $workingSector:[ID]
+    $partnerType:ID
+    $clientType:ID
+    $binNumber:String
+    #$city:ID
+    $district:ID
+    $legalAddress: ID
+    $actualAddress: ID
+    $bankRecipient: String
+    $iik: String
+    $bik: String
+    $kbe: String
+    #$agencyCommission:Int
+  )
+  {
+    updatePartner(
+      id: $id
+      input:{
+        title:$title
+        comment:$comment
+        workingSector:$workingSector
+        binNumber:$binNumber
+        partnerType:$partnerType
+        clientType:$clientType
+        #city:$city
+        district:$district
+        legalAddress:$legalAddress
+        actualAddress: $actualAddress
+        bankRecipient: $bankRecipient
+        iik: $iik
+        bik: $bik
+        kbe: $kbe
+        #agencyCommission:$agencyCommission
+      }
+    ) {
+      partner {
+       id
+      }
+  }
+  }
 `;
 
 export default function   TabPaneForm(props) {
@@ -112,13 +108,13 @@ export default function   TabPaneForm(props) {
   const [block,setBlock]=useState(0);
   const history = useHistory();
 
-  const [updateConstruction] = useMutation(PARTNER_UPDATE);
+  const [updatePartner] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
   const Update = (e) => {
     e.preventDefault();
-    updateConstruction({ variables: {
+    updatePartner({ variables: {
       ...item,
-      workingSector:item.workingSector && item.workingSector.id ,
+      workingSector:[].push(item.workingSector && item.workingSector.id) ,
       partnerType:item.partnerType && item.partnerType.id ,
       clientType:item.clientType && item.clientType.id ,
       city:item.city && item.city.id ,
@@ -140,7 +136,13 @@ export default function   TabPaneForm(props) {
 
     history.push(`/base/partners/partner/${item.id}/brands`);
     history.go(0);
-  }
+  };
+  const addAdvertisers = (e) => {
+    e.preventDefault();
+
+    history.push(`/base/partners/partner/${item.id}/advertisers`);
+    history.go(0);
+  };
 
   const btnAddSome = () => {
     switch (block) {
@@ -155,7 +157,13 @@ export default function   TabPaneForm(props) {
           Привязать бренд
         </StyledButton>
       case 3:
-        return <StyledButton backgroundColor="#2c5de5">Добавить контрагента</StyledButton>
+        return <StyledButton
+          backgroundColor="#2c5de5"
+          type="button"
+          onClick={addAdvertisers}
+        >
+          Добавить контрагента
+        </StyledButton>
       default: return
     }
   }

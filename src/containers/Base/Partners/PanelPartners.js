@@ -8,7 +8,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
-const PanelDesign = (props) => {
+const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertiserIdSet }) => {
   const [filter, setFilter] = useContext(partnersContext);
   const columns = [
     {
@@ -159,6 +159,10 @@ const PanelDesign = (props) => {
           data={data1}
           enableChoosePeriod={false}
           enableChooseQuantityColumn={false}
+
+          select={flagAddAdvertiserForPartner}
+          constructionsIdSet={advertiserIdSet}
+          setConstructionsIdSet={setAdvertiserIdSet}
         />
       </div>
 
