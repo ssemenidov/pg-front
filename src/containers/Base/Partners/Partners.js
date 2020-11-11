@@ -20,6 +20,7 @@ import icon_pen from '../../../img/edit-icon.svg';
 
 const { Content, Sider } = Layout;
 export const partnersContext = createContext();
+
 const PARTNER_CREATE = gql`
   mutation {
     createPartner(input: {}) {
@@ -29,16 +30,33 @@ const PARTNER_CREATE = gql`
     }
   }
 `;
+const CONTRACT_CREATE = gql`
+  mutation {
+    createContract(input: {}) {
+      contract {
+        id
+      }
+    }
+  }
+`;
+
 const Partners = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
   const history = useHistory();
   const [createPartner, { data }] = useMutation(PARTNER_CREATE);
+  const [createContract, createContractData] = useMutation(CONTRACT_CREATE);
+
   useMemo(() => {
     if (data) {
       history.push(`/base/partners/partner/${data.createPartner.partner.id}`);
     }
   }, [data]);
+  useMemo(() => {
+    if (createContractData.data) {
+      history.push(`/base/documents/agreement/${createContractData.data.createContract.contract.id}`);
+    }
+  }, [createContractData.data]);
 
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
@@ -68,7 +86,11 @@ const Partners = () => {
                 <StyledButton backgroundColor="#008556" onClick={createPartner}>
                   Создать контрагента
                 </StyledButton>
-                <StyledButton backgroundColor="#2C5DE5" onClick={() => {}}>
+                <StyledButton
+                  backgroundColor="#2C5DE5"
+                  type="button"
+                  onClick={createContract}
+                >
                   Создать договор
                 </StyledButton>
               </ButtonGroup>

@@ -48,7 +48,7 @@ const Agreements = (props) => {
             <Breadcrumb.Item>
               <Link to="/base/">Базы</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Список Проектов</Breadcrumb.Item>
+            <Breadcrumb.Item>Договора</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             className="site-layout-background"

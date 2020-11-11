@@ -9,7 +9,7 @@ import Table from '../../../components/Tablea';
 import oval from '../../../img/Oval.svg';
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
-  const[current,setCurrent]=useState(0);
+  const[current,setCurrent]=useState(null);
   const columns = [
     {
       title: 'Код конструкции',
@@ -17,7 +17,7 @@ const PanelDesign = (props) => {
 
       width: 130,
       sorter: {
-        compare: (a, b) => a.code.localeCompare(b.code),
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },  
     },
@@ -27,7 +27,7 @@ const PanelDesign = (props) => {
 
       width: 100,
       sorter: {
-        compare: (a, b) => a.format.localeCompare(b.format),
+        compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
         multiple: 1,
       },  
     },
@@ -36,7 +36,7 @@ const PanelDesign = (props) => {
       dataIndex: 'city',
       width: 100,
       sorter: {
-        compare: (a, b) => a.city.localeCompare(b.city),
+        compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
         multiple: 1,
       },  
     },
@@ -45,7 +45,7 @@ const PanelDesign = (props) => {
       dataIndex: 'adress',
       width: 100,
        sorter: {
-            compare: (a, b) => a.adress.localeCompare(b.adress),
+            compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
             multiple: 1,
           },  
     },
@@ -54,7 +54,7 @@ const PanelDesign = (props) => {
       dataIndex: 'status',
       width: 100,
        sorter: {
-            compare: (a, b) => a.status.localeCompare(b.status),
+            compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
             multiple: 1,
           },  
     },
@@ -63,21 +63,21 @@ const PanelDesign = (props) => {
       dataIndex: 'date_start',
       width: 100,
        sorter: {
-            compare: (a, b) => a.date_start.localeCompare(b.date_start),
+            compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
             multiple: 1,
           },  
     },
   ];
   var data1 = [
-    {
-      key: 1,
-      code: '126353',
-      format: 'Сениор',
-      city: 'Алматы',
-      adress: 'Достык 25',
-      status: 'Размещен',
-      date_start: '19.06.2020',
-    },
+    // {
+    //   key: 1,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
   ];
   const CREWS_T = gql`
   query SearchCrew(
@@ -88,13 +88,34 @@ const PanelDesign = (props) => {
     $adress: String
   ) {
     searchCrew(
-      name: $name
-      phone:  $phone
-      city_Title:$city
-      
+      name_Icontains: $name
+      phone_Icontains:$phone
+      constructions_Location_Postcode_District_City_Title:$city
       constructions_Location_Postcode_District_Title: $district
-      constructions_Location_MarketingAddress_Address:  $adress
-     
+      constructions_Location_MarketingAddress_Address_Icontains:$adress
+    ) {
+      edges {
+        node {
+          id
+          phone
+          name
+        }
+      }
+    }
+  }
+  `;
+  const CREWS_CONSTRUCT_T = gql`
+  query SearchCrew(
+    $id:ID!
+    $city: String
+    $district: String
+    $adress: String
+  ) {
+    searchCrew(
+      id:$id
+      constructions_Location_Postcode_District_City_Title:$city
+      constructions_Location_Postcode_District_Title: $district
+      constructions_Location_MarketingAddress_Address_Icontains:  $adress
     ) {
       edges {
         node {
@@ -106,19 +127,27 @@ const PanelDesign = (props) => {
               node {
                 id
                 code
+                format {
+                  id
+                  title
+                }
                 statusConnection
                 createdAt
-                
-                # city {
-                #   id
-                #   title
-                # }
-                # legalAddress
-                # district {
-                #   id
-                #   title
-                # }
-
+                location {
+                  postcode {
+                    title
+                    district {
+                      title
+                      city {
+                        title
+                        id
+                      }
+                    }
+                  }
+                  marketingAddress {
+                    address
+                  }
+                }
               }
             }
           }
@@ -127,36 +156,36 @@ const PanelDesign = (props) => {
     }
   }
   `;
-  const string="Кузьмин Виталий";
-  const { loading, error, data } = useQuery(CREWS_T, { variables: filter });
-  if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
-
-  if (data) {
-
-    if(data.searchCrew.edges[current])
+  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
+  const crew_construct = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} }).data;
+  if (crew_construct) {
+    if(crew_construct.searchCrew.edges[0])
     {
-      data1 = data.searchCrew.edges[current].node.constructions.edges.map((item) => ({
+      console.log(crew_construct);
+      data1 = crew_construct.searchCrew.edges[0].node.constructions.edges.map((item,index) => ({
       key: item.node.id,
-      code: item.node.code,
-      format: item.node.format,
-      city: item.node.city  ? item.node.city.title : '',
-      adress: item.node.legalAddress,
-      status: item.node.statusConnection,
+      code: item.node.code ? item.node.code : (""+index),
+      format: item.node.format && item.node.format.title,
+      city: item.node.location && item.node.location.postcode.district.city.title,
+      adress: item.node.location &&  item.node.location.marketingAddress.address,
+      status: item.node.statusConnection ? "Размещен":"Неразмещен",
       date_start: new Date(item.node.createdAt).toLocaleDateString('en-GB')
     }));
   }
+  }
+  console.log("b".localeCompare("b"));
+  if( !crews ){
+    return <span></span>
   }
   return (
     <>
       <StyledCrewsBlock>
         <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
         <List>
-        {data.searchCrew.edges.map((item,index)=>
-          <StyledListItem key={index} onClick={()=>{  setCurrent(index)}}>
-          <StyledIcon>{string.charAt(0)}</StyledIcon>
-          <span>{string}</span>
-          {/* <span>{item.node.name}</span> */}
+        {crews.searchCrew.edges.map((item,index)=>
+          <StyledListItem key={index} onClick={()=>{  setCurrent(item.node.id)}}>
+          <StyledIcon>{item.node.name && item.node.name.charAt(0)}</StyledIcon>
+          <span>{item.node.name}</span>
         </StyledListItem>
         )}
         </List>

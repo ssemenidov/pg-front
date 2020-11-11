@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import {gql, useLazyQuery} from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import moment from 'moment';
 import styled from 'styled-components';
-import { DatePicker, Upload } from 'antd';
+import {DatePicker, message, Upload} from 'antd';
 
 import { agreementContext } from '../Agreement';
 
@@ -85,18 +86,206 @@ const SEARCH_INITIATORS = gql`
     }
 }
 `;
+const UPLOAD_CONTRACT = gql`
+  mutation updateContract(
+    $id: ID!
+    $contractPdf: Upload
+  ) {
+    updateContract(
+      id: $id
+      input: {
+        contractPdf: $contractPdf
+      }
+    ) {
+      contract {
+        id
+        contractPdf
+      }
+    }
+  }
+`;
+const UPLOAD_AGREEMENT = gql`
+  mutation updateContract(
+      $id: ID!
+      $additionallyAgreementPdf: Upload
+  ) {
+    updateContract(
+      id: $id
+      input: {
+        additionallyAgreementPdf: $additionallyAgreementPdf
+      }
+    ) {
+      contract {
+        id
+        additionallyAgreementPdf
+      }
+    }
+  }
+`;
 
 export const EditInformation = () => {
+  const { id } = useParams();
+
   const [item, setItem] = useContext(agreementContext);
+
+  const [contractList, setContractList] = useState([]);
+  const [agreementList, setAgreementList] = useState([]);
 
   const [getPartner, partnerInfo] = useLazyQuery(SEARCH_PARTNER);
   const [getContractType, contractTypeInfo] = useLazyQuery(SEARCH_CONTRACT_TYPE);
   const [getCreators, creatorsInfo] = useLazyQuery(SEARCH_CREATORS);
-  const [getInitiators, initiatorsInfo] = useLazyQuery(SEARCH_CREATORS);
+  const [getInitiators, initiatorsInfo] = useLazyQuery(SEARCH_INITIATORS);
+  const [uploadContract] = useMutation(UPLOAD_CONTRACT);
+  const [uploadAgreement] = useMutation(UPLOAD_AGREEMENT);
 
   useEffect(() => {
     console.log('item ', item)
   }, [item]);
+
+  useEffect(() => {
+    if(item.contractPdf) {
+      setContractList([{
+        uid: '-1',
+        name: item.contractPdf.replace('contract/', ''),
+        status: 'done',
+        url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${item.contractPdf}`,
+      }])
+    }
+    if(item.additionallyAgreementPdf) {
+      setAgreementList([{
+        uid: '-1',
+        name: item.additionallyAgreementPdf.replace('contract/', ''),
+        status: 'done',
+        url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${item.additionallyAgreementPdf}`,
+      }])
+    }
+  }, []);
+
+  const uploadDocContract = (info) => {
+    uploadContract({
+      variables: {
+        id: id,
+        contractPdf: info.file
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateContract.contract.contractPdf;
+
+        setItem({
+          ...item,
+          contractPdf: url
+        })
+
+        let contractList = [{
+          uid: '-1',
+          name: info.file.name,
+          status: 'done',
+          url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${url}`,
+        }];
+
+        setContractList(contractList);
+        message.success('File uploaded successfully');
+      })
+      .catch((error) => {
+        message.error('Is not a upload');
+        console.error(error);
+      })
+  }
+  const removeDocContract = () => {
+    uploadContract({
+      variables: {
+        id: id,
+        contractPdf: null
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateContract.contract.contractPdf;
+
+        setItem({
+          ...item,
+          contractPdf: url
+        })
+
+        setContractList([]);
+        message.success('File deleted successfully');
+      })
+      .catch((error) => {
+        message.error('Something went wrong');
+        console.error(error);
+      })
+  }
+  const uploadAgreementContract = (info) => {
+    uploadAgreement({
+      variables: {
+        id: id,
+        additionallyAgreementPdf: info.file
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateContract.contract.additionallyAgreementPdf;
+
+        setItem({
+          ...item,
+          additionallyAgreementPdf: url
+        })
+
+        let agreementList = [{
+          uid: '-1',
+          name: info.file.name,
+          status: 'done',
+          url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${url}`,
+        }];
+
+        setAgreementList(agreementList);
+        message.success('File uploaded successfully');
+      })
+      .catch((error) => {
+        message.error('Is not a upload');
+        console.error(error);
+      })
+  }
+  const removeAgreementContract = () => {
+    uploadAgreement({
+      variables: {
+        id: id,
+        additionallyAgreementPdf: null
+      }
+    })
+      .then((res) => {
+        const url = res.data.updateContract.contract.additionallyAgreementPdf;
+
+        setItem({
+          ...item,
+          additionallyAgreementPdf: url
+        })
+
+        setAgreementList([]);
+        message.success('File deleted successfully');
+      })
+      .catch((error) => {
+        message.error('Something went wrong');
+        console.error(error);
+      })
+  }
+
+  const uploadContractConfig = {
+    name: 'file',
+    customRequest(info) {
+      uploadDocContract(info);
+    },
+    onRemove() {
+      removeDocContract();
+    }
+  };
+  const uploadAgreementConfig = {
+    name: 'file',
+    customRequest(info) {
+      uploadAgreementContract(info);
+    },
+    onRemove() {
+      removeAgreementContract();
+    }
+  };
 
   return (
     <Medium>
@@ -180,17 +369,26 @@ export const EditInformation = () => {
               </SearchItem>
               <SearchItem>
                 <InputTitle>Инициатор</InputTitle>
-                <StyledInput
-                  placeholder="Макаров Ульян"
-                  prefix={<img src={ownerIcon} />}
-                  defaultValue={item.initiator ? item.initiator.name : ""}
-                  onChange={(e) => setItem({
+
+                <SearchSelect
+                  value={item.initiatorId ? item.initiatorId : (item.initiator && item.initiator.id)}
+                  defaultValue={<img src={ownerIcon} />}
+                  icon={ownerIcon}
+                  nestedField="name"
+                  onChange={(value) => setItem({
                     ...item,
-                    initiator: {
-                      name: e.target.value
+                    initiatorId: value
+                  })}
+                  getData={(value) => getInitiators({
+                    variables: {
+                      id: item.creatorId ? item.creatorId : (item.creator && item.creator.id),
+                      initiator_Name_Icontains: value
                     }
                   })}
-                ></StyledInput>
+                  responseDataInfo={initiatorsInfo}
+                  nameOfQuery="searchUser"
+                  flagSearchInitiator={true}
+                />
               </SearchItem>
             </Row>
             <Row>
@@ -278,24 +476,31 @@ export const EditInformation = () => {
             <Row>
             <SearchItem style={{width:"100%"}}>
             <InputTitle>Документы</InputTitle>
-            <StyledUpload >
-            <StyledButton
-              backgroundColor="#2C5DE5"
-              type="button"
-              style={{width:"260px"}}
+            <StyledUpload
+              {...uploadContractConfig}
+              fileList={contractList}
+              listType="text"
             >
-              Загрузить скан  договора (.pdf)
-            </StyledButton>
-
-          </StyledUpload>
-          <br/>
-          <StyledUpload>
-            <StyledButton
-              backgroundColor="#2C5DE5"
-              type="button"
+              <StyledButton
+                backgroundColor="#2C5DE5"
+                type="button"
+                style={{width:"260px"}}
+              >
+                Загрузить скан  договора (.pdf)
+              </StyledButton>
+            </StyledUpload>
+            <br/>
+            <StyledUpload
+              {...uploadAgreementConfig}
+              fileList={agreementList}
+              listType="text"
             >
-              Загрузить доп соглашение (.pdf)
-            </StyledButton>
+              <StyledButton
+                backgroundColor="#2C5DE5"
+                type="button"
+              >
+                Загрузить доп соглашение (.pdf)
+              </StyledButton>
           </StyledUpload>
           </SearchItem>
           </Row>
