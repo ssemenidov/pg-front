@@ -16,7 +16,6 @@ export const constructContext = createContext();
 //   id
 //  }
 const Construction = (props) => {
-
   const CONSTRUCT_ITEM = gql`
     query SearchConstruction($id: ID!) {
       searchConstruction(id: $id) {
@@ -38,8 +37,8 @@ const Construction = (props) => {
                 address
               }
               hasArea
-              coordinate
             }
+            coordinates
             presentationUrl
             isNonrts
             nonrtsOwner {

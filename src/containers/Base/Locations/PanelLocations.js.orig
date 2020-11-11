@@ -6,8 +6,11 @@ import {useHistory, useLocation} from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea';
+<<<<<<< HEAD
+import { LoadingAntd } from '../../../components/UI/Loader/Loader'
+=======
 import Preloader from '../../../components/Preloader/Preloader';
-import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
@@ -23,9 +26,9 @@ query SearchLocation(
   $resolutionNumber:String
   $rentContractStart:DateTime
   $rentContractEnd:DateTime
-  $areaAct:String
-  $rentContractNumber:String
-
+<<<<<<< HEAD
+  $area:Float
+  $comment:String
   )
   {
     searchLocation(
@@ -34,34 +37,30 @@ query SearchLocation(
       postcode_District_City_Title:$city
       cadastralNumber: $cadastralNumber
       purposeLocation_Title: $targetPurpose
-      area:$area
-      comment: $comment
       resolutionNumber: $resolutionNumber
       rentContractStart:$rentContractStart
       rentContractEnd:$rentContractEnd
-      rentContractNumber: $rentContractNumber
-      areaAct:$areaAct
+      area:$area
+      comment: $comment
     ) {
       edges {
         node {
           id
+          familyConstruction {
+            title
+          }
           postcode {
-            id
             title
             district {
-              id
               title
               city {
-                id
                 title
               }
             }
           }
-          familyConstruction {
-            id
-            title
-          }
-          comment
+          area
+          hasArea
+          coordinate
           resolutionNumber
           resolutionNumberDate
           areaAct
@@ -78,17 +77,14 @@ query SearchLocation(
           marketingAddress {
             address
           }
-          legalAddress{
-            id
+          legalAddress {
             address
           }
-          area
-          resolutionNumber
-          rentContractNumber
           purposeLocation {
             title
           }
           cadastralNumber
+          comment
           constructions {
             edges {
               node {
@@ -98,11 +94,92 @@ query SearchLocation(
           }
         }
       }
+=======
+  $areaAct:String
+  $rentContractNumber:String
+
+
+  )
+  {
+searchLocation(
+  postcode_Title: $post
+  postcode_District_Title: $district
+  postcode_District_City_Title:$city
+  cadastralNumber: $cadastralNumber
+  purposeLocation_Title: $targetPurpose
+  area:$area
+  comment: $comment
+  resolutionNumber: $resolutionNumber
+  rentContractStart:$rentContractStart
+  rentContractEnd:$rentContractEnd
+  rentContractNumber: $rentContractNumber
+  areaAct:$areaAct
+
+
+) {
+  edges {
+    node {
+      id
+      postcode {
+        id
+        title
+        district {
+          id
+          title
+          city {
+            id
+            title
+          }
+        }
+      }
+      comment
+      marketingAddress {
+        id
+        address
+      }
+      legalAddress{
+        id
+        address
+      }
+      area
+      coordinate
+      resolutionNumber
+      cadastralNumber
+      rentContractNumber
+      purposeLocation {
+        id
+        title
+      }
+      constructions {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
     }
   }
 `;
 
 
+const column = (title, dataIndex, width, isShowed, sorter=true) => {
+  let result = {
+    title: title,
+    dataIndex: dataIndex,
+    width: width,
+    className: (isShowed ? 'show' : 'hide'),
+    isShowed: isShowed,
+  }
+  if (sorter) {
+    result.sorter = {
+      compare: (a, b) => a[dataIndex] && a[dataIndex].localeCompare(b[dataIndex]),
+      multiple: 1,
+    }
+  }
+  return result
+};
 
 
 const initColumnsForPopup = [
@@ -142,6 +219,7 @@ const initColumnsForPopup = [
   },
 ];
 const initColumnsTable = [
+<<<<<<< HEAD
   // column('код местоположения', 'code', 130, true),
   column('Семейство конструкции', 'familyConstruction', 80, true),
   column('Город', 'city', 80, true),
@@ -154,6 +232,81 @@ const initColumnsTable = [
   column('Номер гос акта на землю', 'areaAct', 150, false),
   column('Номер договора', 'rentContractNumber', 150, false),
   column('Статус оформления земельного участка', 'registrationStatusLocation', 150, false),
+=======
+  {
+    title: 'код местоположения',
+    dataIndex: 'code',
+    width: 130,
+    className: 'show',
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => {a.code && a.code.localeCompare(b.code) },
+      multiple: 1,
+    },
+
+  },
+  {
+    title: 'Город',
+    dataIndex: 'city',
+    width: 80,
+    className: 'show',
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.city.localeCompare(b.city),
+      multiple: 1,
+    },
+  },
+  {
+    title: 'Почтовый индекс',
+    dataIndex: 'post',
+    width: 80,
+    className: 'show',
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.post.localeCompare(b.post),
+      multiple: 1,
+    },
+  },
+  {
+    title: 'Район',
+    dataIndex: 'district',
+    width: 80,
+    className: 'show',
+    isShowed: true,
+    sorter: {
+      compare: (a, b) => a.district.localeCompare(b.district),
+      multiple: 1,
+    },
+  },
+  {
+    title: 'Адрес юридический',
+    dataIndex: 'adress_j',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Кадастровый номер',
+    dataIndex: 'cadastralNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Площадь',
+    dataIndex: 'area',
+    width: 100,
+    className: 'show',
+    isShowed: true
+  },
+  {
+    title: 'Номер договора',
+    dataIndex: 'contractNumber',
+    width: 150,
+    className: 'show',
+    isShowed: true
+  },
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
   {
     width: 40,
     title: '',
@@ -197,13 +350,29 @@ const PanelDesign = (props) => {
   }, [location])
 
   if (error) return <p>Error :(</p>;
-  if (loading) return <Preloader size={'large'}/>;
+<<<<<<< HEAD
+  if (loading) return <LoadingAntd/>;
+=======
+  if (loading) return <Preloader/>;
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
   if (data) {
+    let null2str = (item) => item ? item : '';
+    let null2strKey = (item, key) => item ? null2str(item[key]) : '';
+    let null2bool = (item) => item ? item : false;
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
+<<<<<<< HEAD
       hasArea: null2bool(item.node.hasArea),
       coordinates: null2str(item.node.coordinate),
+=======
+      code: '#1020050301323',
+      city: (item.node.postcode  && item.node.postcode.district && item.node.postcode.district.city) && item.node.postcode.district.city.title,
+      district: (item.node.postcode  && item.node.postcode.district) && item.node.postcode.district.title ,
+      post: item.node.postcode && item.node.postcode.title,
+      adress_j: item.node.legalAddress && item.node.legalAddress.address,
+      marketingAddress:  item.node.marketingAddress && item.node.marketingAddress.address,
       contractNumber: item.node.rentContractNumber ,
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
       cadastralNumber: item.node.cadastralNumber,
       comment: null2str(item.node.comment),
       code: '', // TODO
@@ -211,6 +380,7 @@ const PanelDesign = (props) => {
       district: item.node.postcode ? item.node.postcode.district.title : '',
       adress_j: null2strKey(item.node.legalAddress,  'address'),
       area: item.node.area,
+<<<<<<< HEAD
       rentContractNumber: null2str(item.node.rentContractNumber),
       rentContractStart: null2str(item.node.rentContractStart),
       rentContractEnd: null2str(item.node.rentContractEnd),
@@ -223,6 +393,12 @@ const PanelDesign = (props) => {
       areaAct: null2str(item.node.areaAct),
       familyConstruction: null2strKey(item.node.familyConstruction, 'title'),
   }));
+=======
+      constructionQuantity: item.node.constructions.edges ? item.node.constructions.edges.length : 0,
+      targetPurpose: item.node.purposeLocation &&item.node.purposeLocation.title ,
+      comment: item.node.comment ,
+    }));
+>>>>>>> c078deb0cae5227f280edfd1c92f8dfc45c29dca
   }
 
   const changeColumns = (dataIndex) => {

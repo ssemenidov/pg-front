@@ -50,7 +50,31 @@ const POST_T = gql`
       }
     }
   }
-`; 
+`;
+const FORMAT_T = gql`
+  query SearchFormat($family: String) {
+    searchFormat(model_Underfamily_Family_Title: $family) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+const FAMILY_T = gql`
+  query {
+    searchFamilyConstruction {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`
 const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
@@ -64,9 +88,19 @@ const FilterBar = () => {
   const onReset = () => {
     form.resetFields();
   };
-  const city = useQuery( CITY_T).data;
-  const district = useQuery( DISTRICT_T).data;
-  const post = useQuery( POST_T).data;
+  const city = useQuery(CITY_T).data;
+  const district = useQuery(DISTRICT_T).data;
+  const post = useQuery(POST_T).data;
+  const families = useQuery(FAMILY_T).data;
+  let [selected_family, setSelectedFamily] = useState("")
+  const queriedFormat = useQuery(FORMAT_T, { variables: {
+    family: selected_family
+  } });
+  let format = queriedFormat.data;
+  let filteredFormats = Array.from(new Set(
+    format && format.searchFormat && format.searchFormat.edges && format.searchFormat.edges.map(item => item.node.title)))
+  console.log(1111, families)
+
   // if (!city || !district || !post){
   //   return <span></span>;
   // }
@@ -88,7 +122,7 @@ const FilterBar = () => {
                   </StyledSelect.Option>
                 )}
               </StyledSelect>
-             
+
             </Form.Item>
             <Form.Item name="district">
               <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
@@ -101,15 +135,17 @@ const FilterBar = () => {
               </StyledSelect>
             </Form.Item>
             <Form.Item name="post">
-            <StyledSelect placeholder={<><img src={postIcon} /><span>Почтовый индекс</span> </>} size={'large'}>
-            {post && post.searchPostcode.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+              <StyledSelect placeholder={<><img src={postIcon} /><span>Почтовый индекс</span> </>} size={'large'}>
+                {post && post.searchPostcode.edges.filter((item) => {
+                  return item.node.title && item.node.title.length > 0
+                }).map((item) =>
+                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                     <img src={postIcon} />
-                  <span>{item.node.title}</span>
+                    <span>{item.node.title}</span>
                   </StyledSelect.Option>
-             )}
-              </StyledSelect>           
-               </Form.Item>
+                )}
+              </StyledSelect>
+            </Form.Item>
           </StyledPanel>
           <StyledPanel header="По адресу" key="2">
             <Form.Item name="adress_m">
@@ -122,9 +158,16 @@ const FilterBar = () => {
 
           <StyledPanel header="По параметрам" key="4">
             <Form.Item name="family">
-              <StyledSelect placeholder={<><img src={anchorIcon} /><span>Семейство</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 2</span></StyledSelect.Option>
+              <StyledSelect placeholder={<><img src={anchorIcon} /><span>Семейство</span> </>} size={'large'}
+                            onSelect={selectedValue => setSelectedFamily(selectedValue)}
+              >
+                {families && families.searchFamilyConstruction && [...families.searchFamilyConstruction.edges,
+                  {node: {id: 'Empty', title: ''}}
+                ].map(item =>
+                  <StyledSelect.Option key={item.node.id} value={item.node.title}>
+                    <img src={anchorIcon} /><span>{item.node.title}</span>
+                  </StyledSelect.Option>
+                )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="InventNumber">
@@ -132,8 +175,9 @@ const FilterBar = () => {
             </Form.Item>
             <Form.Item name="format">
               <StyledSelect placeholder={<><img src={anchorIcon} /><span>Формат</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 2</span></StyledSelect.Option>
+                {filteredFormats.map(item =>
+                  <StyledSelect.Option key={item} value={item}><img src={anchorIcon} /><span>{item}</span></StyledSelect.Option>
+                )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="actual">
