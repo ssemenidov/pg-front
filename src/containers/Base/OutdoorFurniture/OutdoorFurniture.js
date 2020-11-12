@@ -29,12 +29,12 @@ const CONSTRUCT_CREATE = gql`
 const ADD_CONSTRUCT_TO_LOCATION = gql`
   mutation (
   $id: ID!
-  $construction: [ID]
+  $constructions: [ID]
 ) {
   updateLocation(
     id: $id
     input: {
-      construction: $construction
+      constructions: $constructions
     }
   ) {
     location {
@@ -68,7 +68,7 @@ const OutdoorFurniture = () => {
     if(constructionsIdSet && constructionsIdSet.length) {
       updateLocation({ variables: {
           id: id,
-          construction: constructionsIdSet
+          constructions: constructionsIdSet
         }})
           .then((response) => {
             history.push(`/base/locations/location/${id}`);

@@ -17,18 +17,47 @@ const Location = (props) => {
           node {
             id
             area
-            document
             cadastralNumber
+            purposeLocation {
+              id
+              title
+            }
             comment
+
             postcode {
+              id
               title
               district {
+                id
                 title
                 city {
+                  id
                   title
                 }
               }
             }
+            legalAddress {
+              id
+              address
+            }
+
+            resolutionNumber
+            resolutionNumberDate
+
+            areaAct
+            areaActDate
+
+            rentContractEnd
+            rentContractStart
+            rentContractNumber
+            rentContractCreatedAt
+            registrationStatusLocation {
+              id
+              title
+              subcathegory
+            }
+
+            document
             marketingAddress {
               address
             }
@@ -38,6 +67,11 @@ const Location = (props) => {
                   id
                   code
                   coordinates
+                  location {
+                    marketingAddress {
+                      address
+                    }
+                  }
                   format {
                     title
                   }
@@ -47,18 +81,6 @@ const Location = (props) => {
             familyConstruction {
               id
               title
-            }
-            areaAct
-            areaActDate
-            resolutionNumber
-            resolutionNumberDate
-            rentContractEnd
-            rentContractStart
-            rentContractNumber
-            rentContractCreatedAt
-            registrationStatusLocation {
-              title
-              subcathegory
             }
           }
         }

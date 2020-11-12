@@ -43,7 +43,7 @@ export const Contract = (props) => {
             <InputTitle>Статус оформления</InputTitle>
             <StyledSelect
               onChange={handleChangeSelect}
-              defaultValue={item.rentRegistrationStatus ? item.rentRegistrationStatus :  <img src={bellIcon} />}
+              defaultValue={item.registrationStatusLocation ? item.registrationStatusLocation.title :  <img src={bellIcon} />}
             >
               <StyledSelect.Option value='case 1'> <img src={bellIcon} /> case 1</StyledSelect.Option>
               <StyledSelect.Option value='case 2'> <img src={bellIcon} /> case 2</StyledSelect.Option>

@@ -44,7 +44,7 @@ const POST_T = gql`
       }
     }
   }
-`; 
+`;
 export const Address = (props) => {
   const [item, setItem] = useContext(locationContext);
   const city = useQuery( CITY_T).data;
@@ -63,11 +63,36 @@ export const Address = (props) => {
 
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.city ? item.city.id : <img src={cityIcon} />}
-              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
+              defaultValue={
+                (
+                  item.postcode
+                  && item.postcode.district
+                  && item.postcode.district.city
+                )
+                ? item.postcode.district.city.title
+                : <img src={postIcon} />
+              }
+              onChange={(value, { title }) => setItem({
+                ...item,
+                postcode: {
+                  ...item.postcode,
+                  district: {
+                    ...item.postcode.district,
+                    city: {
+                      ...item.postcode.district.city,
+                      id: value,
+                      title: title
+                    }
+                  }
+                }
+              })}
+            >
              {city && city.searchCity.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} 
-                value={item.node.id}>
+                <StyledSelect.Option
+                  key ={item.node.id}
+                  value={item.node.id}
+                  titl={item.node.title}
+                >
                   <img src={cityIcon} />
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -80,10 +105,25 @@ export const Address = (props) => {
           <div style={{ width: '100%' }}>
              <InputTitle>Район</InputTitle>
              <StyledSelect
-              defaultValue={item.district ? item.district.id : <img src={districtIcon} />}
-              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              defaultValue={(item.postcode && item.postcode.district ) ? item.postcode.district.title : <img src={districtIcon} />}
+              onChange={(value, { title }) => setItem({
+                ...item,
+                postcode: {
+                  ...item.postcode,
+                  district: {
+                    ...item.postcode.district,
+                    id: value,
+                    title: title
+                  }
+                }
+              })}
+             >
              {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option
+                  key={item.node.id}
+                  value={item.node.id}
+                  title={item.node.title}
+                >
                     <img src={districtIcon} />
                     <span>{item.node.title}</span>
                    </StyledSelect.Option>
@@ -95,10 +135,18 @@ export const Address = (props) => {
           <div style={{ width: '100%' }}>
             <InputTitle>Код района</InputTitle>
              <StyledSelect
-              defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
-              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              defaultValue={item.postcode ? item.postcode.title : <img src={postIcon} /> }
+              onChange={(value, { title }) => setItem({ ...item, postcode: {
+                ...item.postcode, id: value
+               }
+              })}
+             >
               {post && post.searchPostcode.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option
+                  key ={item.node.id}
+                  value={item.node.id}
+                  title={item.node.title}
+                >
                     <img src={postIcon} />
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -111,8 +159,15 @@ export const Address = (props) => {
             <InputTitle>Юридический адрес</InputTitle>
             <StyledInput
              prefix={<img src={anchorIcon} />}
-              value={item.address? item.address:""}
-              onChange={(e) => {setItem({...item, address:e.target.value})}}
+              value={item.legalAddress ? item.legalAddress.address : ""}
+              onChange={(e) => {setItem({
+                ...item,
+                legalAddress: {
+                  ...item.legalAddress,
+                  address: e.target.value
+                }
+                })
+              }}
               placeholder="Абая - ост. ГорВодоКанал"
               size={'large'}
             />

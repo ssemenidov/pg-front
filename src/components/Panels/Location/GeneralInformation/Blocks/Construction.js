@@ -7,7 +7,7 @@ import tvIcon from '../../../../../img/input/tv.svg';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 import infoIcon from '../../../../../img/input/info.svg';
 
-export const Construction = ({ code, marketingAddress, familyConstruction, remove, open }) => {
+export const Construction = ({ code, location, format, remove, open }) => {
 
   return (
     <Medium>
@@ -35,11 +35,11 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
               prefix={<img src={anchorIcon} />}
               style={{ width: '50%' }}
               placeholder="Алматы, Абая ост."
-              defaultValue={marketingAddress ? marketingAddress : 'Нет данных'}
+              defaultValue={location && location.marketingAddress && location.marketingAddress.address}
               //onChange={(e) => {setItem({...item, postcode:e.target.value})}}
               size={'large'}
             />
-         
+
           </div>
         </Row>
         <Row style={{ borderBottom: '1px solid #d3dff0' }}>
@@ -47,13 +47,7 @@ export const Construction = ({ code, marketingAddress, familyConstruction, remov
           <p>Формат</p>
             <p>
               {
-                (
-                  familyConstruction
-                  && familyConstruction.underFamilyConstruction
-                  && familyConstruction.underFamilyConstruction.edges.length
-                )
-                ? 'null'
-                : 'Нет данных'
+                format ? format.title : 'Нет данных'
               }
             </p>
           </div>

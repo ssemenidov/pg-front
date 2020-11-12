@@ -6,7 +6,6 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 
 import PanelAgreements from './PanelAgreements';
 
-
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
