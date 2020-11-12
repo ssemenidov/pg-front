@@ -43,7 +43,7 @@ const PARTNER_T = gql`
       }
     }
   }
-`;  
+`;
 export default function GeneralInfo() {
   const [item, setItem] = useContext(partnerContext);
   const sector = useQuery( SECTOR_T).data;

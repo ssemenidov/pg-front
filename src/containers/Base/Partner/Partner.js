@@ -129,7 +129,7 @@ useMemo(() => {
     setItem(data.searchPartner.edges[0].node);
   }
 }, [data]);
-console.log(item);
+
 if (error) return <h3>Error :(</h3>;
 if (loading) return <h3></h3>;
   return (

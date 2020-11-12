@@ -17,8 +17,8 @@ export default function BankAccount() {
             <InputTitle>Банк получателя</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.legalAddress ? item.legalAddress : ''}
-              onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
+              defaultValue={item.bankRecipient ? item.bankRecipient : ''}
+              onChange={(e) => setItem({ ...item, bankRecipient: e.target.value })}></StyledInput>
 
           </div>
         </Row>

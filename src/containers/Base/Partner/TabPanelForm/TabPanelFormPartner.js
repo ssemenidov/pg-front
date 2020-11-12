@@ -64,15 +64,16 @@ const PARTNER_UPDATE = gql`
     $partnerType:ID
     $clientType:ID
     $binNumber:String
-    #$city:ID
+
+    $legalAddressPostcode: ID
     $district:ID
     $legalAddress: ID
     $actualAddress: ID
+
     $bankRecipient: String
     $iik: String
     $bik: String
     $kbe: String
-    #$agencyCommission:Int
   )
   {
     updatePartner(
@@ -84,21 +85,22 @@ const PARTNER_UPDATE = gql`
         binNumber:$binNumber
         partnerType:$partnerType
         clientType:$clientType
-        #city:$city
+
         district:$district
         legalAddress:$legalAddress
         actualAddress: $actualAddress
+        legalAddressPostcode: $legalAddressPostcode
+
         bankRecipient: $bankRecipient
         iik: $iik
         bik: $bik
         kbe: $kbe
-        #agencyCommission:$agencyCommission
       }
     ) {
       partner {
        id
       }
-  }
+    }
   }
 `;
 
@@ -113,14 +115,17 @@ export default function   TabPaneForm(props) {
   const Update = (e) => {
     e.preventDefault();
     updatePartner({ variables: {
-      ...item,
-      workingSector:[].push(item.workingSector && item.workingSector.id) ,
-      partnerType:item.partnerType && item.partnerType.id ,
-      clientType:item.clientType && item.clientType.id ,
-      city:item.city && item.city.id ,
-      district:item.district && item.district.id ,
-      postcode:item.postcode && item.postcode.id ,
-    } });
+        ...item,
+        workingSector:[].push(item.workingSector && item.workingSector.id) ,
+        partnerType: item.partnerType && item.partnerType.id,
+        clientType: item.clientType && item.clientType.id,
+
+        district: item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.id,
+        legalAddressPostcode: item.legalAddressPostcodeId,
+        actualAddress: item.actualAddress && item.actualAddress.id,
+        legalAddress: item.legalAddress && item.legalAddress.id
+      }
+    });
 
     // history.push(`/base/partners`);
     // history.go(0);
@@ -169,7 +174,7 @@ export default function   TabPaneForm(props) {
   }
 
   return (
-    <form style={{ width: '100%' }}>
+    <div style={{ width: '100%' }}>
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
@@ -229,6 +234,6 @@ export default function   TabPaneForm(props) {
           <STabPanel>{panel4}</STabPanel>
         </STabs>
       </div>
-    </form>
+    </div>
   );
 }
