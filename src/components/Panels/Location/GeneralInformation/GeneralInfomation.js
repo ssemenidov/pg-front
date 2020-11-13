@@ -17,20 +17,24 @@ const GeneralInformation = () => {
 
   let newCoords;
 
-  const { construction } = item;
+  const { constructions } = item;
 
   const removeConstruction = (e, id) => {
     e.preventDefault();
 
-    let edgesLocal = construction.edges;
+    let edgesLocal = constructions.edges;
 
     edgesLocal = edgesLocal.filter(el => el.node.id != id);
 
     setItem({
       ...item,
-      construction: {
+      constructions: {
         edges: edgesLocal
-      }
+      },
+      constructionsRemove: [
+        ...(item.constructionsRemove && item.constructionsRemove),
+        id
+      ]
     })
   }
   const openConstruction = (e, id) => {
@@ -75,8 +79,8 @@ const GeneralInformation = () => {
       </div>
 
       {
-        construction && construction.edges.length
-        ? construction.edges.map(({ node }, index) => (
+        constructions && constructions.edges.length
+        ? constructions.edges.map(({ node }, index) => (
             <div key={`${node.id}-${index}`} style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
               <Construction
                 remove={(e) => removeConstruction(e, node.id)}
@@ -89,7 +93,7 @@ const GeneralInformation = () => {
           ))
         : ''
       }
-  
+
       <br/>
       <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
         <AkimatResolution />

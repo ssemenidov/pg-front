@@ -7,20 +7,17 @@ import { Upload, message } from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledButton } from '../../../../Styles/DesignList/styles';
 
-
 const UPLOAD_DOCUMENTS = gql`
-  mutation($id: ID! $document: Upload, $prolongation: Upload) {
+  mutation($id: ID! $document: Upload) {
     updateLocation(
       id: $id,
       input: {
-        document: $document,
-        prolongation: $prolongation
+        document: $document
       }
     ) {
       location {
         id
         document
-        prolongation
       }
     }
   }

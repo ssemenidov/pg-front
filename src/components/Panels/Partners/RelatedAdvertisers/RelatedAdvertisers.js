@@ -73,12 +73,12 @@ const RelatedAdvertisers = (props) => {
 
   useMemo(() => {
     if(item.advertisers.edges && item.advertisers.edges.length) {
-      const advertisersList = item.advertisers.edges.node.map((item, index) => ({
+      const advertisersList = item.advertisers.edges.map((item, index) => ({
         key: index,
-        code: item.code,
-        title: item.title,
-        workingSector: item.workingSector ? item.workingSector.title : '',
-        createdAt: item.createdAt,
+        code: item.node.code,
+        title: item.node.title,
+        workingSector: item.node.workingSector ? item.node.workingSector.title : '',
+        createdAt: item.node.createdAt
       }));
 
       setData(advertisersList);

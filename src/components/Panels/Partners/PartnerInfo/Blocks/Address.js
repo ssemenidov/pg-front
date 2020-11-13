@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, {useContext, useEffect} from 'react';
+import { useQuery, useLazyQuery, gql } from '@apollo/client';
+import styled from 'styled-components';
+import { Radio } from 'antd';
 
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 
-import styled from 'styled-components';
-import { Radio } from 'antd';
 import { BlockBody, Row, Quarter, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
 
@@ -38,8 +38,12 @@ const DISTRICT_T = gql`
     }
   `;
 const POST_T = gql`
-  {
-    searchPostcode {
+  query searchPostcode($district_City_Title: String) {
+    searchPostcode(
+    title_Regex: "^$",
+    district_Title_Regex: "^$",
+    district_City_Title: $district_City_Title
+    ) {
       edges {
         node {
           id
@@ -47,16 +51,27 @@ const POST_T = gql`
         }
       }
     }
-  }
+}
 `;
 export default function Adress() {
   const [item, setItem] = useContext(partnerContext);
+
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
-  const post = useQuery( POST_T).data;
-  if (!city || !district || !post){
+  const [posts, postData] = useLazyQuery( POST_T);
+
+  useEffect(() => {
+    posts({
+      variables: {
+        district_City_Title: item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.city && item.legalAddressPostcode.district.city.title
+      }
+    })
+  }, [item]);
+
+  if (!city || !district || !postData.data){
     return <span></span>;
   }
+
   return (
     <Quarter style={{ height: '100%' }}>
       <BlockTitle>Адрес</BlockTitle>
@@ -65,10 +80,28 @@ export default function Adress() {
           <div style={{ width: '100%' }}>
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.city ? item.city.id : <img src={cityIcon} />}
-              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
+              defaultValue={item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.city && item.legalAddressPostcode.district.city.title}
+              onChange={(value, { title }) => setItem({
+                ...item,
+                legalAddressPostcode: {
+                  ...item.legalAddressPostcode,
+                  district: {
+                    ...item.legalAddressPostcode.district,
+                    city: {
+                      ...item.legalAddressPostcode.district.city,
+                      title: title,
+                      id: value
+                    }
+                  }
+                }
+              })}
+            >
               {city && city.searchCity.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option
+                    key={item.node.id}
+                    value={item.node.id}
+                    title={item.node.title}
+                >
                   <img src={cityIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
@@ -80,10 +113,32 @@ export default function Adress() {
           <div style={{ width: '58%' }}>
           <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={item.district ? item.district.id :  <img src={districtIcon} />}
-              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              defaultValue={
+                (
+                    item.legalAddressPostcode &&
+                    item.legalAddressPostcode.district
+                )
+                    ? item.legalAddressPostcode.district.title
+                    :  <img src={districtIcon} />
+              }
+              onChange={(value, { title }) => setItem({
+                ...item,
+                legalAddressPostcode: {
+                  ...item.legalAddressPostcode,
+                  district: {
+                    ...item.legalAddressPostcode.district,
+                    title: title,
+                    id: value
+                  }
+                }
+              })}
+            >
               {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option
+                  key={item.node.id}
+                  value={item.node.id}
+                  title={item.node.title}
+                >
                     <img src={districtIcon} />
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -93,16 +148,20 @@ export default function Adress() {
           <div style={{ width: '38%' }}>
             <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={item.legalAddressPostcode ? item.legalAddressPostcode.id : <img src={postIcon} /> }
-              onChange={(value) => setItem({ ...item, legalAddressPostcodeId: value })}>
-              {post && post.searchPostcode.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                    <img src={postIcon} />
+              defaultValue={item.legalAddressPostcode ? item.legalAddressPostcode.title : <img src={postIcon} /> }
+              onChange={(value) => setItem({ ...item, legalAddressPostcodeId: value })}
+            >
+             {postData.data && postData.data.searchPostcode.edges.map((item)=>
+                <StyledSelect.Option
+                    key={item.node.id}
+                    value={item.node.id}
+                    titl={item.node.title}
+                >
+                  <img src={postIcon} />
                   <span>{item.node.title}</span>
-                  </StyledSelect.Option>
+                </StyledSelect.Option>
              )}
             </StyledSelect>
-
           </div>
         </Row>
         <Row>
@@ -110,8 +169,14 @@ export default function Adress() {
             <InputTitle>Юридический адрес</InputTitle>
             <StyledInput
               prefix={<img src={ houseIcon } />}
-              defaultValue={item.legalAddress ? item.legalAddress : ''}
-              onChange={(e) => setItem({ ...item, legalAddress: e.target.value })}></StyledInput>
+              defaultValue={item.legalAddress ? item.legalAddress.address : ''}
+              onChange={(e) => setItem({
+                ...item,
+                legalAddress: {
+                  ...item.legalAddress,
+                  address: e.target.value
+                }
+              })}></StyledInput>
           </div>
         </Row>
         <Row>
@@ -119,8 +184,14 @@ export default function Adress() {
             <InputTitle>Фактический адрес</InputTitle>
             <StyledInput
               prefix={<img src={ houseIcon } />}
-              defaultValue={item.actualAddress ? item.actualAddress : ''}
-              onChange={(e) => setItem({ ...item, actualAddress: e.target.value })}></StyledInput>
+              defaultValue={item.actualAddress ? item.actualAddress.address : ''}
+              onChange={(e) => setItem({
+                ...item,
+                actualAddress: {
+                  ...item.actualAddress,
+                  address: e.target.value
+                }
+              })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

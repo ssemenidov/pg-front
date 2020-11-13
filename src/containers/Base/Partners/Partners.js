@@ -48,7 +48,7 @@ const ADD_ADVERTISER_TO_PARTNER = gql`
     updatePartner(
       id: $id
       input: {
-        advertisers: $advertisers
+        advertisersAdd: $advertisers
       }
     ) {
       partner {
