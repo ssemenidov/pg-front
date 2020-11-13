@@ -7,10 +7,10 @@ import { useHistory } from 'react-router';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(comProjectContext);
+  const [filter, setFilter, constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
   const columns = [
     {
-      title: 'код рекламной стороны',
+      title: 'Код',
       dataIndex: 'code',
       width: 130,
       sorter: {
@@ -2146,6 +2146,9 @@ const PanelDesign = (props) => {
           columns={columns}
           data={data1}
           history={useHistory()}
+          select={true}
+          constructionsIdSet={constructionsIdSet}
+          setConstructionsIdSet={setConstructionsIdSet}
           link="/sales/project_card"
         />
       </div>

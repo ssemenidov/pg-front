@@ -19,6 +19,7 @@ export const comProjectContext = createContext();
 
 const Com_projects = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [constructionsIdSet, setConstructionsIdSet] = useState([]);
   const [filter, setFilter] = useState({});
 
   const history = useHistory();
@@ -29,7 +30,7 @@ const Com_projects = () => {
   ];
 
   return (
-    <comProjectContext.Provider value={[filter, setFilter]}>
+    <comProjectContext.Provider value={[filter, setFilter, constructionsIdSet, setConstructionsIdSet]}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div className="flex-margin">
           <LeftBar>
