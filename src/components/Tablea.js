@@ -310,7 +310,11 @@ const StyledTable = styled(Table)`
     background: transparent !important;
   }
 
-  .ant-table-body tr td:not(:first-child) {
+  .ant-table-body tr:nth-child(odd) {
     background: #f5f7fa !important;
   }
+
+  /* .ant-table-body tr td:not(:first-child) {
+    background: #f5f7fa !important;
+  } */
 `;
