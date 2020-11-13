@@ -1,75 +1,41 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { crewsContext } from './Crews';
-import { useQuery, gql, useMutation } from '@apollo/client';
-
+import { useQuery, gql } from '@apollo/client';
 import styled from 'styled-components';
 import { List } from 'antd';
+
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import Table from '../../../components/Tablea';
-import oval from '../../../img/Oval.svg';
 import Preloader from '../../../components/Preloader/Preloader';
+import { column } from '../../../components/Table/utils';
+
+import oval from '../../../img/Oval.svg';
+
+const initColumnsForPopup = [
+  column('Инвентарный номер конструкции (ОТО)', 'code', 130, true),
+  column('Формат', 'format', 100, true),
+  column('Город', 'city', 100, true),
+  column('Адрес', 'adress', 100, true),
+  column('Статус', 'status', 100, true),
+  column('Дата начала', 'date_start', 100, true)
+];
+const initColumnsTable = [
+  column('Инвентарный номер конструкции (ОТО)', 'code', 130, true),
+  column('Формат', 'format', 100, true),
+  column('Город', 'city', 100, true),
+  column('Адрес', 'adress', 100, true),
+  column('Статус', 'status', 100, true),
+  column('Дата начала', 'date_start', 100, true)
+];
+
 
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
   const[current,setCurrent]=useState(null);
-  const columns = [
-    {
-      title: 'Инвентарный номер конструкции (ОТО)',
-      dataIndex: 'code',
 
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Формат',
-      dataIndex: 'format',
+  const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
+  const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Адрес',
-      dataIndex: 'adress',
-      width: 100,
-       sorter: {
-            compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Статус',
-      dataIndex: 'status',
-      width: 100,
-       sorter: {
-            compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Дата начала ',
-      dataIndex: 'date_start',
-      width: 100,
-       sorter: {
-            compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
-            multiple: 1,
-          },
-    },
-  ];
   var data1 = [
     // {
     //   key: 1,
@@ -179,7 +145,30 @@ const PanelDesign = (props) => {
     }));
   }
   }
-  console.log("b".localeCompare("b"));
+
+  const changeColumns = (dataIndex) => {
+    let localColumnsForPopup = columnsForPopup.map((col, index) => {
+      if(col.dataIndex  && col.dataIndex === dataIndex) {
+        col.isShowed = !col.isShowed;
+        return col
+      }
+      return col
+    })
+
+    setColumnsForPopup(localColumnsForPopup);
+
+    const newColumnTables = localColumnsForPopup.filter(item => {
+      if(item.isShowed) {
+        return item
+      }
+      if(item.dataIndex === 'btn-remove') {
+        return item
+      }
+    });
+
+    setColumnsTable(newColumnTables);
+  };
+
   if( !crews ){
     return <span></span>
   }
@@ -199,7 +188,17 @@ const PanelDesign = (props) => {
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
         {loading && <Preloader size={'large'}/>}
-        {!loading && <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />}
+        {!loading &&
+          <Table
+            style={{ width: '100%' }}
+            columnsForPopup={columnsForPopup}
+            columns={columnsTable}
+            data={data1}
+            enableChoosePeriod={false}
+            changeColumns={changeColumns}
+            title={`Назначеные конструкции`}
+          />
+        }
       </div>
       </div>
       <style>
