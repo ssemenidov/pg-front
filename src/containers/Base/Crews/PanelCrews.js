@@ -28,7 +28,6 @@ const initColumnsTable = [
   column('Дата начала', 'date_start', 100, true)
 ];
 
-
 const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
   const[current,setCurrent]=useState(null);
