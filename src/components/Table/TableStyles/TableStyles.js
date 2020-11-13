@@ -28,7 +28,7 @@ export const Styles = styled.div`
         .td {
           background-color: #f5f7fa;
         }
-        nth-last-child(1) {
+        :nth-last-child(1) {
           background: cyan;
         }
       }
