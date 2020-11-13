@@ -1,38 +1,34 @@
 import React, { useContext, useEffect } from 'react';
+import {gql, useQuery} from '@apollo/client';
+import { DatePicker } from 'antd';
 import moment from 'moment';
-import { locationContext } from '../../../../../containers/Base/Location/Location';
 
-import {DatePicker,Select,Input} from 'antd';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
-import anchorIcon from '../../../../../img/input/anchor.svg';
+import { StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
+
 import bellIcon from '../../../../../img/input/bell.svg';
 import grateIcon from '../../../../../img/input/grate.svg';
+
+import { locationContext } from '../../../../../containers/Base/Location/Location';
+
+const SEARCH_REG_STATUS = gql`
+  query searchLocRegistrationStatus {
+    searchLocRegistrationStatus {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
 
 export const Contract = (props) => {
   const [item, setItem] = useContext(locationContext);
 
-  function onChangeDatePicker(date, fieldName) {
-    const dateNow = date && date;
+  const registrationStatus = useQuery(SEARCH_REG_STATUS).data;
 
-    if(dateNow) {
-      setItem({
-        ...item,
-        [fieldName]: new Date(dateNow)
-      })
-    }
-  }
-
-  function handleChangeSelect(value) {
-    setItem({
-      ...item,
-      rentRegistrationStatus: value
-    })
-  }
-
-  useEffect(() => {
-    console.log('change item ', item)
-  }, [item]);
 
   return (
     <Medium>
@@ -42,13 +38,34 @@ export const Contract = (props) => {
           <div style={{ width: '19%' }}>
             <InputTitle>Статус оформления</InputTitle>
             <StyledSelect
-              onChange={handleChangeSelect}
-              defaultValue={item.registrationStatusLocation ? item.registrationStatusLocation.title :  <img src={bellIcon} />}
+              onChange={(value, { title }) => {
+                setItem({
+                  ...item,
+                  registrationStatusLocation: {
+                    ...item.registrationStatusLocation,
+                    id: value,
+                    title: title
+                  }
+                })
+              }}
+              defaultValue={
+                item.registrationStatusLocation
+                  ? item.registrationStatusLocation.title
+                  : <img src={bellIcon} />
+              }
             >
-              <StyledSelect.Option value='case 1'> <img src={bellIcon} /> case 1</StyledSelect.Option>
-              <StyledSelect.Option value='case 2'> <img src={bellIcon} /> case 2</StyledSelect.Option>
-              <StyledSelect.Option value='case 3'> <img src={bellIcon} /> case 3</StyledSelect.Option>
-              <StyledSelect.Option value='case 4'> <img src={bellIcon} /> case 4</StyledSelect.Option>
+              {
+                registrationStatus && registrationStatus.searchLocRegistrationStatus.edges.map(({ node }) => (
+                  <StyledSelect.Option
+                    key={node.id}
+                    value={node.id}
+                    title={node.title}
+                  >
+                    <img src={bellIcon} />
+                    { node.title }
+                  </StyledSelect.Option>
+                ))
+              }
             </StyledSelect>
           </div>
           <div style={{ width: '19%' }}>

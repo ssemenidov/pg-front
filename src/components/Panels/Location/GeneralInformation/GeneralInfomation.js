@@ -30,7 +30,11 @@ const GeneralInformation = () => {
       ...item,
       constructions: {
         edges: edgesLocal
-      }
+      },
+      constructionsRemove: [
+        ...(item.constructionsRemove && item.constructionsRemove),
+        id
+      ]
     })
   }
   const openConstruction = (e, id) => {

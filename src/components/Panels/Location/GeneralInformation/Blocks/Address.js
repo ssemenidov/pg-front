@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, {useContext, useEffect} from 'react';
+import {useQuery, gql, useMutation, useLazyQuery} from '@apollo/client';
 
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 import { Input} from 'antd';
@@ -34,8 +34,12 @@ const DISTRICT_T = gql`
     }
   `;
 const POST_T = gql`
-  {
-    searchPostcode {
+  query searchPostcode($district_City_Title: String) {
+    searchPostcode(
+    title_Regex: "^$",
+    district_Title_Regex: "^$",
+    district_City_Title: $district_City_Title
+    ) {
       edges {
         node {
           id
@@ -49,9 +53,17 @@ export const Address = (props) => {
   const [item, setItem] = useContext(locationContext);
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
-  const post = useQuery( POST_T).data;
+  const [posts, postData] = useLazyQuery( POST_T);
 
-  if (!city || !district || !post){
+  useEffect(() => {
+    posts({
+      variables: {
+        district_City_Title: item.postcode && item.postcode.district && item.postcode.district.city && item.postcode.district.city.title
+      }
+    })
+  }, [item]);
+
+  if (!city || !district || !postData.data){
     return <span></span>;
   }
   return (
@@ -87,11 +99,11 @@ export const Address = (props) => {
                 }
               })}
             >
-             {city && city.searchCity.edges.map((item)=>
+             {city && city.searchCity.edges.map((item) =>
                 <StyledSelect.Option
                   key ={item.node.id}
                   value={item.node.id}
-                  titl={item.node.title}
+                  title={item.node.title}
                 >
                   <img src={cityIcon} />
                   <span>{item.node.title}</span>
@@ -137,11 +149,13 @@ export const Address = (props) => {
              <StyledSelect
               defaultValue={item.postcode ? item.postcode.title : <img src={postIcon} /> }
               onChange={(value, { title }) => setItem({ ...item, postcode: {
-                ...item.postcode, id: value
+                ...item.postcode,
+                  title: title,
+                  id: value
                }
               })}
              >
-              {post && post.searchPostcode.edges.map((item)=>
+              {postData.data && postData.data.searchPostcode.edges.map((item) =>
                 <StyledSelect.Option
                   key ={item.node.id}
                   value={item.node.id}
@@ -150,7 +164,7 @@ export const Address = (props) => {
                     <img src={postIcon} />
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
-             )}
+              )}
             </StyledSelect>
           </div>
         </Row>

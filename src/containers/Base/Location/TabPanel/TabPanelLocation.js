@@ -62,7 +62,7 @@ const LOCATION_UPDATE = gql`
     $rentContractCreatedAt: DateTime
     $registrationStatusLocation: ID
 
-    $constructions: [ID]
+    $constructionsRemove: [ID]
   ) {
     updateLocation(
       id: $id
@@ -87,7 +87,7 @@ const LOCATION_UPDATE = gql`
         rentContractCreatedAt: $rentContractCreatedAt
         registrationStatusLocation: $registrationStatusLocation
 
-        constructions: $constructions
+        constructionsRemove: $constructionsRemove
       }
     ) {
       location {
@@ -115,7 +115,7 @@ export default function InnerForm(props) {
       postcode: item.postcode && item.postcode.id,
       legalAddress: item.legalAddress && item.legalAddress.id,
       registrationStatusLocation: item.registrationStatusLocation && item.registrationStatusLocation.id,
-      constructions: constructionIdList
+      constructionsRemove: item.constructionsRemove && item.constructionsRemove
      } });
 
     // history.push(`/base/locations`);
