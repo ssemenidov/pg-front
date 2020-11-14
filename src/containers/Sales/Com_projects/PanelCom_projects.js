@@ -13,6 +13,7 @@ const PanelDesign = (props) => {
 
   let data2 = [];
 
+
   const columns = [
     {
       title: 'Код',
@@ -192,7 +193,7 @@ const PanelDesign = (props) => {
     console.log('loading');
   }
 
-  if (data) {
+  if (data && !filter.date) {
     data2 = data.searchProject.edges.map((project, index) => {
       return {
         key: index,
@@ -215,6 +216,39 @@ const PanelDesign = (props) => {
         manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
       };
     });
+  }
+
+  if (filter.date && data) {
+    const startDate = filter.date[0]._d;
+    const endDate = filter.date[1]._d;
+    data2 = data.searchProject.edges
+      .filter((project) => {
+        const projectDate = new Date(project.node.startDate.split('T')[0]);
+        return projectDate >= startDate && projectDate <= endDate;
+      })
+      .map((project, index) => {
+        return {
+          key: index,
+          code: `#${project.node.code}`,
+          brand: project.node.brand.title,
+          date: project.node.startDate.split('T')[0],
+          advert: project.node.client.partnerType
+            ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : '',
+          advert_agency: project.node.client.partnerType
+            ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : '',
+          city: project.node.reservations.edges.length
+            ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
+                .title
+            : '',
+          sector: project.node.client.workingSectors.edges.length
+            ? project.node.client.workingSectors.edges[0].node.description
+            : '',
+          managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
+          manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
+        };
+      });
   }
   // const example = {
   //   key: 1,
