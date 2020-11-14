@@ -220,23 +220,24 @@ const PanelDesign = (props) => {
           ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
           : '',
         city: project.node.reservations.edges.length ? (
-          <Popover placement="bottom" content={CitiesList} >
-            <div style={{
-            cursor: "pointer"
-          }}>
-            <img
-              src={citiesIcon}
+          <Popover placement="bottom" content={CitiesList}>
+            <div
               style={{
-                marginLeft: '5px',
-                marginRight: '5px',
-                marginBottom: "2px"
-              }}
-              alt="cities"
-            />
-            {
-              project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
-                .title
-            }
+                cursor: 'pointer',
+              }}>
+              <img
+                src={citiesIcon}
+                style={{
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                  marginBottom: '2px',
+                }}
+                alt="cities"
+              />
+              {
+                project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
+                  .title
+              }
             </div>
           </Popover>
         ) : (
@@ -302,6 +303,7 @@ const PanelDesign = (props) => {
         <Table
           style={{ width: '100%' }}
           columns={columns}
+          columnsForPopup={columns}
           // data={data1}
           data={data2}
           history={useHistory()}
