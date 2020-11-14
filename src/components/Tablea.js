@@ -151,19 +151,7 @@ class Tablea extends React.Component {
                           <img src={minusIcon} />
                         </Button>
                       </div>
-                      <Select
-                        defaultValue="Дата"
-                        style={{ marginLeft: '20px' }}
-                        onChange={(value) => {
-                          console.log(value);
-                          this.setState({ datetype: value });
-                        }}>
-                        <Select.Option value="date">Дата</Select.Option>
-                        <Select.Option value="week">Неделя</Select.Option>
-                        <Select.Option value="month">Месяц</Select.Option>
-                        <Select.Option value="year">Год</Select.Option>
-                      </Select>
-                      <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
+                      
                     </div>
                   )}
                 </React.Fragment>
