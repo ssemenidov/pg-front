@@ -22,7 +22,7 @@ const { Panel } = Collapse;
 
 const FilterBar = () => {
   const [form] = Form.useForm();
-  const [filter, setFilter, tableData, setTableData] = useContext(comProjectContext);
+  const [filter, setFilter] = useContext(comProjectContext);
   const onFinish = (values) => {
     setFilter(values);
     // console.log(values.date)
