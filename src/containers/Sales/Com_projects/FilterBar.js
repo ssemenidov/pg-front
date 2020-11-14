@@ -25,11 +25,11 @@ const FilterBar = () => {
   const [filter, setFilter] = useContext(comProjectContext);
   const onFinish = (values) => {
     setFilter(values);
-
-    console.log(filter);
+    console.log(values);
   };
 
   const onReset = () => {
+    setFilter({});
     form.resetFields();
   };
   let list = [];
@@ -85,13 +85,21 @@ const FilterBar = () => {
                 suffixIcon={<ArrowDown />}
                 placeholder="Выберите период"
                 size={'large'}
-                format="DD/MM/YYYY"
+                format="YYYY-MM-DD"
                 style={{ width: '100%' }}
                 className="date-picker"
+                onChange={(val, dateStr) => {
+                  setFilter((prevState) => {
+                    return { ...prevState, date: dateStr };
+                  });
+                }}
               />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По параметрам" key="2">
+            <Form.Item name="code">
+              <Input placeholder="Код проекта" size={'large'} className="placeholder-font" />
+            </Form.Item>
             <InputIcon img={brand} alt="brand icon" />
             <Form.Item name="brand">
               <Input placeholder="Бренд" size={'large'} className="placeholder-font" />
@@ -118,7 +126,7 @@ const FilterBar = () => {
             </Form.Item>
             <InputIcon img={creator} alt="creator icon" />
             <Form.Item name="backOfficeManager">
-              <Input placeholder="Создатель" size={'large'} className="placeholder-font" />
+              <Input placeholder="Менеджер бэк-офиса" size={'large'} className="placeholder-font" />
             </Form.Item>
             <InputIcon img={manager} alt="manager icon" />
             <Form.Item name="sellManager">
@@ -127,7 +135,12 @@ const FilterBar = () => {
           </StyledPanel>
         </Collapse>
         <BtnGroup>
-          <SubmitButton onClick={() => alert('Фильтр')}>Поиск</SubmitButton>
+          <SubmitButton
+            onClick={() => {
+              console.log(filter);
+            }}>
+            Поиск
+          </SubmitButton>
           <ResetButton onClick={onReset}>Очистить</ResetButton>
         </BtnGroup>
       </Form>
