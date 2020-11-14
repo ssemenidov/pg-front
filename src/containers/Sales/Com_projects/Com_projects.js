@@ -21,6 +21,10 @@ const Com_projects = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [constructionsIdSet, setConstructionsIdSet] = useState([]);
   const [filter, setFilter] = useState({});
+  const [tableData, setTableData] = useState({
+    data: [],
+    loaded: false,
+  });
 
   const history = useHistory();
   const links = [
@@ -30,9 +34,14 @@ const Com_projects = () => {
   ];
 
   return (
-    <comProjectContext.Provider value={[filter, setFilter, constructionsIdSet, setConstructionsIdSet]}>
+    <comProjectContext.Provider
+      value={[filter, setFilter, constructionsIdSet, setConstructionsIdSet, tableData, setTableData]}>
       <div style={{ display: 'flex', height: '100%' }}>
-        <div className="flex-margin">
+        <div
+          className="flex-margin"
+          style={{
+            minHeight: '100vh',
+          }}>
           <LeftBar>
             <SearchBtn onClick={() => setCollapsed(!collapsed)} />
             <CreateBtn
