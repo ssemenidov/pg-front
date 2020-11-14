@@ -21,7 +21,7 @@ const PartnersInfo = (props) => {
           node {
             id
             title
-            workingSector {
+            workingSectors {
               edges {
                 node {
                   id

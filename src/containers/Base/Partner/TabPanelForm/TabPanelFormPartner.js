@@ -60,7 +60,7 @@ const PARTNER_UPDATE = gql`
     $id: ID!
     $title:String
     $comment:String
-    $workingSector:[ID]
+    $workingSectors:[ID]
     $partnerType:ID
     $clientType:ID
     $binNumber:String
@@ -74,6 +74,11 @@ const PARTNER_UPDATE = gql`
     $iik: String
     $bik: String
     $kbe: String
+
+    $agencyCommissionType:ID
+    $agencyCommissionValue:Float
+    $isAgencyCommissionWithNds:Boolean
+    $agencyCommissionDistribute:[ID]
   )
   {
     updatePartner(
@@ -81,7 +86,7 @@ const PARTNER_UPDATE = gql`
       input:{
         title:$title
         comment:$comment
-        workingSector:$workingSector
+        workingSectors:$workingSectors
         binNumber:$binNumber
         partnerType:$partnerType
         clientType:$clientType
@@ -95,6 +100,11 @@ const PARTNER_UPDATE = gql`
         iik: $iik
         bik: $bik
         kbe: $kbe
+
+        agencyCommissionType:$agencyCommissionType
+        agencyCommissionValue:$agencyCommissionValue
+        isAgencyCommissionWithNds:$isAgencyCommissionWithNds
+        agencyCommissionDistribute:$agencyCommissionDistribute
       }
     ) {
       partner {
@@ -116,14 +126,17 @@ export default function   TabPaneForm(props) {
     e.preventDefault();
     updatePartner({ variables: {
         ...item,
-        workingSector:[].push(item.workingSector && item.workingSector.id) ,
+        workingSectors:[].push(item.workingSector && item.workingSector.id) ,
         partnerType: item.partnerType && item.partnerType.id,
         clientType: item.clientType && item.clientType.id,
 
         district: item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.id,
         legalAddressPostcode: item.legalAddressPostcodeId,
         actualAddress: item.actualAddress && item.actualAddress.id,
-        legalAddress: item.legalAddress && item.legalAddress.id
+        legalAddress: item.legalAddress && item.legalAddress.id,
+
+        agencyCommissionType: item.agencyCommissionType && item.agencyCommissionType.id,
+        agencyCommissionDistribute: item.agencyCommissionDistribute && item.agencyCommissionDistribute.id
       }
     });
 
