@@ -22,10 +22,10 @@ const { Panel } = Collapse;
 
 const FilterBar = () => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(comProjectContext);
+  const [filter, setFilter, tableData, setTableData] = useContext(comProjectContext);
   const onFinish = (values) => {
     setFilter(values);
-    console.log(values);
+    // console.log(values);
   };
 
   const onReset = () => {
@@ -81,7 +81,7 @@ const FilterBar = () => {
           <StyledPanel header="По дате" key="1">
             <InputIcon img={date} alt="date icon" />
             <Form.Item name="date">
-              <DatePicker
+              <DatePicker.RangePicker
                 suffixIcon={<ArrowDown />}
                 placeholder="Выберите период"
                 size={'large'}
