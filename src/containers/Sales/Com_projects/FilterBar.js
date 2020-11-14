@@ -165,10 +165,12 @@ const FilterBar = () => {
 
         .sector-select>div> .ant-select-selection-placeholder {
           margin-left: 25px !important;
+          font-weight: normal;
         }
 
         .sector-select>div> .ant-select-selection-item {
           padding-left: 25px !important;
+          font-weight: normal;
         }
         `}
       </style>
