@@ -127,14 +127,14 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
           select={flagAddConstructionToLocation}
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                history.push(`/base/construction/${record.key}`);
-                history.go(0);
-              }
-            };
-          }}
+          // onRow={(record) => {
+          //   return {
+          //     onClick: () => {
+          //       history.push(`/base/construction/${record.key}`);
+          //       history.go(0);
+          //     }
+          //   };
+          // }}
         />
       </div>
 
