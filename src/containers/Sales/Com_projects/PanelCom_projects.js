@@ -3,6 +3,9 @@ import { comProjectContext } from './Com_projects';
 
 import Table from '../../../components/Tablea';
 import { useHistory } from 'react-router';
+import citiesIcon from '../../../img/sales/cities.svg';
+
+import { Popover } from 'antd';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 
@@ -12,7 +15,6 @@ const PanelDesign = (props) => {
   );
 
   let data2 = [];
-
 
   const columns = [
     {
@@ -173,6 +175,17 @@ const PanelDesign = (props) => {
     }
   `;
 
+  const CitiesList = () => {
+    return (
+      <>
+        <p>Караганда</p>
+        <p>Караганда</p>
+        <p>Караганда</p>
+        <p>Караганда</p>
+      </>
+    );
+  };
+
   const { loading, error, data } = useQuery(temp, {
     variables: {
       brand: filter.brand,
@@ -206,9 +219,24 @@ const PanelDesign = (props) => {
         advert_agency: project.node.client.partnerType
           ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
           : '',
-        city: project.node.reservations.edges.length
-          ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city.title
-          : '',
+        city: project.node.reservations.edges.length ? (
+          <Popover placement="bottom" content={CitiesList}>
+            <img
+              src={citiesIcon}
+              style={{
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              alt="cities"
+            />
+            {
+              project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
+                .title
+            }
+          </Popover>
+        ) : (
+          ''
+        ),
         sector: project.node.client.workingSectors.edges.length
           ? project.node.client.workingSectors.edges[0].node.description
           : '',
