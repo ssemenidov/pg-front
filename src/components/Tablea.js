@@ -194,6 +194,7 @@ class Tablea extends React.Component {
         <Content>
           <StyledTable
             onRow={onRow}
+            loading={this.props.loading}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,
