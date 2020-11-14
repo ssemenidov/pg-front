@@ -42,46 +42,52 @@ const LOCATION_DELETE = gql`
 const LOCATION_UPDATE = gql`
   mutation(
     $id: ID!
-    $area:String
+    $area:Float
     $cadastralNumber: String
-    $targetPurpose: String
+    $purposeLocation: ID
     $comment: String
-    $address:String
-    $city:ID
-    $district:ID
+
+    $postcode: ID
+    $legalAddress: ID
+
+    $resolutionNumber:String
+    $resolutionNumberDate: DateTime
 
     $areaAct:String
     $areaActDate: DateTime
-    $resolutionNumber:String
-    $resolutionNumberDate: DateTime
+
     $rentContractEnd: DateTime
     $rentContractStart: DateTime
     $rentContractNumber: String
     $rentContractCreatedAt: DateTime
-    $rentRegistrationStatus: String
-    $construction: [ID]
+    $registrationStatusLocation: ID
+
+    $constructionsRemove: [ID]
   ) {
     updateLocation(
       id: $id
       input: {
         area:$area
         cadastralNumber:$cadastralNumber
-        targetPurpose:$targetPurpose
+        purposeLocation:$purposeLocation
         comment: $comment
-        address:$address
-        city:$city
-        district:$district
+
+        postcode:$postcode
+        legalAddress: $legalAddress
+
+        resolutionNumber:$resolutionNumber
+        resolutionNumberDate: $resolutionNumberDate
 
         areaAct:$areaAct
         areaActDate: $areaActDate
-        resolutionNumber:$resolutionNumber
-        resolutionNumberDate: $resolutionNumberDate
+
         rentContractEnd: $rentContractEnd
         rentContractStart: $rentContractStart
         rentContractNumber: $rentContractNumber
         rentContractCreatedAt: $rentContractCreatedAt
-        rentRegistrationStatus: $rentRegistrationStatus
-        construction: $construction
+        registrationStatusLocation: $registrationStatusLocation
+
+        constructionsRemove: $constructionsRemove
       }
     ) {
       location {
@@ -104,11 +110,13 @@ export default function InnerForm(props) {
     }
 
     updateLocation({ variables:  {
-        ...item,
-        city:item.city &&  item.city.id,
-        district:item.district &&  item.district.id,
-        construction: constructionIdList
-       } });
+      ...item,
+      purposeLocation: item.purposeLocation && item.purposeLocation.id,
+      postcode: item.postcode && item.postcode.id,
+      legalAddress: item.legalAddress && item.legalAddress.id,
+      registrationStatusLocation: item.registrationStatusLocation && item.registrationStatusLocation.id,
+      constructionsRemove: item.constructionsRemove && item.constructionsRemove
+     } });
 
     // history.push(`/base/locations`);
     // history.go(0);
@@ -166,7 +174,6 @@ export default function InnerForm(props) {
           <ControlToolbar position="static">
             <STabList>
               {tabs.map((tab, index) => {
-
                 return <STab key={index}>{tab.value}</STab>;
               })}
             </STabList>

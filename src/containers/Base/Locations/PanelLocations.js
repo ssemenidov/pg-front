@@ -102,9 +102,6 @@ query SearchLocation(
   }
 `;
 
-
-
-
 const initColumnsForPopup = [
   // column('Код местоположения', 'code', 130, true),
   column('Семейство конструкции', 'familyConstruction', 80, true),
@@ -169,6 +166,7 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
   const history = useHistory();
   const location = useLocation();
+
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 

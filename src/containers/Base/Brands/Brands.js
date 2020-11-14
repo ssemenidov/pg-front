@@ -38,7 +38,7 @@ const ADD_BRAND_TO_PARTNER = gql`
     updatePartner(
       id: $id
       input: {
-        brands: $brands
+        brandsAdd: $brands
       }
     ) {
       partner {

@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useContext } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
 import { crewsContext } from './Crews';
 import {
@@ -8,13 +8,11 @@ import {
   FilterText,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import {  Collapse, Checkbox, DatePicker, Form} from 'antd';
+import {  Collapse, Form} from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { StyledButton,StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 
-import anchorIcon from '../../../img/input/anchor.svg';
 import districtIcon from '../../../img/input/district.svg';
-import postIcon from '../../../img/input/post.svg';
 import cityIcon from '../../../img/input/input-city.svg';
 import ownerIcon from '../../../img/input/owner.svg';
 import phoneIcon from '../../../img/input/phone.svg';
@@ -55,16 +53,14 @@ const POST_T = gql`
       }
     }
   }
-`; 
+`;
 
-const { Panel } = Collapse;
+
 const FilterBar = () => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(crewsContext);
   const onFinish = (values) => {
     setFilter(values);
-
-    console.log(filter);
   };
 
   const onReset = () => {
@@ -76,6 +72,7 @@ const FilterBar = () => {
   // if (!city || !district || !post){
   //   return <span></span>;
   // }
+
   return (
     <FilterMenu>
       <SearchTitle>

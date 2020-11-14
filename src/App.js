@@ -88,8 +88,9 @@ const App = () => {
           <Route path="/base/documents/agreement/:id?" exact component={Agreement} />
           <Route path="/base/documents/application_base" exact component={ApplicationsBase} />
           <Route path="/base/documents/application/:id?" exact component={ApplicationBase} />
-
-          <Route path="/base/crews" component={Crews} />
+          <Route path="/base/crews" exact component={Crews} />
+          <Route path="/base/crews/:id?" exact component={Crews} />
+          <Route path="/base/crews/:id?/add_outdoor_furniture" exact component={()=><OutdoorFurniture isCrew={true}/> }  />
 
           <Route path="/installations/design" component={Design} />
           <Route path="/installations" exact component={MainInstall} />

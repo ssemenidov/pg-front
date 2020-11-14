@@ -29,11 +29,6 @@ export default function ContactPerson() {
     createContactPerson({variables:item});
   }
 
-
-  useMemo(() => {
-      console.log('test ', item)
-  }, [item])
-
   return (
     <Large>
       <BlockTitle style={{ padding: '10px 26px 15px 24px' }}>

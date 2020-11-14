@@ -45,8 +45,7 @@ export const Checks = styled.div`
 
 export const FilterMenu = styled.div`
   font-family: 'SF UI Display Light', sans-serif;
-  min-width: 240px;
-  max-width: 240px;
+  min-width: 347px;
   border-right: 1px solid #d3dff0;
   background-color: #f5f7fa;
 `;

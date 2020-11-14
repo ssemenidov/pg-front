@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { crewsContext } from './Crews';
+import { useHistory } from 'react-router';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import styled from 'styled-components';
@@ -7,81 +8,7 @@ import { List } from 'antd';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import Table from '../../../components/Tablea';
 import oval from '../../../img/Oval.svg';
-import Preloader from '../../../components/Preloader/Preloader';
-
-const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(crewsContext);
-  const[current,setCurrent]=useState(null);
-  const columns = [
-    {
-      title: 'Инвентарный номер конструкции (ОТО)',
-      dataIndex: 'code',
-
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Формат',
-      dataIndex: 'format',
-
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Адрес',
-      dataIndex: 'adress',
-      width: 100,
-       sorter: {
-            compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Статус',
-      dataIndex: 'status',
-      width: 100,
-       sorter: {
-            compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
-            multiple: 1,
-          },
-    },
-    {
-      title: 'Дата начала ',
-      dataIndex: 'date_start',
-      width: 100,
-       sorter: {
-            compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
-            multiple: 1,
-          },
-    },
-  ];
-  var data1 = [
-    // {
-    //   key: 1,
-    //   code: '126353',
-    //   format: 'Сениор',
-    //   city: 'Алматы',
-    //   adress: 'Достык 25',
-    //   status: 'Размещен',
-    //   date_start: '19.06.2020',
-    // },
-  ];
-  const CREWS_T = gql`
+const CREWS_T = gql`
   query SearchCrew(
     $name: String
     $phone: String
@@ -106,9 +33,9 @@ const PanelDesign = (props) => {
     }
   }
   `;
-  const CREWS_CONSTRUCT_T = gql`
+const CREWS_CONSTRUCT_T = gql`
   query SearchCrew(
-    $id:ID
+    $id:ID!
     $city: String
     $district: String
     $adress: String
@@ -135,7 +62,6 @@ const PanelDesign = (props) => {
                 }
                 statusConnection
                 createdAt
-                techInventNumber
                 location {
                   postcode {
                     title
@@ -158,19 +84,87 @@ const PanelDesign = (props) => {
       }
     }
   }
-  `;
-  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
-  const {error, loading, data} = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} })
+  `;const columns = [
+    {
+      title: 'Код конструкции',
+      dataIndex: 'code',
 
-  const crew_construct = data;
+      width: 130,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },  
+    },
+    {
+      title: 'Формат',
+      dataIndex: 'format',
+
+      width: 100,
+      sorter: {
+        compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
+        multiple: 1,
+      },  
+    },
+    {
+      title: 'Город',
+      dataIndex: 'city',
+      width: 100,
+      sorter: {
+        compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
+        multiple: 1,
+      },  
+    },
+    {
+      title: 'Адрес',
+      dataIndex: 'adress',
+      width: 100,
+       sorter: {
+            compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
+            multiple: 1,
+          },  
+    },
+    {
+      title: 'Статус',
+      dataIndex: 'status',
+      width: 100,
+       sorter: {
+            compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
+            multiple: 1,
+          },  
+    },
+    {
+      title: 'Дата начала ',
+      dataIndex: 'date_start',
+      width: 100,
+       sorter: {
+            compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
+            multiple: 1,
+          },  
+    },
+];
+var data1 = [
+    // {
+    //   key: 1,
+    //   code: '126353',
+    //   format: 'Сениор',
+    //   city: 'Алматы',
+    //   adress: 'Достык 25',
+    //   status: 'Размещен',
+    //   date_start: '19.06.2020',
+    // },
+  ];
+  const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(crewsContext);
+  const[current,setCurrent]=useContext(crewsContext);
+  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
+  const crew_construct = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} }).data;
   if (crew_construct) {
     if(crew_construct.searchCrew.edges[0])
     {
       console.log(crew_construct);
       data1 = crew_construct.searchCrew.edges[0].node.constructions.edges.map((item,index) => ({
       key: item.node.id,
-      // code: item.node.location ? (item.node.location.postcode ? item.node.location.postcode.title : (""+index)) : (""+index),
-      code: item.node.techInventNumber ? item.node.techInventNumber : "",
+      code: item.node.code ? item.node.code : (""+index),
       format: item.node.format && item.node.format.title,
       city: item.node.location && item.node.location.postcode.district.city.title,
       adress: item.node.location &&  item.node.location.marketingAddress.address,
@@ -198,8 +192,7 @@ const PanelDesign = (props) => {
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
-        {loading && <Preloader size={'large'}/>}
-        {!loading && <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />}
+        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />
       </div>
       </div>
       <style>

@@ -49,9 +49,13 @@ export const EditInformation = () => {
               placeholder="Рекламно-информационный объект"
               prefix={<img src={anchorIcon} />}
               size={'large'}
-              defaultValue={item.targetPurpose ? item.targetPurpose:""}
-              onChange={(e) => setItem({ ...item, targetPurpose: e.target.value  })}>
-
+              defaultValue={item.purposeLocation ? item.purposeLocation.title : ""}
+              onChange={(e) => setItem({ ...item, targetPurpose: {
+                ...item.targetPurpose,
+                  title: e.target.value
+                }
+              })}
+            >
             </StyledInput>
           </div>
         </Row>

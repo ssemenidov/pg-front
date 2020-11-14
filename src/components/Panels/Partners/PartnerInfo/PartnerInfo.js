@@ -29,8 +29,6 @@ const PartnerInfo = () => {
     <Commissions />
     </div>
   </div>
-   
-
   );
 };
 
