@@ -14,7 +14,9 @@ const PanelDesign = (props) => {
       dataIndex: 'code',
       width: 130,
       sorter: {
-        compare: (a, b) => a.code.length - b.code.length,
+        compare: (a, b) => {
+          return a.code.split('#')[1] - b.code.split('#')[1];
+        },
         multiple: 1,
       },
     },
@@ -2078,65 +2080,59 @@ const PanelDesign = (props) => {
     },
   ];
 
- 
-  
-  const COMPROJECT_T = gql`
-    query SearchComProject(
-      $date: String
-      $brand: String
-      $advertiser: String
-      $advAgency: String
-      $sector: String
-      $backOfficeManager: String
-      $sellManager: String
-    ) {
-      searchComProject(
-        brand: $brand
-        date: $date
-        advert: $advertiser
-        advert_agency: $advAgency
-        sector: $sector
-        managerb: $backOfficeManager
-        manager: $sellManager
-      ) {
+  let data2 = [];
+
+  const SEARCHLOG_QUERY = gql`
+    query {
+      searchProject {
         edges {
           node {
-            id
+            title
             code
-            date
-            brand
-            advert
-            advert_agency
-            backCity {
+            comment
+            startDate
+            client {
+              title
+              binNumber
+              partnerType {
+                title
+              }
+            }
+            brand {
               title
             }
-            sector
-            managerb
-            manager
           }
         }
       }
     }
   `;
 
-  // const { loading, error, data } = useQuery(COMPROJECT_T, { variables: filter });
-  // if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
-  // if (data) {
-  //   data1 = data.searchComProject.edges.map((item) => ({
-  //     key: item.node.id,
-  //     code: item.node.code,
-  //     brand: item.node.brand,
-  //     date: item.node.date,
-  //     advert: item.node.advert,
-  //     advert_agency: item.node.advert_agency,
-  //     city: item.node.backCity ? item.node.backCity.title : '',
-  //     sector: item.node.sector,
-  //     managerb: item.node.managerb,
-  //     manager: item.node.manager,
+  const { loading, error, data } = useQuery(SEARCHLOG_QUERY);
+  if (error) {
+    console.log(error);
+  }
+  if (loading) {
+    console.log('loading');
+  }
 
-  //   }))
-  // }
+  if (data) {
+    console.log(data);
+    data2 = data.searchProject.edges.map((project, index) => {
+      return {
+        key: index,
+        code: `#${project.node.code}`,
+        brand: project.node.brand.title,
+        date: project.node.startDate.split('T')[0],
+        advert: project.node.client.partnerType
+          ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+          : '',
+        advert_agency: project.node.client.partnerType
+          ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+          : '',
+      };
+    });
+    console.log(data2);
+  }
 
   return (
     <>
@@ -2144,7 +2140,8 @@ const PanelDesign = (props) => {
         <Table
           style={{ width: '100%' }}
           columns={columns}
-          data={data1}
+          // data={data1}
+          data={data2}
           history={useHistory()}
           select={true}
           constructionsIdSet={constructionsIdSet}
