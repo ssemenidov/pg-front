@@ -286,7 +286,7 @@ const PanelDesign = (props) => {
                 <p className="formItem-title">Дополнительно</p>
                 <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
               </Form.Item>
-              <BtnGroup>
+              {/* <BtnGroup> */}
                 <SubmitButton
                   style={{
                     padding: '13px 25px',
@@ -296,7 +296,7 @@ const PanelDesign = (props) => {
                   onClick={() => {}}>
                   Забронировать
                 </SubmitButton>
-              </BtnGroup>
+              {/* </BtnGroup> */}
             </Form>
           </Card>
         </div>
