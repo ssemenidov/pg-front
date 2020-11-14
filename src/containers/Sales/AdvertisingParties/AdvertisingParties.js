@@ -97,7 +97,7 @@ const AdvertisingParties = () => {
             background: #fff !important;
             position: relative;
             min-height: 100vh;
-            height: 100% !important;
+            height: auto !important;
           }
           .layout-sider {
             background: #F5F7FA;
