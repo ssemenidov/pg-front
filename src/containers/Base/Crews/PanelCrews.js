@@ -176,7 +176,6 @@ var data1 = [
     }));
   }
   }
-  console.log("b".localeCompare("b"));
   if( !crews ){
     return <span></span>
   }

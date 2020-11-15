@@ -181,7 +181,7 @@ const FilterBar = () => {
               </StyledSelect>
             </Form.Item>
             <Form.Item name="actual">
-              <StyledSelect showSearch placeholder={<><img src={anchorIcon} /> <span>Горит / Не горит</span> </>} size={'large'}>
+              <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Горит / Не горит</span> </>} size={'large'}>
                 <StyledSelect.Option value={true}><img src={anchorIcon} /><span> Да</span></StyledSelect.Option>
                 <StyledSelect.Option value={false}><img src={anchorIcon} /><span> Нет</span></StyledSelect.Option>
               </StyledSelect>

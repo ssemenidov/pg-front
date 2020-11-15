@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,createContext } from 'react';
 import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,24 +7,24 @@ import { LeftBar } from '../../../components/Styles/DesignList/styles';
 import { useHistory } from 'react-router';
 
 import FilterBar from './FilterBar';
-import freeIcon from '../../../img/sales/free.svg';
-import bookedIcon from '../../../img/sales/booked.svg';
-import soldIcon from '../../../img/sales/sold.svg';
-import advertisingIcon from '../../../img/sales/advertising-side-header.svg';
+
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import collapseDownIcon from '../../../img/input/collapse-down.svg';
+import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
+import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
+import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
-
+export const batchContext = createContext();
 const { Content, Sider } = Layout;
 
 const BatchPlacement = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [reservationTab, setReservationTab] = useState(true);
-  const [cityTab, setCityTab] = useState(true);
-  const [parametersTab, setParametersTab] = useState(true);
+  const [filter, setFilter]= useState({});
+
   const history = useHistory();
   return (
+    <batchContext.Provider value={[filter, setFilter]}>
     <Layout>
       <Layout>
         <StyledSider>
@@ -52,30 +52,26 @@ const BatchPlacement = () => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>Пакетное размещение</Breadcrumb.Item>
           </StyledBreadcrumb>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div>
-              <img src={advertisingIcon} />
-              <h2
-                style={{
-                  fontSize: '24px',
-                  color: '#003360',
-                  fontWeight: '600',
-                  fontFamily: 'SF UI Display Medium, sans-serif',
-                }}>
-                Пакетное размещение
-              </h2>
-            </div>
-            <Button type="primary" className="header-page-btn">
-              <span>Создать отчет</span>
-              <img src={collapseDownIcon} />
-            </Button>
-          </div>
+          <HeaderWrapper>
+                <HeaderTitleWrapper>
+                  <TitleLogo />
+                  <JobTitle>Пакетное размещение</JobTitle>
+                </HeaderTitleWrapper>
+                <ButtonGroup>
+                  <StyledButton
+                    backgroundColor="#FF5800"
+                  >
+                    Создать Отчёт
+                  </StyledButton>
+                </ButtonGroup>
+              </HeaderWrapper>
 
           <Content>
             <PanelBatch style={{ flex: '0 1 auto' }} />
           </Content>
         </StyledLayout>
       </Layout>
+      
       <style>{`
         .filter-panel-header {
           display: flex;
@@ -249,6 +245,7 @@ const BatchPlacement = () => {
         }
       `}</style>
     </Layout>
+    </batchContext.Provider>
   );
 };
 
