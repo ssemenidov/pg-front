@@ -52,7 +52,7 @@ const Crews = (props) => {
     }
   }
   return (
-    <crewsContext.Provider value={[filter, setFilter],[current,setCurrent]}>
+    <crewsContext.Provider value={[filter, setFilter], [current,setCurrent]}>
       <Layout>
         <Layout>
           <Sider className="layout-sider">
@@ -91,9 +91,9 @@ const Crews = (props) => {
                 </ButtonGroup>
               </HeaderWrapper>
               <div style={{ display: 'flex' }}>
-                
+
                   <PanelCrews style={{ flex: '0 1 auto' }} />
-               
+
               </div>
             </Content>
           </Layout>

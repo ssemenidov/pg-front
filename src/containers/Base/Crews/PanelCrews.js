@@ -155,7 +155,7 @@ var data1 = [
   ];
   const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
-  const[current,setCurrent]=useContext(crewsContext);
+  const [current,setCurrent]= useContext(crewsContext);
   const {data, loading} = useQuery(CREWS_T, { variables: {...filter,id:""} });
   const crews = data;
   const crews_loading = loading;
