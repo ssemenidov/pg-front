@@ -202,8 +202,12 @@ export const getBookedSides = (data) => {
   return data.map((invoice) => {
     return {
       key: invoice.node.id,
-      code: invoice.node.constructionSide.advertisingSide.side.code,
-      city: invoice.node.constructionSide.construction.location.postcode.district.city.title,
+      code: invoice.node.constructionSide.advertisingSide.side.code
+        ? invoice.node.constructionSide.advertisingSide.side.code
+        : '',
+      city: invoice.node.constructionSide.construction.location.postcode.district.city.title
+        ? invoice.node.constructionSide.construction.location.postcode.district.city.title
+        : '',
       address: invoice.node.constructionSide.construction.location.marketingAddress.address,
       format: invoice.node.constructionSide.advertisingSide.side.format.title,
       side: invoice.node.constructionSide.advertisingSide.side.title,
@@ -218,23 +222,26 @@ export const getBookedSides = (data) => {
 
 export const getExtraCosts = (data) => {
   return data.map((charge) => {
-    return {
-      key: charge.node,
-      nameOfService: charge.node.title,
-      city: charge.node.city.title,
-      period:
-        new Date(charge.node.startPeriod).toLocaleDateString() +
-        ' - ' +
-        new Date(charge.node.endPeriod).toLocaleDateString(),
-      quantity: charge.node.count,
-      price: charge.node.price + ' тг.',
-      discount: charge.node.discount + '%',
-      priceAfterDiscount: charge.node.sumAfterDiscount + ' тг.',
-      sum: charge.node.summa + ' тг.',
-      percentAK: 'stub data',
-      sumAK: 'stub data',
-      sumWithoutAK: 'stub data',
-    };
+    return (
+      charge.node.city !== null && {
+        key: charge.node ? charge.node : '',
+        nameOfService: charge.node.title ? charge.node.title : '',
+        city: charge.node.city.title ? charge.node.city.title : '',
+        period: charge.node.startPeriod
+          ? new Date(charge.node.startPeriod).toLocaleDateString() +
+            ' - ' +
+            new Date(charge.node.endPeriod).toLocaleDateString()
+          : '',
+        quantity: charge.node.count ? charge.node.count : '',
+        price: charge.node.price ? charge.node.price + ' тг.' : '',
+        discount: charge.node.discount ? charge.node.discount + '%' : '',
+        priceAfterDiscount: charge.node.sumAfterDiscount ? charge.node.sumAfterDiscount + ' тг.' : '',
+        sum: charge.node.summa ? charge.node.summa + ' тг.' : '',
+        percentAK: 'stub data',
+        sumAK: 'stub data',
+        sumWithoutAK: 'stub data',
+      }
+    );
   });
 };
 
