@@ -80,7 +80,7 @@ const PanelDesign = (props) => {
       format: 'Сениор',
       city: 'Алматы',
       timeline1: (
-        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
+        <Popover content={<Tab cond="sold" history={useHistory()}></Tab>} placement="bottom" trigger={['click']} >
           <div className="page-label">
             <span>Coca-Cola</span>
             <img src={tableSoldIcon} />
@@ -88,7 +88,7 @@ const PanelDesign = (props) => {
         </Popover>
       ),
       timeline2: (
-        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
+        <Popover content={<Tab cond="confirmed" history={useHistory()}></Tab>} placement="bottom" trigger={['click']}>
           <div className="page-label">
             <span>Coca-Cola</span>
             <img src={tableSoldIcon} />
@@ -287,15 +287,15 @@ const PanelDesign = (props) => {
                 <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
               </Form.Item>
               {/* <BtnGroup> */}
-                <SubmitButton
-                  style={{
-                    padding: '13px 25px',
-                    fontWeight: 'bold',
-                  }}
-                  htmlType="submit"
-                  onClick={() => {}}>
-                  Забронировать
-                </SubmitButton>
+              <SubmitButton
+                style={{
+                  padding: '13px 25px',
+                  fontWeight: 'bold',
+                }}
+                htmlType="submit"
+                onClick={() => {}}>
+                Забронировать
+              </SubmitButton>
               {/* </BtnGroup> */}
             </Form>
           </Card>
