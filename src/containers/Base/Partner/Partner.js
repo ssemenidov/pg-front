@@ -6,6 +6,7 @@ import InnerForm from './TabPanelForm/TabPanelFormPartner';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -131,7 +132,7 @@ useMemo(() => {
 }, [data]);
 
 if (error) return <h3>Error :(</h3>;
-if (loading) return <h3></h3>;
+if (loading) return <LoadingAntd/>;
   return (
     <partnerContext.Provider value={ [item, setItem]}>
     <Layout>

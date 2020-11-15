@@ -169,11 +169,7 @@ function AdminConstructionPopulatedItem({ location,
   const debouncedSearchTerm = useDebounce(location.searchTerm, 500);
 
   let filteredValues = filterValues(debouncedSearchTerm, values, "name");
-  filteredValues.sort(
-    function(a, b) {
-      return a.name.localeCompare(b.name);
-    }
-  )
+  filteredValues.sort( (a, b) => (a && a.name && a.name.localeCompare(b.name)))
 
   return (
     <Medium style={{ height: '100%' }} className={className}>
@@ -225,6 +221,7 @@ function AdminConstructionPopulatedItem({ location,
 export function AdminConstructionItem({ location, ...props})
 {
   let [values, isReactComponent] = location.src.apiQuery(location.getSearchVariables());
+
   return isReactComponent
     ? values
     : <AdminConstructionPopulatedItem location={location} values={values} {...props} />;

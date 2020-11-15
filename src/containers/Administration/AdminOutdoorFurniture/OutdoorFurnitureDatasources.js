@@ -74,19 +74,11 @@ const simpleFilterFun = (searchValue) => searchValue;
 
 const GET_FAMILIES = gql`
   query SearchFamily($id: ID, $title: String) {
-    searchFamilyConstruction(id: $id, title: $title) {
+    searchFamilyConstruction(id: $id, title_Icontains: $title) {
       edges {
         node {
           id
           title
-          underFamilyConstruction {
-            edges {
-              node {
-                id
-                title
-              }
-            }
-          }
         }
       }
     }
@@ -140,6 +132,20 @@ export const srcFamily = new GqlDatasource({
 });
 
 
+const GET_UNDERFAMILIES = gql`
+  query SearchUnderFamily($id: ID, $title: String) {
+    searchUnderFamilyConstruction(family_Id: $id, title_Icontains: $title) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
+
 const ADD_UNDERFAMILY = gql`
   mutation($id: [ID], $title: String) {
     createUnderFamilyConstruction(input: {
@@ -179,9 +185,10 @@ const DELETE_UNDERFAMILY = gql`
 `;
 
 export const srcSubFamily = new GqlDatasource({
-  query: GET_FAMILIES,
-  selectorFun: selectOutdoorFurnitureSubgroup("searchFamilyConstruction", "underFamilyConstruction"),
-  filterFun: simpleFilterFun,
+  query: GET_UNDERFAMILIES,
+  // selectorFun: selectOutdoorFurnitureSubgroup("searchFamilyConstruction", "underFamilyConstruction"),
+  // filterFun: simpleFilterFun,
+  method: "searchUnderFamilyConstruction",
   stub: stubSubFamilies,
   add: ADD_UNDERFAMILY,
   upd: UPDATE_UNDERFAMILY,
@@ -190,18 +197,12 @@ export const srcSubFamily = new GqlDatasource({
 
 
 const GET_MODELS = gql`
-  query($id: ID, $title: String) {
-    searchUnderFamilyConstruction(id: $id, title: $title) {
+  query SearchModelConstruction($id: ID, $title: String) {
+    searchModelConstruction(underfamily_Id: $id, title_Icontains: $title) {
       edges {
         node {
-          modelConstruction {
-            edges {
-              node {
-                id
-                title
-              }
-            }
-          }
+          id
+          title
         }
       }
     }
@@ -252,8 +253,9 @@ const UPDATE_MODEL = gql`
 
 export const srcModel = new GqlDatasource({
   query: GET_MODELS,
-  selectorFun: selectOutdoorFurnitureSubgroup("searchUnderFamilyConstruction", "modelConstruction"),
-  filterFun: simpleFilterFun,
+  // selectorFun: selectOutdoorFurnitureSubgroup("searchUnderFamilyConstruction", "modelConstruction"),
+  // filterFun: simpleFilterFun,
+  method: "searchModelConstruction",
   stub: stubModel,
   add: ADD_MODEL,
   upd: UPDATE_MODEL,
@@ -262,18 +264,12 @@ export const srcModel = new GqlDatasource({
 
 
 const GET_FORMATS = gql`
-  query($id: ID, $title: String) {
-    searchModelConstruction(id: $id, title: $title) {
+  query SearchFormat($id: ID, $title: String) {
+    searchFormat(model_Id: $id, title_Icontains: $title) {
       edges {
         node {
-          format {
-            edges {
-              node {
-                id
-                title
-              }
-            }
-          }
+          id
+          title
         }
       }
     }
@@ -323,8 +319,9 @@ const UPDATE_FORMAT = gql`
 
 export const srcFormat = new GqlDatasource({
   query: GET_FORMATS,
-  selectorFun: selectOutdoorFurnitureSubgroup("searchModelConstruction", "format"),
-  filterFun: simpleFilterFun,
+  // selectorFun: selectOutdoorFurnitureSubgroup("searchModelConstruction", "format"),
+  // filterFun: simpleFilterFun,
+  method: "searchFormat",
   stub: stubFormat,
   add: ADD_FORMAT,
   upd: UPDATE_FORMAT,
@@ -333,21 +330,12 @@ export const srcFormat = new GqlDatasource({
 
 
 const GET_SIDES = gql`
-  query($id: ID, $title: String) {
-    searchFormat(id: $id, title: $title) {
+  query SearchSide($id: ID, $title: String) {
+    searchSide(format_Id: $id, title_Icontains: $title) {
       edges {
         node {
-          constructionSide {
-            edges {
-              node {
-                id
-                side {
-                  id
-                  title
-                }
-              }
-            }
-          }
+          id
+          title
         }
       }
     }
@@ -415,33 +403,21 @@ const UPDATE_SIDE = gql`
 
 export const srcSide = new GqlDatasource({
   query: GET_SIDES,
-  selectorFun: selectOutdoorFurnitureSubgroup(
-    "searchFormat",
-    "constructionSide",
-    item => ({key: item.node.id, name: item.node.side.title, sideId: item.node.side.id}),
-  ),
-  filterFun: simpleFilterFun,
+  method: "searchSide",
   stub: stubSide,
   add: ADD_SIDE,
-  add2: ADD_CONSTRUCTION_SIDE,
   upd: UPDATE_SIDE,
-  del: DELETE_CONSTRUCTION_SIDE,
-  del2: DELETE_SIDE,
-  description: "стороны",
-  add2ValuesSelector: value => ({sideId: value.data.createSide.side.id}),
+  del: DELETE_SIDE,
 });
 
 
 const GET_ADV_SIDES = gql`
-  query($id: ID) {
-    searchConstructionSide(id: $id) {
+  query SearchAdvertisingSide($id: ID, $title: String) {
+    searchAdvertisingSide(side_Id: $id, title_Icontains: $title) {
       edges {
         node {
           id
-          advertisingSide {
-            id
-            title
-          }
+          title
         }
       }
     }
@@ -487,14 +463,7 @@ const UPDATE_ADV_SIDE = gql`
 
 export const srcAdvSide = new GqlDatasource({
   query: GET_ADV_SIDES,
-  selectorFun: selectOutdoorFurnitureSubgroup(
-    "searchConstructionSide",
-    "advertisingSide",
-    null,
-    (data, key, subKey) => ([{ key: data[key].edges[0].node[subKey].id,
-                                            name: data[key].edges[0].node[subKey].title }]),
-  ),
-  filterFun: simpleFilterFun,
+  method: "searchAdvertisingSide",
   stub: stubAdvSide,
   add: ADD_ADV_SIDE,
   upd: UPDATE_ADV_SIDE,

@@ -50,40 +50,7 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
-  var data1 = [
-    {
-      key: 1,
-      type: 'Рекламодатель',
-      partner: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 2,
-      type: 'Рекламодатель',
-      partner: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 3,
-      type: 'Рекламодатель',
-      partner: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-    {
-      key: 4,
-      type: 'Рекламодатель',
-      partner: 'ИП Агенство',
-      brand: 'CocaCola',
-      sector: 'Безалкогольные напитки',
-      client: 'По личным связям',
-    },
-  ];
+  var data1 = [];
 //    $type: String
 // advertisers_Title:$type
   const PARTNERS_T = gql`
@@ -96,13 +63,12 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
       searchPartner(
         title:$partner
         brands_Title:$brand
-        workingSector_Title:$sector
+        workingSectors_Title:$sector
         binNumber:$binNumber
       ) {
         edges {
           node {
             id
-
             partnerType {
               title
               id
@@ -115,7 +81,7 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
                 }
               }
             }
-            workingSector {
+            workingSectors {
               edges {
                 node {
                   id
@@ -135,7 +101,6 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
 
   const { loading, error, data } = useQuery(PARTNERS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
   console.log(data);
 
   if (data) {
@@ -182,6 +147,7 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
           data={data1}
           changeColumns={changeColumns}
           enableChoosePeriod={false}
+          loading={loading}
 
           select={flagAddAdvertiserForPartner}
           constructionsIdSet={advertiserIdSet}
