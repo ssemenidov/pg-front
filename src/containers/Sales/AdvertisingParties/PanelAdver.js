@@ -15,6 +15,7 @@ import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
 import { useHistory } from 'react-router';
 import './styles.scss'
 import { BottomSlider } from './BottomSlider';
+import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides'
 
 
 const PanelDesign = (props) => {
@@ -67,18 +68,6 @@ const PanelDesign = (props) => {
       key: 'timeline',
     },
   ];
-  const data = [
-    {
-      key: 1,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-  ];
-
   const [filter, setFilter] = useState({});
 
   const onFinish = (values) => {
@@ -89,7 +78,9 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />
+        <GanttChartAdvertisingSides/>
+
+        {/*<Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />*/}
       </div>
       <BottomSlider props={showCard, setShowCard, onFinish, form}/>
     </>

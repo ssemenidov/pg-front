@@ -16,9 +16,8 @@ function BreadCrumbs({ links }) {
       {
         links.map((link, i) => {
             return (
-              <StyledBreadcrumbItem>
-                {(i < links.length - 1) && <StyledLink to={`/${link.id}`} key={i}>{link.value}</StyledLink>}
-                {(i == links.length - 1) && <StyledLink key={i}>{link.value}</StyledLink>}
+              <StyledBreadcrumbItem key={i}>
+                <StyledLink to={`/${link.id}`}>{link.value}</StyledLink>}
               </StyledBreadcrumbItem>
             );
           })
