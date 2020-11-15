@@ -1,14 +1,19 @@
 .layout-main {
   background: #fff !important;
-  position: relative;
-  min-height: 100vh;
-  height: auto !important;
+  height: 100% !important;
 }
 .layout-sider {
   background: #F5F7FA;
   min-width: 60px !important;
   max-width: 60px !important;
   border-right: 1px solid #d3dff0 !important;
+}
+.layout-breadcrumb {
+  font-size: 11px;
+  margin: 0 0 20px 0;
+}
+.layout-breadcrumb a, .layout-breadcrumb span {
+  color: #8AA1C1 !important;
 }
 .left-bar-list {
   padding: 10px 5px !important;
@@ -146,6 +151,14 @@
   border-radius: 50%;
   display: inline-block;
 }
+.dot-5 {
+  height: 8px;
+  margin: 0 4px;
+  width: 8px;
+  background-color: #C8C8C8;
+  border-radius: 50%;
+  display: inline-block;
+}
 .filter-panel-city {
   display: flex;
   flex-direction: column;
@@ -265,4 +278,60 @@
 
 .projectName-input {
   padding-left: 30px;
+}
+
+.gant-chart-root-bars {
+  position: relative;
+  opacity: 0;
+  left: 0px;
+  width: 4px;
+  height: 0px;
+  background: #D3DFF0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: e-resize;
+  -ms-touch-action: pinch-zoom;
+  touch-action: auto;
+  border-radius: 8px;
+}
+
+.gantt-chart-root {
+  border: solid 2px #D3DFF0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.gantt-root-root {
+  font-family: "SF UI Display Light", sans-serif;
+  color: rgb(26,26,26);
+  font-size: 14px;
+  font-weight: 500;
+  overflow: auto
+}
+
+.gantt-chart-left-header {
+  font-family: "SF UI Display Light", sans-serif;
+  color: rgb(26,26,26);
+  font-size: 14px;
+  font-weight: 600 !important;
+  overflow: auto
+}
+
+.gantt-chart-left-panel-header {
+  font-weight: 600 !important;
+}
+.gantt-chart-right-panel-header {
+  font-weight: 600 !important;
+}
+.gantt-checkbox-2 {
+
 }
