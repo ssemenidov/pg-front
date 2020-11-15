@@ -25,7 +25,7 @@ const FilterBar = () => {
   const [filter, setFilter] = useContext(comProjectContext);
   const onFinish = (values) => {
     setFilter(values);
-    console.log(values);
+    // console.log(values.date)
   };
 
   const onReset = () => {
@@ -81,18 +81,18 @@ const FilterBar = () => {
           <StyledPanel header="По дате" key="1">
             <InputIcon img={date} alt="date icon" />
             <Form.Item name="date">
-              <DatePicker
+              <DatePicker.RangePicker
                 suffixIcon={<ArrowDown />}
-                placeholder="Выберите период"
+                // placeholder="Начало"
                 size={'large'}
                 format="YYYY-MM-DD"
                 style={{ width: '100%' }}
                 className="date-picker"
-                onChange={(val, dateStr) => {
-                  setFilter((prevState) => {
-                    return { ...prevState, date: dateStr };
-                  });
-                }}
+                // onChange={(val, dateStr) => {
+                //   setFilter((prevState) => {
+                //     return { ...prevState, date: dateStr };
+                //   });
+                // }}
               />
             </Form.Item>
           </StyledPanel>
@@ -137,11 +137,22 @@ const FilterBar = () => {
         <BtnGroup>
           <SubmitButton
             onClick={() => {
-              console.log(filter);
+              // console.log(filter);
+            }}
+            style={{
+              width: '45%',
+              fontSize: '16px',
             }}>
             Поиск
           </SubmitButton>
-          <ResetButton onClick={onReset}>Очистить</ResetButton>
+          <ResetButton
+            onClick={onReset}
+            style={{
+              width: '45%',
+              fontSize: '16px',
+            }}>
+            Очистить
+          </ResetButton>
         </BtnGroup>
       </Form>
       <style>
@@ -165,10 +176,12 @@ const FilterBar = () => {
 
         .sector-select>div> .ant-select-selection-placeholder {
           margin-left: 25px !important;
+          font-weight: normal;
         }
 
         .sector-select>div> .ant-select-selection-item {
           padding-left: 25px !important;
+          font-weight: normal;
         }
         `}
       </style>

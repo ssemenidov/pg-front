@@ -3,6 +3,9 @@ import { comProjectContext } from './Com_projects';
 
 import Table from '../../../components/Tablea';
 import { useHistory } from 'react-router';
+import citiesIcon from '../../../img/sales/cities.svg';
+
+import { Popover } from 'antd';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 
@@ -11,8 +14,7 @@ const PanelDesign = (props) => {
     comProjectContext,
   );
 
-    
-
+  let data2 = [];
 
   const columns = [
     {
@@ -67,76 +69,6 @@ const PanelDesign = (props) => {
       width: 80,
     },
   ];
-
-  useEffect(() => {
-    if (tableData.loaded && filter.date) {
-      let data2 = data.searchProject.edges
-        .filter((project) => {
-          return project.node.startDate.split('T')[0] == filter.date;
-        })
-        .map((project, index) => {
-          return {
-            key: index,
-            code: `#${project.node.code}`,
-            brand: project.node.brand.title,
-            date: project.node.startDate.split('T')[0],
-            advert: project.node.client.partnerType
-              ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-              : '',
-            advert_agency: project.node.client.partnerType
-              ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-              : '',
-            city: project.node.reservations.edges.length
-              ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
-                  .title
-              : '',
-            sector: project.node.client.workingSectors.edges.length
-              ? project.node.client.workingSectors.edges[0].node.description
-              : '',
-            managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
-            manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
-          };
-        });
-
-      setTableData({
-        data: data2,
-        loaded: true,
-      });
-    }
-  }, [filter.date]);
-
-  useEffect(() => {
-    if (tableData.loaded && !filter) {
-      let data2 = data.searchProject.edges.map((project, index) => {
-        return {
-          key: index,
-          code: `#${project.node.code}`,
-          brand: project.node.brand.title,
-          date: project.node.startDate.split('T')[0],
-          advert: project.node.client.partnerType
-            ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-            : '',
-          advert_agency: project.node.client.partnerType
-            ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-            : '',
-          city: project.node.reservations.edges.length
-            ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
-                .title
-            : '',
-          sector: project.node.client.workingSectors.edges.length
-            ? project.node.client.workingSectors.edges[0].node.description
-            : '',
-          managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
-          manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
-        };
-      });
-
-      setTableData({
-        data: data2,
-        loaded: true,
-      });
-    }
-  }, [filter]);
 
   const temp = gql`
     query allProjectsQuery(
@@ -243,6 +175,17 @@ const PanelDesign = (props) => {
     }
   `;
 
+  const CitiesList = () => {
+    return (
+      <>
+        <p>Караганда</p>
+        <p>Караганда</p>
+        <p>Караганда</p>
+        <p>Караганда</p>
+      </>
+    );
+  };
+
   const { loading, error, data } = useQuery(temp, {
     variables: {
       brand: filter.brand,
@@ -255,6 +198,7 @@ const PanelDesign = (props) => {
       adv: filter.advertiser ? filter.advertiser : filter.advAgency ? filter.advAgency : '',
     },
   });
+
   if (error) {
     console.log(error);
   }
@@ -262,6 +206,84 @@ const PanelDesign = (props) => {
     console.log('loading');
   }
 
+  if (data && !filter.date) {
+    data2 = data.searchProject.edges.map((project, index) => {
+      return {
+        key: index,
+        code: `#${project.node.code}`,
+        brand: project.node.brand.title,
+        date: project.node.startDate.split('T')[0],
+        advert: project.node.client.partnerType
+          ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+          : '',
+        advert_agency: project.node.client.partnerType
+          ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+          : '',
+        city: project.node.reservations.edges.length ? (
+          <Popover placement="bottom" content={CitiesList}>
+            <div
+              style={{
+                cursor: 'pointer',
+              }}>
+              <img
+                src={citiesIcon}
+                style={{
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                  marginBottom: '2px',
+                }}
+                alt="cities"
+              />
+              {
+                project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
+                  .title
+              }
+            </div>
+          </Popover>
+        ) : (
+          ''
+        ),
+        sector: project.node.client.workingSectors.edges.length
+          ? project.node.client.workingSectors.edges[0].node.description
+          : '',
+        managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
+        manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
+      };
+    });
+  }
+
+  if (filter.date && data) {
+    const startDate = filter.date[0]._d;
+    const endDate = filter.date[1]._d;
+    data2 = data.searchProject.edges
+      .filter((project) => {
+        const projectDate = new Date(project.node.startDate.split('T')[0]);
+        return projectDate >= startDate && projectDate <= endDate;
+      })
+      .map((project, index) => {
+        return {
+          key: index,
+          code: `#${project.node.code}`,
+          brand: project.node.brand.title,
+          date: project.node.startDate.split('T')[0],
+          advert: project.node.client.partnerType
+            ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : '',
+          advert_agency: project.node.client.partnerType
+            ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : '',
+          city: project.node.reservations.edges.length
+            ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city
+                .title
+            : '',
+          sector: project.node.client.workingSectors.edges.length
+            ? project.node.client.workingSectors.edges[0].node.description
+            : '',
+          managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
+          manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
+        };
+      });
+  }
   // const example = {
   //   key: 1,
   //   code: '#1020050301323',
@@ -275,74 +297,15 @@ const PanelDesign = (props) => {
   //   manager: 'Иванов Иван Иванович',
   // };
 
-  if (data && !tableData.loaded) {
-    let data2 = data.searchProject.edges.map((project, index) => {
-      return {
-        key: index,
-        code: `#${project.node.code}`,
-        brand: project.node.brand.title,
-        date: project.node.startDate.split('T')[0],
-        advert: project.node.client.partnerType
-          ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-          : '',
-        advert_agency: project.node.client.partnerType
-          ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-          : '',
-        city: project.node.reservations.edges.length
-          ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city.title
-          : '',
-        sector: project.node.client.workingSectors.edges.length
-          ? project.node.client.workingSectors.edges[0].node.description
-          : '',
-        managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
-        manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
-      };
-    });
-    setTableData({
-      data: data2,
-      loaded: true,
-    });
-    // console.log(data2);
-  }
-
-  if (!filter && tableData.loaded) {
-    let data2 = data.searchProject.edges.map((project, index) => {
-      return {
-        key: index,
-        code: `#${project.node.code}`,
-        brand: project.node.brand.title,
-        date: project.node.startDate.split('T')[0],
-        advert: project.node.client.partnerType
-          ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-          : '',
-        advert_agency: project.node.client.partnerType
-          ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
-          : '',
-        city: project.node.reservations.edges.length
-          ? project.node.reservations.edges[0].node.constructionSide.construction.location.postcode.district.city.title
-          : '',
-        sector: project.node.client.workingSectors.edges.length
-          ? project.node.client.workingSectors.edges[0].node.description
-          : '',
-        managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
-        manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
-      };
-    });
-    setTableData({
-      data: data2,
-      loaded: true,
-    });
-    // console.log(data2);
-  }
-
   return (
     <>
       <div className="outdoor-table-bar">
         <Table
           style={{ width: '100%' }}
           columns={columns}
+          columnsForPopup={columns}
           // data={data1}
-          data={tableData.data}
+          data={data2}
           history={useHistory()}
           select={true}
           constructionsIdSet={constructionsIdSet}
