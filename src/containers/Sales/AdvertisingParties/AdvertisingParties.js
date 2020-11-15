@@ -52,7 +52,6 @@ const AdvertisingParties = () => {
           </div>
         </Layout>
       </Layout>
-<<<<<<< HEAD
       <style>
         {`
           .layout-main {
@@ -319,8 +318,6 @@ const AdvertisingParties = () => {
           }
         `}
       </style>
-=======
->>>>>>> 4323f946d2d53c6bbb16cdf1772708fb12914a62
     </Layout>
     </adverContext.Provider>
   );
