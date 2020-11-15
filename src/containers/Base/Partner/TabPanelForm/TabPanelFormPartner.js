@@ -81,7 +81,7 @@ const PARTNER_UPDATE = gql`
       input:{
         title:$title
         comment:$comment
-        workingSector:$workingSector
+        workingSectorsAdd:$workingSector
         binNumber:$binNumber
         partnerType:$partnerType
         clientType:$clientType
@@ -116,7 +116,7 @@ export default function   TabPaneForm(props) {
     e.preventDefault();
     updatePartner({ variables: {
         ...item,
-        workingSector:[].push(item.workingSector && item.workingSector.id) ,
+        workingSector:[].push(item.workingSectors && item.workingSectors.id) , // TODO: workingSectors - это массив
         partnerType: item.partnerType && item.partnerType.id,
         clientType: item.clientType && item.clientType.id,
 

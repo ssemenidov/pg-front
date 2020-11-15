@@ -151,7 +151,7 @@ const PanelDesign = (props) => {
       searchProject(
         brand_Title_Icontains: $brand
         code_Icontains: $code
-        client_WorkingSector_Title_Icontains: $workingSector
+        client_WorkingSectors_Title_Icontains: $workingSector
       ) {
         edges {
           node {

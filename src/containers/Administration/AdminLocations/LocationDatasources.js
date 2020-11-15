@@ -43,8 +43,8 @@ const stubCountries = [
 
 
 const GET_COUNTRIES = gql`
-  query {
-    searchCountry {
+  query SearchCountry($title: String){
+    searchCountry(title_Icontains: $title) {
       edges {
         node {
           id
@@ -106,18 +106,12 @@ export const srcCountries = new GqlDatasource({
 
 
 const GET_CITIES = gql`
-  query($id: ID) {
-    searchCountry(id: $id) {
+  query SearchCity($id: ID, $title: String) {
+    searchCity(country_Id: $id, title_Icontains: $title) {
       edges {
         node {
-          city {
-            edges {
-              node {
-                id
-                title
-              }
-            }
-          }
+          id
+          title
         }
       }
     }
@@ -161,7 +155,7 @@ const UPDATE_CITY = gql`
 
 export const srcCities = new GqlDatasource({
   query: GET_CITIES,
-  selectorFun: selectOutdoorFurnitureSubgroup("searchCountry", "city"),
+  method: "searchCity",
   stub: stubCities,
   upd: UPDATE_CITY,
   add: ADD_CITY,
@@ -182,8 +176,8 @@ export const srcCities = new GqlDatasource({
 // `;
 
 const GET_DISTRICTS = gql`
-  query SearchDistrict($title: String) {
-    searchDistrict(title: $title) {
+  query SearchDistrict($id: ID, $title: String) {
+    searchDistrict(city_Id: $id, title_Icontains: $title) {
       edges {
         node {
           id
@@ -194,5 +188,9 @@ const GET_DISTRICTS = gql`
   }
 `
 
-export const srcDistricts = new GqlDatasource({query: GET_DISTRICTS, method: "searchDistrict", stub: stubDistricts});
+export const srcDistricts = new GqlDatasource({
+  query: GET_DISTRICTS,
+  method: "searchDistrict",
+  stub: stubDistricts
+});
 
