@@ -17,7 +17,10 @@ import districtIcon from '../../../img/input/district.svg';
 import phoneIcon from '../../../img/input/phone.svg';
 import constructionIcon from '../../../img/input/construction.svg';
 import arrowsIcon from '../../../img/input/arrows.svg';
+
 const { Option } = Select;
+
+
 const CITY_T = gql`
     {
       searchCity {
@@ -129,7 +132,7 @@ const FilterBar = () => {
             <StyledSelect  placeholder={<><img src={ constructionIcon} /> <span>Тип конструкции</span> </>} size={'large'}>
               <StyledSelect.Option value="case 1"><img src={ constructionIcon} /><span> case 1</span></StyledSelect.Option>
               <StyledSelect.Option value="case 2"><img src={ constructionIcon} /><span> case 2</span></StyledSelect.Option>
-            </StyledSelect> 
+            </StyledSelect>
           </Form.Item>
           <Form.Item name="format">
             <StyledSelect  placeholder={<><img src={ phoneIcon} /> <span>Формат кострукции</span> </>} size={'large'}>
