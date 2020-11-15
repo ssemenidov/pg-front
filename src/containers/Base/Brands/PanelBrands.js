@@ -26,6 +26,13 @@ const BRANDS_T = gql`
               node {
                 id
                 title
+                workingSectors {
+                  edges {
+                    node {
+                      title
+                    }
+                  }
+                }
               }
             }
           }
@@ -98,14 +105,7 @@ const initColumnsTable = [
     ),
   },
 ];
-const initData = [
-  {
-    key: 'TG9jYXRpb25Ob2RlOjI2',
-    brand: 'CocaCola',
-    partner: 'ИП Агенство',
-    workingSector: 'Безалкогольные напитки'
-  },
-];
+const initData = [];
 
 const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) => {
   const history = useHistory();
@@ -120,13 +120,38 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
   useMemo(() => {
     refetch()
   }, [location]);
+  const getByKey = (item, key) => (
+    item
+    && item.node[key]
+    && item.node[key].edges
+    && item.node[key].edges.length
+    && item.node[key].edges[0].node
+  );
+
+  const getPartner = (item) => getByKey(item, 'partners');
+
+  const getWorkingSector = (item) => (
+    getPartner(item)
+    && getPartner(item).workingSectors
+    && getPartner(item).workingSectors.edges.length
+    && getPartner(item).workingSectors.edges[0].node
+  )
+
   useMemo(() => {
     if (data && data.searchBrand && data.searchBrand.edges) {
-      setBrands(data.searchBrand.edges.map((item) => (stubDataBrands(item))))
+      setBrands(data.searchBrand.edges.map((item) => {
+        console.log(item.node.partners.edges[0].node)
+
+        return ({
+          key: item.node.id,
+          brand: item.node.title && item.node.title,
+          partner: getPartner(item) && getPartner(item).title,
+          workingSector: getWorkingSector(item) && getWorkingSector(item).title
+      })}))
     }
   }, [data]);
   if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
+  // if (loading) return <h3></h3>;
 
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {
@@ -162,6 +187,7 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
           data={brands}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
+          loading={loading}
 
           select={flagAddBrandForPartner}
           constructionsIdSet={brandsIdSet}

@@ -35,7 +35,7 @@ const Com_projects = () => {
 
   return (
     <comProjectContext.Provider
-      value={[filter, setFilter, constructionsIdSet, setConstructionsIdSet, tableData, setTableData]}>
+      value={[filter, setFilter, constructionsIdSet, setConstructionsIdSet]}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div
           className="flex-margin"

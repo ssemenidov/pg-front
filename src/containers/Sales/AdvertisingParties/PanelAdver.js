@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
-import { Popover } from 'antd';
+import { Card, Popover, DatePicker, Form, Input, Checkbox } from 'antd';
 import tableFreeIcon from '../../../img/sales/table-free-icon.svg';
 import tableSoldIcon from '../../../img/sales/table-sold-icon.svg';
 import Tab from './Tab';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
+
+import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
+
+// ICONS
+import date from '../../../img/left-bar/filter/date.svg';
+import inputIcon from '../../../img/sales/projectNameInput.svg';
+import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
 import { useHistory } from 'react-router';
+import './styles.scss'
+import { BottomSlider } from './BottomSlider';
+
 
 const PanelDesign = (props) => {
+  const [showCard, setShowCard] = useState(true);
+  const [form] = Form.useForm();
   const columns = [
     {
       title: 'код рекламной стороны',
@@ -65,71 +77,21 @@ const PanelDesign = (props) => {
       timeline2: <img src={tableFreeIcon} />,
       timeline3: <img src={tableFreeIcon} />,
     },
-    {
-      key: 2,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: (
-        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
-          <div className="page-label">
-            <span>Coca-Cola</span>
-            <img src={tableSoldIcon} />
-          </div>
-        </Popover>
-      ),
-      timeline2: (
-        <Popover content={<Tab history={useHistory()}></Tab>} placement="bottom">
-          <div className="page-label">
-            <span>Coca-Cola</span>
-            <img src={tableSoldIcon} />
-          </div>
-        </Popover>
-      ),
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 3,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 4,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
-    {
-      key: 5,
-      code: '#123123123',
-      format: 'Сениор',
-      city: 'Алматы',
-      timeline1: <img src={tableFreeIcon} />,
-      timeline2: <img src={tableFreeIcon} />,
-      timeline3: <img src={tableFreeIcon} />,
-    },
   ];
+
+  const [filter, setFilter] = useState({});
+
+  const onFinish = (values) => {
+    console.log(values);
+    setFilter(values);
+  };
 
   return (
     <>
       <div className="outdoor-table-bar">
         <Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />
       </div>
-
-      <style>
-        {`.outdoor-table-bar {
-            width: 100%;
-            margin-left:auto;
-          }
-         `}
-      </style>
+      <BottomSlider props={showCard, setShowCard, onFinish, form}/>
     </>
   );
 };

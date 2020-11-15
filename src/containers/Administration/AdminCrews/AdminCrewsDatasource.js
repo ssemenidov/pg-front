@@ -52,7 +52,7 @@ export const srcCrews = new GqlDatasource({
       key: item.node.id,
       name: item.node.name,
       phone: item.node.phone,
-      cityId: item.node.city === null ? null : item.node.city.id,
-      cityTitle: item.node.city === null ? null : item.node.city.title,
+      cityId: item.node.city && item.node.city.id,
+      city: item.node.city && item.node.city.title,
     }))),
 });

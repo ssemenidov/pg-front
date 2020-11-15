@@ -20,9 +20,9 @@ function hasEmpty(objects, length = null) {
 function generateSelector(cleanupChain, location) {
   return (data) => {
     let idx = location.idx;
-    let datasource = location.childDatasource();
-    if (datasource)
-      datasource.setFilter(datasource.filter); // TODO
+    // let datasource = location.childDatasource();
+    // if (datasource)
+    //   datasource.setFilter(datasource.filter); // TODO
 
     let childsIsEmpty = data.childs !== null && data.childs !== undefined && !hasEmpty([data.childs])
     if (location.setSelected) {

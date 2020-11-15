@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
@@ -38,6 +38,10 @@ export default function Commissions() {
   const agency = useQuery( AGENCY_T).data;
   const agencyDistribute = useQuery( AGENCY_DISTRIBUTE_T).data;
 
+  useEffect(() => {
+    console.log('agency ', agency)
+  }, [agency])
+
   if (!agency || !agencyDistribute ) {
     return <span></span>;
   }
@@ -52,7 +56,7 @@ export default function Commissions() {
               defaultValue={item.agencyCommissionType ? item.agencyCommissionType.id: <img src={anchorIcon} />  }
               onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
               {agency && agency.searchAgencyCommissionType.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
+                <StyledSelect.Option key={item.node.id} value={item.node.title}>
                   <img src={anchorIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
@@ -63,14 +67,14 @@ export default function Commissions() {
             <InputTitle>Агентская коммисия</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.agencyCommission ? item.agencyCommission : ''}
-              onChange={(e) => setItem({ ...item, agencyCommission: e.target.value })}
+              defaultValue={item.agencyCommissionValue ? item.agencyCommissionValue : ''}
+              onChange={(e) => setItem({ ...item, agencyCommissionValue: e.target.value })}
             ></StyledInput>
           </InputWrapper>
           <InputWrapper>
             <InputTitle>АК распространяется</InputTitle>
             <StyledSelect
-              defaultValue={item.isAgencyCommissionWithNds ? item.isAgencyCommissionWithNds : <img src={anchorIcon} />}
+              value={item.isAgencyCommissionWithNds ? item.isAgencyCommissionWithNds : <img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, isAgencyCommissionWithNds: value })}
             >
               <StyledSelect.Option key="yes" value={true}>

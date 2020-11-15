@@ -93,7 +93,7 @@ const CREWS_CONSTRUCT_T = gql`
       sorter: {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Формат',
@@ -103,7 +103,7 @@ const CREWS_CONSTRUCT_T = gql`
       sorter: {
         compare: (a, b) =>a.format ? a.format.localeCompare(b.format):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Город',
@@ -112,7 +112,7 @@ const CREWS_CONSTRUCT_T = gql`
       sorter: {
         compare: (a, b) =>a.city ? a.city.localeCompare(b.city):-1,
         multiple: 1,
-      },  
+      },
     },
     {
       title: 'Адрес',
@@ -121,7 +121,7 @@ const CREWS_CONSTRUCT_T = gql`
        sorter: {
             compare: (a, b) => a.adress ? a.adress.localeCompare(b.adress): -1,
             multiple: 1,
-          },  
+          },
     },
     {
       title: 'Статус',
@@ -130,7 +130,7 @@ const CREWS_CONSTRUCT_T = gql`
        sorter: {
             compare: (a, b) =>a.status ? a.status.localeCompare(b.status):-1,
             multiple: 1,
-          },  
+          },
     },
     {
       title: 'Дата начала ',
@@ -139,7 +139,7 @@ const CREWS_CONSTRUCT_T = gql`
        sorter: {
             compare: (a, b) =>a.date_start ? a.date_start.localeCompare(b.date_start):-1,
             multiple: 1,
-          },  
+          },
     },
 ];
 var data1 = [
@@ -155,9 +155,12 @@ var data1 = [
   ];
   const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(crewsContext);
-  const[current,setCurrent]=useContext(crewsContext);
-  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
-  const crew_construct = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} }).data;
+  const [current,setCurrent]= useContext(crewsContext);
+  const {data, loading} = useQuery(CREWS_T, { variables: {...filter,id:""} });
+  const crews = data;
+  const crews_loading = loading;
+  const crews_construct_query = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} });
+  const crew_construct = crews_construct_query.data
   if (crew_construct) {
     if(crew_construct.searchCrew.edges[0])
     {
@@ -173,7 +176,6 @@ var data1 = [
     }));
   }
   }
-  console.log("b".localeCompare("b"));
   if( !crews ){
     return <span></span>
   }
@@ -192,7 +194,12 @@ var data1 = [
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />
+        <Table style={{ width: '100%' }}
+               columns={columns}
+               data={data1}
+               title={`Назначеные конструкции`}
+               loading={crews_construct_query.loading}
+        />
       </div>
       </div>
       <style>
