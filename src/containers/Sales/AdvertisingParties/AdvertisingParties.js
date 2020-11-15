@@ -247,6 +247,14 @@ const AdvertisingParties = () => {
             border-radius: 50%;
             display: inline-block;
           }
+          .dot-5 {
+            height: 8px;
+            margin: 0 4px;
+            width: 8px;
+            background-color: #C8C8C8;
+            border-radius: 50%;
+            display: inline-block;
+          }
           .filter-panel-city {
             display: flex;
             flex-direction: column;
