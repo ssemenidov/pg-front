@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { crewsContext } from './Crews';
+import { useHistory } from 'react-router';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import styled from 'styled-components';
@@ -7,14 +8,85 @@ import { List } from 'antd';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import Table from '../../../components/Tablea';
 import oval from '../../../img/Oval.svg';
-import Preloader from '../../../components/Preloader/Preloader';
-
-const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(crewsContext);
-  const[current,setCurrent]=useState(null);
-  const columns = [
+const CREWS_T = gql`
+  query SearchCrew(
+    $name: String
+    $phone: String
+    $city: String
+    $district: String
+    $adress: String
+  ) {
+    searchCrew(
+      name_Icontains: $name
+      phone_Icontains:$phone
+      constructions_Location_Postcode_District_City_Title:$city
+      constructions_Location_Postcode_District_Title: $district
+      constructions_Location_MarketingAddress_Address_Icontains:$adress
+    ) {
+      edges {
+        node {
+          id
+          phone
+          name
+        }
+      }
+    }
+  }
+  `;
+const CREWS_CONSTRUCT_T = gql`
+  query SearchCrew(
+    $id:ID!
+    $city: String
+    $district: String
+    $adress: String
+  ) {
+    searchCrew(
+      id:$id
+      constructions_Location_Postcode_District_City_Title:$city
+      constructions_Location_Postcode_District_Title: $district
+      constructions_Location_MarketingAddress_Address_Icontains:  $adress
+    ) {
+      edges {
+        node {
+          id
+          phone
+          name
+          constructions {
+            edges {
+              node {
+                id
+                code
+                format {
+                  id
+                  title
+                }
+                statusConnection
+                createdAt
+                location {
+                  postcode {
+                    title
+                    district {
+                      title
+                      city {
+                        title
+                        id
+                      }
+                    }
+                  }
+                  marketingAddress {
+                    address
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  `;const columns = [
     {
-      title: 'Инвентарный номер конструкции (ОТО)',
+      title: 'Код конструкции',
       dataIndex: 'code',
 
       width: 130,
@@ -69,8 +141,8 @@ const PanelDesign = (props) => {
             multiple: 1,
           },
     },
-  ];
-  var data1 = [
+];
+var data1 = [
     // {
     //   key: 1,
     //   code: '126353',
@@ -81,96 +153,21 @@ const PanelDesign = (props) => {
     //   date_start: '19.06.2020',
     // },
   ];
-  const CREWS_T = gql`
-  query SearchCrew(
-    $name: String
-    $phone: String
-    $city: String
-    $district: String
-    $adress: String
-  ) {
-    searchCrew(
-      name_Icontains: $name
-      phone_Icontains:$phone
-      constructions_Location_Postcode_District_City_Title:$city
-      constructions_Location_Postcode_District_Title: $district
-      constructions_Location_MarketingAddress_Address_Icontains:$adress
-    ) {
-      edges {
-        node {
-          id
-          phone
-          name
-        }
-      }
-    }
-  }
-  `;
-  const CREWS_CONSTRUCT_T = gql`
-  query SearchCrew(
-    $id:ID
-    $city: String
-    $district: String
-    $adress: String
-  ) {
-    searchCrew(
-      id:$id
-      constructions_Location_Postcode_District_City_Title:$city
-      constructions_Location_Postcode_District_Title: $district
-      constructions_Location_MarketingAddress_Address_Icontains:  $adress
-    ) {
-      edges {
-        node {
-          id
-          phone
-          name
-          constructions {
-            edges {
-              node {
-                id
-                code
-                format {
-                  id
-                  title
-                }
-                statusConnection
-                createdAt
-                techInventNumber
-                location {
-                  postcode {
-                    title
-                    district {
-                      title
-                      city {
-                        title
-                        id
-                      }
-                    }
-                  }
-                  marketingAddress {
-                    address
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  `;
-  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} }).data;
-  const {error, loading, data} = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} })
-
-  const crew_construct = data;
+  const PanelDesign = (props) => {
+  const [filter, setFilter] = useContext(crewsContext);
+  const [current,setCurrent]= useContext(crewsContext);
+  const {data, loading} = useQuery(CREWS_T, { variables: {...filter,id:""} });
+  const crews = data;
+  const crews_loading = loading;
+  const crews_construct_query = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} });
+  const crew_construct = crews_construct_query.data
   if (crew_construct) {
     if(crew_construct.searchCrew.edges[0])
     {
       console.log(crew_construct);
       data1 = crew_construct.searchCrew.edges[0].node.constructions.edges.map((item,index) => ({
       key: item.node.id,
-      // code: item.node.location ? (item.node.location.postcode ? item.node.location.postcode.title : (""+index)) : (""+index),
-      code: item.node.techInventNumber ? item.node.techInventNumber : "",
+      code: item.node.code ? item.node.code : (""+index),
       format: item.node.format && item.node.format.title,
       city: item.node.location && item.node.location.postcode.district.city.title,
       adress: item.node.location &&  item.node.location.marketingAddress.address,
@@ -179,7 +176,6 @@ const PanelDesign = (props) => {
     }));
   }
   }
-  console.log("b".localeCompare("b"));
   if( !crews ){
     return <span></span>
   }
@@ -198,8 +194,12 @@ const PanelDesign = (props) => {
       </StyledCrewsBlock>
       <div style={{ display: 'flex', width: ' 100%', overflowX: 'hidden ' }}>
       <div className="outdoor-table-bar">
-        {loading && <Preloader size={'large'}/>}
-        {!loading && <Table style={{ width: '100%' }} columns={columns} data={data1} title={`Назначеные конструкции`} />}
+        <Table style={{ width: '100%' }}
+               columns={columns}
+               data={data1}
+               title={`Назначеные конструкции`}
+               loading={crews_construct_query.loading}
+        />
       </div>
       </div>
       <style>

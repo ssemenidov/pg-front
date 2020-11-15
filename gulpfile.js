@@ -123,7 +123,11 @@ function deploy_production_rsync(cb) {
   return gulp.series(
     () => gulp.src(srcPath)
       .pipe(rsync({ root: 'build', destination: dest, ...rsync_args })),
-    () => gulp.src(path.join('build', 'static', '**'))
+    () => gulp.src(path.join('build', 'static', 'media', '**'))
+      .pipe(rsync({ root: path.join('build', 'static'), destination: dest_backend, ...rsync_args })),
+    () => gulp.src(path.join('build', 'static', 'css', '**'))
+      .pipe(rsync({ root: path.join('build', 'static'), destination: dest_backend, ...rsync_args })),
+    () => gulp.src(path.join('build', 'static', 'js', '**'))
       .pipe(rsync({ root: path.join('build', 'static'), destination: dest_backend, ...rsync_args })),
     (done) => { done(); cb(); }
   )();

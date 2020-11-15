@@ -1,12 +1,11 @@
 import React, { useState, createContext,useMemo } from 'react';
+import { useHistory } from 'react-router';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import PanelCrews from './PanelCrews';
 import FilterBar from './FilterBar';
 
 import { Layout, Menu, Breadcrumb, List } from 'antd';
 import { Link } from 'react-router-dom';
-
-import { useHistory } from 'react-router';
 
 import { LeftBar } from '../../../components/Styles/DesignList/styles';
 import Table from '../../../components/TableResizable/Table';
@@ -17,7 +16,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-
 
 const { Content, Sider } = Layout;
 const CREW_CREATE = gql`
@@ -31,10 +29,11 @@ mutation {
 `;
 export const crewsContext = createContext();
 
-const Crews = () => {
+const Crews = (props) => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
+  const[current,setCurrent]=useState(props.match.params.id);
   const [createCrew, { data }] = useMutation(CREW_CREATE);
   useMemo(() => {
     if (data) {
@@ -42,8 +41,18 @@ const Crews = () => {
      //history.push(`/base/crews/crew/${data.createCrew.crew.id}`);
     }
   }, [data]);
+  const addConstruction = (e) => {
+
+    if(current)
+    {e.preventDefault();
+    history.push(`/base/crews/${current}/add_outdoor_furniture`);
+    history.go(0);}
+    else{
+      alert("Выберите Экипаж");
+    }
+  }
   return (
-    <crewsContext.Provider value={[filter, setFilter]}>
+    <crewsContext.Provider value={[filter, setFilter], [current,setCurrent]}>
       <Layout>
         <Layout>
           <Sider className="layout-sider">
@@ -73,15 +82,18 @@ const Crews = () => {
                   <JobTitle>Экипажи</JobTitle>
                 </HeaderTitleWrapper>
                 <ButtonGroup>
+                <StyledButton   backgroundColor="#2c5de5" onClick={addConstruction}>
+                    Добавить конструкцию
+                  </StyledButton>
                   <StyledButton backgroundColor="#008556" onClick={createCrew}>
                     Создать новое
                   </StyledButton>
                 </ButtonGroup>
               </HeaderWrapper>
               <div style={{ display: 'flex' }}>
-                
+
                   <PanelCrews style={{ flex: '0 1 auto' }} />
-               
+
               </div>
             </Content>
           </Layout>

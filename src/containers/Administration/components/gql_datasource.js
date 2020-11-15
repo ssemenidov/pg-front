@@ -62,6 +62,7 @@ export class GqlDatasource {
     if (selectorFun) {
       this.selector = selectorFun;
     } else {
+      let m = method;
       this.selector = (data) => data[method].edges.map(item => ({
         key: item.node.id, name: item.node[selector]
       }));
@@ -70,7 +71,7 @@ export class GqlDatasource {
     if (filterFun) {
       this.filter = filterFun;
     } else {
-      this.filter = (value) => ({ [selector]: value });
+      this.filter = (value) => value;
     }
     if (filterFunEmpty) {
       this.filter = (value) => {}

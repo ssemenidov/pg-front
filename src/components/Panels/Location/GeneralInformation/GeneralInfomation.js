@@ -9,6 +9,7 @@ import AkimatResolution from './Blocks/AkimatResolution';
 import GroundAct from './Blocks/GroundAct';
 import Construction from './Blocks/Construction';
 import Documents from './Blocks/Documents';
+
 import { locationContext } from "../../../../containers/Base/Location/Location";
 
 const GeneralInformation = () => {
@@ -32,7 +33,7 @@ const GeneralInformation = () => {
         edges: edgesLocal
       },
       constructionsRemove: [
-        ...(item.constructionsRemove && item.constructionsRemove),
+        ...(item.constructionsRemove || []),
         id
       ]
     })
