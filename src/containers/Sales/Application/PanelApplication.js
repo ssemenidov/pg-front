@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
 
-const PanelDesign = (props) => {
+const PanelDesign = ({ tableData }) => {
   const columns = [
     {
       title: 'Город',
@@ -93,7 +93,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table columns={columns} data={data} select={false} />
+        <Table title="Адресная программа" columns={columns} data={tableData} select={false} />
       </div>
 
       <style>
