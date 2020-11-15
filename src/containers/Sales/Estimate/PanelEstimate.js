@@ -28,7 +28,7 @@ import {
 } from './stubDataSource';
 import { useQuery } from '@apollo/client';
 
-const PanelDesign = () => {
+const PanelDesign = ({ setBlock }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
   // const [bookSides, setBookSides] = useState([]);
   const { appId, id } = useParams();
@@ -156,6 +156,7 @@ const PanelDesign = () => {
               setQuery(() => {
                 return appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '';
               });
+              setBlock(0);
             }}>
             ЗАБРОНИРОВАННЫЕ СТОРОНЫ
           </CustomTabBtn>
@@ -164,6 +165,7 @@ const PanelDesign = () => {
             onClick={() => {
               setActiveTab('extra-charge');
               setQuery(appId ? EXTRA_COSTS_QUERY : id ? PROJECT_EXTRA_COSTS_QUERY : '');
+              setBlock(1);
             }}>
             ДОП. РАСХОДЫ
           </CustomTabBtn>
@@ -172,6 +174,7 @@ const PanelDesign = () => {
             onClick={() => {
               setActiveTab('hot-ptc');
               setQuery(appId ? NON_RTS_QUERY : id ? PROJECT_NON_RTS_QUERY : '');
+              setBlock(2);
             }}>
             НОН РТС
           </CustomTabBtn>

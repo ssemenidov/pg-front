@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Checkbox } from 'antd';
+import { Input, Checkbox, Modal, Form, DatePicker, InputNumber, Select } from 'antd';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import AddBtn from '../../../components/LeftBar/AddBtn';
@@ -12,6 +12,7 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import { useParams } from 'react-router-dom';
 
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
@@ -20,17 +21,76 @@ import PanelDesign from './PanelEstimate';
 import SidebarInfo from '../../../components/SidebarInfo';
 
 import { sidebarInfoData } from '../stubDataSource';
+import { gql, useMutation, useQuery } from '@apollo/client';
+// import Form from 'antd/lib/form/Form';
 
 const Estimate = () => {
+  const { id, appId } = useParams();
   const [block, setBlock] = useState(0);
-
+  const [showAddCost, setShowAddCost] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [cities, setCities] = useState({
+    data: [],
+    loaded: false,
+  });
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
     { id: 'sales/estimate', value: 'Смета' },
   ];
+  const { Option } = Select;
+  const [form] = Form.useForm();
 
+  const CREATE_ADDITIONAL_COSTS = gql`
+    mutation createAdditionalCost($input: CreateAdditionalCostsInput!) {
+      createSalesAdditionalCost(input: $input) {
+        additionalCosts {
+          id
+          title
+          startPeriod
+          endPeriod
+          count
+          discount
+          price
+          count
+          city {
+            title
+          }
+        }
+      }
+    }
+  `;
 
+  const [createAdditionalCost, mutation] = useMutation(CREATE_ADDITIONAL_COSTS);
+
+  console.log(mutation);
+
+  const CITIES_QUERY = gql`
+    query {
+      searchCity {
+        edges {
+          node {
+            title
+            id
+          }
+        }
+      }
+    }
+  `;
+  const { loading, error, data } = useQuery(CITIES_QUERY);
+
+  if (data && showAddCost && !cities.loaded) {
+    setCities({
+      data: data.searchCity.edges.map((city) => {
+        return {
+          id: city.node.id,
+          title: city.node.title,
+        };
+      }),
+      loaded: true,
+    });
+  }
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -53,9 +113,15 @@ const Estimate = () => {
             <JobTitle>Смета - CocaCola</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
-            {block !== 0 ? (
+            {block !== 0 && !appId ? (
               <>
-                <StyledButton backgroundColor="#008556">Добавить расход</StyledButton>
+                <StyledButton
+                  backgroundColor="#008556"
+                  onClick={() => {
+                    setShowAddCost(true);
+                  }}>
+                  Добавить расход
+                </StyledButton>
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             ) : (
@@ -77,6 +143,89 @@ const Estimate = () => {
           </InfoWrap>
           <PanelDesign setBlock={setBlock} />
         </div>
+        <Modal
+          width="350px"
+          visible={showAddCost}
+          onCancel={() => setShowAddCost(false)}
+          title="Добавление расхода"
+          centered={true}
+          confirmLoading={confirmLoading}
+          onOk={() => {
+            form.validateFields().then((values) => {
+              setConfirmLoading(true);
+              createAdditionalCost({
+                variables: {
+                  input: {
+                    title: values.title,
+                    count: values.count,
+                    startPeriod: new Date(values.period[0]).toJSON(),
+                    endPeriod: new Date(values.period[1]).toJSON(),
+                    discount: values.discount,
+                    price: values.price,
+                    city: values.city,
+                    project: id,
+                  },
+                },
+              }).then((val) => {
+                setConfirmLoading(false);
+                setShowAddCost(false);
+              });
+            });
+          }}>
+          <Form
+            form={form}
+            onCancel={() => {
+              form.resetFields();
+            }}>
+            <Form.Item name="title" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
+              <Input size="large" placeholder="Наименование услуги" />
+            </Form.Item>
+            <Form.Item name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
+              <Select size="large" placeholder="Город">
+                {cities.data.map((city) => {
+                  return (
+                    <Option key={city.id} value={city.id}>
+                      {city.title}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item name="period" rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
+              <DatePicker.RangePicker size="large" />
+            </Form.Item>
+            <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
+              <InputNumber
+                size="large"
+                style={{
+                  width: 301,
+                }}
+                placeholder="Количество"
+              />
+            </Form.Item>
+            <Form.Item name="price" rules={[{ required: true, message: 'Пожалуйста, введите цену.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                precision={2}
+                width="301px"
+                size="large"
+                placeholder="Цена"
+              />
+            </Form.Item>
+            <Form.Item name="discount" rules={[{ required: true, message: 'Пожалуйста, введите скидку.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                width="301px"
+                size="large"
+                placeholder="Скидка"
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
       </div>
 
       <style>
