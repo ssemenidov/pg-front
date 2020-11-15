@@ -68,6 +68,7 @@ const PanelDesign = (props) => {
       key: 'timeline',
     },
   ];
+
   const [filter, setFilter] = useState({});
 
   const onFinish = (values) => {
@@ -78,6 +79,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
+
         <GanttChartAdvertisingSides/>
 
         {/*<Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />*/}

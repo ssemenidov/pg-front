@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Input, Checkbox } from 'antd';
-
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import AddBtn from '../../../components/LeftBar/AddBtn';
@@ -15,10 +14,7 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
-import {
-  LeftBar, StyledButton, HeaderWrapper,
-  HeaderTitleWrapper
-} from '../../../components/Styles/DesignList/styles';
+import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 
 import PanelDesign from './PanelEstimate';
 import SidebarInfo from '../../../components/SidebarInfo';
@@ -33,6 +29,8 @@ const Estimate = () => {
     { id: 'sales', value: 'Продажи' },
     { id: 'sales/estimate', value: 'Смета' },
   ];
+
+
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -61,12 +59,11 @@ const Estimate = () => {
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             ) : (
-
-        <>
-              <StyledButton backgroundColor="#008556"> Создать приложение  </StyledButton>
-              <StyledButton backgroundColor="#2C5DE5">Добавить в приложение </StyledButton>
-              <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
-           </>
+              <>
+                <StyledButton backgroundColor="#008556"> Создать приложение </StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Добавить в приложение </StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
+              </>
             )}
           </ButtonGroup>
         </HeaderWrapper>
@@ -76,9 +73,7 @@ const Estimate = () => {
               <span>Посчитать с НДС?</span>
               <Checkbox>Да</Checkbox>
             </ControlToolbar>
-            <SidebarInfo
-              data={sidebarInfoData}
-            />
+            <SidebarInfo data={sidebarInfoData} />
           </InfoWrap>
           <PanelDesign setBlock={setBlock} />
         </div>
