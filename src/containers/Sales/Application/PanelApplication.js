@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea';
 
 const PanelDesign = ({ tableData }) => {
+  console.log(tableData)
   const columns = [
     {
       title: 'Город',
