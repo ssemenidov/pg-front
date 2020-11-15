@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react';
-import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
+import React, { Component, useState,createContext } from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import { Resizable } from 'react-resizable';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
@@ -16,35 +15,10 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import './styles.scss'
-
 const { Content, Sider } = Layout;
 
-const ResizableTitle = (props) => {
-  const { onResize, width, ...restProps } = props;
 
-  if (!width) {
-    return <th {...restProps} />;
-  }
-
-  return (
-    <Resizable
-      width={width}
-      height={0}
-      handle={
-        <span
-          className="react-resizable-handle"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        />
-      }
-      onResize={onResize}
-      draggableOpts={{ enableUserSelectHack: false }}>
-      <th {...restProps} />
-    </Resizable>
-  );
-};
-
+export const adverContext = createContext();
 
 const links = [
   { id: 'sales', value: 'Продажи' },
@@ -54,8 +28,10 @@ const links = [
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [filter, setFilter]= useState({});
 
   return (
+    <adverContext.Provider value={[filter, setFilter]}>
     <Layout>
       <Layout>
         <FilterLeftBar props={setCollapsed, collapsed}/>
@@ -77,6 +53,7 @@ const AdvertisingParties = () => {
         </Layout>
       </Layout>
     </Layout>
+    </adverContext.Provider>
   );
 };
 export default AdvertisingParties;

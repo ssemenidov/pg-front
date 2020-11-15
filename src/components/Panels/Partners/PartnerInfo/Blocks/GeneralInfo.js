@@ -73,7 +73,7 @@ export default function GeneralInfo() {
                   <InputTitle>Сектор деятельности</InputTitle>
                   <StyledSelect
                     defaultValue={item.workingSector ? item.workingSector.id: <img src={anchorIcon} /> }
-                    onChange={(value) => setItem({ ...item, workingSector: { ...item.workingSector, id: value } })}>
+                    onChange={(value) => setItem({ ...item, workingSector: { id: value } })}>
                     {sector && sector.searchWorkingSector.edges.map((item)=>
                     <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                       <img src={anchorIcon} />
