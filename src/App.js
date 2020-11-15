@@ -24,7 +24,7 @@ import Brand from './containers/Base/Brand/Brand';
 import Agreements from './containers/Base/Documents/Agreements/Agreements';
 import Agreement from './containers/Base/Documents/Agreement/Agreement';
 import ApplicationsBase from './containers/Base/Documents/Application_base/Application_base';
-import ApplicationBase  from './containers/Base/Documents/Application/Application';
+import ApplicationBase from './containers/Base/Documents/Application/Application';
 import Crews from './containers/Base/Crews/Crews';
 import Brands from './containers/Base/Brands/Brands';
 
@@ -42,14 +42,13 @@ import Projects from './containers/Installations/Projects/Projects';
 import Orders from './containers/Installations/Orders/Orders';
 import Design from './containers/Installations/Design/Design';
 
-
 import Person from './containers/Administration/Person/Person';
 import AdminOutdoorFurniture from './containers/Administration/AdminOutdoorFurniture/AdminOutdoorFurniture';
-import AdminLocations from './containers/Administration/AdminLocations/AdminLocations'
-import Packages from './containers/Administration/Packages/Packages'
-import AdminCrews from './containers/Administration/AdminCrews/AdminCrews'
-import Prices from './containers/Administration/Prices/Prices'
-import TestImageUpload from './containers/Administration/Main/TestImageUpload'
+import AdminLocations from './containers/Administration/AdminLocations/AdminLocations';
+import Packages from './containers/Administration/Packages/Packages';
+import AdminCrews from './containers/Administration/AdminCrews/AdminCrews';
+import Prices from './containers/Administration/Prices/Prices';
+import TestImageUpload from './containers/Administration/Main/TestImageUpload';
 
 import { adminRoutes } from './containers/Administration/Main/adminRoutes';
 
@@ -64,9 +63,9 @@ const App = () => {
           <Route path="/sales" exact component={MainSales} />
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
-          <Route path="/sales/project_card" component={Project_card} />
+          <Route path="/sales/project_card/:id?" component={Project_card} exact />
           <Route path="/sales/project_new" component={Project_new} />
-          <Route path="/sales/application" component={Application} />
+          <Route path="/sales/application/:appId" component={Application} exact />
           <Route path="/sales/com_projects" component={Com_projects} />
           <Route path="/sales/invoice" component={Invoice} />
           <Route path="/sales/estimate" component={Estimate} />
@@ -104,7 +103,6 @@ const App = () => {
           <Route path={adminRoutes.crews.to} component={AdminCrews} />
           <Route path={adminRoutes.prices.to} component={Prices} />
           {adminRoutes.test_image && <Route path={adminRoutes.test_image.to} component={TestImageUpload} />}
-
         </Switch>
       </BrowserRouter>
     </ConfigProvider>
