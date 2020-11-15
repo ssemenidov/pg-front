@@ -143,18 +143,13 @@ const FilterBar = () => {
               <StyledSelect.Option value="case 2"><img src={arrowsIcon} /><span> case 2</span></StyledSelect.Option>
             </StyledSelect>
           </Form.Item>
-          <Form.Item name="code">
-            <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Код рекламной стороны</span> </>} size={'large'}>
-              <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-              <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 2</span></StyledSelect.Option>
+          <Form.Item name="size">
+            <StyledSelect  placeholder={<><img src={arrowsIcon} /> <span>Сторона кострукции</span> </>} size={'large'}>
+              <StyledSelect.Option value="case 1"><img src={arrowsIcon} /><span> case 1</span></StyledSelect.Option>
+              <StyledSelect.Option value="case 2"><img src={arrowsIcon} /><span> case 2</span></StyledSelect.Option>
             </StyledSelect>
           </Form.Item>
-          <Form.Item name="package">
-            <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Пакет</span> </>} size={'large'}>
-              <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-              <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 2</span></StyledSelect.Option>
-            </StyledSelect>
-          </Form.Item>
+
 
           <Checkbox defaultChecked>Освещение</Checkbox>
         </StyledPanel>
