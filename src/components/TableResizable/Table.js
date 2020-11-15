@@ -26,8 +26,6 @@ export default class AdvertisingParties extends Component {
     });
   };
 
-  data = this.props.data;
-
   rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -57,7 +55,7 @@ export default class AdvertisingParties extends Component {
         }
         components={this.components}
         columns={columns}
-        dataSource={this.data}
+        dataSource={this.props.data}
         loading={loading}
         footer={
           footer
