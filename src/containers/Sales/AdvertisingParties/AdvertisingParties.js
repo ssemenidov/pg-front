@@ -83,11 +83,10 @@ const AdvertisingParties = () => {
               <JobTitle>Справочник рекламных сторон</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
-
               <StyledButton backgroundColor="#FF5800">Создать отчет</StyledButton>
             </ButtonGroup>
           </HeaderWrapper>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             <PanelAdver style={{ flex: '0 1 auto' }} />
           </div>
         </Layout>
@@ -96,7 +95,9 @@ const AdvertisingParties = () => {
         {`
           .layout-main {
             background: #fff !important;
-            height: 100% !important;
+            position: relative;
+            min-height: 100vh;
+            height: auto !important;
           }
           .layout-sider {
             background: #F5F7FA;

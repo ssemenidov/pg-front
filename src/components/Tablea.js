@@ -96,25 +96,28 @@ class Tablea extends React.Component {
       }),
     }));
 
-    if(this.props.enableChooseQuantityColumn) {
+    const handleMenuClick = () => {};
+    if (this.props.enableChooseQuantityColumn) {
       settingmenu = (
-        <Menu>
-          {
-            this.props.columnsForPopup.filter((col, index) => (
-              index !== this.props.columnsForPopup.indexOf(this.props.columnsForPopup[this.props.columnsForPopup.length - 1])
-            )).map(col => (
+        <Menu onClick={handleMenuClick}>
+          {this.props.columnsForPopup
+            .filter(
+              (col, index) =>
+                index !==
+                this.props.columnsForPopup.indexOf(this.props.columnsForPopup[this.props.columnsForPopup.length - 1]),
+            )
+            .map((col) => (
               <Menu.Item key={col.dataIndex}>
                 <Checkbox
                   checked={col.isShowed}
-                  onClick={() => this.props.changeColumns(col.dataIndex)}
+                  // onClick={() => this.props.changeColumns(col.dataIndex)}
                 >
                   {col.title}
                 </Checkbox>
               </Menu.Item>
-            ))
-          }
+            ))}
         </Menu>
-      )
+      );
     }
 
     const rowSelection = {
@@ -125,51 +128,38 @@ class Tablea extends React.Component {
         disabled: record.name === 'Disabled User',
         name: record.name,
       }),
-      selectedRowKeys: this.props.constructionsIdSet
+      selectedRowKeys: this.props.constructionsIdSet,
     };
 
     return (
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         {!this.props.notheader && (
           <div className="header-bar">
-            {
-              this.props.enableChoosePeriod
-              ? (
-                <React.Fragment>
-                  {this.props.title ? (
-                    <div style={{display:"flex",alignItems:"center",height:"100%", paddingLeft: 12}}>
-                    <img src={ attachIcon} alt=""/>
-                    <span style={{ minWidth: 'max-content' ,fontWeight:"600",marginLeft:"12px",fontSize:"16px"}}>{this.props.title}</span>
-                   </div>
-                  ) : (
+            {this.props.enableChoosePeriod ? (
+              <React.Fragment>
+                {this.props.title ? (
+                  <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
+                    <img src={attachIcon} alt="" />
+                    <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
+                      {this.props.title}
+                    </span>
+                  </div>
+                ) : (
+                  <div>
                     <div>
-                      <div>
-                        <Button className="header-btn">
-                          <img src={plusIcon} />
-                        </Button>
-                        <Button className="header-btn">
-                          <img src={minusIcon} />
-                        </Button>
-                      </div>
-                      <Select
-                        defaultValue="Дата"
-                        style={{ marginLeft: '20px' }}
-                        onChange={(value) => {
-                          console.log(value);
-                          this.setState({ datetype: value });
-                        }}>
-                        <Select.Option value="date">Дата</Select.Option>
-                        <Select.Option value="week">Неделя</Select.Option>
-                        <Select.Option value="month">Месяц</Select.Option>
-                        <Select.Option value="year">Год</Select.Option>
-                      </Select>
-                      <DatePicker.RangePicker picker={this.state.datetype} style={{ marginLeft: '5px' }} />
+                      <Button className="header-btn">
+                        <img src={plusIcon} />
+                      </Button>
+                      <Button className="header-btn">
+                        <img src={minusIcon} />
+                      </Button>
                     </div>
-                  )}
-                </React.Fragment>
-              )
-              : (<div></div>)
-            }
+                  </div>
+                )}
+              </React.Fragment>
+            ) : (
+              <div></div>
+            )}
             <div>
               <Input
                 style={{ marginLeft: '20px' }}
@@ -187,22 +177,24 @@ class Tablea extends React.Component {
                 <span>Экспорт</span>
               </Button>
 
-              {
-                this.props.enableChooseQuantityColumn
-                && (
-                  <Dropdown overlay={settingmenu} className="header-btn" trigger={['click']} placement="bottomRight">
-                    <Button style={{ marginLeft: '5px' }} className="header-btn">
-                      <img src={settingsIcon} />
-                    </Button>
-                  </Dropdown>
-                )
-              }
+              {this.props.enableChooseQuantityColumn && (
+                <Dropdown
+                  overlay={settingmenu}
+                  className="header-btn"
+                  trigger={['click']}
+                  placement="bottomRight">
+                  <Button style={{ marginLeft: '5px' }} className="header-btn">
+                    <img src={settingsIcon} />
+                  </Button>
+                </Dropdown>
+              )}
             </div>
           </div>
         )}
         <Content>
           <StyledTable
             onRow={onRow}
+            loading={this.props.loading}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,
@@ -218,7 +210,7 @@ class Tablea extends React.Component {
               defaultPageSize: 10,
               showSizeChanger: true,
               placement: 'top',
-              pageSizeOptions: ['25', '50', '100','1000'],
+              pageSizeOptions: ['25', '50', '100', '1000'],
               total: this.props.data.length,
             }}
           />
@@ -279,13 +271,13 @@ Tablea.propTypes = {
   enableChoosePeriod: PropTypes.bool,
   enableChooseQuantityColumn: PropTypes.bool,
   columnsForPopup: PropTypes.array,
-  onRow: PropTypes.func
+  onRow: PropTypes.func,
 };
 Tablea.defaultProps = {
   enableChoosePeriod: true,
   enableChooseQuantityColumn: true,
   columnsForPopup: [],
-  onRow: () => undefined
+  onRow: () => undefined,
 };
 
 export default Tablea;
