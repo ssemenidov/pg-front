@@ -1,82 +1,43 @@
-import React, { Component, useState } from 'react';
-import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
+import React, { Component, useState,createContext } from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import { Resizable } from 'react-resizable';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
+import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs'
 
 import PanelAdver from './PanelAdver';
 import FilterBar from './FilterBar';
+import { FilterLeftBar } from './FilterLeftBar';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-
+import './styles.scss'
 const { Content, Sider } = Layout;
 
-const ResizableTitle = (props) => {
-  const { onResize, width, ...restProps } = props;
 
-  if (!width) {
-    return <th {...restProps} />;
-  }
+export const adverContext = createContext();
 
-  return (
-    <Resizable
-      width={width}
-      height={0}
-      handle={
-        <span
-          className="react-resizable-handle"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        />
-      }
-      onResize={onResize}
-      draggableOpts={{ enableUserSelectHack: false }}>
-      <th {...restProps} />
-    </Resizable>
-  );
-};
+const links = [
+  { id: 'sales', value: 'Продажи' },
+  { id: 'sales/advertising_parties', value: 'Справочник рекламных сторон' },
+];
+
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [filter, setFilter]= useState({});
 
   return (
+    <adverContext.Provider value={[filter, setFilter]}>
     <Layout>
       <Layout>
-        <Sider className="layout-sider">
-          <Menu
-            className="layout-sider"
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}>
-            <LeftBar>
-              <SearchBtn
-                onClick={() => {
-                  setCollapsed(!collapsed);
-                }}
-              />
-              <CreateBtn text="Создать проект" />
-            </LeftBar>
-          </Menu>
-        </Sider>
+        <FilterLeftBar props={setCollapsed, collapsed}/>
         {collapsed && <FilterBar />}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <Breadcrumb className="layout-breadcrumb">
-            <Breadcrumb.Item>
-              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-              <Link to="/">Главная</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/sales/">Продажи</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Справочник рекламных сторон</Breadcrumb.Item>
-          </Breadcrumb>
+          <BreadCrumbs links={links}/>
           <HeaderWrapper>
             <HeaderTitleWrapper>
               <TitleLogo />
@@ -91,13 +52,12 @@ const AdvertisingParties = () => {
           </div>
         </Layout>
       </Layout>
+<<<<<<< HEAD
       <style>
         {`
           .layout-main {
             background: #fff !important;
-            position: relative;
-            min-height: 100vh;
-            height: auto !important;
+            height: 100% !important;
           }
           .layout-sider {
             background: #F5F7FA;
@@ -248,6 +208,14 @@ const AdvertisingParties = () => {
             border-radius: 50%;
             display: inline-block;
           }
+          .dot-5 {
+            height: 8px;
+            margin: 0 4px;
+            width: 8px;
+            background-color: #C8C8C8;
+            border-radius: 50%;
+            display: inline-block;
+          }
           .filter-panel-city {
             display: flex;
             flex-direction: column;
@@ -351,7 +319,10 @@ const AdvertisingParties = () => {
           }
         `}
       </style>
+=======
+>>>>>>> 4323f946d2d53c6bbb16cdf1772708fb12914a62
     </Layout>
+    </adverContext.Provider>
   );
 };
 export default AdvertisingParties;

@@ -68,6 +68,18 @@ const PURPSOSE_T = gql`
     }
   }
 `;
+const SEARCH_FAMILY = gql`
+  {
+    searchFamilyConstruction {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+}
+`;
 
 const { Panel } = Collapse;
 const FilterBar = () => {
@@ -86,6 +98,7 @@ const FilterBar = () => {
   const district = useQuery( DISTRICT_T).data;
   const post = useQuery( POST_T).data;
   const purpose = useQuery( PURPSOSE_T).data;
+  const familyList = useQuery( SEARCH_FAMILY).data;
   // if (!city || !district || !post) {
   //   return <span></span>;
   // }
@@ -164,8 +177,21 @@ const FilterBar = () => {
             <Form.Item name="area">
               <StyledInput prefix={<img src={areaIcon} />} placeholder="Площадь" size={'large'} />
             </Form.Item>
-            <Form.Item name="format">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Формат" size={'large'} />
+            <Form.Item name="familyConstruction_Id">
+              <StyledSelect
+                placeholder={<><img src={anchorIcon} /><span>Семейство</span> </>}
+                size={'large'}
+              >
+                {familyList && familyList.searchFamilyConstruction.edges.map((item)=>
+                  <StyledSelect.Option
+                    key={item.node.id}
+                    value={item.node.title}
+                  >
+                    <img src={districtIcon} />
+                    <span>{item.node.title}</span>
+                  </StyledSelect.Option>
+                )}
+              </StyledSelect>
             </Form.Item>
             <Form.Item name="comment">
               <StyledInput prefix={<img src={commentIcon} />} placeholder="Комментарий" size={'large'} />

@@ -86,9 +86,9 @@ export default function Adress() {
                 legalAddressPostcode: {
                   ...item.legalAddressPostcode,
                   district: {
-                    ...item.legalAddressPostcode.district,
+                    ...(item.legalAddressPostcode && item.legalAddressPostcode.district),
                     city: {
-                      ...item.legalAddressPostcode.district.city,
+                      ...(item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.city),
                       title: title,
                       id: value
                     }
@@ -126,7 +126,7 @@ export default function Adress() {
                 legalAddressPostcode: {
                   ...item.legalAddressPostcode,
                   district: {
-                    ...item.legalAddressPostcode.district,
+                    ...(item.legalAddressPostcode && item.legalAddressPostcode.district),
                     title: title,
                     id: value
                   }

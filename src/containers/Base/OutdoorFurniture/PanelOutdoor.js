@@ -98,7 +98,7 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
 
   const { loading, error, data } = useQuery(OUTDOOR_T, { variables: filter });
   if (error) return <p>Error :(</p>;
-  if (loading) return <Preloader size={'large'}/>;
+  // if (loading) return <Preloader size={'large'}/>;
   if (data) {
     populated_data = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
@@ -127,14 +127,15 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
           select={flagAddConstructionToLocation}
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                history.push(`/base/construction/${record.key}`);
-                history.go(0);
-              }
-            };
-          }}
+          loading={loading}
+          // onRow={(record) => {
+          //   return {
+          //     onClick: () => {
+          //       history.push(`/base/construction/${record.key}`);
+          //       history.go(0);
+          //     }
+          //   };
+          // }}
         />
       </div>
 

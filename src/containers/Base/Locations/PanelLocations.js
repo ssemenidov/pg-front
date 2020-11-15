@@ -102,9 +102,6 @@ query SearchLocation(
   }
 `;
 
-
-
-
 const initColumnsForPopup = [
   // column('Код местоположения', 'code', 130, true),
   column('Семейство конструкции', 'familyConstruction', 80, true),
@@ -169,26 +166,11 @@ const PanelDesign = (props) => {
   const [filter, setFilter] = useContext(locationsContext);
   const history = useHistory();
   const location = useLocation();
+
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
-  var data1 = [
-    {
-      key: 1,
-      code: '#102005030132',
-      city: 'Алматы',
-      post: '010001',
-      district: 'Медеуский р-н.',
-      adress_j: 'Абая - ост. ГорВодоКанал',
-      cadastralNumber: '34756824',
-      area: '32 га',
-      contractNumber:"",
-      marketingAddress: "",
-      constructionQuantity: "",
-      targetPurpose: "",
-      comment: "",
-    },
-  ];
+  var data1 = [];
   console.log(filter);
   const { loading, error, data, refetch } = useQuery(LOCATIONS_T, { variables: filter });
 
@@ -197,7 +179,7 @@ const PanelDesign = (props) => {
   }, [location])
 
   if (error) return <p>Error :(</p>;
-  if (loading) return <Preloader size={'large'}/>;
+  // if (loading) return <Preloader size={'large'}/>;
   if (data) {
     data1 = data.searchLocation.edges.map((item) => ({
       key: item.node.id,
@@ -258,6 +240,7 @@ const PanelDesign = (props) => {
           data={data1}
           enableChoosePeriod={false}
           changeColumns={changeColumns}
+          loading={loading}
           // onRow={(record) => {
           //   return {
           //     onClick: () => {

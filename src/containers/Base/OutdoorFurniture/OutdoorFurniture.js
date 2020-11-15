@@ -29,12 +29,12 @@ const CONSTRUCT_CREATE = gql`
 const ADD_CONSTRUCT_TO_LOCATION = gql`
   mutation (
   $id: ID!
-  $constructions: [ID]
+  $constructionsAdd: [ID]
 ) {
   updateLocation(
     id: $id
     input: {
-      constructions: $constructions
+      constructionsAdd: $constructionsAdd
     }
   ) {
     location {
@@ -43,16 +43,33 @@ const ADD_CONSTRUCT_TO_LOCATION = gql`
   }
 }
 `;
-
-const OutdoorFurniture = () => {
+const ADD_CONSTRUCT_TO_CREW = gql`
+  mutation (
+  $id: ID!
+  $constructionsAdd: [ID]
+) {
+  updateCrew(
+    id: $id
+    input: {
+      constructions: $constructionsAdd
+    }
+  ) {
+    crew {
+      id
+    }
+  }
+}
+`;
+const OutdoorFurniture = (props) => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
-  const [flagAddConstructionToLocation, setFlagAddConstructionToLocation] = useState(false);
+  const [flagAddConstruction, setFlagAddConstruction] = useState(false);
   const [constructionsIdSet, setConstructionsIdSet] = useState([]);
   const { id } = useParams();
   const [createConstruction, { data }] = useMutation(CONSTRUCT_CREATE);
   const [updateLocation] = useMutation(ADD_CONSTRUCT_TO_LOCATION);
+  const [updateCrew] = useMutation(ADD_CONSTRUCT_TO_CREW);
 
   useMemo(() => {
     if (data) {
@@ -61,14 +78,29 @@ const OutdoorFurniture = () => {
   }, [data]);
 
   useEffect(() => {
-    setFlagAddConstructionToLocation(Boolean(id));
+    setFlagAddConstruction(Boolean(id));
   }, [id]);
 
   const addConstruction = () => {
     if(constructionsIdSet && constructionsIdSet.length) {
+      if(props.isCrew){
+        updateCrew({ variables: {
+          id: id,
+          constructionsAdd: constructionsIdSet
+        }})
+          .then((response) => {
+            history.push(`/base/crews/${id}`);
+            history.go(0);
+          })
+          .catch(error => {
+            alert('Конструкция не добавлена! Что то поломалось :(')
+            console.error(error)
+          })
+      }
+      else{
       updateLocation({ variables: {
           id: id,
-          constructions: constructionsIdSet
+          constructionsAdd: constructionsIdSet
         }})
           .then((response) => {
             history.push(`/base/locations/location/${id}`);
@@ -78,6 +110,7 @@ const OutdoorFurniture = () => {
             alert('Конструкция не добавлена! Что то поломалось :(')
             console.error(error)
           })
+      }
     } else {
       alert('Конструкция не выбрана')
     }
@@ -115,7 +148,7 @@ const OutdoorFurniture = () => {
                 </HeaderTitleWrapper>
                 <ButtonGroup>
                   {
-                    flagAddConstructionToLocation
+                    flagAddConstruction
                     && (
                       <StyledButton
                         backgroundColor="#2c5de5"
@@ -136,7 +169,7 @@ const OutdoorFurniture = () => {
               <div style={{ display: 'flex' }}>
                 <PanelOutdoor
                   style={{ flex: '0 1 auto' }}
-                  flagAddConstructionToLocation={flagAddConstructionToLocation}
+                  flagAddConstructionToLocation={flagAddConstruction}
                   constructionsIdSet={constructionsIdSet}
                   setConstructionsIdSet={setConstructionsIdSet}
                 />
