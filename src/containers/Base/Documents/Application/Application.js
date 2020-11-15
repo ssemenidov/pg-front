@@ -77,7 +77,10 @@ const ApplicationBase = (props) => {
               <Breadcrumb.Item>
                 <Link to="/base/">Базы</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>Бренды</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/base/documents/">Документы</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>Приложение</Breadcrumb.Item>
             </Breadcrumb>
             <Content
               className="site-layout-background"
