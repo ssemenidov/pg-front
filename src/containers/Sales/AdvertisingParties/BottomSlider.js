@@ -6,10 +6,18 @@ import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import React from 'react';
 
 
-const checkBoxOptions = [
-  { label: 'Брендирование', value: 'branding' },
-  { label: 'Дизайн', value: 'design' },
-];
+const InputIcon = ({ img, alt }) => {
+  return (
+    <span
+      style={{
+        position: 'absolute',
+        transform: 'translate(55% ,30%)',
+        zIndex: '99',
+      }}>
+        <img src={img} alt={alt} />
+      </span>
+  );
+};
 
 const CardTitle = () => {
   return (
@@ -34,19 +42,6 @@ const CardTitle = () => {
   );
 };
 
-const InputIcon = ({ img, alt }) => {
-  return (
-    <span
-      style={{
-        position: 'absolute',
-        transform: 'translate(55% ,30%)',
-        zIndex: '99',
-      }}>
-        <img src={img} alt={alt} />
-      </span>
-  );
-};
-
 
 const DateStateText = () => {
   return (
@@ -61,6 +56,12 @@ const DateStateText = () => {
     </p>
   );
 };
+
+const checkBoxOptions = [
+  { label: 'Брендирование', value: 'branding' },
+  { label: 'Дизайн', value: 'design' },
+];
+
 
 export const BottomSlider = ({showCard, setShowCard, onFinish, form}) => (!showCard ? <></> : (
   <div

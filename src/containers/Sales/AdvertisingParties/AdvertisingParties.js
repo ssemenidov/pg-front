@@ -14,7 +14,7 @@ import { FilterLeftBar } from './FilterLeftBar';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import './styles.scss'
+import './styles_adv_part.scss'
 const { Content, Sider } = Layout;
 
 

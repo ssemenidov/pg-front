@@ -1,58 +1,7 @@
 import React, { useState } from 'react';
 
-// import DlhSoft from './DlhSoft/Controls';
-// import 'DlhSoft.GanttChartHyperLibrary/DlhSoft.Data.HTML.Controls.js';
-// import 'DlhSoft.GanttChartHyperLibrary/DlhSoft.ProjectData.GanttChart.HTML.Controls.Extras.js';
+import { ScheduleChartView, ganttColumns, ganttSettings } from './StyledGanttChart'
 
-// import { ScheduleChartView } from 'DlhSoft.GanttChartHyperLibrary/DlhSoft.ProjectData.GanttChart.React.Components';
-for (let urlValue of [
-  '/DlhSoft.ProjectData.GanttChart.HTML.Controls.js',
-  '/DlhSoft.Data.HTML.Controls.js',
-]) {
-  let script = document.createElement('script');
-  script.src = urlValue;
-  script.type = 'text/javascript';
-  document.getElementsByTagName('head')[0].appendChild(script);
-}
-
-// let script2 = document.createElement('script');
-// script2.src = 'https://z0rel.ddns.net/static/DlhSoft.Data.HTML.Controls.js';
-// script2.type = 'text/javascript';
-// document.getElementsByTagName('head')[0].appendChild(script2);
-//
-// let script3 = document.createElement('script');
-// script3.src = 'https://z0rel.ddns.net/static/DlhSoft.ProjectData.GanttChart.HTML.Controls.Extras.js';
-// script3.type = 'text/javascript';
-// document.getElementsByTagName('head')[0].appendChild(script3);
-
-
-let ScheduleChartView = React.forwardRef(function(props, ref) {
-  let { initialized, setInitialized } = useState(false)
-  if (!ref) ref = React.createRef();
-  let element = <div ref={ref} style={props.style}>{props.children}</div>;
-  let changeHandler = props.settings.itemPropertyChangeHandler;
-  if (!initialized) {
-    let interval = setInterval(function() {
-      if (window.DlhSoft && window.DlhSoft.Controls && window.DlhSoft.Controls.ScheduleChartView
-        && window.DlhSoft.Controls.ScheduleChartView.initialize) {
-        clearInterval(interval)
-        window.DlhSoft.Controls.ScheduleChartView.initialize(ref.current, props.items, props.settings, props.license);
-      }
-    });
-  }
-  else {
-    setTimeout(function() {
-      if (props.change) {
-        props.settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
-          if (changeHandler)
-            changeHandler(item, propertyName, isDirect, isFinal);
-          props.change(item, propertyName, isDirect, isFinal);
-        }
-      }
-    })
-  }
-  return element;
-});
 
 export function GanttChartAdvertisingSides(props) {
   /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
@@ -116,23 +65,19 @@ export function GanttChartAdvertisingSides(props) {
           content: 'Task Y (Resource ' + i + ')',
           start: new Date(year, month, 7, 8, 0, 0),
           finish: new Date(year, month, 8, 16, 0, 0)
-        }]
+        },
+        ],
+      code: `code ${i}`,
+      format: `format ${i}`,
+      city: `city ${i}`,
     });
 
-  let settings = {
-    currentTime: new Date(year, month, 2, 12, 0, 0)
-  };
-  // Optionally, initialize custom theme and templates (themes.js, templates.js).
-  // initializeGanttChartTheme(settings, theme);
-  // initializeGanttChartTemplates(settings, theme);
-  // Set up continuous schedule (24/7).
-  settings.workingWeekStart = 0; // Sunday
-  settings.workingWeekFinish = 6; // Saturday
-  settings.visibleDayStart = 0; // 00:00
-  settings.visibleDayFinish = 24 * 60 * 60 * 1000; // 24:00
-  // Set appropriate zoom level as 24 hours are diplayed per day.
-  settings.hourWidth = 2.5;
-  return <ScheduleChartView items={scheduleChartItems} settings={settings}></ScheduleChartView>;
-};
+  scheduleChartItems[1].description = 'Custom description';
 
+
+  return <ScheduleChartView items={scheduleChartItems}
+                            settings={ganttSettings(year, month)}
+                            columns={ganttColumns}
+  />;
+};
 

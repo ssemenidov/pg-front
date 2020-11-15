@@ -100,14 +100,13 @@ void 0 == DlhSoft[licensing[0]] && (DlhSoft[licensing[0]] = function() {
         G = U[licensing[9]];
         break a;
       }
-      console.log('ea', ea(O, G));
       true ? $[licensing[6]] = G : S($, V, O, P, J);
     },
   };
 }());
 void 0 == DlhSoft.Controls && (DlhSoft.Controls = {});
 void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = function() {
-  var L = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+  var daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
     I = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     X = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], ba = new Date(2592E5), la = new Date(3155762592E5),
     ea = function(a, c, d, b) {
@@ -130,62 +129,67 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         if (typeof d.visibilityFilter !== 'undefined') {
           uc(c, d.visibilityFilter);
           for (var e = 0, g = 0; g < c.length; g++) {
-            var m = c[g];
-            if (typeof m.ganttChartItems !== 'undefined') {
-              if (!m.isHidden) m.scheduleChartVisibilityIndex = e++;
-              for (var h = 0; h < m.ganttChartItems.length; h++) {
-                var n = m.ganttChartItems[h];
-                if (m.isHidden) n.isHidden = true;
-                n.displayRowIndex = m.scheduleChartVisibilityIndex;
+            var ganttChartRoot = c[g];
+            if (typeof ganttChartRoot.ganttChartItems !== 'undefined') {
+              if (!ganttChartRoot.isHidden) ganttChartRoot.scheduleChartVisibilityIndex = e++;
+              for (var ganttChartHeader = 0; ganttChartHeader < ganttChartRoot.ganttChartItems.length; ganttChartHeader++) {
+                var n = ganttChartRoot.ganttChartItems[ganttChartHeader];
+                if (ganttChartRoot.isHidden) n.isHidden = true;
+                n.displayRowIndex = ganttChartRoot.scheduleChartVisibilityIndex;
               }
             }
           }
         }
-        var l = P(a, c, d), s = a.ownerDocument, e = s.createElement('div');
-        e.setAttribute('style', 'font-family: Arial; font-size: small; overflow: auto');
-        g = s.createElement('div');
+        var l = P(a, c, d), ownerDocument = a.ownerDocument, e = ownerDocument.createElement('div');
+        e.classList.add('gantt-root-root')
+        // e.setAttribute('style', 'font-family: Arial; font-size: small; overflow: auto');
+        g = ownerDocument.createElement('div');
         typeof d.containerClass !== 'undefined' && g.setAttribute('class', d.containerClass);
         typeof d.containerStyle !== 'undefined' && g.setAttribute('style', d.containerStyle);
         e.appendChild(g);
-        m = s.createElement('div');
-        m.setAttribute('style', 'border: solid 1px ' + d.border + '; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; overflow: auto');
-        g.appendChild(m);
-        var u =
-          s.createElement('div');
-        u.setAttribute('style', 'overflow: auto; float: left; border-right: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: ' + d.gridWidth);
-        d.isGridVisible && m.appendChild(u);
-        var v = s.createElement('div');
-        v.setAttribute('style', 'overflow: auto; float: right; width: ' + d.chartWidth);
-        m.appendChild(v);
-        var C = s.createElement('div');
-        C.setAttribute('style', 'position: relative; opacity: 0; left: 0px; width: ' + d.splitterWidth + 'px; height: 0px; background: ' +
-          d.splitterBackground + '; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: e-resize; -ms-touch-action: pinch-zoom; touch-action: auto');
-        C.addEventListener('mouseover', function() {
-          C.style.opacity = 1;
-          C.isWaiting !== 'undefined' && delete C.isWaiting;
+        ganttChartRoot = ownerDocument.createElement('div');
+        ganttChartRoot.classList.add('gantt-chart-root')
+        // ganttChartRoot.setAttribute('style', 'border: solid 1px ' + d.border + '; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; overflow: auto');
+        g.appendChild(ganttChartRoot);
+        var ganttChartLeftPanel = ownerDocument.createElement('div');
+        ganttChartLeftPanel.classList.add('gantt-chart-left-panel')
+        ganttChartLeftPanel.setAttribute('style', 'overflow: auto; float: left; border-right: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: ' + d.gridWidth);
+        d.isGridVisible && ganttChartRoot.appendChild(ganttChartLeftPanel);
+        var ganttChartRightPanel = ownerDocument.createElement('div');
+        ganttChartRightPanel.classList.add('gantt-chart-right-bar');
+        ganttChartRightPanel.setAttribute('style', 'overflow: auto; float: right; width: ' + d.chartWidth);
+        ganttChartRoot.appendChild(ganttChartRightPanel);
+        var barsChartContainer = ownerDocument.createElement('div');
+        barsChartContainer.setAttribute('style',
+          'position: relative; opacity: 0; left: 0px; width: ' + d.splitterWidth + 'px; height: 0px; background: ' +
+          d.splitterBackground + '; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: e-resize; -ms-touch-action: pinch-zoom; touch-action: auto'
+        );
+        barsChartContainer.addEventListener('mouseover', function() {
+          barsChartContainer.style.opacity = 1;
+          barsChartContainer.isWaiting !== 'undefined' && delete barsChartContainer.isWaiting;
         }, true);
-        C.addEventListener('mouseout', function() {
-          if (typeof C.isWaiting === 'undefined') {
-            C.isWaiting = true;
+        barsChartContainer.addEventListener('mouseout', function() {
+          if (typeof barsChartContainer.isWaiting === 'undefined') {
+            barsChartContainer.isWaiting = true;
             setTimeout(function() {
-              if (typeof C.isWaiting !== 'undefined') {
-                delete C.isWaiting;
-                if (typeof C.x === 'undefined') C.style.opacity =
+              if (typeof barsChartContainer.isWaiting !== 'undefined') {
+                delete barsChartContainer.isWaiting;
+                if (typeof barsChartContainer.x === 'undefined') barsChartContainer.style.opacity =
                   0;
               }
             }, 1E3);
           }
         }, true);
-        C.addEventListener('mousedown', function(a) {
+        barsChartContainer.addEventListener('mousedown', function(a) {
           if (a.button == 0) {
-            C.style.opacity = 1;
-            C.x = a.clientX;
-            C.gridWidth = u.offsetWidth;
+            barsChartContainer.style.opacity = 1;
+            barsChartContainer.x = a.clientX;
+            barsChartContainer.gridWidth = ganttChartLeftPanel.offsetWidth;
           }
         }, true);
-        s.addEventListener('mousemove', function(c) {
-          if (typeof C.x !== 'undefined' && !(a.offsetWidth <= 0)) {
-            var c = C.gridWidth + (c.clientX - C.x), b = a.offsetWidth - c - 3, f = Math.max(1, d.minGridWidth),
+        ownerDocument.addEventListener('mousemove', function(c) {
+          if (typeof barsChartContainer.x !== 'undefined' && !(a.offsetWidth <= 0)) {
+            var c = barsChartContainer.gridWidth + (c.clientX - barsChartContainer.x), b = a.offsetWidth - c - 3, f = Math.max(1, d.minGridWidth),
               m = Math.max(1, d.minChartWidth);
             if (c < f) {
               b = b - (f - c);
@@ -196,73 +200,75 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             }
             c < 1 && (c = 1);
             b < 1 && (b = 1);
-            typeof u.percent !== 'undefined' && delete u.percent;
+            typeof ganttChartLeftPanel.percent !== 'undefined' && delete ganttChartLeftPanel.percent;
             c = Math.floor(c * 1E6 / a.offsetWidth) /
               1E4;
-            u.style.width = c + '%';
-            v.style.width = 100 - c + '%';
-            d.gridWidth = u.offsetWidth + 'px';
-            d.chartWidth = v.offsetWidth + 'px';
-            Ba(C, u, d);
+            ganttChartLeftPanel.style.width = c + '%';
+            ganttChartRightPanel.style.width = 100 - c + '%';
+            d.gridWidth = ganttChartLeftPanel.offsetWidth + 'px';
+            d.chartWidth = ganttChartRightPanel.offsetWidth + 'px';
+            Ba(barsChartContainer, ganttChartLeftPanel, d);
             typeof d.splitterPositionChangeHandler !== 'undefined' && setTimeout(function() {
-              d.splitterPositionChangeHandler(u.offsetWidth, v.offsetWidth);
+              d.splitterPositionChangeHandler(ganttChartLeftPanel.offsetWidth, ganttChartRightPanel.offsetWidth);
             }, 0);
           }
         }, true);
-        s.addEventListener('mouseup', function() {
-          if (typeof C.x !== 'undefined') {
-            delete C.x;
-            C.style.opacity = 0;
+        ownerDocument.addEventListener('mouseup', function() {
+          if (typeof barsChartContainer.x !== 'undefined') {
+            delete barsChartContainer.x;
+            barsChartContainer.style.opacity = 0;
           }
           if (DlhSoft.Controls.ToolTip && d.useUpdatingToolTips) (toolTip = a.toolTip) && toolTip.hide();
         }, true);
-        d.isGridVisible && d.isSplitterEnabled && m.appendChild(C);
-        g = s.createElement('div');
+        d.isGridVisible && d.isSplitterEnabled && ganttChartRoot.appendChild(barsChartContainer);
+        g = ownerDocument.createElement('div');
         g.setAttribute('style', 'float: right; background: ' + d.headerBackground + '; width: 0px; height: ' + d.headerHeight + 'px');
-        u.appendChild(g);
-        m = s.createElement('div');
-        m.setAttribute('style', 'overflow: hidden; background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: ' + d.headerHeight + 'px');
-        u.appendChild(m);
-        h = s.createElement('div');
-        h.setAttribute('style', 'float: right; background: ' +
+        ganttChartLeftPanel.appendChild(g);
+        ganttChartRoot = ownerDocument.createElement('div');
+        ganttChartRoot.classList.add('gantt-chart-left-panel-header')
+        ganttChartRoot.setAttribute('style', 'overflow: hidden; background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: ' + d.headerHeight + 'px');
+        ganttChartLeftPanel.appendChild(ganttChartRoot);
+        ganttChartHeader = ownerDocument.createElement('div');
+        ganttChartHeader.setAttribute('style', 'float: right; background: ' +
           d.headerBackground + '; width: 0px; height: ' + d.headerHeight + 'px');
-        v.appendChild(h);
-        n = s.createElement('div');
+        ganttChartRightPanel.appendChild(ganttChartHeader);
+        n = ownerDocument.createElement('div');
         n.setAttribute('style', 'overflow: hidden; background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: ' + d.headerHeight + 'px');
-        v.appendChild(n);
-        var q = s.createElement('div');
+        n.classList.add('gantt-chart-right-panel-header')
+        ganttChartRightPanel.appendChild(n);
+        var q = ownerDocument.createElement('div');
         q.setAttribute('style', 'overflow-x: ' + (typeof d.isExport === 'undefined' || !d.isExport ? 'scroll' : 'hidden') + '; overflow-y: ' +
           (typeof d.isExport === 'undefined' || !d.isExport ? 'auto' : 'hidden') + '; height: ' + l);
-        u.appendChild(q);
-        var M = s.createElement('div');
+        ganttChartLeftPanel.appendChild(q);
+        var M = ownerDocument.createElement('div');
         M.setAttribute('style', 'overflow-x: ' + (typeof d.isExport === 'undefined' || !d.isExport ? 'scroll' : 'hidden') + '; overflow-y: ' + (typeof d.isExport === 'undefined' || !d.isExport ? 'auto' : 'hidden') + '; height: ' + l);
-        v.appendChild(M);
-        var l = db(b), j = s.createElement('div');
+        ganttChartRightPanel.appendChild(M);
+        var l = db(b), j = ownerDocument.createElement('div');
         j.setAttribute('style', 'background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: ' +
           l + 'px; overflow: hidden; height: ' + d.headerHeight + 'px');
-        m.appendChild(j);
-        var k = s.createElement('div');
+        ganttChartRoot.appendChild(j);
+        var k = ownerDocument.createElement('div');
         k.setAttribute('style', 'float: left; width: ' + l + 'px; overflow: auto' + (d.horizontalGridLines ? '; border-bottom: 1px solid ' + d.horizontalGridLines + '; margin-bottom: -1px; ; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box' : ''));
         q.appendChild(k);
         if (typeof d.extraSpaceHeight !== 'undefined') {
-          var o = s.createElement('div');
+          var o = ownerDocument.createElement('div');
           o.setAttribute('style', 'overflow: hidden; width: ' +
             l + 'px; height: ' + d.extraSpaceHeight + 'px');
           q.appendChild(o);
         }
-        var t = H(d.timelineFinish, d), p = s.createElement('div');
+        var t = H(d.timelineFinish, d), p = ownerDocument.createElement('div');
         p.setAttribute('style', 'background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -wekbit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: ' + t + 'px; height: ' + d.headerHeight + 'px');
         n.appendChild(p);
-        var w = s.createElement('div');
+        var w = ownerDocument.createElement('div');
         w.setAttribute('style', 'float: left; overflow: hidden; width: ' + t + 'px; height: 0px');
         M.appendChild(w);
-        var x = s.createElementNS('http://www.w3.org/2000/svg',
+        var x = ownerDocument.createElementNS('http://www.w3.org/2000/svg',
           'svg');
         x.setAttribute('style', 'width: ' + t + 'px; height: 0px');
         l = d.styleDefinitionTemplate(a);
         x.appendChild(l);
         x.chartAreaDefinitions = l;
-        l = s.createElementNS('http://www.w3.org/2000/svg', 'g');
+        l = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'g');
         x.appendChild(l);
         w.chartAreaAlternativeRows = l;
         l = function() {
@@ -276,13 +282,13 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           }, 0);
         };
         x.addEventListener('mousedown', l, true);
-        s.addEventListener('mouseup', l, true);
+        ownerDocument.addEventListener('mouseup', l, true);
         a.resetChartAreaDefinitions =
           l;
         w.appendChild(x);
         w.chartArea = x;
         if (typeof d.extraSpaceHeight !== 'undefined') {
-          l = s.createElement('div');
+          l = ownerDocument.createElement('div');
           l.setAttribute('style', 'overflow: hidden; width: ' + t + 'px; height: ' + d.extraSpaceHeight + 'px');
           M.appendChild(l);
           M.chartExtraSpace = l;
@@ -291,16 +297,16 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         setTimeout(function() {
           r = a.offsetWidth;
           A = a.offsetHeight;
-          y = v.offsetHeight;
+          y = ganttChartRightPanel.offsetHeight;
         }, 0);
         typeof a.splitterUpdateTimer !== 'undefined' && clearInterval(a.splitterUpdateTimer);
         a.splitterUpdateTimer = setInterval(function() {
           try {
-            if (typeof C.x === 'undefined' && !(a.offsetWidth <= 0)) {
+            if (typeof barsChartContainer.x === 'undefined' && !(a.offsetWidth <= 0)) {
               var c =
-                a.offsetWidth, b = v.offsetHeight, f = screen.deviceXDPI;
+                a.offsetWidth, b = ganttChartRightPanel.offsetHeight, f = screen.deviceXDPI;
               if (c != r || f != screen.deviceXDPI) {
-                var m = typeof u.percent !== 'undefined' ? u.percent * c : u.offsetWidth, h = v.offsetWidth,
+                var m = typeof ganttChartLeftPanel.percent !== 'undefined' ? ganttChartLeftPanel.percent * c : ganttChartLeftPanel.offsetWidth, h = ganttChartRightPanel.offsetWidth,
                   e = Math.max(1, d.minGridWidth), n = Math.max(1, d.minChartWidth);
                 if (m < e) {
                   h = h - (e - m);
@@ -312,15 +318,15 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 m < 1 && (m = 1);
                 h < 1 && (h = 1);
                 var l = Math.floor(m * 1E6 / c) / 1E4;
-                u.percent = l / 100;
-                u.style.width = l + '%';
-                v.style.width = 100 - l + '%';
-                d.gridWidth = u.offsetWidth + 'px';
-                d.chartWidth = v.offsetWidth + 'px';
-                Ba(C, u, d);
+                ganttChartLeftPanel.percent = l / 100;
+                ganttChartLeftPanel.style.width = l + '%';
+                ganttChartRightPanel.style.width = 100 - l + '%';
+                d.gridWidth = ganttChartLeftPanel.offsetWidth + 'px';
+                d.chartWidth = ganttChartRightPanel.offsetWidth + 'px';
+                Ba(barsChartContainer, ganttChartLeftPanel, d);
                 if (typeof d.splitterPositionChangeHandler !== 'undefined') {
                   var g =
-                    u.offsetWidth, s = v.offsetWidth;
+                    ganttChartLeftPanel.offsetWidth, s = ganttChartRightPanel.offsetWidth;
                   g > 0 && s > 0 && setTimeout(function() {
                     d.splitterPositionChangeHandler(g, s);
                   }, 0);
@@ -328,7 +334,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 r = c;
                 A = b;
               } else if (b != y) {
-                Ba(C, u, d);
+                Ba(barsChartContainer, ganttChartLeftPanel, d);
                 y = b;
               }
             }
@@ -348,7 +354,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 var f = P(a, c, d);
                 q.style.height = f;
                 M.style.height = f;
-                Ba(C, u, d);
+                Ba(barsChartContainer, ganttChartLeftPanel, d);
                 if (M.style.height != 'auto') w.availableHeight = M.clientHeight;
                 ta(w, ua(c, d));
                 va(c, M, d);
@@ -369,7 +375,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             !l && a.button && (a.button & 1 ? l = 1 : a.button & 4 ? l = 2 : a.button &
               2 && (l = 3));
             n = h.getBoundingClientRect();
-            var g = s.body, v = s.documentElement,
+            var g = ownerDocument.body, v = ownerDocument.documentElement,
               h = n.left + (window.pageXOffset || v.scrollLeft || g.scrollLeft) - (v.clientLeft || g.clientLeft || 0);
             n = Math.round(n.top + (window.pageYOffset || v.scrollTop || g.scrollTop) - (v.clientTop || g.clientTop || 0));
             var h = Math.round(h), h = a.pageX - h, v = a.pageY - n, q = n = 0, u, C;
@@ -481,10 +487,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         });
         k.container = q;
         w.container = M;
-        j.container = m;
+        j.container = ganttChartRoot;
         p.container = n;
-        a.gridContainer = u;
-        a.chartContainer = v;
+        a.gridContainer = ganttChartLeftPanel;
+        a.chartContainer = ganttChartRightPanel;
         a.gridContent = k;
         a.chartContent = w;
         a.gridContentContainer = q;
@@ -492,9 +498,9 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           M;
         a.gridHeader = j;
         a.chartHeader = p;
-        a.gridHeaderContainer = m;
+        a.gridHeaderContainer = ganttChartRoot;
         a.chartHeaderContainer = n;
-        a.splitter = C;
+        a.splitter = barsChartContainer;
         M.isInitializing = true;
         l = J(c, d);
         vc(a, e);
@@ -502,12 +508,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         wc(j, b, d);
         eb(p, x, f, d);
         xc(k, w, x, c, b, l, d);
-        Ba(C, u, d);
+        Ba(barsChartContainer, ganttChartLeftPanel, d);
         M.isInitializing = false;
         va(c, M, d);
         M.scrollLeft = H(d.displayedTime, d);
         if (n.scrollLeft != M.scrollLeft) n.scrollLeft = M.scrollLeft;
-        yc(a, q, u, m, g, k, M, n, v, h, w, C, c, d);
+        yc(a, q, ganttChartLeftPanel, ganttChartRoot, g, k, M, n, ganttChartRightPanel, ganttChartHeader, w, barsChartContainer, c, d);
         var B = false, D = function(a, b) {
           typeof b === 'undefined' && (b = 0);
           if (d.hourWidth != a) {
@@ -621,7 +627,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       if (typeof a.minChartWidth === 'undefined') a.minChartWidth = 36;
       if (typeof a.border === 'undefined') switch (a.theme) {
         default:
-          a.border = '#e0e0e0';
+          a.border = '#D3DFF0';
           break;
         case 'ModernBordered':
         case 'Aero':
@@ -662,7 +668,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       }
       if (typeof a.summaryItemStyle ===
         'undefined' && a.summaryItemClass == null) a.summaryItemStyle = 'font-weight: bold';
-      if (typeof a.daysOfWeek === 'undefined') a.daysOfWeek = L;
+      if (typeof a.daysOfWeek === 'undefined') a.daysOfWeek = daysOfWeek;
       if (typeof a.months === 'undefined') a.months = I;
       if (typeof a.weekStartDay === 'undefined') a.weekStartDay = 0;
       if (typeof a.currentTime === 'undefined') a.currentTime = new Date; else if (typeof a.currentTime === 'string') try {
@@ -1239,6 +1245,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         b = d.createElement('input');
         a.selectionInput = b;
         b.type = 'checkbox';
+        b.classList.add('gantt-checkbox-4')
         b.setAttribute('style', 'margin: 0px');
       } else b = a.selectionInput;
       if (a.isSelected) {
@@ -1632,6 +1639,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         b = d.createElement('input');
         a.milestoneInput = b;
         b.type = 'checkbox';
+        b.classList.add('gantt-checkbox-5')
         b.setAttribute('style', 'margin: 0px; margin-left: 2px; margin-right: 2px');
         b.addEventListener('focus', function() {
           x(a, c);
@@ -1799,6 +1807,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         b = d.createElement('input');
         a.completedInput = b;
         b.type = 'checkbox';
+        b.classList.add('gantt-checkbox-1')
         b.setAttribute('style', 'margin: 0px; margin-left: 2px; margin-right: 2px');
         b.addEventListener('focus', function() {
           x(a, c);
@@ -2185,7 +2194,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             headerTextFormat: 'Date',
             headerStyle: 'padding: 2.25px; border-right: solid 1px White; border-bottom: solid 1px White',
             isSeparatorVisible: true,
-            separatorStyle: 'stroke: #c8bfe7; stroke-width: 0.5px',
+            separatorStyle: 'stroke: #D3DFF0; stroke-width: 0.5px',
           }, {
             scaleType: 'Days',
             headerTextFormat: 'DayOfWeekAbbreviation',
@@ -2205,13 +2214,13 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           }, {
             scaleType: 'Weeks',
             headerTextFormat: 'Date',
-            headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
+            headerStyle: 'padding: 2.25px; border-right: solid 1px #D3DFF0; border-bottom: solid 1px #D3DFF0',
             isSeparatorVisible: true,
-            separatorStyle: 'stroke: #c8bfe7; stroke-width: 0.5px',
+            separatorStyle: 'stroke: #FFFFFF; stroke-width: 0.5px',
           }, {
             scaleType: 'Days',
             headerTextFormat: 'DayOfWeekAbbreviation',
-            headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7',
+            headerStyle: 'padding: 2.25px; border-right: solid 1px #D3DFF0',
           }, {
             scaleType: 'CurrentTime',
             isHeaderVisible: false,
@@ -2421,7 +2430,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           return d.daysOfWeek[ka(a)];
         case 'DayOfWeekAbbreviation':
           c = d.daysOfWeek[ka(a)];
-          return c.length > 0 ? c[0].toUpperCase() : '';
+          return c.length > 0 ? c[0].toUpperCase() + c[1] : '';
         case 'Day':
           a = new Date(a.valueOf() + a.getTimezoneOffset() * 6E4);
           return (a.getDate() < 10 ? '0' : '') + a.getDate();
@@ -7213,7 +7222,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             inputStyle: null,
             defaultTimeOfDay: m,
             isDropDownButtonVisible: false,
-            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #e0e0e0',
+            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #D3DFF0',
             calendarSelectorLevels: h,
             months: n,
             daysOfWeek: F(l),
@@ -7294,7 +7303,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             inputStyle: null,
             defaultTimeOfDay: m,
             isDropDownButtonVisible: false,
-            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #e0e0e0',
+            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #D3DFF0',
             calendarSelectorLevels: h,
             months: n,
             daysOfWeek: F(l),
@@ -7368,7 +7377,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           }
           b = DlhSoft.Controls.MultiSelectorComboBox.initialize(h, b, void 0, {
             inputStyle: null, autoAppendAvailableChoices: false, isDropDownButtonVisible: false,
-            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #e0e0e0; color: Black; font-size: small; max-height: 188px; overflow-y: auto',
+            popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #D3DFF0; color: Black; font-size: small; max-height: 188px; overflow-y: auto',
           }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
           b.openDropDown();
           setTimeout(function() {
@@ -7858,13 +7867,18 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
     }, ba = function(k, j) {
       typeof j !== 'object' && (j = {});
       X(j);
-      var o = [{ header: '', width: 32, isSelection: true }, { header: 'Resource', width: 120, isTreeView: true }];
-      o[0].cellTemplate = la(j, o[0], k);
-      o[1].cellTemplate = O(j, o[1], k);
-      o[1].exportCellTemplate = O(j, o[1], k, false);
+      var headerArr = [
+        { header: '', width: 32, isSelection: true },
+        // {
+        //   header: 'Код', width: 120, isTreeView: true
+        // }
+      ];
+      headerArr[0].cellTemplate = la(j, headerArr[0], k);
+      // headerArr[1].cellTemplate = O(j, headerArr[1], k);
+      // headerArr[1].exportCellTemplate = O(j, headerArr[1], k, false);
       j.selectionMode != 'Single' && (j.selectionMode != 'Extended' && j.selectionMode != 'ExtendedFocus') &&
-      o.splice(0, 1);
-      return o;
+      headerArr.splice(0, 1);
+      return headerArr;
     }, la = function(k, j) {
       return function(k) {
         return !j.isReadOnly ? ea(k) : getBooleanNode(k.ganttChartView.ownerDocument, k.isSelected);
@@ -7875,6 +7889,7 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
         o = j.createElement('input');
         k.selectionInput = o;
         o.type = 'checkbox';
+        o.classList.add('gantt-checkbox-2')
         o.setAttribute('style', 'margin: 0px');
       } else o = k.selectionInput;
       if (k.isSelected) {
@@ -8383,15 +8398,15 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
     }, ba = function(r, k) {
       typeof k !== 'object' && (k = {});
       X(k);
-      var j = [{ header: '', width: 32, isSelection: true }, {
+      var headerArr = [{ header: '', width: 32, isSelection: true }, {
         header: 'Resource',
         width: 100,
       }];
-      j[0].cellTemplate = la(k, j[0], r);
-      j[1].cellTemplate = $(k, j[1]);
-      j[1].exportCellTemplate = $(k, j[1], false);
-      k.selectionMode != 'Single' && (k.selectionMode != 'Extended' && k.selectionMode != 'ExtendedFocus') && j.splice(0, 1);
-      return j;
+      headerArr[0].cellTemplate = la(k, headerArr[0], r);
+      headerArr[1].cellTemplate = $(k, headerArr[1]);
+      headerArr[1].exportCellTemplate = $(k, headerArr[1], false);
+      k.selectionMode != 'Single' && (k.selectionMode != 'Extended' && k.selectionMode != 'ExtendedFocus') && headerArr.splice(0, 1);
+      return headerArr;
     }, la = function(r, k) {
       return function(j) {
         return !k.isReadOnly ? ea(j) : getBooleanNode(j.ganttChartView.ownerDocument, j.isSelected);
@@ -8401,7 +8416,8 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
       if (typeof r.selectionInput === 'undefined') {
         j = k.createElement('input');
         r.selectionInput = j;
-        j.type = 'checkbox';
+        r.type = 'checkbox';
+        j.classList.add('gantt-checkbox-3')
         j.setAttribute('style', 'margin: 0px');
       } else j = r.selectionInput;
       if (r.isSelected) {

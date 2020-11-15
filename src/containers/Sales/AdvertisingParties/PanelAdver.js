@@ -13,7 +13,7 @@ import date from '../../../img/left-bar/filter/date.svg';
 import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
 import { useHistory } from 'react-router';
-import './styles.scss'
+import './styles_adv_part.scss'
 import { BottomSlider } from './BottomSlider';
 import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides'
 
@@ -79,9 +79,7 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-
         <GanttChartAdvertisingSides/>
-
         {/*<Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />*/}
       </div>
       <BottomSlider props={showCard, setShowCard, onFinish, form}/>
