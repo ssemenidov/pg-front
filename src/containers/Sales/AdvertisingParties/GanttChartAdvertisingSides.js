@@ -33,7 +33,8 @@ let ScheduleChartView = React.forwardRef(function(props, ref) {
   let changeHandler = props.settings.itemPropertyChangeHandler;
   if (!initialized) {
     let interval = setInterval(function() {
-      if (window.DlhSoft) {
+      if (window.DlhSoft && window.DlhSoft.Controls && window.DlhSoft.Controls.ScheduleChartView
+        && window.DlhSoft.Controls.ScheduleChartView.initialize) {
         clearInterval(interval)
         window.DlhSoft.Controls.ScheduleChartView.initialize(ref.current, props.items, props.settings, props.license);
       }
