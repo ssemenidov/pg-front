@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { comProjectContext } from './Com_projects';
 
 import Table from '../../../components/Tablea';
-import { useHistory } from 'react-router';
+import { useHistory, Link } from 'react-router-dom';
+
+import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import citiesIcon from '../../../img/sales/cities.svg';
 
 import { Popover } from 'antd';
@@ -10,9 +12,8 @@ import { Popover } from 'antd';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 const PanelDesign = (props) => {
-  const [filter, setFilter, constructionsIdSet, setConstructionsIdSet, tableData, setTableData] = useContext(
-    comProjectContext,
-  );
+  const [filter, setFilter, constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
+  const history = useHistory();
 
   let data2 = [];
 
@@ -68,6 +69,15 @@ const PanelDesign = (props) => {
       dataIndex: 'manager',
       width: 80,
     },
+    {
+      width: 40,
+      title: '',
+      render: (text, record) => (
+        <Link to={{ pathname: `/sales/project_card/${record.key}` }}>
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      ),
+    },
   ];
 
   const temp = gql`
@@ -113,6 +123,7 @@ const PanelDesign = (props) => {
               }
             }
             title
+            id
             code
             comment
             startDate
@@ -207,9 +218,9 @@ const PanelDesign = (props) => {
   }
 
   if (data && !filter.date) {
-    data2 = data.searchProject.edges.map((project, index) => {
+    data2 = data.searchProject.edges.map((project) => {
       return {
-        key: index,
+        key: project.node.id,
         code: `#${project.node.code}`,
         brand: project.node.brand.title,
         date: project.node.startDate.split('T')[0],
@@ -260,9 +271,9 @@ const PanelDesign = (props) => {
         const projectDate = new Date(project.node.startDate.split('T')[0]);
         return projectDate >= startDate && projectDate <= endDate;
       })
-      .map((project, index) => {
+      .map((project) => {
         return {
-          key: index,
+          key: project.node.id,
           code: `#${project.node.code}`,
           brand: project.node.brand.title,
           date: project.node.startDate.split('T')[0],
@@ -311,6 +322,14 @@ const PanelDesign = (props) => {
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           link="/sales/project_card"
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/sales/project_card/${record.key}`);
+                history.go(0);
+              },
+            };
+          }}
         />
       </div>
       <style>
