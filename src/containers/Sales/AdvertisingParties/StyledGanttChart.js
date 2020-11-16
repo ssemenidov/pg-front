@@ -90,6 +90,8 @@ export const ganttSettings = (year, month) => ({
   itemHeight: 40,
   isRelativeToTimezone: true,
   horizontalGridLines: '#D3DFF0',
+  isBaselineVisible: false,
+  isTaskCompletedEffortVisible: false,
   selectionMode: 'ExtendedFocus',
   headerBackground: '#FFFFFF',
   scales: [
@@ -99,18 +101,10 @@ export const ganttSettings = (year, month) => ({
       isHighlightingVisible: true,
       highlightingStyle: 'stroke-width: 0; fill: #f8f8f8'
     },
-    // {
-    //   scaleType: 'Months',
-    //   headerTextFormat: 'Month',
-    //   headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
-    //   isSeparatorVisible: true,
-    //   separatorStyle: 'stroke: #c8bfe7',
-    //   headerHeight: '2rem',
-    // },
     {
       scaleType: 'Weeks',
-      // headerTextFormat: 'Localized',
-      headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
+      headerStyle: 'padding: 2.25px; border-right: solid 1px #D3DFF0;',
+      // headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
       headerTextFormat: (item) => {
         const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
         let nextDate = new Date(item);
@@ -125,7 +119,7 @@ export const ganttSettings = (year, month) => ({
     {
       scaleType: 'Days',
       headerTextFormat: 'DayOfWeek',
-      headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7',
+      headerStyle: 'padding: 2.25px; border-right: solid 1px #D3DFF0',
     },
     {
       scaleType: 'CurrentTime',

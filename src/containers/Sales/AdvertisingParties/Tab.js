@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Input } from 'antd';
+import { Button, Space, Input, Popover } from 'antd';
 
 // ICONS
 import designIcon from '../../../img/sales/projectDropdown/design.svg';
@@ -8,28 +8,29 @@ import paket from '../../../img/sales/projectDropdown/paket.svg';
 import managerB from '../../../img/sales/managerB.svg';
 import managerS from '../../../img/sales/managerS.svg';
 
+
 const Tab = (props) => {
-  return (
-    <Space
-      style={{
-        width: '435px',
-        flexDirection: 'column',
-        boxShadow: '0px 4px 7px rgba(0, 0, 0, 0.119646)',
-        borderRadius: '8px',
-      }}>
-      <div
+  let content = (
+      <Space
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-          padding: '20px 20px 15px 20px',
+          width: '435px',
+          flexDirection: 'column',
+          boxShadow: '0px 4px 7px rgba(0, 0, 0, 0.119646)',
+          borderRadius: '8px',
         }}>
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '20px 20px 15px 20px',
           }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
           <span
             style={{
               color: '#1A1A1A',
@@ -38,148 +39,148 @@ const Tab = (props) => {
             }}>
             Проект СocaCola
           </span>
-          <p>
-            {props.cond === 'sold' ? (
-              <span className="sold">Продано</span>
-            ) : props.cond === 'confirmed' ? (
-              <span className="confirmed">Утверждено</span>
-            ) : (
-              ''
-            )}
+            <p>
+              {props.cond === 'sold' ? (
+                <span className="sold">Продано</span>
+              ) : props.cond === 'confirmed' ? (
+                <span className="confirmed">Утверждено</span>
+              ) : (
+                ''
+              )}
 
-            <span>до 24.07.2020</span>
-          </p>
+              <span>до 24.07.2020</span>
+            </p>
+          </div>
+          <Button
+            type="primary"
+            style={{ borderRadius: '5px', marginLeft: '5px' }}
+            onClick={() => {
+              props.history.push('/sales/project_card');
+            }}>
+            Открыть Проект
+          </Button>
         </div>
-        <Button
-          type="primary"
-          style={{ borderRadius: '5px', marginLeft: '5px' }}
-          onClick={() => {
-            props.history.push('/sales/project_card');
-          }}>
-          Открыть Проект
-        </Button>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          borderTop: '1px solid #D3DFF0',
-          borderBottom: '1px solid #D3DFF0',
-        }}>
         <div
           style={{
-            borderRight: '1px solid #D3DFF0',
-          }}
-          className="sectionItem">
-          <img src={paket} alt="paket icon" />
-          <span>Пакет:</span>
-          <span
+            display: 'flex',
+            justifyContent: 'space-between',
+            borderTop: '1px solid #D3DFF0',
+            borderBottom: '1px solid #D3DFF0',
+          }}>
+          <div
             style={{
-              fontWeight: 'bold',
-            }}>
+              borderRight: '1px solid #D3DFF0',
+            }}
+            className="sectionItem">
+            <img src={paket} alt="paket icon" />
+            <span>Пакет:</span>
+            <span
+              style={{
+                fontWeight: 'bold',
+              }}>
             A2
           </span>
-        </div>
-        <div
-          className="sectionItem"
-          style={{
-            borderRight: '1px solid #D3DFF0',
-          }}>
-          <img src={designIcon} alt="design icon" />
-          <span>Дизайн:</span>
-          <span
+          </div>
+          <div
+            className="sectionItem"
             style={{
-              fontWeight: 'bold',
+              borderRight: '1px solid #D3DFF0',
             }}>
+            <img src={designIcon} alt="design icon" />
+            <span>Дизайн:</span>
+            <span
+              style={{
+                fontWeight: 'bold',
+              }}>
             Да
           </span>
-        </div>
-        <div className="sectionItem">
-          <img src={lighting} alt="lighting icon" />
-          <span>Освещение:</span>
-          <span
-            style={{
-              fontWeight: 'bold',
-            }}>
+          </div>
+          <div className="sectionItem">
+            <img src={lighting} alt="lighting icon" />
+            <span>Освещение:</span>
+            <span
+              style={{
+                fontWeight: 'bold',
+              }}>
             Да
           </span>
+          </div>
         </div>
-      </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          borderBottom: '1px solid #D3DFF0',
-          marginBottom: '15px',
-        }}>
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
-            padding: '10px 15px 0',
+            flexDirection: 'column',
+            borderBottom: '1px solid #D3DFF0',
+            marginBottom: '15px',
           }}>
           <div
             style={{
               display: 'flex',
-              gap: '10px',
-              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '10px 15px 0',
             }}>
-            <img src={managerS} alt="icon" />
-            <span
+            <div
               style={{
-                fontSize: 12,
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center',
               }}>
+              <img src={managerS} alt="icon" />
+              <span
+                style={{
+                  fontSize: 12,
+                }}>
               Менеджер по продажам:
             </span>
-          </div>
-          <span
-            style={{
-              fontWeight: 'bold',
-              fontSize: 14,
-            }}>
+            </div>
+            <span
+              style={{
+                fontWeight: 'bold',
+                fontSize: 14,
+              }}>
             Иванов Иван Иванович
           </span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '10px 15px',
-          }}>
+          </div>
           <div
             style={{
               display: 'flex',
-              gap: '10px',
-              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '10px 15px',
             }}>
-            <img src={managerB} alt="icon" />
-            <span
+            <div
               style={{
-                fontSize: 12,
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center',
               }}>
+              <img src={managerB} alt="icon" />
+              <span
+                style={{
+                  fontSize: 12,
+                }}>
               Менеджер бэк-офиса:
             </span>
-          </div>
-          <span
-            style={{
-              fontWeight: 'bold',
-              fontSize: 14,
-            }}>
+            </div>
+            <span
+              style={{
+                fontWeight: 'bold',
+                fontSize: 14,
+              }}>
             Иванов Иван Иванович
           </span>
+          </div>
         </div>
-      </div>
-      <div
-        style={{
-          padding: '0 15px',
-          marginBottom: '15px',
-        }}>
-        <Input size="large" placeholder="Комментарий" />
-      </div>
+        <div
+          style={{
+            padding: '0 15px',
+            marginBottom: '15px',
+          }}>
+          <Input size="large" placeholder="Комментарий" />
+        </div>
 
-      <style>
-        {`
+        <style>
+          {`
         .ant-space-item {
           width: 100%;
           margin-right: 0 !important;
@@ -241,8 +242,14 @@ const Tab = (props) => {
           margin-right: 4px;
         }
         `}
-      </style>
-    </Space>
+        </style>
+      </Space>
   );
+
+  return (
+    <Popover content={content} defaultVisible={true}>
+      {props.children}
+    </Popover>
+  )
 };
 export default Tab;

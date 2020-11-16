@@ -256,7 +256,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             l + 'px; height: ' + d.extraSpaceHeight + 'px');
           q.appendChild(o);
         }
-        var t = H(d.timelineFinish, d), p = ownerDocument.createElement('div');
+        var t = calculateBarX(d.timelineFinish, d), p = ownerDocument.createElement('div');
         p.setAttribute('style', 'background: ' + d.headerBackground + '; border-bottom: solid 1px ' + d.border + '; -wekbit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: ' + t + 'px; height: ' + d.headerHeight + 'px');
         n.appendChild(p);
         var w = ownerDocument.createElement('div');
@@ -511,7 +511,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         Ba(barsChartContainer, ganttChartLeftPanel, d);
         M.isInitializing = false;
         va(c, M, d);
-        M.scrollLeft = H(d.displayedTime, d);
+        M.scrollLeft = calculateBarX(d.displayedTime, d);
         if (n.scrollLeft != M.scrollLeft) n.scrollLeft = M.scrollLeft;
         yc(chartView, q, ganttChartLeftPanel, ganttChartRoot, g, k, M, n, ganttChartRightPanel, ganttChartHeader, w, barsChartContainer, c, d);
         var B = false, D = function(a, b) {
@@ -524,7 +524,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             typeof d.hourWidthChangeHandler !== 'undefined' && setTimeout(function() {
               d.hourWidthChangeHandler(d.hourWidth);
             }, 0);
-            t = H(d.timelineFinish, d);
+            t = calculateBarX(d.timelineFinish, d);
             p.style.width = t + 'px';
             w.style.width = t + 'px';
             x.style.width = t + 'px';
@@ -861,7 +861,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           var f = c.createElementNS('http://www.w3.org/2000/svg', 'line');
           f.setAttribute('x1', 0);
           f.setAttribute('y1', -0.5);
-          f.setAttribute('x2', H(a.timelineFinish, a));
+          f.setAttribute('x2', calculateBarX(a.timelineFinish, a));
           f.setAttribute('y2', -0.5);
           f.setAttribute('style', 'stroke: ' + a.horizontalChartLines + '; stroke-width: 0.5px');
           d.appendChild(f);
@@ -869,7 +869,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             f = c.createElementNS('http://www.w3.org/2000/svg', 'line');
             f.setAttribute('x1', 0);
             f.setAttribute('y1', a.itemHeight + 0.5);
-            f.setAttribute('x2', H(a.timelineFinish, a));
+            f.setAttribute('x2', calculateBarX(a.timelineFinish, a));
             f.setAttribute('y2', a.itemHeight + 0.5);
             f.setAttribute('style', 'stroke: ' + a.horizontalChartLines + '; stroke-width: 0.5px');
             d.appendChild(f);
@@ -933,7 +933,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           f = d.createElementNS('http://www.w3.org/2000/svg',
             'g');
           for (m = 0; m < c.length; m++) {
-            var e = c[m], h = e.finish, e = H(e.start, a), h = H(h, a) - e;
+            var e = c[m], h = e.finish, e = calculateBarX(e.start, a), h = calculateBarX(h, a) - e;
             if (!(h <= 0)) {
               var n = d.createElementNS('http://www.w3.org/2000/svg', 'rect');
               n.setAttribute('x', e - 1);
@@ -973,7 +973,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           m = f.createElementNS('http://www.w3.org/2000/svg', 'g');
           for (d = 0; d < c.length; d++) {
             var e =
-              c[d], h = e.finish, e = H(e.start, a), h = H(h, a) - e;
+              c[d], h = e.finish, e = calculateBarX(e.start, a), h = calculateBarX(h, a) - e;
             if (!(h <= 0)) {
               var n = f.createElementNS('http://www.w3.org/2000/svg', 'rect');
               n.setAttribute('x', e - 1);
@@ -2141,7 +2141,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       return Math.abs(d.valueOf() - a.valueOf()) <= 36E5 ? d : new Date(d.valueOf() + 6048E5);
     }, Wa = function(a) {
       return a.hourWidth * (a.visibleDayFinish - a.visibleDayStart) / 36E5;
-    }, H = function(a, c) {
+    }, calculateBarX = function(a, c) {
       var d = Wa(c), b = Wa(c) * (c.visibleWeekFinish - c.visibleWeekStart +
         1), f = wa(a, c.weekStartDay),
         f = Math.floor((f - c.timelineStart) / 6048E5) * b - Math.max(0, c.weekStartDay - c.visibleWeekStart) * d,
@@ -2257,8 +2257,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 if (u == g.length - 1 && q < b.timelineFinish && (typeof h.isHeaderVisible === 'undefined' || h.isHeaderVisible)) q = b.timelineFinish;
                 s = q;
               }
-              var j = H(C,
-                b), k = H(q, b), p = k - j;
+              var j = calculateBarX(C,
+                b), k = calculateBarX(q, b), p = k - j;
               if (!(p <= 0)) {
                 if (typeof h.isHeaderVisible === 'undefined' || h.isHeaderVisible) {
                   var o = getDateFmtValue(h, v, b), t = e.createElement('div');
@@ -2598,7 +2598,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             null || a.ganttChartItems[d].start < c) c = a.ganttChartItems[d].start;
           c = c == null ? a.start : c;
         }
-        c = H(c, e);
+        c = calculateBarX(c, e);
         d = c - e.hourWidth * 8;
         c - d >= b.container.clientWidth / 2.5 && (d = c);
         b.container.scrollLeft = Math.max(0, d);
@@ -3434,7 +3434,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     }, Hb = function(a) {
       return function(c) {
         var d = c.ganttChartView, b = typeof a !== 'undefined' ? a : d.settings, d = d.ownerDocument,
-          f = d.createElementNS('http://www.w3.org/2000/svg', 'text'), e = H(c.finish, b);
+          f = d.createElementNS('http://www.w3.org/2000/svg', 'text'), e = calculateBarX(c.finish, b);
         if (c.isMilestone || c.hasChildren && (typeof c.isSummaryEnabled === 'undefined' ||
           c.isSummaryEnabled)) e = e + b.barHeight / 2;
         f.setAttribute('x', e + 7);
@@ -3453,35 +3453,48 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       return a.chartItemArea;
     }, StandardTaskTemplateFactory = function(a, c, d) {
       return function(taskItem) {
-        var f = typeof c !== 'undefined' ? c : taskItem.ganttChartView, e = typeof d !== 'undefined' ? d : f.settings,
-          g = typeof a !== 'undefined' ? a : f.items, m = f.ownerDocument, h = mb(taskItem);
-        if (e.isBaselineVisible && typeof taskItem.baselineStart !== 'undefined' && typeof taskItem.baselineFinish !== 'undefined') {
-          var n = H(taskItem.baselineStart, e), l = Math.max(H(taskItem.baselineFinish,
-            e), n + 4), s = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        var f = typeof c !== 'undefined' ? c : taskItem.ganttChartView;
+        var settings = typeof d !== 'undefined' ? d : f.settings;
+        var g = typeof a !== 'undefined' ? a : f.items;
+        var ownerDocument = f.ownerDocument;
+        var paneRoot = mb(taskItem);
+        /* рисование штриховой линии */
+        if (settings.isBaselineVisible && typeof taskItem.baselineStart !== 'undefined' && typeof taskItem.baselineFinish !== 'undefined') {
+          var n = calculateBarX(taskItem.baselineStart, settings);
+          var l = Math.max(calculateBarX(taskItem.baselineFinish, settings), n + 4);
+          var s = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
           s.setAttribute('x', n);
-          s.setAttribute('y', e.barMargin / 2);
+          s.setAttribute('y', settings.barMargin / 2);
           s.setAttribute('width', Math.max(0, l - n - 1));
-          s.setAttribute('height', e.barHeight);
-          s.setAttribute('rx', e.barCornerRadius);
-          s.setAttribute('ry', e.barCornerRadius);
-          n = e.baselineBarClass;
-          if (typeof taskItem.baselineBarClass !== 'undefined') n = taskItem.baselineBarClass;
-          if (typeof n !== 'undefined') s.setAttribute('class', n); else {
-            n = e.baselineBarStyle;
-            if (typeof taskItem.baselineBarStyle !== 'undefined') n = taskItem.baselineBarStyle;
+          s.setAttribute('height', settings.barHeight);
+          s.setAttribute('rx', settings.barCornerRadius);
+          s.setAttribute('ry', settings.barCornerRadius);
+          n = settings.baselineBarClass;
+          if (typeof taskItem.baselineBarClass !== 'undefined')
+            n = taskItem.baselineBarClass;
+          if (typeof n !== 'undefined')
+            s.setAttribute('class', n);
+          else {
+            n = settings.baselineBarStyle;
+            if (typeof taskItem.baselineBarStyle !== 'undefined')
+              n = taskItem.baselineBarStyle;
             typeof n !== 'undefined' && s.setAttribute('style', n);
           }
-          h.appendChild(s);
+          paneRoot.appendChild(s);
         }
-        var s = H(taskItem.start, e), n = Math.max(H(taskItem.finish, e), s + 4), l = H(taskItem.completedFinish, e),
-          standardBarSvg = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        standardBarSvg.setAttribute('x', s);
-        standardBarSvg.setAttribute('y', e.barMargin);
-        standardBarSvg.setAttribute('width', Math.max(0, n - s - 1));
-        standardBarSvg.setAttribute('height', e.barHeight);
-        standardBarSvg.setAttribute('rx', e.barCornerRadius);
-        standardBarSvg.setAttribute('ry', e.barCornerRadius);
-        var barStyle = e.standardBarClass;
+        var barXstart = calculateBarX(taskItem.start, settings);
+        var barXend = Math.max(calculateBarX(taskItem.finish, settings), barXstart + 4);
+        var l = calculateBarX(taskItem.completedFinish, settings);
+
+        /* рисование линии-бара */
+        var standardBarSvg = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        standardBarSvg.setAttribute('x', barXstart);
+        standardBarSvg.setAttribute('y', settings.barMargin);
+        standardBarSvg.setAttribute('width', Math.max(0, barXend - barXstart - 1));
+        standardBarSvg.setAttribute('height', settings.barHeight);
+        standardBarSvg.setAttribute('rx', settings.barCornerRadius);
+        standardBarSvg.setAttribute('ry', settings.barCornerRadius);
+        var barStyle = settings.standardBarClass;
         if (typeof taskItem.standardBarClass !== 'undefined')
           barStyle = taskItem.standardBarClass;
         if (typeof taskItem.barClass !== 'undefined')
@@ -3489,100 +3502,112 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         if (typeof barStyle !== 'undefined')
           standardBarSvg.setAttribute('class', barStyle);
         else {
-          barStyle = e.standardBarStyle;
+          barStyle = settings.standardBarStyle;
           if (typeof taskItem.standardBarStyle !== 'undefined') barStyle = taskItem.standardBarStyle;
           if (typeof taskItem.barStyle !== 'undefined') barStyle = taskItem.barStyle;
           typeof barStyle !== 'undefined' && standardBarSvg.setAttribute('style', barStyle);
         }
-        h.appendChild(standardBarSvg);
-        if (e.isTaskCompletedEffortVisible) {
-          standardBarSvg = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          standardBarSvg.setAttribute('x', s);
-          standardBarSvg.setAttribute('y', e.barMargin + e.completedBarMargin);
-          standardBarSvg.setAttribute('width', Math.max(0, l - s - 1));
+        paneRoot.appendChild(standardBarSvg);
+        var textBarTitle;
+        if (typeof taskItem.textValue !== 'undefined') {
+            textBarTitle = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textBarTitle.setAttribute('x', barXstart + 10);
+            textBarTitle.setAttribute('y', settings.barMargin + 18);
+            textBarTitle.textContent = taskItem.textValue;
+            textBarTitle.className.baseVal = 'gantt-svg-title';
+            paneRoot.appendChild(textBarTitle);
+        }
+
+        /* рисование внутренней линии бара */
+        if (settings.isTaskCompletedEffortVisible) {
+          standardBarSvg = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          standardBarSvg.setAttribute('x', barXstart);
+          standardBarSvg.setAttribute('y', settings.barMargin + settings.completedBarMargin);
+          standardBarSvg.setAttribute('width', Math.max(0, l - barXstart - 1));
           standardBarSvg.setAttribute('height',
-            e.completedBarHeight);
-          standardBarSvg.setAttribute('rx', e.completedBarCornerRadius);
-          standardBarSvg.setAttribute('ry', e.completedBarCornerRadius);
-          barStyle = e.standardCompletedBarClass;
+            settings.completedBarHeight);
+          standardBarSvg.setAttribute('rx', settings.completedBarCornerRadius);
+          standardBarSvg.setAttribute('ry', settings.completedBarCornerRadius);
+          barStyle = settings.standardCompletedBarClass;
           if (typeof taskItem.standardCompletedBarClass !== 'undefined') barStyle = taskItem.standardCompletedBarClass;
           if (typeof taskItem.completedBarClass !== 'undefined') barStyle = taskItem.completedBarClass;
           if (typeof barStyle !== 'undefined') standardBarSvg.setAttribute('class', barStyle); else {
-            barStyle = e.standardCompletedBarStyle;
+            barStyle = settings.standardCompletedBarStyle;
             if (typeof taskItem.standardCompletedBarStyle !== 'undefined') barStyle = taskItem.standardCompletedBarStyle;
             if (typeof taskItem.completedBarStyle !== 'undefined') barStyle =
               taskItem.completedBarStyle;
             typeof barStyle !== 'undefined' && standardBarSvg.setAttribute('style', barStyle);
           }
-          h.appendChild(standardBarSvg);
+          paneRoot.appendChild(standardBarSvg);
         }
-        if (!e.isReadOnly && !e.isChartReadOnly && (typeof taskItem.isReadOnly === 'undefined' || !taskItem.isReadOnly) && (typeof taskItem.isBarReadOnly === 'undefined' || !taskItem.isBarReadOnly)) {
-          standardBarSvg = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          standardBarSvg.setAttribute('x', s);
-          standardBarSvg.setAttribute('y', e.barMargin);
-          standardBarSvg.setAttribute('width', Math.max(0, n - s - 1));
-          standardBarSvg.setAttribute('height', e.barHeight);
+
+        if (!settings.isReadOnly && !settings.isChartReadOnly && (typeof taskItem.isReadOnly === 'undefined' || !taskItem.isReadOnly) && (typeof taskItem.isBarReadOnly === 'undefined' || !taskItem.isBarReadOnly)) {
+          standardBarSvg = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          standardBarSvg.setAttribute('x', barXstart);
+          standardBarSvg.setAttribute('y', settings.barMargin);
+          standardBarSvg.setAttribute('width', Math.max(0, barXend - barXstart - 1));
+          standardBarSvg.setAttribute('height', settings.barHeight);
           standardBarSvg.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: move');
-          e.isTaskStartReadOnly ||
-          h.appendChild(standardBarSvg);
-          barStyle = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          barStyle.setAttribute('x', s - 4);
-          barStyle.setAttribute('y', e.barMargin);
+          settings.isTaskStartReadOnly ||
+          paneRoot.appendChild(standardBarSvg);
+          barStyle = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          barStyle.setAttribute('x', barXstart - 4);
+          barStyle.setAttribute('y', settings.barMargin);
           barStyle.setAttribute('width', 4);
-          barStyle.setAttribute('height', e.barHeight);
+          barStyle.setAttribute('height', settings.barHeight);
           barStyle.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: e-resize');
-          e.isDraggingTaskStartEndsEnabled && (!e.isTaskStartReadOnly && e.interaction != 'TouchEnabled') && h.appendChild(barStyle);
-          var C = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          C.setAttribute('x', n - 4);
-          C.setAttribute('y', e.barMargin);
+          settings.isDraggingTaskStartEndsEnabled && (!settings.isTaskStartReadOnly && settings.interaction != 'TouchEnabled') && paneRoot.appendChild(barStyle);
+          var C = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          C.setAttribute('x', barXend - 4);
+          C.setAttribute('y', settings.barMargin);
           C.setAttribute('width',
             8);
-          C.setAttribute('height', e.barHeight);
+          C.setAttribute('height', settings.barHeight);
           C.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: e-resize');
-          !e.isTaskEffortReadOnly && e.interaction != 'TouchEnabled' && h.appendChild(C);
-          var q = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          !settings.isTaskEffortReadOnly && settings.interaction != 'TouchEnabled' && paneRoot.appendChild(C);
+          var q = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
           q.setAttribute('x', l - 2);
-          q.setAttribute('y', e.barMargin);
+          q.setAttribute('y', settings.barMargin);
           q.setAttribute('width', 6);
-          q.setAttribute('height', e.barHeight);
+          q.setAttribute('height', settings.barHeight);
           q.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: e-resize');
-          if (!e.isTaskCompletionReadOnly && e.isTaskCompletedEffortVisible &&
-            e.interaction != 'TouchEnabled') {
-            h.appendChild(q);
-            var j = m.createElementNS('http://www.w3.org/2000/svg', 'title'),
-              k = typeof e.areToolTipsSimplified === 'undefined' || !e.areToolTipsSimplified ? f.getItemCompletion(taskItem) : NaN;
-            j.appendChild(wrapDateFmtValue(m, !isNaN(k) ? Math.round(k * 1E4) / 100 + '%' : ''));
+          if (!settings.isTaskCompletionReadOnly && settings.isTaskCompletedEffortVisible &&
+            settings.interaction != 'TouchEnabled') {
+            paneRoot.appendChild(q);
+            var j = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'title'),
+              k = typeof settings.areToolTipsSimplified === 'undefined' || !settings.areToolTipsSimplified ? f.getItemCompletion(taskItem) : NaN;
+            j.appendChild(wrapDateFmtValue(ownerDocument, !isNaN(k) ? Math.round(k * 1E4) / 100 + '%' : ''));
             q.appendChild(j);
           }
-          nb(standardBarSvg, barStyle, C, q, taskItem, s, n, l, g, f, e);
-          if (e.areTaskDependenciesVisible && !e.areTaskPredecessorsReadOnly && !taskItem.isPart) {
+          nb(standardBarSvg, barStyle, C, q, taskItem, barXstart, barXend, l, g, f, settings);
+          if (settings.areTaskDependenciesVisible && !settings.areTaskPredecessorsReadOnly && !taskItem.isPart) {
             l = null;
-            if (typeof e.allowCreatingStartDependencies === 'undefined' || e.allowCreatingStartDependencies) {
-              l = m.createElementNS('http://www.w3.org/2000/svg',
+            if (typeof settings.allowCreatingStartDependencies === 'undefined' || settings.allowCreatingStartDependencies) {
+              l = ownerDocument.createElementNS('http://www.w3.org/2000/svg',
                 'circle');
-              l.setAttribute('cx', s);
-              l.setAttribute('cy', e.barMargin + e.barHeight / 2);
-              l.setAttribute('r', e.barHeight / 4);
+              l.setAttribute('cx', barXstart);
+              l.setAttribute('cy', settings.barMargin + settings.barHeight / 2);
+              l.setAttribute('r', settings.barHeight / 4);
               l.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: pointer');
-              h.appendChild(l);
+              paneRoot.appendChild(l);
             }
-            m = m.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            m.setAttribute('cx', n - 2);
-            m.setAttribute('cy', e.barMargin + e.barHeight / 2);
-            m.setAttribute('r', e.barHeight / 4);
-            m.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: pointer');
-            h.appendChild(m);
-            Ya(m, l, h, taskItem, e.barMargin + e.barHeight / 2, n - 2, s, g,
-              f, e);
+            ownerDocument = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            ownerDocument.setAttribute('cx', barXend - 2);
+            ownerDocument.setAttribute('cy', settings.barMargin + settings.barHeight / 2);
+            ownerDocument.setAttribute('r', settings.barHeight / 4);
+            ownerDocument.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: pointer');
+            paneRoot.appendChild(ownerDocument);
+            Ya(ownerDocument, l, paneRoot, taskItem, settings.barMargin + settings.barHeight / 2, barXend - 2, barXstart, g,
+              f, settings);
           }
         }
-        return h;
+        return paneRoot;
       };
     }, Eb = function(a, c, d) {
       return function(b) {
         var f = typeof c !== 'undefined' ? c : b.ganttChartView, e = typeof d !== 'undefined' ? d : f.settings,
-          g = typeof a !== 'undefined' ? a : f.items, m = f.ownerDocument, h = mb(b), n = H(b.start, e),
-          l = H(b.finish, e), s = e.barHeight * 2.15 / 3, u = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          g = typeof a !== 'undefined' ? a : f.items, m = f.ownerDocument, h = mb(b), n = calculateBarX(b.start, e),
+          l = calculateBarX(b.finish, e), s = e.barHeight * 2.15 / 3, u = m.createElementNS('http://www.w3.org/2000/svg', 'rect');
         u.setAttribute('x', n);
         u.setAttribute('y', e.barMargin);
         u.setAttribute('width', Math.max(0, l - n - 1));
@@ -3655,7 +3680,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             typeof d !== 'undefined' ? d : f.settings, g = typeof a !== 'undefined' ? a : f.items, m = f.ownerDocument,
           h = mb(b);
         if (e.isBaselineVisible && typeof b.baselineStart !== 'undefined') {
-          var n = H(b.baselineStart, e), l = m.createElementNS('http://www.w3.org/2000/svg', 'polygon'),
+          var n = calculateBarX(b.baselineStart, e), l = m.createElementNS('http://www.w3.org/2000/svg', 'polygon'),
             s = e.barMargin - 1, u = e.barHeight + 1;
           l.setAttribute('points', n + ',' + s + ' ' + (n - u / 2) + ',' + (s + u / 2) + ' ' + n + ',' + (s + u) + ' ' + (n + u / 2) + ',' + (s + u / 2));
           n = e.baselineBarClass;
@@ -3668,7 +3693,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           l.setAttribute('style', v);
           h.appendChild(l);
         }
-        l = H(b.start, e);
+        l = calculateBarX(b.start, e);
         v = m.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         l = l - 1;
         s = e.barMargin;
@@ -3718,24 +3743,24 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         if (h == n && (typeof b.dependencyType === 'undefined' || b.dependencyType == 'FinishStart' || b.dependencyType == 'FS' || b.dependencyType == 'StartFinish' || b.dependencyType == 'SF')) {
           if (typeof b.dependencyType === 'undefined' ||
             b.dependencyType == 'FinishStart' || b.dependencyType == 'FS') {
-            l = H(b.item.finish, e);
-            s = H(d.start, e);
+            l = calculateBarX(b.item.finish, e);
+            s = calculateBarX(d.start, e);
           } else {
-            l = H(b.item.start, e);
-            s = H(d.finish, e);
+            l = calculateBarX(b.item.start, e);
+            s = calculateBarX(d.finish, e);
           }
           h = h - n + 0.5;
           g = g + (l + ' ' + (h + v) + ' L ' + (s + (s > l ? -1 : 1) * (u / 5 - 1)) + ' ' + (h + v));
         } else {
           if (typeof b.dependencyType !== 'undefined' && (b.dependencyType == 'StartStart' || b.dependencyType == 'SS' || b.dependencyType == 'StartFinish' || b.dependencyType == 'SF')) {
-            l = H(b.item.start, e);
+            l = calculateBarX(b.item.start, e);
             b.item.hasChildren && (typeof b.item.isSummaryEnabled === 'undefined' || b.item.isSummaryEnabled) ? l = l - (e.barHeight / 3 + 0.25) : b.item.isMilestone &&
               (l = l - u / 4);
             s = l - C;
           } else {
-            l = H(b.item.finish, e) - 1;
+            l = calculateBarX(b.item.finish, e) - 1;
             if (b.item.hasChildren && (typeof b.item.isSummaryEnabled === 'undefined' || b.item.isSummaryEnabled)) l = l + (e.barHeight / 3 + 0.25); else if (b.item.isMilestone) l = l + u / 4; else {
-              k = H(b.item.start, e) + 4 - 1;
+              k = calculateBarX(b.item.start, e) + 4 - 1;
               l < k && (l = k);
             }
             s = l + C;
@@ -3743,22 +3768,22 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           h = h - n + 0.5;
           g = g + (l + ' ' + (h + v) + ' L ' + s + ' ' + (h + v));
           if (typeof b.dependencyType !== 'undefined' && (b.dependencyType == 'FinishFinish' || b.dependencyType == 'FF' || b.dependencyType == 'StartFinish' || b.dependencyType == 'SF')) {
-            l = H(d.finish, e) - 1;
+            l = calculateBarX(d.finish, e) - 1;
             if (typeof b.dependencyType !== 'undefined' &&
               (b.dependencyType == 'FinishFinish' || b.dependencyType == 'FF')) {
               j = true;
               if (d.hasChildren && (typeof d.isSummaryEnabled === 'undefined' || d.isSummaryEnabled)) l = l + (e.barHeight / 3 + 1); else if (d.isMilestone) l = l + (u / 4 + 1); else {
-                k = H(d.start, e) + 4 - 1;
+                k = calculateBarX(d.start, e) + 4 - 1;
                 l < k && (l = k);
               }
               n = l + C;
             } else if (d.isMilestone) n = l; else {
-              k = H(d.start, e) + 4;
+              k = calculateBarX(d.start, e) + 4;
               l < k && (l = k);
               n = l - 2.5;
             }
           } else {
-            l = H(d.start, e);
+            l = calculateBarX(d.start, e);
             if (typeof b.dependencyType !== 'undefined' && (b.dependencyType == 'StartStart' || b.dependencyType == 'SS')) {
               j = true;
               d.hasChildren && (typeof d.isSummaryEnabled === 'undefined' || d.isSummaryEnabled) ?
@@ -3766,7 +3791,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               n = l - C;
             } else if (d.isMilestone) n = l - 1; else {
               n = l + 1.5;
-              k = H(d.finish, e);
+              k = calculateBarX(d.finish, e);
               n < s && (k - s > C * 2 && d.start >= b.item.finish) && (n = s);
             }
           }
@@ -4406,7 +4431,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                     s = n.toolTip;
                     s.setContent(l.dateTimeFormatter(K(f.start)) +
                       ' \u2013 ' + l.dateTimeFormatter(K(f.finish)));
-                    s.setHorizontalPosition(s.originalX + (H(f.start, l) - n.draggingInitialStartPosition));
+                    s.setHorizontalPosition(s.originalX + (calculateBarX(f.start, l) - n.draggingInitialStartPosition));
                   }
                 } else {
                   if (f.finish < f.start) {
@@ -4420,7 +4445,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                   if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
                     s = n.toolTip;
                     s.setContent(l.dateTimeFormatter(K(f.start)) + ' \u2013');
-                    s.setHorizontalPosition(s.originalX + (H(f.start, l) - n.draggingInitialStartPosition));
+                    s.setHorizontalPosition(s.originalX + (calculateBarX(f.start, l) - n.draggingInitialStartPosition));
                   }
                 }
                 Sa(f,
@@ -4439,7 +4464,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
                   s = n.toolTip;
                   s.setContent('\u2013 ' + l.dateTimeFormatter(K(f.finish)));
-                  s.setHorizontalPosition(s.originalX + (H(f.finish, l) - n.draggingInitialFinishPosition));
+                  s.setHorizontalPosition(s.originalX + (calculateBarX(f.finish, l) - n.draggingInitialFinishPosition));
                 }
                 Sa(f,
                   h, n.chartContent, l);
@@ -4456,7 +4481,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                   c = Za(f.start, f.completedFinish, f.finish, l, D(f));
                   if (!isNaN(c)) {
                     s.setContent(Math.round(c * 1E4) / 100 + '%');
-                    s.setHorizontalPosition(s.originalX + (H(f.completedFinish,
+                    s.setHorizontalPosition(s.originalX + (calculateBarX(f.completedFinish,
                       l) - n.draggingInitialCompletedFinishPosition));
                   }
                 }
@@ -4658,8 +4683,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                 g = 'Start';
                 if (a != null) {
                   s = h.draggingInitialFinishPosition + c;
-                  u = H(a.start, n);
-                  j = H(a.finish, n);
+                  u = calculateBarX(a.start, n);
+                  j = calculateBarX(a.finish, n);
                   if (a.isMilestone || a.hasChildren && (typeof a.isSummaryEnabled === 'undefined' || a.isSummaryEnabled)) {
                     u = u - n.itemHeight / 2;
                     j = j + n.itemHeight / 2;
@@ -4697,8 +4722,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             }
             if (e != null) {
               a = h.draggingInitialFinishPosition + (a.clientX - h.draggingInitialX);
-              f = H(e.start, n);
-              l = H(e.finish, n);
+              f = calculateBarX(e.start, n);
+              l = calculateBarX(e.finish, n);
               if (e.isMilestone || e.hasChildren && (typeof e.isSummaryEnabled === 'undefined' || e.isSummaryEnabled)) {
                 f = f - n.itemHeight / 2;
                 l = l + n.itemHeight /
@@ -5217,7 +5242,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       };
       f.timelineStart = wa(f.timelineStart, f.weekStartDay);
       f.timelineFinish = fb(f.timelineFinish, f.weekStartDay);
-      e = H(f.timelineFinish, f);
+      e = calculateBarX(f.timelineFinish, f);
       f.chartWidth = e + 'px';
       var t = k + e + 2 + (d ? 1 : 0);
       for (k = 0; k < q.scales.length; k++) {
@@ -5958,7 +5983,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     ChartView.scrollToDateTime =
       function(b) {
         ChartView.isDuringScrollToDateTime = true;
-        ChartView.chartContentContainer.scrollLeft = H(b, ChartView.settings);
+        ChartView.chartContentContainer.scrollLeft = calculateBarX(b, ChartView.settings);
       };
     ChartView.increaseTimelinePage = function(b) {
       d.timelineStart = new Date(d.timelineStart.valueOf() + b);
@@ -5979,10 +6004,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       Ba(f, c, d);
     };
     ChartView.getChartPosition = function(a) {
-      return H(a, d);
+      return calculateBarX(a, d);
     };
     ChartView.getChartWidth = function() {
-      return H(d.timelineFinish, d);
+      return calculateBarX(d.timelineFinish, d);
     };
     ChartView.getDateTime = function(a) {
       return Ca(a, d);
