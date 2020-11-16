@@ -64,8 +64,6 @@ const Estimate = () => {
 
   const [createAdditionalCost, mutation] = useMutation(CREATE_ADDITIONAL_COSTS);
 
-  console.log(mutation);
-
   const CITIES_QUERY = gql`
     query {
       searchCity {
@@ -146,13 +144,21 @@ const Estimate = () => {
         <Modal
           width="350px"
           visible={showAddCost}
-          onCancel={() => setShowAddCost(false)}
+          onCancel={() => {
+            setShowAddCost(false);
+            form.resetFields();
+          }}
           title="Добавление расхода"
           centered={true}
           confirmLoading={confirmLoading}
           onOk={() => {
             form.validateFields().then((values) => {
               setConfirmLoading(true);
+              const price = Number(values.price);
+              const discount = Number(values.discount);
+              const count = Number(values.count);
+              const priceAfterDiscount = (Number(values.price) * (100 - Number(values.discount))) / 100;
+              const summa = priceAfterDiscount * count;
               createAdditionalCost({
                 variables: {
                   input: {
@@ -160,15 +166,18 @@ const Estimate = () => {
                     count: values.count,
                     startPeriod: new Date(values.period[0]).toJSON(),
                     endPeriod: new Date(values.period[1]).toJSON(),
-                    discount: values.discount,
-                    price: values.price,
+                    discount: discount,
+                    price: price,
                     city: values.city,
                     project: id,
+                    sumAfterDiscount: priceAfterDiscount,
+                    summa,
                   },
                 },
               }).then((val) => {
                 setConfirmLoading(false);
                 setShowAddCost(false);
+                form.resetFields();
               });
             });
           }}>
@@ -194,12 +203,16 @@ const Estimate = () => {
             <Form.Item name="period" rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
               <DatePicker.RangePicker size="large" />
             </Form.Item>
-            <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
+            <Form.Item
+              label="Count"
+              name="count"
+              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
               <InputNumber
                 size="large"
                 style={{
                   width: 301,
                 }}
+                min={1}
                 placeholder="Количество"
               />
             </Form.Item>
