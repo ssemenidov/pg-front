@@ -50,8 +50,12 @@ export function GanttChartAdvertisingSides(props) {
       ganttChartItems: [{
         content: 'Task D (Resource 3)',
         start: new Date(year, month, 12, 12, 0, 0),
-        finish: new Date(year, month, 14, 16, 0, 0)
-      }]
+        finish: new Date(year, month, 14, 16, 0, 0),
+        // barClass: 'gantt-bar-status-saled', // Продано
+        // barClass: 'gantt-bar-status-approved', // Утверждено
+        barClass: 'gantt-bar-status-reserved', // Забронировано
+      }],
+      // barClass: 'fill: #8abbed; fill-opacity: 0.8; stroke: #8abbed; stroke-width: 0.65px',
     }];
   for (var i = 4; i <= 16; i++)
     scheduleChartItems.push({
