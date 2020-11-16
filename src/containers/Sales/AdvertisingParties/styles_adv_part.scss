@@ -280,13 +280,16 @@
   padding-left: 30px;
 }
 
+$border-line-color: #D3DFF0;
+$border-checkbox: #C6CDD6;
+
 .gant-chart-root-bars {
   position: relative;
   opacity: 0;
   left: 0px;
   width: 4px;
   height: 0px;
-  background: #D3DFF0;
+  background: $border-line-color;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -298,7 +301,7 @@
 }
 
 .gantt-chart-root {
-  border: solid 2px #D3DFF0;
+  border: solid 2px $border-line-color;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -310,18 +313,23 @@
   border-radius: 8px;
 }
 
+$app-font-family: "SF UI Display Light", sans-serif;
+$app-font-color: rgb(26,26,26);
+$app-font-size: 14px;
+
 .gantt-root-root {
-  font-family: "SF UI Display Light", sans-serif;
-  color: rgb(26,26,26);
-  font-size: 14px;
+  font-family: $app-font-family;
+  color: $app-font-color;
+  font-size: $app-font-size;
   font-weight: 500;
   overflow: auto
 }
 
+
 .gantt-chart-left-header {
-  font-family: "SF UI Display Light", sans-serif;
-  color: rgb(26,26,26);
-  font-size: 14px;
+  font-family: $app-font-family;
+  color: $app-font-color;
+  font-size: $app-font-size;
   font-weight: 600 !important;
   overflow: auto
 }
@@ -332,6 +340,116 @@
 .gantt-chart-right-panel-header {
   font-weight: 600 !important;
 }
-.gantt-checkbox-2 {
 
+
+
+/* для элемента input c type="checkbox" */
+.gantt-checkbox-2-label>input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+/* для элемента label, связанного с .custom-checkbox */
+.gantt-checkbox-2-label>span {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+/* создание в label псевдоэлемента before со следующими стилями */
+.gantt-checkbox-2-label>span::before {
+  content: '';
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid $border-checkbox;
+  border-radius: 0.25em;
+  margin-right: 0.5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  margin-top: .05rem;
+  margin-left: .4rem;
+}
+
+/* стили при наведении курсора на checkbox */
+.gantt-checkbox-2-label>input:not(:disabled):not(:checked)+span:hover::before {
+  border-color: #b3d7ff;
+}
+
+/* стили для активного чекбокса (при нажатии на него) */
+.gantt-checkbox-2-label>input:not(:disabled):active+span::before {
+  background-color: #b3d7ff;
+  border-color: #b3d7ff;
+}
+
+///* стили для чекбокса, находящегося в фокусе */
+//.gantt-checkbox-2-label>input:focus+span::before {
+//  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+//}
+
+///* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+//.gantt-checkbox-2-label>input:focus:not(:checked)+span::before {
+//  border-color: #80bdff;
+//}
+
+/* стили для чекбокса, находящегося в состоянии checked */
+.gantt-checkbox-2-label>input:checked+span::before {
+  border-color: #0b76ef;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+
+/* стили для чекбокса, находящегося в состоянии disabled */
+.gantt-checkbox-2-label>input:disabled+span::before {
+  background-color: #e9ecef;
+}
+.gantt-checkbox-2-label-container {
+
+}
+
+.gantt-description-item {
+  margin: 0px;
+  padding: 9px 0px 0px 0px;
+}
+
+//.description-row-root:nth-child(odd) {background-color:#CCC;}
+.description-row-root:nth-child(even) {
+  background-color:#F5F7FA;
+}
+
+.gantt-wrapped-days-of-week-head {
+  text-align: center;
+  color: #8AA1C1;
+}
+.gantt-wrapped-days-of-week-head-weekends {
+  text-align: center;
+  color: #D42D11;
+}
+.gantt-wrapped-period-head {
+  text-align: center;
+}
+
+.gantt-bar-status-saled {
+  fill: #FFB9AD;
+  fill-opacity: 1;
+  stroke: #FFB9AD;
+  stroke-width: 0.65px;
+}
+
+.gantt-bar-status-approved {
+  fill: #FFE7AE;
+  fill-opacity: 1;
+  stroke: #FFE7AE;
+  stroke-width: 0.65px;
+}
+
+.gantt-bar-status-reserved {
+  fill: #DFE6F1;
+  fill-opacity: 1;
+  stroke: #DFE6F1;
+  stroke-width: 0.65px;
 }

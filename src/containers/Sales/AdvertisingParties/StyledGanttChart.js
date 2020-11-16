@@ -66,6 +66,9 @@ export const ganttColumns = [
   },
 ];
 
+
+
+//
 export const ganttSettings = (year, month) => ({
   currentTime: new Date(year, month, 2, 12, 0, 0),
   // Optionally, initialize custom theme and templates (themes.js, templates.js).
@@ -78,7 +81,7 @@ export const ganttSettings = (year, month) => ({
   visibleDayFinish: 24 * 60 * 60 * 1000, // 24:00
   // Set appropriate zoom level as 24 hours are diplayed per day.
   hourWidth: 2.5,
-  barCornerRadius: 12,
+  barCornerRadius: 6,
   daysOfWeek: [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
   weekStartDay:  1, // Monday
   headerHeight: 26 * 2,
@@ -106,8 +109,18 @@ export const ganttSettings = (year, month) => ({
     // },
     {
       scaleType: 'Weeks',
-      headerTextFormat: 'Localized',
+      // headerTextFormat: 'Localized',
       headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
+      headerTextFormat: (item) => {
+        const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        let nextDate = new Date(item);
+        nextDate.setDate(item.getDate() + 14);
+        let monthFirst = MONTHS[item.getMonth()];
+        let monthNext = MONTHS[nextDate.getMonth()];
+        let monthDayFirst = item.toLocaleString('ru-RU', {day: 'numeric'});
+        let monthDayNext = nextDate.toLocaleString('ru-RU', {day: 'numeric'});
+        return `${monthDayFirst} ${monthFirst} ${item.getFullYear()} – ${monthDayNext} ${monthNext} ${nextDate.getFullYear()}`;
+      }
     },
     {
       scaleType: 'Days',
