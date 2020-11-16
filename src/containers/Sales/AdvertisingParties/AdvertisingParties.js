@@ -52,7 +52,6 @@ const AdvertisingParties = () => {
           </div>
         </Layout>
       </Layout>
-<<<<<<< HEAD
       <style>
         {`
           .layout-main {

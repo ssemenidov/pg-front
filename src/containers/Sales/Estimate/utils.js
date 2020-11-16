@@ -189,6 +189,9 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 incomingInstallation
                 incomingManufacturing
                 summaClient
+                city {
+                  title
+                }
               }
             }
           }
@@ -250,7 +253,7 @@ export const gettNonRts = (data) => {
     return {
       key: item.node.id,
       code: item.node.title,
-      city: '',
+      city: item.node.city ? item.node.city.title : '',
       quantity: item.node.count,
       rentInput: item.node.incomingRent + ' тг.',
       taxInput: item.node.incomingTax + ' тг.',
