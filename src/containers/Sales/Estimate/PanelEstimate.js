@@ -88,6 +88,7 @@ const PanelDesign = ({ setBlock }) => {
         key="booked-sides"
         columns={columnsTableBookedSides}
         data={bookedSides}
+        select={true}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -102,6 +103,7 @@ const PanelDesign = ({ setBlock }) => {
         key="extra-charge"
         columns={columnsTableExtraCharge}
         data={extraCosts}
+        select={true}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -116,6 +118,7 @@ const PanelDesign = ({ setBlock }) => {
         key="hot-ptc"
         columns={columnsTableHotPtc}
         data={nonRts}
+        select={true}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
