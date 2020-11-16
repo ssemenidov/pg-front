@@ -56,7 +56,7 @@ export const ganttColumns = [
   },
   {
     header: 'Формат',
-    width: 120,
+    width: 170,
     cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.format),
   },
   {
@@ -70,7 +70,7 @@ export const ganttColumns = [
 
 //
 export const ganttSettings = (year, month) => ({
-  currentTime: new Date(year, month, 2, 12, 0, 0),
+  // currentTime: new Date(year, month, 2, 12, 0, 0),
   // Optionally, initialize custom theme and templates (themes.js, templates.js).
   // initializeGanttChartTheme(settings, theme);
   // initializeGanttChartTemplates(settings, theme);
@@ -79,6 +79,10 @@ export const ganttSettings = (year, month) => ({
   workingWeekFinish: 6, // Saturday
   visibleDayStart: 0, // 00:00
   visibleDayFinish: 24 * 60 * 60 * 1000, // 24:00
+  timelineStart: new Date(2020, 4, 1),
+  timelineEnd: new Date(2020, 7, 31),
+  displayedTime: new Date(2020, 4, 11),
+  currentTime: new Date(2020, 4, 11),
   // Set appropriate zoom level as 24 hours are diplayed per day.
   hourWidth: 2.5,
   barCornerRadius: 6,
