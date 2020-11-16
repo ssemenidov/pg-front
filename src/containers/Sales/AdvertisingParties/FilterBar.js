@@ -67,7 +67,6 @@ const FilterBar = () => {
     const cityes = useQuery(SEARCHCITY).data,
           familyes = useQuery(SEARCHFAMILYCONSTRUCTION).data,
           sizes = useQuery(SEARCHSIDESIZE).data
-  console.log(sizes)
   const handleChangeCity = value => {
     setCity(value)
     setDistrict(undefined)
