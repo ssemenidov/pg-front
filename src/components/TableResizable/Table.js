@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 export default class AdvertisingParties extends Component {
   state = {
-    columns: this.props.columns
+    columns: this.props.columns,
   };
 
   components = {
@@ -28,7 +28,6 @@ export default class AdvertisingParties extends Component {
 
   rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -49,19 +48,17 @@ export default class AdvertisingParties extends Component {
       <StyledTable
         pagination={true}
         rowSelection={
-          false ? {
-            ...this.rowSelection,
-          } : null
+          this.props.select
+            ? {
+                ...this.rowSelection,
+              }
+            : null
         }
         components={this.components}
         columns={columns}
         dataSource={this.props.data}
         loading={loading}
-        footer={
-          footer
-          ? () => footer
-          : undefined
-        }
+        footer={footer ? () => footer : undefined}
       />
     );
   }
@@ -69,11 +66,11 @@ export default class AdvertisingParties extends Component {
 
 AdvertisingParties.propTypes = {
   loading: PropTypes.bool,
-  footer: PropTypes.string
+  footer: PropTypes.string,
 };
 AdvertisingParties.defaultProps = {
   loading: false,
-  footer: undefined
+  footer: undefined,
 };
 
 const ResizableTitle = (props) => {
