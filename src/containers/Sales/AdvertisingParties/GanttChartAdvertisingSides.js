@@ -1,6 +1,55 @@
 import React, { useState } from 'react';
 
 import { ScheduleChartView, ganttColumns, ganttSettings } from './StyledGanttChart'
+import Tab from './Tab';
+import { gql, useQuery } from '@apollo/client';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader';
+
+const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
+    query SearchConstructionSideWithReservation {
+      searchConstructionSide {
+        edges {
+          node {
+            id
+            advertisingSide {
+              side {
+                format {
+                  title
+                }
+              }
+            }
+            construction {
+              location {
+                postcode {
+                  district {
+                    city {
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            reservation {
+              edges {
+                node {
+                  dateFrom
+                  dateTo
+                  reservationType {
+                    title
+                  }
+                  project {
+                    brand {
+                      title
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+`;
 
 
 export function GanttChartAdvertisingSides(props) {
@@ -12,80 +61,83 @@ export function GanttChartAdvertisingSides(props) {
   // Retrieve and store the control element for reference purposes.
   let scheduleChartViewElement = document.querySelector('#scheduleChartView');
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
-  let scheduleChartItems = [
-    {
-      content: 'Resource 1',
-      start: new Date(),
-      ganttChartItems: [{
-        content: 'Task A (Resource 1)',
-        start: new Date(year, month, 2, 8, 0, 0),
-        finish: new Date(year, month, 8, 16, 0, 0),
-        completedFinish: new Date(year, month, 5, 16, 0, 0)
-      }]
-    },
-    {
-      content: 'Resource 2', start: new Date(), ganttChartItems: [
-        {
-          content: 'Task A (Resource 2)',
-          start: new Date(year, month, 2, 8, 0, 0),
-          finish: new Date(year, month, 8, 16, 0, 0),
-          completedFinish: new Date(year, month, 5, 16, 0, 0),
-          assignmentsContent: '50%'
-        },
-        {
-          content: 'Task B (Resource 2)',
-          start: new Date(year, month, 11, 8, 0, 0),
-          finish: new Date(year, month, 12, 16, 0, 0),
-          completedFinish: new Date(year, month, 12, 16, 0, 0)
-        },
-        {
-          content: 'Task C (Resource 2)',
-          start: new Date(year, month, 14, 8, 0, 0),
-          finish: new Date(year, month, 14, 16, 0, 0),
-          textValue: 'Olimp',
-        }]
-    },
-    {
-      content: 'Resource 3',
-      start: new Date(),
-      ganttChartItems: [{
-        content: 'Task D (Resource 3)',
-        start: new Date(year, month, 12, 12, 0, 0),
-        finish: new Date(year, month, 14, 16, 0, 0),
-        // barClass: 'gantt-bar-status-saled', // Продано
-        // barClass: 'gantt-bar-status-approved', // Утверждено
-        barClass: 'gantt-bar-status-reserved', // Забронировано
-        textValue: 'CocaCola',
-      }],
-      // barClass: 'fill: #8abbed; fill-opacity: 0.8; stroke: #8abbed; stroke-width: 0.65px',
-    }];
-  for (var i = 4; i <= 16; i++)
-    scheduleChartItems.push({
-      content: 'Resource ' + i, start: new Date(), ganttChartItems: [
-        {
-          content: 'Task X (Resource ' + i + ')',
-          start: new Date(year, month, 2, 8, 0, 0),
-          finish: new Date(year, month, 5, 16, 0, 0),
-          barClass: i % 2 ? 'gantt-bar-status-saled' : 'gantt-bar-status-approved', // Забронировано
-        },
-        {
-          content: 'Task Y (Resource ' + i + ')',
-          start: new Date(year, month, 7, 8, 0, 0),
-          finish: new Date(year, month, 8, 16, 0, 0),
-          barClass: i % 2 ? 'gantt-bar-status-reserved' : 'gantt-bar-status-unavailable', // Забронировано
-        },
-        ],
-      code: `code ${i}`,
-      format: `format ${i}`,
-      city: `city ${i}`,
-    });
+  let filter = {};
 
-  scheduleChartItems[1].description = 'Custom description';
+  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: filter });
+  if (loading)
+    return <LoadingAntd/>
+  if (error)
+    return <h3>Error (:</h3>
+  let getBarClass = (barClass) => {
+    console.log(barClass)
+    if (barClass == 'Свободно')
+      return 'gantt-bar-status-reserved';
+    if (barClass == 'Забронировано')
+      return 'gantt-bar-status-reserved';
+    if (barClass == 'Утверждено')
+      return 'gantt-bar-status-approved';
+    if (barClass == 'Продано')
+      return 'gantt-bar-status-saled';
+    if (barClass == 'unavailable')
+      return 'gantt-bar-status-unavailable';
 
+    return 'gantt-bar-status-reserved';
+  }
+  let getBarTitle = (barClass) => {
+    console.log(barClass)
+    if (barClass == 'Свободно')
+      return 'забронировано';
+    if (barClass == 'Забронировано')
+      return 'забронировано';
+    if (barClass == 'Утверждено')
+      return 'утверждено';
+    if (barClass == 'Продано')
+      return 'продано';
+    if (barClass == 'unavailable')
+      return 'недоступно';
+    return 'забронировано';
+  }
+  let mapDate = (item) => {
+    let date = Date.parse(item);
+    // -          start: new Date(year, month, 2, 8, 0, 0),
+    // -          finish: new Date(year, month, 5, 16, 0, 0),
+    let year = parseInt(date.toLocaleString('ru-RU', {year: 'numeric'}));
+    let month = parseInt(date.toLocaleString('ru-RU', {month: 'numeric'}));
+    let ndate = new Date();
+    ndate.setTime(date)
+    let retDate = new Date(ndate.getFullYear(), ndate.getMonth(), parseInt(ndate.toLocaleString('ru-RU', {day: 'numeric'})));
+    console.log(retDate);
+    return retDate;
+  }
 
-  return <ScheduleChartView items={scheduleChartItems}
-                            settings={ganttSettings(year, month)}
-                            columns={ganttColumns}
-  />;
+  let scheduleChartItems = [];
+  for (let item of data.searchConstructionSide.edges) {
+    if (item.node.advertisingSide)
+      scheduleChartItems.push({
+        content: item.id,
+        start: new Date(2020, 1, 1, 0, 0,0),
+        code: item.node.id,
+        format: item.node.advertisingSide.side.format.title,
+        city: item.node.construction.location.postcode.district.city.title,
+        ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
+          (reservation) => ({
+            content: reservation.node.id,
+            start: mapDate(reservation.node.dateFrom),
+            finish: mapDate(reservation.node.dateTo),
+            barClass: getBarClass(reservation.node.reservationType.title),
+            textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+          })
+        ),
+      })
+  }
+
+  return (
+    <>
+      {/*<Tab cond={true}/>*/}
+      <ScheduleChartView items={scheduleChartItems}
+                         settings={ganttSettings(year, month)}
+                         columns={ganttColumns}/>
+    </>
+  );
 };
 
