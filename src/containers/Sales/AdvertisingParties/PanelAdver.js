@@ -78,6 +78,7 @@ const PanelDesign = (props) => {
 
   return (
     <>
+      <Tab cond={true}/>
       <div className="outdoor-table-bar">
         <GanttChartAdvertisingSides/>
         {/*<Table style={{ width: '100%' }} columns={columns} data={data} link="/sales/project_card" />*/}

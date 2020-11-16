@@ -214,7 +214,7 @@ const PanelDesign = (props) => {
     console.log(error);
   }
   if (loading) {
-    console.log('loading');
+    // console.log('loading');
   }
 
   if (data && !filter.date) {
@@ -322,6 +322,7 @@ const PanelDesign = (props) => {
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           link="/sales/project_card"
+          loading={loading}
           onRow={(record) => {
             return {
               onClick: () => {

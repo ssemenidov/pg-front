@@ -433,6 +433,14 @@ $app-font-size: 14px;
   text-align: center;
 }
 
+.gantt-svg-title {
+  font-family: $app-font-family;
+  color: #00284C !important;
+  font-size: $app-font-size;
+  font-weight: 500 !important;
+
+}
+
 .gantt-bar-status-saled {
   fill: #FFB9AD;
   fill-opacity: 1;
@@ -451,5 +459,12 @@ $app-font-size: 14px;
   fill: #DFE6F1;
   fill-opacity: 1;
   stroke: #DFE6F1;
+  stroke-width: 0.65px;
+}
+
+.gantt-bar-status-unavailable {
+  fill: #C8C8C8;
+  fill-opacity: 1;
+  stroke: #C8C8C8;
   stroke-width: 0.65px;
 }

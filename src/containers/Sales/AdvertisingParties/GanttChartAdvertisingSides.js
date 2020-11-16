@@ -41,7 +41,8 @@ export function GanttChartAdvertisingSides(props) {
         {
           content: 'Task C (Resource 2)',
           start: new Date(year, month, 14, 8, 0, 0),
-          finish: new Date(year, month, 14, 16, 0, 0)
+          finish: new Date(year, month, 14, 16, 0, 0),
+          textValue: 'Olimp',
         }]
     },
     {
@@ -54,6 +55,7 @@ export function GanttChartAdvertisingSides(props) {
         // barClass: 'gantt-bar-status-saled', // Продано
         // barClass: 'gantt-bar-status-approved', // Утверждено
         barClass: 'gantt-bar-status-reserved', // Забронировано
+        textValue: 'CocaCola',
       }],
       // barClass: 'fill: #8abbed; fill-opacity: 0.8; stroke: #8abbed; stroke-width: 0.65px',
     }];
@@ -63,12 +65,14 @@ export function GanttChartAdvertisingSides(props) {
         {
           content: 'Task X (Resource ' + i + ')',
           start: new Date(year, month, 2, 8, 0, 0),
-          finish: new Date(year, month, 5, 16, 0, 0)
+          finish: new Date(year, month, 5, 16, 0, 0),
+          barClass: i % 2 ? 'gantt-bar-status-saled' : 'gantt-bar-status-approved', // Забронировано
         },
         {
           content: 'Task Y (Resource ' + i + ')',
           start: new Date(year, month, 7, 8, 0, 0),
-          finish: new Date(year, month, 8, 16, 0, 0)
+          finish: new Date(year, month, 8, 16, 0, 0),
+          barClass: i % 2 ? 'gantt-bar-status-reserved' : 'gantt-bar-status-unavailable', // Забронировано
         },
         ],
       code: `code ${i}`,
