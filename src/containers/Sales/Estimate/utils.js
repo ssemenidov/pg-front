@@ -224,7 +224,7 @@ export const getExtraCosts = (data) => {
   return data.map((charge) => {
     return (
       charge.node.city !== null && {
-        key: charge.node ? charge.node : '',
+        key: charge.node.id ? charge.node.id : '',
         nameOfService: charge.node.title ? charge.node.title : '',
         city: charge.node.city.title ? charge.node.city.title : '',
         period: charge.node.startPeriod
