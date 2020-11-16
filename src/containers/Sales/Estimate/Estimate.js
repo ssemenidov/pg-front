@@ -28,8 +28,9 @@ const Estimate = () => {
   const { id, appId } = useParams();
   const [block, setBlock] = useState(0);
   const [showAddCost, setShowAddCost] = useState(false);
-  const [created, setCreated] = useState(false);
+  const [showAddNonRts, setShowAddNonRts] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [created, setCreated] = useState(false);
   const [cities, setCities] = useState({
     data: [],
     loaded: false,
@@ -40,7 +41,8 @@ const Estimate = () => {
     { id: 'sales/estimate', value: 'Смета' },
   ];
   const { Option } = Select;
-  const [form] = Form.useForm();
+  const [AdditionalCostsForm] = Form.useForm();
+  const [NonRtsForm] = Form.useForm();
 
   const CREATE_ADDITIONAL_COSTS = gql`
     mutation createAdditionalCost($input: CreateAdditionalCostsInput!) {
@@ -62,7 +64,29 @@ const Estimate = () => {
     }
   `;
 
-  const [createAdditionalCost, mutation] = useMutation(CREATE_ADDITIONAL_COSTS);
+  const CREATE_NON_RTS_COSTS = gql`
+    mutation addNonRts($input: CreateEstimateNonRtsInput!) {
+      createSalesNonrts(input: $input) {
+        estimateNonRts {
+          id
+          title
+          count
+          incomingTax
+          incomingRent
+          incomingPrinting
+          incomingInstallation
+          incomingManufacturing
+          summaClient
+          city {
+            title
+          }
+        }
+      }
+    }
+  `;
+
+  const [createAdditionalCost] = useMutation(CREATE_ADDITIONAL_COSTS);
+  const [createNonRtsCost] = useMutation(CREATE_NON_RTS_COSTS);
 
   const CITIES_QUERY = gql`
     query {
@@ -78,7 +102,7 @@ const Estimate = () => {
   `;
   const { loading, error, data } = useQuery(CITIES_QUERY);
 
-  if (data && showAddCost && !cities.loaded) {
+  if (data && !cities.loaded && (showAddNonRts || showAddCost)) {
     setCities({
       data: data.searchCity.edges.map((city) => {
         return {
@@ -100,7 +124,23 @@ const Estimate = () => {
         <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
 
-        {block !== 0 && <AddBtn text="Добавить расход" />}
+        {block !== 0 && (
+          <AddBtn
+            text="Добавить расход"
+            onClick={() => {
+              switch (block) {
+                case 1:
+                  setShowAddCost(true);
+                  break;
+                case 2:
+                  setShowAddNonRts(true);
+                  break;
+                default:
+                  console.log('error');
+              }
+            }}
+          />
+        )}
       </LeftBar>
 
       <div style={{ width: '100%', overflow: 'hidden', margin: '0 2vw 0 0' }}>
@@ -116,7 +156,16 @@ const Estimate = () => {
                 <StyledButton
                   backgroundColor="#008556"
                   onClick={() => {
-                    setShowAddCost(true);
+                    switch (block) {
+                      case 1:
+                        setShowAddCost(true);
+                        break;
+                      case 2:
+                        setShowAddNonRts(true);
+                        break;
+                      default:
+                        console.log('error');
+                    }
                   }}>
                   Добавить расход
                 </StyledButton>
@@ -139,22 +188,22 @@ const Estimate = () => {
             </ControlToolbar>
             <SidebarInfo data={sidebarInfoData} />
           </InfoWrap>
-          <PanelDesign setBlock={setBlock} />
+          <PanelDesign setBlock={setBlock} created={created} setCreated={setCreated} />
         </div>
         <Modal
           width="350px"
           visible={showAddCost}
           onCancel={() => {
             setShowAddCost(false);
-            form.resetFields();
+            AdditionalCostsForm.resetFields();
           }}
           title="Добавление расхода"
           centered={true}
           confirmLoading={confirmLoading}
           onOk={() => {
-            form.validateFields().then((values) => {
+            AdditionalCostsForm.validateFields().then((values) => {
               setConfirmLoading(true);
-              const price = Number(values.price);
+              const price = values.price;
               const discount = Number(values.discount);
               const count = Number(values.count);
               const priceAfterDiscount = (Number(values.price) * (100 - Number(values.discount))) / 100;
@@ -171,26 +220,34 @@ const Estimate = () => {
                     city: values.city,
                     project: id,
                     sumAfterDiscount: priceAfterDiscount,
-                    summa,
+                    summa: summa,
                   },
                 },
-              }).then((val) => {
-                setConfirmLoading(false);
-                setShowAddCost(false);
-                form.resetFields();
-              });
+              })
+                .then((val) => {
+                  setConfirmLoading(false);
+                  setShowAddCost(false);
+                  AdditionalCostsForm.resetFields();
+                  setCreated(true);
+                })
+                .catch((err) => {
+                  console.log(err);
+                  setShowAddCost(false);
+                  AdditionalCostsForm.resetFields();
+                  setConfirmLoading(false);
+                });
             });
           }}>
           <Form
-            form={form}
+            form={AdditionalCostsForm}
             onCancel={() => {
-              form.resetFields();
+              AdditionalCostsForm.resetFields();
             }}>
             <Form.Item name="title" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
               <Input size="large" placeholder="Наименование услуги" />
             </Form.Item>
             <Form.Item name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
-              <Select size="large" placeholder="Город">
+              <Select size="large" placeholder="Город" loading={loading}>
                 {cities.data.map((city) => {
                   return (
                     <Option key={city.id} value={city.id}>
@@ -203,10 +260,7 @@ const Estimate = () => {
             <Form.Item name="period" rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
               <DatePicker.RangePicker size="large" />
             </Form.Item>
-            <Form.Item
-              label="Count"
-              name="count"
-              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
+            <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
               <InputNumber
                 size="large"
                 style={{
@@ -235,6 +289,133 @@ const Estimate = () => {
                 width="301px"
                 size="large"
                 placeholder="Скидка"
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+        <Modal
+          width="350px"
+          visible={showAddNonRts}
+          onCancel={() => {
+            setShowAddNonRts(false);
+            NonRtsForm.resetFields();
+          }}
+          title="Добавление расхода"
+          centered={true}
+          confirmLoading={confirmLoading}
+          onOk={() => {
+            NonRtsForm.validateFields().then((values) => {
+              setConfirmLoading(true);
+              console.log(values);
+              const summ = values.count * values.rent + values.tax + values.print + values.mount + values.addCosts;
+              createNonRtsCost({
+                variables: {
+                  input: {
+                    title: values.title,
+                    count: values.count,
+                    incomingTax: 45,
+                    incomingRent: values.rent,
+                    incomingPrinting: values.print,
+                    incomingInstallation: values.mount,
+                    incomingManufacturing: values.addCosts,
+                    city: values.city,
+                    project: id,
+                    summaClient: summ,
+                  },
+                },
+              })
+                .then((val) => {
+                  setConfirmLoading(false);
+                  setShowAddNonRts(false);
+                  NonRtsForm.resetFields();
+                  setCreated(true);
+                })
+                .catch((err) => {
+                  console.log(err);
+                  setShowAddNonRts(false);
+                  NonRtsForm.resetFields();
+                  setConfirmLoading(false);
+                });
+            });
+          }}>
+          <Form
+            form={NonRtsForm}
+            onCancel={() => {
+              NonRtsForm.resetFields();
+            }}>
+            <Form.Item name="title" rules={[{ required: true, message: 'Пожалуйста, введите тип.' }]}>
+              <Input size="large" placeholder="Тип" />
+            </Form.Item>
+            <Form.Item name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
+              <Select size="large" placeholder="Город" loading={loading}>
+                {cities.data.map((city) => {
+                  return (
+                    <Option key={city.id} value={city.id}>
+                      {city.title}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
+              <InputNumber
+                size="large"
+                style={{
+                  width: 301,
+                }}
+                min={1}
+                placeholder="Количество"
+              />
+            </Form.Item>
+            <Form.Item name="rent" rules={[{ required: true, message: 'Пожалуйста, введите стоимость аренды.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                precision={2}
+                width="301px"
+                size="large"
+                placeholder="Аренда"
+              />
+            </Form.Item>
+            <Form.Item name="tax" rules={[{ required: true, message: 'Пожалуйста, введите налог.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                width="301px"
+                size="large"
+                placeholder="Налог"
+              />
+            </Form.Item>
+            <Form.Item name="print" rules={[{ required: true, message: 'Пожалуйста, введите стоимсость печати.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                width="301px"
+                size="large"
+                placeholder="Печать"
+              />
+            </Form.Item>
+            <Form.Item name="mount" rules={[{ required: true, message: 'Пожалуйста, введите стоимость монтажа.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                width="301px"
+                size="large"
+                placeholder="Монтаж"
+              />
+            </Form.Item>
+            <Form.Item name="addCosts" rules={[{ required: true, message: 'Пожалуйста, введите доп. расходы.' }]}>
+              <InputNumber
+                style={{
+                  width: 301,
+                }}
+                width="301px"
+                size="large"
+                placeholder="Доп. расходы"
               />
             </Form.Item>
           </Form>

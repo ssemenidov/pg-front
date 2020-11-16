@@ -28,7 +28,7 @@ import {
 } from './stubDataSource';
 import { useQuery } from '@apollo/client';
 
-const PanelDesign = ({ setBlock }) => {
+const PanelDesign = ({ setBlock, created, setCreated }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
   // const [bookSides, setBookSides] = useState([]);
   const { appId, id } = useParams();
@@ -36,7 +36,7 @@ const PanelDesign = ({ setBlock }) => {
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
 
-  const { loading, error, data } = useQuery(query, {
+  const { loading, error, data, refetch } = useQuery(query, {
     variables: {
       id: appId ? appId : id ? id : '',
     },
@@ -44,6 +44,12 @@ const PanelDesign = ({ setBlock }) => {
 
   let bookedSides = [];
   let nonRts = [];
+
+  if (created) {
+    refetch().then((val) => {
+      setCreated(false);
+    });
+  }
 
   if (data) {
     switch (activeTab) {
@@ -89,6 +95,7 @@ const PanelDesign = ({ setBlock }) => {
         columns={columnsTableBookedSides}
         data={bookedSides}
         select={true}
+        loading={loading}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -103,6 +110,7 @@ const PanelDesign = ({ setBlock }) => {
         key="extra-charge"
         columns={columnsTableExtraCharge}
         data={extraCosts}
+        loading={loading}
         select={true}
         pagination={{
           defaultPageSize: 10,
@@ -119,6 +127,7 @@ const PanelDesign = ({ setBlock }) => {
         columns={columnsTableHotPtc}
         data={nonRts}
         select={true}
+        loading={loading}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
