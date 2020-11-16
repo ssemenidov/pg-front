@@ -17,7 +17,7 @@ const AgreementsPanel = () => {
             sorter: {
             compare: (a, b) => a.code.localeCompare(b.code),
             multiple: 1,
-          },  
+          },
           },
             {
             title: 'Контрагент',
@@ -27,7 +27,7 @@ const AgreementsPanel = () => {
             sorter: {
             compare: (a, b) => a.partner.localeCompare(b.partner),
             multiple: 1,
-          },  
+          },
           },
             {
             title: 'Проект',
@@ -36,7 +36,7 @@ const AgreementsPanel = () => {
             sorter: {
               compare: (a, b) => a.project.localeCompare(b.project),
               multiple: 1,
-            },  
+            },
           },
             {
             title: 'Дата  заключения',
@@ -45,7 +45,7 @@ const AgreementsPanel = () => {
             sorter: {
               compare: (a, b) => a.date_start.localeCompare(b.date_start),
               multiple: 1,
-            },  
+            },
           },
             {
             title: 'Дата окончания',
@@ -54,7 +54,7 @@ const AgreementsPanel = () => {
             sorter: {
               compare: (a, b) => a.date_end.localeCompare(b.date_end),
               multiple: 1,
-            },  
+            },
           },
             {
               width: 40,
@@ -64,7 +64,7 @@ const AgreementsPanel = () => {
                   <img style={{ cursor: 'pointer' }} src={icon_pen_blue} alt="" />
                 </Link>
               ),
-             
+
             },
         ];
     const AGREEMENT_T = gql`
@@ -100,7 +100,7 @@ const AgreementsPanel = () => {
           }
           start
           end
-        
+
           creator{
             name
           }
@@ -127,63 +127,12 @@ const AgreementsPanel = () => {
   }
 `;
     var data1 = [
-  {
-    key: 1,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-
-  },
-  {
-    key: 2,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-  },
-  {
-    key: 3,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-  },
-  {
-    key: 4,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-  },
-  {
-    key: 5,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-  },
-  {
-    key: 6,
-    code: '#2020050301323',
-    partner: 'ИП Агенство',
-    project: 'CocaCola',
-    date_start: '29.05.2021',
-    date_end: '29.05.2021',
-  },
     ];
- 
-  
+
 
   const { loading, error, data } = useQuery(AGREEMENT_T, { variables: filter });
   if (error) return <p>Error :(</p>;
-  if (loading) return <h3></h3>;
+  // if (loading) return <h3></h3>;
 
   if (data) {
     console.log(data);
@@ -195,14 +144,14 @@ const AgreementsPanel = () => {
       project: 'CocaCola',
       date_start:item.node.start && new Date(item.node.start).toLocaleDateString('en-GB'),
       date_end:item.node.end && new Date(item.node.end).toLocaleDateString('en-GB'),
-    
+
     }));
-  
+
   }
 
   return (
 
-          <Table columns={columns} data={data1} notheader={true} />
+          <Table columns={columns} data={data1} notheader={true} loading={loading}/>
   );
 };
 

@@ -24,7 +24,19 @@ export default ({ id, onSelect }) => {
     if (loading) return null;
     if (error) return `Error! ${error}`;
   
-      const district = data ? data.searchFormat.edges : null;
+    let district = data ? data.searchFormat.edges : null;
+    let result = []
+    district.forEach((x)=>{
+      let end = true
+      for(let i = 0; i < result.length; i++)
+        if(x.node.title === result[i].node.title){
+          end = false
+          break
+        }
+        if(end)
+          result.push(x)
+    })
+    district = result
     return district ? ( 
       <StyledSelect defaultValue="Формат конструкции" size={'large'} onChange={e => onSelect(e)}>
         {district.map(x => 
