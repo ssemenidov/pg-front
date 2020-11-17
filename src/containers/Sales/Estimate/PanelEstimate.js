@@ -11,6 +11,7 @@ import {
   getBookedSides,
   getExtraCosts,
   gettNonRts,
+  EditModal,
 } from './utils';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
@@ -28,10 +29,10 @@ import {
 } from './stubDataSource';
 import { useQuery } from '@apollo/client';
 
-const PanelDesign = ({ setBlock, created, setCreated }) => {
+const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, setOpenEditModal }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
-  // const [bookSides, setBookSides] = useState([]);
   const { appId, id } = useParams();
+  const [editingItem, setEditingItem] = useState({});
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
@@ -94,7 +95,11 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         key="booked-sides"
         columns={columnsTableBookedSides}
         data={bookedSides}
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
         select={true}
+        edit={false}
         loading={loading}
         pagination={{
           defaultPageSize: 10,
@@ -110,6 +115,10 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         key="extra-charge"
         columns={columnsTableExtraCharge}
         data={extraCosts}
+        edit={true}
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
         loading={loading}
         select={true}
         pagination={{
@@ -126,6 +135,10 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         key="hot-ptc"
         columns={columnsTableHotPtc}
         data={nonRts}
+        openEditModal={openEditModal}
+        edit={true}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
         select={true}
         loading={loading}
         pagination={{
@@ -193,6 +206,16 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         </CustomTabList>
       </HeaderBar>
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
+      <EditModal
+        openModal={openEditModal}
+        editingItem={editingItem}
+        setOpenModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
+        block={activeTab}
+        cities={cities}
+        extraCostsId={extraCosts.key}
+        refetch={refetch}
+      />
     </div>
   );
 };

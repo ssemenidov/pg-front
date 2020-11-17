@@ -30,6 +30,7 @@ const Estimate = () => {
   const [showAddCost, setShowAddCost] = useState(false);
   const [showAddNonRts, setShowAddNonRts] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [created, setCreated] = useState(false);
   const [cities, setCities] = useState({
     data: [],
@@ -102,7 +103,7 @@ const Estimate = () => {
   `;
   const { loading, error, data } = useQuery(CITIES_QUERY);
 
-  if (data && !cities.loaded && (showAddNonRts || showAddCost)) {
+  if (data && !cities.loaded && (showAddNonRts || showAddCost || openEditModal)) {
     setCities({
       data: data.searchCity.edges.map((city) => {
         return {
@@ -188,7 +189,14 @@ const Estimate = () => {
             </ControlToolbar>
             <SidebarInfo data={sidebarInfoData} />
           </InfoWrap>
-          <PanelDesign setBlock={setBlock} created={created} setCreated={setCreated} />
+          <PanelDesign
+            openEditModal={openEditModal}
+            setOpenEditModal={setOpenEditModal}
+            setBlock={setBlock}
+            created={created}
+            setCreated={setCreated}
+            cities={cities}
+          />
         </div>
         <Modal
           width="350px"
@@ -306,7 +314,6 @@ const Estimate = () => {
           onOk={() => {
             NonRtsForm.validateFields().then((values) => {
               setConfirmLoading(true);
-              console.log(values);
               const summ = values.count * values.rent + values.tax + values.print + values.mount + values.addCosts;
               createNonRtsCost({
                 variables: {
