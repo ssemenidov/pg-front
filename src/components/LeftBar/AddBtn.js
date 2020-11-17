@@ -27,7 +27,7 @@ const SearchText = styled.h6`
 
 const AddBtn = (props) => {
   return (
-    <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }}>
+    <StyledSearchButton style={{ transition: 'opacity 1s ease-out' }} onClick={props.onClick}>
       <img src={addIcon} alt="" />
       <SearchText>{props.text}</SearchText>
     </StyledSearchButton>

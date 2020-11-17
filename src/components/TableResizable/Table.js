@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { Resizable } from 'react-resizable';
 import PropTypes from 'prop-types';
 
+import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+
 export default class AdvertisingParties extends Component {
   state = {
-    columns: this.props.columns
+    columns: this.props.columns,
   };
 
   components = {
@@ -27,9 +29,7 @@ export default class AdvertisingParties extends Component {
   };
 
   rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
+    onChange: (selectedRowKeys, selectedRows) => {},
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User', // Column configuration not to be checked
       name: record.name,
@@ -45,23 +45,39 @@ export default class AdvertisingParties extends Component {
         onResize: this.handleResize(index),
       }),
     }));
+
+    this.props.edit &&
+      columns.push({
+        width: 50,
+        render: (text, record) => {
+          return (
+            <img
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                this.props.setOpenEditModal(true);
+                this.props.setEditingItem(record);
+              }}
+              src={icon_pen}
+              alt="edit icon"
+            />
+          );
+        },
+      });
     return (
       <StyledTable
         pagination={true}
         rowSelection={
-          false ? {
-            ...this.rowSelection,
-          } : null
+          this.props.select
+            ? {
+                ...this.rowSelection,
+              }
+            : null
         }
         components={this.components}
         columns={columns}
         dataSource={this.props.data}
         loading={loading}
-        footer={
-          footer
-          ? () => footer
-          : undefined
-        }
+        footer={footer ? () => footer : undefined}
       />
     );
   }
@@ -69,11 +85,11 @@ export default class AdvertisingParties extends Component {
 
 AdvertisingParties.propTypes = {
   loading: PropTypes.bool,
-  footer: PropTypes.string
+  footer: PropTypes.string,
 };
 AdvertisingParties.defaultProps = {
   loading: false,
-  footer: undefined
+  footer: undefined,
 };
 
 const ResizableTitle = (props) => {
@@ -82,7 +98,6 @@ const ResizableTitle = (props) => {
   if (!width) {
     return <th {...restProps} />;
   }
-
   return (
     <Resizable
       width={width}

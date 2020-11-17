@@ -319,6 +319,7 @@ const PanelDesign = (props) => {
           data={data2}
           history={useHistory()}
           select={true}
+          loading={loading}
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           link="/sales/project_card"

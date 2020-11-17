@@ -11,6 +11,7 @@ import {
   getBookedSides,
   getExtraCosts,
   gettNonRts,
+  EditModal,
 } from './utils';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
@@ -28,15 +29,15 @@ import {
 } from './stubDataSource';
 import { useQuery } from '@apollo/client';
 
-const PanelDesign = ({ setBlock }) => {
+const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, setOpenEditModal }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
-  // const [bookSides, setBookSides] = useState([]);
   const { appId, id } = useParams();
+  const [editingItem, setEditingItem] = useState({});
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
 
-  const { loading, error, data } = useQuery(query, {
+  const { loading, error, data, refetch } = useQuery(query, {
     variables: {
       id: appId ? appId : id ? id : '',
     },
@@ -44,6 +45,12 @@ const PanelDesign = ({ setBlock }) => {
 
   let bookedSides = [];
   let nonRts = [];
+
+  if (created) {
+    refetch().then((val) => {
+      setCreated(false);
+    });
+  }
 
   if (data) {
     switch (activeTab) {
@@ -88,6 +95,12 @@ const PanelDesign = ({ setBlock }) => {
         key="booked-sides"
         columns={columnsTableBookedSides}
         data={bookedSides}
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
+        select={true}
+        edit={false}
+        loading={loading}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -102,6 +115,12 @@ const PanelDesign = ({ setBlock }) => {
         key="extra-charge"
         columns={columnsTableExtraCharge}
         data={extraCosts}
+        edit={true}
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
+        loading={loading}
+        select={true}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -116,6 +135,12 @@ const PanelDesign = ({ setBlock }) => {
         key="hot-ptc"
         columns={columnsTableHotPtc}
         data={nonRts}
+        openEditModal={openEditModal}
+        edit={true}
+        setOpenEditModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
+        select={true}
+        loading={loading}
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
@@ -181,6 +206,16 @@ const PanelDesign = ({ setBlock }) => {
         </CustomTabList>
       </HeaderBar>
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
+      <EditModal
+        openModal={openEditModal}
+        editingItem={editingItem}
+        setOpenModal={setOpenEditModal}
+        setEditingItem={setEditingItem}
+        block={activeTab}
+        cities={cities}
+        extraCostsId={extraCosts.key}
+        refetch={refetch}
+      />
     </div>
   );
 };
