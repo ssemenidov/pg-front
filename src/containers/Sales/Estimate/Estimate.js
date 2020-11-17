@@ -318,7 +318,7 @@ const Estimate = () => {
                   input: {
                     title: values.title,
                     count: values.count,
-                    incomingTax: 45,
+                    incomingTax: values.tax,
                     incomingRent: values.rent,
                     incomingPrinting: values.print,
                     incomingInstallation: values.mount,
