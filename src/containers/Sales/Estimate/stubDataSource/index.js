@@ -1,53 +1,60 @@
+
 export const initColumnsForPopupBookedSides = [
   {
     key: 'code',
     title: 'Код стороны',
     dataIndex: 'code',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     key: 'city',
     title: 'Город',
     dataIndex: 'city',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     key: 'address',
     title: 'Адрес',
     dataIndex: 'address',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     key: 'format',
     title: 'Формат',
     dataIndex: 'format',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     key: 'side',
     title: 'Сторона',
     dataIndex: 'side',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
-    isShowed: true
+    isShowed: true,
+  },
+  {
+    isShowed: true,
+    key: 'edit',
+    dataIndex: 'edit',
   },
   {
     key: 'branding',
     title: 'Брендинг (да/нет)',
     dataIndex: 'branding',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
+
   {
     title: 'АРЕНДА',
     children: [
@@ -56,37 +63,37 @@ export const initColumnsForPopupBookedSides = [
         title: 'Аренда по прайсу',
         dataIndex: 'rentByPrice',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'discountByPrice',
         title: 'Скидка по прайсу',
         dataIndex: 'discountByPrice',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'rentOnClient',
         title: 'Аренда на клиента',
         dataIndex: 'rentOnClient',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'discountOnClient',
         title: 'Скидка на клиента',
         dataIndex: 'discountOnClient',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'rentAfterDiscount',
         title: 'Аренда после скидки',
         dataIndex: 'rentAfterDiscount',
         width: 130,
-        isShowed: false
-      }
-    ]
+        isShowed: false,
+      },
+    ],
   },
   {
     title: 'НАЛОГ',
@@ -96,51 +103,51 @@ export const initColumnsForPopupBookedSides = [
         title: 'Налог',
         dataIndex: 'tax',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'discountOnTax',
         title: 'Скидка на налог',
         dataIndex: 'discountOnTax',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'taxAfterDiscount',
         title: 'Налог после скидки',
         dataIndex: 'taxAfterDiscount',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'vat',
         title: 'НДС/ без НДС',
         dataIndex: 'vat',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
-    ]
+    ],
   },
   {
     key: 'mount',
     title: 'Монтаж',
     dataIndex: 'mount',
     width: 130,
-    isShowed: false
+    isShowed: false,
   },
   {
     key: 'print',
     title: 'Печать',
     dataIndex: 'print',
     width: 130,
-    isShowed: false
+    isShowed: false,
   },
   {
     key: 'sum',
     title: 'Итого',
     dataIndex: 'sum',
     width: 130,
-    isShowed: false
+    isShowed: false,
   },
   {
     title: 'АГЕНТСКАЯ КОМИССИЯ',
@@ -150,25 +157,26 @@ export const initColumnsForPopupBookedSides = [
         title: 'Процент АК',
         dataIndex: 'percentAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'sumAK',
         title: 'Сумма АК',
         dataIndex: 'sumAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         key: 'sumWithoutAK',
         title: 'Сумма за вычетом АК',
         dataIndex: 'sumWithoutAK',
         width: 130,
-        isShowed: false
-      }
-    ]
-  }
+        isShowed: false,
+      },
+    ],
+  },
 ];
+
 export const initColumnsTableBookedSides = [
   {
     title: 'Код стороны',
@@ -206,6 +214,7 @@ export const initColumnsTableBookedSides = [
     width: 130,
   },
 ];
+
 export const dataBookedSides = [
   {
     key: 1,
@@ -230,8 +239,8 @@ export const dataBookedSides = [
     sum: 'stub data',
     percentAK: 'stub data',
     sumAK: 'stub data',
-    sumWithoutAK: 'stub data'
-  }
+    sumWithoutAK: 'stub data',
+  },
 ];
 
 export const initColumnsForPopupExtraCharge = [
@@ -239,49 +248,49 @@ export const initColumnsForPopupExtraCharge = [
     title: 'Наименование услуги',
     dataIndex: 'nameOfService',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Город',
     dataIndex: 'city',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Период',
     dataIndex: 'period',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Цена',
     dataIndex: 'price',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Скидка',
     dataIndex: 'discount',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Стоимость после скидки',
     dataIndex: 'priceAfterDiscount',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Сумма',
     dataIndex: 'sum',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'АГЕНТСКАЯ КОМИССИЯ',
@@ -290,23 +299,24 @@ export const initColumnsForPopupExtraCharge = [
         title: 'Процент АК',
         dataIndex: 'percentAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Сумма АК',
         dataIndex: 'sumAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Сумма за вычетом АК',
         dataIndex: 'sumWithoutAK',
         width: 130,
-        isShowed: false
-      }
-    ]
-  }
+        isShowed: false,
+      },
+    ],
+  },
 ];
+
 export const initColumnsTableExtraCharge = [
   {
     title: 'Наименование услуги',
@@ -347,8 +357,9 @@ export const initColumnsTableExtraCharge = [
     title: 'Сумма',
     dataIndex: 'sum',
     width: 130,
-  }
+  },
 ];
+
 export const dataExtraCharge = [
   {
     key: 1,
@@ -362,8 +373,8 @@ export const dataExtraCharge = [
     sum: '9000,00 тг.',
     percentAK: 'stub data',
     sumAK: 'stub data',
-    sumWithoutAK: 'stub data'
-  }
+    sumWithoutAK: 'stub data',
+  },
 ];
 
 export const initColumnsForPopupHotPtc = [
@@ -371,19 +382,19 @@ export const initColumnsForPopupHotPtc = [
     title: 'Тип',
     dataIndex: 'code',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Город',
     dataIndex: 'city',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'ВХОДЯЩАЯ СТОИМОСТЬ',
@@ -392,39 +403,39 @@ export const initColumnsForPopupHotPtc = [
         title: 'Аренда',
         dataIndex: 'rentInput',
         width: 130,
-        isShowed: true
+        isShowed: true,
       },
       {
         title: 'Налог',
         dataIndex: 'taxInput',
         width: 130,
-        isShowed: true
+        isShowed: true,
       },
       {
         title: 'Печать',
         dataIndex: 'printInput',
         width: 130,
-        isShowed: true
+        isShowed: true,
       },
       {
         title: 'Монтаж',
         dataIndex: 'mountInput',
         width: 130,
-        isShowed: true
+        isShowed: true,
       },
       {
         title: 'Доп.расходы',
         dataIndex: 'extraChargeInput',
         width: 130,
-        isShowed: true
+        isShowed: true,
       },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
         width: 130,
-        isShowed: true
-      }
-    ]
+        isShowed: true,
+      },
+    ],
   },
   {
     title: 'СУММА ПРОДАЖИ',
@@ -433,39 +444,39 @@ export const initColumnsForPopupHotPtc = [
         title: 'Аренда',
         dataIndex: 'rentSell',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Налог',
         dataIndex: 'taxSell',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Печать',
         dataIndex: 'printSell',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Монтаж',
         dataIndex: 'mountSell',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Производство',
         dataIndex: 'manufactureSell',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Сумма',
         dataIndex: 'sumSell',
         width: 130,
-        isShowed: false
-      }
-    ]
+        isShowed: false,
+      },
+    ],
   },
   {
     title: 'АГЕНТСКАЯ КОМИССИЯ',
@@ -474,29 +485,30 @@ export const initColumnsForPopupHotPtc = [
         title: 'Процент АК',
         dataIndex: 'percentAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Сумма АК',
         dataIndex: 'sumAK',
         width: 130,
-        isShowed: false
+        isShowed: false,
       },
       {
         title: 'Сумма за вычетом АК',
         dataIndex: 'sumWithoutAK',
         width: 130,
-        isShowed: false
-      }
-    ]
+        isShowed: false,
+      },
+    ],
   },
   {
     title: 'Маржа',
     dataIndex: 'margin',
     width: 130,
-    isShowed: false
-  }
+    isShowed: false,
+  },
 ];
+
 export const initColumnsTableHotPtc = [
   {
     title: 'Тип',
@@ -545,10 +557,11 @@ export const initColumnsTableHotPtc = [
         title: 'Сумма',
         dataIndex: 'sumInput',
         width: 130,
-      }
-    ]
+      },
+    ],
   },
 ];
+
 export const dataHotPtc = [
   {
     key: 1,
@@ -570,6 +583,6 @@ export const dataHotPtc = [
     percentAK: 'stub data',
     sumAK: 'stub data',
     sumWithoutAK: 'stub data',
-    margin: 'stub data'
-  }
+    margin: 'stub data',
+  },
 ];
