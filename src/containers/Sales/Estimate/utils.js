@@ -282,6 +282,16 @@ const UPDATE_ADDITIONAL_COSTS = gql`
   }
 `;
 
+const UPDATE_NON_RTS = gql`
+  mutation updateNonRts($id: ID!, $input: UpdateEstimateNonRtsInput!) {
+    updateSalesNonrts(id: $id, input: $input) {
+      estimateNonRts {
+        id
+      }
+    }
+  }
+`;
+
 export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem, refetch }) => {
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -292,9 +302,11 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
   useEffect(() => {
     const city =
       cities.data.length &&
+      editingItem.city &&
       cities.data.filter((city) => {
         return city.title === editingItem.city;
       })[0].id;
+    console.log(cities);
     switch (block) {
       case 'extra-charge':
         form.setFieldsValue({
@@ -306,9 +318,22 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
           discount: editingItem.discount && editingItem.discount.split('%')[0],
         });
         break;
+      case 'hot-ptc':
+        form.setFieldsValue({
+          type: editingItem.code,
+          count: editingItem.quantity,
+          city,
+          rent: editingItem.rentInput.split(' ')[0],
+          tax: editingItem.taxInput.split(' ')[0],
+          print: editingItem.printInput.split(' ')[0],
+          mount: editingItem.mountInput.split(' ')[0],
+          addCosts: editingItem.extraChargeInput,
+        });
+        break;
     }
   }, [form, editingItem]);
   const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
+  const [updateNonRts] = useMutation(UPDATE_NON_RTS);
   switch (block) {
     case 'extra-charge':
       FormInputs = () => {
@@ -357,7 +382,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
         return (
           <>
             <Form.Item name="city">
-              <Select size="large" placeholder="Город" defaultValue={editingItem.city}>
+              <Select size="large" placeholder="Город">
                 {cities &&
                   cities.data.map((city) => {
                     return (
@@ -369,25 +394,25 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               </Select>
             </Form.Item>
             <Form.Item name="type">
-              <Input placeholder="Тип" defaultValue={editingItem.code} />
+              <Input placeholder="Тип" />
             </Form.Item>
             <Form.Item name="count">
-              <InputNumber placeholder="Кол-во" defaultValue={editingItem.quantity} />
+              <InputNumber placeholder="Кол-во" />
             </Form.Item>
             <Form.Item name="rent">
-              <InputNumber size="large" placeholder="Аренда" defaultValue={editingItem.rentInput} />
+              <InputNumber size="large" placeholder="Аренда" />
             </Form.Item>
             <Form.Item name="tax">
-              <InputNumber placeholder="Налог" defaultValue={editingItem.taxInput} />
+              <InputNumber placeholder="Налог" />
             </Form.Item>
             <Form.Item name="print">
-              <InputNumber placeholder="Печать" defaultValue={editingItem.printInput} />
+              <InputNumber placeholder="Печать" />
             </Form.Item>
             <Form.Item name="mount">
-              <InputNumber placeholder="Монтаж" defaultValue={editingItem.mountInput} />
+              <InputNumber placeholder="Монтаж" />
             </Form.Item>
             <Form.Item name="addCosts">
-              <InputNumber placeholder="Доп. расходы" defaultValue={editingItem.extraChargeInput} />
+              <InputNumber placeholder="Доп. расходы" />
             </Form.Item>
             <style>
               {`
@@ -421,7 +446,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               const count = Number(values.count);
               const priceAfterDiscount = (Number(values.price) * (100 - Number(values.discount))) / 100;
               const summa = priceAfterDiscount * count;
-              const input = {
+              const input2 = {
                 title: values.type,
                 city: values.city,
                 startPeriod: new Date(values.period[0]).toJSON(),
@@ -434,7 +459,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               };
               updateAddCosts({
                 variables: {
-                  input,
+                  input2,
                   id: editingItem.key,
                 },
               })
@@ -449,6 +474,38 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
                   console.log(err);
                 });
               break;
+            case 'hot-ptc':
+              const tax = Number(values.tax);
+              const print = Number(values.print);
+              const mount = Number(values.mount);
+              const addCosts = Number(values.addCosts);
+              const rent = Number(values.rent);
+              const summ = values.count * rent + tax + print + mount + addCosts;
+              const input = {
+                title: values.type,
+                count: values.count,
+                incomingTax: tax,
+                incomingRent: rent,
+                incomingPrinting: print,
+                incomingInstallation: mount,
+                incomingManufacturing: addCosts,
+                city: values.city,
+                summaClient: summ,
+              };
+
+              updateNonRts({
+                variables: {
+                  input,
+                  id: editingItem.key,
+                },
+              })
+                .then(() => {
+                  setOpenModal(false);
+                  form.resetFields();
+                  setConfirmLoading(false);
+                  refetch();
+                })
+                .catch((err) => console.log(err));
           }
         });
       }}>
