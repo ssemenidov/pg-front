@@ -102,7 +102,37 @@ const FilterBar = () => {
   const onFinish = (values) => {
     setFilter(values);
 
+<<<<<<< HEAD
     console.log('values ', values);
+=======
+    const cityes = useQuery(SEARCHCITY).data,
+          familyes = useQuery(SEARCHFAMILYCONSTRUCTION).data,
+          sizes = useQuery(SEARCHSIDESIZE).data
+  const handleChangeCity = value => {
+    setCity(value)
+    setDistrict(undefined)
+  };
+  const handleFamiliys = value => {
+    setFamily(value)
+    setFormat(undefined)
+    setSide(undefined)
+  };
+  const handleFormat = value => {
+    setFormat(value)
+    setSide(undefined)
+    console.log(family)
+    console.log(value)
+  };
+  const handleSide = value => {
+    setSide(value)
+  };
+  
+  const handleDistrict = value => {
+    setDistrict(value)
+  };
+  const handleSize = value => {
+    setSize(value)
+>>>>>>> 4433b2d425dffe62a13369e18ffe0e815673a5a6
   };
 
   const onReset = () => {
