@@ -285,7 +285,6 @@ const UPDATE_ADDITIONAL_COSTS = gql`
 export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem, refetch }) => {
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [variables, setVariables] = useState({});
   const { Option } = Select;
   let FormInputs = () => {};
   let startTime = editingItem.period && moment(editingItem.period.split(' - ')[0].split('.').reverse().join('-'));
@@ -296,7 +295,6 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       cities.data.filter((city) => {
         return city.title === editingItem.city;
       })[0].id;
-    console.log(editingItem);
     switch (block) {
       case 'extra-charge':
         form.setFieldsValue({
@@ -317,7 +315,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
         return (
           <>
             <Form.Item name="type" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
-              <Input placeholder="Наименование услуги" />
+              <Input allowClear size="large" placeholder="Наименование услуги" />
             </Form.Item>
             <Form.Item name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
               <Select size="large" placeholder="Город">
@@ -332,31 +330,20 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               </Select>
             </Form.Item>
             <Form.Item name="period" rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
-              <DatePicker.RangePicker />
+              <DatePicker.RangePicker size="large" allowClear />
             </Form.Item>
             <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
-              <InputNumber
-                style={{
-                  width: 301,
-                }}
-                placeholder="Кол-во"
-              />
+              <InputNumber allowClear size="large" placeholder="Кол-во" />
             </Form.Item>
             <Form.Item name="price" rules={[{ required: true, message: 'Пожалуйста, введите цену.' }]}>
-              <InputNumber
-                style={{
-                  width: 301,
-                }}
-                placeholder="Цена"
-              />
+              <InputNumber allowClear size="large" placeholder="Цена" />
             </Form.Item>
             <Form.Item name="discount" rules={[{ required: true, message: 'Пожалуйста, введите скидку.' }]}>
               <InputNumber
+                allowClear
+                size="large"
                 max={100}
                 maxLength={3}
-                style={{
-                  width: 301,
-                }}
                 formatter={(value) => `${value}%`}
                 placeholder="Скидка"
               />
@@ -415,6 +402,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
   }
   return (
     <Modal
+      width="400px"
       title="Редактирование расхода"
       confirmLoading={confirmLoading}
       visible={openModal}
