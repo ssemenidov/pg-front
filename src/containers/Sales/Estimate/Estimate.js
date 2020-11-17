@@ -174,8 +174,6 @@ const Estimate = () => {
               </>
             ) : (
               <>
-                <StyledButton backgroundColor="#008556"> Создать приложение </StyledButton>
-                <StyledButton backgroundColor="#2C5DE5">Добавить в приложение </StyledButton>
                 <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             )}
@@ -433,6 +431,10 @@ const Estimate = () => {
         {`
           .left-bar {
             margin: 0 2vw 0 0;
+          }
+
+          .ant-input-number {
+            width: 100%;
           }
         `}
       </style>
