@@ -312,17 +312,17 @@ const Estimate = () => {
           onOk={() => {
             NonRtsForm.validateFields().then((values) => {
               setConfirmLoading(true);
-              const summ = values.count * values.rent + values.tax + values.print + values.mount + values.addCosts;
+              const summ = values.count * values.rent + values.tax + values.print + values.mount + values.manufacture;
               createNonRtsCost({
                 variables: {
                   input: {
                     title: values.title,
                     count: values.count,
-                    incomingTax: 45,
+                    incomingTax: values.tax,
                     incomingRent: values.rent,
                     incomingPrinting: values.print,
                     incomingInstallation: values.mount,
-                    incomingManufacturing: values.addCosts,
+                    incomingManufacturing: values.manufacture,
                     city: values.city,
                     project: id,
                     summaClient: summ,
@@ -413,14 +413,14 @@ const Estimate = () => {
                 placeholder="Монтаж"
               />
             </Form.Item>
-            <Form.Item name="addCosts" rules={[{ required: true, message: 'Пожалуйста, введите доп. расходы.' }]}>
+            <Form.Item name="manufacture" rules={[{ required: true, message: 'Пожалуйста, введите сумму производства.' }]}>
               <InputNumber
                 style={{
                   width: 301,
                 }}
                 width="301px"
                 size="large"
-                placeholder="Доп. расходы"
+                placeholder="Производство"
               />
             </Form.Item>
           </Form>
