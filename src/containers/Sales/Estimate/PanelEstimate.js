@@ -12,6 +12,7 @@ import {
   getExtraCosts,
   gettNonRts,
   EditModal,
+  DeleteModal,
 } from './utils';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
@@ -33,6 +34,8 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   const [activeTab, setActiveTab] = useState('booked-sides');
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
+  const [deletingItem, setDeletingItem] = useState({});
+  const [openDelete, setOpenDelete] = useState(false);
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
@@ -95,9 +98,6 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         key="booked-sides"
         columns={columnsTableBookedSides}
         data={bookedSides}
-        openEditModal={openEditModal}
-        setOpenEditModal={setOpenEditModal}
-        setEditingItem={setEditingItem}
         select={true}
         edit={false}
         loading={loading}
@@ -119,6 +119,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         openEditModal={openEditModal}
         setOpenEditModal={setOpenEditModal}
         setEditingItem={setEditingItem}
+        openModal={DeleteModal}
         loading={loading}
         select={true}
         pagination={{
@@ -138,7 +139,9 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         openEditModal={openEditModal}
         edit={true}
         setOpenEditModal={setOpenEditModal}
+        setOpenDelete={setOpenDelete}
         setEditingItem={setEditingItem}
+        openModal={DeleteModal}
         select={true}
         loading={loading}
         pagination={{

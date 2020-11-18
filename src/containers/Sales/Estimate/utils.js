@@ -262,7 +262,7 @@ export const gettNonRts = (data) => {
       taxInput: item.node.incomingTax + ' тг.',
       printInput: item.node.incomingPrinting + ' тг.',
       mountInput: item.node.incomingInstallation + ' тг.',
-      extraChargeInput: '',
+      manufactureSell: item.node.incomingManufacturing + ' тг.',
       sumInput: item.node.summaClient + ' тг.',
     };
   });
@@ -300,13 +300,13 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
   let startTime = editingItem.period && moment(editingItem.period.split(' - ')[0].split('.').reverse().join('-'));
   let endTime = editingItem.period && moment(editingItem.period.split(' - ')[1].split('.').reverse().join('-'));
   useEffect(() => {
-    const city =
+    let city =
       cities.data.length &&
       editingItem.city &&
       cities.data.filter((city) => {
         return city.title === editingItem.city;
-      })[0].id;
-    console.log(cities);
+      });
+    city = city.length ? city[0].id : '';
     switch (block) {
       case 'extra-charge':
         form.setFieldsValue({
@@ -327,6 +327,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
           tax: editingItem.taxInput.split(' ')[0],
           print: editingItem.printInput.split(' ')[0],
           mount: editingItem.mountInput.split(' ')[0],
+          manufacture: editingItem.manufactureSell.split(' ')[0],
           addCosts: editingItem.extraChargeInput,
         });
         break;
@@ -339,11 +340,14 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       FormInputs = () => {
         return (
           <>
-            <Form.Item name="type" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
-              <Input allowClear size="large" placeholder="Наименование услуги" />
+            <Form.Item
+              label="Наименование услуги"
+              name="type"
+              rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
+              <Input allowClear placeholder="Наименование услуги" />
             </Form.Item>
-            <Form.Item name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
-              <Select size="large" placeholder="Город">
+            <Form.Item label="Город" name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
+              <Select placeholder="Город">
                 {cities &&
                   cities.data.map((city) => {
                     return (
@@ -354,24 +358,26 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
                   })}
               </Select>
             </Form.Item>
-            <Form.Item name="period" rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
-              <DatePicker.RangePicker size="large" allowClear />
+            <Form.Item
+              label="Период"
+              name="period"
+              rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
+              <DatePicker.RangePicker allowClear />
             </Form.Item>
-            <Form.Item name="count" rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
-              <InputNumber allowClear size="large" placeholder="Кол-во" />
+            <Form.Item
+              label="Кол-во"
+              name="count"
+              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
+              <InputNumber placeholder="Кол-во" />
             </Form.Item>
-            <Form.Item name="price" rules={[{ required: true, message: 'Пожалуйста, введите цену.' }]}>
-              <InputNumber allowClear size="large" placeholder="Цена" />
+            <Form.Item label="Цена" name="price" rules={[{ required: true, message: 'Пожалуйста, введите цену.' }]}>
+              <InputNumber allowClear placeholder="Цена" />
             </Form.Item>
-            <Form.Item name="discount" rules={[{ required: true, message: 'Пожалуйста, введите скидку.' }]}>
-              <InputNumber
-                allowClear
-                size="large"
-                max={100}
-                maxLength={3}
-                formatter={(value) => `${value}%`}
-                placeholder="Скидка"
-              />
+            <Form.Item
+              label="Скидка"
+              name="discount"
+              rules={[{ required: true, message: 'Пожалуйста, введите скидку.' }]}>
+              <InputNumber max={100} maxLength={3} formatter={(value) => `${value}%`} placeholder="Скидка" />
             </Form.Item>
           </>
         );
@@ -381,8 +387,8 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       FormInputs = () => {
         return (
           <>
-            <Form.Item name="city">
-              <Select size="large" placeholder="Город">
+            <Form.Item label="Город" name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
+              <Select placeholder="Город">
                 {cities &&
                   cities.data.map((city) => {
                     return (
@@ -393,26 +399,41 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
                   })}
               </Select>
             </Form.Item>
-            <Form.Item name="type">
+            <Form.Item label="Тип" name="type" rules={[{ required: true, message: 'Пожалуйста, введите тип.' }]}>
               <Input placeholder="Тип" />
             </Form.Item>
-            <Form.Item name="count">
+            <Form.Item
+              label="Кол-во"
+              name="count"
+              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
               <InputNumber placeholder="Кол-во" />
             </Form.Item>
-            <Form.Item name="rent">
-              <InputNumber size="large" placeholder="Аренда" />
+            <Form.Item
+              label="Аренда"
+              name="rent"
+              rules={[{ required: true, message: 'Пожалуйста, введите стоимость аренды.' }]}>
+              <InputNumber placeholder="Аренда" />
             </Form.Item>
-            <Form.Item name="tax">
+            <Form.Item label="Налог" name="tax" rules={[{ required: true, message: 'Пожалуйста, введите налог.' }]}>
               <InputNumber placeholder="Налог" />
             </Form.Item>
-            <Form.Item name="print">
+            <Form.Item
+              label="Печать"
+              name="print"
+              rules={[{ required: true, message: 'Пожалуйста, введите стоимсость печати.' }]}>
               <InputNumber placeholder="Печать" />
             </Form.Item>
-            <Form.Item name="mount">
+            <Form.Item
+              label="Монтаж"
+              name="mount"
+              rules={[{ required: true, message: 'Пожалуйста, введите стоимость монтажа.' }]}>
               <InputNumber placeholder="Монтаж" />
             </Form.Item>
-            <Form.Item name="addCosts">
-              <InputNumber placeholder="Доп. расходы" />
+            <Form.Item
+              label="Производство"
+              name="manufacture"
+              rules={[{ required: true, message: 'Пожалуйста, введите сумму производства.' }]}>
+              <InputNumber placeholder="Производство" prefix=" тг." />
             </Form.Item>
             <style>
               {`
@@ -434,6 +455,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       onCancel={() => {
         form.resetFields();
         setOpenModal(false);
+        setConfirmLoading(false);
       }}
       onOk={() => {
         form.validateFields().then((values) => {
@@ -459,7 +481,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               };
               updateAddCosts({
                 variables: {
-                  input2,
+                  input: input2,
                   id: editingItem.key,
                 },
               })
@@ -478,9 +500,9 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
               const tax = Number(values.tax);
               const print = Number(values.print);
               const mount = Number(values.mount);
-              const addCosts = Number(values.addCosts);
+              const manufacture = Number(values.manufacture);
               const rent = Number(values.rent);
-              const summ = values.count * rent + tax + print + mount + addCosts;
+              const summ = values.count * rent + tax + print + mount + manufacture;
               const input = {
                 title: values.type,
                 count: values.count,
@@ -488,7 +510,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
                 incomingRent: rent,
                 incomingPrinting: print,
                 incomingInstallation: mount,
-                incomingManufacturing: addCosts,
+                incomingManufacturing: manufacture,
                 city: values.city,
                 summaClient: summ,
               };
@@ -514,4 +536,20 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       </Form>
     </Modal>
   );
+};
+
+export const DeleteModal = () => {
+  const { confirm } = Modal;
+  confirm({
+    title: 'Do you Want to delete these items?',
+    centered: true,
+    // icon: <ExclamationCircleOutlined />,
+    content: 'Some descriptions',
+    onOk() {
+      console.log('OK');
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+  });
 };
