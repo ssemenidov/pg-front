@@ -5,7 +5,6 @@ import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttCh
 import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
-import { TEST_DATA } from './testData';
 import { useMediaQuery } from '@material-ui/core';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
@@ -117,7 +116,6 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
   if (error)
     return <h3>Error (:</h3>
   // let data = null;
-  // data = TEST_DATA["data"];
 
   let getBarClass = (barClass) => {
     console.log(barClass)
