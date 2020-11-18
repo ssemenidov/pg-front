@@ -14,7 +14,7 @@ export class SliderState {
     const [title, setTitle] = useState(["", ""])
 
     this.addShowed = addShowed
-    this.setAddShowed = setEditShowed
+    this.setAddShowed = setAddShowed
 
     this.editShowed = editShowed
     this.setEditShowed = setEditShowed

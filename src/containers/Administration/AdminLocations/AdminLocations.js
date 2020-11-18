@@ -6,7 +6,7 @@ import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from '../Main/adminRoutes';
 import { GridNoPadding, RowMargin1st } from '../components/Styled'
 import { LocationState } from '../AdminOutdoorFurniture/location_state';
-import { SliderState } from '../components/SlidingBottomPanel/SliderState';
+import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { AddSlider, EditSlider } from '../AdminOutdoorFurniture/Sliders';
 import { RadiobuttonCRUDWithSearch } from '../AdminOutdoorFurniture/RadiobuttonCRUDWithSearch';
 

@@ -51,6 +51,23 @@ export const FilterMenu = styled.div`
   background-color: #f5f7fa;
 `;
 
+
+export const FilterMenu260 = styled.div`
+  font-family: 'SF UI Display Light', sans-serif;
+  min-width: 260px;
+  max-width: 260px;
+  border-right: 1px solid #d3dff0;
+  background-color: #f5f7fa;
+`;
+
+export const FilterMenu280 = styled.div`
+  font-family: 'SF UI Display Light', sans-serif;
+  min-width: 280px;
+  max-width: 280px;
+  border-right: 1px solid #d3dff0;
+  background-color: #f5f7fa;
+`;
+
 export const FilterText = styled.h6`
   font-family: 'SF UI Display Bold', sans-serif;
   font-size: 14px;

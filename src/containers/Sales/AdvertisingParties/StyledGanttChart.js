@@ -1,67 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import './styles_adv_part.scss'
+import { ScheduleChartView } from './GanttChart/DlhGanttChart';
+import { createPopover } from './tabPopover';
+import ReactDOM from 'react-dom';
 
-// import DlhSoft from './DlhSoft/Controls';
-// import 'DlhSoft.GanttChartHyperLibrary/DlhSoft.Data.HTML.Controls.js';
-// import 'DlhSoft.GanttChartHyperLibrary/DlhSoft.ProjectData.GanttChart.HTML.Controls.Extras.js';
 
-// import { ScheduleChartView } from 'DlhSoft.GanttChartHyperLibrary/DlhSoft.ProjectData.GanttChart.React.Components';
-for (let urlValue of [
-  '/DlhSoft.ProjectData.GanttChart.HTML.Controls.js',
-  '/DlhSoft.Data.HTML.Controls.js',
-]) {
-  let script = document.createElement('script');
-  script.src = urlValue;
-  script.type = 'text/javascript';
-  document.getElementsByTagName('head')[0].appendChild(script);
-}
 
-export const ScheduleChartView = React.forwardRef(function({style, children, items, settings, license, change, columns}, ref) {
-  if (!ref) ref = React.createRef();
-  let element = <div ref={ref} style={style}>{children}</div>;
-  let changeHandler = settings.itemPropertyChangeHandler;
-  let interval = setInterval(function() {
-    if (window.DlhSoft && window.DlhSoft.Controls && window.DlhSoft.Controls.ScheduleChartView
-      && window.DlhSoft.Controls.ScheduleChartView.initialize) {
-      let dl_columns = window.DlhSoft.Controls.ScheduleChartView.getDefaultColumns(items, settings);
-      let copied_settings = {...settings};
-      if (columns) {
-        for (let col of columns) {
-          dl_columns.push(col);
-        }
-        copied_settings.columns = dl_columns;
-      }
-      window.DlhSoft.Controls.ScheduleChartView.initialize(ref.current, items, copied_settings, license);
-      clearInterval(interval)
+export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
+  let [state, setState] = useState([]);
+  let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
+
+  useEffect(() => {
+    if (!ganttUpdaterIsSetted) {
+      setGanttUpdater(setState);
+      setGanttUpdaterIsSetted(true);
     }
-  });
-  setTimeout(function() {
-    if (change) {
-      settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
-        if (changeHandler)
-          changeHandler(item, propertyName, isDirect, isFinal);
-        change(item, propertyName, isDirect, isFinal);
+  }, [ganttUpdaterIsSetted]);
+
+  let ref = useRef(null);
+
+  if (!ref)
+    ref = React.createRef();
+  let changeHandler = settings.itemPropertyChangeHandler;
+  let dl_columns = ScheduleChartView.getDefaultColumns(items, settings);
+  let copied_settings = {...settings};
+  if (columns) {
+    for (let col of columns) {
+      dl_columns.push(col);
+    }
+    copied_settings.columns = dl_columns;
+  }
+
+  useEffect(function() {
+    if (ref.current) {
+      console.log('useEffect len items', items.length)
+      ScheduleChartView.initialize(ref.current, items, copied_settings, "");
+      if (change) {
+        settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
+          if (changeHandler)
+            changeHandler(item, propertyName, isDirect, isFinal);
+          change(item, propertyName, isDirect, isFinal);
+        }
       }
     }
   })
-  return element;
-});
+
+  return <div ref={ref} style={style}></div>;
+};
+
+
 
 
 export const ganttColumns = [
   {
     header: 'Код',
-    width: 100,
+    width: 150,
     cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.code),
   },
   {
     header: 'Формат',
-    width: 170,
+    width: 200,
     cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.format),
   },
   {
     header: 'Город',
-    width: 100,
+    width: 900,
     cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.city),
   },
 ];
@@ -98,6 +101,12 @@ export const ganttSettings = (year, month) => ({
   isTaskCompletedEffortVisible: false,
   selectionMode: 'ExtendedFocus',
   headerBackground: '#FFFFFF',
+  isGridVisible: true,
+  gridWidth: "20%",
+  chartWidth: "80%",
+  itemTemplate: (item) => createPopover(item),
+  isTaskToolTipVisible: false,
+  // interaction: 'TouchEnabled',
   scales: [
     {
       scaleType: 'NonworkingTime',

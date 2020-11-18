@@ -438,33 +438,57 @@ $app-font-size: 14px;
   color: #00284C !important;
   font-size: $app-font-size;
   font-weight: 500 !important;
-
 }
 
 .gantt-bar-status-saled {
-  fill: #FFB9AD;
+  fill: darken(saturate(#FFB9AD, 1%), 2%);
   fill-opacity: 1;
-  stroke: #FFB9AD;
+  stroke: darken(#FFB9AD, 10%);
   stroke-width: 0.65px;
+  opacity: 0.6;
 }
 
 .gantt-bar-status-approved {
-  fill: #FFE7AE;
+  fill: darken(saturate(#FFE7AE, 10%), 7%);
   fill-opacity: 1;
-  stroke: #FFE7AE;
+  stroke: darken(#FFE7AE, 10%);
   stroke-width: 0.65px;
+  opacity: 0.6;
 }
 
 .gantt-bar-status-reserved {
-  fill: #DFE6F1;
+  fill: darken(#DFE6F1, 6%);
   fill-opacity: 1;
-  stroke: #DFE6F1;
+  stroke: darken(#DFE6F1, 10%);
   stroke-width: 0.65px;
+  opacity: 0.6;
 }
 
 .gantt-bar-status-unavailable {
-  fill: #C8C8C8;
+  fill: darken(#C8C8C8, 6%);
   fill-opacity: 1;
-  stroke: #C8C8C8;
+  stroke: darken(#C8C8C8, 10%);
   stroke-width: 0.65px;
+  opacity: 0.6;
+}
+
+.dot-unavailable {
+  background-color: darken(#C8C8C8, 20%) !important;
+}
+
+.dot-all {
+  background-color: #FFFFFF !important;
+  border: .5px solid;
+  border-color: #000000 !important;
+}
+
+.advertising-part-slider {
+  width: calc(100% - 240px - 60px) !important;
+  right: 0;
+}
+@media (max-width: 1199px) {
+  .advertising-part-slider {
+    width: calc(100% - 60px) !important;
+    right: 0;
+  }
 }

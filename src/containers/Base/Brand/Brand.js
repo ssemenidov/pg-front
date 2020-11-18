@@ -2,6 +2,7 @@ import React, {createContext, useMemo, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Layout, Breadcrumb } from 'antd';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 
 import InnerForm from './TabPanelForm/TabPanelFormBrand';
 
@@ -47,7 +48,7 @@ const Brand = (props) => {
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
-  if (loading) return <h3></h3>;
+  if (loading) return <LoadingAntd/>
 
   return (
     <constructBrand.Provider value={[item, setItem]}>

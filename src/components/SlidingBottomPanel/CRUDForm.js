@@ -35,7 +35,9 @@ export function CRUDForm({
       onFinish={onFinish}
       initialValues={initialValues}
     >
-      {children}
+      <div>
+        {children}
+      </div>
     </Form>
   )
 }

@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd';
-import { LeftBar } from '../../../components/Styles/DesignList/styles';
-import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import CreateBtn from '../../../components/LeftBar/CreateBtn';
+import { LeftBar } from '../../../../components/Styles/DesignList/styles';
+import SearchBtn from '../../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../../components/LeftBar/CreateBtn';
 import React from 'react';
 
 export const FilterLeftBar = ({setCollapsed, collapsed}) => (

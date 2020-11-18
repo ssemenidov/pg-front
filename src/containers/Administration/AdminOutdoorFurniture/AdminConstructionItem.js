@@ -9,13 +9,13 @@ import { TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/cor
 import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/Styles/StyledBlocks';
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
-import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../Style/Styles';
+import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../../../components/Styles/Colors';
 import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio, StyledTrash } from '../components/Styled'
 import useDebounce from '../components/useDebounce';
 
 import icon_anchor from '../../../img/partners/bx-search-alt.svg';
 
-import '../Style/style.css'
+import '../../../components/SlidingBottomPanel/style.scss'
 
 const StyledInputAdornment = styled(InputAdornment)`
   font-size: .9em;

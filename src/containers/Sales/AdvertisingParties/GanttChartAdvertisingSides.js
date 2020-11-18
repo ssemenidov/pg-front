@@ -1,46 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 
-import { ScheduleChartView, ganttColumns, ganttSettings } from './StyledGanttChart'
+import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart'
 import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
+import { useMediaQuery } from '@material-ui/core';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
-    query SearchConstructionSideWithReservation {
-      searchConstructionSide {
-        edges {
-          node {
-            id
-            advertisingSide {
-              side {
-                format {
-                  title
-                }
+  query SearchConstructionSideWithReservation(
+    $dateFrom: DateTime,
+    $dateTo: DateTime,
+    $family: ID,
+    $format: String,
+    $side: String,
+    $size: String,
+    $statusConnection: Boolean,
+    $city: ID,
+    $district: ID,
+    $reservationType: String,
+  ) {
+    searchConstructionSide(
+      reservation_DateFrom_Gte: $dateFrom,
+      reservation_DateTo_Lte: $dateTo,
+      advertisingSide_Side_Format_Model_Underfamily_Family_Id: $family,
+      advertisingSide_Side_Format_Title_Icontains: $format,
+      advertisingSide_Side_Title_Icontains: $side,
+      advertisingSide_Side_Size_Icontains: $size,
+      construction_StatusConnection: $statusConnection,
+      construction_Location_Postcode_District_City_Id: $city,
+      construction_Location_Postcode_District_Id: $district,
+      reservation_ReservationType_Title_Iregex: $reservationType
+    ) {
+      edges {
+        node {
+          id
+          advertisingSide {
+            side {
+              format {
+                title
               }
             }
-            construction {
-              location {
-                postcode {
-                  district {
-                    city {
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            reservation {
-              edges {
-                node {
-                  dateFrom
-                  dateTo
-                  reservationType {
+          }
+          construction {
+            statusConnection
+            location {
+              postcode {
+                district {
+                  city {
                     title
                   }
-                  project {
-                    brand {
-                      title
-                    }
+                }
+              }
+            }
+          }
+          reservation {
+            edges {
+              node {
+                id
+                dateFrom
+                dateTo
+                reservationType {
+                  title
+                }
+                design
+                project {
+                  title
+                  salesManager {
+                    firstName
+                    firstName
+                  }
+                  backOfficeManager {
+                    firstName
+                    lastName
+                  }
+                  brand {
+                    title
                   }
                 }
               }
@@ -49,10 +84,11 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
         }
       }
     }
+  }
 `;
 
 
-export function GanttChartAdvertisingSides(props) {
+export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}) {
   /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
   // Query string syntax: ?theme
   // Supported themes: Default, Generic-bright, Generic-blue, DlhSoft-gray, Purple-green, Steel-blue, Dark-black, Cyan-green, Blue-navy, Orange-brown, Teal-green, Purple-beige, Gray-blue, Aero.
@@ -61,13 +97,26 @@ export function GanttChartAdvertisingSides(props) {
   // Retrieve and store the control element for reference purposes.
   let scheduleChartViewElement = document.querySelector('#scheduleChartView');
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
-  let filter = {};
 
-  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: filter });
+  console.log(filter)
+  let dstFilter = {};
+  if (filter)
+    dstFilter = filter.dstFilter;
+
+  console.log('compfilter', dstFilter)
+
+  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
+
+  useCallback(() => {
+    setRefetch(refetch);
+  }, [refetch]);
+
   if (loading)
     return <LoadingAntd/>
   if (error)
     return <h3>Error (:</h3>
+  // let data = null;
+
   let getBarClass = (barClass) => {
     console.log(barClass)
     if (barClass == 'Свободно')
@@ -84,7 +133,6 @@ export function GanttChartAdvertisingSides(props) {
     return 'gantt-bar-status-reserved';
   }
   let getBarTitle = (barClass) => {
-    console.log(barClass)
     if (barClass == 'Свободно')
       return 'забронировано';
     if (barClass == 'Забронировано')
@@ -99,45 +147,46 @@ export function GanttChartAdvertisingSides(props) {
   }
   let mapDate = (item) => {
     let date = Date.parse(item);
-    // -          start: new Date(year, month, 2, 8, 0, 0),
-    // -          finish: new Date(year, month, 5, 16, 0, 0),
-    let year = parseInt(date.toLocaleString('ru-RU', {year: 'numeric'}));
-    let month = parseInt(date.toLocaleString('ru-RU', {month: 'numeric'}));
     let ndate = new Date();
     ndate.setTime(date)
-    let retDate = new Date(ndate.getFullYear(), ndate.getMonth(), parseInt(ndate.toLocaleString('ru-RU', {day: 'numeric'})));
-    console.log(retDate);
-    return retDate;
+    return ndate;
   }
 
   let scheduleChartItems = [];
-  for (let item of data.searchConstructionSide.edges) {
-    if (item.node.advertisingSide)
-      scheduleChartItems.push({
-        content: item.id,
-        start: new Date(2020, 1, 1, 0, 0,0),
-        code: item.node.id,
-        format: item.node.advertisingSide.side.format.title,
-        city: item.node.construction.location.postcode.district.city.title,
-        ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
-          (reservation) => ({
-            content: reservation.node.id,
-            start: mapDate(reservation.node.dateFrom),
-            finish: mapDate(reservation.node.dateTo),
-            barClass: getBarClass(reservation.node.reservationType.title),
-            textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
-          })
-        ),
-      })
+  if (data !== null) {
+    for (let item of data.searchConstructionSide.edges) {
+      if (item.node.advertisingSide)
+        scheduleChartItems.push({
+          content: item.id,
+          start: new Date(2020, 1, 1, 0, 0, 0),
+          code: item.node.id,
+          format: item.node.advertisingSide.side.format.title,
+          city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
+          // isSelected - свойство сообщающее, выбран элемент или нет
+          ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
+            (reservation) => ({
+              content: reservation.node.id,
+              start: mapDate(reservation.node.dateFrom),
+              finish: mapDate(reservation.node.dateTo),
+              barClass: getBarClass(reservation.node.reservationType.title),
+              textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+            })
+          ),
+        })
+    }
   }
+  console.log('len', scheduleChartItems.length)
 
   return (
     <>
-      {/*<Tab cond={true}/>*/}
-      <ScheduleChartView items={scheduleChartItems}
-                         settings={ganttSettings(year, month)}
-                         columns={ganttColumns}/>
+      {/*<Tab cond={'sold'}/>*/}
+      <ScheduleChartView1 items={scheduleChartItems}
+                          settings={ganttSettings(year, month)}
+                          columns={ganttColumns}
+                          setGanttUpdater={setGanttUpdater}
+      />
     </>
   );
 };
+
 

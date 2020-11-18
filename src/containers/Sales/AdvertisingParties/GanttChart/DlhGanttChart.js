@@ -1,6 +1,8 @@
-var DlhSoft;
-'undefined' === typeof DlhSoft && (DlhSoft = { assemblies: [], buildReleaseDate: new Date(1, 0, 1) });
-DlhSoft.assemblies.push({
+// import {ToolTip, DatePicker, DateTimePicker, MultiSelectorComboBox} from './DlhControls';
+import { createPopover } from '../tabPopover';
+import 'bootstrap'
+
+const version = {
   assembly: 'DlhSoft.ProjectData.GanttChart.HTML.Controls',
   company: 'DlhSoft',
   product: 'Project Data Modern Library',
@@ -8,121 +10,33 @@ DlhSoft.assemblies.push({
   copyright: 'Copyright \u00a9 2012-2020 DlhSoft',
   title: 'Project Data Gantt Chart HTML Controls',
   description: 'Project Data Gantt Chart related HTML client components',
-});
-DlhSoft.buildReleaseDate = function(L, I, X) {
-  L = new Date(L, I - 1, X);
-  return L > DlhSoft.buildReleaseDate ? L : DlhSoft.buildReleaseDate;
-}(2020, 6, 1);
-var licensing = 'Licensing{undefined{string{DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.{.{length{license{push{type{content{:{lastIndexOf{substr{buildReleaseDate{charCodeAt{pow{toUpperCase{DlhSoft Component Licensing Warning{http://DlhSoft.com/Purchase.aspx{?Assemblies={,{http://www.componentsource.com/features/dlhsoft{ (version {){This component is currently licensed to be used for testing purposes only{The component is part of this assembly{To purchase a standard license for a product that includes this assembly you can use the Purchase page{ownerDocument{div{createElement{style{position: absolute; left: 24px; top: 24px; width: 480px; display: block; z-index: 1; color: Black; background-color: #ffffc0; border: solid 1px Blue; overflow: auto{setAttribute{padding: 6px; padding-top: 8px; font-family: Arial; font-size: small{font-weight: bold; margin-bottom: 4px{appendChild{createTextNode{color: Red; margin-top: 2px; margin-bottom: 2px{margin-top: 4px{a{color: Blue; text-decoration: underline{href{target{_blank{Purchase license{margin-left: 4px; color: Blue; text-decoration: underline{javascript://{Continue trial{click{removeChild{addEventListener{\n\n{: {:\n'.split('{');
-void 0 == DlhSoft[licensing[0]] && (DlhSoft[licensing[0]] = function() {
-  var L = licensing[1], I = licensing[2], X = [], ba = [], la = licensing[3],
-    ea = function($, O) {
-    if (typeof $ !== I || typeof O !== I) return !1;
-    if (O == la) return !0;
-    var V = O[licensing[11]](licensing[10]);
-    if (0 <= V) {
-      var P = O[licensing[12]](0, V), J, G = P[licensing[11]](licensing[10]);
-      if (0 <= G) try {
-        J = new Date(parseInt(P[licensing[12]](G + 1)));
-      } catch (W) {
-      }
-      typeof J === L && (J = new Date(2013, 11, 31));
-      if (DlhSoft[licensing[13]] > J) return !1;
-      P = P + licensing[10] + $;
-      for (i = J = 0; i < P[licensing[5]]; i++) G = P[licensing[14]](i), J = (J <<
-        5) - J + G, J &= J;
-      0 > J && (J = Math[licensing[15]](2, 32) - J);
-      P = J.toString(16)[licensing[16]]();
-      V = O[licensing[12]](V + 1);
-      if (P == V) return !0;
-    }
-    return !1;
-  },
-    S = function(I, O, V, P, J) {
-    var G = licensing[17], W = licensing[18],
-      U = typeof ComponentSource === L || !ComponentSource ? W + licensing[19] + P + licensing[20] + J : licensing[21],
-      S = P + licensing[22] + J + licensing[23], K = licensing[24], r = licensing[25], k = licensing[26];
-    setTimeout(function() {
-      var j = I[licensing[27]], o = j[licensing[29]](licensing[28]);
-      o[licensing[32]](licensing[30], licensing[31]);
-      var p = j[licensing[29]](licensing[28]);
-      p[licensing[32]](licensing[30],
-        licensing[33]);
-      var t = j[licensing[29]](licensing[28]);
-      t[licensing[32]](licensing[30], licensing[34]);
-      p[licensing[35]](t);
-      t[licensing[35]](j[licensing[36]](G));
-      p[licensing[35]](j[licensing[36]](K + licensing[10]));
-      t = j[licensing[29]](licensing[28]);
-      t[licensing[32]](licensing[30], licensing[37]);
-      t[licensing[35]](j[licensing[36]](O));
-      p[licensing[35]](t);
-      p[licensing[35]](j[licensing[36]](r + licensing[10]));
-      t = j[licensing[29]](licensing[28]);
-      t[licensing[32]](licensing[30], licensing[37]);
-      t[licensing[35]](j[licensing[36]](S));
-      p[licensing[35]](t);
-      p[licensing[35]](j[licensing[36]](k +
-        licensing[10]));
-      t = j[licensing[29]](licensing[28]);
-      t[licensing[32]](licensing[30], licensing[38]);
-      var w = j[licensing[29]](licensing[39]);
-      w[licensing[32]](licensing[30], licensing[40]);
-      w[licensing[32]](licensing[41], U);
-      w[licensing[32]](licensing[42], licensing[43]);
-      w[licensing[35]](j[licensing[36]](licensing[44]));
-      t[licensing[35]](w);
-      w = j[licensing[29]](licensing[39]);
-      w[licensing[32]](licensing[30], licensing[45]);
-      w[licensing[32]](licensing[41], licensing[46]);
-      w[licensing[35]](j[licensing[36]](licensing[47]));
-      w[licensing[50]](licensing[48], function() {
-          I[licensing[49]](o);
-          ba[licensing[7]](V);
-        },
-        !1);
-      t[licensing[35]](w);
-      p[licensing[35]](t);
-      o[licensing[35]](p);
-      I[licensing[35]](o);
-    }, 0);
-    setTimeout(function() {
-      alert(G + licensing[51] + K + licensing[52] + O + licensing[51] + r + licensing[53] + S + licensing[51] + k + licensing[4]);
-    }, 6E5);
-  };
-  return {
-    setLicense: function(I, O) {
-      X[licensing[7]]({ type: I, content: O });
-    }, validate: function($, O, V, P, J, G, W) {
-      for (var O = O + licensing[4] + V, U = 0; U < ba[licensing[5]]; U++) if (ba[U] == O) return;
-      a:if (typeof G !== I && typeof W !== L && (W[licensing[6]] !== L && (G = W[licensing[6]]), typeof W === I && (G = W)), typeof G !== I) for (W = 0; W < X[licensing[5]]; W++) if (U =
-        X[W], U[licensing[8]] == O && typeof U[licensing[9]] === I) {
-        G = U[licensing[9]];
-        break a;
-      }
-      true ? $[licensing[6]] = G : S($, V, O, P, J);
-    },
-  };
-}());
-void 0 == DlhSoft.Controls && (DlhSoft.Controls = {});
-void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = function() {
+};
+
+
+let ToolTip = undefined;
+let DatePicker = undefined;
+let DateTimePicker = undefined;
+let MultiSelectorComboBox = undefined;
+let Pert = undefined;
+let getBooleanNode = undefined;
+
+export const GanttChartView = function() {
   var daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
     I = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     X = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], ba = new Date(2592E5), la = new Date(3155762592E5),
-    ea = function(chartView, c, d, b) {
+    ganttChartViewInit = function(chartView, c, d, b) {
       if (typeof chartView.ownerDocument.createElementNS === 'undefined' || typeof chartView.ownerDocument.addEventListener === 'undefined') alert('The required HTML5 features are not supported by the application host. Some features will be unavailable. Consider upgrading.');
       else {
-        var f = ['DlhSoft.Controls', 'GanttChartView', 'DlhSoft.ProjectData.GanttChart.HTML.Controls', '5', 'validate', 'Licensing'];
-        DlhSoft[f[5]][f[4]](chartView, f[0], f[1], f[2], f[3], b, d);
+        var scales;
         chartView.isInitializing = true;
         typeof chartView.settings !== 'undefined' && typeof chartView.settings.toggleButtonAreaWidth !== 'undefined' && delete chartView.settings.toggleButtonAreaWidth;
         if (typeof chartView.items !== 'undefined') for (b = 0; b < chartView.items.length; b++) delete chartView.items[b].successors;
         typeof d !== 'object' && (d = {});
-        V(c, d);
+        ganttChartViewInitItems(c, d);
         O(d, c, chartView);
         initializeInterface(chartView, c, d);
         b = d.columns;
-        f = d.scales;
+        scales = d.scales;
         tc(b, chartView, d);
         ma(c, chartView);
         ca(c, d, chartView);
@@ -218,7 +132,13 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             delete barsChartContainer.x;
             barsChartContainer.style.opacity = 0;
           }
-          if (DlhSoft.Controls.ToolTip && d.useUpdatingToolTips) (toolTip = chartView.toolTip) && toolTip.hide();
+          if (ToolTip && d.useUpdatingToolTips) {
+            let toolTip = chartView.toolTip;
+            if (toolTip) {
+              toolTip.hide();
+            }
+          }
+
         }, true);
         d.isGridVisible && d.isSplitterEnabled && ganttChartRoot.appendChild(barsChartContainer);
         g = ownerDocument.createElement('div');
@@ -304,8 +224,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           try {
             if (typeof barsChartContainer.x === 'undefined' && !(chartView.offsetWidth <= 0)) {
               var c =
-                chartView.offsetWidth, b = ganttChartRightPanel.offsetHeight, f = screen.deviceXDPI;
-              if (c != r || f != screen.deviceXDPI) {
+                chartView.offsetWidth, b = ganttChartRightPanel.offsetHeight, f = window.screen.deviceXDPI;
+              if (c != r || f != window.screen.deviceXDPI) {
                 var m = typeof ganttChartLeftPanel.percent !== 'undefined' ? ganttChartLeftPanel.percent * c : ganttChartLeftPanel.offsetWidth, h = ganttChartRightPanel.offsetWidth,
                   e = Math.max(1, d.minGridWidth), n = Math.max(1, d.minChartWidth);
                 if (m < e) {
@@ -506,7 +426,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         vc(chartView, e);
         if (M.style.height != 'auto') w.availableHeight = M.clientHeight;
         wc(j, b, d);
-        eb(p, x, f, d);
+        eb(p, x, scales, d);
         xc(k, w, x, c, b, l, d);
         Ba(barsChartContainer, ganttChartLeftPanel, d);
         M.isInitializing = false;
@@ -580,15 +500,14 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         chartView.isInitialized = true;
         return chartView;
       }
-    }, S = function(a) {
-      ea(a, a.items, a.settings, a.license);
+    }, ganttChartViewRefresh = function(a) {
+      ganttChartViewInit(a, a.items, a.settings, a.license);
     }, $ = function(a) {
       if (typeof a.dateTimePickerType === 'undefined') a.dateTimePickerType = 'text';
       if (typeof a.useDatePicker === 'undefined') a.useDatePicker = true;
       if (typeof a.useTimePicker === 'undefined') a.useTimePicker = true;
       if (typeof a.useResourceSelector === 'undefined') a.useResourceSelector = true;
-      if (typeof a.useUpdatingToolTips === 'undefined') a.useUpdatingToolTips =
-        true;
+      if (typeof a.useUpdatingToolTips === 'undefined') a.useUpdatingToolTips = true;
       if (typeof a.dateFormatter === 'undefined') a.dateFormatter = U;
       if (typeof a.dateTimeFormatter === 'undefined') a.dateTimeFormatter = ja;
       if (typeof a.dateTimeParser === 'undefined') a.dateTimeParser = r;
@@ -884,7 +803,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         case 'Phone':
           a.isTaskToolTipVisible = false;
       }
-      if (typeof a.itemTemplate === 'undefined') a.itemTemplate = Gb(a);
+      if (typeof a.itemTemplate === 'undefined') a.itemTemplate = CreateTitleNode(a);
       if (typeof a.areTaskAssignmentsVisible === 'undefined') a.areTaskAssignmentsVisible = true;
       if (typeof a.assignmentsTemplate === 'undefined') a.assignmentsTemplate =
         Hb();
@@ -989,7 +908,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           return m;
         };
       }
-    }, V = function(a, c) {
+    }, ganttChartViewInitItems = function(a, c) {
       for (var d = 0; d < a.length; d++) {
         var b = a[d];
         if (typeof b === 'string') {
@@ -1379,10 +1298,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         }, false);
       } else f = a.startInput;
       if (typeof a.start !== 'undefined') f.value = d.dateTimeFormatter(K(a.start));
-      DlhSoft.Controls.DatePicker && (d.dateTimePickerType == 'text' && d.useDatePicker) && f.addEventListener('focus', function() {
+      DatePicker && (d.dateTimePickerType == 'text' && d.useDatePicker) && f.addEventListener('focus', function() {
         if (!a.isWaitingToRefreshGridItem) {
           var c =
-            (d.useTimePicker && DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker : DlhSoft.Controls.DatePicker).get(f);
+            (d.useTimePicker && DateTimePicker ? DateTimePicker : DatePicker).get(f);
           if (!c || !c.isOpen) {
             var m = 0, e = 0;
             try {
@@ -1390,7 +1309,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               e = f.selectionEnd;
             } catch (g) {
             }
-            c = (d.useTimePicker && DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker : DlhSoft.Controls.DatePicker).initialize(f, void 0, {
+            c = (d.useTimePicker && DateTimePicker ? DateTimePicker : DatePicker).initialize(f, void 0, {
               inputStyle: null,
               isDropDownButtonVisible: false,
               defaultTimeOfDay: d.workingDayStart,
@@ -1511,9 +1430,9 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         }, false);
       } else f = a.finishInput;
       if (typeof a.finish !== 'undefined') f.value = d.dateTimeFormatter(K(a.finish));
-      DlhSoft.Controls.DatePicker && (d.dateTimePickerType == 'text' && d.useDatePicker) && f.addEventListener('focus', function() {
+      DatePicker && (d.dateTimePickerType == 'text' && d.useDatePicker) && f.addEventListener('focus', function() {
         if (!a.isWaitingToRefreshGridItem) {
-          var c = (d.useTimePicker && DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker : DlhSoft.Controls.DatePicker).get(f);
+          var c = (d.useTimePicker && DateTimePicker ? DateTimePicker : DatePicker).get(f);
           if (!c || !c.isOpen) {
             var m = 0, e = 0;
             try {
@@ -1521,7 +1440,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               e = f.selectionEnd;
             } catch (h) {
             }
-            c = (d.useTimePicker && DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker : DlhSoft.Controls.DatePicker).initialize(f, void 0, {
+            c = (d.useTimePicker && DateTimePicker ? DateTimePicker : DatePicker).initialize(f, void 0, {
               inputStyle: null,
               isDropDownButtonVisible: false,
               defaultTimeOfDay: d.workingDayFinish,
@@ -1533,7 +1452,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               calendarSelectorLevels: d.calendarSelectorLevels,
               months: d.months,
               daysOfWeek: F(d.daysOfWeek),
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+            }, 'init warning');
             c.openDropDown();
             setTimeout(function() {
               try {
@@ -1707,8 +1626,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           }
           oa(a);
           var b = null;
-          DlhSoft.Controls.MultiSelectorComboBox && (b =
-            DlhSoft.Controls.MultiSelectorComboBox.get(e));
+          MultiSelectorComboBox && (b = MultiSelectorComboBox.get(e));
           if (b != null && b.availableChoices.length > 0) var c = setInterval(function() {
             if (!b.isOpen && f.activeElement != a.assignmentsContentInput) {
               clearInterval(c);
@@ -1742,10 +1660,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         }, false);
       } else e = a.assignmentsContentInput;
       if (typeof a.assignmentsContent !== 'undefined') e.value = a.assignmentsContent;
-      DlhSoft.Controls.MultiSelectorComboBox &&
+      MultiSelectorComboBox &&
       d.useResourceSelector && e.addEventListener('focus', function() {
         if (!a.isWaitingToRefreshGridItem) {
-          var c = DlhSoft.Controls.MultiSelectorComboBox.get(e);
+          var c = MultiSelectorComboBox.get(e);
           if (!c || !c.isOpen && c.availableChoices.length > 0) {
             c = d.assignableResources;
             if (typeof c === 'undefined') {
@@ -1758,12 +1676,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               l = e.selectionEnd;
             } catch (g) {
             }
-            c = DlhSoft.Controls.MultiSelectorComboBox.initialize(e, c, void 0, {
+            c = MultiSelectorComboBox.initialize(e, c, void 0, {
               inputStyle: null,
               autoAppendAvailableChoices: d.autoAppendAssignableResources,
               isDropDownButtonVisible: false,
               popupStyle: 'margin-top: 1px; background-color: White; color: Black; border: 1px solid ' + d.border + '; font-size: small; max-height: 188px; overflow-y: auto',
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+            }, 'init warn');
             c.openDropDown();
             setTimeout(function() {
               try {
@@ -1893,22 +1811,22 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         var h = d.splitterWidth;
         b.addEventListener('mouseover',
           function(a) {
-            if (!DlhSoft.Controls.GanttChartView.isGripperDragging && !(b.isGripperDragging || typeof a.offsetX === 'undefined' && a.currentTarget != b)) m((typeof a.offsetX !== 'undefined' ? a.offsetX : a.layerX - a.currentTarget.offsetLeft) >= c.width - h);
+            if (!GanttChartView.isGripperDragging && !(b.isGripperDragging || typeof a.offsetX === 'undefined' && a.currentTarget != b)) m((typeof a.offsetX !== 'undefined' ? a.offsetX : a.layerX - a.currentTarget.offsetLeft) >= c.width - h);
           }, true);
         b.addEventListener('mousemove', function(a) {
-          if (!DlhSoft.Controls.GanttChartView.isGripperDragging && !(b.isGripperDragging || typeof a.offsetX === 'undefined' && a.currentTarget != b)) m((typeof a.offsetX !== 'undefined' ? a.offsetX : a.layerX - a.currentTarget.offsetLeft) >= c.width -
+          if (!GanttChartView.isGripperDragging && !(b.isGripperDragging || typeof a.offsetX === 'undefined' && a.currentTarget != b)) m((typeof a.offsetX !== 'undefined' ? a.offsetX : a.layerX - a.currentTarget.offsetLeft) >= c.width -
             h);
         }, true);
         f.addEventListener('mouseover', function(a) {
-          !DlhSoft.Controls.GanttChartView.isGripperDragging && (!b.isGripperDragging && !(typeof a.offsetX !== 'undefined' || a.currentTarget != f)) && m(a.layerX - a.currentTarget.offsetLeft >= c.width - h);
+          !GanttChartView.isGripperDragging && (!b.isGripperDragging && !(typeof a.offsetX !== 'undefined' || a.currentTarget != f)) && m(a.layerX - a.currentTarget.offsetLeft >= c.width - h);
         }, false);
         f.addEventListener('mousemove', function(a) {
-          !DlhSoft.Controls.GanttChartView.isGripperDragging && (!b.isGripperDragging && !(typeof a.offsetX !== 'undefined' || a.currentTarget != f)) && m(a.layerX - a.currentTarget.offsetLeft >= c.width - h);
+          !GanttChartView.isGripperDragging && (!b.isGripperDragging && !(typeof a.offsetX !== 'undefined' || a.currentTarget != f)) && m(a.layerX - a.currentTarget.offsetLeft >= c.width - h);
         }, false);
         b.addEventListener('mousedown',
           function(a) {
-            if (!(a.button != 0 || !b.isGripperVisible || DlhSoft.Controls.GanttChartView.isGripperDragging)) {
-              DlhSoft.Controls.GanttChartView.isGripperDragging = true;
+            if (!(a.button != 0 || !b.isGripperVisible || GanttChartView.isGripperDragging)) {
+              GanttChartView.isGripperDragging = true;
               b.isGripperDragging = true;
               b.initialGripperDraggingX = a.clientX;
               b.initialColumnWidth = c.width;
@@ -1941,7 +1859,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             delete b.initialGripperDraggingX;
             delete b.initialColumnWidth;
             m(false);
-            delete DlhSoft.Controls.GanttChartView.isGripperDragging;
+            delete GanttChartView.isGripperDragging;
           }
         }, true);
         b.addEventListener('mouseout', function() {
@@ -3023,8 +2941,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         }
         if (d.isTaskToolTipVisible) {
           f = d.itemTemplate;
-          if (typeof c.template !==
-            'undefined') f = c.template;
+          if (typeof c.template !== 'undefined') f = c.template;
           b.appendChild(f(c));
         }
         if (d.areTaskDependenciesVisible && typeof c.predecessors !== 'undefined') for (b = 0; b < c.predecessors.length; b++) {
@@ -3045,7 +2962,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               d.predecessorItemContextMenuHandler(a, c.predecessors[this.predecessorIndex], c);
             }) : !d.isReadOnly && (!d.isChartReadOnly && !d.areTaskPredecessorsReadOnly && (typeof c.isReadOnly ===
               'undefined' || !c.isReadOnly)) && e.addEventListener('contextmenu', function(a) {
-              if (confirm('Are you sure you want to remove the predecessor?')) {
+              if (window.confirm('Are you sure you want to remove the predecessor?')) {
                 for (var b = [], f = 0; f < c.predecessors.length; f++) if (f != this.predecessorIndex) {
                   var e = c.predecessors[f];
                   delete e.item.successors;
@@ -3140,7 +3057,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         a = a.parent;
       }
     }, Oa = function(a, c, d, b) {
-      V(c, b);
+      ganttChartViewInitItems(c, b);
       ma(c, d);
       ca(c, b, d);
       d = a.index - 1;
@@ -3169,7 +3086,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         if (c.indentation > g) c.indentation = g;
       } else if (typeof c.indentation === 'undefined' || c.indentation < g.indentation -
         1 || c.indentation > g.indentation) c.indentation = g.indentation;
-      V([c], f);
+      ganttChartViewInitItems([c], f);
       b.splice(a, 0, c);
       ma(b, d);
       if (typeof c.parts !== 'undefined') {
@@ -3177,7 +3094,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           c.isGroup = true;
           c.isSummaryEnabled = false;
         }
-        V(c.parts, f);
+        ganttChartViewInitItems(c.parts, f);
         if (c.isGroup || typeof c.isBarVisible === 'undefined') c.isBarVisible = false;
         for (e = 0; e < c.parts.length; e++) {
           var m = c.parts[e];
@@ -3287,7 +3204,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       e != null && ha(e, g, false, true);
       for (l = f; l < d.length; l++) {
         a = d[l];
-        actualItemTop = u;
+        let actualItemTop = u;
         typeof a.displayRowIndex !== 'undefined' && (actualItemTop = a.displayRowIndex * b.itemHeight);
         a.isVisible && !(typeof a.isHidden !== 'undefined' && a.isHidden) && (u = Math.max(u, actualItemTop + b.itemHeight));
         a.itemTop = actualItemTop;
@@ -3372,7 +3289,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         d.appendChild(f);
         return d;
       };
-    }, Gb = function(a) {
+    }, CreateTitleNode = function(a) {
       return function(c) {
         var d = c.ganttChartView, b = c.ganttChartView.ownerDocument,
           f = b.createElementNS('http://www.w3.org/2000/svg', 'title');
@@ -3453,10 +3370,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       return a.chartItemArea;
     }, StandardTaskTemplateFactory = function(a, c, d) {
       return function(taskItem) {
-        var f = typeof c !== 'undefined' ? c : taskItem.ganttChartView;
-        var settings = typeof d !== 'undefined' ? d : f.settings;
-        var g = typeof a !== 'undefined' ? a : f.items;
-        var ownerDocument = f.ownerDocument;
+        var ganttChartView = typeof c !== 'undefined' ? c : taskItem.ganttChartView;
+        var settings = typeof d !== 'undefined' ? d : ganttChartView.settings;
+        var g = typeof a !== 'undefined' ? a : ganttChartView.items;
+        var ownerDocument = ganttChartView.ownerDocument;
         var paneRoot = mb(taskItem);
         /* рисование штриховой линии */
         if (settings.isBaselineVisible && typeof taskItem.baselineStart !== 'undefined' && typeof taskItem.baselineFinish !== 'undefined') {
@@ -3485,29 +3402,55 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         var barXstart = calculateBarX(taskItem.start, settings);
         var barXend = Math.max(calculateBarX(taskItem.finish, settings), barXstart + 4);
         var l = calculateBarX(taskItem.completedFinish, settings);
+        let barStyle;
+        let barWidth = Math.max(0, barXend - barXstart - 1);
 
         /* рисование линии-бара */
-        var standardBarSvg = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        standardBarSvg.setAttribute('x', barXstart);
-        standardBarSvg.setAttribute('y', settings.barMargin);
-        standardBarSvg.setAttribute('width', Math.max(0, barXend - barXstart - 1));
-        standardBarSvg.setAttribute('height', settings.barHeight);
-        standardBarSvg.setAttribute('rx', settings.barCornerRadius);
-        standardBarSvg.setAttribute('ry', settings.barCornerRadius);
-        var barStyle = settings.standardBarClass;
-        if (typeof taskItem.standardBarClass !== 'undefined')
-          barStyle = taskItem.standardBarClass;
-        if (typeof taskItem.barClass !== 'undefined')
-          barStyle = taskItem.barClass;
-        if (typeof barStyle !== 'undefined')
-          standardBarSvg.setAttribute('class', barStyle);
-        else {
-          barStyle = settings.standardBarStyle;
-          if (typeof taskItem.standardBarStyle !== 'undefined') barStyle = taskItem.standardBarStyle;
-          if (typeof taskItem.barStyle !== 'undefined') barStyle = taskItem.barStyle;
-          typeof barStyle !== 'undefined' && standardBarSvg.setAttribute('style', barStyle);
+        let drawBarLine = () => {
+          let standardBarSvg = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          let barWidth = Math.max(0, barXend - barXstart - 1);
+          standardBarSvg.setAttribute('x', barXstart);
+          standardBarSvg.setAttribute('y', settings.barMargin);
+          standardBarSvg.setAttribute('width', barWidth);
+          standardBarSvg.setAttribute('height', settings.barHeight);
+          standardBarSvg.setAttribute('rx', settings.barCornerRadius);
+          standardBarSvg.setAttribute('ry', settings.barCornerRadius);
+          let barStyle = settings.standardBarClass;
+          if (typeof taskItem.standardBarClass !== 'undefined')
+            barStyle = taskItem.standardBarClass;
+          if (typeof taskItem.barClass !== 'undefined')
+            barStyle = taskItem.barClass;
+          if (typeof barStyle !== 'undefined')
+            standardBarSvg.setAttribute('class', barStyle);
+          else {
+            barStyle = settings.standardBarStyle;
+            if (typeof taskItem.standardBarStyle !== 'undefined') barStyle = taskItem.standardBarStyle;
+            if (typeof taskItem.barStyle !== 'undefined') barStyle = taskItem.barStyle;
+            typeof barStyle !== 'undefined' && standardBarSvg.setAttribute('style', barStyle);
+          }
+          return standardBarSvg;
         }
+        let standardBarSvg;
+        standardBarSvg = drawBarLine();
         paneRoot.appendChild(standardBarSvg);
+        createPopover(paneRoot, taskItem);
+
+        if (taskItem.setDomNode) {
+          taskItem.setDomNode(paneRoot, {
+              x: barXstart,
+              y: settings.barMargin,
+              width: barWidth,
+              height: settings.barHeight,
+              rx: settings.barCornerRadius,
+              ry: settings.barCornerRadius,
+            }
+          );
+          // if (standardBarSvg)
+          //   paneRoot.appendChild(standardBarSvg);
+        }
+
+
+        /* рисование текстовой надписи */
         var textBarTitle;
         if (typeof taskItem.textValue !== 'undefined') {
             textBarTitle = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -3571,15 +3514,15 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           q.setAttribute('width', 6);
           q.setAttribute('height', settings.barHeight);
           q.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: e-resize');
-          if (!settings.isTaskCompletionReadOnly && settings.isTaskCompletedEffortVisible &&
-            settings.interaction != 'TouchEnabled') {
-            paneRoot.appendChild(q);
-            var j = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'title'),
-              k = typeof settings.areToolTipsSimplified === 'undefined' || !settings.areToolTipsSimplified ? f.getItemCompletion(taskItem) : NaN;
-            j.appendChild(wrapDateFmtValue(ownerDocument, !isNaN(k) ? Math.round(k * 1E4) / 100 + '%' : ''));
-            q.appendChild(j);
-          }
-          nb(standardBarSvg, barStyle, C, q, taskItem, barXstart, barXend, l, g, f, settings);
+          // if (!settings.isTaskCompletionReadOnly && settings.isTaskCompletedEffortVisible &&
+          //   settings.interaction != 'TouchEnabled') {
+          //   paneRoot.appendChild(q);
+          //   var j = ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'title'),
+          //     k = typeof settings.areToolTipsSimplified === 'undefined' || !settings.areToolTipsSimplified ? ganttChartView.getItemCompletion(taskItem) : NaN;
+          //   j.appendChild(wrapDateFmtValue(ownerDocument, !isNaN(k) ? Math.round(k * 1E4) / 100 + '%' : ''));
+          //   q.appendChild(j);
+          // }
+          setupDraggingEvents(standardBarSvg, barStyle, C, q, taskItem, barXstart, barXend, l, g, ganttChartView, settings);
           if (settings.areTaskDependenciesVisible && !settings.areTaskPredecessorsReadOnly && !taskItem.isPart) {
             l = null;
             if (typeof settings.allowCreatingStartDependencies === 'undefined' || settings.allowCreatingStartDependencies) {
@@ -3598,7 +3541,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             ownerDocument.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: pointer');
             paneRoot.appendChild(ownerDocument);
             Ya(ownerDocument, l, paneRoot, taskItem, settings.barMargin + settings.barHeight / 2, barXend - 2, barXstart, g,
-              f, settings);
+              ganttChartView, settings);
           }
         }
         return paneRoot;
@@ -3719,7 +3662,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             n);
           v.setAttribute('style', 'fill: White; fill-opacity: 0; cursor: move');
           h.appendChild(v);
-          nb(v, null, null, null, b, l, l, l, g, f, e);
+          setupDraggingEvents(v, null, null, null, b, l, l, l, g, f, e);
           if (e.areTaskDependenciesVisible && !e.areTaskPredecessorsReadOnly && !b.isPart) {
             m = m.createElementNS('http://www.w3.org/2000/svg', 'circle');
             m.setAttribute('cx', l);
@@ -3966,8 +3909,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                      c) {
       if (typeof a.isAwaitingPreferredStartUpdates === 'undefined') if (a.hasChildren && (typeof a.isSummaryEnabled === 'undefined' || a.isSummaryEnabled)) for (var d = 0; d < a.children.length; d++) ob(a.children[d], c); else if (typeof a.preferredStart !== 'undefined' && a.preferredStart < a.start) {
         a.isAwaitingPreferredStartUpdates = true;
-        effort = N(a.start, a.finish, c, D(a));
-        completedEffort = N(a.start, a.completedFinish, c, D(a));
+        let effort = N(a.start, a.finish, c, D(a));
+        let completedEffort = N(a.start, a.completedFinish, c, D(a));
         a.start = a.preferredStart;
         a.finish = R(a.start, effort, c, D(a));
         a.completedFinish = R(a.start, completedEffort, c, D(a));
@@ -4293,7 +4236,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           return b < 0 || !a.settings.resourceSchedules[b] ? void 0 : a.settings.resourceSchedules[b].value;
         }
       }
-    }, nb = function(a, c, d, b, f, e, g, m, h, n, l) {
+    }, setupDraggingEvents = function(a, c, d, b, f, e, g, m, h, n, l) {
       var s;
       a.addEventListener('mousedown', function(b) {
         if (b.button == 0) {
@@ -4306,12 +4249,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           n.draggingInitialFinishPosition = g;
           n.draggingInitialCompletedFinishPosition = m;
           b.preventDefault();
-          if (DlhSoft.Controls.ToolTip &&
+          if (ToolTip &&
             l.useUpdatingToolTips) {
-            (s = DlhSoft.Controls.ToolTip.get(a)) || (s = DlhSoft.Controls.ToolTip.initialize(void 0, a, {
+            (s = ToolTip.get(a)) || (s = ToolTip.initialize(void 0, a, {
               duration: NaN,
               containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' + l.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+            }, 'init warn'));
             s.setContent(l.dateTimeFormatter(K(f.start)) + ' \u2013 ' + l.dateTimeFormatter(K(f.finish)));
             s.show();
             s.originalX = s.x;
@@ -4328,12 +4271,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           n.draggingInitialX = b.clientX;
           n.draggingInitialStartPosition = e;
           b.preventDefault();
-          if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
-            (s = DlhSoft.Controls.ToolTip.get(c)) || (s = DlhSoft.Controls.ToolTip.initialize(void 0,
+          if (ToolTip && l.useUpdatingToolTips) {
+            (s = ToolTip.get(c)) || (s = ToolTip.initialize(void 0,
               c, {
                 duration: NaN,
                 containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' + l.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
-              }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+              }, 'init warn'));
             s.setContent(l.dateTimeFormatter(K(f.start)) + ' \u2013');
             s.show();
             s.setHorizontalPosition(s.x +
@@ -4352,12 +4295,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           n.draggingInitialX = a.clientX;
           n.draggingInitialFinishPosition = g;
           a.preventDefault();
-          if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
-            (s = DlhSoft.Controls.ToolTip.get(d)) || (s = DlhSoft.Controls.ToolTip.initialize(void 0, d, {
+          if (ToolTip && l.useUpdatingToolTips) {
+            (s = ToolTip.get(d)) || (s = ToolTip.initialize(void 0, d, {
               duration: NaN,
               containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' +
                 l.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+            }, 'init warning'));
             s.setContent('\u2013 ' + l.dateTimeFormatter(K(f.finish)));
             s.show();
             s.setHorizontalPosition(s.x - s.contentContainer.clientWidth);
@@ -4376,12 +4319,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           n.draggingInitialX = a.clientX;
           n.draggingInitialCompletedFinishPosition = m;
           a.preventDefault();
-          if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
-            (s = DlhSoft.Controls.ToolTip.get(b)) || (s = DlhSoft.Controls.ToolTip.initialize(void 0, b, {
+          if (ToolTip && l.useUpdatingToolTips) {
+            (s = ToolTip.get(b)) || (s = ToolTip.initialize(void 0, b, {
                 duration: NaN,
                 containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' + l.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
               },
-              'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+              'init warning'));
             a = Za(f.start, f.completedFinish, f.finish, l, D(f));
             if (!isNaN(a)) {
               s.setContent(Math.round(a * 1E4) / 100 + '%');
@@ -4427,7 +4370,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                     f.completedFinish = R(f.start, a, l, D(f));
                   }
                   y(f, 'completedFinish', false, false);
-                  if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
+                  if (ToolTip && l.useUpdatingToolTips) {
                     s = n.toolTip;
                     s.setContent(l.dateTimeFormatter(K(f.start)) +
                       ' \u2013 ' + l.dateTimeFormatter(K(f.finish)));
@@ -4442,7 +4385,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                     f.completedFinish = f.start;
                     y(f, 'completedFinish', false, false);
                   }
-                  if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
+                  if (ToolTip && l.useUpdatingToolTips) {
                     s = n.toolTip;
                     s.setContent(l.dateTimeFormatter(K(f.start)) + ' \u2013');
                     s.setHorizontalPosition(s.originalX + (calculateBarX(f.start, l) - n.draggingInitialStartPosition));
@@ -4461,7 +4404,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                   f.completedFinish = c;
                   y(f, 'completedFinish', false, false);
                 }
-                if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
+                if (ToolTip && l.useUpdatingToolTips) {
                   s = n.toolTip;
                   s.setContent('\u2013 ' + l.dateTimeFormatter(K(f.finish)));
                   s.setHorizontalPosition(s.originalX + (calculateBarX(f.finish, l) - n.draggingInitialFinishPosition));
@@ -4476,7 +4419,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                   f.completedFinish = c;
                   y(f, 'completedFinish', true, false);
                 }
-                if (DlhSoft.Controls.ToolTip && l.useUpdatingToolTips) {
+                if (ToolTip && l.useUpdatingToolTips) {
                   s = n.toolTip;
                   c = Za(f.start, f.completedFinish, f.finish, l, D(f));
                   if (!isNaN(c)) {
@@ -4529,12 +4472,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           h.draggingInitialFinishPosition = e;
           h.draggingInitialThumbPosition = f;
           c.preventDefault();
-          if (DlhSoft.Controls.ToolTip && n.useUpdatingToolTips) {
-            (toolTip = DlhSoft.Controls.ToolTip.get(a)) || (toolTip = DlhSoft.Controls.ToolTip.initialize(void 0, a, {
+          if (ToolTip && n.useUpdatingToolTips) {
+            let toolTip = ToolTip.get(a) || ToolTip.initialize(void 0, a, {
               duration: NaN,
               containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' +
                 n.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+            }, 'init warning');
             toolTip.setContent(b.content + ' \u2013');
             toolTip.show();
             toolTip.setPosition(toolTip.x + 16, toolTip.y - 8);
@@ -4559,12 +4502,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           h.draggingInitialFinishPosition = g;
           h.draggingInitialThumbPosition = f;
           d.preventDefault();
-          if (DlhSoft.Controls.ToolTip && n.useUpdatingToolTips) {
-            (toolTip = DlhSoft.Controls.ToolTip.get(c)) || (toolTip = DlhSoft.Controls.ToolTip.initialize(void 0, c, {
+          if (ToolTip && n.useUpdatingToolTips) {
+            let toolTip = ToolTip.get(c) || ToolTip.initialize(void 0, c, {
               duration: NaN,
               containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' +
                 n.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
-            }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+            }, 'init warning');
             toolTip.setContent(b.content + ' \u2013');
             toolTip.show();
             toolTip.setPosition(toolTip.x + 16, toolTip.y - 8);
@@ -4667,8 +4610,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
               h.temporaryDependencyLine = a;
               d.appendChild(a);
               h.draggingItem = b;
-              if (DlhSoft.Controls.ToolTip && n.useUpdatingToolTips) {
-                toolTip = h.toolTip;
+              if (ToolTip && n.useUpdatingToolTips) {
+                let toolTip = h.toolTip;
                 for (var g = Math.floor((b.itemTop + h.draggingInitialThumbPosition + f) /
                   n.itemHeight), a = null, s = 0, u = 0; u < m.length; u++) {
                   var j = m[u];
@@ -4987,7 +4930,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         b.splice(f, 1);
         b.splice(c, 0, a);
         fc(b);
-        S(d);
+        ganttChartViewRefresh(d);
         typeof d.settings.itemMoveHandler !== 'undefined' && d.settings.itemMoveHandler(a, f, c);
       }
     }, ab = function(a, c, d, b, f) {
@@ -4997,7 +4940,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         f.splice(a, c);
         for (g = 0; g < e.length; g++) f.splice(d + g, 0, e[g]);
         fc(f);
-        S(b);
+        ganttChartViewRefresh(b);
         if (typeof b.settings.itemMoveHandler !== 'undefined') for (g = 0; g < e.length; g++) b.settings.itemMoveHandler(e[g], a + g, d +
           g);
       }
@@ -5354,8 +5297,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       var F = w.createElement('div');
       F.setAttribute('style', 'width: ' + t + 'px');
       try {
-        DlhSoft.Controls.GanttChartView.initialize(F, a,
-          f, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+        GanttChartView.initialize(F, a, f, 'init warning');
       } catch (G) {
       }
       setTimeout(function() {
@@ -5450,7 +5392,9 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       if (typeof c !== 'undefined') {
         c = a.getNetworkDiagramItems(b);
         a = a.ownerDocument.createElement('div');
-        DlhSoft.Controls.Pert.NetworkDiagramView.initialize(a, c);
+        if (Pert) {
+          Pert.NetworkDiagramView.initialize(a, c);
+        }
         return a.getCriticalItems().map(function(a) {
           return a.tag;
         });
@@ -5573,7 +5517,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                     var p = indexOfKey(b.resourceQuantities, o);
                     if (p >= 0) q = b.resourceQuantities[p].value;
                   }
-                  previousAllocations = d[k].value;
+                  let previousAllocations = d[k].value;
                   for (k = 0; k < previousAllocations.length; k++) {
                     o = previousAllocations[k].key;
                     if (!(o + j <= q)) {
@@ -5740,86 +5684,88 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         }
       }
       return c;
-    }, sc = function(a, c) {
-      for (var d = [], b = Ga(a, c), f = 0; f < b.length; f++) {
-        var e = b[f], g = e.key;
-        if (!g.hasChildren || !(typeof g.isSummaryEnabled === 'undefined' || g.isSummaryEnabled)) for (g = [{
-          start: g.start,
-          finish: g.finish,
-        }]; g.length > 0;) {
-          var m = dequeue(g);
-          if (!(m.finish <= m.start)) if (d.length == 0) d.push({ key: m, value: e.value }); else {
-            hc(c);
-            for (var h = false, n = 0; n < d.length; n++) {
-              var l = d[n].key, s = d[n].value;
-              if (!(m.start >= l.finish)) if (m.finish <= l.start) {
-                for (h = 0; h <= n; h++) if (d[h].key.start >= m.start) {
-                  d.splice(h, 0, { key: m, value: e.value });
-                  break;
-                }
-                h = true;
-                break;
-              } else if (m.start <= l.start && m.finish >= l.finish) {
-                d[n].value = s + e.value;
-                m.start < l.start && g.push({ start: m.start, finish: l.start });
-                m.finish > l.finish && g.push({ start: l.finish, finish: m.finish });
-                h = true;
-                break;
-              } else if (m.start >= l.start && m.finish <= l.finish) {
-                d.splice(n, 1);
-                m.start > l.start && d.splice(n++, 0, {
-                  key: {
-                    start: l.start,
-                    finish: m.start,
-                  }, value: s,
-                });
-                d.splice(n++, 0, { key: m, value: s + e.value });
-                m.finish < l.finish && d.splice(n++, 0, { key: { start: m.finish, finish: l.finish }, value: s });
-                h = true;
-                break;
-              } else if (m.start >= l.start && m.finish >= l.finish) {
-                d.splice(n, 1);
-                m.start > l.start && d.splice(n++, 0, { key: { start: l.start, finish: m.start }, value: s });
-                d.splice(n++, 0, { key: { start: m.start, finish: l.finish }, value: s + e.value });
-                m.finish > l.finish && g.push({ start: l.finish, finish: m.finish });
-                h = true;
-                break;
-              } else if (m.start <= l.start && m.finish <= l.finish) {
-                d.splice(n, 1);
-                m.start < l.start && g.push({ start: m.start, finish: l.start });
-                d.splice(n++, 0, { key: { start: l.start, finish: m.finish }, value: s + e.value });
-                m.finish < l.finish && d.splice(n++, 0, { key: { start: m.finish, finish: l.finish }, value: s });
-                h = true;
+    }
+  let _getAllocation = function(a, c) {
+    for (var d = [], b = Ga(a, c), f = 0; f < b.length; f++) {
+      var e = b[f], g = e.key;
+      if (!g.hasChildren || !(typeof g.isSummaryEnabled === 'undefined' || g.isSummaryEnabled)) for (g = [{
+        start: g.start,
+        finish: g.finish,
+      }]; g.length > 0;) {
+        var m = dequeue(g);
+        if (!(m.finish <= m.start)) if (d.length == 0) d.push({ key: m, value: e.value }); else {
+          hc(c);
+          for (var h = false, n = 0; n < d.length; n++) {
+            var l = d[n].key, s = d[n].value;
+            if (!(m.start >= l.finish)) if (m.finish <= l.start) {
+              for (h = 0; h <= n; h++) if (d[h].key.start >= m.start) {
+                d.splice(h, 0, { key: m, value: e.value });
                 break;
               }
+              h = true;
+              break;
+            } else if (m.start <= l.start && m.finish >= l.finish) {
+              d[n].value = s + e.value;
+              m.start < l.start && g.push({ start: m.start, finish: l.start });
+              m.finish > l.finish && g.push({ start: l.finish, finish: m.finish });
+              h = true;
+              break;
+            } else if (m.start >= l.start && m.finish <= l.finish) {
+              d.splice(n, 1);
+              m.start > l.start && d.splice(n++, 0, {
+                key: {
+                  start: l.start,
+                  finish: m.start,
+                }, value: s,
+              });
+              d.splice(n++, 0, { key: m, value: s + e.value });
+              m.finish < l.finish && d.splice(n++, 0, { key: { start: m.finish, finish: l.finish }, value: s });
+              h = true;
+              break;
+            } else if (m.start >= l.start && m.finish >= l.finish) {
+              d.splice(n, 1);
+              m.start > l.start && d.splice(n++, 0, { key: { start: l.start, finish: m.start }, value: s });
+              d.splice(n++, 0, { key: { start: m.start, finish: l.finish }, value: s + e.value });
+              m.finish > l.finish && g.push({ start: l.finish, finish: m.finish });
+              h = true;
+              break;
+            } else if (m.start <= l.start && m.finish <= l.finish) {
+              d.splice(n, 1);
+              m.start < l.start && g.push({ start: m.start, finish: l.start });
+              d.splice(n++, 0, { key: { start: l.start, finish: m.finish }, value: s + e.value });
+              m.finish < l.finish && d.splice(n++, 0, { key: { start: m.finish, finish: l.finish }, value: s });
+              h = true;
+              break;
             }
-            h || d.push({ key: m, value: e.value });
           }
+          h || d.push({ key: m, value: e.value });
         }
       }
-      return d;
-    }, yb = function(a, c, d) {
-      for (var b = 0; b < a.length; b++) {
-        var f = a[b];
-        if (f.key == c) {
-          f = f.value;
-          if (f.indexOf(d) >= 0) return true;
-          for (var e = 0; e < f.length; e++) if (yb(a, f[e], d)) return true;
-        }
+    }
+    return d;
+  }
+  let yb = function(a, c, d) {
+    for (var b = 0; b < a.length; b++) {
+      var f = a[b];
+      if (f.key == c) {
+        f = f.value;
+        if (f.indexOf(d) >= 0) return true;
+        for (var e = 0; e < f.length; e++) if (yb(a, f[e], d)) return true;
       }
-    };
-  getContent = function(a) {
+    }
+  };
+  let getContent = function(a) {
     return a.content;
   };
-  getContentPath = function(a) {
+  let getContentPath = function(a) {
     var c =
       getContent(a);
     return a.parent == null ? c : c + ' (' + getContentPath(a.parent) + ')';
   };
-  isParent = function(a, c) {
+  let isParent = function(a, c) {
     return a == c ? true : a.parent == null ? false : isParent(a.parent, c);
   };
-  copyCommonSettings = function(a, c) {
+  let copyCommonSettings = function(a, c) {
     if (typeof a !== 'undefined') {
       a.target = c.target;
       a.theme = c.theme;
@@ -5867,25 +5813,25 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
         c.isRelativeToTimezone;
     }
   };
-  trim = function(a) {
+  let trim = function(a) {
     return a.replace(/^\s*/, '').replace(/\s*$/, '');
   };
-  indexOfKey = function(a, c) {
+  let indexOfKey = function(a, c) {
     for (var d = 0; d < a.length; d++) if (a[d].key == c) return d;
     return -1;
   };
-  dequeue = function(a) {
+  let dequeue = function(a) {
     var c = a[0];
     a.splice(0, 1);
     return c;
   };
-  convertToLocalTimezone = function(a) {
+  let convertToLocalTimezone = function(a) {
     return typeof a !== 'undefined' ? new Date(a.valueOf() + a.getTimezoneOffset() * 6E4) : a;
   };
-  convertToUTC = function(a) {
+  let convertToUTC = function(a) {
     return typeof a !== 'undefined' ? new Date(a.valueOf() - a.getTimezoneOffset() * 6E4) : a;
   };
-  initializeInterface = function(ChartView, c, d) {
+  let initializeInterface = function(ChartView, c, d) {
     var b;
     for (b =
            0; b < c.length; b++) c[b].ganttChartView = ChartView;
@@ -5896,7 +5842,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
           f.isGroup = true;
           f.isSummaryEnabled = false;
         }
-        V(f.parts, d);
+        ganttChartViewInitItems(f.parts, d);
         if (f.isGroup || typeof f.isBarVisible === 'undefined') f.isBarVisible = false;
         for (var e = 0; e < f.parts.length; e++) {
           var g = f.parts[e];
@@ -5915,7 +5861,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     ChartView.items = c;
     ChartView.settings = d;
     ChartView.refresh = function() {
-      S(ChartView);
+      ganttChartViewRefresh(ChartView);
     };
     ChartView.refreshItems = function() {
       Na(c);
@@ -5988,12 +5934,12 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     ChartView.increaseTimelinePage = function(b) {
       d.timelineStart = new Date(d.timelineStart.valueOf() + b);
       d.timelineFinish = new Date(d.timelineFinish.valueOf() + b);
-      S(ChartView);
+      ganttChartViewRefresh(ChartView);
     };
     ChartView.decreaseTimelinePage = function(b) {
       d.timelineStart = new Date(d.timelineStart.valueOf() - b);
       d.timelineFinish = new Date(d.timelineFinish.valueOf() - b);
-      S(ChartView);
+      ganttChartViewRefresh(ChartView);
     };
     ChartView.setSplitterPosition = function(b) {
       var c = ChartView.gridContainer, e = ChartView.chartContainer, f = ChartView.splitter, b = Math.floor(b *
@@ -6045,7 +5991,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     };
     ChartView.onItemPropertyChanged = y;
     ChartView.initializeTaskDraggingThumbs = function(b, c, d, e, f, g, j, k) {
-      nb(b, c, d, e, f, g, j, k, ChartView.items, ChartView, ChartView.settings);
+      setupDraggingEvents(b, c, d, e, f, g, j, k, ChartView.items, ChartView, ChartView.settings);
     };
     ChartView.initializeDependencyDraggingThumbs = function(b, c, d, e, f, g, j) {
       Ya(b, c, d, e, f, g, j, ChartView.items, ChartView, ChartView.settings);
@@ -6578,10 +6524,13 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       a.executionCost = b - xb(a, d);
       y(a, 'executionCost', true, true);
     };
-    ChartView.getResourceCost = function(a) {
+    ChartView.getResourceCost = function(a, resource) {
       for (var b = 0, a = Ga(a, c), e = 0; e < a.length; e++) {
         var f = a[e], g;
-        typeof d.specificResourceUsageCosts !== 'undefined' && (g = indexOfKey(d.specificResourceUsageCosts, resource)) >= 0 ? b = b + d.specificResourceUsageCosts[g].value * f.value : typeof d.defaultResourceUsageCost !== 'undefined' && (b = b + d.defaultResourceUsageCost * f.value);
+        typeof d.specificResourceUsageCosts !== 'undefined' && (
+          g = indexOfKey(d.specificResourceUsageCosts, resource)) >= 0
+          ? b = b + d.specificResourceUsageCosts[g].value * f.value
+          : typeof d.defaultResourceUsageCost !== 'undefined' && (b = b + d.defaultResourceUsageCost * f.value);
         var j = f.key;
         if (!j.hasChildren || !(typeof j.isSummaryEnabled ===
           'undefined' || j.isSummaryEnabled)) {
@@ -6636,13 +6585,13 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       return b;
     };
     ChartView.getAllocations = function(a) {
-      return sc(a, c);
+      return _getAllocation(a, c);
     };
     ChartView.getLoadChartItems = function(a) {
       var b = [];
       typeof a === 'undefined' ? a = Ha(c) : typeof a !== 'array' && (a = [a]);
       for (var e = 0; e < a.length; e++) {
-        for (var f = a[e], g = { tag: f, content: f, ganttChartItems: [] }, j = sc(f, c), k = 0; k < j.length; k++) {
+        for (var f = a[e], g = { tag: f, content: f, ganttChartItems: [] }, j = _getAllocation(f, c), k = 0; k < j.length; k++) {
           var o = j[k],
             q = 1;
           if (typeof d.resourceQuantities !== 'undefined') {
@@ -7094,9 +7043,9 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     };
   };
   return {
-    initialize: ea,
-    initializeItems: V,
-    refresh: S,
+    initialize: ganttChartViewInit,
+    initializeItems: ganttChartViewInitItems,
+    refresh: ganttChartViewRefresh,
     getDefaultColumns: o,
     getDefaultCollapsedToggleButtonTemplate: zb,
     getDefaultExpandedToggleButtonTemplate: Ab,
@@ -7105,7 +7054,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getDefaultStandardTaskTemplate: StandardTaskTemplateFactory,
     getDefaultSummaryTaskTemplate: Eb,
     getDefaultMilestoneTaskTemplate: Fb,
-    getDefaultItemTemplate: Gb,
+    getDefaultItemTemplate: CreateTitleNode,
     getDefaultAssignmentsTemplate: Hb,
     getDefaultDependencyLineTemplate: Ib,
     getDefaultPredecessorItemTemplate: Jb,
@@ -7206,9 +7155,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       }, true);
       return h;
     },
-    numberInputColumnTemplateBase: function(a, c, d, b, f,
-                                            e, g) {
-      return DlhSoft.Controls.GanttChartView.textInputColumnTemplateBase(a, c, function() {
+    numberInputColumnTemplateBase: function(a, c, d, b, f, e, g) {
+      return GanttChartView.textInputColumnTemplateBase(a, c, function() {
         var a = d();
         return !isNaN(a) ? a : '';
       }, function(a) {
@@ -7218,7 +7166,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       }, f, e, g);
     },
     percentInputColumnTemplateBase: function(a, c, d, b, f, e, g) {
-      return DlhSoft.Controls.GanttChartView.numberInputColumnTemplateBase(a, c, d, function(a) {
+      return GanttChartView.numberInputColumnTemplateBase(a, c, d, function(a) {
         a < 0 && (a = 0);
         a > 100 && (a = 100);
         b(a);
@@ -7226,7 +7174,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     },
     timeSpanInputColumnTemplateBase: function(a, c, d, b, f, e, g, m) {
       typeof f === 'undefined' && (f = 1);
-      return DlhSoft.Controls.GanttChartView.numberInputColumnTemplateBase(a,
+      return GanttChartView.numberInputColumnTemplateBase(a,
         c, function() {
           var a = d() / (36E5 * f);
           return Math.round(a * 100) / 100;
@@ -7239,16 +7187,16 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     datePickerInputColumnTemplateBase: function(a, c, d, b, f, e, g, m, h, n, l, j, k) {
       l || (l = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']);
       var o = j, p = k;
-      if (!j) j = DlhSoft.Controls.GanttChartView.defaultDateTimeFormatter;
-      if (!k) k = DlhSoft.Controls.GanttChartView.defaultDateTimeParser;
+      if (!j) j = GanttChartView.defaultDateTimeFormatter;
+      if (!k) k = GanttChartView.defaultDateTimeParser;
       var q = a.createElement('input');
       q.setAttribute('type', 'text');
       d = d();
       typeof d === 'undefined' ? d = '' : d != null && (d = j(d));
       q.setAttribute('value',
         d);
-      DlhSoft.Controls.DatePicker && q.addEventListener('focus', function() {
-        var b = DlhSoft.Controls.DatePicker.get(q);
+      DatePicker && q.addEventListener('focus', function() {
+        var b = DatePicker.get(q);
         if (!b || !b.isOpen) {
           var c = 0, d = 0;
           try {
@@ -7256,7 +7204,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             d = q.selectionEnd;
           } catch (e) {
           }
-          b = DlhSoft.Controls.DatePicker.initialize(q, void 0, {
+          b = DatePicker.initialize(q, void 0, {
             inputStyle: null,
             defaultTimeOfDay: m,
             isDropDownButtonVisible: false,
@@ -7266,7 +7214,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             daysOfWeek: F(l),
             dateTimeFormatter: o,
             dateTimeParser: p,
-          }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+          }, 'init warning');
           b.openDropDown();
           setTimeout(function() {
             try {
@@ -7320,16 +7268,15 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
                                                     c, d, b, f, e, g, m, h, n, l, j, k) {
       l || (l = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']);
       var o = j, p = k;
-      if (!j) j = DlhSoft.Controls.GanttChartView.defaultDateTimeFormatter;
-      if (!k) k = DlhSoft.Controls.GanttChartView.defaultDateTimeParser;
+      if (!j) j = GanttChartView.defaultDateTimeFormatter;
+      if (!k) k = GanttChartView.defaultDateTimeParser;
       var q = a.createElement('input');
       q.setAttribute('type', 'text');
       d = d();
       typeof d === 'undefined' ? d = '' : d != null && (d = j(d));
       q.setAttribute('value', d);
-      (DlhSoft.Controls.DateTimePicker || DlhSoft.Controls.DatePicker) && q.addEventListener('focus', function() {
-        var b = (DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker :
-          DlhSoft.Controls.DatePicker).get(q);
+      (DateTimePicker || DatePicker) && q.addEventListener('focus', function() {
+        var b = (DateTimePicker ? DateTimePicker : DatePicker).get(q);
         if (!b || !b.isOpen) {
           var c = 0, d = 0;
           try {
@@ -7337,7 +7284,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             d = q.selectionEnd;
           } catch (e) {
           }
-          b = (DlhSoft.Controls.DateTimePicker ? DlhSoft.Controls.DateTimePicker : DlhSoft.Controls.DatePicker).initialize(q, void 0, {
+          b = (DateTimePicker ? DateTimePicker : DatePicker).initialize(q, void 0, {
             inputStyle: null,
             defaultTimeOfDay: m,
             isDropDownButtonVisible: false,
@@ -7347,7 +7294,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             daysOfWeek: F(l),
             dateTimeFormatter: o,
             dateTimeParser: p,
-          }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+          }, 'init warning');
           b.openDropDown();
           setTimeout(function() {
             try {
@@ -7404,8 +7351,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       b = b();
       typeof b === 'undefined' && (b = '');
       h.setAttribute('value', b);
-      DlhSoft.Controls.MultiSelectorComboBox && h.addEventListener('focus', function() {
-        var b = DlhSoft.Controls.MultiSelectorComboBox.get(h);
+      MultiSelectorComboBox && h.addEventListener('focus', function() {
+        var b = MultiSelectorComboBox.get(h);
         if (!b || !b.isOpen && b.availableChoices.length > 0) {
           var b = d(), c = 0, e = 0;
           try {
@@ -7413,10 +7360,10 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
             e = h.selectionEnd;
           } catch (f) {
           }
-          b = DlhSoft.Controls.MultiSelectorComboBox.initialize(h, b, void 0, {
+          b = MultiSelectorComboBox.initialize(h, b, void 0, {
             inputStyle: null, autoAppendAvailableChoices: false, isDropDownButtonVisible: false,
             popupStyle: 'margin-top: 1px; background-color: White; border: 1px solid #D3DFF0; color: Black; font-size: small; max-height: 188px; overflow-y: auto',
-          }, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+          }, 'init warning');
           b.openDropDown();
           setTimeout(function() {
             try {
@@ -7464,19 +7411,19 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       return h;
     },
     dateTimeInputColumnTemplateBase: function(a, c, d, b, f, e, g) {
-      return DlhSoft.Controls.GanttChartView.textInputColumnTemplateBase(a, c, function() {
+      return GanttChartView.textInputColumnTemplateBase(a, c, function() {
         var a = d();
-        return a != null ? DlhSoft.Controls.GanttChartView.defaultDateTimeFormatter(a) : '';
+        return a != null ? GanttChartView.defaultDateTimeFormatter(a) : '';
       }, function(a) {
         a = a !=
-        '' ? DlhSoft.Controls.GanttChartView.defaultDateTimeParser(a) : null;
+        '' ? GanttChartView.defaultDateTimeParser(a) : null;
         b(a);
       }, f, e, g);
     },
     getIndexColumnTemplate: function() {
       return function(a) {
         var c = a.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.textColumnTemplateBase(c.ownerDocument, function() {
+        return GanttChartView.textColumnTemplateBase(c.ownerDocument, function() {
           return c.getItemIndexString(a);
         });
       };
@@ -7484,7 +7431,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getWbsColumnTemplate: function(a) {
       return function(c) {
         var d = c.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.textColumnTemplateBase(d.ownerDocument, function() {
+        return GanttChartView.textColumnTemplateBase(d.ownerDocument, function() {
           return d.getItemWbsIndexString(c, a);
         });
       };
@@ -7494,7 +7441,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof c === 'undefined' && (c = 1);
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
           return f.getItemEffort(b);
         }, function(a) {
           f.setItemEffort(b, a);
@@ -7513,7 +7460,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof c === 'undefined' && (c = 1);
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
           return f.getItemDuration(b);
         }, function(a) {
           f.setItemDuration(b, a);
@@ -7532,7 +7479,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof c === 'undefined' && (c = 1);
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
           return f.getItemTotalEffort(b);
         }, function(a) {
           f.setItemTotalEffort(b, a);
@@ -7551,7 +7498,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof c === 'undefined' && (c = 1);
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
           return f.getItemCompletedEffort(b);
         }, function(a) {
           f.setItemCompletedEffort(b,
@@ -7570,7 +7517,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof c === 'undefined' && (c = 1);
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.timeSpanInputColumnTemplateBase(f.ownerDocument, a, function() {
           return f.getItemTotalCompletedEffort(b);
         }, function(a) {
           f.setItemTotalCompletedEffort(b, a);
@@ -7588,7 +7535,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getCompletionColumnTemplate: function(a, c) {
       return function(d) {
         var b = d.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.percentInputColumnTemplateBase(b.ownerDocument, a, function() {
+        return GanttChartView.percentInputColumnTemplateBase(b.ownerDocument, a, function() {
           var a = b.getItemCompletion(d) * 100;
           return Math.round(a *
             100) / 100;
@@ -7614,7 +7561,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getCostColumnTemplate: function(a, c) {
       return function(d) {
         var b = d.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.numberInputColumnTemplateBase(b.ownerDocument, a, function() {
+        return GanttChartView.numberInputColumnTemplateBase(b.ownerDocument, a, function() {
           return b.getItemCost(d);
         }, function(a) {
           b.setItemCost(d, a);
@@ -7629,7 +7576,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getPredecessorsColumnTemplate: function(a, c, d) {
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.textInputColumnTemplateBase(f.ownerDocument,
+        return GanttChartView.textInputColumnTemplateBase(f.ownerDocument,
           a, function() {
             return f.getItemPredecessorsString(b, d);
           }, function(a) {
@@ -7647,7 +7594,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getAssignmentSelectorColumnTemplate: function(a, c, d) {
       return function(b) {
         var f = b.ganttChartView;
-        return DlhSoft.Controls.GanttChartView.optionSelectColumnTemplateBase(f.ownerDocument, a, function() {
+        return GanttChartView.optionSelectColumnTemplateBase(f.ownerDocument, a, function() {
           return typeof c === 'array' ? c : c(b);
         }, function() {
           return b.assignmentsContent;
@@ -7670,8 +7617,8 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var j = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase :
-          DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(j.ownerDocument, a, function() {
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase :
+          GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(j.ownerDocument, a, function() {
             return h.baselineStart;
           }, function(a) {
             a != null ? h.baselineStart = a : delete h.baselineStart;
@@ -7692,7 +7639,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var n = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument,
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase : GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument,
           a, function() {
             return h.baselineFinish;
           }, function(a) {
@@ -7714,7 +7661,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var n = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase : GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
             return h.minStart;
           },
           function(a) {
@@ -7736,7 +7683,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var n = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase : GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
           return h.maxStart;
         }, function(a) {
           a !=
@@ -7758,7 +7705,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var n = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase : GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
           return h.minFinish;
         }, function(a) {
           a != null ? h.minFinish =
@@ -7780,7 +7727,7 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
       typeof d === 'undefined' && (d = true);
       return function(h) {
         var n = h.ganttChartView;
-        return (c ? d ? DlhSoft.Controls.GanttChartView.dateTimePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.datePickerInputColumnTemplateBase : DlhSoft.Controls.GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
+        return (c ? d ? GanttChartView.dateTimePickerInputColumnTemplateBase : GanttChartView.datePickerInputColumnTemplateBase : GanttChartView.dateTimeInputColumnTemplateBase)(n.ownerDocument, a, function() {
           return h.maxFinish;
         }, function(a) {
           a != null ? h.maxFinish = a :
@@ -7822,35 +7769,38 @@ void 0 == DlhSoft.Controls.GanttChartView && (DlhSoft.Controls.GanttChartView = 
     getOutputDate: convertToLocalTimezone,
     getInputDate: convertToUTC,
   };
-}());
+}();
 
-void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartView = function() {
-  var L = function(k, j, o, p) {
-      var t = ['DlhSoft.Controls', 'ScheduleChartView', 'DlhSoft.ProjectData.GanttChart.HTML.Controls', '5', 'validate', 'Licensing'];
-      DlhSoft[t[5]][t[4]](k, t[0], t[1], t[2], t[3], p, o);
-      k.isScheduleChartInitializing = true;
-      for (var p = j, j = [], w = t = 0, x = 0; x < p.length; x++) {
+export const ScheduleChartView = function() {
+  var ScheduleChartViewConstructor = function(rootDomNode, items, copiedSettings) {
+      rootDomNode.isScheduleChartInitializing = true;
+      let p = items;
+      items = [];
+      let t;
+      let w = t = 0;
+      let x = 0;
+      for (; x < p.length; x++) {
         var A = p[x];
         if (!(typeof A.scheduleChartItem !== 'undefined' && A.scheduleChartItem != A)) {
           A.scheduleChartIndex = t++;
           if (!A.isHidden) A.scheduleChartVisibilityIndex =
             w++;
           A.isBarVisible = false;
-          j.push(A);
+          items.push(A);
           if (typeof A.ganttChartItems !== 'undefined') for (var z = 0; z < A.ganttChartItems.length; z++) {
             var B = A.ganttChartItems[z];
             B.scheduleChartItem = A;
             if (A.isHidden) B.isHidden = true;
             B.displayRowIndex = A.scheduleChartVisibilityIndex;
             B.indentation = A.indentation;
-            j.push(B);
+            items.push(B);
           }
         }
       }
-      typeof o !== 'object' && (o = {});
-      DlhSoft.Controls.GanttChartView.initializeItems(j, o);
-      t = o;
-      w = j;
+      typeof copiedSettings !== 'object' && (copiedSettings = {});
+      GanttChartView.initializeItems(items, copiedSettings);
+      t = copiedSettings;
+      w = items;
       X(t);
       if (typeof t.gridWidth === 'undefined') t.gridWidth = '15%';
       if (typeof t.chartWidth === 'undefined') t.chartWidth = t.isGridVisible ?
@@ -7874,16 +7824,16 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
         case 'Aero':
           t.temporaryAssignmentThumbStyle = 'fill: none; stroke: Blue; stroke-width: 0.65px; stroke-dasharray: 2, 2';
       }
-      if (typeof t.assignmentThumbTemplate === 'undefined') t.assignmentThumbTemplate = P(w, k, t);
+      if (typeof t.assignmentThumbTemplate === 'undefined') t.assignmentThumbTemplate = P(w, rootDomNode, t);
       t.internalExtraTaskTemplate = t.assignmentThumbTemplate;
-      K(k, j, p, o);
-      DlhSoft.Controls.GanttChartView.initialize(k, j, o, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
-      r(k, j);
-      k.isScheduleChartInitializing = false;
-      k.isScheduleChartInitialized = true;
-      return k;
-    }, I = function(k) {
-      L(k, k.scheduleChartItems, k.settings, k.license);
+      K(rootDomNode, items, p, copiedSettings);
+      GanttChartView.initialize(rootDomNode, items, copiedSettings, 'init warnings');
+      r(rootDomNode, items);
+      rootDomNode.isScheduleChartInitializing = false;
+      rootDomNode.isScheduleChartInitialized = true;
+      return rootDomNode;
+    }, refreshScheduleChartView = function(k) {
+      ScheduleChartViewConstructor(k, k.scheduleChartItems, k.settings, k.license);
     }, X = function(k) {
       if (typeof k.useUpdatingToolTips === 'undefined') k.useUpdatingToolTips = true;
       if (typeof k.target === 'undefined') k.target = 'Standard';
@@ -7920,7 +7870,7 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
       return headerArr;
     }, returnFirstCheckBox = function(k, j) {
       return function(k) {
-        return !j.isReadOnly ? createFirstCheckBox(k) : getBooleanNode(k.ganttChartView.ownerDocument, k.isSelected);
+        return !j.isReadOnly ? createFirstCheckBox(k) : (getBooleanNode && getBooleanNode(k.ganttChartView.ownerDocument, k.isSelected));
       };
     }, createFirstCheckBox = function(k) {
       var j = k.ganttChartView.ownerDocument, checkBoxInput;
@@ -8080,12 +8030,12 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
           j.itemLeft = p;
           j.itemRight = t;
           o.assignmentThumb = j;
-          if (DlhSoft.Controls.ToolTip && r.useUpdatingToolTips) {
-            (toolTip = DlhSoft.Controls.ToolTip.get(k)) || (toolTip = DlhSoft.Controls.ToolTip.initialize(void 0, k, {
+          if (ToolTip && r.useUpdatingToolTips) {
+            let toolTip = ToolTip.get(k) || ToolTip.initialize(void 0, k, {
                 duration: NaN,
                 containerStyle: 'cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid ' + r.border + '; background-color: White; color: Black; font-family: Arial; font-size: 12px; padding: 4px; margin-top: 1px',
               },
-              'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.'));
+              'init warnings');
             toolTip.setContent(o.content + ' \u2013');
             toolTip.show();
             toolTip.setPosition(toolTip.x + (t - p) + 4, toolTip.y - r.itemHeight - 1);
@@ -8135,8 +8085,8 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
                   k;
                 j.appendChild(k);
                 x.draggingItem = o;
-                if (DlhSoft.Controls.ToolTip && r.useUpdatingToolTips) {
-                  toolTip = x.toolTip;
+                if (ToolTip && r.useUpdatingToolTips) {
+                  let toolTip = x.toolTip;
                   var k = Math.floor((o.itemTop + x.draggingInitialThumbPosition + B) / r.itemHeight), J = null, E = 0, F;
                   for (F = 0; F < w.length; F++) {
                     var I = w[F];
@@ -8245,7 +8195,7 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
       if (!(t < 0 || j < 0 || j == t || j >= p.length)) {
         p.splice(t, 1);
         p.splice(j, 0, k);
-        I(o);
+        refreshScheduleChartView(o);
         typeof o.settings.itemMoveHandler !==
         'undefined' && o.settings.itemMoveHandler(k, t, j);
       }
@@ -8318,7 +8268,7 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
           for (B = j; B < j + p; B++) r.push(o[B]);
           o.splice(j, p);
           for (B = 0; B < r.length; B++) o.splice(t + B, 0, r[B]);
-          I(k);
+          refreshScheduleChartView(k);
           if (typeof k.settings.itemMoveHandler !== 'undefined') for (B = 0; B < r.length; B++) k.settings.itemMoveHandler(r[B], j + B, t + B);
         }
       };
@@ -8337,40 +8287,41 @@ void 0 == DlhSoft.Controls.ScheduleChartView && (DlhSoft.Controls.ScheduleChartV
     }, r = function(k, j) {
       k.items = j;
       k.refresh = function() {
-        I(k);
+        refreshScheduleChartView(k);
       };
     };
   return {
-    initialize: L,
-    refresh: I,
+    initialize: ScheduleChartViewConstructor,
+    refresh: refreshScheduleChartView,
     getDefaultColumns: ba,
-    getDefaultScales: DlhSoft.Controls.GanttChartView.getDefaultScales,
-    getDefaultStyleDefinitionTemplate: DlhSoft.Controls.GanttChartView.getDefaultStyleDefinitionTemplate,
-    getDefaultStandardTaskTemplate: DlhSoft.Controls.GanttChartView.getDefaultStandardTaskTemplate,
-    getDefaultMilestoneTaskTemplate: DlhSoft.Controls.GanttChartView.getDefaultMilestoneTaskTemplate,
-    getDefaultItemTemplate: DlhSoft.Controls.GanttChartView.getDefaultItemTemplate,
-    getDefaultAssignmentsTemplate: DlhSoft.Controls.GanttChartView.getDefaultAssignmentsTemplate,
-    initializeTaskDraggingThumbs: DlhSoft.Controls.GanttChartView.initializeTaskDraggingThumbs,
-    initializeDependencyDraggingThumb: DlhSoft.Controls.GanttChartView.initializeDependencyDraggingThumb,
+    getDefaultScales: GanttChartView.getDefaultScales,
+    getDefaultStyleDefinitionTemplate: GanttChartView.getDefaultStyleDefinitionTemplate,
+    getDefaultStandardTaskTemplate: GanttChartView.getDefaultStandardTaskTemplate,
+    getDefaultMilestoneTaskTemplate: GanttChartView.getDefaultMilestoneTaskTemplate,
+    getDefaultItemTemplate: GanttChartView.getDefaultItemTemplate,
+    getDefaultAssignmentsTemplate: GanttChartView.getDefaultAssignmentsTemplate,
+    initializeTaskDraggingThumbs: GanttChartView.initializeTaskDraggingThumbs,
+    initializeDependencyDraggingThumb: GanttChartView.initializeDependencyDraggingThumb,
     initializeAssignmentDraggingThumb: function(k, j, o, p, t) {
       o.scheduleChartView.initializeAssignmentDraggingThumb(k, j, o, p, t);
     },
-    getWorkingTime: DlhSoft.Controls.GanttChartView.getWorkingTime,
-    getEffort: DlhSoft.Controls.GanttChartView.getEffort,
-    getFinish: DlhSoft.Controls.GanttChartView.getFinish,
-    getStart: DlhSoft.Controls.GanttChartView.getStart,
-    getCompletion: DlhSoft.Controls.GanttChartView.getCompletion,
-    getCompletedFinish: DlhSoft.Controls.GanttChartView.getCompletedFinish,
-    textColumnTemplateBase: DlhSoft.Controls.GanttChartView.textColumnTemplateBase,
-    textInputColumnTemplateBase: DlhSoft.Controls.GanttChartView.textInputColumnTemplateBase,
-    getOutputDate: DlhSoft.Controls.GanttChartView.getOutputDate,
-    getInputDate: DlhSoft.Controls.GanttChartView.getInputDate,
+    getWorkingTime: GanttChartView.getWorkingTime,
+    getEffort: GanttChartView.getEffort,
+    getFinish: GanttChartView.getFinish,
+    getStart: GanttChartView.getStart,
+    getCompletion: GanttChartView.getCompletion,
+    getCompletedFinish: GanttChartView.getCompletedFinish,
+    textColumnTemplateBase: GanttChartView.textColumnTemplateBase,
+    textInputColumnTemplateBase: GanttChartView.textInputColumnTemplateBase,
+    getOutputDate: GanttChartView.getOutputDate,
+    getInputDate: GanttChartView.getInputDate,
   };
-}());
-void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = function() {
+}();
+
+
+export const LoadChartView = function() {
   var L = function(r, k, j, o) {
-      var p = ['DlhSoft.Controls', 'LoadChartView', 'DlhSoft.ProjectData.GanttChart.HTML.Controls', '5', 'validate', 'Licensing'];
-      DlhSoft[p[5]][p[4]](r, p[0], p[1], p[2], p[3], o, j);
+      var p;
       r.isLoadChartInitializing = true;
       for (var o = k, k = [], t = p = 0; t < o.length; t++) {
         var w = o[t];
@@ -8388,7 +8339,7 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
         }
       }
       typeof j !== 'object' && (j = {});
-      DlhSoft.Controls.GanttChartView.initializeItems(k, j);
+      GanttChartView.initializeItems(k, j);
       p = j;
       t = k;
       X(p);
@@ -8427,7 +8378,7 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
       p.isTaskCompletedEffortVisible = false;
       p.areTaskAssignmentsVisible = false;
       ja(r, k, o, j);
-      DlhSoft.Controls.GanttChartView.initialize(r, k, j, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+      GanttChartView.initialize(r, k, j, 'init warning');
       K(r, k, j);
       r.isLoadChartInitializing = false;
       r.isLoadChartInitialized = true;
@@ -8462,7 +8413,7 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
       return headerArr;
     }, la = function(r, k) {
       return function(j) {
-        return !k.isReadOnly ? ea(j) : getBooleanNode(j.ganttChartView.ownerDocument, j.isSelected);
+        return !k.isReadOnly ? ea(j) : (getBooleanNode && getBooleanNode(j.ganttChartView.ownerDocument, j.isSelected));
       };
     }, ea = function(r) {
       var k = r.ganttChartView.ownerDocument, j;
@@ -8689,8 +8640,8 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
         isRelativeToTimezone: E.isRelativeToTimezone,
         allocationTemplate: E.allocationTemplate,
       };
-      p.timelineStart = DlhSoft.Controls.GanttChartView.getWeekStart(p.timelineStart, p.weekStartDay);
-      p.timelineFinish = DlhSoft.Controls.GanttChartView.getWeekFinish(p.timelineFinish,
+      p.timelineStart = GanttChartView.getWeekStart(p.timelineStart, p.weekStartDay);
+      p.timelineFinish = GanttChartView.getWeekFinish(p.timelineFinish,
         p.weekStartDay);
       K = K.getChartPosition(p.timelineFinish, p) - K.getChartPosition(p.timelineStart, p);
       p.chartWidth = K + 'px';
@@ -8765,8 +8716,7 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
       var ca = L.createElement('div');
       ca.setAttribute('style', 'width: ' + U + 'px');
       try {
-        DlhSoft.Controls.LoadChartView.initialize(ca,
-          r, p, 'DlhSoft.Controls: DlhSoft internal usage only. Customers may purchase standard product usage licenses from http://DlhSoft.com/Purchase.');
+        LoadChartView.initialize(ca, r, p, 'init warning');
       } catch (la) {
       }
       setTimeout(function() {
@@ -8883,13 +8833,13 @@ void 0 == DlhSoft.Controls.LoadChartView && (DlhSoft.Controls.LoadChartView = fu
     initialize: L,
     refresh: I,
     getDefaultColumns: ba,
-    getDefaultScales: DlhSoft.Controls.GanttChartView.getDefaultScales,
+    getDefaultScales: GanttChartView.getDefaultScales,
     getDefaultAllocationTemplate: J,
-    getDefaultItemTemplate: DlhSoft.Controls.GanttChartView.getDefaultItemTemplate,
-    getWorkingTime: DlhSoft.Controls.GanttChartView.getWorkingTime,
-    textColumnTemplateBase: DlhSoft.Controls.GanttChartView.textColumnTemplateBase,
-    textInputColumnTemplateBase: DlhSoft.Controls.GanttChartView.textInputColumnTemplateBase,
-    getOutputDate: DlhSoft.Controls.GanttChartView.getOutputDate,
-    getInputDate: DlhSoft.Controls.GanttChartView.getInputDate,
+    getDefaultItemTemplate: GanttChartView.getDefaultItemTemplate,
+    getWorkingTime: GanttChartView.getWorkingTime,
+    textColumnTemplateBase: GanttChartView.textColumnTemplateBase,
+    textInputColumnTemplateBase: GanttChartView.textInputColumnTemplateBase,
+    getOutputDate: GanttChartView.getOutputDate,
+    getInputDate: GanttChartView.getInputDate,
   };
-}());
+}();

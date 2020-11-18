@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import {
   SliderCellColRaw, SliderCol,
   SliderFormItem,
-  SliderGrid,
   StyledButtonSlider, StyledOption, StyledSelect,
-} from '../components/SlidingBottomPanel/PanelComponents';
-import { CRUDForm } from '../components/SlidingBottomPanel/CRUDForm';
+} from '../../../components/SlidingBottomPanel/PanelComponents';
+import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { RowMargin1st } from '../components/Styled';
 import { Input } from 'antd';
 import React from 'react';
@@ -17,7 +16,6 @@ export function CrewsCRUDForm({actionText="Добавить", entityName, initia
   const requiredProps = { rules: [ { required: true } ] };
   return (
     <CRUDForm initialValues={initialValues} {...props}>
-      <SliderGrid fluid>
         <RowMargin1st {...{xl: 9, lg: 10, md: 12}}>
           <SliderCellColRaw {...{xl: 3, lg: 5, md: 8}}>
             <SliderFormItem label="Выбрать город" {...requiredProps} name='city'>
@@ -47,7 +45,6 @@ export function CrewsCRUDForm({actionText="Добавить", entityName, initia
             </StyledButtonSliderW10rem>
           </SliderCellColRaw>
         </RowMargin1st>
-      </SliderGrid>
     </CRUDForm>
   );
 }
