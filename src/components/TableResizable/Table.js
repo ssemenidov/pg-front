@@ -5,6 +5,7 @@ import { Resizable } from 'react-resizable';
 import PropTypes from 'prop-types';
 
 import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+import icon_delete from '../../img/outdoor_furniture/red_can.svg';
 
 export default class AdvertisingParties extends Component {
   state = {
@@ -47,22 +48,32 @@ export default class AdvertisingParties extends Component {
     }));
 
     this.props.edit &&
-      columns.push({
-        width: 50,
-        render: (text, record) => {
-          return (
-            <img
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                this.props.setOpenEditModal(true);
-                this.props.setEditingItem(record);
-              }}
-              src={icon_pen}
-              alt="edit icon"
-            />
-          );
+      columns.push(
+        {
+          width: 50,
+          render: (text, record) => {
+            return (
+              <img
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  this.props.setOpenEditModal(true);
+                  this.props.setEditingItem(record);
+                }}
+                src={icon_pen}
+                alt="edit icon"
+              />
+            );
+          },
         },
-      });
+        {
+          width: 50,
+          render: (text, record) => {
+            return (
+              <img style={{ cursor: 'pointer' }} onClick={this.props.openModal} src={icon_delete} alt="delete icon" />
+            );
+          },
+        },
+      );
     return (
       <StyledTable
         pagination={true}

@@ -1,4 +1,3 @@
-
 export const initColumnsForPopupBookedSides = [
   {
     key: 'code',
@@ -423,12 +422,12 @@ export const initColumnsForPopupHotPtc = [
         width: 130,
         isShowed: true,
       },
-      {
-        title: 'Доп.расходы',
-        dataIndex: 'extraChargeInput',
-        width: 130,
-        isShowed: true,
-      },
+      // {
+      //   title: 'Производство',
+      //   dataIndex: 'manufactureSell',
+      //   width: 130,
+      //   isShowed: true,
+      // },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
@@ -468,7 +467,7 @@ export const initColumnsForPopupHotPtc = [
         title: 'Производство',
         dataIndex: 'manufactureSell',
         width: 130,
-        isShowed: false,
+        isShowed: true,
       },
       {
         title: 'Сумма',
@@ -549,8 +548,8 @@ export const initColumnsTableHotPtc = [
         width: 130,
       },
       {
-        title: 'Доп.расходы',
-        dataIndex: 'extraChargeInput',
+        title: 'Производство',
+        dataIndex: 'manufactureSell',
         width: 130,
       },
       {
