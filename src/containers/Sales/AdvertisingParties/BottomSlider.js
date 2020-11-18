@@ -7,8 +7,8 @@ import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
-import { SliderCellColRaw } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { RowMargin1st } from '../../Administration/components/Styled';
+import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
+import {Row, Col} from 'antd'
 
 
 
@@ -64,7 +64,7 @@ const ReservationSilderCheckboxesFormItem = styled(Form.Item)`
 `;
 
 const ReservationSliderSubmitButton = styled(SubmitButton)`
-    margin-top: 2.3rem;
+    margin-top: 2.5rem;
     margin-left: 2rem;
     fontWeight: bold;
 `;
@@ -93,12 +93,13 @@ export function ReservationSlider({sliderState}) {
                         sliderClass="advertising-part-slider"
     >
       <CRUDForm initialValues={initialValues}>
-        <RowMargin1st>
-          <SliderCellColRaw {...{xxl: 10}}>
+        <SliderRow>
+          <SliderCellColRaw {...{xxl: 4, xl: 5, xs: 5}}>
             <ReservationSilderFormItem name="startDate">
               <p className="formItem-title">Дата начала</p>
               <InputIcon img={date} alt="date icon" />
               <DatePicker
+                dropdownClassName="topCenter"
                 className="date-picker"
                 suffixIcon={<DateStateText>Ок</DateStateText>}
                 size={'large'}
@@ -107,7 +108,7 @@ export function ReservationSlider({sliderState}) {
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 3}}>
+          <SliderCellColRaw {...{xxl: 4, xl: 5, xs: 5}}>
             <ReservationSilderFormItem name="endDate">
               <p className="formItem-title">Дата оканчания</p>
               <InputIcon img={date} alt="date icon" />
@@ -120,26 +121,26 @@ export function ReservationSlider({sliderState}) {
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 3}}>
+          <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 7}}>
             <ReservationSilderFormItem name="projectName">
               <p className="formItem-title">Проект</p>
               <InputIcon img={inputIcon} alt="input icon" />
               <Input size="large" placeholder="Название проекта" className="projectName-input" />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 2}}>
+          <SliderCellColRaw {...{xxl: 2, xl: 3, xs: 3}}>
             <ReservationSilderCheckboxesFormItem name="additional">
               <p className="formItem-title">Дополнительно</p>
               <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
             </ReservationSilderCheckboxesFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 2}}>
+          <SliderCellColRaw {...{xxl: 2, xs: 1}}>
             {/* <BtnGroup> */}
             <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>
               Забронировать
             </ReservationSliderSubmitButton>
           </SliderCellColRaw>
-        </RowMargin1st>
+        </SliderRow>
       </CRUDForm>
     </SlidingBottomPanel>
   )

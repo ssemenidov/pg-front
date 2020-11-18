@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import './styles_adv_part.scss'
 import { ScheduleChartView } from './GanttChart/DlhGanttChart';
 import { createPopover } from './tabPopover';
@@ -6,12 +6,18 @@ import ReactDOM from 'react-dom';
 
 
 
-export const ScheduleChartView1 = React.forwardRef(function({style, items, settings, change, columns}, ref) {
-  let [childsPopover, setChildPopover] = useState([]);
+export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
+  let [state, setState] = useState([]);
+  let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
-  if (!ref)
-    ref = React.createRef();
-  let element = <div ref={ref} style={style}></div>;
+  useEffect(() => {
+    if (!ganttUpdaterIsSetted) {
+      setGanttUpdater(setState);
+      setGanttUpdaterIsSetted(true);
+    }
+  }, [ganttUpdaterIsSetted]);
+
+  let ref = useRef(null);
 
   if (!ref)
     ref = React.createRef();
@@ -27,6 +33,7 @@ export const ScheduleChartView1 = React.forwardRef(function({style, items, setti
 
   useEffect(function() {
     if (ref.current) {
+      console.log('useEffect len items', items.length)
       ScheduleChartView.initialize(ref.current, items, copied_settings, "");
       if (change) {
         settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
@@ -36,15 +43,10 @@ export const ScheduleChartView1 = React.forwardRef(function({style, items, setti
         }
       }
     }
-  }, [ref.current])
+  })
 
-  return (
-    <>
-      {childsPopover}
-      {element}
-    </>
-  );
-});
+  return <div ref={ref} style={style}></div>;
+};
 
 
 

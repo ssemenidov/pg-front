@@ -465,13 +465,22 @@ $app-font-size: 14px;
 }
 
 .gantt-bar-status-unavailable {
-  fill: #C8C8C8;
+  fill: darken(#C8C8C8, 6%);
   fill-opacity: 1;
-  stroke: #C8C8C8;
+  stroke: darken(#C8C8C8, 10%);
   stroke-width: 0.65px;
-  opacity: 0.95;
+  opacity: 0.6;
 }
 
+.dot-unavailable {
+  background-color: darken(#C8C8C8, 20%) !important;
+}
+
+.dot-all {
+  background-color: #FFFFFF !important;
+  border: .5px solid;
+  border-color: #000000 !important;
+}
 
 .advertising-part-slider {
   width: calc(100% - 240px - 60px) !important;

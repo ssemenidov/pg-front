@@ -41,7 +41,6 @@ export const GridNoPadding = styled(Grid)`
 
 export const RowMargin1st = styled(Row)`
   margin-top: 1rem
-  margin-left
 `;
 
 export const RowMargin2st = styled(Row)`

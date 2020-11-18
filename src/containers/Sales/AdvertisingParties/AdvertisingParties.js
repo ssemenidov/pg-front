@@ -7,7 +7,6 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs'
 
-import PanelAdver from './PanelAdver';
 import { ReservationSlider } from './BottomSlider'
 import FilterBar from './FilterBar';
 import { FilterLeftBar } from './LeftBarFilters/FilterLeftBar';
@@ -18,6 +17,7 @@ import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Colors';
 import './styles_adv_part.scss'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
+import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides';
 
 const { Content, Sider } = Layout;
 
@@ -30,21 +30,19 @@ const links = [
 ];
 
 
-
-
-
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter]= useState({});
+  const [refetch, setRefetch]= useState(null);
+  const [ganttUpdater, setGanttUpdater]= useState(null);
 
   const sliderState = new SliderState({name: "", key: ""})
-
   return (
     <adverContext.Provider value={[filter, setFilter]}>
     <Layout>
       <Layout>
         <FilterLeftBar props={setCollapsed, collapsed}/>
-        {collapsed && <FilterBar />}
+        {collapsed && <FilterBar refetch={refetch} ganttUpdater={ganttUpdater}/>}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <BreadCrumbs links={links}/>
           <HeaderWrapper>
@@ -62,7 +60,9 @@ const AdvertisingParties = () => {
             </ButtonGroup>
           </HeaderWrapper>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <PanelAdver style={{ flex: '0 1 auto' }} />
+            <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
+              <GanttChartAdvertisingSides filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater}/>
+            </div>
             {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
           </div>
         </Layout>

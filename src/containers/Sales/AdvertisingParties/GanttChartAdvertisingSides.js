@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart'
@@ -6,44 +6,77 @@ import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 import { TEST_DATA } from './testData';
+import { useMediaQuery } from '@material-ui/core';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
-    query SearchConstructionSideWithReservation {
-      searchConstructionSide {
-        edges {
-          node {
-            id
-            advertisingSide {
-              side {
-                format {
-                  title
-                }
+  query SearchConstructionSideWithReservation(
+    $dateFrom: DateTime,
+    $dateTo: DateTime,
+    $family: ID,
+    $format: String,
+    $side: String,
+    $size: String,
+    $statusConnection: Boolean,
+    $city: ID,
+    $district: ID,
+    $reservationType: String,
+  ) {
+    searchConstructionSide(
+      reservation_DateFrom_Gte: $dateFrom,
+      reservation_DateTo_Lte: $dateTo,
+      advertisingSide_Side_Format_Model_Underfamily_Family_Id: $family,
+      advertisingSide_Side_Format_Title_Icontains: $format,
+      advertisingSide_Side_Title_Icontains: $side,
+      advertisingSide_Side_Size_Icontains: $size,
+      construction_StatusConnection: $statusConnection,
+      construction_Location_Postcode_District_City_Id: $city,
+      construction_Location_Postcode_District_Id: $district,
+      reservation_ReservationType_Title_Iregex: $reservationType
+    ) {
+      edges {
+        node {
+          id
+          advertisingSide {
+            side {
+              format {
+                title
               }
             }
-            construction {
-              location {
-                postcode {
-                  district {
-                    city {
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            reservation {
-              edges {
-                node {
-                  id
-                  dateFrom
-                  dateTo
-                  reservationType {
+          }
+          construction {
+            statusConnection
+            location {
+              postcode {
+                district {
+                  city {
                     title
                   }
-                  project {
-                    brand {
-                      title
-                    }
+                }
+              }
+            }
+          }
+          reservation {
+            edges {
+              node {
+                id
+                dateFrom
+                dateTo
+                reservationType {
+                  title
+                }
+                design
+                project {
+                  title
+                  salesManager {
+                    firstName
+                    firstName
+                  }
+                  backOfficeManager {
+                    firstName
+                    lastName
+                  }
+                  brand {
+                    title
                   }
                 }
               }
@@ -52,10 +85,11 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
         }
       }
     }
+  }
 `;
 
 
-export function GanttChartAdvertisingSides(props) {
+export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}) {
   /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
   // Query string syntax: ?theme
   // Supported themes: Default, Generic-bright, Generic-blue, DlhSoft-gray, Purple-green, Steel-blue, Dark-black, Cyan-green, Blue-navy, Orange-brown, Teal-green, Purple-beige, Gray-blue, Aero.
@@ -64,14 +98,26 @@ export function GanttChartAdvertisingSides(props) {
   // Retrieve and store the control element for reference purposes.
   let scheduleChartViewElement = document.querySelector('#scheduleChartView');
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
-  let filter = {};
 
-  // const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: filter });
-  // if (loading)
-  //   return <LoadingAntd/>
-  // if (error)
-  //   return <h3>Error (:</h3>
-  let data = null;
+  console.log(filter)
+  let dstFilter = {};
+  if (filter)
+    dstFilter = filter.dstFilter;
+
+  console.log('compfilter', dstFilter)
+
+  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
+
+  useCallback(() => {
+    setRefetch(refetch);
+  }, [refetch]);
+
+  if (loading)
+    return <LoadingAntd/>
+  if (error)
+    return <h3>Error (:</h3>
+  // let data = null;
+  // data = TEST_DATA["data"];
 
   let getBarClass = (barClass) => {
     console.log(barClass)
@@ -107,7 +153,6 @@ export function GanttChartAdvertisingSides(props) {
     ndate.setTime(date)
     return ndate;
   }
-  data = TEST_DATA["data"];
 
   let scheduleChartItems = [];
   if (data !== null) {
@@ -132,13 +177,16 @@ export function GanttChartAdvertisingSides(props) {
         })
     }
   }
+  console.log('len', scheduleChartItems.length)
 
   return (
     <>
       {/*<Tab cond={'sold'}/>*/}
       <ScheduleChartView1 items={scheduleChartItems}
                           settings={ganttSettings(year, month)}
-                          columns={ganttColumns}/>
+                          columns={ganttColumns}
+                          setGanttUpdater={setGanttUpdater}
+      />
     </>
   );
 };
