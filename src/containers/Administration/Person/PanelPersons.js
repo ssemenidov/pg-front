@@ -5,7 +5,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import Table from '../../../components/Tablea';
 
 import { StyledPen, TrashSpacer, PenSpacer, StyledTrash } from '../components/Styled'
-import '../Style/style.css'
+import '../../../components/SlidingBottomPanel/style.scss'
 import { GqlDatasource } from '../components/gql_datasource';
 
 const sorterObj = { compare: (a, b) => a.localeCompare(b), multiple: 1 }

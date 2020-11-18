@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input } from 'antd';
 
 import {
-  adaptiveRow, SliderCol, SliderFormItem, SliderGrid, StyledButtonSlider, StyledOption, StyledSelect
-} from '../components/SlidingBottomPanel/PanelComponents';
-import { CRUDForm } from '../components/SlidingBottomPanel/CRUDForm';
+  adaptiveRow, SliderCol, SliderFormItem, StyledButtonSlider, StyledOption, StyledSelect
+} from '../../../components/SlidingBottomPanel/PanelComponents';
+import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 
 import { RowMargin1st } from '../components/Styled';
 
@@ -13,7 +13,6 @@ export function PersonCRUDForm({actionText="Добавить", ...props}) {
   const requiredProps = { rules: [ { required: true } ] };
   return (
     <CRUDForm {...props}>
-      <SliderGrid fluid>
         <RowMargin1st {...adaptiveRow}>
           <SliderCol>
             <SliderFormItem label="Ф.И.О." {...requiredProps} name='name'>
@@ -53,7 +52,6 @@ export function PersonCRUDForm({actionText="Добавить", ...props}) {
             </StyledButtonSlider>
           </SliderCol>
         </RowMargin1st>
-      </SliderGrid>
     </CRUDForm>
   );
 }

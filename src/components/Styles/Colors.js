@@ -1,5 +1,6 @@
 export const colorAccent = '#2C5DE5';
 export const colorAccent2 = '#008556';
+export const colorOrangeAccent = '#FF5800';
 export const colorBackgroundLightBlue = '#E9EDF7';
 export const colorTextWhite = '#FFFFFF';
 export const colorWhite = '#FFFFFF';

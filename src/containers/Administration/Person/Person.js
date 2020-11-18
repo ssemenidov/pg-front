@@ -5,10 +5,10 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import PanelPerson from './PanelPersons'
 import { adminRoutesMap } from '../Main/adminRoutes';
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout'
-import { SlidingBottomPanel } from '../components/SlidingBottomPanel/SlidingBottomPanel'
+import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel'
 import { PersonCRUDForm } from './PersonCRUDForm'
-import { SliderState } from '../components/SlidingBottomPanel/SliderState';
-import '../Style/style.css'
+import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
+import '../../../components/SlidingBottomPanel/style.scss'
 
 
 function AddUserSlider({closeHandler}) {

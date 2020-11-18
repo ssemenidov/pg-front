@@ -5,7 +5,7 @@ import { Grid, Row } from 'react-flexbox-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Radio } from '@material-ui/core';
 
-import { colorAccent, fontFamily, fontSizeInput } from '../Style/Styles';
+import { colorAccent, fontFamily, fontSizeInput } from '../../../components/Styles/Colors';
 
 
 export const TrashSpacer = styled.div`
@@ -41,6 +41,7 @@ export const GridNoPadding = styled(Grid)`
 
 export const RowMargin1st = styled(Row)`
   margin-top: 1rem
+  margin-left
 `;
 
 export const RowMargin2st = styled(Row)`

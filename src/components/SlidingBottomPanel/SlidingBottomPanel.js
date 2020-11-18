@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled, { keyframes } from "styled-components";
 
-import { colorWhite, borderColor, fontSizeTitle, colorTitle } from '../../Style/Styles';
-import '../../Style/style.css';
+import { colorWhite, borderColor, fontSizeTitle, colorTitle } from '../Styles/Colors';
+import './style.scss';
 
 
 const TitleContainerBlock = styled.div`
@@ -74,7 +74,7 @@ const Slider = styled.div`
 `;
 
 
-export function SlidingBottomPanel({title, children, onClose=stubOnClose, classNameSuffix}) {
+export function SlidingBottomPanel({title, children, onClose=stubOnClose, classNameSuffix, sliderClass}) {
   const ref = useRef(null)
   const classNameAnimationOpen = `slider-${classNameSuffix}-op`
   const classNameAnimationClose = `slider-${classNameSuffix}-cl`
@@ -85,7 +85,7 @@ export function SlidingBottomPanel({title, children, onClose=stubOnClose, classN
     setTimeout(onClose, 300);
   });
 
-  return <Slider ref={ref} className={classNameAnimationOpen}>
+  return <Slider ref={ref} className={`${classNameAnimationOpen} ${sliderClass || ""}`}>
     <TitleContainerBlock>
       <TitleText>{title}</TitleText>
       <CloseButton onClick={onCloseHandler}/>

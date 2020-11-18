@@ -246,10 +246,6 @@ const Tab = (props) => {
       </Space>
   );
 
-  return (
-    <Popover content={content} defaultVisible={true}>
-      {props.children}
-    </Popover>
-  )
+  return content;
 };
 export default Tab;

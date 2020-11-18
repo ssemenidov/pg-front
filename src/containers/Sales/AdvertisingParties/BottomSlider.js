@@ -1,173 +1,149 @@
+import React from 'react';
+import styled from 'styled-components';
 import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
 import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
 import date from '../../../img/left-bar/filter/date.svg';
 import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
-import React from 'react';
+import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
+import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
+import { SliderCellColRaw } from '../../../components/SlidingBottomPanel/PanelComponents';
+import { RowMargin1st } from '../../Administration/components/Styled';
 
+
+
+const InputIconSpanSyled = styled.span`
+    position: absolute;
+    transform: translate(55% ,30%);
+    z-index: 99;
+`;
 
 const InputIcon = ({ img, alt }) => {
   return (
-    <span
-      style={{
-        position: 'absolute',
-        transform: 'translate(55% ,30%)',
-        zIndex: '99',
-      }}>
-        <img src={img} alt={alt} />
-      </span>
+    <InputIconSpanSyled>
+      <img src={img} alt={alt} />
+    </InputIconSpanSyled>
   );
 };
 
-const CardTitle = () => {
-  return (
-    <>
-        <span
-          style={{
-            color: '#003360',
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            marginRight: '40px',
-          }}>
-          Быстрая бронь
-        </span>
-      <span
-        style={{
-          color: '#D42D11',
-          fontWeight: 'bold',
-        }}>
-          (24 шт.)
-        </span>
-    </>
-  );
-};
-
-
-const DateStateText = () => {
-  return (
-    <p
-      style={{
-        color: '#2C5DE5',
-        fontSize: '14px',
-        marginBottom: 0,
-        fontWeight: 'bold',
-      }}>
-      Ок
-    </p>
-  );
-};
+// TODO: Сделать подстановку количества броней крансым
+// {/*<span*/}
+// {/*  style={{*/}
+// {/*    color: '#D42D11',*/}
+// {/*    fontWeight: 'bold',*/}
+// {/*  }}>*/}
+// {/*    (24 шт.)*/}
+// {/*  </span>*/}
 
 const checkBoxOptions = [
   { label: 'Брендирование', value: 'branding' },
   { label: 'Дизайн', value: 'design' },
 ];
 
+// Ок
+const DateStateText = styled.p`
+    color: #2C5DE5;
+    fontSize: 14px;
+    fontWeight: bold;
+    margin: 0;
+`;
 
-export const BottomSlider = ({showCard, setShowCard, onFinish, form}) => (!showCard ? <></> : (
-  <div
-    style={{
-      position: 'absolute',
-      right: 0,
-      width: '99%',
-      bottom: 0,
-    }}>
-    <Card
-      style={{
-        boxShadow:
-          '0px -4px 6px rgba(0, 0, 0, 0.0973558), 0px -10px 14px rgba(0, 0, 0, 0.12), 0px -25px 27px rgba(0, 0, 0, 0.15), 0px -85px 80px rgba(0, 0, 0, 0.05)',
-        borderRadius: '8px 8px 0px 0px',
-        borderBottom: 0,
-      }}
-      title={<CardTitle />}
-      extra={
-        <CloseIcon
-          style={{
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            setShowCard(!showCard);
-          }}
-        />
-      }>
-      <Form
-        form={form}
-        style={{
-          display: 'flex',
-          gap: '40px',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        onFinish={onFinish}>
-        <Form.Item
-          name="startDate"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '300px',
-            width: '100%',
-          }}>
-          <p className="formItem-title">Дата начала</p>
-          <InputIcon img={date} alt="date icon" />
-          <DatePicker
-            className="date-picker"
-            suffixIcon={<DateStateText />}
-            size={'large'}
-            format="YYYY-MM-DD"
-            style={{ width: '100%' }}
-          />
-        </Form.Item>
+const ReservationSilderFormItem = styled(Form.Item)`
+    display: flex;
+    flexDirection: column;
+    maxWidth: 300px;
+    width: 100%;
+`;
 
-        <Form.Item
-          name="endDate"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '300px',
-            width: '100%',
-          }}>
-          <p className="formItem-title">Дата оканчания</p>
-          <InputIcon img={date} alt="date icon" />
-          <DatePicker
-            className="date-picker"
-            suffixIcon={<DateStateText />}
-            size={'large'}
-            format="YYYY-MM-DD"
-            style={{ width: '100%' }}
-          />
-        </Form.Item>
+const ReservationSilderCheckboxesFormItem = styled(Form.Item)`
+    display: flex;
+    flex-direction: column;
+    max-width: 220px;
+    width: 100%;
+    min-width: 220px;
+`;
 
-        <Form.Item
-          name="projectName"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-          <p className="formItem-title">Проект</p>
-          <InputIcon img={inputIcon} alt="input icon" />
-          <Input size="large" placeholder="Название проекта" className="projectName-input" />
-        </Form.Item>
+const ReservationSliderSubmitButton = styled(SubmitButton)`
+    margin-top: 2.3rem;
+    margin-left: 2rem;
+    fontWeight: bold;
+`;
 
-        <Form.Item
-          name="additional"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-          <p className="formItem-title">Дополнительно</p>
-          <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
-        </Form.Item>
-        {/* <BtnGroup> */}
-        <SubmitButton
-          style={{
-            padding: '13px 25px',
-            fontWeight: 'bold',
-          }}
-          htmlType="submit"
-          onClick={() => {}}>
-          Забронировать
-        </SubmitButton>
-        {/* </BtnGroup> */}
-      </Form>
-    </Card>
-  </div>
-));
+export function ReservationSlider({sliderState}) {
+  // const addItem = (values) => {
+  //   let parent = sliderState.caller.parent;
+  //   let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
+  //   if (parent) {
+  //     sliderState.caller.src.apiAdd({
+  //       id: parent.selected.key,
+  //       title: values.name
+  //     }, cb)
+  //   }
+  //   else {
+  //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
+  //   }
+  // };
+  let initialValues = {}
+  let colSteps = {xl: 2, lg: 4, md: 6};
+
+  return (
+    <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
+                        onClose={sliderState.closeAdd}
+                        classNameSuffix={'loca'}
+                        sliderClass="advertising-part-slider"
+    >
+      <CRUDForm initialValues={initialValues}>
+        <RowMargin1st>
+          <SliderCellColRaw {...{xxl: 10}}>
+            <ReservationSilderFormItem name="startDate">
+              <p className="formItem-title">Дата начала</p>
+              <InputIcon img={date} alt="date icon" />
+              <DatePicker
+                className="date-picker"
+                suffixIcon={<DateStateText>Ок</DateStateText>}
+                size={'large'}
+                format="YYYY-MM-DD"
+                style={{ width: '100%' }}
+              />
+            </ReservationSilderFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{xxl: 3}}>
+            <ReservationSilderFormItem name="endDate">
+              <p className="formItem-title">Дата оканчания</p>
+              <InputIcon img={date} alt="date icon" />
+              <DatePicker
+                className="date-picker"
+                suffixIcon={<DateStateText>Ок</DateStateText>}
+                size={'large'}
+                format="YYYY-MM-DD"
+                style={{ width: '100%' }}
+              />
+            </ReservationSilderFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{xxl: 3}}>
+            <ReservationSilderFormItem name="projectName">
+              <p className="formItem-title">Проект</p>
+              <InputIcon img={inputIcon} alt="input icon" />
+              <Input size="large" placeholder="Название проекта" className="projectName-input" />
+            </ReservationSilderFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{xxl: 2}}>
+            <ReservationSilderCheckboxesFormItem name="additional">
+              <p className="formItem-title">Дополнительно</p>
+              <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
+            </ReservationSilderCheckboxesFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{xxl: 2}}>
+            {/* <BtnGroup> */}
+            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>
+              Забронировать
+            </ReservationSliderSubmitButton>
+          </SliderCellColRaw>
+        </RowMargin1st>
+      </CRUDForm>
+    </SlidingBottomPanel>
+  )
+}
+
+
+

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
-import { ScheduleChartView, ganttColumns, ganttSettings } from './StyledGanttChart'
+import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart'
 import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
+import { TEST_DATA } from './testData';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
     query SearchConstructionSideWithReservation {
@@ -32,6 +34,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
             reservation {
               edges {
                 node {
+                  id
                   dateFrom
                   dateTo
                   reservationType {
@@ -63,11 +66,13 @@ export function GanttChartAdvertisingSides(props) {
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
   let filter = {};
 
-  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: filter });
-  if (loading)
-    return <LoadingAntd/>
-  if (error)
-    return <h3>Error (:</h3>
+  // const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: filter });
+  // if (loading)
+  //   return <LoadingAntd/>
+  // if (error)
+  //   return <h3>Error (:</h3>
+  let data = null;
+
   let getBarClass = (barClass) => {
     console.log(barClass)
     if (barClass == 'Свободно')
@@ -84,7 +89,6 @@ export function GanttChartAdvertisingSides(props) {
     return 'gantt-bar-status-reserved';
   }
   let getBarTitle = (barClass) => {
-    console.log(barClass)
     if (barClass == 'Свободно')
       return 'забронировано';
     if (barClass == 'Забронировано')
@@ -99,45 +103,44 @@ export function GanttChartAdvertisingSides(props) {
   }
   let mapDate = (item) => {
     let date = Date.parse(item);
-    // -          start: new Date(year, month, 2, 8, 0, 0),
-    // -          finish: new Date(year, month, 5, 16, 0, 0),
-    let year = parseInt(date.toLocaleString('ru-RU', {year: 'numeric'}));
-    let month = parseInt(date.toLocaleString('ru-RU', {month: 'numeric'}));
     let ndate = new Date();
     ndate.setTime(date)
-    let retDate = new Date(ndate.getFullYear(), ndate.getMonth(), parseInt(ndate.toLocaleString('ru-RU', {day: 'numeric'})));
-    console.log(retDate);
-    return retDate;
+    return ndate;
   }
+  data = TEST_DATA["data"];
 
   let scheduleChartItems = [];
-  for (let item of data.searchConstructionSide.edges) {
-    if (item.node.advertisingSide)
-      scheduleChartItems.push({
-        content: item.id,
-        start: new Date(2020, 1, 1, 0, 0,0),
-        code: item.node.id,
-        format: item.node.advertisingSide.side.format.title,
-        city: item.node.construction.location.postcode.district.city.title,
-        ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
-          (reservation) => ({
-            content: reservation.node.id,
-            start: mapDate(reservation.node.dateFrom),
-            finish: mapDate(reservation.node.dateTo),
-            barClass: getBarClass(reservation.node.reservationType.title),
-            textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
-          })
-        ),
-      })
+  if (data !== null) {
+    for (let item of data.searchConstructionSide.edges) {
+      if (item.node.advertisingSide)
+        scheduleChartItems.push({
+          content: item.id,
+          start: new Date(2020, 1, 1, 0, 0, 0),
+          code: item.node.id,
+          format: item.node.advertisingSide.side.format.title,
+          city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
+          // isSelected - свойство сообщающее, выбран элемент или нет
+          ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
+            (reservation) => ({
+              content: reservation.node.id,
+              start: mapDate(reservation.node.dateFrom),
+              finish: mapDate(reservation.node.dateTo),
+              barClass: getBarClass(reservation.node.reservationType.title),
+              textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+            })
+          ),
+        })
+    }
   }
 
   return (
     <>
-      {/*<Tab cond={true}/>*/}
-      <ScheduleChartView items={scheduleChartItems}
-                         settings={ganttSettings(year, month)}
-                         columns={ganttColumns}/>
+      {/*<Tab cond={'sold'}/>*/}
+      <ScheduleChartView1 items={scheduleChartItems}
+                          settings={ganttSettings(year, month)}
+                          columns={ganttColumns}/>
     </>
   );
 };
+
 

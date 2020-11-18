@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Button, Form, Select } from 'antd';
 import styled from 'styled-components';
-import { Col, Grid } from 'react-flexbox-grid';
+import { Col, Grid } from 'antd';
 
-import { InputTitle } from '../../../../components/Styles/StyledBlocks';
-import { colorAccent, fontFamily, fontSizeInput, fontWeightInput } from '../../Style/Styles';
+import { InputTitle } from '../Styles/StyledBlocks';
+import { colorAccent, fontFamily, fontSizeInput, fontWeightInput } from '../Styles/Colors';
 
 const { Option } = Select;
 
-export const SliderGrid = styled(Grid)`
-  padding: .7rem 2rem .7rem 1rem;
-`
+// export const SliderGrid = styled(Grid)`
+//   padding: .7rem 2rem .7rem 1rem;
+// `
 
 export const SliderCellColRaw = styled(Col)`
   padding-top: .5rem;

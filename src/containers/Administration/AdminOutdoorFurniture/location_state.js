@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { message } from 'antd';
 import { messageStyle } from '../components/Styled';
-import '../Style/style.css'
+import '../../../components/SlidingBottomPanel/style.scss'
 
 function defaultUpdFilter(values, sliderState) {
   return { title: values.name, id: sliderState.editedData.key };

@@ -2,13 +2,12 @@ import React from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
 
-import { CRUDForm } from '../components/SlidingBottomPanel/CRUDForm';
+import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import {
   SliderCellColRaw,
   SliderFormItem,
-  SliderGrid,
   StyledButtonSlider,
-} from '../components/SlidingBottomPanel/PanelComponents';
+} from '../../../components/SlidingBottomPanel/PanelComponents';
 
 import { RowMargin1st } from '../components/Styled';
 
@@ -19,7 +18,6 @@ export function LocationCRUDForm({actionText="Добавить", entityName, ini
   const requiredProps = { rules: [ { required: true } ] };
   return (
     <CRUDForm initialValues={initialValues} {...props}>
-      <SliderGrid fluid>
         <RowMargin1st {...{xl: 7, lg: 9, md: 12}}>
           <SliderCellColRaw {...{xl: 4, lg: 5, md: 8}}>
             <SliderFormItem label={`Название ${entityName}`} {...requiredProps} name='name'>
@@ -32,7 +30,6 @@ export function LocationCRUDForm({actionText="Добавить", entityName, ini
             </StyledButtonSliderW10rem>
           </SliderCellColRaw>
         </RowMargin1st>
-      </SliderGrid>
     </CRUDForm>
   );
 }

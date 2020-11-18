@@ -1,17 +1,17 @@
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { adminRoutesMap } from '../Main/adminRoutes';
 import React from 'react';
-import { SlidingBottomPanel } from '../components/SlidingBottomPanel/SlidingBottomPanel';
+import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { PersonCRUDForm } from '../Person/PersonCRUDForm';
 import { PenSpacer, StyledPen, StyledTrash, TrashSpacer } from '../components/Styled';
 import styled from 'styled-components';
 import Table from '../../../components/Tablea';
 
 import { srcCrews } from './AdminCrewsDatasource';
-import { SliderState } from '../components/SlidingBottomPanel/SliderState';
+import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { CrewsCRUDForm } from './AdminCrewsCRUDForm';
 
-import '../Style/style.css'
+import '../../../components/SlidingBottomPanel/style.scss'
 
 
 const sorterObj = { compare: (a, b) => a.localeCompare(b), multiple: 1 }

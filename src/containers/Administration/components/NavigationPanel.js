@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {adminRoutesArr} from '../Main/adminRoutes';
-import {colorAccent, colorBackgroundLightBlue, borderRadius, colorTextWhite, borderRadiusInternal} from '../Style/Styles'
-import {colorTextBlack} from '../Style/Styles'
+import {colorAccent, colorBackgroundLightBlue, borderRadius, colorTextWhite, borderRadiusInternal} from '../../../components/Styles/Colors'
+import {colorTextBlack} from '../../../components/Styles/Colors'
 import { Link } from 'react-router-dom';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { STab, STabList } from '../../../components/Styles/TabPanelsStyles';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SlidingBottomPanel } from '../components/SlidingBottomPanel/SlidingBottomPanel';
+import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { LocationCRUDForm } from './LocationCRUDForm';
 
 export function AddSlider({sliderState}) {

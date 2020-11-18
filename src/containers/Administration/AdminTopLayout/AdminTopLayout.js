@@ -4,7 +4,7 @@ import { HeaderWrapper, StyledButton } from '../../../components/Styles/DesignLi
 import { HeaderTitle } from '../components/HeaderTitle';
 import { adminTitle } from '../Main/adminRoutes';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { colorAccent } from '../Style/Styles';
+import { colorAccent } from '../../../components/Styles/Colors';
 import { NavigationPanel } from '../components/NavigationPanel';
 import React from 'react';
 
