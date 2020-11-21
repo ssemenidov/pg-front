@@ -99,7 +99,6 @@ const FilterBar = () => {
   let format = queriedFormat.data;
   let filteredFormats = Array.from(new Set(
     format && format.searchFormat && format.searchFormat.edges && format.searchFormat.edges.map(item => item.node.title)))
-  console.log(1111, families)
 
   // if (!city || !district || !post){
   //   return <span></span>;
@@ -116,7 +115,7 @@ const FilterBar = () => {
               <StyledSelect
                 placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
-                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                     <img src={cityIcon} />
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -127,7 +126,7 @@ const FilterBar = () => {
             <Form.Item name="district">
               <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
               {district && district.searchDistrict.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                     <img src={districtIcon} />
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
@@ -139,7 +138,7 @@ const FilterBar = () => {
                 {post && post.searchPostcode.edges.filter((item) => {
                   return item.node.title && item.node.title.length > 0
                 }).map((item) =>
-                  <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                  <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                     <img src={postIcon} />
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
