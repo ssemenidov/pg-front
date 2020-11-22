@@ -67,7 +67,11 @@ class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
-    columns: this.props.columns,
+    columns: this.props.columns.filter((col, index) => {
+      return (
+        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
+      )
+    }),
   };
   components = {
     header: {
@@ -88,7 +92,7 @@ class Tablea extends React.Component {
 
   render() {
     const { onRow } = this.props;
-    const columns = this.props.columns.map((col, index) => ({
+    const columns = this.state.columns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -96,26 +100,40 @@ class Tablea extends React.Component {
       }),
     }));
 
+    const changeColumns = (dataIndex) => {
+      let newCols = this.props.columns.map(item => {
+        if(item.dataIndex === dataIndex) {
+          item.isShow = !item.isShow
+        } 
+        return item;
+      })
+      this.setState({
+        columns: newCols.filter((col, index) => {
+          return (
+            index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
+          )
+        })
+      });
+    }
+
     const handleMenuClick = () => {};
+    console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
     if (this.props.enableChooseQuantityColumn) {
       settingmenu = (
         <Menu onClick={handleMenuClick}>
-          {this.props.columnsForPopup
-            .filter(
-              (col, index) =>
-                index !==
-                this.props.columnsForPopup.indexOf(this.props.columnsForPopup[this.props.columnsForPopup.length - 1]),
-            )
-            .map((col) => (
-              <Menu.Item key={col.dataIndex}>
-                <Checkbox
-                  checked={col.isShowed}
-                  // onClick={() => this.props.changeColumns(col.dataIndex)}
-                >
-                  {col.title}
-                </Checkbox>
-              </Menu.Item>
-            ))}
+          {this.props.columns
+            .map((col) => {
+                  console.log(col)
+                  return (
+                  <Menu.Item key={col.dataIndex}>
+                    <Checkbox
+                      checked={col.isShow}
+                      onClick={() => changeColumns(col.dataIndex)}
+                    >
+                      {col.title}
+                    </Checkbox>
+                  </Menu.Item>
+                )})}
         </Menu>
       );
     }
@@ -270,13 +288,13 @@ class Tablea extends React.Component {
 Tablea.propTypes = {
   enableChoosePeriod: PropTypes.bool,
   enableChooseQuantityColumn: PropTypes.bool,
-  columnsForPopup: PropTypes.array,
+  columns: PropTypes.array,
   onRow: PropTypes.func,
 };
 Tablea.defaultProps = {
   enableChoosePeriod: true,
   enableChooseQuantityColumn: true,
-  columnsForPopup: [],
+  columns: [],
   onRow: () => undefined,
 };
 
