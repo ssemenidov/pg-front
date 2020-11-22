@@ -15,6 +15,8 @@ import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
+import { ReservationSlider } from './BottomSlider'
+import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 
 // ICONS
 import dollarIcon from '../../../img/dollar.svg';
@@ -25,6 +27,7 @@ import paperIcon from '../../../img/paper.svg';
 const Application = () => {
   const history = useHistory();
   const { appId } = useParams();
+  const sliderState = new SliderState({name: "", key: ""})
 
   const APPLICATION_QUERY = gql`
     query applicationQuery($id: ID) {
@@ -85,6 +88,51 @@ const Application = () => {
 
   let data2 = {};
 
+  console.log('[data]', data)
+
+  const sliderCountData = {
+    "info": [
+      {
+        "title": "Номер договора",
+        "data": "№3453456"
+      },
+      {
+        "title": "Номер приложения",
+        "data": "№3453456"
+      },
+      {
+        "title": "Реквизиты",
+        "data": "БИН: 435438345, БИК: 8734е53458324"
+      },
+      {
+        "title": "Дата договора",
+        "data": "20.04.2020"
+      }
+    ],
+    "count": [
+      {
+        "title": "Налог",
+        "data": 173953
+      },
+      {
+        "title": "Аренда со скидкой",
+        "data": 965455
+      },
+      {
+        "title": "Доп. расходы",
+        "data": 23345
+      },
+      {
+        "title": "Монтаж",
+        "data": 39472
+      },
+      {
+        "title": "Печать",
+        "data": 74063
+      }
+    ]
+  }
+
   if (data) {
     data2 = {
       code: data.searchAttachment.edges[0].node.code,
@@ -142,10 +190,10 @@ const Application = () => {
       <div style={{ display: 'flex', height: '100%' }}>
         <LeftBar className="left-bar">
           <SearchBtn />
-          <CreateBtn text="Добавить бронь" />
-          <PackageBtn text="Добавить пакет" />
-          <EditBtn text="Перейти в монтажи" />
-          <PaperBtn text="Сводка проекта" />
+          <CreateBtn text="Создать новое" />
+          <PackageBtn text="Изменить текущее" />
+          {/* <EditBtn text="Изменить текущее" /> */}
+          {/* <PaperBtn text="Сводка проекта" /> */}
           <BoxBtn text="Архив дизайнов" />
         </LeftBar>
         <div
@@ -163,9 +211,7 @@ const Application = () => {
             <ButtonGroup>
               <StyledButton
                 backgroundColor="#008556"
-                onClick={() => {
-                  history.push('/sales/invoice');
-                }}>
+                onClick={() => { sliderState.setAddShowed(true); }}>
                 Выставить счет
               </StyledButton>
               <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
@@ -249,6 +295,7 @@ const Application = () => {
 
         `}
         </style>
+        { sliderState.addShowed && <ReservationSlider sliderState={sliderState} dataCount={sliderCountData} />}
       </div>
     )
   );

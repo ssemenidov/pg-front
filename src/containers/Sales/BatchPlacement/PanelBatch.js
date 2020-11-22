@@ -1,296 +1,224 @@
-import React from 'react';
-import Table from '../../../components/Tablea';
-import { Popover } from 'antd';
-import { useHistory } from 'react-router';
-import freeIcon from '../../../img/sales/free.svg';
-import bookedIcon from '../../../img/sales/booked.svg';
-import soldIcon from '../../../img/sales/sold.svg';
-import Tab from './Tab';
-const PanelDesign = (props) => {
-  const columns = [
-    {
-      title: 'Период',
-      dataIndex: 'period',
-      width: 150,
-    },
-    {
-      title: 'A1',
-      dataIndex: 'A1',
-      width: 150,
-    },
-    {
-      title: 'A2',
-      dataIndex: 'A2',
-      width: 150,
-    },
-    {
-      title: 'A3',
-      dataIndex: 'A3',
-      width: 150,
-    },
-    {
-      title: 'A4',
-      dataIndex: 'A4',
-      width: 150,
-    },
-    {
-      title: 'B1',
-      dataIndex: 'B1',
-      width: 150,
-    },
-    {
-      title: 'B2',
-      dataIndex: 'B2',
-      width: 150,
-    },
-    {
-      title: 'B3',
-      dataIndex: 'B3',
-      width: 150,
-    },
-    {
-      title: 'B4',
-      dataIndex: 'B4',
-      width: 150,
-    },
-    {
-      title: 'D1',
-      dataIndex: 'D1',
-      width: 150,
-    },
-    {
-      title: 'D2',
-      dataIndex: 'D2',
-      width: 150,
-    },
-  ];
+import React, { useState, useRef, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 
-  const data = [
-    {
-      period: '16 - 01 марта',
-      A1: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      A2: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A3: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A4: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      B1: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B2: (
-        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Jacobs
-          </strong>
-          <img src={bookedIcon} />
-        </Popover>
-      ),
-      B3: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B4: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-    },
-    {
-      period: '02 - 15 марта',
-      A1: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A2: (
-        <Popover content={<Tab history={useHistory()} title={<><span>Проект Coca-cola</span><br/><span>Проект Jacobs</span></>}></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <strong
-            style={{
-              color: 'rgb(63, 63, 209)',
-              position: 'absolute',
-              fontSize: '12px',
-              margin: '20px 10px',
-              marginTop: '40px',
-            }}>
-            Jacobs
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      A3: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A4: (
-        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Jacobs
-          </strong>
-          <img src={bookedIcon} />
-        </Popover>
-      ),
-      B1: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B2: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B3: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      B4: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-    },
-    {
-      period: '16 - 30 марта',
-      A1: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      A2: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A3: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      A4: (
-        <>
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#78A90D' }}>Свободно</p>
-          <img src={freeIcon} />
-        </>
-      ),
-      B1: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B2: (
-        <Popover content={<Tab history={useHistory()} title="Проект Jacobs"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#117BD4' }}>Забранировано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Jacobs
-          </strong>
-          <img src={bookedIcon} />
-        </Popover>
-      ),
-      B3: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-      B4: (
-        <Popover content={<Tab history={useHistory()} title="Проект Coca-cola"></Tab>} placement="bottom">
-          <p style={{ fontSize: '10px', position: 'absolute', margin: '5px 10px', color: '#D42D11' }}>Продано</p>
-          <strong style={{ color: '#00284C', position: 'absolute', fontSize: '12px', margin: '20px 10px' }}>
-            Coca-Cola
-          </strong>
-          <img src={soldIcon} />
-        </Popover>
-      ),
-    },
-  ];
+import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart';
+import Tab from './Tab';
+import { gql, useQuery } from '@apollo/client';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader';
+import { useMediaQuery } from '@material-ui/core';
+
+const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
+query {
+  searchPackage {
+    edges {
+      node {
+        id
+        title
+        reservationPackages {
+          
+          edges {
+            node {
+              id
+              dateFrom
+              dateTo
+              reservationType {
+                title
+              }
+              project {
+                title
+                salesManager {
+                  id
+                  firstName
+                  lastName
+                }
+                backOfficeManager {
+                  id
+                  firstName
+                  lastName
+                }
+                brand {
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+
+export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
+  /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
+  // Query string syntax: ?theme
+  // Supported themes: Default, Generic-bright, Generic-blue, DlhSoft-gray, Purple-green, Steel-blue, Dark-black, Cyan-green, Blue-navy, Orange-brown, Teal-green, Purple-beige, Gray-blue, Aero.
+  let queryString = window.location.search;
+  let theme = queryString ? queryString.substr(1) : null;
+  // Retrieve and store the control element for reference purposes.
+  let scheduleChartViewElement = document.querySelector('#scheduleChartView');
+  let date = new Date(), year = date.getFullYear(), month = date.getMonth();
+
+  console.log('[filter]', filter)
+  // let dstFilter = {};
+  // if (filter)
+  //   dstFilter = filter.dstFilter;
+
+  // console.log('compfilter', dstFilter)
+
+  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION);
+
+  
+  useCallback(() => {
+    setRefetch(refetch);
+  }, [refetch]);
+
+  console.log('[DATA]', data)
+
+  if (loading)
+    return <LoadingAntd />
+  if (error)
+    return <h3>Error (:</h3>
+  // let data = null;
+
+  let getBarClass = (barClass) => {
+    console.log(barClass)
+    if (barClass == 'Свободно')
+      return 'gantt-bar-status-reserved';
+    if (barClass == 'Забронировано')
+      return 'gantt-bar-status-reserved';
+    if (barClass == 'Утверждено')
+      return 'gantt-bar-status-approved';
+    if (barClass == 'Продано')
+      return 'gantt-bar-status-saled';
+    if (barClass == 'unavailable')
+      return 'gantt-bar-status-unavailable';
+
+    return 'gantt-bar-status-reserved';
+  }
+  let getBarTitle = (barClass) => {
+    if (barClass == 'Свободно')
+      return 'свободно';
+    if (barClass == 'Забронировано')
+      return 'забронировано';
+    if (barClass == 'Утверждено')
+      return 'утверждено';
+    if (barClass == 'Продано')
+      return 'продано';
+    if (barClass == 'unavailable')
+      return 'недоступно';
+    return 'забронировано';
+  }
+  let mapDate = (item) => {
+    let date = Date.parse(item);
+    let ndate = new Date();
+    ndate.setTime(date)
+    return ndate;
+  }
+
+  let scheduleChartItems = [];
+  if (data !== null) {
+    for (let item of data.searchPackage.edges) {
+      // console.log(item);
+      if (item.node.reservationPackages) {
+        scheduleChartItems.push({
+          content: item.node.id,
+          start: new Date(2020, 1, 1, 0, 0, 0),
+          code: item.node.title,
+          // isSelected - свойство сообщающее, выбран элемент или нет
+          ganttChartItems: item.node.reservationPackages && item.node.reservationPackages.edges.map(
+            (reservation) => {
+              return ({
+                content: reservation.node.id,
+                start: mapDate(reservation.node.dateFrom),
+                finish: mapDate(reservation.node.dateTo),
+                barClass: getBarClass(reservation.node.reservationType.title),
+                textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+                salesManager_Id: reservation.node.project.salesManager.id,
+                backOfficeManager_Id: reservation.node.project.backOfficeManager.id,
+                brandTitle: reservation.node.project.brand.title,
+                package_Title: item.node.title
+              })
+            })
+        })
+      }
+    }
+  }
+
+  
+
+
+  // let filtredArr = scheduleChartItemsFiltred;
+  if (filter) {
+    for (let filterItem in filter) {
+      // console.log('1', filter[filterItem])
+
+      if (filter[filterItem]) {
+        if(filterItem == "date") { 
+          for(let a = 0; a < scheduleChartItems.length; a++) {
+            for(let i = 0; i < scheduleChartItems[a].ganttChartItems.length; i++) {
+              let nDt = new Date(scheduleChartItems[a].ganttChartItems[i].start)
+              let sDt = new Date([filterItem][0])
+              console.log(sDt, nDt)
+              // ident = filter[filterItem] == item.ganttChartItems[i].salesManager_Id ? ident : ident - 1;
+              // if(filter[filterItem] !== scheduleChartItems[a].ganttChartItems[i][`${filterItem}`]) {
+              //   scheduleChartItems[a].ganttChartItems.splice(i, 1);
+              //   i--;
+              // }
+            }
+          }
+        } else {
+          for(let a = 0; a < scheduleChartItems.length; a++) {
+            for(let i = 0; i < scheduleChartItems[a].ganttChartItems.length; i++) {
+              console.log(filter[filterItem], scheduleChartItems[a].ganttChartItems[i][`${filterItem}`])
+              // ident = filter[filterItem] == item.ganttChartItems[i].salesManager_Id ? ident : ident - 1;
+              if(filter[filterItem] !== scheduleChartItems[a].ganttChartItems[i][`${filterItem}`]) {
+                scheduleChartItems[a].ganttChartItems.splice(i, 1);
+                i--;
+              }
+            }
+          }
+        }
+        
+        // for (let q = 0; q < scheduleChartItemsFiltred.length; q++) {
+        //   for (let w = 0; w < scheduleChartItemsFiltred[q].ganttChartItems.length; w++) {
+        //     scheduleChartItemsFiltred[q].ganttChartItems[w][`${filterItem}`]
+        //   }
+        // }
+
+        // filtredArr = scheduleChartItemsFiltred.filter((item, index) => {
+        //   let ident = item.ganttChartItems.length;
+        //   for(let i = 0; i < item.ganttChartItems.length; i++) {
+        //     console.log(filter[filterItem], item.ganttChartItems[i].salesManager_Id)
+        //     ident = filter[filterItem] == item.ganttChartItems[i].salesManager_Id ? ident : ident - 1;
+        //     if(filter[filterItem] !== item.ganttChartItems[i].salesManager_Id) {
+        //       item.ganttChartItems.splice(i, 1);
+        //       i--;
+        //     }
+        //   }
+        //   if(ident != 0) {
+        //     return item
+        //   }
+        // })
+      }
+    }
+  }
+  
+  let scheduleChartItemsFiltred = scheduleChartItems.filter(item => item.ganttChartItems.length > 0);
+  console.log('[filtredArr]', scheduleChartItems)
+  console.log('len', scheduleChartItemsFiltred)
 
   return (
     <>
-      <div className="outdoor-table-bar">
-        <Table style={{ width: '100%' }} columns={columns} data={data} />
-      </div>
-
-      <style>
-        {`.outdoor-table-bar {
-            width: 100%;
-            margin-left:auto;
-          }
-         `}
-      </style>
+      {/*<Tab cond={'sold'}/>*/}
+      <ScheduleChartView1 items={scheduleChartItemsFiltred}
+        settings={ganttSettings(year, month)}
+        columns={ganttColumns}
+        setGanttUpdater={setGanttUpdater}
+      />
     </>
   );
 };
 
-export default PanelDesign;
+

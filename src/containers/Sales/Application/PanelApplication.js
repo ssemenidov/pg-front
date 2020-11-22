@@ -3,60 +3,118 @@ import Table from '../../../components/Tablea';
 
 const PanelDesign = ({ tableData }) => {
   console.log(tableData)
-  const columns = [
+  const [columns, setColumns] = useState([
     {
       title: 'Город',
       dataIndex: 'city',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Адрес',
       dataIndex: 'address',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Формат',
       dataIndex: 'format',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Период',
       dataIndex: 'period',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
 
     {
       title: 'Аренда',
       dataIndex: 'renta',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
 
     {
       title: 'Печать',
       dataIndex: 'print',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Монтаж',
       dataIndex: 'install',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Доп Расходы',
       dataIndex: 'addexpense',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
     {
       title: 'Общая Сумма',
       dataIndex: 'amount',
       width: 100,
+      sorter: {
+        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+        multiple: 1,
+      },
+      isShow: true
     },
-  ];
+  ])
+  
+
+  const changeColumns = (dataIndex) => {
+    let newCols = columns.map(item => {
+      if(item.dataIndex === dataIndex) {
+        item.isShow = !item.isShow
+      } 
+      return item;
+    })
+    setColumns(newCols);
+  }
+
+  console.log('[tableData]', tableData)
 
   return (
     <>
       <div className="outdoor-table-bar">
-        <Table title="Адресная программа" columns={columns} data={tableData} select={false} />
+        <Table title="Адресная программа" changeColumns={changeColumns} columns={columns} data={tableData} select={false} />
       </div>
 
       <style>

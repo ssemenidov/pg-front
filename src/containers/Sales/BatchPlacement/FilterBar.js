@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { batchContext } from './BatchPlacement';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import {
@@ -14,6 +14,9 @@ import anchorIcon from '../../../img/input/anchor.svg';
 import cityIcon from '../../../img/input/city.svg';
 import districtIcon from '../../../img/input/district.svg';
 import postIcon from '../../../img/input/post.svg';
+
+const { RangePicker } = DatePicker;
+
 const CITY_T = gql`
     {
       searchCity {
@@ -38,7 +41,51 @@ const DISTRICT_T = gql`
   }
 }
 `;
-  const FilterBar = () => {
+
+const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
+query {
+  searchPackage {
+    edges {
+      node {
+        title
+        reservationPackages {
+          edges {
+            node {
+              id
+              dateFrom
+              dateTo
+              reservationType {
+                title
+              }
+              project {
+                title
+                salesManager {
+                  id
+                  firstName
+                  lastName
+                }
+                backOfficeManager {
+                  id
+                  firstName
+                  lastName
+                }
+                brand {
+                  title
+                  
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+
+
+  const FilterBar = ({setRefetch}) => {
   const [form] = Form.useForm();
   const [filter, setFilter] = useContext(batchContext);
   const onFinish = (values) => {
@@ -52,6 +99,40 @@ const DISTRICT_T = gql`
   };
   const city = useQuery(CITY_T).data;
   const district = useQuery(DISTRICT_T).data;
+  // const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION);
+
+  // useCallback(() => {
+  //   setRefetch(refetch);
+  // }, [refetch]);
+
+  // console.log('[packagesObj]', data)
+  // const dataArr = data ? data.searchPackage.edges.map(item => {
+  //   console.log(item)
+    
+  //   return item.node.reservationPackages
+  // }) : null;
+  // console.log('[dataArr]', dataArr)
+
+  // let edgesData; 
+  // if(dataArr) {
+  //   for(let i = 0; i < dataArr.length; i++) {
+  //     for(let j = 0; j < dataArr[i].edges.length; j++) {
+  //       edgesData = edgesData ? [...edgesData, dataArr[i].edges[j].node.project.salesManager.id] : [dataArr[i].edges[j].node.project.salesManager.id];
+  //     }
+  //   }
+  // }
+
+  // console.log('[edgesData]', edgesData)
+
+  // let salesManagers =  edgesData ? edgesData.filter((item, index) => {
+  //   console.log(edgesData.indexOf(item))
+  //   return edgesData.indexOf(item) === 0
+  // }  ) : null;
+
+  // console.log('[salesManagers]', salesManagers)
+
+
+  
   return (
     <FilterMenu
       onKeyDown={(e) => {
@@ -62,37 +143,38 @@ const DISTRICT_T = gql`
       </SearchTitle>
       <Form form={form} onFinish={onFinish}>
         <Collapse expandIconPosition={'right'}>
-          <StyledPanel header="По дате" key="1">
-          <DatePicker placeholder="01/01/2020" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
-
-          </StyledPanel>
+        <StyledPanel header="По дате" key="1">
+        <Form.Item name="date">
+            <RangePicker placeholder={["Бронь С", "По"]} size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
+        </Form.Item>
+        </StyledPanel>
           <StyledPanel header="Статус брони" key="2">
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusFree" >
               <div className="dot-1"></div>
               <span>Свободно</span>
             </Checkbox>
             <br />
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusReserved">
               <div className="dot-2"></div>
               Забронировано
             </Checkbox>
             <br />
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusApproved" >
               <div className="dot-3"></div>
               Утверждено
             </Checkbox>
             <br />
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusSaled" >
               <div className="dot-4"></div>
               Продано
             </Checkbox>
             <br />
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusUnavailable" >
               <div className="dot-4"></div>
               Недоступно
             </Checkbox>
             <br />
-            <Checkbox defaultChecked>
+            <Checkbox defaultChecked name="statusAll" >
               <div className="dot-4"></div>
               Все
             </Checkbox>
@@ -122,28 +204,29 @@ const DISTRICT_T = gql`
           </StyledPanel>
 
           <StyledPanel header="По параметрам" key="4">
-            <Form.Item name="package">
+            <Form.Item name="package_Title">
               <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Пакет</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
+                <StyledSelect.Option value="A1"><img src={anchorIcon} /><span>A1</span></StyledSelect.Option>
+                <StyledSelect.Option value="A2"><img src={anchorIcon} /><span>A2</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
-            <Form.Item name="sale_manager">
+            <Form.Item name="salesManager_Id">
               <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Менеджер по продажам</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
+                <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjY="><img src={anchorIcon} /><span>Евсеев Филат</span></StyledSelect.Option>
+                <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjE="><img src={anchorIcon} /><span>Петр Иванович</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
-            <Form.Item name="back_manager">
-              <StyledSelect placeholder={<><img src={anchorIcon} /> <span>Менеджер бэк-офиса</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
+            <Form.Item name="backofficeManager_Id">
+            <StyledSelect placeholder={<><img src={anchorIcon} /> <span>Менеджер бэк-офиса</span> </>} size={'large'}>
+            
+                <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjI="><img src={anchorIcon} /><span>Кабанов Иоиль</span></StyledSelect.Option>
+                <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjM="><img src={anchorIcon} /><span>Терешин Олег</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
-            <Form.Item name="brand">
+            <Form.Item name="brandTitle">
               <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Бренд</span> </>} size={'large'}>
-                <StyledSelect.Option value="case 1"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
-                <StyledSelect.Option value="case 2"><img src={anchorIcon} /><span> case 1</span></StyledSelect.Option>
+                <StyledSelect.Option value="Jysan Invest"><img src={anchorIcon} /><span>Jysan Invest</span></StyledSelect.Option>
+                <StyledSelect.Option value="Forte Bank"><img src={anchorIcon} /><span>Forte Bank</span></StyledSelect.Option>
               </StyledSelect>
             </Form.Item>
           </StyledPanel>
