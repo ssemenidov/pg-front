@@ -1,4 +1,4 @@
-import React, {useState, useContext, useCallback} from 'react';
+import React, {useState, useContext, useCallback, useMemo, useEffect} from 'react';
 // import { batchContext } from './BatchPlacement';
 import styled from 'styled-components';
 import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
@@ -10,7 +10,8 @@ import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/Slidi
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import useDebounce from '../../Administration/components/useDebounce';
+import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {Row, Col} from 'antd'
 import anchorIcon from '../../../img/input/anchor.svg';
 
@@ -95,6 +96,19 @@ mutation ( $input: CreateReservationPackageInput!) {
 }
 `
 
+const SEARCH_PARTNER = gql`
+  query searchPartner($title_Icontains: String) {
+      searchPartner(title_Icontains: $title_Icontains) {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+`;
+
 export function ReservationSlider({sliderState, dataCount}) {
   // const addItem = (values) => {
   //   let parent = sliderState.caller.parent;
@@ -111,15 +125,45 @@ export function ReservationSlider({sliderState, dataCount}) {
   // };
   
   let colSteps = {xl: 2, lg: 4, md: 6};
+  const [designList, setDesignList] = useState(null);
+  const [printArray, setSetPrintArray] = useState(null);
+
+  const [partnerValue, setPartnerValue] = useState(undefined);
+  const [partnerData, setPartnerData] = useState([]);
+  const [partnerSearchText, setPartnerSearchText] = useState('');
+  const [partnerLoading, setPartnerLoading] = useState(false);
+  const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
+  const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
   // const [filter, setFilter] = useContext(batchContext);
 
+  const handleSearchPartner = (value) => {
+    setPartnerSearchText(value);
+  };
+  const handleChangePartner = (value) => {
+    setPartnerValue(value);
+  };
+
+  useEffect(() => {
+    getPartner({
+      variables: {
+        title_Icontains: debouncedSearchTerm
+      }
+    });
+    setPartnerLoading(loading);
+  }, [debouncedSearchTerm]);
+  useMemo(() => {
+    if(data && data.searchPartner.edges) {
+      setPartnerData(data.searchPartner.edges);
+      setPartnerLoading(loading);
+    }
+  }, [data]);
   
 
   return (
     <SlidingBottomPanel title={`Выстваление счета`}
                         classNameSuffix={'app'}
                         onClose={sliderState.closeAdd}
-                        // sliderClass="advertising-part-slider"
+                        sliderClass="advertising-part-slider"
     >
       <CRUDForm >
         <SliderRow>
@@ -151,8 +195,9 @@ export function ReservationSlider({sliderState, dataCount}) {
                   placeholder={<><img src={anchorIcon} /> <span>Банковский перевод</span> </>} 
                   size={'large'} 
                 >
-                  <StyledSelect.Option value={["VlBhY2thZ2VOb2RlOjE=", "VlByb2plY3ROb2RlOjE="]}><img src={anchorIcon} /><span>Евсеев Филат</span></StyledSelect.Option>
-                  <StyledSelect.Option value={["VlBhb2plY3ROb2RlOjI=", "VlByb2plY3ROb2RlOjI="]}><img src={anchorIcon} /><span>Петр Иванович</span></StyledSelect.Option>
+                  <StyledSelect.Option value={"Наличные"}><span>Наличные</span></StyledSelect.Option>
+                  <StyledSelect.Option value={"Бартер"}><span>Бартер</span></StyledSelect.Option>
+                  <StyledSelect.Option value={"Банковский перевод"}><span>Банковский перевод</span></StyledSelect.Option>
               </StyledSelect>
             </ReservationSilderFormItem>
             
@@ -161,8 +206,27 @@ export function ReservationSlider({sliderState, dataCount}) {
           <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 7}}>
           <ReservationSilderFormItem >
               <p className="formItem-title">На кого выставляется счет</p>
-              <InputIcon img={date} alt="date icon" />
-              <ReservInputText placeholder="ТОО Рекламное агенство" />
+              {/* <InputIcon img={date} alt="date icon" />
+              <ReservInputText placeholder="ТОО Рекламное агенство" /> */}
+              <StyledSelect
+                            showSearch
+                            value={partnerValue}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={handleSearchPartner}
+                            onChange={handleChangePartner}
+                            notFoundContent={null}
+                            loading={partnerLoading}
+                          >
+                            {
+                              partnerData && partnerData.map(({ node }) => (
+                                <StyledSelect.Option key={node.id} value={node.id}>
+                                  { node.title ? node.title : 'Нет названия' }
+                                </StyledSelect.Option>
+                              ))
+                            }
+                          </StyledSelect>
             </ReservationSilderFormItem>
           </SliderCellColRaw>
           <SliderCellColRaw {...{xxl: 9, xl: 9, xs: 7}}>
