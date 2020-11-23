@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
+import { CustomTabBtn, CustomTabList } from './Styles/DesignList/styles';
+
 import plusIcon from '../img/header-bar/plus-icon.svg';
 import attachIcon from '../img/header-bar/attach.svg';
 import minusIcon from '../img/header-bar/minus-icon.svg';
@@ -69,9 +71,10 @@ class Tablea extends React.Component {
     datetype: 'date',
     columns: this.props.columns.filter((col, index) => {
       return (
-        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
+        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
       )
     }),
+    constructionsIdSet: this.props.constructionsIdSet
   };
   components = {
     header: {
@@ -103,14 +106,14 @@ class Tablea extends React.Component {
     const changeColumns = (dataIndex) => {
       let newCols = this.props.columns.map(item => {
         if(item.dataIndex === dataIndex) {
-          item.isShow = !item.isShow
+          item.isShowed = !item.isShowed
         } 
         return item;
       })
       this.setState({
         columns: newCols.filter((col, index) => {
           return (
-            index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
+            index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
           )
         })
       });
@@ -127,7 +130,7 @@ class Tablea extends React.Component {
                   return (
                   <Menu.Item key={col.dataIndex}>
                     <Checkbox
-                      checked={col.isShow}
+                      checked={col.isShowed}
                       onClick={() => changeColumns(col.dataIndex)}
                     >
                       {col.title}
@@ -138,9 +141,11 @@ class Tablea extends React.Component {
       );
     }
 
+    console.log('[this.props.constructionsIdSet]', this.props.constructionsIdSet)
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        this.props.setConstructionsIdSet(selectedRowKeys);
+        console.log(selectedRowKeys)
+        // this.props.setConstructionsIdSet(selectedRowKeys);
       },
       getCheckboxProps: (record) => ({
         disabled: record.name === 'Disabled User',
@@ -178,6 +183,23 @@ class Tablea extends React.Component {
             ) : (
               <div></div>
             )}
+            {
+              this.props.chooseTableBtns && (
+                <CustomTabList>
+                  {
+                    this.props.chooseTableBtns.map((item, index) => (
+                      <CustomTabBtn
+                        className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
+                        onClick={() => {
+                          this.props.setBlock(index);
+                        }}>
+                        {item.title}
+                      </CustomTabBtn>
+                    ))
+                  }
+                </CustomTabList>
+              )
+            }
             <div>
               <Input
                 style={{ marginLeft: '20px' }}

@@ -70,7 +70,7 @@ const App = () => {
           <Route path="/sales/application/:appId/estimate" component={Estimate} exact />
           <Route path="/sales/com_projects" component={Com_projects} />
           <Route path="/sales/invoice" component={Invoice} />
-          <Route path="/sales/summary" component={Summary} />
+          <Route path="/sales/summary/:id" component={Summary} />
 
           <Route path="/base" exact component={MainBase} />
           <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
