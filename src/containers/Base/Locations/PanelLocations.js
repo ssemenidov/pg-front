@@ -241,14 +241,14 @@ const PanelDesign = (props) => {
           enableChoosePeriod={false}
           changeColumns={changeColumns}
           loading={loading}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       history.push(`/base/locations/location/${record.key}`);
-          //       history.go(0);
-          //     }
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/locations/location/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
       <style>
