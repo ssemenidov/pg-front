@@ -104,6 +104,7 @@ export default function InnerForm(props) {
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
+    console.log(item);
     let constructionIdList = null;
     if(item.construction && item.construction.edges) {
       constructionIdList = item.construction.edges.map(item => item.node.id);

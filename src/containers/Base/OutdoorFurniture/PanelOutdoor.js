@@ -135,14 +135,14 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           loading={loading}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       history.push(`/base/construction/${record.key}`);
-          //       history.go(0);
-          //     }
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/construction/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
 
