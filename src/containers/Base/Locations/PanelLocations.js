@@ -89,13 +89,7 @@ query SearchLocation(
             title
           }
           cadastralNumber
-          constructions {
-            edges {
-              node {
-                id
-              }
-            }
-          }
+          constructionsCount
         }
       }
     }
@@ -197,7 +191,7 @@ const PanelDesign = (props) => {
       rentContractStart: null2str(item.node.rentContractStart),
       rentContractEnd: null2str(item.node.rentContractEnd),
       marketingAddress: null2strKey(item.node.marketingAddress, 'address'),
-      constructionQuantity: item.node.constructions.edges ? item.node.constructions.edges.length : 0,
+      constructionQuantity: item.node.constructionsCount,
       purposeLocation: null2strKey(item.node.purposeLocation, 'title'),
       resolutionNumber: null2str(item.node.resolutionNumber),
       resolutionNumberDate: null2str(item.node.resolutionNumberDate),

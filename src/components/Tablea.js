@@ -67,11 +67,12 @@ class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
-    columns: this.props.columns.filter((col, index) => {
-      return (
-        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
-      )
-    }),
+    columns: this.props.columns,
+    // columns: this.props.columns.filter((col, index) => {
+    //   return (
+    //     index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShow !== false
+    //   )
+    // }),
   };
   components = {
     header: {
@@ -104,7 +105,7 @@ class Tablea extends React.Component {
       let newCols = this.props.columns.map(item => {
         if(item.dataIndex === dataIndex) {
           item.isShow = !item.isShow
-        } 
+        }
         return item;
       })
       this.setState({

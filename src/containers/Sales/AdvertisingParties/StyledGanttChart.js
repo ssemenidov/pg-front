@@ -54,7 +54,7 @@ export const ScheduleChartView1 = function({ style, items, settings, change, col
 export const ganttColumns = [
   {
     header: 'Код',
-    width: 150,
+    width: 180,
     cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.code),
   },
   {
