@@ -83,6 +83,20 @@ class Tablea extends React.Component {
     },
   };
 
+  componentDidMount() {
+    console.log(1)
+    this.setState({
+      columns: this.props.columns.filter((col, index) => {
+        return (
+          index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
+        )
+      })
+    })
+  }
+
+  
+  
+
   handleResize = (index) => (e, { size }) => {
     this.setState(({ columns }) => {
       const nextColumns = [...columns];
@@ -96,7 +110,11 @@ class Tablea extends React.Component {
 
   render() {
     const { onRow } = this.props;
-    const columns = this.state.columns.map((col, index) => ({
+    const columns = this.props.columns.filter((col, index) => {
+      return (
+        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
+      )
+    }).map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -192,6 +210,7 @@ class Tablea extends React.Component {
                       <CustomTabBtn
                         className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
                         onClick={() => {
+                          console.log(index)
                           this.props.setBlock(index);
                         }}>
                         {item.title}

@@ -156,142 +156,27 @@ const initColumnsForPopup = [
     ),
   }
 ];
-const initColumnsTable = [
-  {
-    title: 'Номер приложения',
-    dataIndex: 'code',
-    width: 130,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Сумма',
-    dataIndex: 'summa',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Дата создания',
-    dataIndex: 'createDate',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Сроки',
-    dataIndex: 'reservDates',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    dataIndex: 'btn-remove',
-    width: 40,
-    title: '',
-    render: (text, record) => {
-      console.log('[text]', text)
-      return (
-        <Link to={{ pathname: `/sales/summary/${record.id}`, state: { dateFrom: record.dateForRouter[0], dateTo: record.dateForRouter[1] } }}>
-          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-        </Link>
-      )
-    }
-  },
-  {
-    dataIndex: 'dateForRouter',
-    width: 0,
-    title: '',
-    isShowed: true
-  }
-];
-const data = [
-  {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
-  },
-  {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
-  },
-  {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
-  },
-  {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
-  }
-];
+
 
 const PanelDesign = (props) => {
-  const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
-  const [columnsTable, setColumnsTable] = useState(initColumnsTable);
-  const [isReservTable, setIsReservTable] = useState(true)
-  // const [block, setBlock] = useState(0);
+  // const [columnsForPopup, props.setColumnsForPopup] = useState(props.columns);
+  // const [columnsTable, props.setColumnsTable] = useState(props.columns);
+  
+  // props.setColumnsTable(props.columns)
+  console.log('[columnsTable]', props.columns)
+
+  let colForReq = props.col;
+
+  // props.setColumnsTable(props.columns)
+  // props.setColumnsForPopup(props.columns)
+  // useEffect(() => {
+  //   alert(1)
+  //   props.setColumnsTable(props.columns)
+  //   props.setColumnsForPopup(props.columns)
+  // }, props.columns)
   
   const changeColumns = (dataIndex) => {
-    let localColumnsForPopup = columnsForPopup.map((col, index) => {
+    let localColumnsForPopup = props.columns.map((col, index) => {
       if(col.dataIndex  && col.dataIndex === dataIndex) {
         col.isShowed = !col.isShowed;
 
@@ -300,9 +185,9 @@ const PanelDesign = (props) => {
       return col
     })
 
-    setColumnsForPopup(localColumnsForPopup);
+    props.setColumnsForPopup(localColumnsForPopup);
 
-    const newColumnTables = localColumnsForPopup.filter(item => {
+    const newColumnTables = props.columns.filter(item => {
       if(item.isShowed) {
         return item
       }
@@ -311,7 +196,7 @@ const PanelDesign = (props) => {
       }
     });
 
-    setColumnsTable(newColumnTables);
+    props.setColumnsTable(newColumnTables);
   };
 
   const headerTableBtns = [
@@ -323,22 +208,36 @@ const PanelDesign = (props) => {
     }
   ]
 
-  // const whichData = whichTable ? props.data : null;
+  const [curTable, setCurTable] = useState(<Table 
+    style={{ width: '100%' }} 
+    columns={props.columns} 
+    data={props.data} 
+    select={true} 
+    columnsForPopup={props.columns} 
+    changeColumns={changeColumns} 
+    chooseTableBtns={headerTableBtns}
+    choosedBlock={props.choosedBlock}
+    setBlock={props.setBlock}
+  />);
+
+  useEffect(() => {
+    setCurTable(<Table 
+      style={{ width: '100%' }} 
+      columns={props.columns} 
+      data={props.data} 
+      select={true} 
+      columnsForPopup={props.columns} 
+      changeColumns={changeColumns} 
+      chooseTableBtns={headerTableBtns}
+      choosedBlock={props.choosedBlock}
+      setBlock={props.setBlock}
+    />)
+  }, props.columns)
 
   return (
     <>
       <div className="outdoor-table-bar">
-      <Table 
-        style={{ width: '100%' }} 
-        columns={columnsTable} 
-        data={props.data} 
-        select={true} 
-        columnsForPopup={columnsForPopup} 
-        changeColumns={changeColumns} 
-        chooseTableBtns={headerTableBtns}
-        choosedBlock={props.choosedBlock}
-        setBlock={props.setBlock}
-      />
+      {curTable}
       </div>
 
       <style>
