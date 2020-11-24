@@ -42,11 +42,6 @@ export const initColumnsForPopupBookedSides = [
     isShowed: true,
   },
   {
-    isShowed: true,
-    key: 'edit',
-    dataIndex: 'edit',
-  },
-  {
     key: 'branding',
     title: 'Брендинг (да/нет)',
     dataIndex: 'branding',
@@ -422,12 +417,6 @@ export const initColumnsForPopupHotPtc = [
         width: 130,
         isShowed: true,
       },
-      // {
-      //   title: 'Производство',
-      //   dataIndex: 'manufactureSell',
-      //   width: 130,
-      //   isShowed: true,
-      // },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
@@ -467,7 +456,7 @@ export const initColumnsForPopupHotPtc = [
         title: 'Производство',
         dataIndex: 'manufactureSell',
         width: 130,
-        isShowed: true,
+        isShowed: false,
       },
       {
         title: 'Сумма',
