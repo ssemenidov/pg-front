@@ -44,19 +44,26 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
      query searchConstruction(
        $city: String,
        $district: String,
+       $post: String,
        $adress_m: String,
        $adress_j: String,
+       $family: String,
        $InventNumber: String,
+       $format: String,
        $actual: Boolean,
        $coords: String) {
        searchConstruction(
          location_Postcode_District_City_Title: $city,
          location_Postcode_District_Title: $district,
+         location_Postcode_Title:$post,
          location_MarketingAddress_Address: $adress_m,
          location_LegalAddress_Address: $adress_j,
+         format_Model_Underfamily_Family_Title:$family,
          buhInventNumber: $InventNumber,
+         format_Title: $format,
          active: $actual,
-         coordinates,: $coords) {
+         coordinates: $coords
+         ) {
          edges {
            node {
              id
@@ -102,9 +109,9 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
   if (data) {
     populated_data = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
-      city: item.node.location ? item.node.location.postcode.district.city.title  : '',
-      post: item.node.location ? item.node.location.postcode.title : '',
-      district: item.node.location ? item.node.location.postcode.district.title : '',
+      city: (item.node.location &&item.node.location.postcode &&item.node.location.postcode.district&&item.node.location.postcode.district.city )? item.node.location.postcode.district.city.title  : '',
+      post: (item.node.location &&item.node.location.postcode)? item.node.location.postcode.title : '',
+      district: (item.node.location &&item.node.location.postcode &&item.node.location.postcode.district ) ? item.node.location.postcode.district.title : '',
       adress_m: item.node.location ? null2strKey(item.node.location.marketingAddress, 'address') : '',
       adress_j: item.node.location ? null2strKey(item.node.location.legalAddress, 'address') : '',
       inv_oto: null2str(item.node.techInventNumber),
@@ -112,7 +119,7 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
       phone: null2str(item.node.techPhoneConstruction),
       format: null2strKey(item.node.format, 'title'),
       coords: item.node.coordinates,
-      fire: item.node.statusConnection ? 'Да' : 'Нет',
+      fire: item.node.active ? 'Да' : 'Нет',
     }));
   }
 
@@ -128,14 +135,14 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           loading={loading}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       history.push(`/base/construction/${record.key}`);
-          //       history.go(0);
-          //     }
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/construction/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
 

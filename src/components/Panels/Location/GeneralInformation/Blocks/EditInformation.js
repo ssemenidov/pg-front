@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledInput } from '../../../../Styles/DesignList/styles';
+import { StyledInput ,StyledSelect} from '../../../../Styles/DesignList/styles';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
@@ -45,7 +45,13 @@ export const EditInformation = () => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Целевое назначение</InputTitle>
-            <StyledInput
+            <StyledSelect
+            defaultValue={<img src={anchorIcon} />}
+            >
+            <StyledSelect.Option>
+            </StyledSelect.Option>
+            </StyledSelect>
+            {/* <StyledInput
               placeholder="Рекламно-информационный объект"
               prefix={<img src={anchorIcon} />}
               size={'large'}
@@ -56,7 +62,7 @@ export const EditInformation = () => {
                 }
               })}
             >
-            </StyledInput>
+            </StyledInput> */}
           </div>
         </Row>
         <Row>
