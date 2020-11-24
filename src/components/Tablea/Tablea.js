@@ -70,12 +70,12 @@ class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
-    columns: this.props.columns,
-    // columns: this.props.columns.filter((col, index) => {
-    //  return (
-    //    index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
-    //  )
-    // }),
+    // columns: this.props.columns,
+    columns: this.props.columns.filter((col, index) => {
+     return (
+       index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length]) && col.isShowed !== false
+     )
+    }),
     constructionsIdSet: this.props.constructionsIdSet
   };
   components = {
@@ -156,7 +156,11 @@ class Tablea extends React.Component {
                       {col.title}
                     </Checkbox>
                   </Menu.Item>
-                )})}
+                )}).filter((col) => {
+                      return col.dataIndex !== 'btn-remove' && col.dataIndex !== 'dateForRouter'
+                })
+                  
+                }
         </Menu>
       );
     }

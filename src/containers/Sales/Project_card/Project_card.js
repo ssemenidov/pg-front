@@ -23,6 +23,8 @@ import SidebarInfo from '../../../components/SidebarInfo';
 
 import PanelDesign from './PanelProject_card';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
+import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
+import { ReservationSlider } from './BottomSlider';
 
 import { sidebarInfoData } from '../stubDataSource';
 
@@ -136,7 +138,9 @@ query ($id: ID!) {
 const Project_card = () => {
 
 // const queries = [PROJECT_QUERY, APPS_QUERY]
+  const sliderState = new SliderState({name: "", key: ""})
 
+  const [reserveCode, setReserveCode] = useState('');
   const history = useHistory();
   const { id } = useParams();
   const [block, setBlock] = useState(0);
@@ -255,6 +259,7 @@ const Project_card = () => {
     },
   });
 
+  
 
   // useEffect(() => {
     // alert(1)
@@ -457,11 +462,14 @@ const Project_card = () => {
               loading={loading}
               setColumnsForPopup={setColumnsForPopup}
               setColumnsTable={setColumnsTable}
+              sliderState={sliderState}
+              setReserveCode={setReserveCode}
             />
             )
-          }
+          }ыы
         </div>
       </div>
+      {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={reserveCode} />}
       {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
