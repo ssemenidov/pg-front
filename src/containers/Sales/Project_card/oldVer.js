@@ -288,8 +288,7 @@ const PanelDesign = (props) => {
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
   const [isReservTable, setIsReservTable] = useState(true)
-  // const [block, setBlock] = useState(0);
-  
+
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {
       if(col.dataIndex  && col.dataIndex === dataIndex) {
@@ -314,16 +313,7 @@ const PanelDesign = (props) => {
     setColumnsTable(newColumnTables);
   };
 
-  const headerTableBtns = [
-    {
-      'title': 'ЗАБРОНИРОВАННЫЕ СТОРОНЫ'
-    },
-    {
-      'title': 'ПРИЛОЖЕНИЯ'
-    }
-  ]
-
-  // const whichData = whichTable ? props.data : null;
+  const whichData = whichTable ? props.data : null;
 
   return (
     <>
@@ -333,11 +323,9 @@ const PanelDesign = (props) => {
         columns={columnsTable} 
         data={props.data} 
         select={true} 
+        title={'Забронированные стороны'} 
         columnsForPopup={columnsForPopup} 
         changeColumns={changeColumns} 
-        chooseTableBtns={headerTableBtns}
-        choosedBlock={props.choosedBlock}
-        setBlock={props.setBlock}
       />
       </div>
 

@@ -24,7 +24,6 @@ const LOCATION_CREATE = gql`
     }
   }
 `;
-
 const Locations = (props) => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(true);
@@ -44,7 +43,6 @@ const Locations = (props) => {
         <LeftBar>
           <SearchBtn onClick={() => setCollapsed(!collapsed)} />
         </LeftBar>
-
         {collapsed && <FilterBar />}
         <div className="locations-table-bar">
           <Breadcrumb className="layout-breadcrumb">
@@ -79,7 +77,6 @@ const Locations = (props) => {
           {`
           .locations-table{
             display:flex;
-
           }
           .locations-table-bar{
             display: flex;

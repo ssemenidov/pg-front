@@ -109,9 +109,9 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
   if (data) {
     populated_data = data.searchConstruction.edges.map((item) => ({
       key: item.node.id,
-      city: item.node.location ? item.node.location.postcode.district.city.title  : '',
-      post: item.node.location ? item.node.location.postcode.title : '',
-      district: item.node.location ? item.node.location.postcode.district.title : '',
+      city: (item.node.location &&item.node.location.postcode &&item.node.location.postcode.district&&item.node.location.postcode.district.city )? item.node.location.postcode.district.city.title  : '',
+      post: (item.node.location &&item.node.location.postcode)? item.node.location.postcode.title : '',
+      district: (item.node.location &&item.node.location.postcode &&item.node.location.postcode.district ) ? item.node.location.postcode.district.title : '',
       adress_m: item.node.location ? null2strKey(item.node.location.marketingAddress, 'address') : '',
       adress_j: item.node.location ? null2strKey(item.node.location.legalAddress, 'address') : '',
       inv_oto: null2str(item.node.techInventNumber),
@@ -135,14 +135,14 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
           loading={loading}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       history.push(`/base/construction/${record.key}`);
-          //       history.go(0);
-          //     }
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/construction/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
 

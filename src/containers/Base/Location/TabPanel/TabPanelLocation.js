@@ -28,7 +28,7 @@ const tabs = [{ value: 'Общая информация' }, { value: 'Истор
 const panel1 = <GeneralInformation />;
 const panel2 = <HistoryTable />;
 const links = [
-  { id: '', value: 'Главная' },
+
   { id: 'base', value: 'Базы' },
   { id: 'base/locations', value: 'Список местоположений' },
 ];
@@ -104,6 +104,7 @@ export default function InnerForm(props) {
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
+    console.log(item);
     let constructionIdList = null;
     if(item.construction && item.construction.edges) {
       constructionIdList = item.construction.edges.map(item => item.node.id);

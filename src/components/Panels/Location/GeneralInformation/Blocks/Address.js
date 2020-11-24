@@ -22,23 +22,29 @@ const CITY_T = gql`
     }
   `;
 const DISTRICT_T = gql`
-    {
-      searchDistrict {
-        edges {
-          node {
-            id
-            title
-          }
-        }
+query searchDistrict(
+  $city: String
+  ) {
+    searchDistrict(
+  city_Title:$city
+  ) {
+    edges {
+      node {
+        id
+        title
       }
     }
+  }
+}
   `;
 const POST_T = gql`
-  query searchPostcode($district_City_Title: String) {
+  query searchPostcode(
+    $city: String
+    $district: String
+    ) {
     searchPostcode(
-    title_Regex: "^$",
-    district_Title_Regex: "^$",
-    district_City_Title: $district_City_Title
+    district_Title:  $district
+    district_City_Title:$city
     ) {
       edges {
         node {
@@ -52,18 +58,15 @@ const POST_T = gql`
 export const Address = (props) => {
   const [item, setItem] = useContext(locationContext);
   const city = useQuery( CITY_T).data;
-  const district = useQuery( DISTRICT_T).data;
-  const [posts, postData] = useLazyQuery( POST_T);
-
-  useEffect(() => {
-    posts({
-      variables: {
-        district_City_Title: item.postcode && item.postcode.district && item.postcode.district.city && item.postcode.district.city.title
-      }
-    })
-  }, [item]);
-
-  if (!city || !district || !postData.data){
+  const district = useQuery( DISTRICT_T,{variables:
+    {city: item.postcode && item.postcode.district && item.postcode.district.city && item.postcode.district.city.title,
+  }
+  }).data;
+  const posts = useQuery( POST_T,{variables:
+    {city: item.postcode && item.postcode.district && item.postcode.district.city && item.postcode.district.city.title,
+    district: item.postcode && item.postcode.district && item.postcode.district.title,}
+  }).data;
+  if (!city || !district || !posts){
     return <span></span>;
   }
   return (
@@ -155,7 +158,7 @@ export const Address = (props) => {
                }
               })}
              >
-              {postData.data && postData.data.searchPostcode.edges.map((item) =>
+              {posts&& posts.searchPostcode.edges.map((item) =>
                 <StyledSelect.Option
                   key ={item.node.id}
                   value={item.node.id}
