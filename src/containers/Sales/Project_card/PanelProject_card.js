@@ -157,6 +157,7 @@ const initColumnsForPopup = [
     ),
   }
 ];
+
 const initColumnsTable = [
   {
     title: 'Номер приложения',
@@ -291,6 +292,16 @@ const PanelDesign = (props) => {
   const [isReservTable, setIsReservTable] = useState(true)
   const [data, setData] = useState(props.data.reservations)
 
+
+  let colForReq = props.col;
+
+  // props.setColumnsTable(props.columns)
+  // props.setColumnsForPopup(props.columns)
+  // useEffect(() => {
+  //   alert(1)
+  //   props.setColumnsTable(props.columns)
+  //   props.setColumnsForPopup(props.columns)
+  // }, props.columns)
   // const [block, setBlock] = useState(0);
 
   const changeColumns = (dataIndex) => {
@@ -341,7 +352,17 @@ const PanelDesign = (props) => {
     }
   ]
 
-  // const whichData = whichTable ? props.data : null;
+  const [curTable, setCurTable] = useState(<Table 
+    style={{ width: '100%' }} 
+    columns={props.columns} 
+    data={props.data} 
+    select={true} 
+    columnsForPopup={props.columns} 
+    changeColumns={changeColumns} 
+    chooseTableBtns={headerTableBtns}
+    choosedBlock={props.choosedBlock}
+    setBlock={props.setBlock}
+  />);
 
   return (
     <>
