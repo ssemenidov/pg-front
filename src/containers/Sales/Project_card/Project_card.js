@@ -22,7 +22,7 @@ import PanelDesign from './PanelProject_card';
 
 import { sidebarInfoData } from '../stubDataSource';
 
-const Project_card = () => {
+const Project_card = ({match}) => {
   const history = useHistory();
   const [block, setBlock] = useState(0);
 
@@ -70,7 +70,7 @@ const Project_card = () => {
                 <StyledButton
                   backgroundColor="#2C5DE5"
                   onClick={() => {
-                    history.push('/sales/estimate');
+                    history.push(`/sales/project_card/${match.params.id}/estimate`);
                   }}>
                   Смета проекта
                 </StyledButton>
