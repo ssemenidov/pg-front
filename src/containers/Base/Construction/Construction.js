@@ -24,8 +24,10 @@ const Construction = (props) => {
             id
             location {
               postcode {
+                id
                 title
                 district {
+                  id
                   title
                   city {
                     title
@@ -37,6 +39,22 @@ const Construction = (props) => {
                 address
               }
               hasArea
+            }
+            format {
+              id
+              title
+              model {
+                id
+                title
+                underfamily {
+                  id
+                  title
+                  family {
+                    id
+                    title
+                  }
+                }
+              }
             }
             coordinates
             presentationUrl

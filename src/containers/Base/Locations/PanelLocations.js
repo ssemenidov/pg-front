@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {useHistory, useLocation} from 'react-router';
 
 import { locationsContext } from './Locations';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import Preloader from '../../../components/Preloader/Preloader';
 import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
 

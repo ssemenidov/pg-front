@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 const PanelDesign = ({ tableData }) => {
   console.log(tableData)
@@ -97,13 +97,13 @@ const PanelDesign = ({ tableData }) => {
       isShowed: true
     },
   ])
-  
+
 
   const changeColumns = (dataIndex) => {
     let newCols = columns.map(item => {
       if(item.dataIndex === dataIndex) {
         item.isShowed = !item.isShowed
-      } 
+      }
       return item;
     })
     setColumns(newCols);

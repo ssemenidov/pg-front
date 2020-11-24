@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import {Link} from "react-router-dom";
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
@@ -318,14 +318,14 @@ const PanelDesign = (props) => {
   return (
     <>
       <div className="outdoor-table-bar">
-      <Table 
-        style={{ width: '100%' }} 
-        columns={columnsTable} 
-        data={props.data} 
-        select={true} 
-        title={'Забронированные стороны'} 
-        columnsForPopup={columnsForPopup} 
-        changeColumns={changeColumns} 
+      <Table
+        style={{ width: '100%' }}
+        columns={columnsTable}
+        data={props.data}
+        select={true}
+        title={'Забронированные стороны'}
+        columnsForPopup={columnsForPopup}
+        changeColumns={changeColumns}
       />
       </div>
 

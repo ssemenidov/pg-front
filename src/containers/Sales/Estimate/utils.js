@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Input, Modal, Form, DatePicker, InputNumber, Select, Tooltip } from 'antd';
+import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 
 export const BOOKED_SIDES_QUERY = gql`
   query applicationQuery($id: ID) {
@@ -10,37 +11,38 @@ export const BOOKED_SIDES_QUERY = gql`
         node {
           id
           code
-          estimate {
-            title
-            reservations {
-              edges {
-                node {
-                  id
-                  dateFrom
-                  dateTo
-                  branding
-                  design
-                  constructionSide {
-                    advertisingSide {
-                      side {
+          reservations {
+            edges {
+              node {
+                id
+                dateFrom
+                dateTo
+                constructionSide {
+                  advertisingSide {
+                    code
+                    side {
+                      title
+                      code
+                      format {
                         title
-                        format {
-                          title
-                        }
                         code
                       }
+                      code
                     }
-                    construction {
-                      location {
-                        marketingAddress {
-                          address
-                        }
+                  }
+                  construction {
+                    numInDistrict
+                    location {
+                      marketingAddress {
+                        address
+                      }
 
-                        postcode {
-                          district {
-                            city {
-                              title
-                            }
+                      postcode {
+                        title
+                        district {
+                          title
+                          city {
+                            title
                           }
                         }
                       }
@@ -50,6 +52,7 @@ export const BOOKED_SIDES_QUERY = gql`
               }
             }
           }
+
         }
       }
     }
@@ -71,8 +74,6 @@ export const EXTRA_COSTS_QUERY = gql`
           price
           count
           discount
-          sumAfterDiscount
-          summa
         }
       }
     }
@@ -92,7 +93,6 @@ export const NON_RTS_QUERY = gql`
           incomingPrinting
           incomingInstallation
           incomingManufacturing
-          summaClient
         }
       }
     }
@@ -110,25 +110,29 @@ export const PROJECT_BOOKED_SIDES_QUERY = gql`
                 id
                 dateFrom
                 dateTo
-                branding
-                design
                 constructionSide {
                   advertisingSide {
+                    code
                     side {
                       title
+                      code
                       format {
                         title
+                        code
                       }
                       code
                     }
                   }
                   construction {
+                    numInDistrict
                     location {
                       marketingAddress {
                         address
                       }
                       postcode {
+                        title
                         district {
+                          title
                           city {
                             title
                           }
@@ -164,8 +168,6 @@ export const PROJECT_EXTRA_COSTS_QUERY = gql`
                 price
                 count
                 discount
-                sumAfterDiscount
-                summa
               }
             }
           }
@@ -184,6 +186,9 @@ export const PROJECT_NON_RTS_QUERY = gql`
             edges {
               node {
                 id
+                city {
+                  title
+                }
                 count
                 title
                 incomingRent
@@ -191,10 +196,11 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 incomingPrinting
                 incomingInstallation
                 incomingManufacturing
-                summaClient
-                city {
-                  title
-                }
+                saleRent
+                saleTax
+                salePrinting
+                saleInstallation
+                saleManufacturing
               }
             }
           }
@@ -204,13 +210,12 @@ export const PROJECT_NON_RTS_QUERY = gql`
   }
 `;
 
+
 export const getBookedSides = (data) => {
   return data.map((invoice) => {
     return {
       key: invoice.node.id,
-      code: invoice.node.constructionSide.advertisingSide.side.code
-        ? invoice.node.constructionSide.advertisingSide.side.code
-        : '',
+      code: getConstructionSideCode(invoice.node.constructionSide),
       city: invoice.node.constructionSide.construction.location.postcode.district.city.title
         ? invoice.node.constructionSide.construction.location.postcode.district.city.title
         : '',
@@ -228,6 +233,11 @@ export const getBookedSides = (data) => {
 
 export const getExtraCosts = (data) => {
   return data.map((charge) => {
+    let price = charge.node.price ? charge.node.price : 0;
+    let discount = charge.node.discount ? charge.node.discount : 100;
+    let count = charge.node.count ? charge.node.count : 0;
+    let sumAfterDiscount = (price * (1.0 - discount / 100.0));
+
     return (
       charge.node.city !== null && {
         key: charge.node.id ? charge.node.id : '',
@@ -241,8 +251,8 @@ export const getExtraCosts = (data) => {
         quantity: charge.node.count ? charge.node.count : '',
         price: charge.node.price ? charge.node.price + ' тг.' : '',
         discount: charge.node.discount ? charge.node.discount + '%' : '',
-        priceAfterDiscount: charge.node.sumAfterDiscount ? charge.node.sumAfterDiscount + ' тг.' : '',
-        sum: charge.node.summa ? charge.node.summa + ' тг.' : '',
+        priceAfterDiscount: sumAfterDiscount + ' тг.',
+        sum: (sumAfterDiscount * count) + ' тг.',
         percentAK: 'stub data',
         sumAK: 'stub data',
         sumWithoutAK: 'stub data',
@@ -253,17 +263,42 @@ export const getExtraCosts = (data) => {
 
 export const gettNonRts = (data) => {
   return data.map((item) => {
+
+    let inputRent = item.node.incomingRent || 0
+    let inputTax = item.node.incomingTax || 0
+    let inputPrint = item.node.incomingPrinting || 0
+    let inputMount = item.node.incomingInstallation || 0
+    let inputManufacture = item.node.incomingManufacturing || 0
+
+    let sellRent = item.node.saleRent || 0
+    let sellTax = item.node.saleTax || 0
+    let sellPrint = item.node.salePrinting || 0
+    let sellMount = item.node.saleInstallation || 0
+    let sellManufacture = item.node.saleManufacturing || 0
+
+    let quantity = item.node.count || 0
+    let sumInput = (inputRent + inputTax + inputPrint + inputMount + inputManufacture)
+    let sumSell = (sellRent + sellTax + sellPrint + sellMount + sellManufacture)
+
     return {
       key: item.node.id,
       code: item.node.title,
       city: item.node.city ? item.node.city.title : '',
-      quantity: item.node.count,
-      rentInput: item.node.incomingRent + ' тг.',
-      taxInput: item.node.incomingTax + ' тг.',
-      printInput: item.node.incomingPrinting + ' тг.',
-      mountInput: item.node.incomingInstallation + ' тг.',
-      manufactureSell: item.node.incomingManufacturing + ' тг.',
-      sumInput: item.node.summaClient + ' тг.',
+      quantity: quantity,
+      rentInput: inputRent + ' тг.',
+      taxInput: inputTax + ' тг.',
+      printInput: inputPrint + ' тг.',
+      mountInput: inputMount + ' тг.',
+      manufactureInput: inputManufacture + ' тг.',
+      sumInput: sumInput + ' тг.',
+
+      rentSell: sellRent + ' тг.',
+      taxSell: sellTax + ' тг.',
+      printSell: sellPrint + ' тг.',
+      mountSell: sellMount + ' тг.',
+      manufactureSell: sellManufacture + ' тг.',
+      sumSell: sumSell + ' тг.',
+
     };
   });
 };
@@ -512,7 +547,6 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
                 incomingInstallation: mount,
                 incomingManufacturing: manufacture,
                 city: values.city,
-                summaClient: summ,
               };
 
               updateNonRts({

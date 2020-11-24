@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import { useHistory } from 'react-router';
 const PanelDesign = (props) => {

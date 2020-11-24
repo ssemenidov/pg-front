@@ -6,7 +6,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import styled from 'styled-components';
 import { List } from 'antd';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import oval from '../../../img/Oval.svg';
 const CREWS_T = gql`
   query SearchCrew(

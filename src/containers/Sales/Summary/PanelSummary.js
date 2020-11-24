@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 const PanelDesign = (props) => {
   const columns = [

@@ -49,9 +49,9 @@ const DISTRICT_T = gql`
       }
     }
   }
-`;  
+`;
 export default function Intro() {
-  const [item, setItem] = useContext(constructContext);
+  const [apiData, setApiData] = useContext(constructContext);
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
   const post = useQuery( POST_T).data;
@@ -67,8 +67,8 @@ export default function Intro() {
 
             <InputTitle>Город</InputTitle>
             <StyledSelect
-              defaultValue={item.city ? item.city.id : <img src={cityIcon} />}
-              onChange={(value) => setItem({ ...item, city: { ...item.city, id: value } })}>
+              defaultValue={(apiData.location && apiData.location.postcode.district.city.id) || <img src={cityIcon} />}
+              onChange={(value) => setApiData({ ...apiData, city: { ...apiData.city, id: value } })}>
               {city && city.searchCity.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                   <img src={cityIcon} />
@@ -81,8 +81,8 @@ export default function Intro() {
           <div style={{ width: '35%' }}>
             <InputTitle>Район</InputTitle>
             <StyledSelect
-              defaultValue={item.district ? item.district.id :  <img src={districtIcon} />}
-              onChange={(value) => setItem({ ...item, district: { ...item.district, id: value } })}>
+              defaultValue={(apiData.location && apiData.location.postcode.district.id) || <img src={districtIcon} />}
+              onChange={(value) => setApiData({ ...apiData, district: { ...apiData.district, id: value } })}>
              {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                     <img src={districtIcon} />
@@ -94,8 +94,8 @@ export default function Intro() {
           <div style={{ width: '22%' }}>
             <InputTitle>Код района</InputTitle>
             <StyledSelect
-              defaultValue={item.postcode ? item.postcode.id:<img src={postIcon} /> }
-              onChange={(value) => setItem({ ...item, postcode: { ...item.postcode, id: value } })}>
+              defaultValue={(apiData.location && apiData.location.postcode.id) || <img src={postIcon} /> }
+              onChange={(value) => setApiData({ ...apiData, postcode: { ...apiData.postcode, id: value } })}>
               {post && post.searchPostcode.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>
                     <img src={postIcon} />
@@ -111,15 +111,16 @@ export default function Intro() {
             <InputTitle>Владелец</InputTitle>
             <StyledInput
               prefix={<img src={ownerIcon} />}
-              defaultValue={item.owner ? item.owner : ''}
-              onChange={(e) => setItem({ ...item, owner: e.target.value })}></StyledInput>
+              defaultValue={apiData.isNonrts ? (apiData.nonrtsOwner && apiData.nonrtsOwner.title) || ''  : 'РТС'}
+              onChange={(e) => setApiData({ ...apiData, owner: e.target.value })}></StyledInput>
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.marketingAddress ? item.marketingAddress : ''}
-              onChange={(e) => setItem({ ...item, marketingAddress: e.target.value })}></StyledInput>
+              defaultValue={
+                (apiData.location && apiData.location.marketingAddress && apiData.location.marketingAddress.address) || ''}
+              onChange={(e) => setApiData({ ...apiData, marketingAddress: e.target.value })}></StyledInput>
           </div>
         </Row>
         <Row>
@@ -129,8 +130,8 @@ export default function Intro() {
              size={'large'}
              format='DD/MM/YYYY'
              style={{  width: '100%' }}
-             defaultValue={item.createdAt ? moment(item.createdAt) : ''}
-             onChange={(date) => setItem({ ...item, createdAt:new Date(date) })}
+             defaultValue={apiData.createdAt ? moment(apiData.createdAt) : ''}
+             onChange={(date) => setApiData({ ...apiData, createdAt:new Date(date) })}
              />
 
           </div>
@@ -138,8 +139,8 @@ export default function Intro() {
             <InputTitle>Комментарий</InputTitle>
             <StyledInput
               placeholder='...'
-              defaultValue={item.backComment ? item.backComment : ''}
-              onChange={(e) => setItem({ ...item, backComment: e.target.value })}></StyledInput>
+              defaultValue={apiData.backComment ? apiData.backComment : ''}
+              onChange={(e) => setApiData({ ...apiData, backComment: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>

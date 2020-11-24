@@ -1,4 +1,5 @@
 import React, { useContext, useMemo, useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router';
 import ReactToPrint  from 'react-to-print';
 import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Col, Grid, Row } from 'react-flexbox-grid';
@@ -224,8 +225,11 @@ const InnerForm = () => {
       }
     });
   };
+  let history = useHistory();
   const saveData = (e) => {
+    history.push('/base/brands');
     e.preventDefault();
+    return
 
     if(!id) return;
 

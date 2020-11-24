@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../../components/Tablea';
+import Table from '../../../../components/Tablea/Tablea';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../components/Styles/StyledBlocks';
 import InputAnchor from '../../../../components/Inputs/InputAnchor';
 import DatePicker from '../../../../components/Inputs/DatePicker';

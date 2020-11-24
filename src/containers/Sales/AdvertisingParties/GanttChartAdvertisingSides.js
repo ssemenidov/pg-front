@@ -6,6 +6,8 @@ import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 import { useMediaQuery } from '@material-ui/core';
+import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
+import { useHistory } from 'react-router';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   query SearchConstructionSideWithReservation(
@@ -102,6 +104,7 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
   // Retrieve and store the control element for reference purposes.
   let scheduleChartViewElement = document.querySelector('#scheduleChartView');
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
+  const history = useHistory();
 
   console.log(filter)
   let dstFilter = {};
@@ -162,10 +165,6 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     return ndate;
   }
 
-  let getItemCode = (node) => (
-    `${node.construction.location.postcode.title}.${node.construction.numInDistrict}.`
-    + `${node.advertisingSide.side.format.code || '_'}.${node.advertisingSide.side.code || '_'}.${node.advertisingSide.code || '_'}`
-  );
 
 
   let scheduleChartItems = [];
@@ -175,7 +174,7 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
         scheduleChartItems.push({
           content: item.id,
           start: new Date(2020, 1, 1, 0, 0, 0),
-          code: getItemCode(item.node),
+          code: getConstructionSideCode(item.node),
           format: item.node.advertisingSide.side.format.title,
           city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
           // isSelected - свойство сообщающее, выбран элемент или нет
@@ -186,6 +185,7 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
               finish: mapDate(reservation.node.dateTo),
               barClass: getBarClass(reservation.node.reservationType.title),
               textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+              history: history
             })
           ),
         })

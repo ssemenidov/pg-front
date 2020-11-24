@@ -83,6 +83,7 @@ export const Chip = styled.div`
   background: #EEF3FF;
   border: 1px dashed #2C5DE5;
   border-radius: 4px;
+  min-width: 15rem;
 
   &>img {
     width: 14px;

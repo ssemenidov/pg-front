@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Resizable } from 'react-resizable';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
-import { CustomTabBtn, CustomTabList } from './Styles/DesignList/styles';
+import { CustomTabBtn, CustomTabList } from '../Styles/DesignList/styles';
 
-import plusIcon from '../img/header-bar/plus-icon.svg';
-import attachIcon from '../img/header-bar/attach.svg';
-import minusIcon from '../img/header-bar/minus-icon.svg';
-import searchInputIcon from '../img/header-bar/search-icon.svg';
-import printerIcon from '../img/header-bar/printer.svg';
-import exportIcon from '../img/header-bar/export.svg';
-import settingsIcon from '../img/header-bar/settings.svg';
+import plusIcon from '../../img/header-bar/plus-icon.svg';
+import attachIcon from '../../img/header-bar/attach.svg';
+import minusIcon from '../../img/header-bar/minus-icon.svg';
+import searchInputIcon from '../../img/header-bar/search-icon.svg';
+import printerIcon from '../../img/header-bar/printer.svg';
+import exportIcon from '../../img/header-bar/export.svg';
+import settingsIcon from '../../img/header-bar/settings.svg';
 import './Tablea.scss'
 
 const { Content, Sider } = Layout;
@@ -66,108 +66,96 @@ const ResizableTitle = (props) => {
   );
 };
 
-class Tablea extends React.Component {
-  state = {
-    selectionType: 'checkbox',
-    datetype: 'date',
-    columns: this.props.columns,
-    // columns: this.props.columns.filter((col, index) => {
-    //  return (
-    //    index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
-    //  )
-    // }),
-    constructionsIdSet: this.props.constructionsIdSet
-  };
-  components = {
-    header: {
-      cell: ResizableTitle,
-    },
-  };
 
-  handleResize = (index) => (e, { size }) => {
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
+
+
+export const Tablea = (props) => {
+  let [selectionType, setSelectionState] = useState('checkbox');
+  let statedColumns = props.columns;
+  let setStatedColumns = props.setColumns;
+
+
+  let handleResize = (index) => (e, { size }) => {
+      const nextColumns = [...statedColumns];
       nextColumns[index] = {
         ...nextColumns[index],
         width: size.width,
       };
-      return { columns: nextColumns };
-    });
+      setStatedColumns(nextColumns);
   };
 
-  render() {
-    const { onRow } = this.props;
-    const columns = this.state.columns.map((col, index) => ({
+    const { onRow } = props;
+    const columns = statedColumns.map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
-        onResize: this.handleResize(index),
+        onResize: handleResize(index),
       }),
     }));
 
     const changeColumns = (dataIndex) => {
-      let newCols = this.props.columns.map(item => {
+      let newCols = statedColumns.map(item => {
         if(item.dataIndex === dataIndex) {
           item.isShowed = !item.isShowed
         }
         return item;
       })
-      this.setState({
-        columns: newCols.filter((col, index) => {
+      setStatedColumns(
+        newCols.filter((col, index) => {
           return (
-            index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
+            index !== props.columns.indexOf(props.columns[props.columns.length - 1]) && col.isShowed !== false
           )
         })
-      });
+      );
     }
 
     const handleMenuClick = () => {};
-    console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
-    if (this.props.enableChooseQuantityColumn) {
+    // console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
+    if (props.enableChooseQuantityColumn) {
       settingmenu = (
         <Menu onClick={handleMenuClick}>
-          {this.props.columns
+          {props.columns
             .map((col) => {
-                  console.log(col)
-                  return (
-                  <Menu.Item key={col.dataIndex}>
-                    <Checkbox
-                      checked={col.isShowed}
-                      onClick={() => changeColumns(col.dataIndex)}
-                    >
-                      {col.title}
-                    </Checkbox>
-                  </Menu.Item>
-                )})}
+              // console.log(col)
+              return (
+                <Menu.Item key={col.dataIndex}>
+                  <Checkbox
+                    checked={col.isShowed}
+                    onClick={() => changeColumns(col.dataIndex)}
+                  >
+                    {col.title}
+                  </Checkbox>
+                </Menu.Item>
+              )})}
         </Menu>
       );
     }
 
-    console.log('[this.props.constructionsIdSet]', this.props.constructionsIdSet)
+    // console.log('[props.constructionsIdSet]', props.constructionsIdSet)
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(selectedRowKeys)
-        // this.props.setConstructionsIdSet(selectedRowKeys);
+        // console.log(selectedRowKeys)
+        // props.setConstructionsIdSet(selectedRowKeys);
       },
       getCheckboxProps: (record) => ({
         disabled: record.name === 'Disabled User',
         name: record.name,
       }),
-      selectedRowKeys: this.props.constructionsIdSet,
+      selectedRowKeys: props.constructionsIdSet,
     };
 
     return (
       <div style={{ width: '100%', overflowX: 'hidden' }}>
-        {!this.props.notheader && (
+        {!props.notheader && (
           <div className="header-bar">
             <StyledNavigationTabs>
-              {this.props.enableChoosePeriod ? (
+              {props.enableChoosePeriod ? (
                 <React.Fragment>
-                  {this.props.title ? (
+                  {props.title ? (
                     <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
                       <img src={attachIcon} alt="" />
                       <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
-                      {this.props.title}
+                      {props.title}
                     </span>
                     </div>
                   ) : (
@@ -187,14 +175,14 @@ class Tablea extends React.Component {
                 <div></div>
               )}
               {
-                this.props.chooseTableBtns && (
+                props.chooseTableBtns && (
                   <CustomTabList>
                     {
-                      this.props.chooseTableBtns.map((item, index) => (
+                      props.chooseTableBtns.map((item, index) => (
                         <CustomTabBtn
-                          className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
+                          className={props.choosedBlock === index ? 'active' : 'booked-sides' }
                           onClick={() => {
-                            this.props.setBlock(index);
+                            props.setBlock(index);
                           }}>
                           {item.title}
                         </CustomTabBtn>
@@ -222,7 +210,7 @@ class Tablea extends React.Component {
                 <span>Экспорт</span>
               </Button>
 
-              {this.props.enableChooseQuantityColumn && (
+              {props.enableChooseQuantityColumn && (
                 <Dropdown
                   overlay={settingmenu}
                   className="header-btn"
@@ -239,24 +227,24 @@ class Tablea extends React.Component {
         <Content>
           <StyledTable
             onRow={onRow}
-            loading={this.props.loading}
+            loading={props.loading}
             rowSelection={
-              this.props.select && {
-                type: this.selectionType,
+              props.select && {
+                type: selectionType,
                 ...rowSelection,
               }
             }
             bordered
-            components={this.components}
+            components={{ header: { cell: ResizableTitle }}}
             columns={columns}
-            dataSource={this.props.data}
+            dataSource={props.data}
             scroll={{ y: 500 }}
             pagination={{
               defaultPageSize: 10,
               showSizeChanger: true,
               placement: 'top',
               pageSizeOptions: ['25', '50', '100', '1000'],
-              total: this.props.data.length,
+              total: props.data.length,
             }}
           />
         </Content>
@@ -264,7 +252,7 @@ class Tablea extends React.Component {
         </style>
       </div>
     );
-  }
+
 }
 
 Tablea.propTypes = {

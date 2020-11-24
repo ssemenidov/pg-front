@@ -422,12 +422,12 @@ export const initColumnsForPopupHotPtc = [
         width: 130,
         isShowed: true,
       },
-      // {
-      //   title: 'Производство',
-      //   dataIndex: 'manufactureSell',
-      //   width: 130,
-      //   isShowed: true,
-      // },
+      {
+        title: 'Производство',
+        dataIndex: 'manufactureInput',
+        width: 130,
+        isShowed: true,
+      },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
