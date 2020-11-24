@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory, useParams, useLocation } from 'react-router';
+import { gql, useQuery } from '@apollo/client';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelSummary';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
@@ -13,10 +15,34 @@ import PackageBtn from '../../../components/LeftBar/PackageBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
+const SUMMARY_QUERY = gql`
+query ($dateFrom: Date, $dateTo: Date) {
+  searchSummary {
+    summary(dateStart:$dateFrom, dateEnd: $dateTo) {
+      edges {
+        node {
+          city
+        }
+      }
+    }
+  }
+}
+  `;
+
 const Summary = () => {
+  const { id } = useParams();
+  const location = useLocation();
+  console.log('[location.state]', location.state)
+  const { loading, error, data } = useQuery(SUMMARY_QUERY, {
+    variables: {
+      dateFrom: location.state.dateFrom,
+      dateTo: location.state.dateTo
+    },
+  });
   const [collapsed, setCollapsed] = useState(true);
   const [block, setBlock] = useState(0);
-
+  
+  console.log('[data]', data);
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },

@@ -12,7 +12,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Адрес',
@@ -22,7 +22,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Формат',
@@ -32,7 +32,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Период',
@@ -42,7 +42,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
 
     {
@@ -53,7 +53,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
 
     {
@@ -64,7 +64,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Монтаж',
@@ -74,7 +74,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Доп Расходы',
@@ -84,7 +84,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
     {
       title: 'Общая Сумма',
@@ -94,7 +94,7 @@ const PanelDesign = ({ tableData }) => {
         compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
         multiple: 1,
       },
-      isShow: true
+      isShowed: true
     },
   ])
   
@@ -102,7 +102,7 @@ const PanelDesign = ({ tableData }) => {
   const changeColumns = (dataIndex) => {
     let newCols = columns.map(item => {
       if(item.dataIndex === dataIndex) {
-        item.isShow = !item.isShow
+        item.isShowed = !item.isShowed
       } 
       return item;
     })
