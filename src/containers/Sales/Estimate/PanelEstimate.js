@@ -56,10 +56,11 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   }
 
   if (data) {
+    console.log(data);
     switch (activeTab) {
       case 'booked-sides':
         if (appId) {
-          bookedSides = getBookedSides(data.searchAttachment.edges[0].node.estimate.reservations.edges);
+          bookedSides = getBookedSides(data.searchAttachment.edges[0].node.reservations.edges);
         }
         if (id) {
           bookedSides = getBookedSides(data.searchProject.edges[0].node.reservations.edges);

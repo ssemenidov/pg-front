@@ -62,7 +62,7 @@ export const StyledInput = styled(Input)`
   .ant-input{
     font-size: 14px;
   }
-  
+
   height: 40px;
   color: #656565;
 `;
@@ -83,6 +83,7 @@ export const Chip = styled.div`
   background: #EEF3FF;
   border: 1px dashed #2C5DE5;
   border-radius: 4px;
+  min-width: 15rem;
 
   &>img {
     width: 14px;
@@ -236,6 +237,7 @@ export const DropdownBtn1 = styled.div`
 `;
 
 export const CustomTabList = styled.div`
+
   display: flex;
   justify-content: space-between;
   align-items: center;

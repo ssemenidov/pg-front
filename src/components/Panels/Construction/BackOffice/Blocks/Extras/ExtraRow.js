@@ -24,8 +24,8 @@ const SIDE_DELETE = gql`
   }
 `;
 export default function ExtraRow(props) {
-  const [item, setItem] = useContext(constructContext);
-  const side=item.constructionSide.edges[props.index].node;
+  const [apiData, setApiData] = useContext(constructContext);
+  const side=apiData.ownedSides.edges[props.index].node;
   const [deleteConstructionSide] = useMutation(SIDE_DELETE);
   const deleteSide=()=>{
     deleteConstructionSide({variables:{id:side.id}})
@@ -36,51 +36,51 @@ export default function ExtraRow(props) {
         <InputTitle>Формат</InputTitle>
 
         <StyledSelect
-              defaultValue={side.format ? side.format.id:<img src={anchorIcon} /> }
-              onChange={(value) => setItem({ ...item, format: { ...item.format, id: value } })}>
+              defaultValue={side.advertisingSide ? side.advertisingSide.side.format.title:<img src={anchorIcon} /> }
+              onChange={(value) => setApiData({ ...apiData, format: { ...apiData.format, id: value } })}>
         </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Сторона</InputTitle>
 
         <StyledSelect
-              defaultValue={side.side ? side.side.id :<img src={anchorIcon} />}
-              onChange={(value) => setItem({ ...item, side: { ...item.side, id: value } })}>
+              defaultValue={side.advertisingSide ? side.advertisingSide.side.title :<img src={anchorIcon} />}
+              onChange={(value) => setApiData({ ...apiData, side: { ...apiData.side, id: value } })}>
         </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Рекламная сторона</InputTitle>
 
         <StyledSelect
-              defaultValue={side.advertisingSide ? (<><img src={anchorIcon} />{side.advertisingSide.id}</>) :<img src={anchorIcon} />}
-              onChange={(value) => setItem({ ...item, advertisingSide: { ...item.advertisingSide, id: value } })}>
-        
+              defaultValue={side.advertisingSide ? side.advertisingSide.title :<img src={anchorIcon} /> }
+              onChange={(value) => setApiData({ ...apiData, advertisingSide: { ...apiData.advertisingSide, id: value } })}>
+
         </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Назначение стороны</InputTitle>
         <StyledSelect
-              defaultValue={side.purposeSide ? side.purposeSide.id :<img src={anchorIcon} />}
-              onChange={(value) => setItem({ ...item, purposeSide: { ...item.purposeSide, id: value } })}>
+              defaultValue={side.purposeSide ? side.purposeSide.title :<img src={anchorIcon} />}
+              onChange={(value) => setApiData({ ...apiData, purposeSide: { ...apiData.purposeSide, id: value } })}>
         </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Размеры(см)</InputTitle>
         <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={side.size ? side.size : ''}
-              onChange={(e) => setItem({ ...item, size: e.target.value })}></StyledInput>
+              defaultValue={side.advertisingSide ? side.advertisingSide.side.size : ''}
+              onChange={(e) => setApiData({ ...apiData, size: e.target.value })}></StyledInput>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Доступность стороны</InputTitle>
         <StyledSelect
           prefix={<img src={anchorIcon} />}
           defaultValue={side.availabilitySide ? side.availabilitySide : <img src={anchorIcon} />}
-          onChange={(value) => setItem({ ...item, availabilitySide: value })}>
+          onChange={(value) => setApiData({ ...apiData, availabilitySide: value })}>
             <StyledSelect.Option value={true}><img src={anchorIcon} /><span> Доступна</span></StyledSelect.Option>
             <StyledSelect.Option value={false}><img src={anchorIcon} /><span>Недоступна</span></StyledSelect.Option>
         </StyledSelect>
-      
+
 
       </InputWrapper>
       <RedDeleteBtn onClick={deleteSide}>

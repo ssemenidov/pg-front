@@ -35,6 +35,8 @@ const Locations = (props) => {
     }
   }, [data]);
   const addLocation= () => {
+    history.push(`/base/locations`);
+    return
     createLocation();
   };
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect,  useContext } from 'react';
 import { invoiceContext } from './Invoice';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 
@@ -128,11 +128,11 @@ const PanelDesign = (props) => {
   //       var5: $advertiser
   //       var6: $advAgency
   //       var7: $respManager
-  //       var8: $advManager 
+  //       var8: $advManager
   //     ) {
   //       edges {
   //         node {
-  //           // add variables 
+  //           // add variables
   //         }
   //       }
   //     }

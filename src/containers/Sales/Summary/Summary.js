@@ -41,7 +41,7 @@ const Summary = () => {
   });
   const [collapsed, setCollapsed] = useState(true);
   const [block, setBlock] = useState(0);
-  
+
   console.log('[data]', data);
   const links = [
     { id: '', value: 'Главная' },
@@ -73,7 +73,7 @@ const Summary = () => {
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton backgroundColor="#2C5DE5">Вынрузка данных</StyledButton>
+                <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               </>
             )}
           </ButtonGroup>

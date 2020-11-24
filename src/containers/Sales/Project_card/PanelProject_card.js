@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea_func';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import {Link} from "react-router-dom";
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
 
+
 const initColumnsForPopup = [
   {
     title: 'Код стороны',
-    dataIndex: 'code',
+    dataIndex: 'reservation_code',
     width: 130,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -17,7 +18,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Город',
-    dataIndex: 'city',
+    dataIndex: 'reservation_city',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -27,7 +28,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Адрес',
-    dataIndex: 'address',
+    dataIndex: 'reservation_address',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -37,7 +38,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Формат',
-    dataIndex: 'format',
+    dataIndex: 'reservation_format',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -47,7 +48,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Сторона',
-    dataIndex: 'side',
+    dataIndex: 'reservation_side',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -57,7 +58,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Дата создания',
-    dataIndex: 'createDate',
+    dataIndex: 'reservation_createDate',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -67,7 +68,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Дата начала',
-    dataIndex: 'startDate',
+    dataIndex: 'reservation_startDate',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -77,7 +78,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Дата окончания',
-    dataIndex: 'expirationDate',
+    dataIndex: 'reservation_expirationDate',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -87,7 +88,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Статус',
-    dataIndex: 'status',
+    dataIndex: 'reservation_status',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -97,7 +98,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Продление брони',
-    dataIndex: 'renewalOfReservation',
+    dataIndex: 'reservation_renewalOfReservation',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -107,7 +108,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Брендирование',
-    dataIndex: 'branding',
+    dataIndex: 'reservation_branding',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -117,7 +118,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Освещение',
-    dataIndex: 'lighting',
+    dataIndex: 'reservation_lighting',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -127,7 +128,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Пакет',
-    dataIndex: 'package',
+    dataIndex: 'reservation_package',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -137,7 +138,7 @@ const initColumnsForPopup = [
   },
   {
     title: 'Дизайн',
-    dataIndex: 'design',
+    dataIndex: 'reservation_design',
     width: 100,
     sorter: {
       compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
@@ -157,13 +158,140 @@ const initColumnsForPopup = [
   }
 ];
 
+const initColumnsTable = [
+  {
+    title: 'Номер приложения',
+    dataIndex: 'attachment_code',
+    width: 130,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Сумма',
+    dataIndex: 'attachment_summa',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Дата создания',
+    dataIndex: 'attachment_createDate',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Сроки',
+    dataIndex: 'attachment_reservDates',
+    width: 220,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    dataIndex: 'btn-remove',
+    width: 40,
+    title: '',
+    render: (text, record) => {
+      // console.log('[text]', text)
+      return (
+        <Link to={{ pathname: `/sales/application/${record.id}`, state: { dateFrom: record.dateForRouter[0], dateTo: record.dateForRouter[1] } }}>
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      )
+    }
+  },
+  {
+    dataIndex: 'dateForRouter',
+    width: 0,
+    title: '',
+    isShowed: true
+  }
+];
+const data = [
+  {
+    code: '#2020050301323',
+    city: 'Алматы',
+    address: 'Достык, 25',
+    format: 'Сениор',
+    side: 'Остановка',
+    createDate: '29.03.20',
+    startDate: '30.05.20',
+    expirationDate: '30.05.20',
+    status: 'Да',
+    renewalOfReservation: 'stub data',
+    branding: 'stub data',
+    lighting: 'stub data',
+    package: 'stub data',
+    design: 'stub data'
+  },
+  {
+    code: '#2020050301323',
+    city: 'Алматы',
+    address: 'Достык, 25',
+    format: 'Сениор',
+    side: 'Остановка',
+    createDate: '29.03.20',
+    startDate: '30.05.20',
+    expirationDate: '30.05.20',
+    status: 'Да',
+    renewalOfReservation: 'stub data',
+    branding: 'stub data',
+    lighting: 'stub data',
+    package: 'stub data',
+    design: 'stub data'
+  },
+  {
+    code: '#2020050301323',
+    city: 'Алматы',
+    address: 'Достык, 25',
+    format: 'Сениор',
+    side: 'Остановка',
+    createDate: '29.03.20',
+    startDate: '30.05.20',
+    expirationDate: '30.05.20',
+    status: 'Да',
+    renewalOfReservation: 'stub data',
+    branding: 'stub data',
+    lighting: 'stub data',
+    package: 'stub data',
+    design: 'stub data'
+  },
+  {
+    code: '#2020050301323',
+    city: 'Алматы',
+    address: 'Достык, 25',
+    format: 'Сениор',
+    side: 'Остановка',
+    createDate: '29.03.20',
+    startDate: '30.05.20',
+    expirationDate: '30.05.20',
+    status: 'Да',
+    renewalOfReservation: 'stub data',
+    branding: 'stub data',
+    lighting: 'stub data',
+    package: 'stub data',
+    design: 'stub data'
+  }
+];
 
 const PanelDesign = (props) => {
-  // const [columnsForPopup, props.setColumnsForPopup] = useState(props.columns);
-  // const [columnsTable, props.setColumnsTable] = useState(props.columns);
-  
-  // props.setColumnsTable(props.columns)
-  console.log('[columnsTable]', props.columns)
+  const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
+  const [columnsTable, setColumnsTable] = useState(initColumnsForPopup);
+  const [isReservTable, setIsReservTable] = useState(true)
+  const [data, setData] = useState(props.data.reservations)
+
 
   let colForReq = props.col;
 
@@ -174,20 +302,21 @@ const PanelDesign = (props) => {
   //   props.setColumnsTable(props.columns)
   //   props.setColumnsForPopup(props.columns)
   // }, props.columns)
-  
+  // const [block, setBlock] = useState(0);
+
   const changeColumns = (dataIndex) => {
-    let localColumnsForPopup = props.columns.map((col, index) => {
+    console.log('Data INDEX', dataIndex, '=======================')
+    let localColumnsForPopup = columnsForPopup.map((col, index) => {
       if(col.dataIndex  && col.dataIndex === dataIndex) {
         col.isShowed = !col.isShowed;
-
         return col
       }
       return col
     })
 
-    props.setColumnsForPopup(localColumnsForPopup);
+    setColumnsForPopup(localColumnsForPopup);
 
-    const newColumnTables = props.columns.filter(item => {
+    const newColumnTables = localColumnsForPopup.filter(item => {
       if(item.isShowed) {
         return item
       }
@@ -196,8 +325,23 @@ const PanelDesign = (props) => {
       }
     });
 
-    props.setColumnsTable(newColumnTables);
+    setColumnsTable(newColumnTables);
   };
+
+  useEffect(() => {
+    console.log(props.choosedBlock);
+    if (props.choosedBlock == 0) {
+      setColumnsForPopup(initColumnsForPopup);
+      setColumnsTable(initColumnsForPopup);
+      setData(props.data.reservations);
+    }
+    else {
+      setColumnsForPopup(initColumnsTable);
+      setColumnsTable(initColumnsTable);
+      setData(props.data.attachments);
+    }
+
+  }, [props.choosedBlock, props.loading])
 
   const headerTableBtns = [
     {
@@ -220,24 +364,22 @@ const PanelDesign = (props) => {
     setBlock={props.setBlock}
   />);
 
-  useEffect(() => {
-    setCurTable(<Table 
-      style={{ width: '100%' }} 
-      columns={props.columns} 
-      data={props.data} 
-      select={true} 
-      columnsForPopup={props.columns} 
-      changeColumns={changeColumns} 
-      chooseTableBtns={headerTableBtns}
-      choosedBlock={props.choosedBlock}
-      setBlock={props.setBlock}
-    />)
-  }, props.columns)
-
   return (
     <>
       <div className="outdoor-table-bar">
-      {curTable}
+      <Table
+        style={{ width: '100%' }}
+        columns={columnsTable}
+        setColumns={setColumnsTable}
+        data={data}
+        select={true}
+        columnsForPopup={columnsForPopup}
+        // changeColumns={changeColumns}
+        chooseTableBtns={headerTableBtns}
+        choosedBlock={props.choosedBlock}
+        setBlock={props.setBlock}
+        loading={props.loading}
+      />
       </div>
 
       <style>

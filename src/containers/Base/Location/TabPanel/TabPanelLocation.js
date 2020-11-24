@@ -98,39 +98,39 @@ const LOCATION_UPDATE = gql`
 `;
 
 export default function InnerForm(props) {
-  const  [item, setItem] = useContext(locationContext);
+  const  [apiData, setApiData] = useContext(locationContext);
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
-    console.log(item);
+    console.log(apiData);
     let constructionIdList = null;
-    if(item.construction && item.construction.edges) {
-      constructionIdList = item.construction.edges.map(item => item.node.id);
+    if(apiData.construction && apiData.construction.edges) {
+      constructionIdList = apiData.construction.edges.map(item => item.node.id);
     }
 
     updateLocation({ variables:  {
-      ...item,
-      purposeLocation: item.purposeLocation && item.purposeLocation.id,
-      postcode: item.postcode && item.postcode.id,
-      legalAddress: item.legalAddress && item.legalAddress.id,
-      registrationStatusLocation: item.registrationStatusLocation && item.registrationStatusLocation.id,
-      constructionsRemove: item.constructionsRemove && item.constructionsRemove
+      ...apiData,
+      purposeLocation: apiData.purposeLocation && apiData.purposeLocation.id,
+      postcode: apiData.postcode && apiData.postcode.id,
+      legalAddress: apiData.legalAddress && apiData.legalAddress.id,
+      registrationStatusLocation: apiData.registrationStatusLocation && apiData.registrationStatusLocation.id,
+      constructionsRemove: apiData.constructionsRemove && apiData.constructionsRemove
      } });
 
     // history.push(`/base/locations`);
     // history.go(0);
   };
   const Delete = () => {
-    deleteLocation({ variables: { id: item.id } });
+    deleteLocation({ variables: { id: apiData.id } });
     history.push(`/base/locations`);
     history.go(0);
   };
   const addConstruction = (e) => {
     e.preventDefault();
 
-    history.push(`/base/locations/location/${item.id}/add_outdoor_furniture`);
+    history.push(`/base/locations/location/${apiData.id}/add_outdoor_furniture`);
     history.go(0);
   }
 

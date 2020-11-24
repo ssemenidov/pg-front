@@ -19,6 +19,7 @@
     "babel-plugin-transform-react-jsx-source": "^6.22.0",
     "bootstrap": "^4.5.0",
     "date-fns": "^2.14.0",
+    "dateformat": "^4.0.0",
     "excellentexport": "^3.4.3",
     "flexboxgrid": "^6.3.1",
     "graphql": "^15.3.0",

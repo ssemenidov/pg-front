@@ -9,7 +9,7 @@ import { LoadingAntd } from '../../../components/UI/Loader/Loader'
 export const locationContext = createContext();
 const Location = (props) => {
   const [ id ] = useState(props.match.params.id);
-  const [ item, setItem ] = useState({});
+  const [ apiData, setApiData ] = useState({});
   const LOCATION_ITEM = gql`
     query SearchLocation($id: ID!) {
       searchLocation(id: $id) {
@@ -92,14 +92,14 @@ const Location = (props) => {
 
   useMemo(() => {
     if (data && data.searchLocation.edges.length) {
-      setItem(data.searchLocation.edges[0].node);
+      setApiData(data.searchLocation.edges[0].node);
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <LoadingAntd/>;
 
   return (
-    <locationContext.Provider value={ [item, setItem] }>
+    <locationContext.Provider value={ [apiData, setApiData] }>
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />

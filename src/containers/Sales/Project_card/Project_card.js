@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Input } from 'antd';
 import styled from 'styled-components';
+import dateFormat from 'dateformat';
 import { gql, useQuery } from '@apollo/client';
 
 import {Link} from "react-router-dom";
@@ -21,6 +22,7 @@ import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SidebarInfo from '../../../components/SidebarInfo';
 
 import PanelDesign from './PanelProject_card';
+import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 
 import { sidebarInfoData } from '../stubDataSource';
 
@@ -36,12 +38,18 @@ query ($id: ID!) {
         id
         title
         code
+        createdAt
         creator {
           id
           firstName
           lastName
           lastLogin
-          
+        }
+        client {
+          title
+          partnerType {
+            title
+          }
         }
         comment
         brand {
@@ -59,44 +67,62 @@ query ($id: ID!) {
           lastName
         }
         agencyCommission
-        
+        projectAttachments {
+          edges {
+            node {
+              id
+              code
+              createdDate
+              periodStartDate
+              periodEndDate
+              returnStatus
+            }
+          }
+        }
         reservations {
           edges {
             node {
               id
               dateFrom
               dateTo
-              project {
-                code
-                title
-                brand {
-                  id
+              branding
+              constructionSide {
+                package {
                   title
                 }
-                createdAt
-                invoices {
-                  edges {
-                  	node {
-                      wholeSum
+                advertisingSide {
+                  code
+                  title
+                  side {
+                    title
+                    code
+                    format {
+                      code
+                      title
+                    }
+                  }
+                }
+                construction {
+                  numInDistrict
+                  statusConnection
+                  location {
+                    marketingAddress {
+                      address
+                    }
+                    postcode {
+                      title
+                      district {
+                        city {
+                          title
+                        }
+                      }
                     }
                   }
                 }
               }
-            }
-          }
-        }
-        projectAttachments {
-          edges {
-            node {
-              code 
-              project {
+              reservationType {
                 title
-                brand {
-                  title
-                  workingSector {
-                    title
-                  }
-                }
+                id
               }
             }
           }
@@ -104,14 +130,13 @@ query ($id: ID!) {
       }
     }
   }
-}
-  `;
+}`;
 
 
+const Project_card = () => {
 
 // const queries = [PROJECT_QUERY, APPS_QUERY]
 
-const Project_card = () => {
   const history = useHistory();
   const { id } = useParams();
   const [block, setBlock] = useState(0);
@@ -176,7 +201,7 @@ const Project_card = () => {
       isShowed: true
     }
   ];
-  
+
   const attachmentColumns = [
     {
       title: 'Номер приложения',
@@ -219,7 +244,7 @@ const Project_card = () => {
       isShowed: true
     }
   ]
-  
+
   const columnTypes = [initColumnsTable, attachmentColumns];
   const [columnsForPopup, setColumnsForPopup] = useState(columnTypes[block]);
   const [columnsTable, setColumnsTable] = useState(columnTypes[block]);
@@ -231,10 +256,10 @@ const Project_card = () => {
   });
 
 
-  useEffect(() => {
+  // useEffect(() => {
     // alert(1)
-    setColumnsTable(columnTypes[block]);
-  }, block)
+    // setColumnsTable(columnTypes[block]);
+  // }, block)
 
   let dataItem = data ? data.searchProject.edges[0].node : null;
 
@@ -286,11 +311,11 @@ const Project_card = () => {
       content: [
         {
           title: 'Рекламодатель:',
-          value: 'Агенство'
+          value: (dataItem.client && dataItem.client.partnerType == 'Рекламодатель' && dataItem.title) || '-'
         },
         {
           title: 'Рекламное агентство:',
-          value: '-'
+          value: (dataItem.client && dataItem.client.partnerType == 'Рекламное агентство' && dataItem.title) || ''
         },
         {
           title: 'Брендинг',
@@ -316,38 +341,57 @@ const Project_card = () => {
     },
   ] : null;
 
-  let panelData = []; 
-  
+  let panelData = [];
+
   panelData[0] = dataItem ? dataItem.reservations.edges.map(item => {
     console.log('[item.node.id]', item.node);
     let dateFrom = new Date(item.node.dateFrom)
     let dateTo = new Date(item.node.dateTo)
-    let dateCreate = new Date(item.node.project.createdAt)
+    let dateCreate = new Date(item.node.createdAt)
     return({
       id: item.node.id,
-      code: '#' + item.node.project.code,
-      summa: item.node.project.invoices.edges[0].node.wholeSum,
+      code: '#' + item.node.code,
+      summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
       createDate: dateCreate.getFullYear() + '-' + (dateCreate.getMonth() + 1) + '-' + dateCreate.getDate() ,
       reservDates: dateFrom.getFullYear() + '-' + (dateFrom.getMonth() + 1) + dateFrom.getDate() + ' - ' + dateTo.getFullYear() + '-' + (dateTo.getMonth() + 1) + '-' + dateTo.getDate(),
       dateForRouter: [item.node.dateFrom, item.node.dateTo]
     })
   }) : null;
 
-  panelData[1] = dataItem ? dataItem.projectAttachments.edges.map(item => {
-    console.log('[item.node.id]', item.node);
-    return({
-      code: '#' + item.node.code,
-      title: item.node.project.title,
-      brand: item.node.project.brand.title
-    })
-  }) : null;
+  let panelDataAttachments = (dataItem && dataItem.projectAttachments && dataItem.projectAttachments.edges.map(item => ({
+      id: item.node.id,
+      attachment_code: '#' + item.node.code,
+      attachment_summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
+      attachment_createDate: dateFormat(item.node.createdDate, 'dd-mm-yyyy'),
+      attachment_reservDates: `${dateFormat(item.node.periodStartDate, 'dd-mm-yyyy')}-${dateFormat(item.node.periodEndDate, 'dd-mm-yyyy')}`,
+      dateForRouter: [item.node.dateFrom, item.node.dateTo]
+  }))) || [];
 
+  let panelReservations = (dataItem && dataItem.reservations && dataItem.reservations.edges.map(item => ({
+    id: item.node.id,
+    key: item.node.id,
+    reservation_code: getConstructionSideCode(item.node.constructionSide),
+    reservation_city: item.node.constructionSide.construction.location.postcode.district.city.title,
+    reservation_address: (
+      item.node.constructionSide.construction.location.marketingAddress &&
+      item.node.constructionSide.construction.location.marketingAddress.address) || '',
+    reservation_format: item.node.constructionSide.advertisingSide.side.format.title,
+    reservation_side: item.node.constructionSide.advertisingSide.title,
+    reservation_startDate: dateFormat(item.node.dateFrom, 'dd-mm-yyyy'),
+    reservation_expirationDate: dateFormat(item.node.dateTo, 'dd-mm-yyyy'),
+    reservation_status: item.node.reservationType.title,
+    reservation_lighting: (item.node.constructionSide.statusConnection && 'Да') || 'Нет',
+    reservation_package: (item.node.constructionSide.package && item.node.constructionSide.package.title) || '',
 
+  }))) || [];
 
-  // setColumnsForPopup(columnTypes[block])
-  // setColumnsTable(columnTypes[block])
+  panelData = {
+    attachments: panelDataAttachments,
+    reservations: panelReservations,
+  }
+  console.log(panelData.reservations);
 
-  console.log('[DATA]', panelData)
+  // console.log('[DATA]', panelData)
   const links = [
     { id: '', value: 'Главная' },
     { id: 'sales', value: 'Продажи' },
@@ -390,7 +434,7 @@ const Project_card = () => {
                 <StyledButton
                   backgroundColor="#2C5DE5"
                   onClick={() => {
-                    history.push('/sales/project_card/' + id + '/estimate');
+                    history.push(`/sales/project_card/${id}/estimate`);
                   }}>
                   Смета проекта
                 </StyledButton>
@@ -404,13 +448,13 @@ const Project_card = () => {
             />
           </div>
           {
-            panelData[block] !== null && (
+            panelData !== null && (
               <PanelDesign
               style={{ flex: '0 1 auto' }}
               setBlock={setBlock}
               choosedBlock={block}
-              data={panelData[block]}
-              columns={columnTypes[block]}
+              data={panelData}
+              loading={loading}
               setColumnsForPopup={setColumnsForPopup}
               setColumnsTable={setColumnsTable}
             />

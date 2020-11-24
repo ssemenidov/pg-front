@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
-import Table from '../../../Tablea';
+import Table from '../../../Tablea/Tablea';
 import { partnerContext } from "../../../../containers/Base/Partner/Partner";
 
 const columns = [

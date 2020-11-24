@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Layout, Menu, Table, DatePicker, Checkbox, Select, Button, Input, Dropdown } from 'antd';
 
-import { CustomTabBtn, CustomTabList } from './Styles/DesignList/styles';
+import { CustomTabBtn, CustomTabList } from '../Styles/DesignList/styles';
 
-import plusIcon from '../img/header-bar/plus-icon.svg';
-import attachIcon from '../img/header-bar/attach.svg';
-import minusIcon from '../img/header-bar/minus-icon.svg';
-import searchInputIcon from '../img/header-bar/search-icon.svg';
-import printerIcon from '../img/header-bar/printer.svg';
-import exportIcon from '../img/header-bar/export.svg';
-import settingsIcon from '../img/header-bar/settings.svg';
+import plusIcon from '../../img/header-bar/plus-icon.svg';
+import attachIcon from '../../img/header-bar/attach.svg';
+import minusIcon from '../../img/header-bar/minus-icon.svg';
+import searchInputIcon from '../../img/header-bar/search-icon.svg';
+import printerIcon from '../../img/header-bar/printer.svg';
+import exportIcon from '../../img/header-bar/export.svg';
+import settingsIcon from '../../img/header-bar/settings.svg';
+import './Tablea.scss'
 
 const { Content, Sider } = Layout;
 
@@ -126,7 +127,7 @@ class Tablea extends React.Component {
       let newCols = this.props.columns.map(item => {
         if(item.dataIndex === dataIndex) {
           item.isShowed = !item.isShowed
-        } 
+        }
         return item;
       })
       this.setState({
@@ -139,13 +140,13 @@ class Tablea extends React.Component {
     }
 
     const handleMenuClick = () => {};
-    console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
+    // console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
     if (this.props.enableChooseQuantityColumn) {
       settingmenu = (
         <Menu onClick={handleMenuClick}>
           {this.props.columns
             .map((col) => {
-                  console.log(col)
+                  // console.log(col)
                   return (
                   <Menu.Item key={col.dataIndex}>
                     <Checkbox
@@ -160,10 +161,10 @@ class Tablea extends React.Component {
       );
     }
 
-    console.log('[this.props.constructionsIdSet]', this.props.constructionsIdSet)
+    // console.log('[this.props.constructionsIdSet]', this.props.constructionsIdSet)
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(selectedRowKeys)
+        // console.log(selectedRowKeys)
         // this.props.setConstructionsIdSet(selectedRowKeys);
       },
       getCheckboxProps: (record) => ({
@@ -177,49 +178,52 @@ class Tablea extends React.Component {
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         {!this.props.notheader && (
           <div className="header-bar">
-            {this.props.enableChoosePeriod ? (
-              <React.Fragment>
-                {this.props.title ? (
-                  <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
-                    <img src={attachIcon} alt="" />
-                    <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
+            <StyledNavigationTabs>
+              {this.props.enableChoosePeriod ? (
+                <React.Fragment>
+                  {this.props.title ? (
+                    <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
+                      <img src={attachIcon} alt="" />
+                      <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
                       {this.props.title}
                     </span>
-                  </div>
-                ) : (
-                  <div>
-                    <div>
-                      <Button className="header-btn">
-                        <img src={plusIcon} />
-                      </Button>
-                      <Button className="header-btn">
-                        <img src={minusIcon} />
-                      </Button>
                     </div>
-                  </div>
-                )}
-              </React.Fragment>
-            ) : (
-              <div></div>
-            )}
-            {
-              this.props.chooseTableBtns && (
-                <CustomTabList>
-                  {
-                    this.props.chooseTableBtns.map((item, index) => (
-                      <CustomTabBtn
-                        className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
-                        onClick={() => {
+                  ) : (
+                    <div>
+                      <div style={{display: 'flex', marginRight: '1rem'}}>
+                        <Button className="header-btn">
+                          <img src={plusIcon} />
+                        </Button>
+                        <Button className="header-btn">
+                          <img src={minusIcon} />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </React.Fragment>
+              ) : (
+                <div></div>
+              )}
+              {
+                this.props.chooseTableBtns && (
+                  <CustomTabList>
+                    {
+                      this.props.chooseTableBtns.map((item, index) => (
+                        <CustomTabBtn
+                          className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
+                          onClick={() => {
                           console.log(index)
-                          this.props.setBlock(index);
-                        }}>
-                        {item.title}
-                      </CustomTabBtn>
-                    ))
-                  }
-                </CustomTabList>
-              )
-            }
+                            this.props.setBlock(index);
+                          }}>
+                          {item.title}
+                        </CustomTabBtn>
+                      ))
+                    }
+                  </CustomTabList>
+                )
+              }
+            </StyledNavigationTabs>
+
             <div>
               <Input
                 style={{ marginLeft: '20px' }}
@@ -276,51 +280,6 @@ class Tablea extends React.Component {
           />
         </Content>
         <style>
-          {`.header-bar {
-                display: flex;
-                background: #E7EEF8;
-                margin-bottom: 10px;
-                border-radius: 4px;
-                border: 1px solid #D3DFF0;
-                height: 45px;
-                padding: 5px;
-                justify-content: space-between;
-                align-items:flex-end;
-              }
-              .header-bar > div {
-                display: flex;
-              }
-              .header-bar > div > div {
-                display: flex;
-              }
-              .header-btn {
-                border: 1px solid #D3DFF0;
-                margin-right: 5px;
-                width: 32px;
-                height: 32px;
-                border-radius: 4px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              }
-              .header-date-btn {
-                display: flex;
-                justify-content: space-between;
-              }
-              .header-date-btn span {
-                color: #252525 !important;
-              }
-              .header-page-btn {
-                background: #FF5800;
-                display: flex;
-                align-items: center;
-                padding: 15px 30px;
-              }
-              .header-page-btn span {
-                color: #fff !important;
-                font-weight: 600;
-              }
-              `}
         </style>
       </div>
     );
@@ -370,3 +329,9 @@ const StyledTable = styled(Table)`
     background: #f5f7fa !important;
   } */
 `;
+
+const StyledNavigationTabs = styled.div`
+  display: inline-flex;
+  justify-content: space-between;
+
+`

@@ -67,9 +67,14 @@ const OutdoorFurniture = (props) => {
   const [flagAddConstruction, setFlagAddConstruction] = useState(false);
   const [constructionsIdSet, setConstructionsIdSet] = useState([]);
   const { id } = useParams();
-  const [createConstruction, { data }] = useMutation(CONSTRUCT_CREATE);
+  const [createConstructionMutation, { data }] = useMutation(CONSTRUCT_CREATE);
   const [updateLocation] = useMutation(ADD_CONSTRUCT_TO_LOCATION);
   const [updateCrew] = useMutation(ADD_CONSTRUCT_TO_CREW);
+
+  let createConstruction = () => {
+    history.push('/base/outdoor_furniture');
+    // createConstructionMutation();
+  }
 
   useMemo(() => {
     if (data) {

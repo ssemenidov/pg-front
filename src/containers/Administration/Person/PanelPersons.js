@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 import { StyledPen, TrashSpacer, PenSpacer, StyledTrash } from '../components/Styled'
 import '../../../components/SlidingBottomPanel/style.scss'
