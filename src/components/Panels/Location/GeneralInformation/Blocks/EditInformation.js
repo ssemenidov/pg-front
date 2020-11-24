@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { locationContext } from '../../../../../containers/Base/Location/Location';
 
@@ -6,10 +6,61 @@ import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styl
 import { StyledInput ,StyledSelect} from '../../../../Styles/DesignList/styles';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
+import postIcon from '../../../../../img/input/post.svg';
+import cityIcon from '../../../../../img/input/city.svg';
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import useDebounce from '../../../../../containers/Administration/components/useDebounce';
+
+
+const LOCATION_PURPOSE_T = gql`
+  query SearchLocPurpose($title: String) {
+    searchLocPurpose(title_Icontains: $title) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`
 
 
 export const EditInformation = () => {
-  const [item, setItem] = useContext(locationContext);
+  const [apiData, setApiData] = useContext(locationContext);
+
+  const purposeLocQuery = useLazyQuery(LOCATION_PURPOSE_T);
+
+  const [locPurposeSearchText, setLocPurposeSearchText] = useState('');
+  const [locPurpose, setLocPurposeValue] = useState(undefined);
+  const [locPurposeData, setLocPurposeData] = useState([]);
+  const [locPurposeLoading, setLocPurposeLoading] = useState(false);
+
+  const debouncedSearchTerm = useDebounce(locPurposeSearchText, 500);
+  const handleSearchPurposeLocQuery = (value) => {
+    setLocPurposeSearchText(value);
+  };
+  const handleChangePurposeLocQuery = (purposeLocationId) => {
+    console.log('id', purposeLocationId);
+    setLocPurposeValue(purposeLocationId);
+    let newApiData = {...apiData};
+    newApiData.purposeLocation = { id: purposeLocationId };
+    setApiData(newApiData);
+  };
+
+  useEffect(() => {
+    console.log(purposeLocQuery)
+    purposeLocQuery[0]({variables: {title: debouncedSearchTerm}});
+    setLocPurposeLoading(purposeLocQuery[1].loading);
+  }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    let data = purposeLocQuery[1].data;
+    if (data && data.searchLocPurpose.edges) {
+      setLocPurposeData(data.searchLocPurpose.edges);
+      setLocPurposeLoading(purposeLocQuery[1].loading);
+    }
+  }, [purposeLocQuery[1].data]);
 
   return (
     <Medium>
@@ -18,13 +69,14 @@ export const EditInformation = () => {
       </BlockTitle>
 
       <BlockBody>
+
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Площадь (га)</InputTitle>
             <StyledInput
             prefix={<img src={anchorIcon} />}
-            defaultValue={item.area ? item.area :""}
-              onChange={(e) => {setItem({...item, area:e.target.value})}}
+            defaultValue={apiData.area ? apiData.area :""}
+              onChange={(e) => {setApiData({...apiData, area:e.target.value})}}
               placeholder="34"
               size={'large'}
             />
@@ -35,8 +87,8 @@ export const EditInformation = () => {
             <InputTitle>Кадастровый номер</InputTitle>
             <StyledInput
             prefix={<img src={anchorIcon} />}
-            defaultValue={item.cadastralNumber ? item.cadastralNumber :""}
-            onChange={(e) => {setItem({...item, cadastralNumber:e.target.value})}}
+            defaultValue={apiData.cadastralNumber ? apiData.cadastralNumber :""}
+            onChange={(e) => {setApiData({...apiData, cadastralNumber:e.target.value})}}
               placeholder="00-000-000-000"
               size={'large'}
             />
@@ -45,12 +97,28 @@ export const EditInformation = () => {
         <Row>
           <div style={{ width: '100%' }}>
             <InputTitle>Целевое назначение</InputTitle>
+
             <StyledSelect
-            defaultValue={<img src={anchorIcon} />}
+              showSearch
+              value={locPurpose}
+              defaultValue={apiData.purposeLocation.title}
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              filterOption={false}
+              onSearch={handleSearchPurposeLocQuery}
+              onChange={handleChangePurposeLocQuery}
+              notFoundContent={null}
+              loading={locPurposeLoading}
             >
-            <StyledSelect.Option>
-            </StyledSelect.Option>
+              {
+                locPurposeData && locPurposeData.map(({ node }) => (
+                  <StyledSelect.Option key={node.id} value={node.id}>
+                    { node.title ? node.title : 'Нет названия' }
+                  </StyledSelect.Option>
+                ))
+              }
             </StyledSelect>
+
             {/* <StyledInput
               placeholder="Рекламно-информационный объект"
               prefix={<img src={anchorIcon} />}
@@ -70,8 +138,8 @@ export const EditInformation = () => {
             <InputTitle>Комментарий</InputTitle>
 
             <StyledInput.TextArea rows={2}
-              value={item.comment ? item.comment :""}
-              onChange={(e) => {setItem({...item, comment:e.target.value})}}
+              value={apiData.comment ? apiData.comment :""}
+              onChange={(e) => {setApiData({...apiData, comment:e.target.value})}}
               size={'large'}
             />
           </div>

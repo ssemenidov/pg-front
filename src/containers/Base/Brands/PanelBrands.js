@@ -5,7 +5,7 @@ import { useQuery, gql } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 import { brandsContext } from './Brands';
 import { stubDataBrands } from './stubDataSource';

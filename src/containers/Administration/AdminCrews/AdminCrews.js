@@ -5,7 +5,7 @@ import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/Slidi
 import { PersonCRUDForm } from '../Person/PersonCRUDForm';
 import { PenSpacer, StyledPen, StyledTrash, TrashSpacer } from '../components/Styled';
 import styled from 'styled-components';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 
 import { srcCrews } from './AdminCrewsDatasource';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';

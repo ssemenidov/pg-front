@@ -14,6 +14,7 @@ import useDebounce from '../../Administration/components/useDebounce';
 import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {Row, Col} from 'antd'
 import anchorIcon from '../../../img/input/anchor.svg';
+import { useHistory } from 'react-router';
 
 
 
@@ -74,6 +75,7 @@ const ReservationSilderCheckboxesFormItem = styled(Form.Item)`
 const ReservationSliderSubmitButton = styled(SubmitButton)`
     margin-left: 2rem;
     fontWeight: bold;
+    min-width: 10rem;
 `;
 
 const ReservInputText = styled(Input)`
@@ -83,7 +85,7 @@ const ReservInputText = styled(Input)`
 const RESERVATION_PACKAGE_CREATOR = gql`
 mutation ( $input: CreateReservationPackageInput!) {
   createReservationPackage(input: $input) {
-    
+
     reservationPackage {
       id
       dateTo
@@ -123,7 +125,7 @@ export function ReservationSlider({sliderState, dataCount}) {
   //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
   //   }
   // };
-  
+
   let colSteps = {xl: 2, lg: 4, md: 6};
   const [designList, setDesignList] = useState(null);
   const [printArray, setSetPrintArray] = useState(null);
@@ -134,6 +136,7 @@ export function ReservationSlider({sliderState, dataCount}) {
   const [partnerLoading, setPartnerLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
   const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
+  let history = useHistory();
   // const [filter, setFilter] = useContext(batchContext);
 
   const handleSearchPartner = (value) => {
@@ -157,7 +160,7 @@ export function ReservationSlider({sliderState, dataCount}) {
       setPartnerLoading(loading);
     }
   }, [data]);
-  
+
 
   return (
     <SlidingBottomPanel title={`Выстваление счета`}
@@ -191,17 +194,17 @@ export function ReservationSlider({sliderState, dataCount}) {
                 console.log(projectName)
                 setProjectName(e.target.value)
                 }} /> */}
-                <StyledSelect  
-                  placeholder={<><img src={anchorIcon} /> <span>Банковский перевод</span> </>} 
-                  size={'large'} 
+                <StyledSelect
+                  placeholder={<><img src={anchorIcon} /> <span>Банковский перевод</span> </>}
+                  size={'large'}
                 >
                   <StyledSelect.Option value={"Наличные"}><span>Наличные</span></StyledSelect.Option>
                   <StyledSelect.Option value={"Бартер"}><span>Бартер</span></StyledSelect.Option>
                   <StyledSelect.Option value={"Банковский перевод"}><span>Банковский перевод</span></StyledSelect.Option>
               </StyledSelect>
             </ReservationSilderFormItem>
-            
-            
+
+
           </SliderCellColRaw>
           <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 7}}>
           <ReservationSilderFormItem >
@@ -259,7 +262,7 @@ export function ReservationSlider({sliderState, dataCount}) {
               }
             </div>
           </SliderCellColRaw>
-          
+
           <SliderCellColRaw {...{xxl: 2, xs: 1}}>
             {/* <BtnGroup> */}
             <div className="slider-summary" >
@@ -273,8 +276,10 @@ export function ReservationSlider({sliderState, dataCount}) {
                 <Checkbox.Group options={checkBoxOptions} defaultValue={['Выставление АВР']} />
               </ReservationSilderCheckboxesFormItem>
             </div>
-            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>
-              Забронировать
+            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={
+              () => {history.push('/sales/invoice')}
+            }>
+              Выставить счет
             </ReservationSliderSubmitButton>
           </SliderCellColRaw>
         </SliderRow>

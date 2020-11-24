@@ -84,6 +84,7 @@ const InnerForm = (props) => {
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
 
   const Update = (e) => {
+    history.push('/base/outdoor_furniture')
     e.preventDefault();
     updateConstruction({ variables: {
        ...item,
@@ -132,11 +133,11 @@ const InnerForm = (props) => {
               })}
             </STabList>
           </ControlToolbar>
-          <STabPanel>{panel1}</STabPanel>
-          <STabPanel>{panel2}</STabPanel>
-          <STabPanel>{panel3}</STabPanel>
-          <STabPanel>{panel4}</STabPanel>
-          <STabPanel>{panel5}</STabPanel>
+          <STabPanel><BackOffice /></STabPanel>
+          <STabPanel><TechDept /></STabPanel>
+          <STabPanel><AccDept /></STabPanel>
+          <STabPanel><Other /></STabPanel>
+          <STabPanel><ConstructionHist /></STabPanel>
         </STabs>
       </div>
     </form>

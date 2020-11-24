@@ -9,6 +9,7 @@ import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/Slidi
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
 import {Row, Col} from 'antd'
+import { useHistory } from 'react-router';
 
 
 
@@ -85,6 +86,7 @@ export function ReservationSlider({sliderState}) {
   // };
   let initialValues = {}
   let colSteps = {xl: 2, lg: 4, md: 6};
+  let history = useHistory();
 
   return (
     <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
@@ -136,7 +138,9 @@ export function ReservationSlider({sliderState}) {
           </SliderCellColRaw>
           <SliderCellColRaw {...{xxl: 2, xs: 1}}>
             {/* <BtnGroup> */}
-            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>
+            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {
+              history.push('/sales/project_card/VlByb2plY3ROb2RlOjI=');
+            }}>
               Забронировать
             </ReservationSliderSubmitButton>
           </SliderCellColRaw>

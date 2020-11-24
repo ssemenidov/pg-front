@@ -11,14 +11,15 @@ import Construction from './Blocks/Construction';
 import Documents from './Blocks/Documents';
 
 import { locationContext } from "../../../../containers/Base/Location/Location";
+import './Blocks/panel_location.scss'
 
 const GeneralInformation = () => {
-  const  [item, setItem] = useContext(locationContext);
+  const  [apiData, setApiData] = useContext(locationContext);
   const history = useHistory();
 
   let newCoords;
 
-  const { constructions } = item;
+  const { constructions } = apiData;
 
   const removeConstruction = (e, id) => {
     e.preventDefault();
@@ -27,13 +28,13 @@ const GeneralInformation = () => {
 
     edgesLocal = edgesLocal.filter(el => el.node.id != id);
 
-    setItem({
-      ...item,
+    setApiData({
+      ...apiData,
       constructions: {
         edges: edgesLocal
       },
       constructionsRemove: [
-        ...(item.constructionsRemove || []),
+        ...(apiData.constructionsRemove || []),
         id
       ]
     })
@@ -46,14 +47,14 @@ const GeneralInformation = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' ,marginBottom:"20px" }}>
-      <div style={{ flex: '1 0 23%', margin: '1vw 1vw 1vw 0' }}>
+    <div className="general-info-root">
+      <div className={"edit-info"}>
         <EditInformation />
       </div>
-      <div style={{ flex: '1 0 23%', margin: '1vw' }}>
+      <div className={"address"}>
         <Address />
       </div>
-      <div style={{ flex: '1 0 48%', margin: '1vw 0 1vw 1vw' }}>
+      <div className={"ymaps-panel"}>
         <YMaps>
           <Map
             style={{ height: '100%' }}

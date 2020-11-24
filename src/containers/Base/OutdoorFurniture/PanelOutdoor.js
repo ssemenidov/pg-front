@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { outContext } from './OutdoorFurniture';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';

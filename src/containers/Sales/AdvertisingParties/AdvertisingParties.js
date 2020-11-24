@@ -18,6 +18,7 @@ import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Color
 import './styles_adv_part.scss'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides';
+import { useHistory } from 'react-router';
 
 const { Content, Sider } = Layout;
 
@@ -35,6 +36,7 @@ const AdvertisingParties = () => {
   const [filter, setFilter]= useState({});
   const [refetch, setRefetch]= useState(null);
   const [ganttUpdater, setGanttUpdater]= useState(null);
+  const history = useHistory();
 
   const sliderState = new SliderState({name: "", key: ""})
   return (
@@ -55,7 +57,10 @@ const AdvertisingParties = () => {
                             onClick={() => { sliderState.setAddShowed(true); }}
               >Быстрая бронь</StyledButton>
               <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
-              <StyledButton backgroundColor={colorAccent}>Сохранить</StyledButton>
+              <StyledButton backgroundColor={colorAccent}
+                            onClick={() => history.push("/sales/project_card/VlByb2plY3ROb2RlOjI=")}
+
+              >Сохранить</StyledButton>
               <StyledButton backgroundColor={colorOrangeAccent}>Создать отчет</StyledButton>
             </ButtonGroup>
           </HeaderWrapper>

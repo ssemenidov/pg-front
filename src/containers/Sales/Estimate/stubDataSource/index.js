@@ -417,6 +417,15 @@ export const initColumnsForPopupHotPtc = [
         width: 130,
         isShowed: true,
       },
+<<<<<<< HEAD
+=======
+      {
+        title: 'Производство',
+        dataIndex: 'manufactureInput',
+        width: 130,
+        isShowed: true,
+      },
+>>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
       {
         title: 'Сумма',
         dataIndex: 'sumInput',

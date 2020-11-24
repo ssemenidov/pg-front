@@ -3,7 +3,7 @@ import {  applicationsContext } from './ApplicationsTab';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import Table from '../../../components/Tablea';
+import Table from '../../Tablea/Tablea';
 const ApplicationsPanel = () => {
     const [filter, setFilter] = useContext(applicationsContext);
     const APPLICATION_T = gql`
@@ -22,7 +22,7 @@ const ApplicationsPanel = () => {
               name
             }
             createdDate
-            
+
             # brand
             # {
             #   id
@@ -35,7 +35,7 @@ const ApplicationsPanel = () => {
             periodStartDate
             periodEndDate
             additionallyAgreement
-           
+
           }
         }
       }
@@ -154,8 +154,8 @@ const ApplicationsPanel = () => {
         project: 'CocaCola',
         date_start: '29.05.2021',
         date_end: '29.05.2021',
-    
-    
+
+
     }));
     }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { partnersContext } from './Partners';
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
@@ -40,6 +40,7 @@ query SearchPartner(
               node {
                 id
                 title
+                description
               }
             }
           }
@@ -101,6 +102,12 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
   const { loading, error, data } = useQuery(PARTNERS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
   console.log(data);
+  let getWorkingSector = (node) => {
+    let result = (node.workingSectors && node.workingSectors.edges
+      && node.workingSectors.edges[0] && node.workingSectors.edges[0].node && node.workingSectors.edges[0].node.description);
+    return result;
+  }
+
 
   if (data) {
     data1 = data.searchPartner.edges.map((item) => ({
@@ -108,7 +115,7 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
       type: item.node.partnerType ? item.node.partnerType.title : '',
       partner: item.node.title,
       brand: item.node.brands && item.node.brands.edges && item.node.brands.edges[0] && item.node.brands.edges[0].node && item.node.brands.edges[0].node.title,
-      sector: item.node.workingSector && item.node.workingSector.edges && item.node.workingSector.edges[0] && item.node.workingSector.edges[0].node && item.node.workingSector.edges[0].node.title,
+      sector: getWorkingSector(item.node),
       client: item.node.clientType ? item.node.clientType.title : '',
     }));
   }

@@ -3,12 +3,13 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 
 import { agreementContext } from './Agreement';
 import EditInfo from "./Blocks/EditIfo"
-import Table from '../../../../components/Tablea';
+import Table from '../../../../components/Tablea/Tablea';
 
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
+import { useHistory } from 'react-router';
 
 const CONTRACT_UPDATE = gql`
 mutation(
@@ -134,7 +135,9 @@ var data = [
 const PanelDesign = (props) => {
   const  [item, setItem] =useContext(agreementContext);
   const [updateContract] = useMutation(CONTRACT_UPDATE);
+  let history = useHistory();
   const Update = (e) => {
+    history.push('/base/documents/agreements');
     e.preventDefault();
     updateContract({
       variables: {

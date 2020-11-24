@@ -4,7 +4,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import ApplicationSearch from './ApplicationSearch';
 import ApplicationsPanel from './ApplicationsPanel';
 
-import Table from '../../../components/Tablea';
+import Table from '../../Tablea/Tablea';
 export const applicationsContext = createContext();
 const ApplicationsTab = () => {
   const [filter, setFilter] = useState({});
@@ -14,7 +14,7 @@ const ApplicationsTab = () => {
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
 
         <ApplicationSearch />
- 
+
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>

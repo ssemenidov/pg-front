@@ -2,7 +2,7 @@ import React,{useContext, useState,createContext} from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import Table from '../../../components/Tablea';
+import Table from '../../Tablea/Tablea';
 import {  agreementsContext } from './AgreementsTab';
 
 import icon_pen_blue from '../../../img/outdoor_furniture/table_icons/blue_pen.svg';

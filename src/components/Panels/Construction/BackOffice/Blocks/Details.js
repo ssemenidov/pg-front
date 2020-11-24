@@ -30,7 +30,7 @@ export default function Details() {
           <div style={{ width: '48%' }}>
             <InputTitle>Семейство конструкции</InputTitle>
            <StyledSelect
-              defaultValue={item.familyConstruction ? item.familyConstruction.id : <img src={anchorIcon} />}
+              defaultValue={item.format ? item.format.model.underfamily.family.title : <img src={anchorIcon} />}
               onChange={(value) => setItem({ ...item, familyConstruction: { ...item.familyConstruction, id: value } })}>
 
 
@@ -52,7 +52,7 @@ export default function Details() {
             <InputTitle>Подсемейство конструкции</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.underFamilyConstruction ? item.underFamilyConstruction : ''}
+              defaultValue={item.format ? item.format.model.underfamily.title : ''}
               onChange={(e) =>
                 setItem({ ...item,  underFamilyConstruction: e.target.value  })
               }></StyledInput>
@@ -63,7 +63,7 @@ export default function Details() {
             <InputTitle>Модель</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.modelConstruction ? item.modelConstruction : ''}
+              defaultValue={item.format ? item.format.model.title : ''}
               onChange={(e) =>
                 setItem({ ...item,  modelConstruction: e.target.value  })
               }></StyledInput>
@@ -74,7 +74,7 @@ export default function Details() {
           <div>
             <InputTitle onClick={() => openNotification('bottomRight')}>Наличие земли (!)</InputTitle>
             <StyledRadio
-              defaultValue={item.hasArea ? item.hasArea : false}
+              defaultValue={item.location.hasArea ? item.location.hasArea : false}
               onChange={(e) =>
                 setItem({ ...item,  hasArea: e.target.value  })
               }>

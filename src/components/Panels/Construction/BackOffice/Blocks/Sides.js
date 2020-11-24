@@ -19,13 +19,13 @@ const SiDE_CREATE = gql`
   }
 `;
 export default function Sides() {
-  const [item, setItem] = useContext(constructContext);
+  const [apiData, setApiData] = useContext(constructContext);
   const [createConstruction, { data }] = useMutation(SiDE_CREATE);
   const create=(e)=>{
-    createConstruction({variables:item});
+    createConstruction({variables:apiData});
   }
 
- 
+
   return (
     <Large>
       <BlockTitle>
@@ -33,7 +33,7 @@ export default function Sides() {
         <BtnSuccess onClick={create}>Добавить сторону</BtnSuccess>
       </BlockTitle>
       <BlockBody>
-        {item.constructionSide && item.constructionSide.edges.map((side,index) => {
+        {apiData.ownedSides && apiData.ownedSides.edges.map((side,index) => {
           return (
             <div key={index}>
               <ExtraRow
@@ -43,7 +43,7 @@ export default function Sides() {
             </div>
           );
         })}
-      
+
       </BlockBody>
     </Large>
   );

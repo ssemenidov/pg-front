@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { comProjectContext } from './Com_projects';
 
-import Table from '../../../components/Tablea';
+import Table from '../../../components/Tablea/Tablea';
 import { useHistory, Link } from 'react-router-dom';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
