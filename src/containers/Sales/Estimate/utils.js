@@ -1,7 +1,8 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
-import { Input, Modal, Form, DatePicker, InputNumber, Select, Tooltip } from 'antd';
+import { Input, Modal, Form, DatePicker, InputNumber, Select, Drawer, Button } from 'antd';
+import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 
 export const BOOKED_SIDES_QUERY = gql`
   query applicationQuery($id: ID) {
@@ -111,7 +112,6 @@ export const PROJECT_BOOKED_SIDES_QUERY = gql`
                 dateFrom
                 dateTo
                 branding
-                design
                 constructionSide {
                   advertisingSide {
                     side {
@@ -164,8 +164,8 @@ export const PROJECT_EXTRA_COSTS_QUERY = gql`
                 price
                 count
                 discount
-                sumAfterDiscount
-                summa
+                percentAgentCommission
+                valueAgentCommission
               }
             }
           }
@@ -191,7 +191,6 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 incomingPrinting
                 incomingInstallation
                 incomingManufacturing
-                summaClient
                 city {
                   title
                 }
@@ -243,8 +242,8 @@ export const getExtraCosts = (data) => {
         discount: charge.node.discount ? charge.node.discount + '%' : '',
         priceAfterDiscount: charge.node.sumAfterDiscount ? charge.node.sumAfterDiscount + ' тг.' : '',
         sum: charge.node.summa ? charge.node.summa + ' тг.' : '',
-        percentAK: 'stub data',
-        sumAK: 'stub data',
+        percentAK: charge.node.percentAgentCommission ? charge.node.percentAgentCommission : '',
+        sumAK: charge.node.valueAgentCommission ? charge.node.valueAgentCommission : '',
         sumWithoutAK: 'stub data',
       }
     );
@@ -538,18 +537,255 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
   );
 };
 
-export const DeleteModal = () => {
+export const DELETE_ADD_COSTS_QUERY = gql`
+  mutation deleteAddCost($id: ID!) {
+    deleteSalesAdditionalCost(id: $id) {
+      found
+      deletedId
+    }
+  }
+`;
+
+export const DELETE_NON_RTS = gql`
+  mutation deleteAddCost($id: ID!) {
+    deleteSalesNonrts(id: $id) {
+      found
+      deletedId
+    }
+  }
+`;
+
+export const DeleteModal = (estimate, deleteEstimate, setDeleted) => {
   const { confirm } = Modal;
   confirm({
     title: 'Do you Want to delete these items?',
     centered: true,
-    // icon: <ExclamationCircleOutlined />,
     content: 'Some descriptions',
     onOk() {
-      console.log('OK');
+      return deleteEstimate({
+        variables: {
+          id: estimate.key,
+        },
+      })
+        .then(({ data }) => {
+          if (data.deleteSalesAdditionalCost) {
+            data.deleteSalesAdditionalCost.found && setDeleted(true);
+          }
+          if (data.deleteSalesNonrts) {
+            data.deleteSalesNonrts.found && setDeleted(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     onCancel() {
       console.log('Cancel');
     },
   });
+};
+
+export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem, refetch }) => {
+  const InputLabel = (title) => {
+    return (
+      <span
+        style={{
+          color: '#1A1A1A',
+          fontSize: '14px',
+          fontWeight: 'bold',
+        }}>
+        {title}
+      </span>
+    );
+  };
+
+  const [form] = Form.useForm();
+  let FormInputs = () => {};
+  console.log(editingItem);
+  useEffect(() => {
+    switch (block) {
+      case 'extra-charge':
+        form.setFieldsValue({
+          name: editingItem.nameOfService,
+          count: editingItem.quantity,
+          price: editingItem.price,
+          discount: editingItem.discount,
+          agPercent: editingItem.percentAK,
+          agSumm: editingItem.sumAK,
+        });
+    }
+  }, [editingItem, form]);
+  switch (block) {
+    case 'extra-charge':
+      FormInputs = () => {
+        return (
+          <>
+            <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="name"
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Наименование услуги
+                </span>
+              }>
+              <Input
+                style={{
+                  width: '270px',
+                }}
+                size="large"
+              />
+            </Form.Item>
+            <Form.Item
+              name="count"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              label={InputLabel('Кол-во')}>
+              <InputNumber
+                style={{
+                  width: '120px',
+                }}
+                size="large"
+              />
+            </Form.Item>
+            <Form.Item
+              name="price"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              label={InputLabel('Цена')}>
+              <InputNumber
+                style={{
+                  width: '270px',
+                }}
+                size="large"
+                formatter={(value) => `${value} тг`}
+              />
+            </Form.Item>
+            <Form.Item
+              name="discount"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              label={InputLabel('Скидка')}>
+              <InputNumber
+                style={{
+                  width: '120px',
+                }}
+                size="large"
+                formatter={(value) => `${value}%`}
+              />
+            </Form.Item>
+            <Form.Item
+              name="agPercent"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              label={InputLabel('Процент АК')}>
+              <InputNumber
+                style={{
+                  width: '270px',
+                }}
+                size="large"
+                formatter={(value) => `${value}%`}
+              />
+            </Form.Item>
+            <Form.Item
+              name="agSumm"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              label={InputLabel('Сумма АК')}>
+              <InputNumber
+                style={{
+                  width: '270px',
+                }}
+                size="large"
+                formatter={(value) => `${value} тг`}
+              />
+            </Form.Item>
+            <Form.Item
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flexEnd',
+              }}
+              className="editBtn">
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  width: '100%',
+                  height: '38px',
+                }}>
+                Сохранить
+              </Button>
+            </Form.Item>
+          </>
+        );
+      };
+  }
+  return (
+    <Drawer
+      height="auto"
+      title={
+        <span
+          style={{
+            color: '#003360',
+            fontSize: 14,
+            textTransform: 'uppercase',
+          }}>
+          Редактирование
+        </span>
+      }
+      placement="bottom"
+      closable={true}
+      onClose={() => {
+        setOpenModal(false);
+      }}
+      closeIcon={<ExitIcon />}
+      visible={openModal}
+      maskStyle={{
+        backgroundColor: 'transparent',
+      }}
+      key={'12qwe'}>
+      <Form
+        layout="inline"
+        style={{
+          marginBottom: '15px',
+        }}
+        onFinish={(values) => {
+          console.log(values);
+        }}
+        form={form}>
+        <FormInputs />
+      </Form>
+      <style>
+        {`
+
+        .editBtn {
+          width: 100%;
+          max-width: 270px;
+        }
+
+       .editBtn>div {
+         display: flex !important;
+         justify-content: flex-end;
+       }
+       .editForm-item {
+         display: flex;
+         flex-direction: column;
+         margin-right: 30px !important;
+       }
+        `}
+      </style>
+    </Drawer>
+  );
 };
