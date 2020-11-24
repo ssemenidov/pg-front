@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { partnersContext } from './Partners';
-
 import Table from '../../../components/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -8,6 +7,51 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { column } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+const PARTNERS_T = gql`
+query SearchPartner(
+  $partner: String
+  $brand: String
+  $sector: String
+  $binNumber: String
+) {
+    searchPartner(
+      title:$partner
+      brands_Title:$brand
+      workingSectors_Title:$sector
+      binNumber:$binNumber
+    ) {
+      edges {
+        node {
+          id
+          partnerType {
+            title
+            id
+          }
+          title
+          brands {
+            edges {
+              node {
+                title
+              }
+            }
+          }
+          workingSectors {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
+          clientType {
+            title
+            id
+          }
+        }
+      }
+    }
+  }
+`;
 
 const initColumnsForPopup = [
   column('Тип контрагента', 'type', 100, true),
@@ -46,58 +90,13 @@ const initColumnsTable = [
 
 const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertiserIdSet }) => {
   const [filter, setFilter] = useContext(partnersContext);
-
+  const history = useHistory();
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
 
   var data1 = [];
 //    $type: String
 // advertisers_Title:$type
-  const PARTNERS_T = gql`
-  query SearchPartner(
-    $partner: String
-    $brand: String
-    $sector: String
-    $binNumber: String
-  ) {
-      searchPartner(
-        title:$partner
-        brands_Title:$brand
-        workingSectors_Title:$sector
-        binNumber:$binNumber
-      ) {
-        edges {
-          node {
-            id
-            partnerType {
-              title
-              id
-            }
-            title
-            brands {
-              edges {
-                node {
-                  title
-                }
-              }
-            }
-            workingSectors {
-              edges {
-                node {
-                  id
-                  title
-                }
-              }
-            }
-            clientType {
-              title
-              id
-            }
-          }
-        }
-      }
-    }
-  `;
 
   const { loading, error, data } = useQuery(PARTNERS_T, { variables: filter });
   if (error) return <p>Error :(</p>;
@@ -152,6 +151,14 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
           select={flagAddAdvertiserForPartner}
           constructionsIdSet={advertiserIdSet}
           setConstructionsIdSet={setAdvertiserIdSet}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                history.push(`/base/partners/partner/${record.key}`);
+                history.go(0);
+              }
+            };
+          }}
         />
       </div>
 

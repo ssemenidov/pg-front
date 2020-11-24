@@ -36,16 +36,21 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
         node {
           id
           advertisingSide {
+            code
             side {
+              code
               format {
+                code
                 title
               }
             }
           }
           construction {
             statusConnection
+            numInDistrict
             location {
               postcode {
+                title
                 district {
                   city {
                     title
@@ -63,7 +68,6 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
                 reservationType {
                   title
                 }
-                design
                 project {
                   title
                   salesManager {
@@ -88,6 +92,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
 `;
 
 
+
 export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}) {
   /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
   // Query string syntax: ?theme
@@ -104,8 +109,11 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     dstFilter = filter.dstFilter;
 
   console.log('compfilter', dstFilter)
-
-  const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
+  let searchQuery = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
+  let loading = searchQuery.loading;
+  let error = searchQuery.error;
+  let data = searchQuery.data;
+  let refetch = searchQuery.refetch;
 
   useCallback(() => {
     setRefetch(refetch);
@@ -113,8 +121,10 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
 
   if (loading)
     return <LoadingAntd/>
-  if (error)
+  if (error) {
+    let sqr = searchQuery;
     return <h3>Error (:</h3>
+  }
   // let data = null;
 
   let getBarClass = (barClass) => {
@@ -152,6 +162,12 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     return ndate;
   }
 
+  let getItemCode = (node) => (
+    `${node.construction.location.postcode.title}.${node.construction.numInDistrict}.`
+    + `${node.advertisingSide.side.format.code || '_'}.${node.advertisingSide.side.code || '_'}.${node.advertisingSide.code || '_'}`
+  );
+
+
   let scheduleChartItems = [];
   if (data !== null) {
     for (let item of data.searchConstructionSide.edges) {
@@ -159,7 +175,7 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
         scheduleChartItems.push({
           content: item.id,
           start: new Date(2020, 1, 1, 0, 0, 0),
-          code: item.node.id,
+          code: getItemCode(item.node),
           format: item.node.advertisingSide.side.format.title,
           city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
           // isSelected - свойство сообщающее, выбран элемент или нет

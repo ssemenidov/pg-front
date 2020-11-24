@@ -35,7 +35,7 @@ const CREWS_T = gql`
   `;
 const CREWS_CONSTRUCT_T = gql`
   query SearchCrew(
-    $id:ID!
+    $id:ID
     $city: String
     $district: String
     $adress: String

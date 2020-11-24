@@ -77,8 +77,6 @@ const AgreementsPanel = () => {
     $registrationDate: DateTime
     $end: DateTime
     $returnStatus: Boolean
-
-
     )
     {
     searchContract(
