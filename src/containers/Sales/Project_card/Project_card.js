@@ -135,12 +135,11 @@ query ($id: ID!) {
 }`;
 
 
-const Project_card = () => {
+const Project_card = (props) => {
 
 // const queries = [PROJECT_QUERY, APPS_QUERY]
   const sliderState = new SliderState({name: "", key: ""})
 
-  const [reserveCode, setReserveCode] = useState('');
   const history = useHistory();
   const { id } = useParams();
   const [block, setBlock] = useState(0);
@@ -252,6 +251,7 @@ const Project_card = () => {
   const columnTypes = [initColumnsTable, attachmentColumns];
   const [columnsForPopup, setColumnsForPopup] = useState(columnTypes[block]);
   const [columnsTable, setColumnsTable] = useState(columnTypes[block]);
+  const [reserveCode, setReserveCode] = useState('1');
   // const [query, setQuery] = useState(PROJECT_QUERY)
   const { loading, error, data } = useQuery(PROJECT_QUERY, {
     variables: {
@@ -463,13 +463,13 @@ const Project_card = () => {
               setColumnsForPopup={setColumnsForPopup}
               setColumnsTable={setColumnsTable}
               sliderState={sliderState}
-              setReserveCode={setReserveCode}
+              // setReserveCode={props.history.location.state.reserveId}
             />
             )
-          }ыы
+          }
         </div>
       </div>
-      {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={reserveCode} />}
+      {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={props.history.location.state.reserveId} />}
       {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
