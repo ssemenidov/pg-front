@@ -417,19 +417,22 @@ export const initColumnsForPopupHotPtc = [
         width: 130,
         isShowed: true,
       },
-<<<<<<< HEAD
-=======
       {
-        title: 'Производство',
+        title: 'Производсто',
         dataIndex: 'manufactureInput',
         width: 130,
         isShowed: true,
       },
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
+      {
+        title: 'Доп. расходы',
+        dataIndex: 'costsInput',
+        width: 100,
+        isShowed: true,
+      },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
-        width: 130,
+        width: 100,
         isShowed: true,
       },
     ],
@@ -464,6 +467,12 @@ export const initColumnsForPopupHotPtc = [
       {
         title: 'Производство',
         dataIndex: 'manufactureSell',
+        width: 130,
+        isShowed: false,
+      },
+      {
+        title: 'Доп. расходы',
+        dataIndex: 'costsSell',
         width: 130,
         isShowed: false,
       },
@@ -548,6 +557,11 @@ export const initColumnsTableHotPtc = [
       {
         title: 'Производство',
         dataIndex: 'manufactureSell',
+        width: 130,
+      },
+      {
+        title: 'Доп. расходы',
+        dataIndex: 'costsInput',
         width: 130,
       },
       {

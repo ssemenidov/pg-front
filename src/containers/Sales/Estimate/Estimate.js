@@ -77,7 +77,6 @@ const Estimate = () => {
           incomingPrinting
           incomingInstallation
           incomingManufacturing
-          summaClient
           city {
             title
           }
@@ -310,7 +309,6 @@ const Estimate = () => {
           onOk={() => {
             NonRtsForm.validateFields().then((values) => {
               setConfirmLoading(true);
-              const summ = values.count * values.rent + values.tax + values.print + values.mount + values.manufacture;
               createNonRtsCost({
                 variables: {
                   input: {
@@ -323,7 +321,6 @@ const Estimate = () => {
                     incomingManufacturing: values.manufacture,
                     city: values.city,
                     project: id,
-                    summaClient: summ,
                   },
                 },
               })
