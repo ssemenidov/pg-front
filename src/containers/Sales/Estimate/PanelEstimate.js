@@ -12,7 +12,6 @@ import {
   getExtraCosts,
   gettNonRts,
   EditCosts,
-  EditModal,
   DeleteModal,
   DELETE_ADD_COSTS_QUERY,
   DELETE_NON_RTS,
@@ -60,7 +59,6 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   }
 
   if (data) {
-    console.log(data);
     switch (activeTab) {
       case 'booked-sides':
         if (appId) {
@@ -223,16 +221,6 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         </CustomTabList>
       </HeaderBar>
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
-      {/* <EditModal
-        openModal={openEditModal}
-        editingItem={editingItem}
-        setOpenModal={setOpenEditModal}
-        setEditingItem={setEditingItem}
-        block={activeTab}
-        cities={cities}
-        extraCostsId={extraCosts.key}
-        refetch={refetch}
-      /> */}
       <EditCosts
         openModal={openEditModal}
         editingItem={editingItem}

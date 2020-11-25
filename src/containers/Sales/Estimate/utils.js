@@ -1,13 +1,9 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-<<<<<<< HEAD
 import { Input, Modal, Form, DatePicker, InputNumber, Select, Drawer, Button } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
-=======
-import { Input, Modal, Form, DatePicker, InputNumber, Select, Tooltip } from 'antd';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
 
 export const BOOKED_SIDES_QUERY = gql`
   query applicationQuery($id: ID) {
@@ -57,7 +53,6 @@ export const BOOKED_SIDES_QUERY = gql`
               }
             }
           }
-
         }
       }
     }
@@ -115,10 +110,7 @@ export const PROJECT_BOOKED_SIDES_QUERY = gql`
                 id
                 dateFrom
                 dateTo
-<<<<<<< HEAD
                 branding
-=======
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
                 constructionSide {
                   advertisingSide {
                     code
@@ -177,11 +169,8 @@ export const PROJECT_EXTRA_COSTS_QUERY = gql`
                 price
                 count
                 discount
-<<<<<<< HEAD
                 percentAgentCommission
                 valueAgentCommission
-=======
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
               }
             }
           }
@@ -210,17 +199,18 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 incomingPrinting
                 incomingInstallation
                 incomingManufacturing
-<<<<<<< HEAD
+                incomingAdditional
                 city {
                   title
                 }
-=======
                 saleRent
                 saleTax
                 salePrinting
                 saleInstallation
                 saleManufacturing
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
+                saleAdditional
+                valueAgentCommission
+                percentAgentCommission
               }
             }
           }
@@ -230,8 +220,7 @@ export const PROJECT_NON_RTS_QUERY = gql`
   }
 `;
 
-
-export const getBookedSides = (data) => {
+export const getBookedSides = (data = []) => {
   return data.map((invoice) => {
     return {
       key: invoice.node.id,
@@ -251,12 +240,14 @@ export const getBookedSides = (data) => {
   });
 };
 
-export const getExtraCosts = (data) => {
+export const getExtraCosts = (data = []) => {
   return data.map((charge) => {
     let price = charge.node.price ? charge.node.price : 0;
     let discount = charge.node.discount ? charge.node.discount : 100;
     let count = charge.node.count ? charge.node.count : 0;
-    let sumAfterDiscount = (price * (1.0 - discount / 100.0));
+    let sumAfterDiscount = price * (1.0 - discount / 100.0);
+    let agPercent = charge.node.percentAgentCommission ? charge.node.percentAgentCommission : 0;
+    let agValue = charge.node.valueAgentCommission ? charge.node.valueAgentCommission : 0;
 
     return (
       charge.node.city !== null && {
@@ -271,41 +262,35 @@ export const getExtraCosts = (data) => {
         quantity: charge.node.count ? charge.node.count : '',
         price: charge.node.price ? charge.node.price + ' тг.' : '',
         discount: charge.node.discount ? charge.node.discount + '%' : '',
-<<<<<<< HEAD
-        priceAfterDiscount: charge.node.sumAfterDiscount ? charge.node.sumAfterDiscount + ' тг.' : '',
-        sum: charge.node.summa ? charge.node.summa + ' тг.' : '',
-        percentAK: charge.node.percentAgentCommission ? charge.node.percentAgentCommission : '',
-        sumAK: charge.node.valueAgentCommission ? charge.node.valueAgentCommission : '',
-=======
         priceAfterDiscount: sumAfterDiscount + ' тг.',
-        sum: (sumAfterDiscount * count) + ' тг.',
-        percentAK: 'stub data',
-        sumAK: 'stub data',
->>>>>>> b1d00d594b103b050628484a6d7623b0114ae062
-        sumWithoutAK: 'stub data',
+        sum: sumAfterDiscount * count + ' тг.',
+        percentAK: agPercent + ' %',
+        sumAK: agValue + ' тг.',
       }
     );
   });
 };
 
-export const gettNonRts = (data) => {
+export const gettNonRts = (data = []) => {
   return data.map((item) => {
+    let inputRent = item.node.incomingRent || 0;
+    let inputTax = item.node.incomingTax || 0;
+    let inputPrint = item.node.incomingPrinting || 0;
+    let inputMount = item.node.incomingInstallation || 0;
+    let inputManufacture = item.node.incomingManufacturing || 0;
+    let inputCosts = item.node.incomingAdditional || 0;
 
-    let inputRent = item.node.incomingRent || 0
-    let inputTax = item.node.incomingTax || 0
-    let inputPrint = item.node.incomingPrinting || 0
-    let inputMount = item.node.incomingInstallation || 0
-    let inputManufacture = item.node.incomingManufacturing || 0
-
-    let sellRent = item.node.saleRent || 0
-    let sellTax = item.node.saleTax || 0
-    let sellPrint = item.node.salePrinting || 0
-    let sellMount = item.node.saleInstallation || 0
-    let sellManufacture = item.node.saleManufacturing || 0
-
-    let quantity = item.node.count || 0
-    let sumInput = (inputRent + inputTax + inputPrint + inputMount + inputManufacture)
-    let sumSell = (sellRent + sellTax + sellPrint + sellMount + sellManufacture)
+    let sellRent = item.node.saleRent || 0;
+    let sellTax = item.node.saleTax || 0;
+    let sellPrint = item.node.salePrinting || 0;
+    let sellMount = item.node.saleInstallation || 0;
+    let sellManufacture = item.node.saleManufacturing || 0;
+    let sellAdditonalCosts = item.node.saleAdditional || 0;
+    let quantity = item.node.count || 0;
+    let sumInput = inputRent + inputTax + inputPrint + inputMount + inputManufacture + inputCosts; 
+    let sumSell = sellRent + sellTax + sellPrint + sellMount + sellManufacture + sellAdditonalCosts;
+    let agPercent = item.node.percentAgentCommission || 0;
+    let agValue = item.node.valueAgentCommission || 0;
 
     return {
       key: item.node.id,
@@ -317,15 +302,17 @@ export const gettNonRts = (data) => {
       printInput: inputPrint + ' тг.',
       mountInput: inputMount + ' тг.',
       manufactureInput: inputManufacture + ' тг.',
+      costsInput: inputCosts + ' тг.',
       sumInput: sumInput + ' тг.',
-
       rentSell: sellRent + ' тг.',
       taxSell: sellTax + ' тг.',
       printSell: sellPrint + ' тг.',
       mountSell: sellMount + ' тг.',
       manufactureSell: sellManufacture + ' тг.',
       sumSell: sumSell + ' тг.',
-
+      costsSell: sellAdditonalCosts + ' тг.',
+      percentAK: agPercent + '%',
+      sumAK: agValue + ' тг.',
     };
   });
 };
@@ -655,25 +642,55 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
           color: '#1A1A1A',
           fontSize: '14px',
           fontWeight: 'bold',
+          marginTop: 10,
         }}>
         {title}
       </span>
     );
   };
 
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
   const [form] = Form.useForm();
   let FormInputs = () => {};
   console.log(editingItem);
+  const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
+  const [updateNonRts] = useMutation(UPDATE_NON_RTS);
   useEffect(() => {
     switch (block) {
       case 'extra-charge':
         form.setFieldsValue({
-          name: editingItem.nameOfService,
+          name: editingItem.nameOfService || 0,
+          count: editingItem.quantity || 0,
+          price: editingItem.price.split(' ')[0] || 0,
+          discount: editingItem.discount.split('%')[0] || 0,
+          agPercent: editingItem.percentAK.split('%')[0] || 0,
+          agSumm: editingItem.sumAK.split(' ')[0] || 0,
+        });
+        break;
+      case 'booked-sides':
+        form.setFieldsValue({
+          // rentPrice: editingItem.taxInput.split(" ")[0] || 0,
+        });
+        break;
+      case 'hot-ptc':
+        form.setFieldsValue({
+          inputRent: editingItem.rentInput.split(' ')[0] || 0,
+          inputTax: editingItem.taxInput.split(' ')[0] || 0,
+          inputPrint: editingItem.printInput.split(' ')[0] || 0,
+          inputMount: editingItem.mountInput.split(' ')[0] || 0,
+          inputCosts: editingItem.costsInput.split(' ')[0] || 0,
+          inputManufcature: editingItem.manufactureInput.split(' ')[0] || 0,
+          summRent: editingItem.rentSell.split(' ')[0] || 0,
+          summTax: editingItem.taxSell.split(' ')[0] || 0,
+          summPrint: editingItem.printSell.split(' ')[0] || 0,
+          summMount: editingItem.mountSell.split(' ')[0] || 0,
+          summManufacture: editingItem.manufactureSell.split(' ')[0] || 0,
+          summCosts: editingItem.sumSell.split(' ')[0] || 0,
+          type: editingItem.code,
           count: editingItem.quantity,
-          price: editingItem.price,
-          discount: editingItem.discount,
-          agPercent: editingItem.percentAK,
-          agSumm: editingItem.sumAK,
+          agPercent: editingItem.percentAK.split('%')[0] || 0,
+          agSumm: editingItem.sumAK.split(' ')[0] || 0,
         });
     }
   }, [editingItem, form]);
@@ -770,7 +787,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                   width: '270px',
                 }}
                 size="large"
-                formatter={(value) => `${value} тг`}
+                formatter={(value) => {
+                  return `${value} тг`;
+                }}
               />
             </Form.Item>
             <Form.Item
@@ -783,9 +802,12 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               <Button
                 type="primary"
                 htmlType="submit"
+                loading={confirmLoading}
                 style={{
                   width: '100%',
                   height: '38px',
+                  marginTop: '15px',
+                  borderRadius: '4px',
                 }}>
                 Сохранить
               </Button>
@@ -793,6 +815,324 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
           </>
         );
       };
+      break;
+    case 'hot-ptc':
+      FormInputs = () => {
+        return (
+          <>
+            <p
+              style={{
+                fontSize: 12,
+                color: '#656565',
+                marginBottom: 0,
+              }}>
+              ВХОДЯЩАЯ СТОИМОСТЬ
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                gap: '30px',
+              }}>
+              <Form.Item
+                name="inputRent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Аренда')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputTax"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Налог')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputPrint"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Печать')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputMount"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Монтаж')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputCosts"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Доп.расходы')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputManufcature"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Производство')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+            </div>
+
+            <p
+              style={{
+                fontSize: 12,
+                color: '#656565',
+                marginBottom: 0,
+                marginTop: '15px',
+              }}>
+              СУММА ПРОДАЖИ
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6,1fr)',
+                gridColumnGap: '30px',
+                gridRowGap: '0px',
+              }}>
+              <Form.Item
+                name="summRent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Аренда')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summTax"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Налог')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summPrint"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Печать')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summMount"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Монтаж')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summCosts"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Доп.расходы')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summManufacture"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Производство')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="type"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Тип')}>
+                <Input
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                name="count"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Кол-во')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                name="agPercent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Процент АК')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value}%`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="agSumm"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                label={InputLabel('Сумма АК')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flexEnd',
+                }}
+                className="editBtn">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={confirmLoading}
+                  style={{
+                    minWidth: '260px',
+                    height: '38px',
+                    marginTop: '15px',
+                    borderRadius: '4px',
+                  }}>
+                  Сохранить
+                </Button>
+              </Form.Item>
+            </div>
+          </>
+        );
+      };
+      break;
   }
   return (
     <Drawer
@@ -822,9 +1162,77 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
         layout="inline"
         style={{
           marginBottom: '15px',
+          flexDirection: block === 'hot-ptc' ? 'column' : 'row',
+          justifyContent: block === 'extra-charge' ? 'space-between' : '',
         }}
         onFinish={(values) => {
           console.log(values);
+          setConfirmLoading(true);
+          switch (block) {
+            case 'extra-charge':
+              let input = {
+                title: values.name,
+                count: values.count,
+                discount: values.discount,
+                price: values.price,
+                percentAgentCommission: values.agPercent,
+                valueAgentCommission: values.agSumm,
+              };
+              updateAddCosts({
+                variables: {
+                  input,
+                  id: editingItem.key,
+                },
+              })
+                .then(() => {
+                  setOpenModal(false);
+                  form.resetFields();
+                  setConfirmLoading(false);
+                  refetch();
+                })
+                .catch((err) => {
+                  setConfirmLoading(false);
+                  console.log(err);
+                });
+              break;
+            case 'hot-ptc':
+              let nonRtsInput = {
+                count: values.count,
+                title: values.type,
+                incomingTax: values.inputTax,
+                incomingRent: values.inputRent,
+                incomingPrinting: values.inputPrint,
+                incomingAdditional: values.inputCosts,
+                incomingInstallation: values.inputMount,
+                incomingManufacturing: values.inputManufcature,
+                saleTax: values.summTax,
+                saleRent: values.summRent,
+                salePrinting: values.summPrint,
+                saleAdditional: values.summCosts,
+                saleInstallation: values.summMount,
+                saleManufacturing: values.summManufacture,
+                valueAgentCommission: values.agSumm,
+                percentAgentCommission: values.agPercent,
+              };
+              console.log(nonRtsInput);
+              updateNonRts({
+                variables: {
+                  input: nonRtsInput,
+                  id: editingItem.key,
+                },
+              })
+                .then(() => {
+                  setOpenModal(false);
+                  form.resetFields();
+                  setConfirmLoading(false);
+                  refetch();
+                })
+                .catch((err) => {
+                  setConfirmLoading(false);
+                  console.log(err);
+                });
+              break;
+          }
         }}
         form={form}>
         <FormInputs />
@@ -844,7 +1252,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
        .editForm-item {
          display: flex;
          flex-direction: column;
-         margin-right: 30px !important;
        }
         `}
       </style>
