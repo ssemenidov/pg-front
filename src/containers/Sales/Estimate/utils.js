@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Input, Modal, Form, DatePicker, InputNumber, Select, Drawer, Button } from 'antd';
+import { Input, Modal, Form, DatePicker, InputNumber, Select, Drawer, Button, message } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 
@@ -287,7 +287,7 @@ export const gettNonRts = (data = []) => {
     let sellManufacture = item.node.saleManufacturing || 0;
     let sellAdditonalCosts = item.node.saleAdditional || 0;
     let quantity = item.node.count || 0;
-    let sumInput = inputRent + inputTax + inputPrint + inputMount + inputManufacture + inputCosts; 
+    let sumInput = inputRent + inputTax + inputPrint + inputMount + inputManufacture + inputCosts;
     let sumSell = sellRent + sellTax + sellPrint + sellMount + sellManufacture + sellAdditonalCosts;
     let agPercent = item.node.percentAgentCommission || 0;
     let agValue = item.node.valueAgentCommission || 0;
@@ -508,7 +508,7 @@ export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem,
       }}
       onOk={() => {
         form.validateFields().then((values) => {
-          console.log(values);
+          // console.log(values);
           setConfirmLoading(true);
           switch (block) {
             case 'extra-charge':
@@ -653,7 +653,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
 
   const [form] = Form.useForm();
   let FormInputs = () => {};
-  console.log(editingItem);
+  // console.log(editingItem);
   const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
   const [updateNonRts] = useMutation(UPDATE_NON_RTS);
   useEffect(() => {
@@ -1166,7 +1166,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
           justifyContent: block === 'extra-charge' ? 'space-between' : '',
         }}
         onFinish={(values) => {
-          console.log(values);
+          // console.log(values);
           setConfirmLoading(true);
           switch (block) {
             case 'extra-charge':
@@ -1188,10 +1188,13 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                   setOpenModal(false);
                   form.resetFields();
                   setConfirmLoading(false);
+                  message.success('Успешно изменено.');
                   refetch();
                 })
                 .catch((err) => {
                   setConfirmLoading(false);
+                  setOpenModal(false);
+                  message.error('Что-то пошло не так попробуйте ещё раз.');
                   console.log(err);
                 });
               break;
@@ -1214,7 +1217,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 valueAgentCommission: values.agSumm,
                 percentAgentCommission: values.agPercent,
               };
-              console.log(nonRtsInput);
+              // console.log(nonRtsInput);
               updateNonRts({
                 variables: {
                   input: nonRtsInput,
@@ -1225,10 +1228,13 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                   setOpenModal(false);
                   form.resetFields();
                   setConfirmLoading(false);
+                  message.success('Успешно изменено.');
                   refetch();
                 })
                 .catch((err) => {
                   setConfirmLoading(false);
+                  message.error('Что-то пошло не так попробуйте ещё раз.');
+                  setOpenModal(false);
                   console.log(err);
                 });
               break;
