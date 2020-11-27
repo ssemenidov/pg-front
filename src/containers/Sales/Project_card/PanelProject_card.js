@@ -224,7 +224,7 @@ const PanelDesign = (props) => {
       render: (text, record) => {
         console.log('[record]', record)
         return (
-          <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { props.sliderState.setAddShowed(true); }} >
+          <Link to={{  state: {  reserveId: record.id } }} onClick={() => { props.sliderState.setAddShowed(true); }} >
             <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
           </Link>
         )
@@ -287,10 +287,8 @@ const PanelDesign = (props) => {
       render: (text, record) => {
         // console.log('[text]', text)
         return (
-          <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { 
-            props.setReserveCode(record.reservation_code);
+          <Link to={{  state: {  reserveId: record.id } }} onClick={() => { 
             props.sliderState.setAddShowed(true); 
-            
             }} >
             <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
           </Link>
