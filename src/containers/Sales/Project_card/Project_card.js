@@ -229,7 +229,7 @@ const Project_card = (props) => {
       key: item.node.id,
       attachment_code: '#' + item.node.code,
       attachment_summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
-      attachment_createDate: dateFormat(item.node.createdDate, 'dd-mm-yyyy'),
+      attachment_createDate: dateFormat(item.node.createdDate, 'dd.mm.yyyy'),
       attachment_reservDates: `${dateFormat(item.node.periodStartDate, 'dd.mm.yyyy')} – ${dateFormat(item.node.periodEndDate, 'dd.mm.yyyy')}`,
       dateForRouter: [item.node.dateFrom, item.node.dateTo]
   }))) || [];
@@ -244,8 +244,8 @@ const Project_card = (props) => {
       item.node.constructionSide.construction.location.marketingAddress.address) || '',
     reservation_format: item.node.constructionSide.advertisingSide.side.format.title,
     reservation_side: item.node.constructionSide.advertisingSide.title,
-    reservation_startDate: dateFormat(item.node.dateFrom, 'dd-mm-yyyy'),
-    reservation_expirationDate: dateFormat(item.node.dateTo, 'dd-mm-yyyy'),
+    reservation_startDate: dateFormat(item.node.dateFrom, 'dd.mm.yyyy'),
+    reservation_expirationDate: dateFormat(item.node.dateTo, 'dd.mm.yyyy'),
     reservation_status: item.node.reservationType.title,
     reservation_lighting: (item.node.constructionSide.statusConnection && 'Да') || 'Нет',
     reservation_package: (item.node.constructionSide.package && item.node.constructionSide.package.title) || '',

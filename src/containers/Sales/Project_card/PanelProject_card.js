@@ -3,6 +3,7 @@ import Table from '../../../components/Tablea/Tablea_func';
 import { Link, useHistory } from 'react-router-dom';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
 import { column } from '../../../components/Table/utils';
+import { routes } from '../../../routes';
 
 
 const createInitColumnsForPopup = ({sliderState}) => [
@@ -48,7 +49,8 @@ const createInitColumnsTable = ({sliderState}) => [
     title: '',
     render: (text, record) => {
       return (
-        <Link to={{  state: {  reserveId: record.id } }} onClick={() => sliderState.setAddShowed(true)} >
+        // <Link to={{  state: {  reserveId: record.id } }} onClick={() => sliderState.setAddShowed(true)} >
+        <Link to={routes.sales.application.url(record.id)}>
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       )

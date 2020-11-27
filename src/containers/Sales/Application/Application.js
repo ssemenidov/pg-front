@@ -189,7 +189,7 @@ const Application = () => {
     { id: routes.root.root.path, value: 'Главная' },
     { id: routes.sales.root.path, value: 'Продажи' },
     { id: routes.sales.com_projects.path, value: 'Проекты' },
-    { id: routes.sales.project_card.url(data.searchAttachment.edges[0].project.id), value: 'Проект' },
+    { id: routes.sales.project_card.url(data.searchAttachment.edges[0].node.project.id), value: 'Проект' },
     { id: routes.sales.application.url(appId), value: 'Приложение' },
   ];
 

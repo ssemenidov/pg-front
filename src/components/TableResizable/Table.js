@@ -70,7 +70,18 @@ export default class AdvertisingParties extends Component {
           width: 50,
           render: (text, record) => {
             return (
-              <img style={{ cursor: 'pointer' }} onClick={this.props.openModal} src={icon_delete} alt="delete icon" />
+              <img
+                style={{ cursor: 'pointer' }}
+                onClick={() =>
+                  this.props.openModal(
+                    record,
+                    this.props.deleteEstimate,
+                    this.props.setDeleted,
+                  )
+                }
+                src={icon_delete}
+                alt="delete icon"
+              />
             );
           },
         },
