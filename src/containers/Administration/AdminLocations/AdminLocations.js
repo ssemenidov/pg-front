@@ -3,7 +3,7 @@ import React from 'react';
 import { Col } from 'react-flexbox-grid';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import { GridNoPadding, RowMargin1st } from '../components/Styled'
 import { LocationState } from '../AdminOutdoorFurniture/location_state';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
@@ -32,7 +32,7 @@ const AdminLocations = () => {
   const propCtx = { chain, sliderState, APPEND_TITLES, APPEND_TITLES2  }
 
   return (
-    <AdminTopLayout activeRoute={adminRoutesMap.locations}>
+    <AdminTopLayout activeRoute={routes.administration.locations}>
       {sliderState.addShowed && <AddSlider sliderState={sliderState} />}
       {sliderState.editMustShowed() && <EditSlider sliderState={sliderState} />}
       <GridNoPadding fluid>

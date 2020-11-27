@@ -2,13 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {adminRoutesArr} from '../Main/adminRoutes';
-import {colorAccent, colorBackgroundLightBlue, borderRadius, colorTextWhite, borderRadiusInternal} from '../../../components/Styles/Colors'
-import {colorTextBlack} from '../../../components/Styles/Colors'
+import { routes } from '../../../routes';
 import { Link } from 'react-router-dom';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { STab, STabList } from '../../../components/Styles/TabPanelsStyles';
-import { Layout } from 'antd';
 
 
 const StyledLink = styled(Link)`
@@ -16,17 +13,10 @@ const StyledLink = styled(Link)`
 `
 
 export function NavigationPanel({activeItem}) {
-  const activeItemStyle = {
-    backgroundColor: colorAccent,
-    color: colorTextWhite
-  };
-  const inactiveItemStyle = {
-    color: colorTextBlack
-  };
-
   return <ControlToolbar position="static">
     <STabList>
-      {adminRoutesArr.map(tab => {
+      {(Object.entries(routes.administration)
+        .map(([key, tab]) => {
         // console.log(tab.value, index)
         return (
           <StyledLink key={tab.idx} to={tab.to}>
@@ -35,7 +25,7 @@ export function NavigationPanel({activeItem}) {
             </STab>
           </StyledLink>
         )
-      })}
+      }))}
     </STabList>
   </ControlToolbar>
 }

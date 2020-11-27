@@ -1,12 +1,8 @@
-import React, { useState, useEffect,  useContext } from 'react';
-import { invoiceContext } from './Invoice';
+import React from 'react';
 
 import Table from '../../../components/Tablea/Tablea';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
-
-const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(invoiceContext);
+const PanelDesign = () => {
   const columns = [
     {
       title: 'код проекта',

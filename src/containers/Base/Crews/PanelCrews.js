@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { crewsContext } from './Crews';
-import { useHistory } from 'react-router';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 
 import styled from 'styled-components';
 import { List } from 'antd';
@@ -154,11 +153,9 @@ var data1 = [
     // },
   ];
   const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(crewsContext);
+  const [filter] = useContext(crewsContext)[0];
   const [current,setCurrent]= useContext(crewsContext);
-  const {data, loading} = useQuery(CREWS_T, { variables: {...filter,id:""} });
-  const crews = data;
-  const crews_loading = loading;
+  const crews = useQuery(CREWS_T, { variables: {...filter,id:""} });
   const crews_construct_query = useQuery(CREWS_CONSTRUCT_T, { variables:{...filter,id:current} });
   const crew_construct = crews_construct_query.data
   if (crew_construct) {
@@ -176,7 +173,7 @@ var data1 = [
     }));
   }
   }
-  if( !crews ){
+  if( !crews.data ){
     return <span></span>
   }
   return (
@@ -184,7 +181,7 @@ var data1 = [
       <StyledCrewsBlock>
         <JobTitle style={{ fontSize: '19px', margin: '0' }}>ЭКИПАЖИ</JobTitle>
         <List>
-        {crews.searchCrew.edges.map((item,index)=>
+        {crews.data.searchCrew.edges.map((item,index)=>
           <StyledListItem key={index} onClick={()=>{  setCurrent(item.node.id)}}>
           <StyledIcon>{item.node.name && item.node.name.charAt(0)}</StyledIcon>
           <span>{item.node.name}</span>

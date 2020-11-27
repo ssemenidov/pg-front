@@ -102,6 +102,8 @@ const Estimate = () => {
     }
   `;
   const { loading, error, data } = useQuery(CITIES_QUERY);
+  if (error)
+    return <h3>Error (:</h3>
 
   if (data && !cities.loaded && (showAddNonRts || showAddCost || openEditModal)) {
     setCities({
@@ -446,40 +448,41 @@ export default Estimate;
 const InfoWrap = styled.div`
   margin: 0 2vw 0 0;
 `;
-const InfoList = styled.ul`
-  border-radius: 8px;
-  border: 1px solid #d3dff0;
-  height: 100%;
-  padding: 4.5%;
-  flex: 0 1 auto;
-  margin: 0 2vw 0 0;
-  max-width: 320px;
-  box-sizing: border-box;
-  width: 40vw;
-`;
-const InfoItem = styled.li`
-  margin: 4% 0;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #d3dff0;
-`;
-const InfoTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 700;
-`;
-const InfoLine = styled.div`
-  margin: 4% 0;
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-`;
-const InfoValue = styled.span`
-  font-weight: 600;
-  text-align: right;
-`;
-const InfoInput = styled(Input)`
-  font-weight: 600;
 
-  margin-left: auto;
-  width: 150px;
-`;
+// const InfoList = styled.ul`
+//   border-radius: 8px;
+//   border: 1px solid #d3dff0;
+//   height: 100%;
+//   padding: 4.5%;
+//   flex: 0 1 auto;
+//   margin: 0 2vw 0 0;
+//   max-width: 320px;
+//   box-sizing: border-box;
+//   width: 40vw;
+// `;
+// const InfoItem = styled.li`
+//   margin: 4% 0;
+//   display: flex;
+//   flex-direction: column;
+//   border-bottom: 1px solid #d3dff0;
+// `;
+// const InfoTitle = styled.h3`
+//   font-size: 16px;
+//   font-weight: 700;
+// `;
+// const InfoLine = styled.div`
+//   margin: 4% 0;
+//   display: flex;
+//   justify-content: space-between;
+//   font-size: 14px;
+// `;
+// const InfoValue = styled.span`
+//   font-weight: 600;
+//   text-align: right;
+// `;
+// const InfoInput = styled(Input)`
+//   font-weight: 600;
+//
+//   margin-left: auto;
+//   width: 150px;
+// `;

@@ -18,6 +18,7 @@ import ownerIcon from '../../../img/input/owner.svg';
 import phoneIcon from '../../../img/input/phone.svg';
 import constructionIcon from '../../../img/input/construction.svg';
 import marketIcon from '../../../img/input/market.svg';
+
 const CITY_T = gql`
     {
       searchCity {
@@ -83,10 +84,10 @@ const FilterBar = () => {
           <StyledPanel header="Поиск по адресу" key="1">
           <Form.Item name="city">
               <StyledSelect
-                placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
+                placeholder={<><img src={cityIcon} alt={"Город"}/><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
                   <StyledSelect.Option key ={item.node.title} value={item.node.title}>
-                    <img src={cityIcon} />
+                    <img src={cityIcon} alt={item.node.title}/>
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
                 )}

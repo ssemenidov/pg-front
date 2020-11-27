@@ -1,12 +1,12 @@
-import React, {useState, useContext, createContext, useMemo, useEffect} from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, {useState, createContext, useMemo, useEffect} from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import PanelPartners from './PanelPartners';
 import FilterBar from './FilterBar';
 
-import { Layout, Menu, Breadcrumb, DatePicker, Select, Button, Input } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 
 import styled from 'styled-components';
 
@@ -16,8 +16,6 @@ import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../compon
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import icon_pen from '../../../img/edit-icon.svg';
-import PanelDesign from "../Brands/PanelBrands";
 
 const { Content, Sider } = Layout;
 export const partnersContext = createContext();

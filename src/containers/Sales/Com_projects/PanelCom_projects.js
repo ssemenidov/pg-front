@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { comProjectContext } from './Com_projects';
 
 import Table from '../../../components/Tablea/Tablea';
@@ -9,10 +9,12 @@ import citiesIcon from '../../../img/sales/cities.svg';
 
 import { Popover } from 'antd';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
+import { routes } from '../../../routes';
 
-const PanelDesign = (props) => {
-  const [filter, setFilter, constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
+const PanelDesign = () => {
+  const [filter, /*setFilter*/, constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
+
   const history = useHistory();
 
   let data2 = [];
@@ -73,7 +75,7 @@ const PanelDesign = (props) => {
       width: 40,
       title: '',
       render: (text, record) => (
-        <Link to={{ pathname: `/sales/project_card/${record.key}` }}>
+        <Link to={{ pathname: routes.sales.project_card.url(record.key) }}>
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       ),
@@ -157,34 +159,35 @@ const PanelDesign = (props) => {
       }
     }
   `;
-  const SEARCHLOG_QUERY = gql`
-    query allProjectsQuery($brand: String, $code: String, $workingSector: String) {
-      searchProject(
-        brand_Title_Icontains: $brand
-        code_Icontains: $code
-        client_WorkingSectors_Title_Icontains: $workingSector
-      ) {
-        edges {
-          node {
-            title
-            code
-            comment
-            startDate
-            client {
-              title
-              binNumber
-              partnerType {
-                title
-              }
-            }
-            brand {
-              title
-            }
-          }
-        }
-      }
-    }
-  `;
+
+  // const SEARCHLOG_QUERY = gql`
+  //   query allProjectsQuery($brand: String, $code: String, $workingSector: String) {
+  //     searchProject(
+  //       brand_Title_Icontains: $brand
+  //       code_Icontains: $code
+  //       client_WorkingSectors_Title_Icontains: $workingSector
+  //     ) {
+  //       edges {
+  //         node {
+  //           title
+  //           code
+  //           comment
+  //           startDate
+  //           client {
+  //             title
+  //             binNumber
+  //             partnerType {
+  //               title
+  //             }
+  //           }
+  //           brand {
+  //             title
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `;
 
   const CitiesList = () => {
     return (
@@ -295,18 +298,6 @@ const PanelDesign = (props) => {
         };
       });
   }
-  // const example = {
-  //   key: 1,
-  //   code: '#1020050301323',
-  //   brand: 'CocaCola',
-  //   date: '28.05.2020',
-  //   advert: 'ТОО «Рекламодатель»',
-  //   advert_agency: 'ТОО «Агенство»',
-  //   city: 'Алматы',
-  //   sector: 'Безалкогольные напитки',
-  //   managerb: 'Иванов Иван Иванович',
-  //   manager: 'Иванов Иван Иванович',
-  // };
 
   return (
     <>
@@ -322,12 +313,10 @@ const PanelDesign = (props) => {
           loading={loading}
           constructionsIdSet={constructionsIdSet}
           setConstructionsIdSet={setConstructionsIdSet}
-          link="/sales/project_card"
-          loading={loading}
           onRow={(record) => {
             return {
               onClick: () => {
-                history.push(`/sales/project_card/${record.key}`);
+                history.push(routes.sales.project_card.url(record.key));
                 history.go(0);
               },
             };

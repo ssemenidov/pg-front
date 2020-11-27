@@ -1,10 +1,10 @@
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import React from 'react';
 
 const Packages = () => {
   return (
-    <AdminTopLayout activeRoute={adminRoutesMap.packages}>
+    <AdminTopLayout activeRoute={routes.administration.packages}>
 
     </AdminTopLayout>
   );

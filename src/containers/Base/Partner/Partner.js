@@ -1,15 +1,16 @@
-import React, { useEffect, useMemo, useState, createContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useMemo, useState, createContext } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
 import InnerForm from './TabPanelForm/TabPanelFormPartner';
 
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
+import { routes } from '../../../routes';
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 export const partnerContext = createContext();
 const PartnersInfo = (props) => {
@@ -139,16 +140,18 @@ if (loading) return <LoadingAntd/>;
       <Layout>
         <Sider className="layout-sider"></Sider>
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <Breadcrumb className="layout-breadcrumb">
-            <Breadcrumb.Item>
-              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-              <Link to="/">Главная</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/base/">Базы</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>
-          </Breadcrumb>
+          <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]}/>
+          {/*<Breadcrumb className="layout-breadcrumb">*/}
+          {/*  <Breadcrumb.Item>*/}
+          {/*    <img src={breadcrumbs} alt="Главная" style={{ margin: '0 8px 0 0' }} />*/}
+          {/*    <Link to="/">Главная</Link>*/}
+          {/*  </Breadcrumb.Item>*/}
+          {/*  <Breadcrumb.Item>*/}
+          {/*    <Link to="/base/">Базы</Link>*/}
+          {/*  </Breadcrumb.Item>*/}
+          {/*  <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>*/}
+          {/*</Breadcrumb>*/}
+
           <Content
             className="site-layout-background"
             style={{

@@ -1,22 +1,16 @@
-import React, {useState, useContext, useCallback, useMemo, useEffect} from 'react';
-// import { batchContext } from './BatchPlacement';
+import React, {useState, useMemo, useEffect} from 'react';
 import styled from 'styled-components';
-import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
-import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
+import { Checkbox, DatePicker, Form, Input } from 'antd';
 import date from '../../../img/left-bar/filter/date.svg';
-import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 import useDebounce from '../../Administration/components/useDebounce';
-import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import {Row, Col} from 'antd'
+import { gql, useLazyQuery } from '@apollo/client';
 import anchorIcon from '../../../img/input/anchor.svg';
 import { useHistory } from 'react-router';
-
-
 
 const InputIconSpanSyled = styled.span`
     position: absolute;
@@ -154,6 +148,7 @@ export function ReservationSlider({sliderState, dataCount}) {
     });
     setPartnerLoading(loading);
   }, [debouncedSearchTerm]);
+
   useMemo(() => {
     if(data && data.searchPartner.edges) {
       setPartnerData(data.searchPartner.edges);

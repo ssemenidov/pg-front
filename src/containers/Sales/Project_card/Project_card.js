@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { Input } from 'antd';
-import styled from 'styled-components';
 import dateFormat from 'dateformat';
 import { gql, useQuery } from '@apollo/client';
 
@@ -10,7 +8,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
-import { InfoList, InfoItem, InfoLine, InfoValue, InfoInput, InfoTitle } from '../../../components/Styles/InfoPanel';
 
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import EditBtn from '../../../components/LeftBar/EditBtn';
@@ -21,15 +18,14 @@ import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SidebarInfo from '../../../components/SidebarInfo';
 
-import PanelDesign from './PanelProject_card';
+import { PanelProjectCard } from './PanelProject_card';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { ReservationSlider } from './BottomSlider';
 
-import { sidebarInfoData } from '../stubDataSource';
-
 import collapseIcon from '../../../img/collapse-icon.svg';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
+import { routes } from '../../../routes';
 
 
 const PROJECT_QUERY = gql`
@@ -136,8 +132,6 @@ query ($id: ID!) {
 
 
 const Project_card = () => {
-
-// const queries = [PROJECT_QUERY, APPS_QUERY]
   const sliderState = new SliderState({name: "", key: ""})
 
   const [reserveCode, setReserveCode] = useState('');
@@ -249,6 +243,7 @@ const Project_card = () => {
     }
   ]
 
+
   const columnTypes = [initColumnsTable, attachmentColumns];
   const [columnsForPopup, setColumnsForPopup] = useState(columnTypes[block]);
   const [columnsTable, setColumnsTable] = useState(columnTypes[block]);
@@ -259,7 +254,7 @@ const Project_card = () => {
     },
   });
 
-  
+
 
   // useEffect(() => {
     // alert(1)
@@ -394,28 +389,31 @@ const Project_card = () => {
     attachments: panelDataAttachments,
     reservations: panelReservations,
   }
+  console.log('IDDD', id)
+
   console.log(panelData.reservations);
 
   // console.log('[DATA]', panelData)
   const links = [
-    { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/project_card', value: 'Проекты' },
+    { id: routes.root.root.path, value: 'Главная' },
+    { id: routes.sales.root.path, value: 'Продажи' },
+    { id: routes.sales.com_projects.path, value: 'Проекты' },
+    { id: routes.sales.project_card.url(id), value: 'Проект' },
   ];
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <CreateBtn text="Добавить бронь" />
-        <PackageBtn text="Добавить пакет" />
-        <EditBtn text="Перейти в монтажи" />
+        <CreateBtn text="Добавить бронь" onClick={history.push(routes.sales.advertising_parties.path)}/>
+        <PackageBtn text="Добавить пакет" onClick={history.push(routes.sales.batch_placement.path)} />
+        <EditBtn text="Перейти в монтажи" onClick={history.push(routes.installations.projects.path)} />
         <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
       </LeftBar>
 
       <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
-        <BreadCrumbs links={links} />
+        <BreadCrumbs links={links} fromRoot={true}/>
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />
@@ -425,7 +423,7 @@ const Project_card = () => {
                 <StyledButton
                   backgroundColor="#D42D11"
                   onClick={() => {
-                    history.push('/sales/summary');
+                    history.push(routes.sales.summary.url(id));
                   }}>
                   Формирование сводки проекта
                 </StyledButton>
@@ -439,7 +437,7 @@ const Project_card = () => {
                 <StyledButton
                   backgroundColor="#2C5DE5"
                   onClick={() => {
-                    history.push(`/sales/project_card/${id}/estimate`);
+                    history.push(routes.sales.project_estimate.url(id));
                   }}>
                   Смета проекта
                 </StyledButton>
@@ -448,25 +446,21 @@ const Project_card = () => {
 
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 30 }}>
-            <SidebarInfo
-              data={sideBarResData}
-            />
+            <SidebarInfo data={sideBarResData} />
           </div>
           {
             panelData !== null && (
-              <PanelDesign
+              <PanelProjectCard
               style={{ flex: '0 1 auto' }}
-              setBlock={setBlock}
-              choosedBlock={block}
-              data={panelData}
-              loading={loading}
-              setColumnsForPopup={setColumnsForPopup}
-              setColumnsTable={setColumnsTable}
               sliderState={sliderState}
-              setReserveCode={setReserveCode}
+              setReservationCode={setReserveCode}
+              choosedBlock={block}
+              loading={loading}
+              setBlock={setBlock}
+              panelData={panelData}
             />
             )
-          }ыы
+          }
         </div>
       </div>
       {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={reserveCode} />}

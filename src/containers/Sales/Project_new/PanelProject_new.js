@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Table from '../../../components/Tablea/Tablea';
-import { StyledButton } from '../../../components/Styles/DesignList/styles';
-const PanelDesign = (props) => {
+
+const PanelDesign = () => {
   const columns = [
     {
       title: 'код проекта',

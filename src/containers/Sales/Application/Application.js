@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { Input } from 'antd';
 import PanelDesign from './PanelApplication';
@@ -7,8 +7,6 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import EditBtn from '../../../components/LeftBar/EditBtn';
-import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
@@ -17,6 +15,8 @@ import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
 import { ReservationSlider } from './BottomSlider'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
+import { routes } from '../../../routes';
+import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 
 // ICONS
 import dollarIcon from '../../../img/dollar.svg';
@@ -45,6 +45,9 @@ const Application = () => {
               code
               registrationDate
               paymentDate
+            }
+            project {
+              id
             }
             reservations {
               edges {
@@ -85,6 +88,8 @@ const Application = () => {
       id: appId,
     },
   });
+  if (error)
+    return <h3>Error (:</h3>
 
   let data2 = {};
 
@@ -133,6 +138,10 @@ const Application = () => {
     ]
   }
 
+  if (loading) {
+    return <LoadingAntd/>
+  }
+
   if (data) {
     data2 = {
       code: data.searchAttachment.edges[0].node.code,
@@ -175,14 +184,13 @@ const Application = () => {
     };
   }
 
-  if (loading) {
-    console.log('loading...');
-  }
 
   const links = [
-    { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/application', value: 'Приложение' },
+    { id: routes.root.root.path, value: 'Главная' },
+    { id: routes.sales.root.path, value: 'Продажи' },
+    { id: routes.sales.com_projects.path, value: 'Проекты' },
+    { id: routes.sales.project_card.url(data.searchAttachment.edges[0].project.id), value: 'Проект' },
+    { id: routes.sales.application.url(appId), value: 'Приложение' },
   ];
 
   return (
@@ -192,8 +200,6 @@ const Application = () => {
           <SearchBtn />
           <CreateBtn text="Создать новое" />
           <PackageBtn text="Изменить текущее" />
-          {/* <EditBtn text="Изменить текущее" /> */}
-          {/* <PaperBtn text="Сводка проекта" /> */}
           <BoxBtn text="Архив дизайнов" />
         </LeftBar>
         <div
@@ -202,7 +208,7 @@ const Application = () => {
             width: '100%',
             margin: '0 2vw 0 0',
           }}>
-          <BreadCrumbs links={links} />
+          <BreadCrumbs links={links} fromRoot={true} />
           <HeaderWrapper>
             <HeaderTitleWrapper>
               <TitleLogo />
@@ -217,7 +223,7 @@ const Application = () => {
               <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
               <StyledButton
                 backgroundColor="#2C5DE5"
-                onClick={() => history.push(`/sales/application/${appId}/estimate`)}
+                onClick={() => history.push(routes.sales.application_estimate.url(appId))}
 
               >Смета приложения</StyledButton>
             </ButtonGroup>

@@ -1,365 +1,259 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../../components/Tablea/Tablea';
-import { StyledButton } from '../../../components/Styles/DesignList/styles';
-import {Link} from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
+import { routes } from '../../../routes';
 
 
-const data = [
+const createInitColumnsForPopup = ({sliderState}) => [
   {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
+    title: 'Код стороны',
+    dataIndex: 'reservation_code',
+    width: 130,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
   },
   {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
+    title: 'Город',
+    dataIndex: 'reservation_city',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
   },
   {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
+    title: 'Адрес',
+    dataIndex: 'reservation_address',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
   },
   {
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Достык, 25',
-    format: 'Сениор',
-    side: 'Остановка',
-    createDate: '29.03.20',
-    startDate: '30.05.20',
-    expirationDate: '30.05.20',
-    status: 'Да',
-    renewalOfReservation: 'stub data',
-    branding: 'stub data',
-    lighting: 'stub data',
-    package: 'stub data',
-    design: 'stub data'
+    title: 'Формат',
+    dataIndex: 'reservation_format',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Сторона',
+    dataIndex: 'reservation_side',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    title: 'Дата создания',
+    dataIndex: 'reservation_createDate',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Дата начала',
+    dataIndex: 'reservation_startDate',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Дата окончания',
+    dataIndex: 'reservation_expirationDate',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Статус',
+    dataIndex: 'reservation_status',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    title: 'Продление брони',
+    dataIndex: 'reservation_renewalOfReservation',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    title: 'Брендирование',
+    dataIndex: 'reservation_branding',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Освещение',
+    dataIndex: 'reservation_lighting',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    title: 'Пакет',
+    dataIndex: 'reservation_package',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    title: 'Дизайн',
+    dataIndex: 'reservation_design',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: false
+  },
+  {
+    dataIndex: 'btn-remove',
+    width: 40,
+    title: '',
+    render: (text, record) => {
+      console.log('[record]', record)
+      return (
+        <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { sliderState.setAddShowed(true); }} >
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      )
+    },
+    isShowed: true
+  },
+  {
+    dataIndex: 'dateForRouter',
+    width: 0,
+    title: '',
+    isShowed: true
   }
 ];
 
-const PanelDesign = (props) => {
-  
+const createInitColumnsTable = ({sliderState, setReservationCode, history}) => [
+  {
+    title: 'Номер приложения',
+    dataIndex: 'attachment_code',
+    width: 130,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Сумма',
+    dataIndex: 'attachment_summa',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Дата создания',
+    dataIndex: 'attachment_createDate',
+    width: 100,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    title: 'Сроки',
+    dataIndex: 'attachment_reservDates',
+    width: 220,
+    sorter: {
+      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
+      multiple: 1,
+    },
+    isShowed: true
+  },
+  {
+    dataIndex: 'btn-remove',
+    width: 40,
+    title: '',
+    render: (text, record) => {
+      // console.log('[text]', text)
+      return (
+        <Link to={routes.sales.application.url(record.id)} >
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+        </Link>
+      )
+    },
+    isShowed: true
+  },
+  {
+    dataIndex: 'dateForRouter',
+    width: 0,
+    title: '',
+    isShowed: true
+  }
+];
 
-  
-  const initColumnsForPopup = [
-    {
-      title: 'Код стороны',
-      dataIndex: 'reservation_code',
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Город',
-      dataIndex: 'reservation_city',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Адрес',
-      dataIndex: 'reservation_address',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Формат',
-      dataIndex: 'reservation_format',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Сторона',
-      dataIndex: 'reservation_side',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Дата создания',
-      dataIndex: 'reservation_createDate',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Дата начала',
-      dataIndex: 'reservation_startDate',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Дата окончания',
-      dataIndex: 'reservation_expirationDate',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Статус',
-      dataIndex: 'reservation_status',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Продление брони',
-      dataIndex: 'reservation_renewalOfReservation',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Брендирование',
-      dataIndex: 'reservation_branding',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Освещение',
-      dataIndex: 'reservation_lighting',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Пакет',
-      dataIndex: 'reservation_package',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      title: 'Дизайн',
-      dataIndex: 'reservation_design',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: false
-    },
-    {
-      dataIndex: 'btn-remove',
-      width: 40,
-      title: '',
-      render: (text, record) => {
-        console.log('[record]', record)
-        return (
-          <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { props.sliderState.setAddShowed(true); }} >
-            <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-          </Link>
-        )
-      },
-      isShowed: true
-    },
-    {
-      dataIndex: 'dateForRouter',
-      width: 0,
-      title: '',
-      isShowed: true
-    }
-  ];
 
-  const initColumnsTable = [
-    {
-      title: 'Номер приложения',
-      dataIndex: 'attachment_code',
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Сумма',
-      dataIndex: 'attachment_summa',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Дата создания',
-      dataIndex: 'attachment_createDate',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Сроки',
-      dataIndex: 'attachment_reservDates',
-      width: 220,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      dataIndex: 'btn-remove',
-      width: 40,
-      title: '',
-      render: (text, record) => {
-        // console.log('[text]', text)
-        return (
-          <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { 
-            props.setReserveCode(record.reservation_code);
-            props.sliderState.setAddShowed(true); 
-            
-            }} >
-            <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-          </Link>
-        )
-      },
-      isShowed: true
-    },
-    {
-      dataIndex: 'dateForRouter',
-      width: 0,
-      title: '',
-      isShowed: true
-    }
-  ];
+export const PanelProjectCard = ({sliderState, setReservationCode, choosedBlock, loading, setBlock, panelData}) => {
+
+  const history = useHistory();
+  const initColumnsForPopup = createInitColumnsForPopup({sliderState});
+  const initColumnsTable = createInitColumnsTable({sliderState, setReservationCode, history});
 
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsForPopup);
-  const [isReservTable, setIsReservTable] = useState(true)
-  const [data, setData] = useState(props.data.reservations)
-
-  let colForReq = props.col;
-
-  // props.setColumnsTable(props.columns)
-  // props.setColumnsForPopup(props.columns)
-  // useEffect(() => {
-  //   alert(1)
-  //   props.setColumnsTable(props.columns)
-  //   props.setColumnsForPopup(props.columns)
-  // }, props.columns)
-  // const [block, setBlock] = useState(0);
-
-  const changeColumns = (dataIndex) => {
-    console.log('Data INDEX', dataIndex, '=======================')
-    let localColumnsForPopup = columnsForPopup.map((col, index) => {
-      if(col.dataIndex  && col.dataIndex === dataIndex) {
-        col.isShowed = !col.isShowed;
-        return col
-      }
-      return col
-    })
-
-    setColumnsForPopup(localColumnsForPopup);
-
-    const newColumnTables = localColumnsForPopup.filter(item => {
-      if(item.isShowed) {
-        return item
-      }
-      if(item.dataIndex === 'btn-remove') {
-        return item
-      }
-    });
-
-    setColumnsTable(newColumnTables);
-  };
+  const [data, setData] = useState(panelData.reservations)
 
   useEffect(() => {
-    console.log(props.choosedBlock);
-    if (props.choosedBlock == 0) {
+    if (choosedBlock === 0) {
       setColumnsForPopup(initColumnsForPopup);
       setColumnsTable(initColumnsForPopup);
-      setData(props.data.reservations);
+      setData(panelData.reservations);
     }
     else {
       setColumnsForPopup(initColumnsTable);
       setColumnsTable(initColumnsTable);
-      setData(props.data.attachments);
+      setData(panelData.attachments);
     }
-
-  }, [props.choosedBlock, props.loading])
+  }, [choosedBlock, loading])
 
   const headerTableBtns = [
     {
@@ -369,18 +263,6 @@ const PanelDesign = (props) => {
       'title': 'ПРИЛОЖЕНИЯ'
     }
   ]
-
-  const [curTable, setCurTable] = useState(<Table 
-    style={{ width: '100%' }} 
-    columns={props.columns} 
-    data={props.data} 
-    select={true} 
-    columnsForPopup={props.columns} 
-    changeColumns={changeColumns} 
-    chooseTableBtns={headerTableBtns}
-    choosedBlock={props.choosedBlock}
-    setBlock={props.setBlock}
-  />);
 
   return (
     <>
@@ -392,11 +274,10 @@ const PanelDesign = (props) => {
         data={data}
         select={true}
         columnsForPopup={columnsForPopup}
-        // changeColumns={changeColumns}
         chooseTableBtns={headerTableBtns}
-        choosedBlock={props.choosedBlock}
-        setBlock={props.setBlock}
-        loading={props.loading}
+        choosedBlock={choosedBlock}
+        setBlock={setBlock}
+        loading={loading}
       />
       </div>
 
@@ -411,4 +292,3 @@ const PanelDesign = (props) => {
   );
 };
 
-export default PanelDesign;

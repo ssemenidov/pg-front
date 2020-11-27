@@ -5,107 +5,24 @@ import { Route, Switch } from 'react-router';
 import locale from 'antd/es/locale/ru_RU';
 import './App.css';
 import 'antd/dist/antd.css';
-
-import Main from './containers/Main/Main';
-import MainBase from './containers/Base/Main/Main';
-import MainAdministration from './containers/Administration/Main/Main';
-import MainSales from './containers/Sales/Main/Main';
-import MainInstall from './containers/Installations/Main/Main';
-
-import Partners from './containers/Base/Partners/Partners';
-import OutdoorFurniture from './containers/Base/OutdoorFurniture/OutdoorFurniture';
-
 import Header from './components/Header/Header';
-import Construction from './containers/Base/Construction/Construction';
-import Locations from './containers/Base/Locations/Locations';
-import Location from './containers/Base/Location/Location';
-import Partner from './containers/Base/Partner/Partner';
-import Brand from './containers/Base/Brand/Brand';
-import Agreements from './containers/Base/Documents/Agreements/Agreements';
-import Agreement from './containers/Base/Documents/Agreement/Agreement';
-import ApplicationsBase from './containers/Base/Documents/Application_base/Application_base';
-import ApplicationBase from './containers/Base/Documents/Application/Application';
-import Crews from './containers/Base/Crews/Crews';
-import Brands from './containers/Base/Brands/Brands';
 
-import BatchPlacement from './containers/Sales/BatchPlacement/BatchPlacement';
-import AdvertisingParties from './containers/Sales/AdvertisingParties/AdvertisingParties';
-import Project_card from './containers/Sales/Project_card/Project_card';
-import Project_new from './containers/Sales/Project_new/Project_new';
-import Application from './containers/Sales/Application/Application';
-import Com_projects from './containers/Sales/Com_projects/Com_projects';
-import Invoice from './containers/Sales/Invoice/Invoice';
-import Estimate from './containers/Sales/Estimate/Estimate';
-import Summary from './containers/Sales/Summary/Summary';
-
-import Projects from './containers/Installations/Projects/Projects';
-import Orders from './containers/Installations/Orders/Orders';
-import Design from './containers/Installations/Design/Design';
-
-import Person from './containers/Administration/Person/Person';
-import AdminOutdoorFurniture from './containers/Administration/AdminOutdoorFurniture/AdminOutdoorFurniture';
-import AdminLocations from './containers/Administration/AdminLocations/AdminLocations';
-import Packages from './containers/Administration/Packages/Packages';
-import AdminCrews from './containers/Administration/AdminCrews/AdminCrews';
-import Prices from './containers/Administration/Prices/Prices';
-import TestImageUpload from './containers/Administration/Main/TestImageUpload';
-
-import { adminRoutes } from './containers/Administration/Main/adminRoutes';
+import { routes } from './routes';
 
 const App = () => {
+  let routesArr = [];
+  for (let [keyTop, routeTop] of Object.entries(routes)) {
+    for (let [keyValue, routeValue] of Object.entries(routeTop)) {
+      routesArr.push(
+        <Route key={keyTop + keyValue} path={routeValue.path} exact component={routeValue.component} />
+      )
+    }
+  }
   return (
     <ConfigProvider locale={locale}>
       <BrowserRouter>
         <Header />
-        <Switch>
-          <Route path="/" exact component={Main} />
-
-          <Route path="/sales" exact component={MainSales} />
-          <Route path="/sales/batch_placement" component={BatchPlacement} />
-          <Route path="/sales/advertising_parties" component={AdvertisingParties} />
-          <Route path="/sales/project_new" component={Project_new} />
-          <Route path="/sales/project_card/:id?" component={Project_card} exact />
-          <Route path="/sales/project_card/:id?/estimate" component={Estimate} exact />
-          <Route path="/sales/application/:appId" component={Application} exact />
-          <Route path="/sales/application/:appId/estimate" component={Estimate} exact />
-          <Route path="/sales/com_projects" component={Com_projects} />
-          <Route path="/sales/invoice" component={Invoice} />
-          <Route path="/sales/summary/:id" component={Summary} />
-
-          <Route path="/base" exact component={MainBase} />
-          <Route path="/base/outdoor_furniture" exact component={OutdoorFurniture} />
-          <Route path="/base/brands" exact component={Brands} />
-          <Route path="/base/partners" exact component={Partners} />
-          <Route path="/base/partners/partner/:id?" exact component={Partner} />
-          <Route path="/base/partners/partner/:id?/brands" exact component={Brands} />
-          <Route path="/base/partners/partner/:id?/advertisers" exact component={Partners} />
-          <Route path="/base/partner/brand/:id?" exact component={Brand} />
-          <Route path="/base/construction/:id?" exact component={Construction} />
-          <Route path="/base/locations" exact component={Locations} />
-          <Route path="/base/locations/location/:id?" exact component={Location} />
-          <Route path="/base/locations/location/:id?/add_outdoor_furniture" exact component={OutdoorFurniture} />
-          <Route path="/base/documents/agreements" exact component={Agreements} />
-          <Route path="/base/documents/agreement/:id?" exact component={Agreement} />
-          <Route path="/base/documents/application_base" exact component={ApplicationsBase} />
-          <Route path="/base/documents/application/:id?" exact component={ApplicationBase} />
-          <Route path="/base/crews" exact component={Crews} />
-          <Route path="/base/crews/:id?" exact component={Crews} />
-          <Route path="/base/crews/:id?/add_outdoor_furniture" exact component={()=><OutdoorFurniture isCrew={true}/> }  />
-
-          <Route path="/installations/design" component={Design} />
-          <Route path="/installations" exact component={MainInstall} />
-          <Route path="/installations/projects" component={Projects} />
-          <Route path="/installations/orders" component={Orders} />
-
-          <Route path={adminRoutes.root.to} exact component={MainAdministration} />
-          <Route path={adminRoutes.person.to} component={Person} />
-          <Route path={adminRoutes.outdoor_furniture.to} component={AdminOutdoorFurniture} />
-          <Route path={adminRoutes.locations.to} component={AdminLocations} />
-          <Route path={adminRoutes.packages.to} component={Packages} />
-          <Route path={adminRoutes.crews.to} component={AdminCrews} />
-          <Route path={adminRoutes.prices.to} component={Prices} />
-          {adminRoutes.test_image && <Route path={adminRoutes.test_image.to} component={TestImageUpload} />}
-        </Switch>
+        <Switch>{routesArr}</Switch>
       </BrowserRouter>
     </ConfigProvider>
   );

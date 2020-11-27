@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import styled from "styled-components";
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import Table from '../../../components/Tablea/Tablea';
 
@@ -29,21 +29,6 @@ const personColumns = [
       </>
     ),
   },
-];
-
-const stubUsers = [
-  { key: '#202005030123', name: 'Потапов Даниил',     position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030124', name: 'Кузьмин Виталий',    position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030125', name: 'Логинов Август',     position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030126', name: 'Гущин Филат',        position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030127', name: 'Трофимов Спиридон',  position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030128', name: 'Панфилов Андрей',    position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030129', name: 'Ефремов Велимир',    position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030130', name: 'Колобов Анемподист', position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030131', name: 'Силин Соломон',      position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030132', name: 'Крюков Июль',        position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030133', name: 'Кулагин Филофей',    position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
-  { key: '#202005030134', name: 'Гордеев Амвросий',   position: 'Менеджер', phone: '+7 777 123 45 67', email: 'email@mail.kz' },
 ];
 
 const StyledOutdoorTableBar = styled.div`
@@ -75,7 +60,7 @@ const GET_USERS = gql`
 const srcUsers = new GqlDatasource({
   query: GET_USERS,
   method: "users",
-  stub: stubUsers,
+  stub: [],
   filterFunEmpty: true,
   selectorFun: (data => (
     data.users.edges.map(item => ({

@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import clsx from 'clsx'
+import React from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 import { TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/Styles/StyledBlocks';
-import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../../../components/Styles/Colors';
 import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio, StyledTrash } from '../components/Styled'

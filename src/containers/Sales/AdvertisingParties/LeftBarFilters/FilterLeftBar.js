@@ -4,6 +4,7 @@ import SearchBtn from '../../../../components/LeftBar/SearchBtn';
 import CreateBtn from '../../../../components/LeftBar/CreateBtn';
 import React from 'react';
 
+
 export const FilterLeftBar = ({setCollapsed, collapsed}) => (
   <Layout.Sider className="layout-sider">
     <Menu

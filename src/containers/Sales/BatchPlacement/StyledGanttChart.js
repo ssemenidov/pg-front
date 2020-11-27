@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './styles_adv_part.scss'
-import { ScheduleChartView } from './GanttChart/DlhGanttChart';
+import { ScheduleChartView } from '../AdvertisingParties/GanttChart/DlhGanttChart';
 import { createPopover } from './tabPopover';
-import ReactDOM from 'react-dom';
-
 
 
 export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
-  let [state, setState] = useState([]);
+  let [/*state*/, setState] = useState([]);
   let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
   useEffect(() => {
@@ -15,7 +13,7 @@ export const ScheduleChartView1 = function({ style, items, settings, change, col
       setGanttUpdater(setState);
       setGanttUpdaterIsSetted(true);
     }
-  }, [ganttUpdaterIsSetted]);
+  }, [ganttUpdaterIsSetted, setGanttUpdater]);
 
   let ref = useRef(null);
 

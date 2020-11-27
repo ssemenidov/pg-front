@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import icon_delete from '../../img/outdoor_furniture/red_can.svg';
 
+
 export default class AdvertisingParties extends Component {
   state = {
     columns: this.props.columns,

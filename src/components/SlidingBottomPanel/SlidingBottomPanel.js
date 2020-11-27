@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import styled, { keyframes } from "styled-components";
+import React, { useRef } from 'react';
+import styled from "styled-components";
 
 import { colorWhite, borderColor, fontSizeTitle, colorTitle } from '../Styles/Colors';
 import './style.scss';

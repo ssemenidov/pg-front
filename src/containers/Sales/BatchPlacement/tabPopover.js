@@ -1,7 +1,5 @@
 import './styles_popover.scss'
 import jquery from 'jquery'
-import Popover from 'bootstrap';
-import tippy, {animateFill} from 'tippy.js';
 import 'tippy.js/dist/backdrop.css';
 import 'tippy.js/animations/shift-away.css';
 

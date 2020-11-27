@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { outContext } from './OutdoorFurniture';
 
 import Table from '../../../components/Tablea/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useQuery, gql, useMutation } from '@apollo/client';
-import Preloader from '../../../components/Preloader/Preloader';
-import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
+import { useQuery, gql } from '@apollo/client';
+import { column, null2str, null2strKey } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 
 
 
 const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setConstructionsIdSet }) => {
-  const [filter, setFilter] = useContext(outContext);
+  const filter = useContext(outContext)[0];
   const history = useHistory();
 
   const columns = [

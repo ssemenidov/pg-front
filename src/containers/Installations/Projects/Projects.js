@@ -1,28 +1,18 @@
 import React, { useState } from 'react';
 import { LeftBar, StyledButton, HeaderTitleWrapper, HeaderWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProjects';
-import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import CreateBtn from '../../../components/LeftBar/CreateBtn';
-import PackageBtn from '../../../components/LeftBar/PackageBtn';
-import EditBtn from '../../../components/LeftBar/EditBtn';
-import BoxBtn from '../../../components/LeftBar/BoxBtn';
-import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import FilterBar from './FilterBar';
 import { useHistory } from 'react-router';
+import { routes } from '../../../routes';
 
 const Projects = () => {
   const history = useHistory();
-  const [block, setBlock] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
-  const links = [
-    { id: '', value: 'Главная' },
-    { id: 'installations', value: 'Монтажи' },
-    { id: 'installations/projects', value: 'Подача разнарядки' },
-  ];
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -34,7 +24,7 @@ const Projects = () => {
       </div>
 
       <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
-        <BreadCrumbs links={links} />
+        <BreadCrumbsRoutes links={[routes.root.root, routes.installations.root, routes.installations.projects]} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />

@@ -11,7 +11,7 @@ import constructionReducer from './store/reducer/constructionReducer';
 import contragentsReducer from './store/reducer/contragentsReducer';
 import locationsReducer from './store/reducer/locationsReducer';
 import locationReducer from './store/reducer/locationReducer';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client'
 import { setContext } from '@apollo/client/link/context';
 

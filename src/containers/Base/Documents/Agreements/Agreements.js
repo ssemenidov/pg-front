@@ -1,8 +1,8 @@
-import React, { useEffect, useState,useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useQuery, gql, useMutation } from '@apollo/client';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { gql, useMutation } from '@apollo/client';
+import { Layout, Breadcrumb } from 'antd';
 
 import PanelAgreements from './PanelAgreements';
 
@@ -11,9 +11,9 @@ import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import breadcrumbs from '../../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { routes } from '../../../../routes';
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 const CONTRACT_CREATE = gql`
   mutation {
     createContract(input: {}) {
@@ -26,12 +26,10 @@ const CONTRACT_CREATE = gql`
 const Agreements = (props) => {
   const [block, setBlock] = useState(0);
   const history =useHistory();
-  const [collapsed, setCollapsed] = useState(true);
   const [ createContract , { data }] = useMutation(CONTRACT_CREATE);
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
-
-     history.push(`/base/documents/agreement/${data.createContract.contract.id}`);
+     history.push(routes.bases.agreement.url(data.createContract.contract.id));
     }
   }, [data]);
   return (

@@ -14,6 +14,7 @@ import PaperBtn from '../../../components/LeftBar/PaperBtn';
 import PackageBtn from '../../../components/LeftBar/PackageBtn';
 import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
+import { routes } from '../../../routes';
 
 const SUMMARY_QUERY = gql`
 query ($dateFrom: Date, $dateTo: Date) {
@@ -44,9 +45,11 @@ const Summary = () => {
 
   console.log('[data]', data);
   const links = [
-    { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/summary', value: 'Сводка' },
+    { id: routes.root.root.path, value: 'Главная' },
+    { id: routes.sales.root.path, value: 'Продажи' },
+    { id: routes.sales.com_projects.path, value: 'Коммерческие проекты' },
+    { id: routes.sales.project_card.url(id), value: 'Проект' },
+    { id: routes.sales.summary.url(id), value: 'Сводка' },
   ];
 
   return (
@@ -64,7 +67,7 @@ const Summary = () => {
       </div>
 
       <div style={{ overflowX: 'hidden', margin: '0 2vw 0 0' }}>
-        <BreadCrumbs links={links} />
+        <BreadCrumbs links={links} fromRoot={true}/>
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />

@@ -163,13 +163,13 @@ const InnerForm = () => {
       }
     });
     setPartnerLoading(loading);
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, getPartner, loading]);
   useMemo(() => {
     if(data && data.searchPartner.edges) {
       setPartnerData(data.searchPartner.edges);
       setPartnerLoading(loading);
     }
-  }, [data]);
+  }, [data, loading]);
 
   useMemo(() => {
     const { data } = designData;
@@ -190,9 +190,9 @@ const InnerForm = () => {
 
     if(partnerValue) {
       const localEdges = item.partner ? item.partner.edges : [];
-      const partnerItem = partnerData.filter(item => item.node.id == partnerValue);
+      const partnerItem = partnerData.filter(item => item.node.id === partnerValue);
 
-      if(localEdges.filter(item => item.node.id == partnerValue)[0]) {
+      if(localEdges.filter(item => item.node.id === partnerValue)[0]) {
         alert('Этот контрагент уже добавлен');
         return
       }
@@ -216,7 +216,7 @@ const InnerForm = () => {
     e.preventDefault();
 
     let localEdges = item.partner ? item.partner.edges : [];
-    localEdges = localEdges.filter(item => item.node.id != id);
+    localEdges = localEdges.filter(item => item.node.id !== id);
 
     setItem({
       ...item,
@@ -225,13 +225,9 @@ const InnerForm = () => {
       }
     });
   };
-  let history = useHistory();
   const saveData = (e) => {
-    history.push('/base/brands');
-    e.preventDefault();
-    return
-
-    if(!id) return;
+    if(!id)
+      return;
 
     let partnerIdList = [];
     if(item.partner && item.partner.edges) {

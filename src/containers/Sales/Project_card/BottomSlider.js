@@ -1,20 +1,12 @@
-import React, {useState, useContext, useCallback} from 'react';
-import { useHistory, useParams } from 'react-router';
-// import { batchContext } from './BatchPlacement';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
-import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
+import { DatePicker, Form } from 'antd';
 import date from '../../../img/left-bar/filter/date.svg';
-import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import {Row, Col} from 'antd'
-import anchorIcon from '../../../img/input/anchor.svg';
-
+import { gql, useMutation } from '@apollo/client';
 
 
 const InputIconSpanSyled = styled.span`
@@ -79,7 +71,7 @@ const ReservationSliderSubmitButton = styled(SubmitButton)`
 const RESERVATION_PACKAGE_CREATOR = gql`
 mutation ( $input: CreateReservationPackageInput!) {
   createReservationPackage(input: $input) {
-    
+
     reservationPackage {
       id
       dateTo
@@ -92,7 +84,7 @@ mutation ( $input: CreateReservationPackageInput!) {
 }
 `
 
-export function ReservationSlider(props) {
+export function ReservationSlider({sliderState, data, reserveCode}) { //
   // const addItem = (values) => {
   //   let parent = sliderState.caller.parent;
   //   let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
@@ -106,24 +98,23 @@ export function ReservationSlider(props) {
   //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
   //   }
   // };
-  
+
   let colSteps = {xl: 2, lg: 4, md: 6};
   // const [filter, setFilter] = useContext(batchContext);
 
- 
 
-  const [dateFrom, setDateFrom] = useState(); 
-  const [dateTo, setDateTo] = useState(); 
-  const [project, setProject] = useState(); 
 
-  const [reservationPackageCreator, { data }] = useMutation(RESERVATION_PACKAGE_CREATOR);
-  // let [endDate, setEndDate] = useState(); 
+  const [dateFrom, setDateFrom] = useState();
+  const [dateTo, setDateTo] = useState();
+  const [project, setProject] = useState();
+
+  const [reservationPackageCreator, mutationResult] = useMutation(RESERVATION_PACKAGE_CREATOR);
+
   const onFinFunc = (values) => {
     let reqObj = {};
     console.log('[dateFrom] ', dateFrom);
     console.log('[dateTo] ', dateTo);
     console.log('[projectName] ', project);
-    // console.log(values)
 
     reqObj = {
       'dateFrom': dateFrom,
@@ -137,15 +128,15 @@ export function ReservationSlider(props) {
     // setFilter(null);
   }
   return (
-    <SlidingBottomPanel title={`Быстрая бронь ${props.sliderState.title[0]}`}
-                        onClose={props.sliderState.closeAdd}
+    <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
+                        onClose={sliderState.closeAdd}
                         classNameSuffix={'loca'}
                         sliderClass="advertising-part-slider"
     >
       <CRUDForm  onFinish={onFinFunc} >
         <SliderRow>
           <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
-          
+
             <ReservationSilderFormItem >
               <p className="formItem-title">Дата начала</p>
               <InputIcon img={date} alt="date icon" />
@@ -162,7 +153,7 @@ export function ReservationSlider(props) {
                   let stringifyNdate = ndate.getFullYear() + '-' + ( ndate.getMonth() >= 9 ?  ndate.getMonth() + 1 : '0' + (ndate.getMonth() + 1)) + '-' + ( ndate.getDate() > 9 ?  ndate.getDate()  : '0' + (ndate.getDate())) + 'T22:00:00+00:00'
                   console.log(stringifyNdate);
                   setDateFrom(stringifyNdate);
-                  
+
                 }}
               />
             </ReservationSilderFormItem>
@@ -180,12 +171,12 @@ export function ReservationSlider(props) {
                 onChange={(e) => {
                   let stringDate = e.toString();
                   let ndate = new Date(stringDate);
-                  
-                }} 
+
+                }}
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          
+
           <SliderCellColRaw {...{xxl: 2, xs: 1}}>
             {/* <BtnGroup> */}
             <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>

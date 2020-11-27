@@ -123,7 +123,6 @@ export default function ConstructionHist() {
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
-  if (loading) return <h3></h3>;
 
   return <Table
     columns={columns}
