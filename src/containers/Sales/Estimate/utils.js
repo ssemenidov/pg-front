@@ -221,8 +221,8 @@ export const PROJECT_NON_RTS_QUERY = gql`
   }
 `;
 
-export const getBookedSides = (data = []) => {
-  return data.map((invoice) => {
+export const getBookedSides = (data = [], sort = '') => {
+  let modifiedData = data.map((invoice) => {
     return {
       key: invoice.node.id,
       code: getConstructionSideCode(invoice.node.constructionSide),
@@ -239,6 +239,21 @@ export const getBookedSides = (data = []) => {
       branding: invoice.node.branding ? 'Да' : 'Нет',
     };
   });
+
+  switch (sort) {
+    case 'abc':
+      return modifiedData.sort((a, b) => {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      });
+    default:
+      return modifiedData;
+  }
 };
 
 export const getExtraCosts = (data = [], sort = '') => {
@@ -286,8 +301,8 @@ export const getExtraCosts = (data = [], sort = '') => {
   }
 };
 
-export const gettNonRts = (data = []) => {
-  return data.map((item) => {
+export const gettNonRts = (data = [], sort = '') => {
+  let modifiedData = data.map((item) => {
     let inputRent = item.node.incomingRent || 0;
     let inputTax = item.node.incomingTax || 0;
     let inputPrint = item.node.incomingPrinting || 0;
@@ -330,6 +345,21 @@ export const gettNonRts = (data = []) => {
       sumAK: agValue + ' тг.',
     };
   });
+
+  switch (sort) {
+    case 'abc':
+      return modifiedData.sort((a, b) => {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      });
+    default:
+      return modifiedData;
+  }
 };
 
 const UPDATE_ADDITIONAL_COSTS = gql`
@@ -422,7 +452,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [form] = Form.useForm();
-  let FormInputs = () => {};
+  let FormInputs = () => {
+    return 'no edit';
+  };
   // console.log(editingItem);
   const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
   const [updateNonRts] = useMutation(UPDATE_NON_RTS);
@@ -463,7 +495,12 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
     case 'extra-charge':
       FormInputs = () => {
         return (
-          <>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '2fr 1fr 2fr 1fr 2fr 2fr 2fr',
+              gap: '30px',
+            }}>
             <Form.Item
               className="editForm-item"
               labelAlign="left"
@@ -480,9 +517,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 </span>
               }>
               <Input
-                style={{
-                  width: '270px',
-                }}
+                style={
+                  {
+                    // width: '270px',
+                  }
+                }
                 size="large"
               />
             </Form.Item>
@@ -493,9 +532,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Кол-во')}>
               <InputNumber
-                style={{
-                  width: '120px',
-                }}
+                style={
+                  {
+                    // width: '120px',
+                  }
+                }
                 size="large"
               />
             </Form.Item>
@@ -506,9 +547,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Цена')}>
               <InputNumber
-                style={{
-                  width: '270px',
-                }}
+                style={
+                  {
+                    // width: '270px',
+                  }
+                }
                 size="large"
                 formatter={(value) => `${value} тг`}
               />
@@ -520,9 +563,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Скидка')}>
               <InputNumber
-                style={{
-                  width: '120px',
-                }}
+                style={
+                  {
+                    // width: '120px',
+                  }
+                }
                 size="large"
                 formatter={(value) => `${value}%`}
               />
@@ -534,9 +579,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Процент АК')}>
               <InputNumber
-                style={{
-                  width: '270px',
-                }}
+                style={
+                  {
+                    // width: '270px',
+                  }
+                }
                 size="large"
                 formatter={(value) => `${value}%`}
               />
@@ -548,9 +595,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Сумма АК')}>
               <InputNumber
-                style={{
-                  width: '270px',
-                }}
+                style={
+                  {
+                    // width: '270px',
+                  }
+                }
                 size="large"
                 formatter={(value) => {
                   return `${value} тг`;
@@ -573,11 +622,12 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                   height: '38px',
                   marginTop: '15px',
                   borderRadius: '4px',
+                  backgroundColor: '#2C5DE5',
                 }}>
                 Сохранить
               </Button>
             </Form.Item>
-          </>
+          </div>
         );
       };
       break;
@@ -608,7 +658,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -623,7 +673,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -638,7 +688,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -653,7 +703,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -668,7 +718,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -683,7 +733,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -718,7 +768,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -735,7 +785,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -752,7 +802,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -769,7 +819,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -786,7 +836,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -803,7 +853,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -820,7 +870,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <Input
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -834,7 +884,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -848,7 +898,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -865,7 +915,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <InputNumber
                   style={{
                     width: '100%',
-                    minWidth: '260px',
+                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -883,12 +933,14 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 <Button
                   type="primary"
                   htmlType="submit"
+                  className="editBtn"
                   loading={confirmLoading}
                   style={{
-                    minWidth: '260px',
+                    // minWidth: '260px',
                     height: '38px',
                     marginTop: '15px',
                     borderRadius: '4px',
+                    backgroundColor: '#2C5DE5',
                   }}>
                   Сохранить
                 </Button>
@@ -928,7 +980,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
         style={{
           marginBottom: '15px',
           flexDirection: block === 'hot-ptc' ? 'column' : 'row',
-          justifyContent: block === 'extra-charge' ? 'space-between' : '',
         }}
         onFinish={(values) => {
           // console.log(values);
@@ -1013,7 +1064,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
 
         .editBtn {
           width: 100%;
-          max-width: 270px;
+          // max-width: 270px;
+          margin-right: 0 !important;
         }
 
        .editBtn>div {
@@ -1023,6 +1075,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
        .editForm-item {
          display: flex;
          flex-direction: column;
+         margin-right: 0 !important;
        }
         `}
       </style>

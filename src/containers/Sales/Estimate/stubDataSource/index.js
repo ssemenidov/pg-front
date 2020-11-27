@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as ArrowDown } from '../../../../img/icon_dropdown_select.svg';
+// import { ReactComponent as ArrowDown } from '../../../../img/icon_dropdown_select.svg';
 import { CityFilterDropdown } from '../utils';
 
 export const initColumnsForPopupBookedSides = [
@@ -185,6 +185,11 @@ export const initColumnsTableBookedSides = [
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
+    // filterIcon: <ArrowDown />,
   },
   {
     title: 'Адрес',
@@ -210,34 +215,6 @@ export const initColumnsTableBookedSides = [
     title: 'Брендинг (да/нет)',
     dataIndex: 'branding',
     width: 130,
-  },
-];
-
-export const dataBookedSides = [
-  {
-    key: 1,
-    code: '#2020050301323',
-    city: 'Алматы',
-    address: 'Гоголя-Пушкина, (северо-восток)',
-    format: 'Сениор',
-    side: 'Скроллерная А',
-    period: '29.03.2020 - 30.05.2020',
-    branding: 'Да',
-    rentByPrice: 'stub data',
-    discountByPrice: 'stub data',
-    rentOnClient: 'stub data',
-    discountOnClient: 'stub data',
-    rentAfterDiscount: 'stub data',
-    tax: 'stub data',
-    discountOnTax: 'stub data',
-    taxAfterDiscount: 'stub data',
-    vat: 'stub data',
-    mount: 'stub data',
-    print: 'stub data',
-    sum: 'stub data',
-    percentAK: 'stub data',
-    sumAK: 'stub data',
-    sumWithoutAK: 'stub data',
   },
 ];
 
@@ -315,8 +292,6 @@ export const initColumnsForPopupExtraCharge = [
   },
 ];
 
-// const filter = Filters()
-
 export const initColumnsTableExtraCharge = [
   {
     title: 'Наименование услуги',
@@ -331,7 +306,7 @@ export const initColumnsTableExtraCharge = [
     onFilter: (val, record) => {
       return record.city === val;
     },
-    filterIcon: <ArrowDown />,
+    // filterIcon: <ArrowDown />,
   },
   {
     title: 'Период',
@@ -519,6 +494,11 @@ export const initColumnsTableHotPtc = [
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
+    // filterIcon: <ArrowDown />,
   },
   {
     title: 'Кол-во',
@@ -567,27 +547,3 @@ export const initColumnsTableHotPtc = [
   },
 ];
 
-export const dataHotPtc = [
-  {
-    key: 1,
-    code: 'Радио',
-    city: 'Актау',
-    quantity: '3',
-    rentInput: '300000,00 тг.',
-    taxInput: '0,00 тг.',
-    printInput: '0,00 тг.',
-    mountInput: '0,00 тг.',
-    extraChargeInput: '15000,00 тг.',
-    sumInput: '1575000,00 тг.',
-    rentSell: 'stub data',
-    taxSell: 'stub data',
-    printSell: 'stub data',
-    mountSell: 'stub data',
-    manufactureSell: 'stub data',
-    sumSell: 'stub data',
-    percentAK: 'stub data',
-    sumAK: 'stub data',
-    sumWithoutAK: 'stub data',
-    margin: 'stub data',
-  },
-];
