@@ -86,7 +86,7 @@ const DISTRICT_T = gql`
 
   const FilterBar = ({setRefetch}) => {
   const [form] = Form.useForm();
-  const [setFilter] = useContext(batchContext)[1];
+  const setFilter = useContext(batchContext)[1];
   const onFinish = (values) => {
     setFilter(values);
     console.log('values ', values);

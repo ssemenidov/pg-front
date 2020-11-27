@@ -1,242 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../../components/Tablea/Tablea';
+import Table from '../../../components/Tablea/Tablea_func';
 import { Link, useHistory } from 'react-router-dom';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
-import { routes } from '../../../routes';
+import { column } from '../../../components/Table/utils';
 
 
 const createInitColumnsForPopup = ({sliderState}) => [
-  {
-    title: 'Код стороны',
-    dataIndex: 'reservation_code',
-    width: 130,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Город',
-    dataIndex: 'reservation_city',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Адрес',
-    dataIndex: 'reservation_address',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Формат',
-    dataIndex: 'reservation_format',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Сторона',
-    dataIndex: 'reservation_side',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
-  {
-    title: 'Дата создания',
-    dataIndex: 'reservation_createDate',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Дата начала',
-    dataIndex: 'reservation_startDate',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Дата окончания',
-    dataIndex: 'reservation_expirationDate',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Статус',
-    dataIndex: 'reservation_status',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
-  {
-    title: 'Продление брони',
-    dataIndex: 'reservation_renewalOfReservation',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
-  {
-    title: 'Брендирование',
-    dataIndex: 'reservation_branding',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Освещение',
-    dataIndex: 'reservation_lighting',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
-  {
-    title: 'Пакет',
-    dataIndex: 'reservation_package',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
-  {
-    title: 'Дизайн',
-    dataIndex: 'reservation_design',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: false
-  },
+  column('Код стороны', 'reservation_code', 130),
+  column('Город', 'reservation_city', 100),
+  column('Адрес', 'reservation_address', 100),
+  column('Формат', 'reservation_format', 100),
+  column('Сторона', 'reservation_side', 100, false),
+  column('Дата создания', 'reservation_createDate', 100),
+  column('Дата начала', 'reservation_startDate', 100),
+  column('Дата окончания', 'reservation_expirationDate', 100),
+  column('Статус', 'reservation_status', 100, false),
+  column('Продление брони', 'reservation_renewalOfReservation', 100, false),
+  column('Брендирование', 'reservation_branding', 100),
+  column('Освещение', 'reservation_lighting', 100, false),
+  column('Пакет', 'reservation_package', 100, false),
+  column('Дизайн', 'reservation_design', 100, false),
   {
     dataIndex: 'btn-remove',
     width: 40,
     title: '',
     render: (text, record) => {
-      console.log('[record]', record)
       return (
-        <Link to={{  state: {  reserveId: record.reservation_code } }} onClick={() => { sliderState.setAddShowed(true); }} >
+          <Link to={{  state: {  reserveId: record.id } }} onClick={() => { sliderState.setAddShowed(true); }} >
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       )
     },
     isShowed: true
   },
-  {
-    dataIndex: 'dateForRouter',
-    width: 0,
-    title: '',
-    isShowed: true
-  }
+  column('', 'dateForRouter', 0),
 ];
 
-const createInitColumnsTable = ({sliderState, setReservationCode, history}) => [
+const createInitColumnsTable = ({sliderState}) => [
+  column('Номер приложения', 'attachment_code', 130),
+  column('Сумма', 'attachment_summa', 100),
+  column('Дата создания', 'attachment_createDate', 100),
+  column('Сроки', 'attachment_reservDates', 220),
   {
-    title: 'Номер приложения',
-    dataIndex: 'attachment_code',
-    width: 130,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Сумма',
-    dataIndex: 'attachment_summa',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Дата создания',
-    dataIndex: 'attachment_createDate',
-    width: 100,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
-    title: 'Сроки',
-    dataIndex: 'attachment_reservDates',
-    width: 220,
-    sorter: {
-      compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-      multiple: 1,
-    },
-    isShowed: true
-  },
-  {
+    key: 'btn-remove',
     dataIndex: 'btn-remove',
     width: 40,
     title: '',
     render: (text, record) => {
-      // console.log('[text]', text)
       return (
-        <Link to={routes.sales.application.url(record.id)} >
+        <Link to={{  state: {  reserveId: record.id } }} onClick={() => sliderState.setAddShowed(true)} >
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
         </Link>
       )
     },
     isShowed: true
   },
-  {
-    dataIndex: 'dateForRouter',
-    width: 0,
-    title: '',
-    isShowed: true
-  }
+  column('', 'dateForRouter', 0),
 ];
 
 
-export const PanelProjectCard = ({sliderState, setReservationCode, choosedBlock, loading, setBlock, panelData}) => {
+export const PanelProjectCard = ({sliderState, choosedBlock, loading, setBlock, panelData}) => {
 
-  const history = useHistory();
   const initColumnsForPopup = createInitColumnsForPopup({sliderState});
-  const initColumnsTable = createInitColumnsTable({sliderState, setReservationCode, history});
+  const initColumnsTable = createInitColumnsTable({sliderState});
 
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsForPopup);
@@ -270,7 +96,7 @@ export const PanelProjectCard = ({sliderState, setReservationCode, choosedBlock,
       <Table
         style={{ width: '100%' }}
         columns={columnsTable}
-        setColumns={setColumnsTable}
+        // setColumns={setColumnsTable}
         data={data}
         select={true}
         columnsForPopup={columnsForPopup}

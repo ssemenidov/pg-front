@@ -155,8 +155,6 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     return ndate;
   }
 
-
-
   let scheduleChartItems = [];
   if (data !== null) {
     for (let item of data.searchConstructionSide.edges) {

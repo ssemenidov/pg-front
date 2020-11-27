@@ -26,6 +26,7 @@ import { ReservationSlider } from './BottomSlider';
 import collapseIcon from '../../../img/collapse-icon.svg';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
 import { routes } from '../../../routes';
+import { column } from '../../../components/Table/utils';
 
 
 const PROJECT_QUERY = gql`
@@ -37,6 +38,7 @@ query ($id: ID!) {
         title
         code
         createdAt
+        title
         creator {
           id
           firstName
@@ -131,135 +133,16 @@ query ($id: ID!) {
 }`;
 
 
-const Project_card = () => {
+const Project_card = (props) => {
   const sliderState = new SliderState({name: "", key: ""})
 
-  const [reserveCode, setReserveCode] = useState('');
   const history = useHistory();
   const { id } = useParams();
   const [block, setBlock] = useState(0);
-  const initColumnsTable = [
-    {
-      title: 'Номер приложения',
-      dataIndex: 'code',
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Сумма',
-      dataIndex: 'summa',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Дата создания',
-      dataIndex: 'createDate',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Сроки',
-      dataIndex: 'reservDates',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      dataIndex: 'btn-remove',
-      width: 40,
-      title: '',
-      render: (text, record) => {
-        console.log('[text]', text)
-        return (
-          <Link to={{ pathname: `/sales/summary/${record.id}`, state: { dateFrom: record.dateForRouter ? record.dateForRouter[0] : null , dateTo: record.dateForRouter ? record.dateForRouter[1] : null} }}>
-            <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
-          </Link>
-        )
-      }
-    },
-    {
-      dataIndex: 'dateForRouter',
-      width: 0,
-      title: '',
-      isShowed: true
-    }
-  ];
 
-  const attachmentColumns = [
-    {
-      title: 'Номер приложения',
-      dataIndex: 'code',
-      width: 130,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Название',
-      dataIndex: 'title',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'brand',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'brand',
-      width: 100,
-      sorter: {
-        compare: (a, b) =>a.code ? a.code.localeCompare(b.code):-1,
-        multiple: 1,
-      },
-      isShowed: true
-    }
-  ]
-
-
-  const columnTypes = [initColumnsTable, attachmentColumns];
-  const [columnsForPopup, setColumnsForPopup] = useState(columnTypes[block]);
-  const [columnsTable, setColumnsTable] = useState(columnTypes[block]);
-  // const [query, setQuery] = useState(PROJECT_QUERY)
-  const { loading, error, data } = useQuery(PROJECT_QUERY, {
-    variables: {
-      id: id,
-    },
-  });
-
-
-
-  // useEffect(() => {
-    // alert(1)
-    // setColumnsTable(columnTypes[block]);
-  // }, block)
+  const { loading, error, data } = useQuery(PROJECT_QUERY, { variables: { id: id } });
+  if (error)
+    return <h3>Error (:</h3>
 
   let dataItem = data ? data.searchProject.edges[0].node : null;
 
@@ -341,29 +224,13 @@ const Project_card = () => {
     },
   ] : null;
 
-  let panelData = [];
-
-  panelData[0] = dataItem ? dataItem.reservations.edges.map(item => {
-    console.log('[item.node.id]', item.node);
-    let dateFrom = new Date(item.node.dateFrom)
-    let dateTo = new Date(item.node.dateTo)
-    let dateCreate = new Date(item.node.createdAt)
-    return({
-      id: item.node.id,
-      code: '#' + item.node.code,
-      summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
-      createDate: dateCreate.getFullYear() + '-' + (dateCreate.getMonth() + 1) + '-' + dateCreate.getDate() ,
-      reservDates: dateFrom.getFullYear() + '-' + (dateFrom.getMonth() + 1) + dateFrom.getDate() + ' - ' + dateTo.getFullYear() + '-' + (dateTo.getMonth() + 1) + '-' + dateTo.getDate(),
-      dateForRouter: [item.node.dateFrom, item.node.dateTo]
-    })
-  }) : null;
-
   let panelDataAttachments = (dataItem && dataItem.projectAttachments && dataItem.projectAttachments.edges.map(item => ({
       id: item.node.id,
+      key: item.node.id,
       attachment_code: '#' + item.node.code,
       attachment_summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
       attachment_createDate: dateFormat(item.node.createdDate, 'dd-mm-yyyy'),
-      attachment_reservDates: `${dateFormat(item.node.periodStartDate, 'dd-mm-yyyy')}-${dateFormat(item.node.periodEndDate, 'dd-mm-yyyy')}`,
+      attachment_reservDates: `${dateFormat(item.node.periodStartDate, 'dd.mm.yyyy')} – ${dateFormat(item.node.periodEndDate, 'dd.mm.yyyy')}`,
       dateForRouter: [item.node.dateFrom, item.node.dateTo]
   }))) || [];
 
@@ -382,18 +249,13 @@ const Project_card = () => {
     reservation_status: item.node.reservationType.title,
     reservation_lighting: (item.node.constructionSide.statusConnection && 'Да') || 'Нет',
     reservation_package: (item.node.constructionSide.package && item.node.constructionSide.package.title) || '',
-
   }))) || [];
 
-  panelData = {
+  let panelData = {
     attachments: panelDataAttachments,
     reservations: panelReservations,
   }
-  console.log('IDDD', id)
 
-  console.log(panelData.reservations);
-
-  // console.log('[DATA]', panelData)
   const links = [
     { id: routes.root.root.path, value: 'Главная' },
     { id: routes.sales.root.path, value: 'Продажи' },
@@ -405,9 +267,9 @@ const Project_card = () => {
     <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
-        <CreateBtn text="Добавить бронь" onClick={history.push(routes.sales.advertising_parties.path)}/>
-        <PackageBtn text="Добавить пакет" onClick={history.push(routes.sales.batch_placement.path)} />
-        <EditBtn text="Перейти в монтажи" onClick={history.push(routes.installations.projects.path)} />
+        <CreateBtn text="Добавить бронь" onClick={() => history.push(routes.sales.advertising_parties.path)}/>
+        <PackageBtn text="Добавить пакет" onClick={() => history.push(routes.sales.batch_placement.path)} />
+        <EditBtn text="Перейти в монтажи" onClick={() => history.push(routes.installations.projects.path)} />
         <PaperBtn text="Сводка проекта" />
         <BoxBtn text="Архив дизайнов" />
       </LeftBar>
@@ -417,7 +279,7 @@ const Project_card = () => {
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />
-            <JobTitle>Проект Coca-cola</JobTitle>
+            <JobTitle>{'Проект ' + (dataItem && dataItem.title) || 'без имени'}</JobTitle>
           </HeaderTitleWrapper>
           <ButtonGroup>
                 <StyledButton
@@ -453,7 +315,6 @@ const Project_card = () => {
               <PanelProjectCard
               style={{ flex: '0 1 auto' }}
               sliderState={sliderState}
-              setReservationCode={setReserveCode}
               choosedBlock={block}
               loading={loading}
               setBlock={setBlock}
@@ -463,13 +324,12 @@ const Project_card = () => {
           }
         </div>
       </div>
-      {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={reserveCode} />}
+      {sliderState.addShowed && <ReservationSlider sliderState={sliderState}  data={panelData} reserveCode={props.history.location.state.reserveId} />}
       {/* {block === 0 ? null : <FilterBar />} */}
       <style>
         {`
           .left-bar {
             margin: 0 2vw 0 0;
-
           }
         `}
       </style>

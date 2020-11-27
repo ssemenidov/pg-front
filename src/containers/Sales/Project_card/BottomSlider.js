@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import { DatePicker, Form } from 'antd';
 import date from '../../../img/left-bar/filter/date.svg';
@@ -6,7 +7,10 @@ import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { Input } from 'antd';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
+import anchorIcon from '../../../img/input/anchor.svg';
 
 
 const InputIconSpanSyled = styled.span`
@@ -24,7 +28,6 @@ const InputIcon = ({ img, alt }) => {
 };
 
 
-
 // TODO: Сделать подстановку количества броней крансым
 // {/*<span*/}
 // {/*  style={{*/}
@@ -33,6 +36,7 @@ const InputIcon = ({ img, alt }) => {
 // {/*  }}>*/}
 // {/*    (24 шт.)*/}
 // {/*  </span>*/}
+
 
 const checkBoxOptions = [
   { label: 'Брендирование', value: 'branding' },
@@ -68,23 +72,46 @@ const ReservationSliderSubmitButton = styled(SubmitButton)`
     fontWeight: bold;
 `;
 
-const RESERVATION_PACKAGE_CREATOR = gql`
-mutation ( $input: CreateReservationPackageInput!) {
-  createReservationPackage(input: $input) {
-
-    reservationPackage {
-      id
-      dateTo
-      dateFrom
-      reservationType {
-        title
+const GET_RESERVATION_DATA = gql`
+  query($id: ID) {
+    searchReservation(id: $id) {
+      edges {
+        node {
+          id
+          dateTo
+          dateFrom
+          branding
+        }
       }
+    }
+  }
+`
+
+const RESERVATION_PACKAGE_UPDATER = gql`
+mutation ( $id: ID!, $input: UpdateReservationInput!) {
+  updateReservation(id: $id, input: $input) {
+
+    reservation {
+      id
     }
   }
 }
 `
 
-export function ReservationSlider({sliderState, data, reserveCode}) { //
+const GET_RESERVATIONS = gql`
+  query {
+    searchReservationType {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`
+
+export function ReservationSlider({sliderState, reserveCode}) { //
   // const addItem = (values) => {
   //   let parent = sliderState.caller.parent;
   //   let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
@@ -104,40 +131,74 @@ export function ReservationSlider({sliderState, data, reserveCode}) { //
 
 
 
-  const [dateFrom, setDateFrom] = useState();
-  const [dateTo, setDateTo] = useState();
-  const [project, setProject] = useState();
 
-  const [reservationPackageCreator, mutationResult] = useMutation(RESERVATION_PACKAGE_CREATOR);
+  const [reservationPackageCreator, ] = useMutation(RESERVATION_PACKAGE_UPDATER);
+  const reserveDataQuery = useQuery(GET_RESERVATION_DATA, {
+    variables: {
+      id: reserveCode
+    }
+  });
+  const reservetionRes = useQuery(GET_RESERVATIONS);
 
-  const onFinFunc = (values) => {
+  const resArr = reservetionRes.data ? reservetionRes.data.searchReservationType.edges : null;
+
+  console.log('[dataReserve]', reserveDataQuery.data);
+
+  let reserveQueryPath = reserveDataQuery.data ? reserveDataQuery.data.searchReservation.edges[0].node : null;
+  let resDateFrom = reserveQueryPath ? new Date(reserveQueryPath.dateFrom) : null;
+  let resDateTo = reserveQueryPath ? new Date(reserveQueryPath.dateTo) : null;
+
+  let dateFromStr = resDateFrom ? resDateFrom.getFullYear() + '-' + (resDateFrom.getMonth() > 9 ? resDateFrom.getMonth() + 1 : '0' + (resDateFrom.getMonth() + 1)) + '-' + (resDateFrom.getDate() > 9 ?  resDateFrom.getDate()  : '0' + (resDateFrom.getDate())) : null;
+  let dateToStr = resDateTo ? resDateTo.getFullYear() + '-' + (resDateTo.getMonth() + 1 > 9 ? resDateTo.getMonth() + 1 : '0' + (resDateTo.getMonth() + 1)) + '-' +  (resDateTo.getDate() > 9 ?  resDateTo.getDate()  : '0' + (resDateTo.getDate())) : null;
+
+  const [dateFrom, setDateFrom] = useState(null);
+  const [dateTo, setDateTo] = useState(null);
+  const [resType, setResType] = useState();
+
+  const onFinishFunc = () => {
     let reqObj = {};
     console.log('[dateFrom] ', dateFrom);
-    console.log('[dateTo] ', dateTo);
-    console.log('[projectName] ', project);
+    let fromDate = dateFrom ? new Date(dateFrom) : new Date(dateFromStr);
+    let toDate = dateTo ? new Date(dateTo) : new Date(dateToStr);
 
     reqObj = {
-      'dateFrom': dateFrom,
-      'dateTo': dateTo,
-      'package': project[0],
-      'project': project[1],
-      "reservationType": "VlJlc2VydmF0aW9uVHlwZU5vZGU6Mw=="
+      'dateFrom': fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1 > 9 ? fromDate.getMonth() + 1 : '0' + (fromDate.getMonth() + 1)) + '-' + (fromDate.getDate() > 9 ?  fromDate.getDate()  : '0' + (fromDate.getDate())) + 'T22:00:00+00:00',
+      'dateTo': toDate.getFullYear() + '-' + (toDate.getMonth() + 1 > 9 ? toDate.getMonth() + 1 : '0' + (toDate.getMonth() + 1)) + '-' + (toDate.getDate() > 9 ?  toDate.getDate()  : '0' + (toDate.getDate())) + 'T22:00:00+00:00',
+      'reservationType': resType
     };
     console.log('[reqObj]', reqObj)
-    reservationPackageCreator({ variables: {"input":  reqObj} });
-    // setFilter(null);
+    console.log('[reserveCode]', reserveCode)
+    reservationPackageCreator({ variables: {
+      "id": reserveCode,
+      "input":  reqObj
+    } });
+    sliderState.closeAdd();
   }
+
+  console.log('[reservetionRes.data]', reservetionRes.data)
+
+  // dateFromStr && setDateFrom(dateFromStr);
+  // dateToStr && setDateTo(dateToStr);
   return (
-    <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
+    <>
+      {
+        dateFromStr && dateToStr && <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
                         onClose={sliderState.closeAdd}
                         classNameSuffix={'loca'}
                         sliderClass="advertising-part-slider"
     >
-      <CRUDForm  onFinish={onFinFunc} >
+      <CRUDForm  onFinish={onFinishFunc} >
         <SliderRow>
+          <SliderCellColRaw>
+            <ReservationSilderFormItem name="reservCode" >
+              <p>Код проекта</p>
+              <Input defaultValue={reserveQueryPath.id} />
+            </ReservationSilderFormItem>
+
+          </SliderCellColRaw>
           <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
 
-            <ReservationSilderFormItem >
+            <ReservationSilderFormItem name="dateFrom" >
               <p className="formItem-title">Дата начала</p>
               <InputIcon img={date} alt="date icon" />
               <DatePicker
@@ -149,17 +210,15 @@ export function ReservationSlider({sliderState, data, reserveCode}) { //
                 style={{ width: '100%' }}
                 onChange={(e) => {
                   let stringDate = e.toString();
-                  let ndate = new Date(stringDate);
-                  let stringifyNdate = ndate.getFullYear() + '-' + ( ndate.getMonth() >= 9 ?  ndate.getMonth() + 1 : '0' + (ndate.getMonth() + 1)) + '-' + ( ndate.getDate() > 9 ?  ndate.getDate()  : '0' + (ndate.getDate())) + 'T22:00:00+00:00'
-                  console.log(stringifyNdate);
-                  setDateFrom(stringifyNdate);
+                  setDateFrom(stringDate)
 
                 }}
+                defaultValue={dateToStr && moment(dateToStr ? dateFromStr : '2020-05-10', 'YYYY-MM-DD')}
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
           <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
-            <ReservationSilderFormItem >
+            <ReservationSilderFormItem name="dateTo">
               <p className="formItem-title">Дата оканчания</p>
               <InputIcon img={date} alt="date icon" />
               <DatePicker
@@ -170,10 +229,33 @@ export function ReservationSlider({sliderState, data, reserveCode}) { //
                 style={{ width: '100%' }}
                 onChange={(e) => {
                   let stringDate = e.toString();
-                  let ndate = new Date(stringDate);
-
+                  setDateTo(stringDate)
                 }}
+                defaultValue={dateToStr && moment(dateToStr ? dateToStr : '2020-05-10', 'YYYY-MM-DD')}
               />
+            </ReservationSilderFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
+            <ReservationSilderFormItem name="reservCode" >
+            <p className="formItem-title">Статус брони</p>
+              <StyledSelect
+                placeholder={<><img src={anchorIcon} /> <span>Статус брони</span> </>}
+                size={'large'}
+                onChange={e => {
+
+                  setResType(e)
+                }}
+              >
+                {
+                  resArr && resArr.map(item => {
+                    return(
+                      <StyledSelect.Option key={item.node.id} value={item.node.id}>
+                        <span>{ item.node.title }</span>
+                      </StyledSelect.Option>
+                    )
+                  })
+                }
+              </StyledSelect>
             </ReservationSilderFormItem>
           </SliderCellColRaw>
 
@@ -186,6 +268,9 @@ export function ReservationSlider({sliderState, data, reserveCode}) { //
         </SliderRow>
       </CRUDForm>
     </SlidingBottomPanel>
+  }
+    </>
+
   )
 }
 

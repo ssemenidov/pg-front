@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { partnersContext } from './Partners';
 import Table from '../../../components/Tablea/Tablea';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { column } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
