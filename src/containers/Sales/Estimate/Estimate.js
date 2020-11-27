@@ -443,20 +443,21 @@ const Estimate = () => {
             width: 100%;
           }
 
-          .ant-table-filter-trigger-container  {
-            background: transparent !important;
-            cursor: unset;
-        }
-        .ant-table-filter-trigger-container>span {
-          margin-top: 40px;
-          width: 15px;
-        }
-        .ant-table-filter-trigger-container-open {
-            background: transparent !important;
-        }
-        .ant-table-filter-trigger-container-open:hover {
-            background: transparent !important;
-        }
+        //   .ant-table-filter-trigger-container  {
+        //     background: transparent !important;
+        //     cursor: unset;
+        // }
+        // .ant-table-filter-trigger-container>span {
+        //   display: flex;
+        //   align-items: center;
+        //   width: 15px;
+        // }
+        // .ant-table-filter-trigger-container-open {
+        //     background: transparent !important;
+        // }
+        // .ant-table-filter-trigger-container-open:hover {
+        //     background: transparent !important;
+        // }
           `}
         </style>
       </div>

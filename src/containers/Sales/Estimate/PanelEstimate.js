@@ -38,7 +38,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
-  const { sort } = useContext(EstimateContext);
+  const { sort, setSort } = useContext(EstimateContext);
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
@@ -85,11 +85,12 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         break;
       case 'hot-ptc':
         if (appId) {
-          nonRts = gettNonRts(data.searchSalesNonrts.edges);
+          nonRts = gettNonRts(data.searchSalesNonrts.edges, sort);
         }
         if (id) {
           nonRts = gettNonRts(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCostsNonrts.edges : [],
+            sort,
           );
         }
     }
@@ -200,6 +201,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
                 return appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '';
               });
               setBlock(0);
+              setSort('');
             }}>
             ЗАБРОНИРОВАННЫЕ СТОРОНЫ
           </CustomTabBtn>
@@ -209,6 +211,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
               setActiveTab('extra-charge');
               setQuery(appId ? EXTRA_COSTS_QUERY : id ? PROJECT_EXTRA_COSTS_QUERY : '');
               setBlock(1);
+              setSort('');
             }}>
             ДОП. РАСХОДЫ
           </CustomTabBtn>
@@ -218,6 +221,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
               setActiveTab('hot-ptc');
               setQuery(appId ? NON_RTS_QUERY : id ? PROJECT_NON_RTS_QUERY : '');
               setBlock(2);
+              setSort('');
             }}>
             НОН РТС
           </CustomTabBtn>
