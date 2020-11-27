@@ -1,3 +1,7 @@
+import React from 'react';
+import { ReactComponent as ArrowDown } from '../../../../img/icon_dropdown_select.svg';
+import { CityFilterDropdown } from '../utils';
+
 export const initColumnsForPopupBookedSides = [
   {
     key: 'code',
@@ -311,6 +315,8 @@ export const initColumnsForPopupExtraCharge = [
   },
 ];
 
+// const filter = Filters()
+
 export const initColumnsTableExtraCharge = [
   {
     title: 'Наименование услуги',
@@ -321,6 +327,11 @@ export const initColumnsTableExtraCharge = [
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
+    filterIcon: <ArrowDown />,
   },
   {
     title: 'Период',
@@ -351,23 +362,6 @@ export const initColumnsTableExtraCharge = [
     title: 'Сумма',
     dataIndex: 'sum',
     width: 130,
-  },
-];
-
-export const dataExtraCharge = [
-  {
-    key: 1,
-    nameOfService: 'Дополнительный фотоотчет',
-    city: 'Алматы',
-    period: '29.03.2020 - 30.05.2020',
-    quantity: '1',
-    price: '5000,00 тг.',
-    discount: '10%',
-    priceAfterDiscount: '4500,00 тг.',
-    sum: '9000,00 тг.',
-    percentAK: 'stub data',
-    sumAK: 'stub data',
-    sumWithoutAK: 'stub data',
   },
 ];
 

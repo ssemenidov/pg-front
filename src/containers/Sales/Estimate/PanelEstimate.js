@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Layout } from 'antd';
+import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
 import {
   NON_RTS_QUERY,
@@ -37,6 +38,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
+  const { sort } = useContext(EstimateContext);
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
@@ -72,11 +74,12 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         break;
       case 'extra-charge':
         if (appId) {
-          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges);
+          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort);
         }
         if (id) {
           extraCosts = getExtraCosts(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCosts.edges : [],
+            sort,
           );
         }
         break;

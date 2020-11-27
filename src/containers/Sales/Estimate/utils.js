@@ -1,7 +1,8 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import { Input, Modal, Form, DatePicker, InputNumber, Select, Drawer, Button, message } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import { EstimateContext } from './Estimate';
+import worldIcon from '../../../img/header-bar/world.svg';
+import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 
@@ -240,15 +241,14 @@ export const getBookedSides = (data = []) => {
   });
 };
 
-export const getExtraCosts = (data = []) => {
-  return data.map((charge) => {
+export const getExtraCosts = (data = [], sort = '') => {
+  let modifiedData = data.map((charge) => {
     let price = charge.node.price ? charge.node.price : 0;
-    let discount = charge.node.discount ? charge.node.discount : 100;
+    let discount = charge.node.discount ? charge.node.discount : 0;
     let count = charge.node.count ? charge.node.count : 0;
     let sumAfterDiscount = price * (1.0 - discount / 100.0);
     let agPercent = charge.node.percentAgentCommission ? charge.node.percentAgentCommission : 0;
     let agValue = charge.node.valueAgentCommission ? charge.node.valueAgentCommission : 0;
-
     return (
       charge.node.city !== null && {
         key: charge.node.id ? charge.node.id : '',
@@ -263,12 +263,27 @@ export const getExtraCosts = (data = []) => {
         price: charge.node.price ? charge.node.price + ' тг.' : '',
         discount: charge.node.discount ? charge.node.discount + '%' : '',
         priceAfterDiscount: sumAfterDiscount + ' тг.',
-        sum: sumAfterDiscount * count + ' тг.',
+        sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
         percentAK: agPercent + ' %',
         sumAK: agValue + ' тг.',
       }
     );
   });
+
+  switch (sort) {
+    case 'abc':
+      return modifiedData.sort((a, b) => {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      });
+    default:
+      return modifiedData;
+  }
 };
 
 export const gettNonRts = (data = []) => {
@@ -340,251 +355,6 @@ const UPDATE_NON_RTS = gql`
     }
   }
 `;
-
-export const EditModal = ({ openModal, setOpenModal, block, cities, editingItem, refetch }) => {
-  const [form] = Form.useForm();
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const { Option } = Select;
-  let FormInputs = () => {};
-  let startTime = editingItem.period && moment(editingItem.period.split(' - ')[0].split('.').reverse().join('-'));
-  let endTime = editingItem.period && moment(editingItem.period.split(' - ')[1].split('.').reverse().join('-'));
-  useEffect(() => {
-    let city =
-      cities.data.length &&
-      editingItem.city &&
-      cities.data.filter((city) => {
-        return city.title === editingItem.city;
-      });
-    city = city.length ? city[0].id : '';
-    switch (block) {
-      case 'extra-charge':
-        form.setFieldsValue({
-          type: editingItem.nameOfService,
-          city,
-          period: [startTime, endTime],
-          count: editingItem.quantity,
-          price: editingItem.price && editingItem.price.split(' ')[0],
-          discount: editingItem.discount && editingItem.discount.split('%')[0],
-        });
-        break;
-      case 'hot-ptc':
-        form.setFieldsValue({
-          type: editingItem.code,
-          count: editingItem.quantity,
-          city,
-          rent: editingItem.rentInput.split(' ')[0],
-          tax: editingItem.taxInput.split(' ')[0],
-          print: editingItem.printInput.split(' ')[0],
-          mount: editingItem.mountInput.split(' ')[0],
-          manufacture: editingItem.manufactureSell.split(' ')[0],
-          addCosts: editingItem.extraChargeInput,
-        });
-        break;
-    }
-  }, [form, editingItem]);
-  const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
-  const [updateNonRts] = useMutation(UPDATE_NON_RTS);
-  switch (block) {
-    case 'extra-charge':
-      FormInputs = () => {
-        return (
-          <>
-            <Form.Item
-              label="Наименование услуги"
-              name="type"
-              rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги.' }]}>
-              <Input allowClear placeholder="Наименование услуги" />
-            </Form.Item>
-            <Form.Item label="Город" name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
-              <Select placeholder="Город">
-                {cities &&
-                  cities.data.map((city) => {
-                    return (
-                      <Option key={city.id} value={city.id}>
-                        {city.title}
-                      </Option>
-                    );
-                  })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Период"
-              name="period"
-              rules={[{ required: true, message: 'Пожалуйста, выберите период.' }]}>
-              <DatePicker.RangePicker allowClear />
-            </Form.Item>
-            <Form.Item
-              label="Кол-во"
-              name="count"
-              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
-              <InputNumber placeholder="Кол-во" />
-            </Form.Item>
-            <Form.Item label="Цена" name="price" rules={[{ required: true, message: 'Пожалуйста, введите цену.' }]}>
-              <InputNumber allowClear placeholder="Цена" />
-            </Form.Item>
-            <Form.Item
-              label="Скидка"
-              name="discount"
-              rules={[{ required: true, message: 'Пожалуйста, введите скидку.' }]}>
-              <InputNumber max={100} maxLength={3} formatter={(value) => `${value}%`} placeholder="Скидка" />
-            </Form.Item>
-          </>
-        );
-      };
-      break;
-    case 'hot-ptc':
-      FormInputs = () => {
-        return (
-          <>
-            <Form.Item label="Город" name="city" rules={[{ required: true, message: 'Пожалуйста, выберите город.' }]}>
-              <Select placeholder="Город">
-                {cities &&
-                  cities.data.map((city) => {
-                    return (
-                      <Option key={city.id} value={city.id}>
-                        {city.title}
-                      </Option>
-                    );
-                  })}
-              </Select>
-            </Form.Item>
-            <Form.Item label="Тип" name="type" rules={[{ required: true, message: 'Пожалуйста, введите тип.' }]}>
-              <Input placeholder="Тип" />
-            </Form.Item>
-            <Form.Item
-              label="Кол-во"
-              name="count"
-              rules={[{ required: true, message: 'Пожалуйста, введите количество.' }]}>
-              <InputNumber placeholder="Кол-во" />
-            </Form.Item>
-            <Form.Item
-              label="Аренда"
-              name="rent"
-              rules={[{ required: true, message: 'Пожалуйста, введите стоимость аренды.' }]}>
-              <InputNumber placeholder="Аренда" />
-            </Form.Item>
-            <Form.Item label="Налог" name="tax" rules={[{ required: true, message: 'Пожалуйста, введите налог.' }]}>
-              <InputNumber placeholder="Налог" />
-            </Form.Item>
-            <Form.Item
-              label="Печать"
-              name="print"
-              rules={[{ required: true, message: 'Пожалуйста, введите стоимсость печати.' }]}>
-              <InputNumber placeholder="Печать" />
-            </Form.Item>
-            <Form.Item
-              label="Монтаж"
-              name="mount"
-              rules={[{ required: true, message: 'Пожалуйста, введите стоимость монтажа.' }]}>
-              <InputNumber placeholder="Монтаж" />
-            </Form.Item>
-            <Form.Item
-              label="Производство"
-              name="manufacture"
-              rules={[{ required: true, message: 'Пожалуйста, введите сумму производства.' }]}>
-              <InputNumber placeholder="Производство" prefix=" тг." />
-            </Form.Item>
-            <style>
-              {`
-            .ant-input-number {
-              width: 100%;
-            }
-            `}
-            </style>
-          </>
-        );
-      };
-  }
-  return (
-    <Modal
-      width="400px"
-      title="Редактирование расхода"
-      confirmLoading={confirmLoading}
-      visible={openModal}
-      onCancel={() => {
-        form.resetFields();
-        setOpenModal(false);
-        setConfirmLoading(false);
-      }}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          // console.log(values);
-          setConfirmLoading(true);
-          switch (block) {
-            case 'extra-charge':
-              const price = Number(values.price);
-              const discount = Number(values.discount);
-              const count = Number(values.count);
-              const priceAfterDiscount = (Number(values.price) * (100 - Number(values.discount))) / 100;
-              const summa = priceAfterDiscount * count;
-              const input2 = {
-                title: values.type,
-                city: values.city,
-                startPeriod: new Date(values.period[0]).toJSON(),
-                endPeriod: new Date(values.period[1]).toJSON(),
-                count: count,
-                discount: discount,
-                sumAfterDiscount: priceAfterDiscount,
-                price: price,
-                summa: summa,
-              };
-              updateAddCosts({
-                variables: {
-                  input: input2,
-                  id: editingItem.key,
-                },
-              })
-                .then(() => {
-                  setOpenModal(false);
-                  form.resetFields();
-                  setConfirmLoading(false);
-                  refetch();
-                })
-                .catch((err) => {
-                  setConfirmLoading(false);
-                  console.log(err);
-                });
-              break;
-            case 'hot-ptc':
-              const tax = Number(values.tax);
-              const print = Number(values.print);
-              const mount = Number(values.mount);
-              const manufacture = Number(values.manufacture);
-              const rent = Number(values.rent);
-              const summ = values.count * rent + tax + print + mount + manufacture;
-              const input = {
-                title: values.type,
-                count: values.count,
-                incomingTax: tax,
-                incomingRent: rent,
-                incomingPrinting: print,
-                incomingInstallation: mount,
-                incomingManufacturing: manufacture,
-                city: values.city,
-              };
-
-              updateNonRts({
-                variables: {
-                  input,
-                  id: editingItem.key,
-                },
-              })
-                .then(() => {
-                  setOpenModal(false);
-                  form.resetFields();
-                  setConfirmLoading(false);
-                  refetch();
-                })
-                .catch((err) => console.log(err));
-          }
-        });
-      }}>
-      <Form form={form}>
-        <FormInputs />
-      </Form>
-    </Modal>
-  );
-};
 
 export const DELETE_ADD_COSTS_QUERY = gql`
   mutation deleteAddCost($id: ID!) {
@@ -666,11 +436,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
           discount: editingItem.discount.split('%')[0] || 0,
           agPercent: editingItem.percentAK.split('%')[0] || 0,
           agSumm: editingItem.sumAK.split(' ')[0] || 0,
-        });
-        break;
-      case 'booked-sides':
-        form.setFieldsValue({
-          // rentPrice: editingItem.taxInput.split(" ")[0] || 0,
         });
         break;
       case 'hot-ptc':
@@ -1262,5 +1027,114 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
         `}
       </style>
     </Drawer>
+  );
+};
+
+export const CityFilterDropdown = (props) => {
+  const { cities, setSort, sort } = useContext(EstimateContext);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const Placeholder = (
+    <p
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}>
+      <img
+        style={{
+          marginRight: '9px',
+        }}
+        src={worldIcon}
+        alt="world icon"
+      />
+      Выбрать город
+    </p>
+  );
+  const { Option } = Select;
+  return (
+    <div
+      style={{
+        width: 260,
+      }}>
+      <div
+        style={{
+          padding: '16px',
+        }}>
+        <p
+          style={{
+            fontSize: 14,
+            color: sort.length ? '#2C5DE5' : '#1A1A1A',
+            marginBottom: 16,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setSort('abc');
+            props.clearFilters();
+            setSelectedCity(null);
+            props.confirm();
+          }}>
+          Сортировать от А до Я
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            color: '#1A1A1A',
+            marginBottom: 0,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setSort('');
+            props.confirm();
+            props.clearFilters();
+            setSelectedCity(null);
+          }}>
+          Сортировать по умолчанию
+        </p>
+      </div>
+      <div
+        style={{
+          borderTop: '1px solid #D3DFF0',
+        }}>
+        <div
+          style={{
+            padding: 16,
+          }}>
+          <p
+            style={{
+              color: '#656565',
+              fontSize: 12,
+            }}>
+            ОПЦИИ
+          </p>
+
+          <Select
+            style={{
+              width: '100%',
+            }}
+            size="middle"
+            allowClear
+            value={selectedCity}
+            onClear={() => {
+              props.clearFilters();
+              setSelectedCity(null);
+            }}
+            loading={!cities.loaded}
+            placeholder={Placeholder}
+            onSelect={(val) => {
+              props.setSelectedKeys([val]);
+              props.confirm();
+              setSelectedCity(val);
+              setSort('');
+            }}>
+            {cities.data.map((city) => {
+              return (
+                <Option key={city.id} value={city.title}>
+                  {city.title}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
+      </div>
+    </div>
   );
 };
