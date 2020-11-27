@@ -17,28 +17,7 @@ import './Tablea.scss'
 
 const { Content, Sider } = Layout;
 
-let settingmenu = (
-  <Menu>
-    <Menu.Item>
-      <Checkbox>1 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>2 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>3 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>4 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>5 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>6 menu item</Checkbox>
-    </Menu.Item>
-  </Menu>
-);
+let settingmenu = (<></>);
 
 const ResizableTitle = (props) => {
   const { onResize, width, ...restProps } = props;
@@ -66,192 +45,191 @@ const ResizableTitle = (props) => {
   );
 };
 
+const predicate = (index, columns, col) => (
+  index !== columns.indexOf(columns[columns.length - 1]) && col.isShowed !== false);
 
+export const Tablea = ({columns, onRow, enableChooseQuantityColumn,
+                         constructionsIdSet, notheader, enableChoosePeriod, title,
+                         chooseTableBtns, choosedBlock, setBlock, loading, select, data}) => {
 
-
-export const Tablea = (props) => {
+  let [_columns, setColumns] = useState(columns.filter((col, index) => predicate(index, columns, col)));
   let [selectionType, setSelectionState] = useState('checkbox');
-  let statedColumns = props.columns;
-  let setStatedColumns = props.setColumns;
 
 
   let handleResize = (index) => (e, { size }) => {
-      const nextColumns = [...statedColumns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      setStatedColumns(nextColumns);
+    const nextColumns = [...columns];
+    nextColumns[index] = {
+      ...nextColumns[index],
+      width: size.width,
+    };
+    setColumns(nextColumns);
   };
 
-    const { onRow } = props;
-    const columns = statedColumns.map((col, index) => ({
-      ...col,
-      onHeaderCell: (column) => ({
-        width: column.width,
-        onResize: handleResize(index),
-      }),
-    }));
+  const mappedColumns = columns.filter((col, index) => predicate(index, columns, col)
+  ).map((col, index) => ({
+    ...col,
+    onHeaderCell: (column) => ({
+      width: column.width,
+      onResize: handleResize(index),
+    }),
+  }));
 
-    const changeColumns = (dataIndex) => {
-      let newCols = statedColumns.map(item => {
-        if(item.dataIndex === dataIndex) {
-          item.isShowed = !item.isShowed
-        }
-        return item;
-      })
-      setStatedColumns(
-        newCols.filter((col, index) => {
-          return (
-            index !== props.columns.indexOf(props.columns[props.columns.length - 1]) && col.isShowed !== false
-          )
-        })
-      );
-    }
+  const changeColumns = (dataIndex) => {
+    let newCols = columns.map(item => {
+      if(item.dataIndex === dataIndex) {
+        item.isShowed = !item.isShowed
+      }
+      return item;
+    })
+    setColumns(newCols.filter((col, index) => predicate(index, columns, col)));
+  }
 
-    const handleMenuClick = () => {};
-    // console.log('[this.props.enableChooseQuantityColumn]', this.props.enableChooseQuantityColumn)
-    if (props.enableChooseQuantityColumn) {
-      settingmenu = (
-        <Menu onClick={handleMenuClick}>
-          {props.columns
-            .map((col) => {
-              // console.log(col)
-              return (
-                <Menu.Item key={col.dataIndex}>
-                  <Checkbox
-                    checked={col.isShowed}
-                    onClick={() => changeColumns(col.dataIndex)}
-                  >
-                    {col.title}
-                  </Checkbox>
-                </Menu.Item>
-              )})}
-        </Menu>
-      );
-    }
-
-    // console.log('[props.constructionsIdSet]', props.constructionsIdSet)
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        // console.log(selectedRowKeys)
-        // props.setConstructionsIdSet(selectedRowKeys);
-      },
-      getCheckboxProps: (record) => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
-      selectedRowKeys: props.constructionsIdSet,
-    };
-
-    return (
-      <div style={{ width: '100%', overflowX: 'hidden' }}>
-        {!props.notheader && (
-          <div className="header-bar">
-            <StyledNavigationTabs>
-              {props.enableChoosePeriod ? (
-                <React.Fragment>
-                  {props.title ? (
-                    <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
-                      <img src={attachIcon} alt="" />
-                      <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
-                      {props.title}
-                    </span>
-                    </div>
-                  ) : (
-                    <div>
-                      <div style={{display: 'flex', marginRight: '1rem'}}>
-                        <Button className="header-btn">
-                          <img src={plusIcon} />
-                        </Button>
-                        <Button className="header-btn">
-                          <img src={minusIcon} />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
-              ) : (
-                <div></div>
-              )}
-              {
-                props.chooseTableBtns && (
-                  <CustomTabList>
-                    {
-                      props.chooseTableBtns.map((item, index) => (
-                        <CustomTabBtn
-                          className={props.choosedBlock === index ? 'active' : 'booked-sides' }
-                          onClick={() => {
-                            props.setBlock(index);
-                          }}>
-                          {item.title}
-                        </CustomTabBtn>
-                      ))
-                    }
-                  </CustomTabList>
-                )
-              }
-            </StyledNavigationTabs>
-
-            <div>
-              <Input
-                style={{ marginLeft: '20px' }}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />
-              <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
-              </Button>
-              <Button
-                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                className="header-btn">
-                <img src={exportIcon} />
-                <span>Экспорт</span>
-              </Button>
-
-              {props.enableChooseQuantityColumn && (
-                <Dropdown
-                  overlay={settingmenu}
-                  className="header-btn"
-                  trigger={['click']}
-                  placement="bottomRight">
-                  <Button style={{ marginLeft: '5px' }} className="header-btn">
-                    <img src={settingsIcon} />
-                  </Button>
-                </Dropdown>
-              )}
-            </div>
-          </div>
-        )}
-        <Content>
-          <StyledTable
-            onRow={onRow}
-            loading={props.loading}
-            rowSelection={
-              props.select && {
-                type: selectionType,
-                ...rowSelection,
-              }
-            }
-            bordered
-            components={{ header: { cell: ResizableTitle }}}
-            columns={columns}
-            dataSource={props.data}
-            scroll={{ y: 500 }}
-            pagination={{
-              defaultPageSize: 10,
-              showSizeChanger: true,
-              placement: 'top',
-              pageSizeOptions: ['25', '50', '100', '1000'],
-              total: props.data.length,
-            }}
-          />
-        </Content>
-        <style>
-        </style>
-      </div>
+  const handleMenuClick = () => {};
+  // console.log('[enableChooseQuantityColumn]', enableChooseQuantityColumn)
+  if (enableChooseQuantityColumn) {
+    settingmenu = (
+      <Menu onClick={handleMenuClick}>
+        {columns
+          .map((col) => {
+            // console.log(col)
+            return (
+              <Menu.Item key={col.dataIndex}>
+                <Checkbox
+                  checked={col.isShowed}
+                  onClick={() => changeColumns(col.dataIndex)}
+                >
+                  {col.title}
+                </Checkbox>
+              </Menu.Item>
+            )}).filter((col) => {
+            return col.dataIndex !== 'btn-remove' && col.dataIndex !== 'dateForRouter'
+          })}
+      </Menu>
     );
+  }
+
+  // console.log('[constructionsIdSet]', constructionsIdSet)
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      // console.log(selectedRowKeys)
+      // setConstructionsIdSet(selectedRowKeys);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      name: record.name,
+    }),
+    selectedRowKeys: constructionsIdSet,
+  };
+
+  return (
+    <div style={{ width: '100%', overflowX: 'hidden' }}>
+      {!notheader && (
+        <div className="header-bar">
+          <StyledNavigationTabs>
+            {enableChoosePeriod ? (
+              <React.Fragment>
+                {title ? (
+                  <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
+                    <img src={attachIcon} alt="" />
+                    <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
+                      {title}
+                    </span>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{display: 'flex', marginRight: '1rem'}}>
+                      <Button className="header-btn">
+                        <img src={plusIcon} />
+                      </Button>
+                      <Button className="header-btn">
+                        <img src={minusIcon} />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            ) : (
+              <div></div>
+            )}
+            {
+              chooseTableBtns && ( // Верхняя панель с табами
+                <CustomTabList>
+                  {
+                    chooseTableBtns.map((item, index) => (
+                      <CustomTabBtn
+                        key={index}
+                        className={choosedBlock === index ? 'active' : 'booked-sides' }
+                        onClick={() => {
+                          setBlock(index);
+                        }}>
+                        {item.title}
+                      </CustomTabBtn>
+                    ))
+                  }
+                </CustomTabList>
+              )
+            }
+          </StyledNavigationTabs>
+
+          <div>
+            <Input
+              style={{ marginLeft: '20px' }}
+              placeholder="Быстрый поиск"
+              suffix="Найти"
+              prefix={<img src={searchInputIcon} />}
+            />
+            <Button style={{ marginLeft: '5px' }} className="header-btn">
+              <img src={printerIcon} />
+            </Button>
+            <Button
+              style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
+              className="header-btn">
+              <img src={exportIcon} />
+              <span>Экспорт</span>
+            </Button>
+
+            {enableChooseQuantityColumn && (
+              <Dropdown
+                overlay={settingmenu}
+                className="header-btn"
+                trigger={['click']}
+                placement="bottomRight">
+                <Button style={{ marginLeft: '5px' }} className="header-btn">
+                  <img src={settingsIcon} />
+                </Button>
+              </Dropdown>
+            )}
+          </div>
+        </div>
+      )}
+      <Content>
+        <StyledTable
+          onRow={onRow}
+          loading={loading}
+          rowSelection={
+            select && {
+              type: selectionType,
+              ...rowSelection,
+            }
+          }
+          bordered
+          components={{ header: { cell: ResizableTitle }}}
+          columns={mappedColumns}
+          dataSource={data}
+          scroll={{ y: 500 }}
+          pagination={{
+            defaultPageSize: 10,
+            showSizeChanger: true,
+            placement: 'top',
+            pageSizeOptions: ['25', '50', '100', '1000'],
+            total: data.length,
+          }}
+        />
+      </Content>
+      <style>
+      </style>
+    </div>
+  );
 
 }
 

@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 import { AdministrationBreadcrumb } from '../components/AdminBreadcrumb';
 import { HeaderWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { HeaderTitle } from '../components/HeaderTitle';
-import { adminTitle } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { colorAccent } from '../../../components/Styles/Colors';
 import { NavigationPanel } from '../components/NavigationPanel';
@@ -15,7 +15,7 @@ export function AdminTopLayout({children, activeRoute, buttonName, buttonClickHa
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
           <AdministrationBreadcrumb location={activeRoute} />
           <HeaderWrapper>
-            <HeaderTitle title={adminTitle} />
+            <HeaderTitle title={routes.administration.root.title} />
             {
               buttonName && <ButtonGroup>
                 <StyledButton backgroundColor={colorAccent} onClick={buttonClickHandler}>

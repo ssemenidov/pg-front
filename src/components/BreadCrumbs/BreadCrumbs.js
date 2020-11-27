@@ -6,7 +6,7 @@ import breadcrumbs from '../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import '../../containers/Base/Partners/Style/style.css';
 import styled  from "styled-components";
 
-function BreadCrumbs({ links }) {
+function BreadCrumbs({ links, fromRoot }) {
   return (
     <StyledBreadcrumb>
       <StyledBreadcrumbItem>
@@ -17,10 +17,32 @@ function BreadCrumbs({ links }) {
         links.map((link, i) => {
             return (
               <StyledBreadcrumbItem key={i}>
-                <StyledLink to={`/${link.id}`}>{link.value}</StyledLink>
+                <StyledLink to={`${(fromRoot && '') || '/'}${link.id}`}>{link.value}</StyledLink>
               </StyledBreadcrumbItem>
             );
           })
+      }
+    </StyledBreadcrumb>
+  );
+}
+
+
+export function BreadCrumbsRoutes({ links }) {
+  return (
+    <StyledBreadcrumb>
+      {/*<StyledBreadcrumbItem>*/}
+        {/*<img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />*/}
+        {/*<StyledLink to="/">Главная</StyledLink>*/}
+      {/*</StyledBreadcrumbItem>*/}
+      {
+        links.map((link, i) => {
+          return (
+            <StyledBreadcrumbItem key={i}>
+              {i === 0 && <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />}
+              <StyledLink to={link.path}>{link.name || link.title || ''}</StyledLink>
+            </StyledBreadcrumbItem>
+          );
+        })
       }
     </StyledBreadcrumb>
   );

@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Grid, Row } from 'react-flexbox-grid';
+import React from 'react';
+import { Col } from 'react-flexbox-grid';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
-import { AdminConstructionItem } from './AdminConstructionItem';
+import { routes } from '../../../routes';
 import { GridNoPadding, RowMargin1st, RowMargin2st } from '../components/Styled';
-import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
-import { LocationCRUDForm } from './LocationCRUDForm';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { LocationState } from './location_state';
 import { AddSlider, EditSlider } from './Sliders';
@@ -53,7 +50,7 @@ function OutdoorFurniture() {
   const propCtx = { chain, sliderState, APPEND_TITLES, APPEND_TITLES2 }
 
   return (
-    <AdminTopLayout activeRoute={adminRoutesMap.outdoor_furniture}>
+    <AdminTopLayout activeRoute={routes.administration.outdoor_furniture}>
       {sliderState.addShowed && <AddSlider sliderState={sliderState} />}
       {sliderState.editMustShowed() && <EditSlider sliderState={sliderState} />}
       <GridNoPadding fluid>

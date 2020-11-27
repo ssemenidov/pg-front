@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useContext } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
 import { locationsContext } from './Locations';
 import {
@@ -8,7 +8,7 @@ import {
   FilterText,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Collapse, Checkbox, DatePicker, Radio, Form } from 'antd';
+import { Collapse, DatePicker, Radio, Form } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 import anchorIcon from '../../../img/input/anchor.svg';
@@ -81,14 +81,11 @@ const SEARCH_FAMILY = gql`
 }
 `;
 
-const { Panel } = Collapse;
 const FilterBar = () => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(locationsContext);
+  const setFilter = useContext(locationsContext)[1];
   const onFinish = (values) => {
     setFilter(values);
-
-
   };
 
   const onReset = () => {
@@ -112,49 +109,49 @@ const FilterBar = () => {
           <StyledPanel header="По местоположению" key="1">
           <Form.Item name="city">
               <StyledSelect
-                placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
+                placeholder={<><img src={cityIcon} alt={"Город"}/><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
                   <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                    <img src={cityIcon} />
+                    <img src={cityIcon} alt={item.node.title}/>
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
                 )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="district">
-              <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
+              <StyledSelect placeholder={<><img src={districtIcon} alt={"Район"}/><span>Район</span> </>} size={'large'}>
               {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                  <img src={districtIcon} />
+                  <img src={districtIcon} alt={item.node.title}/>
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="post">
-              <StyledSelect placeholder={<><img src={postIcon} /><span>Почтовый индекс</span> </>} size={'large'}>
+              <StyledSelect placeholder={<><img src={postIcon} alt={"Почтовый индекс"}/><span>Почтовый индекс</span> </>} size={'large'}>
               {post && post.searchPostcode.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                  <img src={postIcon} />
+                  <img src={postIcon} alt={item.node.title}/>
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="adress_m">
-              <StyledInput prefix={<img src={houseIcon} />} placeholder="Адрес маркетинговый" size={'large'} />
+              <StyledInput prefix={<img src={houseIcon} alt={"Маркетинговый адрес"}/>} placeholder="Адрес маркетинговый" size={'large'} />
             </Form.Item>
             <Form.Item name="adress_j">
-              <StyledInput prefix={<img src={houseIcon} />} placeholder="Адрес юридический" size={'large'} />
+              <StyledInput prefix={<img src={houseIcon} alt={"Юридический адрес"}/>} placeholder="Адрес юридический" size={'large'} />
             </Form.Item>
             <Form.Item name="cadastralNumber">
-              <StyledInput prefix={<img src={grateIcon} />} placeholder="Кадастровый номер" size={'large'} />
+              <StyledInput prefix={<img src={grateIcon} alt={"Кадастровый номер"}/>} placeholder="Кадастровый номер" size={'large'} />
             </Form.Item>
             <Form.Item name="targetPurpose">
-              <StyledSelect placeholder={<><img src={flagIcon} /><span>Целевое назначение</span> </>} size={'large'}>
+              <StyledSelect placeholder={<><img src={flagIcon} alt={"Целевое назначение"}/><span>Целевое назначение</span> </>} size={'large'}>
               {purpose && purpose.searchLocPurpose.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                  <img src={flagIcon} />
+                  <img src={flagIcon} alt={item.node.title}/>
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
               )}
@@ -163,7 +160,7 @@ const FilterBar = () => {
           </StyledPanel>
           <StyledPanel header="По договорам" key="2">
             <Form.Item name="rentContractNumber">
-              <StyledInput prefix={<img src={grateIcon} />} placeholder="Номер договора" size={'large'} />
+              <StyledInput prefix={<img src={grateIcon} alt={"Номер договора"}/>} placeholder="Номер договора" size={'large'} />
             </Form.Item>
             <Form.Item name="contract_Start">
               <DatePicker placeholder="Дата начала" size={'large'} format='DD/MM/YYYY' style={{ width: '100%' }}/>
@@ -175,11 +172,11 @@ const FilterBar = () => {
           </StyledPanel>
           <StyledPanel header="По параметрам" key="3">
             <Form.Item name="area">
-              <StyledInput prefix={<img src={areaIcon} />} placeholder="Площадь" size={'large'} />
+              <StyledInput prefix={<img src={areaIcon} alt={"Площадь"}/>} placeholder="Площадь" size={'large'} />
             </Form.Item>
             <Form.Item name="familyConstruction_Id">
               <StyledSelect
-                placeholder={<><img src={anchorIcon} /><span>Семейство</span> </>}
+                placeholder={<><img src={anchorIcon} alt={"Семейство"}/><span>Семейство</span> </>}
                 size={'large'}
               >
                 {familyList && familyList.searchFamilyConstruction.edges.map((item)=>
@@ -187,26 +184,26 @@ const FilterBar = () => {
                     key={item.node.id}
                     value={item.node.title}
                   >
-                    <img src={districtIcon} />
+                    <img src={districtIcon} alt={item.node.title}/>
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
                 )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="comment">
-              <StyledInput prefix={<img src={commentIcon} />} placeholder="Комментарий" size={'large'} />
+              <StyledInput prefix={<img src={commentIcon} alt={"Комментарий"}/>} placeholder="Комментарий" size={'large'} />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Другое" key="4">
             <Form.Item name="resolutionNumber">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Поставновление от акимата" size={'large'} />
+              <StyledInput prefix={<img src={anchorIcon} alt={"Постановление от акимата"}/>} placeholder="Поставновление от акимата" size={'large'} />
             </Form.Item>
 
             <Form.Item name="areaAct">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Акт на землю" size={'large'} />
+              <StyledInput prefix={<img src={anchorIcon} alt={"Акт на землю"}/>} placeholder="Акт на землю" size={'large'} />
             </Form.Item>
             <Form.Item name="registrationStatusLocation">
-              <StyledInput prefix={<img src={anchorIcon} />} placeholder="Статус оформления" size={'large'} />
+              <StyledInput prefix={<img src={anchorIcon} alt={"Статус оформления"}/>} placeholder="Статус оформления" size={'large'} />
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="Статус" key="5">

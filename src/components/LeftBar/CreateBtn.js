@@ -26,11 +26,11 @@ const SearchText = styled.h6`
   color: #003360;
 `;
 
-const CreateBtn = (props) => {
+const CreateBtn = ({text, onClick}) => {
   return (
-    <StyledSearchButton onClick={props.onClick} style={{ transition: 'opacity 1s ease-out' }}>
+    <StyledSearchButton onClick={onClick} style={{ transition: 'opacity 1s ease-out' }}>
       <img src={createProjectIcon} alt="" />
-      <SearchText>{props.text}</SearchText>
+      <SearchText>{text}</SearchText>
     </StyledSearchButton>
   );
 };

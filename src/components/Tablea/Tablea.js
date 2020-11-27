@@ -15,30 +15,9 @@ import exportIcon from '../../img/header-bar/export.svg';
 import settingsIcon from '../../img/header-bar/settings.svg';
 import './Tablea.scss'
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
-let settingmenu = (
-  <Menu>
-    <Menu.Item>
-      <Checkbox>1 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>2 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>3 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>4 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>5 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>6 menu item</Checkbox>
-    </Menu.Item>
-  </Menu>
-);
+let settingmenu = (<></>);
 
 const ResizableTitle = (props) => {
   const { onResize, width, ...restProps } = props;
@@ -66,16 +45,22 @@ const ResizableTitle = (props) => {
   );
 };
 
+const predicate = (index, columns, col) => (
+  col.isShowed !== false
+  // index !== columns.indexOf(columns[columns.length - 1]) && col.isShowed !== false
+)
+
+const menuPredicate = (col) => (
+  true
+  // col.dataIndex !== 'btn-remove' && col.dataIndex !== 'dateForRouter'
+);
+
 class Tablea extends React.Component {
   state = {
     selectionType: 'checkbox',
     datetype: 'date',
     // columns: this.props.columns,
-    columns: this.props.columns.filter((col, index) => {
-     return (
-       index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length]) && col.isShowed !== false
-     )
-    }),
+    columns: this.props.columns.filter((col, index) => predicate(index, this.props.columns, col)),
     constructionsIdSet: this.props.constructionsIdSet
   };
   components = {
@@ -87,16 +72,9 @@ class Tablea extends React.Component {
   componentDidMount() {
     console.log(1)
     this.setState({
-      columns: this.props.columns.filter((col, index) => {
-        return (
-          index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
-        )
-      })
+      columns: this.props.columns.filter((col, index) => predicate(index, this.props.columns, col))
     })
   }
-
-  
-  
 
   handleResize = (index) => (e, { size }) => {
     this.setState(({ columns }) => {
@@ -111,11 +89,9 @@ class Tablea extends React.Component {
 
   render() {
     const { onRow } = this.props;
-    const columns = this.props.columns.filter((col, index) => {
-      return (
-        index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
-      )
-    }).map((col, index) => ({
+    const columns = (
+      this.props.columns.filter((col, index) => predicate(index, this.props.columns, col))
+    ).map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
         width: column.width,
@@ -131,11 +107,7 @@ class Tablea extends React.Component {
         return item;
       })
       this.setState({
-        columns: newCols.filter((col, index) => {
-          return (
-            index !== this.props.columns.indexOf(this.props.columns[this.props.columns.length - 1]) && col.isShowed !== false
-          )
-        })
+        columns: newCols.filter((col, index) => predicate(index, this.props.columns, col))
       });
     }
 
@@ -144,10 +116,11 @@ class Tablea extends React.Component {
     if (this.props.enableChooseQuantityColumn) {
       settingmenu = (
         <Menu onClick={handleMenuClick}>
-          {this.props.columns
-            .map((col) => {
-                  // console.log(col)
-                  return (
+          {
+            this.props.columns
+              .map((col) => {
+                // console.log(col)
+                return (
                   <Menu.Item key={col.dataIndex}>
                     <Checkbox
                       checked={col.isShowed}
@@ -156,11 +129,8 @@ class Tablea extends React.Component {
                       {col.title}
                     </Checkbox>
                   </Menu.Item>
-                )}).filter((col) => {
-                      return col.dataIndex !== 'btn-remove' && col.dataIndex !== 'dateForRouter'
-                })
-                  
-                }
+                )}).filter(menuPredicate)
+          }
         </Menu>
       );
     }
@@ -210,10 +180,11 @@ class Tablea extends React.Component {
               )}
               {
                 this.props.chooseTableBtns && (
-                  <CustomTabList>
+                  <CustomTabList> // Верхняя панель с табами
                     {
                       this.props.chooseTableBtns.map((item, index) => (
                         <CustomTabBtn
+                          key={index}
                           className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
                           onClick={() => {
                           console.log(index)

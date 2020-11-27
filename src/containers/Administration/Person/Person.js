@@ -1,9 +1,8 @@
-import React, { useState, useContext, createContext, useMemo } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { useQuery, gql, useMutation } from '@apollo/client';
 
 import PanelPerson from './PanelPersons'
-import { adminRoutesMap } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout'
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel'
 import { PersonCRUDForm } from './PersonCRUDForm'
@@ -51,7 +50,7 @@ function Person(props) {
 
   return (
     <AdminTopLayout
-      activeRoute={adminRoutesMap.person}
+      activeRoute={routes.administration.person}
       buttonName="Создать сотрудника"
       buttonClickHandler={sliderState.createAdd}
     >

@@ -159,6 +159,38 @@ const PanelDesign = () => {
       }
     }
   `;
+<<<<<<< HEAD
+
+  // const SEARCHLOG_QUERY = gql`
+  //   query allProjectsQuery($brand: String, $code: String, $workingSector: String) {
+  //     searchProject(
+  //       brand_Title_Icontains: $brand
+  //       code_Icontains: $code
+  //       client_WorkingSectors_Title_Icontains: $workingSector
+  //     ) {
+  //       edges {
+  //         node {
+  //           title
+  //           code
+  //           comment
+  //           startDate
+  //           client {
+  //             title
+  //             binNumber
+  //             partnerType {
+  //               title
+  //             }
+  //           }
+  //           brand {
+  //             title
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `;
+=======
+>>>>>>> 7b8cc2e4242381046b2eb4ef3a4fb41d3d731338
 
   const CitiesList = () => {
     return (

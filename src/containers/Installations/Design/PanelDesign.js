@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import Table from '../../../components/Tablea/Tablea';
-import { StyledButton } from '../../../components/Styles/DesignList/styles';
 
 import styled from 'styled-components';
 
@@ -86,16 +85,6 @@ const PanelDesign = (props) => {
       datei: '19.07.2020',
       datedi: '19.07.2020',
     },
-  ];
-  const outdoorFurnitureColums = [
-    'Код',
-    'Город',
-    'Почтовый индекс',
-    'Маркетинговый адрес',
-    'Юридический адрес',
-    'Формат',
-    'Координаты',
-    'Горит',
   ];
   return (
     <STabs className="all" selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">

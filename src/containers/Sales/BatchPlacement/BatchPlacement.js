@@ -1,35 +1,28 @@
 import React, { useState,createContext } from 'react';
-import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { Layout, Breadcrumb } from 'antd';
 import styled from 'styled-components';
 import { PanelBatch } from './PanelBatch';
-import { LeftBar } from '../../../components/Styles/DesignList/styles';
-import { useHistory } from 'react-router';
 
 import FilterBar from './FilterBar';
 import { FilterLeftBar } from './LeftBarFilters/FilterLeftBar';
 
-import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
-import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs'
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import SearchBtn from '../../../components/LeftBar/SearchBtn';
-import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import { ReservationSlider } from './BottomSlider'
 
 import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Colors';
 import './styles_adv_part.scss'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 export const batchContext = createContext();
-const { Content, Sider } = Layout;
+const { Sider } = Layout;
 
 const BatchPlacement = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter]= useState(null);
   const [refetch, setRefetch]= useState(null);
-  const [ganttUpdater, setGanttUpdater]= useState(null);
+  const [ganttUpdater, setGanttUpdater] = useState(null);
 
   const sliderState = new SliderState({name: "", key: ""})
   return (

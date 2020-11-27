@@ -17,6 +17,7 @@ import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
 import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../../components/Styles/DesignList/styles';
+import { routes } from '../../../../routes';
 
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
@@ -30,11 +31,7 @@ const tabs = [
   { value: 'История' },
 ];
 
-const panel1 = <BackOffice />;
-const panel2 = <TechDept />;
-const panel3 = <AccDept />;
-const panel4 = <Other />;
-const panel5 = <ConstructionHist />;
+
 const CONSTRUCT_DELETE = gql`
   mutation Delete($id: ID!) {
     deleteConstruction(id: $id) {

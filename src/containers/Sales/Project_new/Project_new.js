@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProject_new';
 
-import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
@@ -15,15 +15,12 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { routes } from '../../../routes';
+
+
 const Project_card = () => {
   const history = useHistory();
   const [block, setBlock] = useState(0);
-
-  const links = [
-    { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/project_new', value: 'Созать Проект' },
-  ];
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -37,7 +34,7 @@ const Project_card = () => {
       </LeftBar>
 
       <div style={{ width: '100%', overflowX: 'hidden', margin: '0 2vw 0 0' }}>
-        <BreadCrumbs links={links} />
+        <BreadCrumbsRoutes links={[routes.root.root, routes.sales.root, routes.sales.project_new]} />
         <HeaderWrapper>
           <HeaderTitleWrapper>
             <TitleLogo />
@@ -46,13 +43,6 @@ const Project_card = () => {
           <ButtonGroup>
             {block === 0 && (
               <>
-                <StyledButton
-                  backgroundColor="#D42D11"
-                  onClick={() => {
-                    history.push('/sales/summary');
-                  }}>
-                  Формирование сводки проекта
-                </StyledButton>
                 <StyledButton
                   backgroundColor="#2C5DE5"
                   onClick={() => {

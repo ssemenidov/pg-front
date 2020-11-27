@@ -1,12 +1,12 @@
-import React, {useState, useContext, createContext, useMemo, useEffect} from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, {useState, createContext, useMemo, useEffect} from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
 
 import PanelOutdoor from './PanelOutdoor';
 import FilterBar from './FilterBar';
 
-import { Layout, Menu, Breadcrumb, Table } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -14,8 +14,9 @@ import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../compon
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 export const outContext = createContext();
+
 const CONSTRUCT_CREATE = gql`
   mutation {
     createConstruction(input: {}) {

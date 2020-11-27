@@ -159,7 +159,7 @@ export const EditInformation = () => {
         url: `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${item.additionallyAgreementPdf}`,
       }])
     }
-  }, []);
+  }, [item.contractPdf, item.additionallyAgreementPdf]);
 
   const uploadDocContract = (info) => {
     uploadContract({
@@ -296,7 +296,7 @@ export const EditInformation = () => {
                 <InputTitle>Наименование контрагента</InputTitle>
                 <SearchSelect
                   value={item.partnerId ? item.partnerId : (item.partner && item.partner.id)}
-                  defaultValue={<img src={portfolioIcon} />}
+                  defaultValue={<img src={portfolioIcon} alt={"Наименование контрагента"}/>}
                   icon={portfolioIcon}
                   nestedField="title"
                   onChange={(value) => setItem({
@@ -351,7 +351,7 @@ export const EditInformation = () => {
 
                 <SearchSelect
                   value={item.creatorId ? item.creatorId : (item.creator && item.creator.id)}
-                  defaultValue={<img src={ownerIcon} />}
+                  defaultValue={<img src={ownerIcon} alt={"Создатель"}/>}
                   icon={ownerIcon}
                   nestedField="name"
                   onChange={(value) => setItem({
@@ -372,7 +372,7 @@ export const EditInformation = () => {
 
                 <SearchSelect
                   value={item.initiatorId ? item.initiatorId : (item.initiator && item.initiator.id)}
-                  defaultValue={<img src={ownerIcon} />}
+                  defaultValue={<img src={ownerIcon} alt={"Инициатор"}/>}
                   icon={ownerIcon}
                   nestedField="name"
                   onChange={(value) => setItem({
@@ -397,7 +397,7 @@ export const EditInformation = () => {
                 <SearchSelect
                   placeholder="С поставщиком"
                   value={item.contractTypeId ? item.contractTypeId : (item.contractType && item.contractType.id)}
-                  defaultValue={<img src={contractIcon} />}
+                  defaultValue={<img src={contractIcon} alt={"С поставщиком"}/>}
                   icon={contractIcon}
                   nestedField="name"
                   onChange={(value) => setItem({
@@ -429,8 +429,8 @@ export const EditInformation = () => {
               <SearchItem>
                 <InputTitle>Подписант в именительном падеже</InputTitle>
                 <StyledInput
-                  placeholder="Абрамов Андриан"
-                  prefix={<img src={ownerIcon} />}
+                  placeholder="Подписант в именительном падеже"
+                  prefix={<img src={ownerIcon} alt={"Подписант в именительном падеже"}/>}
                   defaultValue={item.signatoryOne ? item.signatoryOne : ""}
                   onChange={(e) => setItem({ ...item, signatoryOne: e.target.value})}
                 />
@@ -438,8 +438,8 @@ export const EditInformation = () => {
               <SearchItem>
                 <InputTitle>Подписант в родительном падеже</InputTitle>
                 <StyledInput
-                placeholder="Макарова Ульяна"
-                prefix={<img src={ownerIcon} />}
+                placeholder="Подписант в родительном падеже"
+                prefix={<img src={ownerIcon} alt={"Подписант в родительном падеже"}/>}
                 defaultValue={item.signatoryTwo ? item.signatoryTwo : ""}
                 onChange={(e) => setItem({ ...item, signatoryTwo: e.target.value})}
                 />
@@ -450,7 +450,7 @@ export const EditInformation = () => {
                 <InputTitle>На основании какого документа действует подписант?</InputTitle>
                 <StyledInput
                   placeholder="Документ"
-                  prefix={<img src={anchorIcon} />}
+                  prefix={<img src={anchorIcon} alt={"На основании какого документа действует подписант"}/>}
                   defaultValue={item.basedOnDocument ? item.basedOnDocument : ""}
                   onChange={(e) => setItem({ ...item, basedOnDocument: e.target.value})}
               ></StyledInput>
@@ -459,15 +459,15 @@ export const EditInformation = () => {
               <InputTitle>Статус возврата</InputTitle>
               <StyledSelect
                 placeholder="Нет"
-                defaultValue={item.returnStatus ? item.returnStatus : <img src={anchorIcon} />}
+                defaultValue={item.returnStatus ? item.returnStatus : <img src={anchorIcon} alt={"Статус возврата"}/>}
                 onChange={(value) => setItem({ ...item, returnStatus: value})}
               >
                 <StyledSelect.Option  value={true}>
-                  <img src={anchorIcon} />
+                  <img src={anchorIcon} alt={"Да"}/>
                   <span>Да</span>
                 </StyledSelect.Option>
                 <StyledSelect.Option  value={false}>
-                  <img src={anchorIcon} />
+                  <img src={anchorIcon} alt={"Нет"}/>
                   <span>Нет</span>
                 </StyledSelect.Option>
               </StyledSelect>

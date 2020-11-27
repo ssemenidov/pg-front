@@ -1,11 +1,8 @@
-import React, { useState, useRef, useCallback } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect } from 'react';
 
 import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart'
-import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
-import { useMediaQuery } from '@material-ui/core';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { useHistory } from 'react-router';
 
@@ -96,13 +93,6 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
 
 
 export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}) {
-  /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
-  // Query string syntax: ?theme
-  // Supported themes: Default, Generic-bright, Generic-blue, DlhSoft-gray, Purple-green, Steel-blue, Dark-black, Cyan-green, Blue-navy, Orange-brown, Teal-green, Purple-beige, Gray-blue, Aero.
-  let queryString = window.location.search;
-  let theme = queryString ? queryString.substr(1) : null;
-  // Retrieve and store the control element for reference purposes.
-  let scheduleChartViewElement = document.querySelector('#scheduleChartView');
   let date = new Date(), year = date.getFullYear(), month = date.getMonth();
   const history = useHistory();
 
@@ -118,43 +108,43 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
   let data = searchQuery.data;
   let refetch = searchQuery.refetch;
 
-  useCallback(() => {
+  useEffect(() => {
     setRefetch(refetch);
-  }, [refetch]);
+  }, [refetch, setRefetch]);
 
   if (loading)
     return <LoadingAntd/>
-  if (error) {
-    let sqr = searchQuery;
+
+  if (error)
     return <h3>Error (:</h3>
-  }
+
   // let data = null;
 
   let getBarClass = (barClass) => {
     console.log(barClass)
-    if (barClass == 'Свободно')
+    if (barClass === 'Свободно')
       return 'gantt-bar-status-reserved';
-    if (barClass == 'Забронировано')
+    if (barClass === 'Забронировано')
       return 'gantt-bar-status-reserved';
-    if (barClass == 'Утверждено')
+    if (barClass === 'Утверждено')
       return 'gantt-bar-status-approved';
-    if (barClass == 'Продано')
+    if (barClass === 'Продано')
       return 'gantt-bar-status-saled';
-    if (barClass == 'unavailable')
+    if (barClass === 'unavailable')
       return 'gantt-bar-status-unavailable';
 
     return 'gantt-bar-status-reserved';
   }
   let getBarTitle = (barClass) => {
-    if (barClass == 'Свободно')
+    if (barClass === 'Свободно')
       return 'забронировано';
-    if (barClass == 'Забронировано')
+    if (barClass === 'Забронировано')
       return 'забронировано';
-    if (barClass == 'Утверждено')
+    if (barClass === 'Утверждено')
       return 'утверждено';
-    if (barClass == 'Продано')
+    if (barClass === 'Продано')
       return 'продано';
-    if (barClass == 'unavailable')
+    if (barClass === 'unavailable')
       return 'недоступно';
     return 'забронировано';
   }
@@ -164,8 +154,6 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     ndate.setTime(date)
     return ndate;
   }
-
-
 
   let scheduleChartItems = [];
   if (data !== null) {

@@ -1,17 +1,14 @@
 import React, {useState, useContext, useCallback} from 'react';
 import { batchContext } from './BatchPlacement';
 import styled from 'styled-components';
-import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
-import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
+import { Checkbox, DatePicker, Form } from 'antd';
 import date from '../../../img/left-bar/filter/date.svg';
-import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import {Row, Col} from 'antd'
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { gql, useMutation } from '@apollo/client';
 import anchorIcon from '../../../img/input/anchor.svg';
 
 
@@ -78,7 +75,7 @@ const ReservationSliderSubmitButton = styled(SubmitButton)`
 const RESERVATION_PACKAGE_CREATOR = gql`
 mutation ( $input: CreateReservationPackageInput!) {
   createReservationPackage(input: $input) {
-    
+
     reservationPackage {
       id
       dateTo
@@ -105,16 +102,16 @@ export function ReservationSlider({sliderState}) {
   //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
   //   }
   // };
-  
+
   let colSteps = {xl: 2, lg: 4, md: 6};
   const [filter, setFilter] = useContext(batchContext);
 
-  const [dateFrom, setDateFrom] = useState(); 
-  const [dateTo, setDateTo] = useState(); 
-  const [project, setProject] = useState(); 
+  const [dateFrom, setDateFrom] = useState();
+  const [dateTo, setDateTo] = useState();
+  const [project, setProject] = useState();
 
   const [reservationPackageCreator, { data }] = useMutation(RESERVATION_PACKAGE_CREATOR);
-  // let [endDate, setEndDate] = useState(); 
+  // let [endDate, setEndDate] = useState();
   const onFinFunc = (values) => {
     let reqObj = {};
     console.log('[dateFrom] ', dateFrom);
@@ -158,7 +155,7 @@ export function ReservationSlider({sliderState}) {
                   let stringifyNdate = ndate.getFullYear() + '-' + ( ndate.getMonth() >= 9 ?  ndate.getMonth() + 1 : '0' + (ndate.getMonth() + 1)) + '-' + ( ndate.getDate() > 9 ?  ndate.getDate()  : '0' + (ndate.getDate())) + 'T22:00:00+00:00'
                   console.log(stringifyNdate);
                   setDateFrom(stringifyNdate);
-                  
+
                 }}
               />
             </ReservationSilderFormItem>
@@ -179,7 +176,7 @@ export function ReservationSlider({sliderState}) {
                   let stringifyNdate = ndate.getFullYear() + '-' + ( ndate.getMonth() >= 9 ?  ndate.getMonth() + 1 : '0' + (ndate.getMonth() + 1)) + '-' + ( ndate.getDate() > 9 ?  ndate.getDate()  : '0' + (ndate.getDate())) + 'T22:00:00+00:00'
                   console.log(stringifyNdate);
                   setDateTo(stringifyNdate);
-                }} 
+                }}
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
@@ -192,13 +189,13 @@ export function ReservationSlider({sliderState}) {
                 console.log(projectName)
                 setProjectName(e.target.value)
                 }} /> */}
-                <StyledSelect  
-                  placeholder={<><img src={anchorIcon} /> <span>Проект</span> </>} 
-                  size={'large'} 
+                <StyledSelect
+                  placeholder={<><img src={anchorIcon} /> <span>Проект</span> </>}
+                  size={'large'}
                   onChange={e => {
                     console.log(e)
                     setProject(e)
-                  }} 
+                  }}
                 >
                   <StyledSelect.Option value={["VlBhY2thZ2VOb2RlOjE=", "VlByb2plY3ROb2RlOjE="]}><img src={anchorIcon} /><span>Евсеев Филат</span></StyledSelect.Option>
                   <StyledSelect.Option value={["VlBhb2plY3ROb2RlOjI=", "VlByb2plY3ROb2RlOjI="]}><img src={anchorIcon} /><span>Петр Иванович</span></StyledSelect.Option>

@@ -3,6 +3,7 @@
 export const column = (title, dataIndex, width, isShowed=true, sorter=true) => {
   let result = {
     title: title,
+    key: dataIndex,
     dataIndex: dataIndex,
     width: width,
     className: (isShowed ? 'show' : 'hide'),
@@ -10,7 +11,7 @@ export const column = (title, dataIndex, width, isShowed=true, sorter=true) => {
   }
   if (sorter) {
     result.sorter = {
-      compare: (a, b) => a[dataIndex] && a[dataIndex].localeCompare(b[dataIndex]),
+      compare: (a, b) => (a[dataIndex] && a[dataIndex].localeCompare(b[dataIndex])) || -1,
       multiple: 1,
     }
   }

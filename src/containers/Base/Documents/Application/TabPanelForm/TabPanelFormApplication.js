@@ -142,7 +142,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%' }}>
                           <InputTitle>Номер договора</InputTitle>
                           <StyledInput
-                            prefix={<img src={owner} />}
+                            prefix={<img src={owner} alt={"Номер договора"}/>}
                             defaultValue="98457345"
                             value={item.project ? item.project.code :""}
                             onChange={(e) => {setItem({
@@ -159,7 +159,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%', marginBottom: '23px' }}>
                           <InputTitle>Создатель</InputTitle>
                           <StyledInput
-                            prefix={<img src={owner} />}
+                            prefix={<img src={owner} alt={"Создатель"}/>}
                             value={item.project ? item.project.creator :""}
                             onChange={(e) => {setItem({
                               ...item,
@@ -173,7 +173,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%' }}>
                           <InputTitle>Менеджер по продажам</InputTitle>
                           <StyledInput
-                            prefix={<img src={suitcase} />}
+                            prefix={<img src={suitcase} alt={"Менеджер по продажам"}/>}
                             value={item.project ? item.project.comment :""}
                             onChange={(e) => {setItem({
                               ...item,
@@ -189,7 +189,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%', marginBottom: '23px' }}>
                           <InputTitle>Наименование контрагента</InputTitle>
                           <StyledInput
-                            prefix={<img src={suitcase} />}
+                            prefix={<img src={suitcase} alt={"Наименование контрагента"}/>}
                             value={
                               item.partner && item.partner.edges
                               && item.partner.edges[0]
@@ -216,7 +216,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%' }}>
                           <InputTitle>Статус возвтрата</InputTitle>
                           <StyledSelect
-                            prefix={<img src={owner} />}
+                            prefix={<img src={owner} alt={"Статус возвтрата"}/>}
                             defaultValue={item.project ? item.project.returnStatus: false}
                             onChange={(value) => {setItem({
                               ...item,
@@ -243,7 +243,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%', marginBottom: '23px' }}>
                           <InputTitle>Бренд</InputTitle>
                           <StyledInput
-                            prefix={<img src={owner} />}
+                            prefix={<img src={owner} alt={"Бренд"}/>}
                             value={item.project && item.project.brand && item.project.brand.title}
                             onChange={(e) => {setItem({
                               ...item,
@@ -260,7 +260,7 @@ const InnerForm = () => {
                         <div style={{ width: '100%' }}>
                           <InputTitle>Период приложения</InputTitle>
                           <DatePicker.RangePicker
-                            prefix={<img src={owner} />}
+                            prefix={<img src={owner} alt={"Период приложения"}/>}
                             defaultValue={[
                               moment(
                                 (item.reservation

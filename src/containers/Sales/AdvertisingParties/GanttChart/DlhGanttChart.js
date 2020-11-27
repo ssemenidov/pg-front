@@ -1,17 +1,6 @@
-// import {ToolTip, DatePicker, DateTimePicker, MultiSelectorComboBox} from './DlhControls';
+/* eslint-disable */
 import { createPopover } from '../tabPopover';
 import 'bootstrap'
-
-const version = {
-  assembly: 'DlhSoft.ProjectData.GanttChart.HTML.Controls',
-  company: 'DlhSoft',
-  product: 'Project Data Modern Library',
-  version: '5.3.16.1',
-  copyright: 'Copyright \u00a9 2012-2020 DlhSoft',
-  title: 'Project Data Gantt Chart HTML Controls',
-  description: 'Project Data Gantt Chart related HTML client components',
-};
-
 
 let ToolTip = undefined;
 let DatePicker = undefined;

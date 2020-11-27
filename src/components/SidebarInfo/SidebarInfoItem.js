@@ -1,11 +1,11 @@
 import React from 'react';
-import { Collapse } from 'antd';
+import { Collapse, Panel } from 'antd';
 
 const SidebarInfoItem = ({ item }) => {
   return (
     <Collapse.Panel
-      header={ item.title && item.title }
-      key={ item.id && item.id }
+      header={ (item && item.title) || '' }
+      key={ (item && item.id) || '' }
       extra={<img src={item.icon && item.icon} alt="title icon"/>}
     >
       <ul className="collapse-content-list">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Breadcrumb, Layout } from 'antd';
 
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import {adminUrl} from '../Main/adminRoutes'
+import { routes } from '../../../routes'
 
 
 export function AdministrationBreadcrumb({location}) {
@@ -13,7 +13,7 @@ export function AdministrationBreadcrumb({location}) {
       <Link to="/">Главная</Link>
     </Breadcrumb.Item>
     <Breadcrumb.Item>
-      <Link to={`${adminUrl}/`}>Администрация</Link>
+      <Link to={`${routes.administration.root.path}`}>Администрация</Link>
     </Breadcrumb.Item>
     <Breadcrumb.Item>{location.name}</Breadcrumb.Item>
   </Breadcrumb>;

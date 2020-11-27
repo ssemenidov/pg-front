@@ -8,7 +8,6 @@ import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertica
 import Table from '../../../components/Tablea/Tablea';
 
 import { brandsContext } from './Brands';
-import { stubDataBrands } from './stubDataSource';
 
 const BRANDS_T = gql`
   query searchBrand {
@@ -108,7 +107,6 @@ const initColumnsTable = [
 const initData = [];
 
 const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) => {
-  const history = useHistory();
   const location = useLocation();
   const [filter, setFilter] = useContext(brandsContext);
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
@@ -140,8 +138,6 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
   useMemo(() => {
     if (data && data.searchBrand && data.searchBrand.edges) {
       setBrands(data.searchBrand.edges.map((item) => {
-        console.log(item.node.partners.edges[0].node)
-
         return ({
           key: item.node.id,
           brand: item.node.title && item.node.title,
@@ -150,8 +146,8 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
       })}))
     }
   }, [data]);
-  if (error) return <p>Error :(</p>;
-  // if (loading) return <h3></h3>;
+  if (error)
+    return <h3>Error :(</h3>;
 
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {

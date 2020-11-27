@@ -15,12 +15,10 @@ import anchorIcon from '../../../img/input/anchor.svg';
 
 import { brandsContext } from './Brands';
 
-const { Option } = Select;
-const { Panel } = Collapse;
 
 const FilterBar = () => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(brandsContext);
+  const setFilter = useContext(brandsContext)[1];
 
   const onFinish = (values) => {
     setFilter(values);
