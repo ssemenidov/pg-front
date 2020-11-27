@@ -157,34 +157,6 @@ const PanelDesign = (props) => {
       }
     }
   `;
-  const SEARCHLOG_QUERY = gql`
-    query allProjectsQuery($brand: String, $code: String, $workingSector: String) {
-      searchProject(
-        brand_Title_Icontains: $brand
-        code_Icontains: $code
-        client_WorkingSectors_Title_Icontains: $workingSector
-      ) {
-        edges {
-          node {
-            title
-            code
-            comment
-            startDate
-            client {
-              title
-              binNumber
-              partnerType {
-                title
-              }
-            }
-            brand {
-              title
-            }
-          }
-        }
-      }
-    }
-  `;
 
   const CitiesList = () => {
     return (

@@ -21,10 +21,6 @@ const Com_projects = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [constructionsIdSet, setConstructionsIdSet] = useState([]);
   const [filter, setFilter] = useState({});
-  const [tableData, setTableData] = useState({
-    data: [],
-    loaded: false,
-  });
 
   const history = useHistory();
   const links = [

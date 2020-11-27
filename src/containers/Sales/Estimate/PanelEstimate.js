@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Layout } from 'antd';
+import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
 import {
   NON_RTS_QUERY,
@@ -11,8 +12,10 @@ import {
   getBookedSides,
   getExtraCosts,
   gettNonRts,
-  EditModal,
+  EditCosts,
   DeleteModal,
+  DELETE_ADD_COSTS_QUERY,
+  DELETE_NON_RTS,
 } from './utils';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
@@ -28,50 +31,56 @@ import {
   initColumnsForPopupHotPtc,
   initColumnsTableHotPtc,
 } from './stubDataSource';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
 const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, setOpenEditModal }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
-  const [deletingItem, setDeletingItem] = useState({});
-  const [openDelete, setOpenDelete] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const { sort } = useContext(EstimateContext);
   let extraCosts = [];
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
+
+  const [deleteAddCosts] = useMutation(DELETE_ADD_COSTS_QUERY);
+  const [deleteNonRts] = useMutation(DELETE_NON_RTS);
 
   const { loading, error, data, refetch } = useQuery(query, {
     variables: {
       id: appId ? appId : id ? id : '',
     },
   });
-
   let bookedSides = [];
   let nonRts = [];
 
-  if (created) {
+  if (created || deleted) {
     refetch().then((val) => {
-      setCreated(false);
+      created ? setCreated(false) : setDeleted(false);
     });
   }
 
   if (data) {
-    console.log(data);
     switch (activeTab) {
       case 'booked-sides':
         if (appId) {
           bookedSides = getBookedSides(data.searchAttachment.edges[0].node.reservations.edges);
         }
         if (id) {
-          bookedSides = getBookedSides(data.searchProject.edges[0].node.reservations.edges);
+          bookedSides = getBookedSides(
+            data.searchProject.edges.length ? data.searchProject.edges[0].node.reservations.edges : [],
+          );
         }
         break;
       case 'extra-charge':
         if (appId) {
-          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges);
+          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort);
         }
         if (id) {
-          extraCosts = getExtraCosts(data.searchProject.edges[0].node.additionalCosts.edges);
+          extraCosts = getExtraCosts(
+            data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCosts.edges : [],
+            sort,
+          );
         }
         break;
       case 'hot-ptc':
@@ -79,7 +88,9 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
           nonRts = gettNonRts(data.searchSalesNonrts.edges);
         }
         if (id) {
-          nonRts = gettNonRts(data.searchProject.edges[0].node.additionalCostsNonrts.edges);
+          nonRts = gettNonRts(
+            data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCostsNonrts.edges : [],
+          );
         }
     }
   }
@@ -121,6 +132,8 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         setOpenEditModal={setOpenEditModal}
         setEditingItem={setEditingItem}
         openModal={DeleteModal}
+        deleteEstimate={deleteAddCosts}
+        setDeleted={setDeleted}
         loading={loading}
         select={true}
         pagination={{
@@ -140,9 +153,10 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         openEditModal={openEditModal}
         edit={true}
         setOpenEditModal={setOpenEditModal}
-        setOpenDelete={setOpenDelete}
         setEditingItem={setEditingItem}
         openModal={DeleteModal}
+        deleteEstimate={deleteNonRts}
+        setDeleted={setDeleted}
         select={true}
         loading={loading}
         pagination={{
@@ -210,7 +224,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         </CustomTabList>
       </HeaderBar>
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
-      <EditModal
+      <EditCosts
         openModal={openEditModal}
         editingItem={editingItem}
         setOpenModal={setOpenEditModal}
@@ -220,6 +234,19 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         extraCostsId={extraCosts.key}
         refetch={refetch}
       />
+      <style>
+        {`
+        .ant-drawer-bottom .ant-drawer-content-wrapper {
+          left: 60px;
+          box-shadow: 0px -4px 16px rgba(0, 0, 0, 0.0973558) !important;
+          border-radius: 8px 8px 0px 0px;
+          width: calc(100% - 60px);
+        }
+        
+        .ant-drawer-bottom  .ant-drawer-close {
+            padding: 10px 24px;
+        }`}
+      </style>
     </div>
   );
 };
