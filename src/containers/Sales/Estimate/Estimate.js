@@ -13,6 +13,7 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { useParams } from 'react-router-dom';
+import { CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS, CITIES_QUERY } from './utils';
 
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
@@ -21,7 +22,7 @@ import PanelDesign from './PanelEstimate';
 import SidebarInfo from '../../../components/SidebarInfo';
 
 import { sidebarInfoData } from '../stubDataSource';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 export const EstimateContext = createContext();
 
@@ -31,6 +32,7 @@ const Estimate = () => {
     loaded: false,
   });
   const { id, appId } = useParams();
+  const currentId = appId ? appId : id ? id : '';
   const [block, setBlock] = useState(0);
   const [showAddCost, setShowAddCost] = useState(false);
   const [showAddNonRts, setShowAddNonRts] = useState(false);
@@ -47,61 +49,9 @@ const Estimate = () => {
   const [AdditionalCostsForm] = Form.useForm();
   const [NonRtsForm] = Form.useForm();
 
-  const CREATE_ADDITIONAL_COSTS = gql`
-    mutation createAdditionalCost($input: CreateAdditionalCostsInput!) {
-      createSalesAdditionalCost(input: $input) {
-        additionalCosts {
-          id
-          title
-          startPeriod
-          endPeriod
-          count
-          discount
-          price
-          count
-          city {
-            title
-          }
-        }
-      }
-    }
-  `;
-
-  const CREATE_NON_RTS_COSTS = gql`
-    mutation addNonRts($input: CreateEstimateNonRtsInput!) {
-      createSalesNonrts(input: $input) {
-        estimateNonRts {
-          id
-          title
-          count
-          incomingTax
-          incomingRent
-          incomingPrinting
-          incomingInstallation
-          incomingManufacturing
-          city {
-            title
-          }
-        }
-      }
-    }
-  `;
-
   const [createAdditionalCost] = useMutation(CREATE_ADDITIONAL_COSTS);
   const [createNonRtsCost] = useMutation(CREATE_NON_RTS_COSTS);
 
-  const CITIES_QUERY = gql`
-    query {
-      searchCity {
-        edges {
-          node {
-            title
-            id
-          }
-        }
-      }
-    }
-  `;
   const { loading, error, data } = useQuery(CITIES_QUERY);
 
   if (data && !cities.loaded) {
@@ -159,7 +109,7 @@ const Estimate = () => {
               <JobTitle>Смета - CocaCola</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
-              {block !== 0 && !appId ? (
+              {block !== 0 ? (
                 <>
                   <StyledButton
                     backgroundColor="#008556"
@@ -230,7 +180,7 @@ const Estimate = () => {
                       discount: discount,
                       price: price,
                       city: values.city,
-                      project: id,
+                      project: currentId,
                     },
                   },
                 })
@@ -327,7 +277,7 @@ const Estimate = () => {
                       incomingInstallation: values.mount,
                       incomingManufacturing: values.manufacture,
                       city: values.city,
-                      project: id,
+                      project: currentId,
                     },
                   },
                 })

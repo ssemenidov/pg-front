@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Layout } from 'antd';
 import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
@@ -41,6 +41,13 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
   const { sort, setSort } = useContext(EstimateContext);
   let extraCosts = [];
 
+  useEffect(() => {
+    const refetchData = async () => {
+      return await refetch();
+    };
+    refetchData();
+  }, [activeTab]);
+
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
 
   const [deleteAddCosts] = useMutation(DELETE_ADD_COSTS_QUERY);
@@ -64,17 +71,24 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
     switch (activeTab) {
       case 'booked-sides':
         if (appId) {
-          bookedSides = getBookedSides(data.searchAttachment.edges[0].node.reservations.edges);
+          bookedSides = getBookedSides(
+            data.searchAttachment.edges.length ? data.searchAttachment.edges[0].node.reservations.edges : [],
+            sort,
+          );
         }
         if (id) {
           bookedSides = getBookedSides(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.reservations.edges : [],
+            sort,
           );
         }
         break;
       case 'extra-charge':
         if (appId) {
-          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort);
+          extraCosts = getExtraCosts(
+            data.searchSalesAdditionalCost.edges.length ? data.searchSalesAdditionalCost.edges : [],
+            sort,
+          );
         }
         if (id) {
           extraCosts = getExtraCosts(
@@ -85,7 +99,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         break;
       case 'hot-ptc':
         if (appId) {
-          nonRts = gettNonRts(data.searchSalesNonrts.edges, sort);
+          nonRts = gettNonRts(data.searchSalesNonrts.edges.length ? data.searchSalesNonrts.edges : [], sort);
         }
         if (id) {
           nonRts = gettNonRts(
@@ -93,6 +107,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
             sort,
           );
         }
+        break;
     }
   }
 

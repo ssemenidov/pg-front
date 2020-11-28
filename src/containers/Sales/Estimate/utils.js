@@ -6,6 +6,59 @@ import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 
+export const CITIES_QUERY = gql`
+  query {
+    searchCity {
+      edges {
+        node {
+          title
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_ADDITIONAL_COSTS = gql`
+  mutation createAdditionalCost($input: CreateAdditionalCostsInput!) {
+    createSalesAdditionalCost(input: $input) {
+      additionalCosts {
+        id
+        title
+        startPeriod
+        endPeriod
+        count
+        discount
+        price
+        count
+        city {
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_NON_RTS_COSTS = gql`
+  mutation addNonRts($input: CreateEstimateNonRtsInput!) {
+    createSalesNonrts(input: $input) {
+      estimateNonRts {
+        id
+        title
+        count
+        incomingTax
+        incomingRent
+        incomingPrinting
+        incomingInstallation
+        incomingManufacturing
+        city {
+          title
+        }
+      }
+    }
+  }
+`;
+
 export const BOOKED_SIDES_QUERY = gql`
   query applicationQuery($id: ID) {
     searchAttachment(id: $id) {
@@ -256,6 +309,26 @@ export const getBookedSides = (data = [], sort = '') => {
   }
 };
 
+// "input": {
+//   "project": "VkF0dGFjaG1lbnRPcHRpbWl6ZWROb2RlOjM=",
+//   "count": 12,
+// "incomingAdditional": "12323",
+// "incomingInstallation": "123",
+// "incomingManufacturing": "12",
+// "incomingPrinting": "123",
+// "incomingRent": "123",
+// "incomingTax": "123",
+// "percentAgentCommission": "0",
+// "saleAdditional": "390",
+// "saleInstallation": "123",
+// "saleManufacturing": "120",
+// "salePrinting": "123",
+// "saleRent": "12",
+// "saleTax": "12",
+// "title": "titt",
+// "valueAgentCommission": "0"
+// }
+
 export const getExtraCosts = (data = [], sort = '') => {
   let modifiedData = data.map((charge) => {
     let price = charge.node.price ? charge.node.price : 0;
@@ -277,7 +350,7 @@ export const getExtraCosts = (data = [], sort = '') => {
         quantity: charge.node.count ? charge.node.count : '',
         price: charge.node.price ? charge.node.price + ' тг.' : '',
         discount: charge.node.discount ? charge.node.discount + '%' : '',
-        priceAfterDiscount: sumAfterDiscount + ' тг.',
+        priceAfterDiscount: sumAfterDiscount.toFixed(2) + ' тг.',
         sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
         percentAK: agPercent + ' %',
         sumAK: agValue + ' тг.',
@@ -371,6 +444,8 @@ const UPDATE_ADDITIONAL_COSTS = gql`
         startPeriod
         price
         discount
+        percentAgentCommission
+        valueAgentCommission
       }
     }
   }
@@ -464,10 +539,10 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
         form.setFieldsValue({
           name: editingItem.nameOfService || 0,
           count: editingItem.quantity || 0,
-          price: editingItem.price.split(' ')[0] || 0,
-          discount: editingItem.discount.split('%')[0] || 0,
-          agPercent: editingItem.percentAK.split('%')[0] || 0,
-          agSumm: editingItem.sumAK.split(' ')[0] || 0,
+          price: editingItem.price ? editingItem.price.split(' ')[0] : 0,
+          discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
+          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : 0,
+          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : 0,
         });
         break;
       case 'hot-ptc':

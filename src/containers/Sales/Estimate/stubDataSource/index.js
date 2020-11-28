@@ -530,7 +530,7 @@ export const initColumnsTableHotPtc = [
       },
       {
         title: 'Производство',
-        dataIndex: 'manufactureSell',
+        dataIndex: 'manufactureInput',
         width: 130,
       },
       {
