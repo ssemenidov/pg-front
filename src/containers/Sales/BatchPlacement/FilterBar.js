@@ -1,19 +1,18 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { batchContext } from './BatchPlacement';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import {
   FilterMenu,
   SearchTitle,
   FilterText,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker,Form } from 'antd';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { Collapse, Checkbox, DatePicker,Form } from 'antd';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import anchorIcon from '../../../img/input/anchor.svg';
 import cityIcon from '../../../img/input/city.svg';
 import districtIcon from '../../../img/input/district.svg';
-import postIcon from '../../../img/input/post.svg';
 
 const { RangePicker } = DatePicker;
 
@@ -42,55 +41,54 @@ const DISTRICT_T = gql`
 }
 `;
 
-const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
-query {
-  searchPackage {
-    edges {
-      node {
-        title
-        reservationPackages {
-          edges {
-            node {
-              id
-              dateFrom
-              dateTo
-              reservationType {
-                title
-              }
-              project {
-                title
-                salesManager {
-                  id
-                  firstName
-                  lastName
-                }
-                backOfficeManager {
-                  id
-                  firstName
-                  lastName
-                }
-                brand {
-                  title
-                  
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
+// const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
+// query {
+//   searchPackage {
+//     edges {
+//       node {
+//         title
+//         reservationPackages {
+//           edges {
+//             node {
+//               id
+//               dateFrom
+//               dateTo
+//               reservationType {
+//                 title
+//               }
+//               project {
+//                 title
+//                 salesManager {
+//                   id
+//                   firstName
+//                   lastName
+//                 }
+//                 backOfficeManager {
+//                   id
+//                   firstName
+//                   lastName
+//                 }
+//                 brand {
+//                   title
+//
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+// `;
 
 
 
   const FilterBar = ({setRefetch}) => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(batchContext);
+  const setFilter = useContext(batchContext)[1];
   const onFinish = (values) => {
     setFilter(values);
-
     console.log('values ', values);
   };
 
@@ -99,6 +97,7 @@ query {
   };
   const city = useQuery(CITY_T).data;
   const district = useQuery(DISTRICT_T).data;
+
   // const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION);
 
   // useCallback(() => {
@@ -108,12 +107,12 @@ query {
   // console.log('[packagesObj]', data)
   // const dataArr = data ? data.searchPackage.edges.map(item => {
   //   console.log(item)
-    
+
   //   return item.node.reservationPackages
   // }) : null;
   // console.log('[dataArr]', dataArr)
 
-  // let edgesData; 
+  // let edgesData;
   // if(dataArr) {
   //   for(let i = 0; i < dataArr.length; i++) {
   //     for(let j = 0; j < dataArr[i].edges.length; j++) {
@@ -132,7 +131,7 @@ query {
   // console.log('[salesManagers]', salesManagers)
 
 
-  
+
   return (
     <FilterMenu
       onKeyDown={(e) => {
@@ -182,20 +181,20 @@ query {
           <StyledPanel header="По городу" key="3">
             <Form.Item name="city">
               <StyledSelect
-                showSearch placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
+                showSearch placeholder={<><img src={cityIcon} alt={"Город"}/><span>Город</span> </>} size={'large'}>
                 {city && city.searchCity.edges.map((item)=>
                   <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                    <img src={cityIcon} />
+                    <img src={cityIcon} alt={item.node.title}/>
                     <span>{item.node.title}</span>
                   </StyledSelect.Option>
                 )}
               </StyledSelect>
             </Form.Item>
             <Form.Item name="district">
-              <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
+              <StyledSelect placeholder={<><img src={districtIcon} alt={"Район"}/><span>Район</span> </>} size={'large'}>
               {district && district.searchDistrict.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                    <img src={districtIcon} />
+                    <img src={districtIcon} alt={item.node.title}/>
                   <span>{item.node.title}</span>
                   </StyledSelect.Option>
              )}
@@ -205,7 +204,7 @@ query {
 
           <StyledPanel header="По параметрам" key="4">
             <Form.Item name="package_Title">
-              <StyledSelect  placeholder={<><img src={anchorIcon} /> <span>Пакет</span> </>} size={'large'}>
+              <StyledSelect  placeholder={<><img src={anchorIcon} alt={"Пакет"}/> <span>Пакет</span> </>} size={'large'}>
                 <StyledSelect.Option value="A1"><img src={anchorIcon} /><span>A1</span></StyledSelect.Option>
                 <StyledSelect.Option value="A2"><img src={anchorIcon} /><span>A2</span></StyledSelect.Option>
               </StyledSelect>
@@ -218,7 +217,7 @@ query {
             </Form.Item>
             <Form.Item name="backofficeManager_Id">
             <StyledSelect placeholder={<><img src={anchorIcon} /> <span>Менеджер бэк-офиса</span> </>} size={'large'}>
-            
+
                 <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjI="><img src={anchorIcon} /><span>Кабанов Иоиль</span></StyledSelect.Option>
                 <StyledSelect.Option value="VkN1c3RvbVVzZXJOb2RlOjM="><img src={anchorIcon} /><span>Терешин Олег</span></StyledSelect.Option>
               </StyledSelect>

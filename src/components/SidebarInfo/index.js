@@ -12,7 +12,8 @@ const SidebarInfo = ({ data = [] }) => {
   return (
     <div className="sidebar-info-container">
       <Collapse
-        defaultActiveKey={data && data.map(item => item.isShowed && item.id)}
+        defaultActiveKey={data && data.map(item => item.id)}
+        activeKey={data && data.map(item => item.id)}
         expandIcon={
           ({ isActive }) =>
             <img

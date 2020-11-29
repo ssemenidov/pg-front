@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Form, Input } from 'antd';
+import React from 'react';
+import { Input } from 'antd';
 
 import {
   adaptiveRow, SliderCol, SliderFormItem, StyledButtonSlider, StyledOption, StyledSelect
@@ -7,7 +7,6 @@ import {
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 
 import { RowMargin1st } from '../components/Styled';
-
 
 export function PersonCRUDForm({actionText="Добавить", ...props}) {
   const requiredProps = { rules: [ { required: true } ] };

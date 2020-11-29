@@ -5,12 +5,6 @@ import icon_calendar from '../../img/outdoor_furniture/filter_icons/icon_calenda
 import React from 'react';
 
 export default function DatePicker(props) {
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker

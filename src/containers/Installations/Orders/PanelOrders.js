@@ -1,18 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { STab, STabList, STabPanel, STabs } from '../../../components/Styles/TabPanelsStyles';
-import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
+import React from 'react';
 import Table from '../../../components/Tablea/Tablea';
-import { StyledButton } from '../../../components/Styles/DesignList/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getOutdoorFurnitureData,
-  getCities,
-  getDistricts,
-  getPostalCodes,
-  getOutdoorFurnitureFiltered,
-} from '../../../store/actions/actions';
 
-const PanelDesign = (props) => {
+const PanelDesign = () => {
   const columns = [
     {
       title: 'код рекламной стороны',

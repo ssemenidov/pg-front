@@ -45,6 +45,8 @@ const Estimate = () => {
   ];
 
   const { loading, error, data } = useQuery(CITIES_QUERY);
+  if (error)
+    return <h3>Error (:</h3>
 
   if (data && !cities.loaded) {
     setCities({
@@ -169,3 +171,4 @@ export default Estimate;
 const InfoWrap = styled.div`
   margin: 0 2vw 0 0;
 `;
+

@@ -6,7 +6,6 @@ import {useHistory, useLocation} from 'react-router';
 
 import { locationsContext } from './Locations';
 import Table from '../../../components/Tablea/Tablea';
-import Preloader from '../../../components/Preloader/Preloader';
 import { column, null2str, null2strKey, null2bool } from '../../../components/Table/utils';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
@@ -157,7 +156,7 @@ const initColumnsTable = [
 ];
 
 const PanelDesign = (props) => {
-  const [filter, setFilter] = useContext(locationsContext);
+  const [filter, /*setFilter*/] = useContext(locationsContext);
   const history = useHistory();
   const location = useLocation();
 
@@ -170,7 +169,7 @@ const PanelDesign = (props) => {
 
   useEffect(() => {
     refetch();
-  }, [location])
+  }, [location, refetch])
 
   if (error) return <p>Error :(</p>;
   // if (loading) return <Preloader size={'large'}/>;
@@ -213,12 +212,10 @@ const PanelDesign = (props) => {
     setColumnsForPopup(localColumnsForPopup);
 
     const newColumnTables = localColumnsForPopup.filter(item => {
-      if(item.isShowed) {
+      if(item.isShowed || item.dataIndex === 'btn-remove') {
         return item
       }
-      if(item.dataIndex === 'btn-remove') {
-        return item
-      }
+      return false
     });
 
     setColumnsTable(newColumnTables);

@@ -1,16 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card } from 'antd';
+import { Card, Menu } from 'antd';
 import styled from 'styled-components';
-import {adminRoutesArr} from './adminRoutes'
+import { filterRouteShowed, sortRouteByIdx, routes } from '../../../routes';
+import { selectionSetMatchesResult } from '@apollo/client/cache/inmemory/helpers';
+
 
 const Main = () => {
   return (
     <StyledDiv>
       <StyledCard title="Административная панель" bordered={true} style={{ width: 300 }}>
-        {adminRoutesArr.map(({key, idx, to, name}) =>
-          <Link key={key} to={to}>{name}</Link>
-        )}
+        {(Object.entries(routes.administration).filter(filterRouteShowed).sort(sortRouteByIdx)
+          .map(
+          ([key, value]) => (
+              <Link key={key} to={value.path}>{value.name}</Link>
+          )))}
       </StyledCard>
     </StyledDiv>
   );

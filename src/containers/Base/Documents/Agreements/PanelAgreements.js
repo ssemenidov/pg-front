@@ -1,7 +1,4 @@
-import React, { useState,createContext, useMemo } from 'react';
-
-import { useQuery, gql, useMutation } from '@apollo/client';
-import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
+import React, { useState } from 'react';
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
@@ -9,7 +6,7 @@ import AgreementsTab from '../../../../components/Panels/AgreementsTab/Agreement
 import ApplicationsTab from '../../../../components/Panels/ApplicationsTab/ApplicationsTab';
 
 import {  Input } from 'antd';
-import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
+import { BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 
 import print_icon from '../../../../img/outdoor_furniture/table_icons/print.svg';
 import export_icon from '../../../../img/outdoor_furniture/table_icons/export_icon.svg';
@@ -23,8 +20,8 @@ const tabs = [{ value: 'Договора' }, { value: 'Приложения' }];
 const panel1 = <AgreementsTab />;
 const panel2 = <ApplicationsTab />;
 
-const InnerForm = (props) => {
-  const [block, setBlock] = useState(0);
+const InnerForm = () => {
+  const [/*block*/, setBlock] = useState(0);
   return (
     <form style={{ width: '100%' }}>
         <STabs

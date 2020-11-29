@@ -9,13 +9,13 @@ import { colorAccent, fontFamily, fontSizeInput, fontWeightInput } from '../Styl
 
 const { Option } = Select;
 
-const _SliderRow = styled(Row)`
+const StyledSliderRow = styled(Row)`
   padding: 1.1rem 2rem .7rem 1rem;
   margin: -12px 12px 12px -12px !important;
 `
 
 export const SliderRow = ({children}) => {
-  return <_SliderRow gutter={[24,24]}>{children}</_SliderRow>
+  return <StyledSliderRow gutter={[24,24]}>{children}</StyledSliderRow>
 }
 
 export const SliderCellColRaw = styled(Col)`

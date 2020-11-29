@@ -1,9 +1,9 @@
-import React, { useState,useContext } from 'react';
+import React, { useContext } from 'react';
 import {  agreementsContext } from './AgreementsTab';
 
 import styled from 'styled-components';
 import { Radio, DatePicker ,Form} from 'antd';
-import { StyledSelect,StyledInput } from '../../Styles/DesignList/styles';
+import { StyledInput } from '../../Styles/DesignList/styles';
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../Styles/StyledBlocks';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 
@@ -11,14 +11,15 @@ import anchorIcon from '../../../img/input/anchor.svg';
 import ownerIcon from '../../../img/input/owner.svg';
 import portfolioIcon from '../../../img/input/portfolio.svg';
 import contractIcon from '../../../img/input/contract.svg';
+
+
 const AgreementsSearch = () => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(agreementsContext);
+  const setFilter = useContext(agreementsContext)[1];
+
   const onFinish = (values) => {
     setFilter({...values,registrationDate:new Date(values.registrationDate),start:new Date(values.start),end:new Date(values.end)});
-
     console.log(values);
-    
   };
 
   const onReset = () => {
@@ -26,7 +27,7 @@ const AgreementsSearch = () => {
   };
 
   return (
-    
+
     <Medium>
       <BlockTitle>Поиск договора</BlockTitle>
       <BlockBody>
@@ -35,7 +36,7 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Номер договора</InputTitle>
             <Form.Item name="resolutionNumber" >
-              <StyledInput  
+              <StyledInput
                 prefix={<img src={ anchorIcon } />}
               placeholder="Номер договора" size={'large'} />
             </Form.Item>
@@ -43,22 +44,23 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Инициатор</InputTitle>
             <Form.Item name="initiator" >
-              <StyledInput  prefix={<img src={ ownerIcon } />} placeholder="Инициатор" size={'large'} />
+              <StyledInput  prefix={<img src={ownerIcon} alt={"Инициатор"}/>} placeholder="Инициатор" size={'large'} />
             </Form.Item>
           </SearchItem>
-        
+
         </Row>
         <Row>
           <SearchItem>
             <InputTitle>Наименование контрагента</InputTitle>
             <Form.Item name="partner_Title" >
-              <StyledInput  prefix={<img src={ portfolioIcon } />} placeholder="Наименование контрагента" size={'large'} />
+              <StyledInput  prefix={<img src={portfolioIcon} alt={"Наименование контрагента"}/>}
+                            placeholder="Наименование контрагента" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>
             <InputTitle>Создатель</InputTitle>
             <Form.Item name="creator" >
-              <StyledInput  prefix={<img src={ ownerIcon } />} placeholder="Создатель" size={'large'} />
+              <StyledInput  prefix={<img src={ownerIcon} alt={"Создатель"}/>} placeholder="Создатель" size={'large'} />
             </Form.Item>
           </SearchItem>
         </Row>
@@ -66,7 +68,7 @@ const AgreementsSearch = () => {
           <SearchItem>
             <InputTitle>Тип договора</InputTitle>
             <Form.Item name="contractType" >
-              <StyledInput  prefix={<img src={ contractIcon } />} placeholder="Тип договора" size={'large'} />
+              <StyledInput  prefix={<img src={contractIcon} alt={"Тип договора"}/>} placeholder="Тип договора" size={'large'} />
             </Form.Item>
           </SearchItem>
           <SearchItem>
@@ -103,8 +105,8 @@ const AgreementsSearch = () => {
         </Row>
         <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <BtnGroup>
-          <SubmitButton   htmlType="submit">Поиск</SubmitButton>
-          <ResetButton style={{    marginRight: 'auto'}} onClick={onReset}>Очистить</ResetButton>
+          <SubmitButton htmlType="submit">Поиск</SubmitButton>
+          <ResetButton style={{marginRight: 'auto'}} onClick={onReset}>Очистить</ResetButton>
         </BtnGroup>
         </Row>
         </Form>

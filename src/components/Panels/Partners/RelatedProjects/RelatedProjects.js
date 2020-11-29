@@ -1,43 +1,8 @@
-import React, { useContext, useMemo, useState } from 'react';
-//import Table from '../../../Table/Table';
+import React, { useContext, useEffect, useState } from 'react';
 import Table from '../../../Tablea/Tablea';
 
 import { partnerContext } from "../../../../containers/Base/Partner/Partner";
 
-const initData = [
-  {
-    key: 1,
-    code: '2020053012',
-    title: 'Летняя акция',
-    brand: 'CocaCola',
-    client: 'ТОО Coca Cola',
-    agencyCommission: 'да',
-  },
-  {
-    key: 2,
-    code: '2020053012',
-    title: 'Летняя акция',
-    brand: 'CocaCola',
-    client: 'ТОО Coca Cola',
-    agencyCommission: 'да',
-  },
-  {
-    key: 3,
-    code: '2020053012',
-    title: 'Летняя акция',
-    brand: 'CocaCola',
-    client: 'ТОО Coca Cola',
-    agencyCommission: 'да',
-  },
-  {
-    key: 4,
-    code: '2020053012',
-    title: 'Летняя акция',
-    brand: 'CocaCola',
-    client: 'ТОО Coca Cola',
-    agencyCommission: 'да',
-  }
-]; //нужно убрать этот масив initData после того как проверим правильность данных с бека
 const columns = [
   {
     title: 'Код',
@@ -72,10 +37,10 @@ const columns = [
 ];
 
 const RelatedProjects = () => {
-  const [item, setItem] = useContext(partnerContext);
+  const [item, /*setItem*/] = useContext(partnerContext);
   const [data, setData] = useState([]);
 
-  useMemo(() => {
+  useEffect(() => {
     if(item.projects.edges && item.projects.edges.length) {
       const projectList = item.projects.edges.node.map((item, index) => ({
         key: index,

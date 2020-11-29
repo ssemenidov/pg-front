@@ -11,6 +11,7 @@ import paket from '../../../img/sales/projectDropdown/paket.svg';
 import managerB from '../../../img/sales/managerB.svg';
 import managerS from '../../../img/sales/managerS.svg';
 import { useHistory } from 'react-router';
+import { routes } from '../../../routes';
 
 
 let createPopoverHtml = ({projectName, soldStatus, soldClass, soldDate, packageName,
@@ -93,7 +94,7 @@ export function createPopover(domNode, taskItem) {
   let popupDomTree = jquery.parseHTML(popoverHtml)[0]
   jquery(popupDomTree).find('button.ant-btn').click(() => {
     jquery(domNode).popover('hide');
-    taskItem.history.push("/sales/project_card/VlByb2plY3ROb2RlOjI=")
+    taskItem.history.push(routes.sales.project_card.url('VlByb2plY3ROb2RlOjI='))
   })
 
   jquery(domNode).popover({

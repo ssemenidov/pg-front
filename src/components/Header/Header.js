@@ -4,75 +4,28 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import UserForm from './UserMenu/UserMenu';
 
-import { adminUrl, adminRoutesArr } from '../../containers/Administration/Main/adminRoutes'
+import { routes, sortRouteByIdx, filterRouteShowed } from '../../routes';
 
 const Header = () => {
   const [active, SetActive] = useState(-1);
-  const salesMenu = (
-    <Menu onClick={() => SetActive(0)}>
+  let mapMenu = (sectionIdx, routeSection) => (
+    <Menu onClick={() => SetActive(sectionIdx)}>
       <Menu.ItemGroup>
-        <Menu.Item>
-          <Link to="/sales/advertising_parties">Справочник рекламных сторон</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/sales/batch_placement">Пакетное размещение</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/sales/com_projects">Коммерческие проекты</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/sales/invoice">Счета</Link>
-        </Menu.Item>
-      </Menu.ItemGroup>
-    </Menu>
-  );
-  const installationsMenu = (
-    <Menu onClick={() => SetActive(1)}>
-      <Menu.ItemGroup>
-        <Menu.Item>
-          <Link to="/installations/projects">Подача разнарядки</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/installations/orders">Выгрузка разнарядки</Link>
-        </Menu.Item>
-      </Menu.ItemGroup>
-    </Menu>
-  );
-  const baseMenu = (
-    <Menu onClick={() => SetActive(2)}>
-      <Menu.ItemGroup>
-        <Menu.Item>
-          <Link to="/base/outdoor_furniture">Конструкции</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/base/locations">Список местоположений</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/base/brands">Бренды</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/base/partners">Контрагенты</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/base/documents/agreements">Документы</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/base/crews">Экипажи</Link>
-        </Menu.Item>
-      </Menu.ItemGroup>
-    </Menu>
-  );
-  const adminMenu = (
-    <Menu onClick={() => SetActive(4)}>
-      <Menu.ItemGroup>
-        {adminRoutesArr.map(({key, idx, to, name}) =>
-          <Menu.Item key={key}>
-            <Link to={to}>{name}</Link>
-          </Menu.Item>
-        )}
+        {(Object.entries(routeSection).filter(filterRouteShowed).sort(sortRouteByIdx)
+          .map(
+            ([key, value]) => (
+              <Menu.Item key={key}>
+                <Link to={value.path}>{value.name}</Link>
+              </Menu.Item>
+            )))}
       </Menu.ItemGroup>
     </Menu>
   )
+
+  const salesMenu = mapMenu(0, routes.sales);
+  const installationsMenu = mapMenu(1, routes.installations);
+  const baseMenu = mapMenu(2, routes.bases);
+  const adminMenu = mapMenu(4, routes.administration)
 
   return (
     <StyledHeader>
@@ -83,26 +36,26 @@ const Header = () => {
       </StyledBlock>
       <StyledList>
         <Dropdown overlay={salesMenu}>
-          <Link to="/sales" onClick={() => SetActive(0)} className={active == 0 && 'active'}>
+          <Link to={routes.sales.root.path} onClick={() => SetActive(0)} className={active === 0 && 'active'}>
             Продажи
           </Link>
         </Dropdown>
         <Dropdown overlay={installationsMenu}>
-          <Link to="/installations" onClick={() => SetActive(1)} className={active == 1 && 'active'}>
+          <Link to={routes.installations.root.path} onClick={() => SetActive(1)} className={active === 1 && 'active'}>
             Монтажи
           </Link>
         </Dropdown>
 
         <Dropdown overlay={baseMenu}>
-          <Link to="/base" onClick={() => SetActive(2)} className={active == 2 && 'active'}>
+          <Link to={routes.bases.root.path} onClick={() => SetActive(2)} className={active === 2 && 'active'}>
             Базы{' '}
           </Link>
         </Dropdown>
 
-        <Link to="/installations/design">Отчеты</Link>
+        <Link to={routes.installations.design.path}>Отчеты</Link>
 
         <Dropdown overlay={adminMenu}>
-          <Link to={adminUrl} onClick={() => SetActive(4)} className={active == 4 && 'active'}>
+          <Link to={routes.administration.root.path} onClick={() => SetActive(4)} className={active === 4 && 'active'}>
             Администрация
           </Link>
         </Dropdown>

@@ -1,5 +1,5 @@
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import React from 'react';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { PersonCRUDForm } from '../Person/PersonCRUDForm';
@@ -100,7 +100,7 @@ const AdminCrews = () => {
 
   return (
     <AdminTopLayout
-      activeRoute={adminRoutesMap.crews}
+      activeRoute={routes.administration.crews}
       buttonName="Создать экипаж"
       buttonClickHandler={sliderState.createAdd}
     >

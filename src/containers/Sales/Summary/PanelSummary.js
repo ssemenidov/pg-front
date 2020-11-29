@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Table from '../../../components/Tablea/Tablea';
 
-const PanelDesign = (props) => {
+
+const PanelDesign = () => {
   const columns = [
     {
       title: 'Город',
@@ -125,18 +126,6 @@ const PanelDesign = (props) => {
       invoice: '223 356 тг.',
       avr: 'Да',
     },
-  ];
-  const outdoorFurnitureColums = [
-    'Город',
-    'Формат',
-    'Бренд',
-    'Адрес',
-    'Монтаж',
-    'Фотоотчет',
-    'Смета',
-    'Приложение',
-    'Счет',
-    'АВР',
   ];
   return (
     <>

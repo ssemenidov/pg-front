@@ -1,10 +1,10 @@
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
-import { adminRoutesMap } from '../Main/adminRoutes';
+import { routes } from '../../../routes';
 import React from 'react';
 
 const Prices = () => {
   return (
-    <AdminTopLayout activeRoute={adminRoutesMap.prices} buttonName="Сохранить изменения">
+    <AdminTopLayout activeRoute={routes.administration.prices} buttonName="Сохранить изменения">
     </AdminTopLayout>
   );
 };

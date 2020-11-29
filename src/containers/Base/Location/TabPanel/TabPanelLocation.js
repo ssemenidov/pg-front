@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 import { locationContext } from '../Location';
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
@@ -14,24 +14,19 @@ import printerIcon from '../../../../img/header-bar/printer.svg';
 import exportIcon from '../../../../img/header-bar/export.svg';
 import settingsIcon from '../../../../img/header-bar/settings.svg';
 
-import BreadCrumbs from '../../../../components/BreadCrumbs/BreadCrumbs';
+import { BreadCrumbsRoutes } from '../../../../components/BreadCrumbs/BreadCrumbs';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
+import { routes } from '../../../../routes';
 
 STabPanel.tabsRole = 'TabPanel';
 STabList.tabsRole = 'TabList';
 STab.tabsRole = 'Tab';
 
 const tabs = [{ value: 'Общая информация' }, { value: 'История' }];
-const panel1 = <GeneralInformation />;
-const panel2 = <HistoryTable />;
-const links = [
 
-  { id: 'base', value: 'Базы' },
-  { id: 'base/locations', value: 'Список местоположений' },
-];
 const LOCATION_DELETE = gql`
   mutation Delete($id: ID!) {
     deleteLocation(id: $id) {
@@ -118,26 +113,20 @@ export default function InnerForm(props) {
       registrationStatusLocation: apiData.registrationStatusLocation && apiData.registrationStatusLocation.id,
       constructionsRemove: apiData.constructionsRemove && apiData.constructionsRemove
      } });
-
-    // history.push(`/base/locations`);
-    // history.go(0);
   };
   const Delete = () => {
     deleteLocation({ variables: { id: apiData.id } });
-    history.push(`/base/locations`);
+    history.push(routes.bases.locations.path);
     history.go(0);
   };
   const addConstruction = (e) => {
     e.preventDefault();
-
-    history.push(`/base/locations/location/${apiData.id}/add_outdoor_furniture`);
+    history.push(routes.bases.location_add_construction.url(apiData.id));
     history.go(0);
   }
-
-
   return (
     <form style={{ width: '100%', margin: '0 2vw 0 0' }}>
-       <BreadCrumbs links={links} />
+       <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.locations, routes.bases.location.url(apiData.id)]} />
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
@@ -193,8 +182,8 @@ export default function InnerForm(props) {
               </Button>
             </div>
           </ControlToolbar>
-          <STabPanel>{panel1}</STabPanel>
-          <STabPanel>{panel2}</STabPanel>
+          <STabPanel><GeneralInformation /></STabPanel>
+          <STabPanel><HistoryTable /></STabPanel>
         </STabs>
       </div>
     </form>

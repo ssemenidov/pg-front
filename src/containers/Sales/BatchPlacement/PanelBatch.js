@@ -1,11 +1,8 @@
-import React, { useState, useRef, useCallback } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useCallback } from 'react';
 
 import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart';
-import Tab from './Tab';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
-import { useMediaQuery } from '@material-ui/core';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
 query {
@@ -15,7 +12,6 @@ query {
         id
         title
         reservationPackages {
-          
           edges {
             node {
               id
@@ -69,7 +65,7 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
 
   const { loading, error, data, refetch } = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION);
 
-  
+
   useCallback(() => {
     setRefetch(refetch);
   }, [refetch]);
@@ -84,29 +80,29 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
 
   let getBarClass = (barClass) => {
     console.log(barClass)
-    if (barClass == 'Свободно')
+    if (barClass === 'Свободно')
       return 'gantt-bar-status-reserved';
-    if (barClass == 'Забронировано')
+    if (barClass === 'Забронировано')
       return 'gantt-bar-status-reserved';
-    if (barClass == 'Утверждено')
+    if (barClass === 'Утверждено')
       return 'gantt-bar-status-approved';
-    if (barClass == 'Продано')
+    if (barClass === 'Продано')
       return 'gantt-bar-status-saled';
-    if (barClass == 'unavailable')
+    if (barClass === 'unavailable')
       return 'gantt-bar-status-unavailable';
 
     return 'gantt-bar-status-reserved';
   }
   let getBarTitle = (barClass) => {
-    if (barClass == 'Свободно')
+    if (barClass === 'Свободно')
       return 'свободно';
-    if (barClass == 'Забронировано')
+    if (barClass === 'Забронировано')
       return 'забронировано';
-    if (barClass == 'Утверждено')
+    if (barClass === 'Утверждено')
       return 'утверждено';
-    if (barClass == 'Продано')
+    if (barClass === 'Продано')
       return 'продано';
-    if (barClass == 'unavailable')
+    if (barClass === 'unavailable')
       return 'недоступно';
     return 'забронировано';
   }
@@ -146,7 +142,7 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
     }
   }
 
-  
+
 
 
   // let filtredArr = scheduleChartItemsFiltred;
@@ -155,7 +151,7 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
       // console.log('1', filter[filterItem])
 
       if (filter[filterItem]) {
-        if(filterItem == "date") { 
+        if(filterItem == "date") {
           for(let a = 0; a < scheduleChartItems.length; a++) {
             for(let i = 0; i < scheduleChartItems[a].ganttChartItems.length; i++) {
               let nDt = new Date(scheduleChartItems[a].ganttChartItems[i].start)
@@ -180,7 +176,7 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
             }
           }
         }
-        
+
         // for (let q = 0; q < scheduleChartItemsFiltred.length; q++) {
         //   for (let w = 0; w < scheduleChartItemsFiltred[q].ganttChartItems.length; w++) {
         //     scheduleChartItemsFiltred[q].ganttChartItems[w][`${filterItem}`]
@@ -204,7 +200,7 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
       }
     }
   }
-  
+
   let scheduleChartItemsFiltred = scheduleChartItems.filter(item => item.ganttChartItems.length > 0);
   console.log('[filtredArr]', scheduleChartItems)
   console.log('len', scheduleChartItemsFiltred)

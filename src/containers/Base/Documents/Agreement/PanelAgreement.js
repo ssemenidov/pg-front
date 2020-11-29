@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useEffect, useContext } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
 import { agreementContext } from './Agreement';
 import EditInfo from "./Blocks/EditIfo"
@@ -133,7 +133,7 @@ var data = [
 ];
 
 const PanelDesign = (props) => {
-  const  [item, setItem] =useContext(agreementContext);
+  const [item, /*setItem*/] = useContext(agreementContext);
   const [updateContract] = useMutation(CONTRACT_UPDATE);
   let history = useHistory();
   const Update = (e) => {
@@ -166,7 +166,7 @@ const PanelDesign = (props) => {
         application: node.project && node.project.title
       }));
     }
-  }, []);
+  }, [item, item.contractAttachments]);
 
   return (
     <div>

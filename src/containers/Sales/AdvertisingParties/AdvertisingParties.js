@@ -1,40 +1,30 @@
-import React, { Component, useState,createContext } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
+import React, { useState,createContext } from 'react';
+import { Layout } from 'antd';
+import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs'
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs'
 
 import { ReservationSlider } from './BottomSlider'
 import FilterBar from './FilterBar';
 import { FilterLeftBar } from './LeftBarFilters/FilterLeftBar';
 
-import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
-import CreateBtn from '../../../components/LeftBar/CreateBtn';
-import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Colors';
 import './styles_adv_part.scss'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides';
 import { useHistory } from 'react-router';
-
-const { Content, Sider } = Layout;
+import { routes } from '../../../routes';
 
 
 export const adverContext = createContext();
 
-const links = [
-  { id: 'sales', value: 'Продажи' },
-  { id: 'sales/advertising_parties', value: 'Справочник рекламных сторон' },
-];
-
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [filter, setFilter]= useState({});
-  const [refetch, setRefetch]= useState(null);
+  const [filter, setFilter] = useState({});
+  const [refetch, setRefetch] = useState(null);
   const [ganttUpdater, setGanttUpdater]= useState(null);
   const history = useHistory();
 
@@ -46,7 +36,7 @@ const AdvertisingParties = () => {
         <FilterLeftBar props={setCollapsed, collapsed}/>
         {collapsed && <FilterBar refetch={refetch} ganttUpdater={ganttUpdater}/>}
         <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <BreadCrumbs links={links}/>
+          <BreadCrumbsRoutes links={[routes.sales.root, routes.sales.advertising_parties]} />
           <HeaderWrapper>
             <HeaderTitleWrapper>
               <TitleLogo />
@@ -58,7 +48,7 @@ const AdvertisingParties = () => {
               >Быстрая бронь</StyledButton>
               <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
               <StyledButton backgroundColor={colorAccent}
-                            onClick={() => history.push("/sales/project_card/VlByb2plY3ROb2RlOjI=")}
+                            onClick={() => history.push(routes.sales.project_card.url("VlByb2plY3ROb2RlOjI="))}
 
               >Сохранить</StyledButton>
               <StyledButton backgroundColor={colorOrangeAccent}>Создать отчет</StyledButton>

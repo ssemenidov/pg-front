@@ -1,10 +1,7 @@
-import React,{useContext, useState,createContext} from 'react';
-import { Link } from 'react-router-dom';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useState, createContext } from 'react';
 
 import AgreementsSearch from './AgreementsSearch';
 import AgreementsPanel from './AgreementsPanel';
-import Table from '../../Tablea/Tablea';
 export const agreementsContext  = createContext();
 const AgreementsTab = () => {
   const [filter, setFilter] = useState({});
@@ -13,14 +10,11 @@ const AgreementsTab = () => {
     <agreementsContext.Provider value={[filter,setFilter]}>
     <div style={{ display: 'flex' }}>
       <div style={{ flex: '1 0 40%', margin: '0 1vw 1vw 0' }}>
-
-      <AgreementsSearch />
-
-
+        <AgreementsSearch />
       </div>
       <div style={{ width: '100%', overflowX: 'hidden' }}>
         <div style={{ width: '100%' }}>
-        <AgreementsPanel></AgreementsPanel>
+        <AgreementsPanel />
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FilterMenu,
   SearchTitle,
@@ -6,10 +6,11 @@ import {
   StyledSelect,
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
+
 import { Select, Collapse, DatePicker } from 'antd';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 const { Option } = Select;
-const { Panel } = Collapse;
+
 const FilterBar = () => {
   return (
     <FilterMenu

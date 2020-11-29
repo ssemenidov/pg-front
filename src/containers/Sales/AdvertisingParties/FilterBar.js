@@ -1,15 +1,14 @@
-import React, { useState,useContext } from 'react';
+import React, { useContext } from 'react';
 import { adverContext } from './AdvertisingParties';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import {
   FilterMenu280,
   SearchTitle,
   FilterText,
-
   StyledPanel,
 } from '../../../components/Styles/StyledFilters';
-import { Select, Collapse, Checkbox, DatePicker,Form } from 'antd';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { Collapse, Checkbox, DatePicker,Form } from 'antd';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { BtnGroup, ResetButton, SubmitButton } from '../../../components/Styles/ButtonStyles';
 import anchorIcon from '../../../img/input/anchor.svg';
 import cityIcon from '../../../img/input/city.svg';
@@ -22,7 +21,6 @@ import './styles_adv_part.scss'
 
 const { RangePicker } = DatePicker;
 
-const { Option } = Select;
 const CITY_T = gql`
     {
       searchCity {
@@ -108,11 +106,11 @@ const StyledFormItemCheckbox = styled(Form.Item)`
 
 const FilterBar = ({refetch, ganttUpdater}) => {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useContext(adverContext);
+  const setFilter = useContext(adverContext)[1];
   const onFinish = (_values) => {
     let values = {..._values};
     let dstFilter = {}
-    if (values && values.date && values.date.length == 2) {
+    if (values && values.date && values.date.length === 2) {
       dstFilter.dateFrom = values.date[0].toDate()
       dstFilter.dateTo = values.date[1].toDate()
     }
@@ -125,7 +123,7 @@ const FilterBar = ({refetch, ganttUpdater}) => {
         values.statusApproved && "Утверждено",
         values.statusReserved && "Забронировано"
       ].filter((v) => v)
-      if (dstFilter.reservationType.length == 1)
+      if (dstFilter.reservationType.length === 1)
         dstFilter.reservationType = dstFilter.reservationType[0];
       else if (dstFilter.reservationType.length > 1)
         dstFilter.reservationType = '(' + dstFilter.reservationType.join("|") + ')';
@@ -217,20 +215,20 @@ const FilterBar = ({refetch, ganttUpdater}) => {
         <StyledPanel header="По городу" key="3">
         <Form.Item name="city">
           <StyledSelect
-            showSearch placeholder={<><img src={cityIcon} /><span>Город</span> </>} size={'large'}>
+            showSearch placeholder={<><img src={cityIcon} alt={"Город"}/><span>Город</span> </>} size={'large'}>
             {city && city.searchCity.edges.map((item)=>
               <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                <img src={cityIcon} />
+                <img src={cityIcon} alt={item.node.title}/>
                 <span>{item.node.title}</span>
               </StyledSelect.Option>
             )}
           </StyledSelect>
         </Form.Item>
         <Form.Item name="district">
-          <StyledSelect placeholder={<><img src={districtIcon} /><span>Район</span> </>} size={'large'}>
+          <StyledSelect placeholder={<><img src={districtIcon} alt={"Район"}/><span>Район</span> </>} size={'large'}>
           {district && district.searchDistrict.edges.map((item)=>
             <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                <img src={districtIcon} />
+                <img src={districtIcon} alt={item.node.title}/>
               <span>{item.node.title}</span>
               </StyledSelect.Option>
           )}
@@ -240,40 +238,40 @@ const FilterBar = ({refetch, ganttUpdater}) => {
 
         <StyledPanel header="По параметрам" key="4">
           <Form.Item name="family">
-            <StyledSelect  placeholder={<><img src={ constructionIcon} /> <span>Семейство конструкции</span> </>} size={'large'}>
+            <StyledSelect  placeholder={<><img src={ constructionIcon} alt={"Семейство"}/> <span>Семейство конструкции</span> </>} size={'large'}>
               {family && family.searchFamilyConstruction.edges.map((item)=>
               <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                <img src={anchorIcon} />
+                <img src={anchorIcon} alt={item.node.title}/>
               <span>{item.node.title}</span>
               </StyledSelect.Option>
           )}
             </StyledSelect>
           </Form.Item>
           <Form.Item name="format">
-            <StyledSelect  placeholder={<><img src={ phoneIcon} /> <span>Формат кострукции</span> </>} size={'large'}>
-            {format && format.searchFormat.edges.filter((v, i, a) => a.findIndex(p => p.node.title == v.node.title) === i).map((item)=>
+            <StyledSelect  placeholder={<><img src={phoneIcon} alt={"Формат"}/> <span>Формат кострукции</span> </>} size={'large'}>
+            {format && format.searchFormat.edges.filter((v, i, a) => a.findIndex(p => p.node.title === v.node.title) === i).map((item)=>
             <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                <img src={anchorIcon} />
+                <img src={anchorIcon} alt={item.node.title}/>
               <span>{item.node.title}</span>
               </StyledSelect.Option>
           )}
           </StyledSelect>
           </Form.Item>
           <Form.Item name="side">
-            <StyledSelect  placeholder={<><img src={arrowsIcon} /> <span>Сторона кострукции</span> </>} size={'large'}>
-            {side && side.searchSide.edges.filter((v, i, a) => a.findIndex(p => p.node.title == v.node.title) === i).map((item)=>
+            <StyledSelect  placeholder={<><img src={arrowsIcon} alt={"Сторона"}/> <span>Сторона кострукции</span> </>} size={'large'}>
+            {side && side.searchSide.edges.filter((v, i, a) => a.findIndex(p => p.node.title === v.node.title) === i).map((item)=>
               <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                <img src={anchorIcon} />
+                <img src={anchorIcon} alt={item.node.title}/>
                 <span>{item.node.title}</span>
               </StyledSelect.Option>
           )}
           </StyledSelect>
           </Form.Item>
           <Form.Item name="size">
-          <StyledSelect  placeholder={<><img src={arrowsIcon} /> <span>Размер </span> </>} size={'large'}>
+          <StyledSelect  placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Размер </span> </>} size={'large'}>
           {size && size.searchSideSize.sideSize.edges.map((item)=>
             <StyledSelect.Option key ={item.node.id} value={item.node.size}>
-                <img src={anchorIcon} />
+                <img src={anchorIcon} alt={item.node.title}/>
               <span>{item.node.size}</span>
               </StyledSelect.Option>
           )}

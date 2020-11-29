@@ -93,7 +93,7 @@ const HeaderBar = (props) => {
           style={{ marginLeft: '20px' }}
           placeholder="Быстрый поиск"
           suffix="Найти"
-          prefix={<img src={searchInputIcon} />}
+          prefix={<img src={searchInputIcon} alt={"Найти"}/>}
         />
         {
           printData && (
@@ -111,7 +111,7 @@ const HeaderBar = (props) => {
               className="header-btn"
               disabled={!printData}
             >
-              <img src={printerIcon} />
+              <img src={printerIcon} alt={"Печать"} />
             </Button>
           )}
           content={() => {
@@ -122,7 +122,7 @@ const HeaderBar = (props) => {
           style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
           className="header-btn"
         >
-          <img src={exportIcon} />
+          <img src={exportIcon} alt={"Экспорт"}/>
           <span>Экспорт</span>
         </Button>
 
@@ -138,7 +138,7 @@ const HeaderBar = (props) => {
                 style={{ marginLeft: '5px' }}
                 className="header-btn"
               >
-                <img src={settingsIcon} />
+                <img src={settingsIcon} alt={""}/>
               </Button>
             </Dropdown>
           )
