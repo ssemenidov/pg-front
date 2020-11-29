@@ -14,6 +14,7 @@ import {
   gettNonRts,
   EditCosts,
   DeleteModal,
+  CreateCosts,
   DELETE_ADD_COSTS_QUERY,
   DELETE_NON_RTS,
 } from './utils';
@@ -250,7 +251,13 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
         setEditingItem={setEditingItem}
         block={activeTab}
         cities={cities}
-        extraCostsId={extraCosts.key}
+        refetch={refetch}
+      />
+      <CreateCosts
+        editingItem={editingItem}
+        setEditingItem={setEditingItem}
+        block={activeTab}
+        cities={cities}
         refetch={refetch}
       />
       <style>

@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState, useEffect, useContext } from 'react';
 import { EstimateContext } from './Estimate';
 import worldIcon from '../../../img/header-bar/world.svg';
+import { useParams } from 'react-router-dom';
 import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
@@ -128,6 +129,8 @@ export const EXTRA_COSTS_QUERY = gql`
           price
           count
           discount
+          percentAgentCommission
+          valueAgentCommission
         }
       }
     }
@@ -147,6 +150,15 @@ export const NON_RTS_QUERY = gql`
           incomingPrinting
           incomingInstallation
           incomingManufacturing
+          incomingAdditional
+          saleRent
+          saleTax
+          salePrinting
+          saleInstallation
+          saleManufacturing
+          saleAdditional
+          valueAgentCommission
+          percentAgentCommission
         }
       }
     }
@@ -337,27 +349,24 @@ export const getExtraCosts = (data = [], sort = '') => {
     let sumAfterDiscount = price * (1.0 - discount / 100.0);
     let agPercent = charge.node.percentAgentCommission ? charge.node.percentAgentCommission : 0;
     let agValue = charge.node.valueAgentCommission ? charge.node.valueAgentCommission : 0;
-    return (
-      charge.node.city !== null && {
-        key: charge.node.id ? charge.node.id : '',
-        nameOfService: charge.node.title ? charge.node.title : '',
-        city: charge.node.city.title ? charge.node.city.title : '',
-        period: charge.node.startPeriod
-          ? new Date(charge.node.startPeriod).toLocaleDateString() +
-            ' - ' +
-            new Date(charge.node.endPeriod).toLocaleDateString()
-          : '',
-        quantity: charge.node.count ? charge.node.count : '',
-        price: charge.node.price ? charge.node.price + ' тг.' : '',
-        discount: charge.node.discount ? charge.node.discount + '%' : '',
-        priceAfterDiscount: sumAfterDiscount.toFixed(2) + ' тг.',
-        sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
-        percentAK: agPercent + ' %',
-        sumAK: agValue + ' тг.',
-      }
-    );
+    return {
+      key: charge.node.id ? charge.node.id : '',
+      nameOfService: charge.node.title ? charge.node.title : '',
+      city: charge.node.city ? charge.node.city.title : '',
+      period: charge.node.startPeriod
+        ? new Date(charge.node.startPeriod).toLocaleDateString() +
+          ' - ' +
+          new Date(charge.node.endPeriod).toLocaleDateString()
+        : '',
+      quantity: charge.node.count ? charge.node.count : '',
+      price: charge.node.price ? charge.node.price + ' тг.' : '',
+      discount: charge.node.discount ? charge.node.discount + '%' : '',
+      priceAfterDiscount: sumAfterDiscount.toFixed(2) + ' тг.',
+      sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
+      percentAK: agPercent + ' %',
+      sumAK: agValue + ' тг.',
+    };
   });
-
   switch (sort) {
     case 'abc':
       return modifiedData.sort((a, b) => {
@@ -509,7 +518,7 @@ export const DeleteModal = (estimate, deleteEstimate, setDeleted) => {
   });
 };
 
-export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem, refetch }) => {
+export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch }) => {
   const InputLabel = (title) => {
     return (
       <span
@@ -530,7 +539,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
   let FormInputs = () => {
     return 'no edit';
   };
-  // console.log(editingItem);
   const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
   const [updateNonRts] = useMutation(UPDATE_NON_RTS);
   useEffect(() => {
@@ -591,14 +599,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                   Наименование услуги
                 </span>
               }>
-              <Input
-                style={
-                  {
-                    // width: '270px',
-                  }
-                }
-                size="large"
-              />
+              <Input size="large" />
             </Form.Item>
             <Form.Item
               name="count"
@@ -606,14 +607,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               labelAlign="left"
               colon={false}
               label={InputLabel('Кол-во')}>
-              <InputNumber
-                style={
-                  {
-                    // width: '120px',
-                  }
-                }
-                size="large"
-              />
+              <InputNumber size="large" />
             </Form.Item>
             <Form.Item
               name="price"
@@ -621,15 +615,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               labelAlign="left"
               colon={false}
               label={InputLabel('Цена')}>
-              <InputNumber
-                style={
-                  {
-                    // width: '270px',
-                  }
-                }
-                size="large"
-                formatter={(value) => `${value} тг`}
-              />
+              <InputNumber size="large" formatter={(value) => `${value} тг`} />
             </Form.Item>
             <Form.Item
               name="discount"
@@ -637,15 +623,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               labelAlign="left"
               colon={false}
               label={InputLabel('Скидка')}>
-              <InputNumber
-                style={
-                  {
-                    // width: '120px',
-                  }
-                }
-                size="large"
-                formatter={(value) => `${value}%`}
-              />
+              <InputNumber size="large" formatter={(value) => `${value}%`} />
             </Form.Item>
             <Form.Item
               name="agPercent"
@@ -653,15 +631,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               labelAlign="left"
               colon={false}
               label={InputLabel('Процент АК')}>
-              <InputNumber
-                style={
-                  {
-                    // width: '270px',
-                  }
-                }
-                size="large"
-                formatter={(value) => `${value}%`}
-              />
+              <InputNumber size="large" formatter={(value) => `${value}%`} />
             </Form.Item>
             <Form.Item
               name="agSumm"
@@ -670,11 +640,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
               colon={false}
               label={InputLabel('Сумма АК')}>
               <InputNumber
-                style={
-                  {
-                    // width: '270px',
-                  }
-                }
                 size="large"
                 formatter={(value) => {
                   return `${value} тг`;
@@ -1029,6 +994,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
   return (
     <Drawer
       height="auto"
+      destroyOnClose
       title={
         <span
           style={{
@@ -1130,6 +1096,607 @@ export const EditCosts = ({ openModal, setOpenModal, block, cities, editingItem,
                 });
               break;
           }
+        }}
+        form={form}>
+        <FormInputs />
+      </Form>
+      <style>
+        {`
+
+        .editBtn {
+          width: 100%;
+          // max-width: 270px;
+          margin-right: 0 !important;
+        }
+
+       .editBtn>div {
+         display: flex !important;
+         justify-content: flex-end;
+       }
+       .editForm-item {
+         display: flex;
+         flex-direction: column;
+         margin-right: 0 !important;
+       }
+        `}
+      </style>
+    </Drawer>
+  );
+};
+
+export const CreateCosts = ({ block, refetch }) => {
+  const InputLabel = (title) => {
+    return (
+      <span
+        style={{
+          color: '#1A1A1A',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          marginTop: 10,
+        }}>
+        {title}
+      </span>
+    );
+  };
+  const { id, appId } = useParams();
+  const currentId = appId ? appId : id ? id : '';
+
+  const { createModal, setCreateModal } = useContext(EstimateContext);
+
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const [form] = Form.useForm();
+  let FormInputs = () => {
+    return 'no create';
+  };
+  const [createAddCosts] = useMutation(CREATE_ADDITIONAL_COSTS);
+  const [createNonRts] = useMutation(CREATE_NON_RTS_COSTS);
+  switch (block) {
+    case 'extra-charge':
+      FormInputs = () => {
+        return (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '2fr 1fr 2fr 1fr 2fr 2fr 2fr',
+              gap: '30px',
+            }}>
+            <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="name"
+              required
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Наименование услуги
+                </span>
+              }>
+              <Input size="large" />
+            </Form.Item>
+            <Form.Item
+              name="count"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              initialValue={0}
+              label={InputLabel('Кол-во')}>
+              <InputNumber size="large" />
+            </Form.Item>
+            <Form.Item
+              name="price"
+              className="editForm-item"
+              labelAlign="left"
+              initialValue={0}
+              colon={false}
+              label={InputLabel('Цена')}>
+              <InputNumber size="large" formatter={(value) => `${value} тг`} />
+            </Form.Item>
+            <Form.Item
+              name="discount"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              initialValue={0}
+              label={InputLabel('Скидка')}>
+              <InputNumber size="large" formatter={(value) => `${value}%`} />
+            </Form.Item>
+            <Form.Item
+              name="agPercent"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              initialValue={0}
+              label={InputLabel('Процент АК')}>
+              <InputNumber size="large" formatter={(value) => `${value}%`} />
+            </Form.Item>
+            <Form.Item
+              name="agSumm"
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              initialValue={0}
+              label={InputLabel('Сумма АК')}>
+              <InputNumber
+                size="large"
+                formatter={(value) => {
+                  return `${value} тг`;
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flexEnd',
+              }}
+              className="editBtn">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={confirmLoading}
+                style={{
+                  width: '100%',
+                  height: '38px',
+                  marginTop: '15px',
+                  borderRadius: '4px',
+                  backgroundColor: '#2C5DE5',
+                }}>
+                Сохранить
+              </Button>
+            </Form.Item>
+          </div>
+        );
+      };
+      break;
+    case 'hot-ptc':
+      FormInputs = () => {
+        return (
+          <>
+            <p
+              style={{
+                fontSize: 12,
+                color: '#656565',
+                marginBottom: 0,
+              }}>
+              ВХОДЯЩАЯ СТОИМОСТЬ
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                gap: '30px',
+              }}>
+              <Form.Item
+                name="inputRent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Аренда')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputTax"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Налог')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputPrint"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Печать')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputMount"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Монтаж')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputCosts"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Доп.расходы')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => `${value} тг`}
+                />
+              </Form.Item>
+              <Form.Item
+                name="inputManufcature"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Производство')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+            </div>
+
+            <p
+              style={{
+                fontSize: 12,
+                color: '#656565',
+                marginBottom: 0,
+                marginTop: '15px',
+              }}>
+              СУММА ПРОДАЖИ
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6,1fr)',
+                gridColumnGap: '30px',
+                gridRowGap: '0px',
+              }}>
+              <Form.Item
+                name="summRent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Аренда')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summTax"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Налог')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summPrint"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Печать')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summMount"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Монтаж')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summCosts"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Доп.расходы')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="summManufacture"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Производство')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="type"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Тип')}>
+                <Input
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                name="count"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Кол-во')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                name="agPercent"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Процент АК')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value}%`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="agSumm"
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                initialValue={0}
+                label={InputLabel('Сумма АК')}>
+                <InputNumber
+                  style={{
+                    width: '100%',
+                    // minWidth: '260px',
+                  }}
+                  size="large"
+                  formatter={(value) => {
+                    return `${value} тг`;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flexEnd',
+                }}
+                className="editBtn">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="editBtn"
+                  loading={confirmLoading}
+                  style={{
+                    // minWidth: '260px',
+                    height: '38px',
+                    marginTop: '15px',
+                    borderRadius: '4px',
+                    backgroundColor: '#2C5DE5',
+                  }}>
+                  Сохранить
+                </Button>
+              </Form.Item>
+            </div>
+          </>
+        );
+      };
+      break;
+  }
+  return (
+    <Drawer
+      height="auto"
+      destroyOnClose
+      title={
+        <span
+          style={{
+            color: '#003360',
+            fontSize: 14,
+            textTransform: 'uppercase',
+          }}>
+          Добавление
+        </span>
+      }
+      placement="bottom"
+      closable={true}
+      onClose={() => {
+        setCreateModal(false);
+      }}
+      closeIcon={<ExitIcon />}
+      visible={createModal}
+      maskStyle={{
+        backgroundColor: 'transparent',
+      }}>
+      <Form
+        layout="inline"
+        style={{
+          marginBottom: '15px',
+          flexDirection: block === 'hot-ptc' ? 'column' : 'row',
+        }}
+        onFinish={(values) => {
+          // console.log(values);
+          setConfirmLoading(true);
+          form.validateFields().then(() => {
+            switch (block) {
+              case 'extra-charge':
+                let input = {
+                  title: values.name,
+                  count: values.count,
+                  discount: values.discount,
+                  price: values.price,
+                  percentAgentCommission: values.agPercent,
+                  valueAgentCommission: values.agSumm,
+                  project: currentId,
+                };
+                createAddCosts({
+                  variables: {
+                    input,
+                  },
+                })
+                  .then(() => {
+                    setCreateModal(false);
+                    form.resetFields();
+                    setConfirmLoading(false);
+                    message.success('Успешно создано.');
+                    refetch();
+                  })
+                  .catch((err) => {
+                    setConfirmLoading(false);
+                    setCreateModal(false);
+                    message.error('Что-то пошло не так попробуйте ещё раз.');
+                    console.log(err);
+                  });
+                break;
+              case 'hot-ptc':
+                let nonRtsInput = {
+                  count: values.count,
+                  title: values.type,
+                  incomingTax: values.inputTax,
+                  incomingRent: values.inputRent,
+                  incomingPrinting: values.inputPrint,
+                  incomingAdditional: values.inputCosts,
+                  incomingInstallation: values.inputMount,
+                  incomingManufacturing: values.inputManufcature,
+                  saleTax: values.summTax,
+                  saleRent: values.summRent,
+                  salePrinting: values.summPrint,
+                  saleAdditional: values.summCosts,
+                  saleInstallation: values.summMount,
+                  saleManufacturing: values.summManufacture,
+                  valueAgentCommission: values.agSumm,
+                  percentAgentCommission: values.agPercent,
+                  project: currentId,
+                };
+                console.log(currentId);
+                // console.log(nonRtsInput);
+                createNonRts({
+                  variables: {
+                    input: nonRtsInput,
+                  },
+                })
+                  .then(() => {
+                    setCreateModal(false);
+                    form.resetFields();
+                    setConfirmLoading(false);
+                    message.success('Успешно создано.');
+                    refetch();
+                  })
+                  .catch((err) => {
+                    setConfirmLoading(false);
+                    message.error('Что-то пошло не так попробуйте ещё раз.');
+                    setCreateModal(false);
+                    console.log(err);
+                  });
+                break;
+            }
+          });
         }}
         form={form}>
         <FormInputs />
