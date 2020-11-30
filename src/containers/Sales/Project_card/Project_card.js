@@ -66,7 +66,8 @@ query ($id: ID!) {
           firstName
           lastName
         }
-        agencyCommission
+        agencyComissionValue
+        agencyComissionPercent
         projectAttachments {
           edges {
             node {
