@@ -3,8 +3,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { EstimateContext } from './Estimate';
 import worldIcon from '../../../img/header-bar/world.svg';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
+import { DatePicker } from 'antd';
 import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
+import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './queries';
 
@@ -55,6 +58,7 @@ export const getExtraCosts = (data = [], sort = '') => {
       key: charge.node.id ? charge.node.id : '',
       nameOfService: charge.node.title ? charge.node.title : '',
       city: charge.node.city ? charge.node.city.title : '',
+      cityId: charge.node.city ? charge.node.city.id : '',
       period: charge.node.startPeriod
         ? new Date(charge.node.startPeriod).toLocaleDateString() +
           ' - ' +
@@ -110,6 +114,7 @@ export const gettNonRts = (data = [], sort = '') => {
       key: item.node.id,
       code: item.node.title,
       city: item.node.city ? item.node.city.title : '',
+      cityId: item.node.city ? item.node.city.id : '',
       quantity: quantity,
       rentInput: inputRent + ' тг.',
       taxInput: inputTax + ' тг.',
@@ -191,6 +196,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
     );
   };
 
+  console.log(editingItem);
+  const { cities } = useContext(EstimateContext);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [form] = Form.useForm();
@@ -202,6 +209,12 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
   useEffect(() => {
     switch (block) {
       case 'extra-charge':
+        const start = editingItem.period
+          ? moment(editingItem.period.split(' - ')[0].split('.').join('-'), 'DD-MM-YYYY')
+          : '';
+        const end = editingItem.period
+          ? moment(editingItem.period.split(' - ')[1].split('.').join('-'), 'DD-MM-YYYY')
+          : '';
         form.setFieldsValue({
           name: editingItem.nameOfService || 0,
           count: editingItem.quantity || 0,
@@ -209,6 +222,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
           agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : 0,
           agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : 0,
+          city: editingItem.cityId ? editingItem.cityId : "",
+          period: [start, end],
         });
         break;
       case 'hot-ptc':
@@ -229,24 +244,30 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           count: editingItem.quantity,
           agPercent: editingItem.percentAK.split('%')[0] || 0,
           agSumm: editingItem.sumAK.split(' ')[0] || 0,
+          city: editingItem.cityId ? editingItem.cityId : "",
         });
     }
   }, [editingItem, form]);
+  const { RangePicker } = DatePicker;
+  const { Option } = Select;
   switch (block) {
     case 'extra-charge':
       FormInputs = () => {
+        const [selectOpened, setSelectOpened] = useState(false);
         return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '2fr 1fr 2fr 1fr 2fr 2fr 2fr',
+              gridTemplateColumns: '2fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 2fr',
               gap: '30px',
+              minHeight: '123px',
             }}>
             <Form.Item
               className="editForm-item"
               labelAlign="left"
               colon={false}
               name="name"
+              rules={[{ required: true, message: 'Пожалуйста введите наименование услуги.' }]}
               label={
                 <span
                   style={{
@@ -260,17 +281,101 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               <Input size="large" />
             </Form.Item>
             <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="city"
+              rules={[{ required: true, message: 'Пожалуйста выберите город.' }]}
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Город
+                </span>
+              }>
+              <Select
+                allowClear
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
+                suffixIcon={
+                  <>
+                    <img
+                      src={arrowDown}
+                      alt="arrow top"
+                      style={{
+                        transform: selectOpened ? 'rotate(180deg)' : '',
+                      }}
+                    />
+                  </>
+                }
+                onDropdownVisibleChange={(opened) => {
+                  setSelectOpened(opened);
+                }}
+                loading={!cities.loaded}
+                size="large">
+                {cities.data.map((city) => {
+                  return (
+                    <Option key={city.id} value={city.id}>
+                      {city.title}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="period"
+              rules={[{ required: true, message: 'Пожалуйста укажите период.' }]}
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Период
+                </span>
+              }>
+              <RangePicker
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
+                format="DD-MM-YYYY"
+                size="large"
+                placement="topLeft"
+              />
+            </Form.Item>
+            <Form.Item
               name="count"
               className="editForm-item"
               labelAlign="left"
               colon={false}
+              initialValue={0}
               label={InputLabel('Кол-во')}>
-              <InputNumber size="large" />
+              <InputNumber type="number" size="large" />
             </Form.Item>
             <Form.Item
               name="price"
               className="editForm-item"
               labelAlign="left"
+              initialValue={0}
               colon={false}
               label={InputLabel('Цена')}>
               <InputNumber size="large" formatter={(value) => `${value} тг`} />
@@ -280,6 +385,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               className="editForm-item"
               labelAlign="left"
               colon={false}
+              initialValue={0}
               label={InputLabel('Скидка')}>
               <InputNumber size="large" formatter={(value) => `${value}%`} />
             </Form.Item>
@@ -288,6 +394,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               className="editForm-item"
               labelAlign="left"
               colon={false}
+              initialValue={0}
               label={InputLabel('Процент АК')}>
               <InputNumber size="large" formatter={(value) => `${value}%`} />
             </Form.Item>
@@ -296,6 +403,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               className="editForm-item"
               labelAlign="left"
               colon={false}
+              initialValue={0}
               label={InputLabel('Сумма АК')}>
               <InputNumber
                 size="large"
@@ -304,13 +412,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 }}
               />
             </Form.Item>
-            <Form.Item
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flexEnd',
-              }}
-              className="editBtn">
+            <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
@@ -318,11 +420,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 style={{
                   width: '100%',
                   height: '38px',
-                  marginTop: '15px',
+                  marginTop: '40px',
                   borderRadius: '4px',
                   backgroundColor: '#2C5DE5',
                 }}>
-                Сохранить
+                Добавить
               </Button>
             </Form.Item>
           </div>
@@ -331,6 +433,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
       break;
     case 'hot-ptc':
       FormInputs = () => {
+        const [selectOpened, setSelectOpened] = useState(false);
         return (
           <>
             <p
@@ -352,11 +455,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Аренда')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -367,11 +470,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Налог')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -382,11 +485,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Печать')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -397,11 +500,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Монтаж')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -412,6 +515,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Доп.расходы')}>
                 <InputNumber
                   style={{
@@ -427,11 +531,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Производство')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -462,11 +566,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Аренда')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -479,11 +583,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Налог')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -496,11 +600,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Печать')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -513,11 +617,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Монтаж')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -530,11 +634,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Доп.расходы')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -547,11 +651,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Производство')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -559,6 +663,15 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                 />
               </Form.Item>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                columnGap: '30px',
+                rowGap: '0px',
+                minHeight: '123px',
+              }}>
               <Form.Item
                 name="type"
                 className="editForm-item"
@@ -568,7 +681,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 <Input
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -578,11 +690,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Кол-во')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -592,11 +704,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Процент АК')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -609,11 +721,11 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
+                initialValue={0}
                 label={InputLabel('Сумма АК')}>
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -622,25 +734,60 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 />
               </Form.Item>
               <Form.Item
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flexEnd',
-                }}
-                className="editBtn">
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                name="city"
+                rules={[{ required: true, message: 'Пожалуйста выберите город.' }]}
+                label={InputLabel('Город')}>
+                <Select
+                  allowClear
+                  dropdownAlign={{
+                    points: ['bl', 'tl'],
+                    offset: [0, -4],
+                    overflow: {
+                      adjustX: 0,
+                      adjustY: 1,
+                    },
+                  }}
+                  suffixIcon={
+                    <>
+                      <img
+                        src={arrowDown}
+                        alt="arrow top"
+                        style={{
+                          transform: selectOpened ? 'rotate(180deg)' : '',
+                        }}
+                      />
+                    </>
+                  }
+                  onDropdownVisibleChange={(opened) => {
+                    setSelectOpened(opened);
+                  }}
+                  loading={!cities.loaded}
+                  size="large">
+                  {cities.data.map((city) => {
+                    return (
+                      <Option key={city.id} value={city.id}>
+                        {city.title}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item className="editForm-item">
                 <Button
                   type="primary"
                   htmlType="submit"
-                  className="editBtn"
                   loading={confirmLoading}
                   style={{
-                    // minWidth: '260px',
+                    width: '100%',
                     height: '38px',
-                    marginTop: '15px',
+                    marginTop: '40px',
                     borderRadius: '4px',
                     backgroundColor: '#2C5DE5',
                   }}>
-                  Сохранить
+                  Добавить
                 </Button>
               </Form.Item>
             </div>
@@ -653,6 +800,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
     <Drawer
       height="auto"
       destroyOnClose
+      bodyStyle={{
+        paddingBottom: 10,
+      }}
       title={
         <span
           style={{
@@ -677,14 +827,14 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
       <Form
         layout="inline"
         style={{
-          marginBottom: '15px',
           flexDirection: block === 'hot-ptc' ? 'column' : 'row',
         }}
         onFinish={(values) => {
-          // console.log(values);
           setConfirmLoading(true);
           switch (block) {
             case 'extra-charge':
+              const start = moment(values.period[0]).toDate();
+              const end = moment(values.period[1]).toDate();
               let input = {
                 title: values.name,
                 count: values.count,
@@ -692,6 +842,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 price: values.price,
                 percentAgentCommission: values.agPercent,
                 valueAgentCommission: values.agSumm,
+                city: values.city,
+                startPeriod: start,
+                endPeriod: end,
               };
               updateAddCosts({
                 variables: {
@@ -731,6 +884,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 saleManufacturing: values.summManufacture,
                 valueAgentCommission: values.agSumm,
                 percentAgentCommission: values.agPercent,
+                city: values.city,
               };
               // console.log(nonRtsInput);
               updateNonRts({
@@ -799,7 +953,7 @@ export const CreateCosts = ({ block, refetch }) => {
   const { id, appId } = useParams();
   const currentId = appId ? appId : id ? id : '';
 
-  const { createModal, setCreateModal } = useContext(EstimateContext);
+  const { createModal, setCreateModal, cities } = useContext(EstimateContext);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -809,22 +963,26 @@ export const CreateCosts = ({ block, refetch }) => {
   };
   const [createAddCosts] = useMutation(CREATE_ADDITIONAL_COSTS);
   const [createNonRts] = useMutation(CREATE_NON_RTS_COSTS);
+  const { RangePicker } = DatePicker;
+  const { Option } = Select;
   switch (block) {
     case 'extra-charge':
       FormInputs = () => {
+        const [selectOpened, setSelectOpened] = useState(false);
         return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '2fr 1fr 2fr 1fr 2fr 2fr 2fr',
+              gridTemplateColumns: '2fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 2fr',
               gap: '30px',
+              minHeight: '123px',
             }}>
             <Form.Item
               className="editForm-item"
               labelAlign="left"
               colon={false}
               name="name"
-              required
+              rules={[{ required: true, message: 'Пожалуйста введите наименование услуги.' }]}
               label={
                 <span
                   style={{
@@ -836,6 +994,87 @@ export const CreateCosts = ({ block, refetch }) => {
                 </span>
               }>
               <Input size="large" />
+            </Form.Item>
+            <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="city"
+              rules={[{ required: true, message: 'Пожалуйста выберите город.' }]}
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Город
+                </span>
+              }>
+              <Select
+                allowClear
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
+                suffixIcon={
+                  <>
+                    <img
+                      src={arrowDown}
+                      alt="arrow top"
+                      style={{
+                        transform: selectOpened ? 'rotate(180deg)' : '',
+                      }}
+                    />
+                  </>
+                }
+                onDropdownVisibleChange={(opened) => {
+                  setSelectOpened(opened);
+                }}
+                loading={!cities.loaded}
+                size="large">
+                {cities.data.map((city) => {
+                  return (
+                    <Option key={city.id} value={city.id}>
+                      {city.title}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              className="editForm-item"
+              labelAlign="left"
+              colon={false}
+              name="period"
+              rules={[{ required: true, message: 'Пожалуйста укажите период.' }]}
+              label={
+                <span
+                  style={{
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}>
+                  Период
+                </span>
+              }>
+              <RangePicker
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
+                size="large"
+                placement="topLeft"
+              />
             </Form.Item>
             <Form.Item
               name="count"
@@ -887,13 +1126,7 @@ export const CreateCosts = ({ block, refetch }) => {
                 }}
               />
             </Form.Item>
-            <Form.Item
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flexEnd',
-              }}
-              className="editBtn">
+            <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
@@ -901,7 +1134,7 @@ export const CreateCosts = ({ block, refetch }) => {
                 style={{
                   width: '100%',
                   height: '38px',
-                  marginTop: '15px',
+                  marginTop: '40px',
                   borderRadius: '4px',
                   backgroundColor: '#2C5DE5',
                 }}>
@@ -914,6 +1147,7 @@ export const CreateCosts = ({ block, refetch }) => {
       break;
     case 'hot-ptc':
       FormInputs = () => {
+        const [selectOpened, setSelectOpened] = useState(false);
         return (
           <>
             <p
@@ -940,7 +1174,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -956,7 +1189,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -972,7 +1204,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -988,7 +1219,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => `${value} тг`}
@@ -1020,7 +1250,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1056,7 +1285,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1074,7 +1302,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1092,7 +1319,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1110,7 +1336,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1128,7 +1353,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1146,7 +1370,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1154,6 +1377,15 @@ export const CreateCosts = ({ block, refetch }) => {
                   }}
                 />
               </Form.Item>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(6, 1fr)',
+                columnGap: '30px',
+                rowGap: '0px',
+                minHeight: '123px',
+              }}>
               <Form.Item
                 name="type"
                 className="editForm-item"
@@ -1163,7 +1395,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <Input
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -1178,7 +1409,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                 />
@@ -1193,7 +1423,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1211,7 +1440,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 <InputNumber
                   style={{
                     width: '100%',
-                    // minWidth: '260px',
                   }}
                   size="large"
                   formatter={(value) => {
@@ -1220,21 +1448,56 @@ export const CreateCosts = ({ block, refetch }) => {
                 />
               </Form.Item>
               <Form.Item
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flexEnd',
-                }}
-                className="editBtn">
+                className="editForm-item"
+                labelAlign="left"
+                colon={false}
+                name="city"
+                rules={[{ required: true, message: 'Пожалуйста выберите город.' }]}
+                label={InputLabel('Город')}>
+                <Select
+                  allowClear
+                  dropdownAlign={{
+                    points: ['bl', 'tl'],
+                    offset: [0, -4],
+                    overflow: {
+                      adjustX: 0,
+                      adjustY: 1,
+                    },
+                  }}
+                  suffixIcon={
+                    <>
+                      <img
+                        src={arrowDown}
+                        alt="arrow top"
+                        style={{
+                          transform: selectOpened ? 'rotate(180deg)' : '',
+                        }}
+                      />
+                    </>
+                  }
+                  onDropdownVisibleChange={(opened) => {
+                    setSelectOpened(opened);
+                  }}
+                  loading={!cities.loaded}
+                  size="large">
+                  {cities.data.map((city) => {
+                    return (
+                      <Option key={city.id} value={city.id}>
+                        {city.title}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item className="editForm-item">
                 <Button
                   type="primary"
                   htmlType="submit"
-                  className="editBtn"
                   loading={confirmLoading}
                   style={{
-                    // minWidth: '260px',
+                    width: '100%',
                     height: '38px',
-                    marginTop: '15px',
+                    marginTop: '40px',
                     borderRadius: '4px',
                     backgroundColor: '#2C5DE5',
                   }}>
@@ -1251,6 +1514,9 @@ export const CreateCosts = ({ block, refetch }) => {
     <Drawer
       height="auto"
       destroyOnClose
+      bodyStyle={{
+        paddingBottom: '10px',
+      }}
       title={
         <span
           style={{
@@ -1274,7 +1540,6 @@ export const CreateCosts = ({ block, refetch }) => {
       <Form
         layout="inline"
         style={{
-          marginBottom: '15px',
           flexDirection: block === 'hot-ptc' ? 'column' : 'row',
         }}
         onFinish={(values) => {
@@ -1283,6 +1548,8 @@ export const CreateCosts = ({ block, refetch }) => {
           form.validateFields().then(() => {
             switch (block) {
               case 'extra-charge':
+                const start = moment(values.period[0]).toDate();
+                const end = moment(values.period[1]).toDate();
                 let input = {
                   title: values.name,
                   count: values.count,
@@ -1290,6 +1557,9 @@ export const CreateCosts = ({ block, refetch }) => {
                   price: values.price,
                   percentAgentCommission: values.agPercent,
                   valueAgentCommission: values.agSumm,
+                  city: values.city,
+                  startPeriod: start,
+                  endPeriod: end,
                   project: currentId,
                 };
                 createAddCosts({
@@ -1329,6 +1599,7 @@ export const CreateCosts = ({ block, refetch }) => {
                   saleManufacturing: values.summManufacture,
                   valueAgentCommission: values.agSumm,
                   percentAgentCommission: values.agPercent,
+                  city: values.city,
                   project: currentId,
                 };
                 console.log(currentId);
@@ -1367,15 +1638,21 @@ export const CreateCosts = ({ block, refetch }) => {
           margin-right: 0 !important;
         }
 
-       .editBtn>div {
-         display: flex !important;
-         justify-content: flex-end;
-       }
        .editForm-item {
          display: flex;
          flex-direction: column;
          margin-right: 0 !important;
+         margin-bottom: 0 !important;
        }
+
+        .rangePicker-dropdown {
+          top: 532px !important;
+        }
+
+        // .select-dropdown {
+        //   top: 542px !important;
+        // }
+
         `}
       </style>
     </Drawer>
