@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react';
-import {  Checkbox, } from 'antd';
+import { Checkbox } from 'antd';
 import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import AddBtn from '../../../components/LeftBar/AddBtn';
@@ -12,8 +12,7 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { useParams } from 'react-router-dom';
-import {  CITIES_QUERY } from './utils';
+import { CITIES_QUERY } from './queries';
 
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
@@ -22,7 +21,8 @@ import PanelDesign from './PanelEstimate';
 import SidebarInfo from '../../../components/SidebarInfo';
 
 import { sidebarInfoData } from '../stubDataSource';
-import {  useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { useParams } from 'react-router';
 
 export const EstimateContext = createContext();
 
@@ -31,8 +31,7 @@ const Estimate = () => {
     data: [],
     loaded: false,
   });
-  const { id, appId } = useParams();
-  const currentId = appId ? appId : id ? id : '';
+  const { appId } = useParams();
   const [block, setBlock] = useState(0);
   const [createModal, setCreateModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -45,8 +44,7 @@ const Estimate = () => {
   ];
 
   const { loading, error, data } = useQuery(CITIES_QUERY);
-  if (error)
-    return <h3>Error (:</h3>
+  if (error) return <h3>Error (:</h3>;
 
   if (data && !cities.loaded) {
     setCities({
@@ -68,6 +66,8 @@ const Estimate = () => {
         setSort,
         createModal,
         setCreateModal,
+        openEditModal,
+        setOpenEditModal,
       }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <LeftBar className="left-bar">
@@ -78,12 +78,11 @@ const Estimate = () => {
           <PaperBtn text="Сводка проекта" />
           <BoxBtn text="Архив дизайнов" />
 
-          {block !== 0 && (
+          {block !== 0 && !appId && (
             <AddBtn
               text="Добавить расход"
               onClick={() => {
                 setCreateModal(true);
-                console.log(createModal);
               }}
             />
           )}
@@ -99,14 +98,16 @@ const Estimate = () => {
             <ButtonGroup>
               {block !== 0 ? (
                 <>
-                  <StyledButton
-                    backgroundColor="#008556"
-                    onClick={() => {
-                      setCreateModal(true);
-                      console.log("clicked")
-                    }}>
-                    Добавить расход
-                  </StyledButton>
+                  {!appId && (
+                    <StyledButton
+                      backgroundColor="#008556"
+                      onClick={() => {
+                        setCreateModal(true);
+                        console.log('clicked');
+                      }}>
+                      Добавить расход
+                    </StyledButton>
+                  )}
                   <StyledButton backgroundColor="#2C5DE5">Выгрузка данных</StyledButton>
                 </>
               ) : (
@@ -124,14 +125,7 @@ const Estimate = () => {
               </ControlToolbar>
               <SidebarInfo data={sidebarInfoData} />
             </InfoWrap>
-            <PanelDesign
-              openEditModal={openEditModal}
-              setOpenEditModal={setOpenEditModal}
-              setBlock={setBlock}
-              created={created}
-              setCreated={setCreated}
-              cities={cities}
-            />
+            <PanelDesign setBlock={setBlock} created={created} setCreated={setCreated} />
           </div>
         </div>
 
@@ -171,4 +165,3 @@ export default Estimate;
 const InfoWrap = styled.div`
   margin: 0 2vw 0 0;
 `;
-

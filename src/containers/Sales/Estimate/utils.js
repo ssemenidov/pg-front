@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import React, { useState, useEffect, useContext } from 'react';
 import { EstimateContext } from './Estimate';
 import worldIcon from '../../../img/header-bar/world.svg';
@@ -6,285 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from 'antd';
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
-
-export const CITIES_QUERY = gql`
-  query {
-    searchCity {
-      edges {
-        node {
-          title
-          id
-        }
-      }
-    }
-  }
-`;
-
-export const CREATE_ADDITIONAL_COSTS = gql`
-  mutation createAdditionalCost($input: CreateAdditionalCostsInput!) {
-    createSalesAdditionalCost(input: $input) {
-      additionalCosts {
-        id
-        title
-        startPeriod
-        endPeriod
-        count
-        discount
-        price
-        count
-        city {
-          title
-        }
-      }
-    }
-  }
-`;
-
-export const CREATE_NON_RTS_COSTS = gql`
-  mutation addNonRts($input: CreateEstimateNonRtsInput!) {
-    createSalesNonrts(input: $input) {
-      estimateNonRts {
-        id
-        title
-        count
-        incomingTax
-        incomingRent
-        incomingPrinting
-        incomingInstallation
-        incomingManufacturing
-        city {
-          title
-        }
-      }
-    }
-  }
-`;
-
-export const BOOKED_SIDES_QUERY = gql`
-  query applicationQuery($id: ID) {
-    searchAttachment(id: $id) {
-      edges {
-        node {
-          id
-          code
-          reservations {
-            edges {
-              node {
-                id
-                dateFrom
-                dateTo
-                constructionSide {
-                  advertisingSide {
-                    code
-                    side {
-                      title
-                      code
-                      format {
-                        title
-                        code
-                      }
-                      code
-                    }
-                  }
-                  construction {
-                    numInDistrict
-                    location {
-                      marketingAddress {
-                        address
-                      }
-
-                      postcode {
-                        title
-                        district {
-                          title
-                          city {
-                            title
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const EXTRA_COSTS_QUERY = gql`
-  query additionalCostsQuery($id: ID) {
-    searchSalesAdditionalCost(id: $id) {
-      edges {
-        node {
-          id
-          title
-          city {
-            title
-          }
-          startPeriod
-          endPeriod
-          price
-          count
-          discount
-          percentAgentCommission
-          valueAgentCommission
-        }
-      }
-    }
-  }
-`;
-
-export const NON_RTS_QUERY = gql`
-  query nonRtsQuery($id: ID) {
-    searchSalesNonrts(id: $id) {
-      edges {
-        node {
-          id
-          count
-          title
-          incomingRent
-          incomingTax
-          incomingPrinting
-          incomingInstallation
-          incomingManufacturing
-          incomingAdditional
-          saleRent
-          saleTax
-          salePrinting
-          saleInstallation
-          saleManufacturing
-          saleAdditional
-          valueAgentCommission
-          percentAgentCommission
-        }
-      }
-    }
-  }
-`;
-
-export const PROJECT_BOOKED_SIDES_QUERY = gql`
-  query bookedSidesQuery($id: ID) {
-    searchProject(id: $id) {
-      edges {
-        node {
-          reservations {
-            edges {
-              node {
-                id
-                dateFrom
-                dateTo
-                branding
-                constructionSide {
-                  advertisingSide {
-                    code
-                    side {
-                      title
-                      code
-                      format {
-                        title
-                        code
-                      }
-                      code
-                    }
-                  }
-                  construction {
-                    numInDistrict
-                    location {
-                      marketingAddress {
-                        address
-                      }
-                      postcode {
-                        title
-                        district {
-                          title
-                          city {
-                            title
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const PROJECT_EXTRA_COSTS_QUERY = gql`
-  query projectExtraCostsQuery($id: ID) {
-    searchProject(id: $id) {
-      edges {
-        node {
-          additionalCosts {
-            edges {
-              node {
-                id
-                title
-                city {
-                  title
-                }
-                startPeriod
-                endPeriod
-                price
-                count
-                discount
-                percentAgentCommission
-                valueAgentCommission
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const PROJECT_NON_RTS_QUERY = gql`
-  query projectNonRtsQuery($id: ID) {
-    searchProject(id: $id) {
-      edges {
-        node {
-          additionalCostsNonrts {
-            edges {
-              node {
-                id
-                city {
-                  title
-                }
-                count
-                title
-                incomingRent
-                incomingTax
-                incomingPrinting
-                incomingInstallation
-                incomingManufacturing
-                incomingAdditional
-                city {
-                  title
-                }
-                saleRent
-                saleTax
-                salePrinting
-                saleInstallation
-                saleManufacturing
-                saleAdditional
-                valueAgentCommission
-                percentAgentCommission
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './queries';
 
 export const getBookedSides = (data = [], sort = '') => {
   let modifiedData = data.map((invoice) => {
@@ -320,26 +42,6 @@ export const getBookedSides = (data = [], sort = '') => {
       return modifiedData;
   }
 };
-
-// "input": {
-//   "project": "VkF0dGFjaG1lbnRPcHRpbWl6ZWROb2RlOjM=",
-//   "count": 12,
-// "incomingAdditional": "12323",
-// "incomingInstallation": "123",
-// "incomingManufacturing": "12",
-// "incomingPrinting": "123",
-// "incomingRent": "123",
-// "incomingTax": "123",
-// "percentAgentCommission": "0",
-// "saleAdditional": "390",
-// "saleInstallation": "123",
-// "saleManufacturing": "120",
-// "salePrinting": "123",
-// "saleRent": "12",
-// "saleTax": "12",
-// "title": "titt",
-// "valueAgentCommission": "0"
-// }
 
 export const getExtraCosts = (data = [], sort = '') => {
   let modifiedData = data.map((charge) => {
@@ -443,50 +145,6 @@ export const gettNonRts = (data = [], sort = '') => {
       return modifiedData;
   }
 };
-
-const UPDATE_ADDITIONAL_COSTS = gql`
-  mutation updateAddCosts($id: ID!, $input: UpdateAdditionalCostsInput!) {
-    updateSalesAdditionalCost(id: $id, input: $input) {
-      additionalCosts {
-        id
-        endPeriod
-        startPeriod
-        price
-        discount
-        percentAgentCommission
-        valueAgentCommission
-      }
-    }
-  }
-`;
-
-const UPDATE_NON_RTS = gql`
-  mutation updateNonRts($id: ID!, $input: UpdateEstimateNonRtsInput!) {
-    updateSalesNonrts(id: $id, input: $input) {
-      estimateNonRts {
-        id
-      }
-    }
-  }
-`;
-
-export const DELETE_ADD_COSTS_QUERY = gql`
-  mutation deleteAddCost($id: ID!) {
-    deleteSalesAdditionalCost(id: $id) {
-      found
-      deletedId
-    }
-  }
-`;
-
-export const DELETE_NON_RTS = gql`
-  mutation deleteAddCost($id: ID!) {
-    deleteSalesNonrts(id: $id) {
-      found
-      deletedId
-    }
-  }
-`;
 
 export const DeleteModal = (estimate, deleteEstimate, setDeleted) => {
   const { confirm } = Modal;
@@ -1186,7 +844,7 @@ export const CreateCosts = ({ block, refetch }) => {
               colon={false}
               initialValue={0}
               label={InputLabel('Кол-во')}>
-              <InputNumber size="large" />
+              <InputNumber type="number" size="large" />
             </Form.Item>
             <Form.Item
               name="price"
@@ -1247,7 +905,7 @@ export const CreateCosts = ({ block, refetch }) => {
                   borderRadius: '4px',
                   backgroundColor: '#2C5DE5',
                 }}>
-                Сохранить
+                Добавить
               </Button>
             </Form.Item>
           </div>
@@ -1501,7 +1159,6 @@ export const CreateCosts = ({ block, refetch }) => {
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
-                initialValue={0}
                 label={InputLabel('Тип')}>
                 <Input
                   style={{
@@ -1581,7 +1238,7 @@ export const CreateCosts = ({ block, refetch }) => {
                     borderRadius: '4px',
                     backgroundColor: '#2C5DE5',
                   }}>
-                  Сохранить
+                  Добавить
                 </Button>
               </Form.Item>
             </div>

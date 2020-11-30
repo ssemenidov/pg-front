@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Layout } from 'antd';
 import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
+import { getBookedSides, getExtraCosts, gettNonRts, EditCosts, DeleteModal, CreateCosts } from './utils';
 import {
   NON_RTS_QUERY,
   BOOKED_SIDES_QUERY,
@@ -9,15 +10,9 @@ import {
   PROJECT_BOOKED_SIDES_QUERY,
   PROJECT_EXTRA_COSTS_QUERY,
   PROJECT_NON_RTS_QUERY,
-  getBookedSides,
-  getExtraCosts,
-  gettNonRts,
-  EditCosts,
-  DeleteModal,
-  CreateCosts,
   DELETE_ADD_COSTS_QUERY,
   DELETE_NON_RTS,
-} from './utils';
+} from './queries';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
 
@@ -34,12 +29,12 @@ import {
 } from './stubDataSource';
 import { useQuery, useMutation } from '@apollo/client';
 
-const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, setOpenEditModal }) => {
+const PanelDesign = ({ setBlock, created, setCreated }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
-  const { sort, setSort } = useContext(EstimateContext);
+  const { sort, setSort, openEditModal, setOpenEditModal } = useContext(EstimateContext);
   let extraCosts = [];
 
   useEffect(() => {
@@ -246,20 +241,12 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
       <EditCosts
         openModal={openEditModal}
-        editingItem={editingItem}
         setOpenModal={setOpenEditModal}
-        setEditingItem={setEditingItem}
-        block={activeTab}
-        cities={cities}
-        refetch={refetch}
-      />
-      <CreateCosts
         editingItem={editingItem}
-        setEditingItem={setEditingItem}
         block={activeTab}
-        cities={cities}
         refetch={refetch}
       />
+      <CreateCosts block={activeTab} refetch={refetch} />
       <style>
         {`
         .ant-drawer-bottom .ant-drawer-content-wrapper {
