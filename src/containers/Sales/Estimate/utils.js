@@ -165,13 +165,16 @@ export const DeleteModal = (estimate, deleteEstimate, setDeleted) => {
         .then(({ data }) => {
           if (data.deleteSalesAdditionalCost) {
             data.deleteSalesAdditionalCost.found && setDeleted(true);
+            message.success('Успешно удалено.');
           }
           if (data.deleteSalesNonrts) {
             data.deleteSalesNonrts.found && setDeleted(true);
+            message.success('Успешно удалено.');
           }
         })
         .catch((err) => {
           console.log(err);
+          message.error('Что то пошло не так...');
         });
     },
     onCancel() {
@@ -219,7 +222,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
           agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : 0,
           agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : 0,
-          city: editingItem.cityId ? editingItem.cityId : "",
+          city: editingItem.cityId ? editingItem.cityId : '',
           period: [start, end],
         });
         break;
@@ -241,7 +244,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           count: editingItem.quantity,
           agPercent: editingItem.percentAK.split('%')[0] || 0,
           agSumm: editingItem.sumAK.split(' ')[0] || 0,
-          city: editingItem.cityId ? editingItem.cityId : "",
+          city: editingItem.cityId ? editingItem.cityId : '',
         });
     }
   }, [editingItem, form]);
