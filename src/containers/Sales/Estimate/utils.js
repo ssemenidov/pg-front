@@ -154,9 +154,8 @@ export const gettNonRts = (data = [], sort = '') => {
 export const DeleteModal = (estimate, deleteEstimate, setDeleted) => {
   const { confirm } = Modal;
   confirm({
-    title: 'Do you Want to delete these items?',
+    title: 'Вы уверены что хотите удалить?',
     centered: true,
-    content: 'Some descriptions',
     onOk() {
       return deleteEstimate({
         variables: {
@@ -195,8 +194,6 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
       </span>
     );
   };
-
-  console.log(editingItem);
   const { cities } = useContext(EstimateContext);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
