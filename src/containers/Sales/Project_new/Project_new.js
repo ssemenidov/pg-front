@@ -92,13 +92,14 @@ const Project_card = () => {
   const history = useHistory();
   const [block, setBlock] = useState(0);
   const [projectCreator, { data }] = useMutation(PROJECT_CREATOR);
-  data && history.push('/sales/prject_card/' + data.createProject.project.id)
+  data && history.push('/sales/project_card/' + data.createProject.project.id)
   const managers = useQuery(GET_MANAGERS);
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
   const advert = useQuery(GET_ADVERTISER);
   // console.log('[managers]', managers);
   
+  const [projectCode, setProjectCode] = useState('');
   const [projectName, setProjectName] = useState('');
   const [backOffManager, setBackOffManager] = useState('');
   const [salesManager, setSalesManager] = useState('');
@@ -191,8 +192,11 @@ const Project_card = () => {
           <CRUDForm onFinish={() => {
             let itemD = {
               "title": projectName,
-              "agencyComissionPercent": agencyCommissionPerc,
-              "agencyComissionValue": agencyCommissionValue,
+              "agencyCommission": {
+                "percent": agencyCommissionPerc,
+                "value": agencyCommissionValue
+              },
+              "code": projectCode,
               "creator": creator,
               "comment": projectComment,
               "brand": brand,
@@ -204,14 +208,19 @@ const Project_card = () => {
             projectCreator({ variables: {
               "input":  itemD
             } })
+
+            data && history.push('/sales/project_card/' + data.createProject.project.id )
           }}>
             <InfoList>
               <InfoItem>
                 <InfoTitle>О Проекте</InfoTitle>
 
                 <InfoLine>
-                  <span>Код проекта</span>
-                  <InfoValue></InfoValue>
+                  <span>Код проекта: </span>
+                  <InputNumber onChange={e => {
+                    console.log(e);
+                    setProjectCode(e);
+                  }} />
                 </InfoLine>
                 <InfoLine>
                   <span>Название проекта</span>
@@ -220,6 +229,7 @@ const Project_card = () => {
                     setProjectName(e.target.value);
                   }} />
                 </InfoLine>
+                
 
                 <InfoLine>
                   <span>Создатель</span>
@@ -381,7 +391,7 @@ const Project_card = () => {
                     formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     onChange={e => {
-                      setAgencyCommissionPerc(0)
+                      setAgencyCommissionPerc(null)
                       setAgencyCommissionValue(e)
                     }}
                   />
@@ -393,7 +403,7 @@ const Project_card = () => {
                     formatter={value => `${value}%`}
                     parser={value => value.replace('%', '')}
                     onChange={e => {
-                      setAgencyCommissionValue(0)
+                      setAgencyCommissionValue(null)
                       setAgencyCommissionPerc(e)
                     }}
                   />
