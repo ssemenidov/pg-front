@@ -192,16 +192,18 @@ export function ReservationSlider({sliderState}) {
                 console.log(projectName)
                 setProjectName(e.target.value)
                 }} /> */}
+              <p className="formItem-title">Менеджер</p>
                 <StyledSelect  
-                  placeholder={<><img src={anchorIcon} /> <span>Проект</span> </>} 
+                showSearch
+                  placeholder={<><img src={anchorIcon} /> <span>Выберите Менеджера</span> </>} 
                   size={'large'} 
                   onChange={e => {
                     console.log(e)
                     setProject(e)
                   }} 
                 >
-                  <StyledSelect.Option value={["VlBhY2thZ2VOb2RlOjE=", "VlByb2plY3ROb2RlOjE="]}><img src={anchorIcon} /><span>Евсеев Филат</span></StyledSelect.Option>
-                  <StyledSelect.Option value={["VlBhb2plY3ROb2RlOjI=", "VlByb2plY3ROb2RlOjI="]}><img src={anchorIcon} /><span>Петр Иванович</span></StyledSelect.Option>
+                  <StyledSelect.Option value={["VlBhY2thZ2VOb2RlOjE=", "VlByb2plY3ROb2RlOjE=", "Jysan Invest"]}><span>Jysan Invest</span></StyledSelect.Option>
+                  <StyledSelect.Option value={["VlBhb2plY3ROb2RlOjI=", "VlByb2plY3ROb2RlOjI=", "Forte Bank"]}><span>Forte Bank</span></StyledSelect.Option>
               </StyledSelect>
             </ReservationSilderFormItem>
           </SliderCellColRaw>

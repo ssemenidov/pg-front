@@ -3369,12 +3369,12 @@ export const GanttChartView = function() {
       for (c = a.chartItemArea.childNodes.length; c-- > 0;) a.chartItemArea.removeChild(a.chartItemArea.childNodes[c]);
       return a.chartItemArea;
     }, StandardTaskTemplateFactory = function(a, c, d) {
-      return function(taskItem) {
+      return function(taskItem, sliderState) {
         var ganttChartView = typeof c !== 'undefined' ? c : taskItem.ganttChartView;
         var settings = typeof d !== 'undefined' ? d : ganttChartView.settings;
         var g = typeof a !== 'undefined' ? a : ganttChartView.items;
         var ownerDocument = ganttChartView.ownerDocument;
-        var paneRoot = mb(taskItem);
+        var paneRoot = mb(taskItem, sliderState);
         /* рисование штриховой линии */
         if (settings.isBaselineVisible && typeof taskItem.baselineStart !== 'undefined' && typeof taskItem.baselineFinish !== 'undefined') {
           var n = calculateBarX(taskItem.baselineStart, settings);
@@ -3433,7 +3433,7 @@ export const GanttChartView = function() {
         let standardBarSvg;
         standardBarSvg = drawBarLine();
         paneRoot.appendChild(standardBarSvg);
-        createPopover(paneRoot, taskItem);
+        createPopover(paneRoot, taskItem, sliderState);
 
         if (taskItem.setDomNode) {
           taskItem.setDomNode(paneRoot, {
@@ -7772,7 +7772,7 @@ export const GanttChartView = function() {
 }();
 
 export const ScheduleChartView = function() {
-  var ScheduleChartViewConstructor = function(rootDomNode, items, copiedSettings) {
+  var ScheduleChartViewConstructor = function(rootDomNode, items, copiedSettings, sliderState) {
       rootDomNode.isScheduleChartInitializing = true;
       let p = items;
       items = [];

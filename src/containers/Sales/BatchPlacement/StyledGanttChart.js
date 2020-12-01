@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 
 
 
-export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
+export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater, sliderState}) {
   let [state, setState] = useState([]);
   let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
@@ -34,7 +34,7 @@ export const ScheduleChartView1 = function({ style, items, settings, change, col
   useEffect(function() {
     if (ref.current) {
       console.log('useEffect len items', items.length)
-      ScheduleChartView.initialize(ref.current, items, copied_settings, "");
+      ScheduleChartView.initialize(ref.current, items, copied_settings, sliderState);
       if (change) {
         settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
           if (changeHandler)
@@ -72,7 +72,7 @@ export const ganttColumns = [
 
 
 //
-export const ganttSettings = (year, month) => ({
+export const ganttSettings = (year, month, sliderState) => ({
   // currentTime: new Date(year, month, 2, 12, 0, 0),
   // Optionally, initialize custom theme and templates (themes.js, templates.js).
   // initializeGanttChartTheme(settings, theme);
@@ -104,7 +104,7 @@ export const ganttSettings = (year, month) => ({
   isGridVisible: true,
   gridWidth: "20%",
   chartWidth: "80%",
-  itemTemplate: (item) => createPopover(item),
+  itemTemplate: (item) => createPopover(item, sliderState),
   isTaskToolTipVisible: false,
   // interaction: 'TouchEnabled',
   scales: [
