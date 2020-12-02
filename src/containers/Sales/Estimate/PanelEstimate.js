@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Layout } from 'antd';
 import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
+import { getBookedSides, getExtraCosts, gettNonRts, EditCosts, DeleteModal, CreateCosts } from './utils';
 import {
   NON_RTS_QUERY,
   BOOKED_SIDES_QUERY,
@@ -9,14 +10,9 @@ import {
   PROJECT_BOOKED_SIDES_QUERY,
   PROJECT_EXTRA_COSTS_QUERY,
   PROJECT_NON_RTS_QUERY,
-  getBookedSides,
-  getExtraCosts,
-  gettNonRts,
-  EditCosts,
-  DeleteModal,
   DELETE_ADD_COSTS_QUERY,
   DELETE_NON_RTS,
-} from './utils';
+} from './queries';
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
 
@@ -33,13 +29,20 @@ import {
 } from './stubDataSource';
 import { useQuery, useMutation } from '@apollo/client';
 
-const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, setOpenEditModal }) => {
+const PanelDesign = ({ setBlock, created, setCreated }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
-  const { sort, setSort } = useContext(EstimateContext);
+  const { sort, setSort, openEditModal, setOpenEditModal, periodFilter, setPeriodFilter } = useContext(EstimateContext);
   let extraCosts = [];
+
+  useEffect(() => {
+    const refetchData = async () => {
+      return await refetch();
+    };
+    refetchData();
+  }, [activeTab]);
 
   const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
 
@@ -64,28 +67,39 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
     switch (activeTab) {
       case 'booked-sides':
         if (appId) {
-          bookedSides = getBookedSides(data.searchAttachment.edges[0].node.reservations.edges);
+          bookedSides = getBookedSides(
+            data.searchAttachment.edges.length ? data.searchAttachment.edges[0].node.reservations.edges : [],
+            sort,
+            periodFilter,
+          );
         }
         if (id) {
           bookedSides = getBookedSides(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.reservations.edges : [],
+            sort,
+            periodFilter,
           );
         }
         break;
       case 'extra-charge':
         if (appId) {
-          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort);
+          extraCosts = getExtraCosts(
+            data.searchSalesAdditionalCost.edges.length ? data.searchSalesAdditionalCost.edges : [],
+            sort,
+            periodFilter,
+          );
         }
         if (id) {
           extraCosts = getExtraCosts(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCosts.edges : [],
             sort,
+            periodFilter,
           );
         }
         break;
       case 'hot-ptc':
         if (appId) {
-          nonRts = gettNonRts(data.searchSalesNonrts.edges, sort);
+          nonRts = gettNonRts(data.searchSalesNonrts.edges.length ? data.searchSalesNonrts.edges : [], sort);
         }
         if (id) {
           nonRts = gettNonRts(
@@ -93,6 +107,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
             sort,
           );
         }
+        break;
     }
   }
 
@@ -202,6 +217,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
               });
               setBlock(0);
               setSort('');
+              setPeriodFilter('');
             }}>
             ЗАБРОНИРОВАННЫЕ СТОРОНЫ
           </CustomTabBtn>
@@ -212,6 +228,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
               setQuery(appId ? EXTRA_COSTS_QUERY : id ? PROJECT_EXTRA_COSTS_QUERY : '');
               setBlock(1);
               setSort('');
+              setPeriodFilter('');
             }}>
             ДОП. РАСХОДЫ
           </CustomTabBtn>
@@ -222,6 +239,7 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
               setQuery(appId ? NON_RTS_QUERY : id ? PROJECT_NON_RTS_QUERY : '');
               setBlock(2);
               setSort('');
+              setPeriodFilter('');
             }}>
             НОН РТС
           </CustomTabBtn>
@@ -230,14 +248,12 @@ const PanelDesign = ({ setBlock, created, setCreated, cities, openEditModal, set
       <Layout.Content>{mainContent[activeTab]}</Layout.Content>
       <EditCosts
         openModal={openEditModal}
-        editingItem={editingItem}
         setOpenModal={setOpenEditModal}
-        setEditingItem={setEditingItem}
+        editingItem={editingItem}
         block={activeTab}
-        cities={cities}
-        extraCostsId={extraCosts.key}
         refetch={refetch}
       />
+      <CreateCosts block={activeTab} refetch={refetch} />
       <style>
         {`
         .ant-drawer-bottom .ant-drawer-content-wrapper {

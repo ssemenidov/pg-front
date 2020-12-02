@@ -13,7 +13,7 @@ import { useQuery, gql } from '@apollo/client';
 import { routes } from '../../../routes';
 
 const PanelDesign = () => {
-  const [filter, /*setFilter*/, constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
+  const [filter /*setFilter*/, , constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
 
   const history = useHistory();
 
@@ -197,12 +197,16 @@ const PanelDesign = () => {
         key: project.node.id,
         code: `#${project.node.code}`,
         brand: project.node.brand.title,
-        date: project.node.startDate.split('T')[0],
-        advert: project.node.client.partnerType
-          ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+        date: project.node.startDate ? project.node.startDate.split('T')[0] : '',
+        advert: project.node.client
+          ? project.node.client.partnerType
+            ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : ''
           : '',
-        advert_agency: project.node.client.partnerType
-          ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+        advert_agency: project.node.client
+          ? project.node.client.partnerType
+            ? project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
+            : ''
           : '',
         city: project.node.reservations.edges.length ? (
           <Popover placement="bottom" content={CitiesList}>
@@ -228,7 +232,7 @@ const PanelDesign = () => {
         ) : (
           ''
         ),
-        sector: project.node.client.workingSectors.edges.length
+        sector: project.node.client
           ? project.node.client.workingSectors.edges[0].node.description
           : '',
         managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,

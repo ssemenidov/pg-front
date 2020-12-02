@@ -1,6 +1,4 @@
-import React from 'react';
-// import { ReactComponent as ArrowDown } from '../../../../img/icon_dropdown_select.svg';
-import { CityFilterDropdown } from '../utils';
+import { CityFilterDropdown, PeriodFilterDropdown } from '../utils';
 
 export const initColumnsForPopupBookedSides = [
   {
@@ -9,12 +7,24 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'code',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
-    key: 'city',
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
     isShowed: true,
   },
   {
@@ -23,6 +33,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'address',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.address < b.address) {
+        return -1;
+      }
+      if (a.address > b.address) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'format',
@@ -30,6 +49,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'format',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.format < b.format) {
+        return -1;
+      }
+      if (a.format > b.format) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'side',
@@ -37,6 +65,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'side',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.side < b.side) {
+        return -1;
+      }
+      if (a.side > b.side) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'period',
@@ -44,6 +81,10 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'period',
     width: 130,
     isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      console.log('filtering...');
+    },
   },
   {
     key: 'branding',
@@ -51,6 +92,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'branding',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.branding < b.branding) {
+        return -1;
+      }
+      if (a.branding > b.branding) {
+        return 1;
+      }
+      return 0;
+    },
   },
 
   {
@@ -180,6 +230,15 @@ export const initColumnsTableBookedSides = [
     title: 'Код стороны',
     dataIndex: 'code',
     width: 130,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
@@ -195,26 +254,71 @@ export const initColumnsTableBookedSides = [
     title: 'Адрес',
     dataIndex: 'address',
     width: 130,
+    sorter: (a, b) => {
+      if (a.address < b.address) {
+        return -1;
+      }
+      if (a.address > b.address) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Формат',
     dataIndex: 'format',
     width: 130,
+    sorter: (a, b) => {
+      if (a.format < b.format) {
+        return -1;
+      }
+      if (a.format > b.format) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Сторона',
     dataIndex: 'side',
     width: 130,
+    sorter: (a, b) => {
+      if (a.side < b.side) {
+        return -1;
+      }
+      if (a.side > b.side) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
+    },
   },
   {
     title: 'Брендинг (да/нет)',
     dataIndex: 'branding',
     width: 130,
+    sorter: (a, b) => {
+      if (a.branding < b.branding) {
+        return -1;
+      }
+      if (a.branding > b.branding) {
+        return 1;
+      }
+      return 0;
+    },
   },
 ];
 
@@ -224,48 +328,83 @@ export const initColumnsForPopupExtraCharge = [
     dataIndex: 'nameOfService',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.nameOfService < b.nameOfService) {
+        return -1;
+      }
+      if (a.nameOfService > b.nameOfService) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
     isShowed: true,
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
     isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
+    },
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => a.quantity - b.quantity,
   },
   {
     title: 'Цена',
     dataIndex: 'price',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      return Number(a.price.split(' ')[0]) - Number(b.price.split(' ')[0]);
+    },
   },
   {
     title: 'Скидка',
     dataIndex: 'discount',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      return Number(a.discount.split('%')[0]) - Number(b.discount.split('%')[0]);
+    },
   },
   {
     title: 'Стоимость после скидки',
     dataIndex: 'priceAfterDiscount',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      return Number(a.priceAfterDiscount.split(' ')[0]) - Number(b.priceAfterDiscount.split(' ')[0]);
+    },
   },
   {
     title: 'Сумма',
     dataIndex: 'sum',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      return Number(a.sum.split(' ')[0]) - Number(b.sum.split(' ')[0]);
+    },
   },
   {
     title: 'АГЕНТСКАЯ КОМИССИЯ',
@@ -275,12 +414,18 @@ export const initColumnsForPopupExtraCharge = [
         dataIndex: 'percentAK',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.percentAK.split('%')[0]) - Number(b.percentAK.split('%')[0]);
+        },
       },
       {
         title: 'Сумма АК',
         dataIndex: 'sumAK',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.sumAK.split(' ')[0]) - Number(b.sumAK.split(' ')[0]);
+        },
       },
       {
         title: 'Сумма за вычетом АК',
@@ -297,6 +442,15 @@ export const initColumnsTableExtraCharge = [
     title: 'Наименование услуги',
     dataIndex: 'nameOfService',
     width: 130,
+    sorter: (a, b) => {
+      if (a.nameOfService < b.nameOfService) {
+        return -1;
+      }
+      if (a.nameOfService > b.nameOfService) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
@@ -306,37 +460,59 @@ export const initColumnsTableExtraCharge = [
     onFilter: (val, record) => {
       return record.city === val;
     },
-    // filterIcon: <ArrowDown />,
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
+    isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
+    },
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
+    sorter: (a, b) => a.quantity - b.quantity,
   },
   {
     title: 'Цена',
     dataIndex: 'price',
     width: 130,
+    sorter: (a, b) => {
+      return Number(a.price.split(' ')[0]) - Number(b.price.split(' ')[0]);
+    },
   },
   {
     title: 'Скидка',
     dataIndex: 'discount',
     width: 130,
+    sorter: (a, b) => {
+      return Number(a.discount.split('%')[0]) - Number(b.discount.split('%')[0]);
+    },
   },
   {
     title: 'Стоимость после скидки',
     dataIndex: 'priceAfterDiscount',
     width: 130,
+    sorter: (a, b) => {
+      return Number(a.priceAfterDiscount.split(' ')[0]) - Number(b.priceAfterDiscount.split(' ')[0]);
+    },
   },
   {
     title: 'Сумма',
     dataIndex: 'sum',
     width: 130,
+    sorter: (a, b) => {
+      return Number(a.sum.split(' ')[0]) - Number(b.sum.split(' ')[0]);
+    },
   },
 ];
 
@@ -346,18 +522,32 @@ export const initColumnsForPopupHotPtc = [
     dataIndex: 'code',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
     dataIndex: 'city',
     width: 130,
     isShowed: true,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => Number(a.quantity) - Number(b.quantity),
   },
   {
     title: 'ВХОДЯЩАЯ СТОИМОСТЬ',
@@ -367,42 +557,63 @@ export const initColumnsForPopupHotPtc = [
         dataIndex: 'rentInput',
         width: 130,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.rentInput.split(' ')[0]) - Number(b.rentInput.split(' ')[0]);
+        },
       },
       {
         title: 'Налог',
         dataIndex: 'taxInput',
         width: 130,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.taxInput.split(' ')[0]) - Number(b.taxInput.split(' ')[0]);
+        },
       },
       {
         title: 'Печать',
         dataIndex: 'printInput',
         width: 130,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.printInput.split(' ')[0]) - Number(b.printInput.split(' ')[0]);
+        },
       },
       {
         title: 'Монтаж',
         dataIndex: 'mountInput',
         width: 130,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.mountInput.split(' ')[0]) - Number(b.mountInput.split(' ')[0]);
+        },
       },
       {
         title: 'Производсто',
         dataIndex: 'manufactureInput',
         width: 130,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.manufactureInput.split(' ')[0]) - Number(b.manufactureInput.split(' ')[0]);
+        },
       },
       {
         title: 'Доп. расходы',
         dataIndex: 'costsInput',
         width: 100,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.costsInput.split(' ')[0]) - Number(b.costsInput.split(' ')[0]);
+        },
       },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
         width: 100,
         isShowed: true,
+        sorter: (a, b) => {
+          return Number(a.sumInput.split(' ')[0]) - Number(b.sumInput.split(' ')[0]);
+        },
       },
     ],
   },
@@ -414,42 +625,63 @@ export const initColumnsForPopupHotPtc = [
         dataIndex: 'rentSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.rentSell.split(' ')[0]) - Number(b.rentSell.split(' ')[0]);
+        },
       },
       {
         title: 'Налог',
         dataIndex: 'taxSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.taxSell.split(' ')[0]) - Number(b.taxSell.split(' ')[0]);
+        },
       },
       {
         title: 'Печать',
         dataIndex: 'printSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.printSell.split(' ')[0]) - Number(b.printSell.split(' ')[0]);
+        },
       },
       {
         title: 'Монтаж',
         dataIndex: 'mountSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.mountSell.split(' ')[0]) - Number(b.mountSell.split(' ')[0]);
+        },
       },
       {
         title: 'Производство',
         dataIndex: 'manufactureSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.manufactureSell.split(' ')[0]) - Number(b.manufactureSell.split(' ')[0]);
+        },
       },
       {
         title: 'Доп. расходы',
         dataIndex: 'costsSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.costsSell.split(' ')[0]) - Number(b.costsSell.split(' ')[0]);
+        },
       },
       {
         title: 'Сумма',
         dataIndex: 'sumSell',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return Number(a.sumSell.split(' ')[0]) - Number(b.sumSell.split(' ')[0]);
+        },
       },
     ],
   },
@@ -461,12 +693,18 @@ export const initColumnsForPopupHotPtc = [
         dataIndex: 'percentAK',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return a.percentAK.split('%')[0] - b.percentAK.split('%')[0];
+        },
       },
       {
         title: 'Сумма АК',
         dataIndex: 'sumAK',
         width: 130,
         isShowed: false,
+        sorter: (a, b) => {
+          return a.sumAK.split(' ')[0] - b.sumAK.split(' ')[0];
+        },
       },
       {
         title: 'Сумма за вычетом АК',
@@ -489,6 +727,15 @@ export const initColumnsTableHotPtc = [
     title: 'Тип',
     dataIndex: 'code',
     width: 130,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
@@ -498,12 +745,12 @@ export const initColumnsTableHotPtc = [
     onFilter: (val, record) => {
       return record.city === val;
     },
-    // filterIcon: <ArrowDown />,
   },
   {
     title: 'Кол-во',
     dataIndex: 'quantity',
     width: 130,
+    sorter: (a, b) => Number(a.quantity) - Number(b.quantity),
   },
   {
     title: 'ВХОДЯЩАЯ СТОИМОСТЬ',
@@ -512,38 +759,58 @@ export const initColumnsTableHotPtc = [
         title: 'Аренда',
         dataIndex: 'rentInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.rentInput.split(' ')[0]) - Number(b.rentInput.split(' ')[0]);
+        },
       },
       {
         title: 'Налог',
         dataIndex: 'taxInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.taxInput.split(' ')[0]) - Number(b.taxInput.split(' ')[0]);
+        },
       },
       {
         title: 'Печать',
         dataIndex: 'printInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.printInput.split(' ')[0]) - Number(b.printInput.split(' ')[0]);
+        },
       },
       {
         title: 'Монтаж',
         dataIndex: 'mountInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.mountInput.split(' ')[0]) - Number(b.mountInput.split(' ')[0]);
+        },
       },
       {
         title: 'Производство',
-        dataIndex: 'manufactureSell',
+        dataIndex: 'manufactureInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.manufactureInput.split(' ')[0]) - Number(b.manufactureInput.split(' ')[0]);
+        },
       },
       {
         title: 'Доп. расходы',
         dataIndex: 'costsInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.costsInput.split(' ')[0]) - Number(b.costsInput.split(' ')[0]);
+        },
       },
       {
         title: 'Сумма',
         dataIndex: 'sumInput',
         width: 130,
+        sorter: (a, b) => {
+          return Number(a.sumInput.split(' ')[0]) - Number(b.sumInput.split(' ')[0]);
+        },
       },
     ],
   },
 ];
-
