@@ -20,6 +20,7 @@ import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
+import { routes } from '../../../routes';
 
 
 const PROJECT_CREATOR = gql`
@@ -53,7 +54,7 @@ query {
       node {
         id
         title
-        
+
       }
     }
   }
@@ -67,7 +68,7 @@ query {
       node {
         id
         title
-        
+
       }
     }
   }
@@ -81,7 +82,7 @@ query {
       node {
         id
         title
-        
+
       }
     }
   }
@@ -98,7 +99,7 @@ const Project_card = () => {
   const workSec = useQuery(GET_WORK_SECTOR);
   const advert = useQuery(GET_ADVERTISER);
   // console.log('[managers]', managers);
-  
+
   const [projectCode, setProjectCode] = useState('');
   const [projectName, setProjectName] = useState('');
   const [backOffManager, setBackOffManager] = useState('');
@@ -112,7 +113,7 @@ const Project_card = () => {
   const [agencyCommissionValue, setAgencyCommissionValue] = useState('');
   const [projectComment, setProjectComment] = useState('');
 
-  
+
 
   let managersData = managers && managers.data ? managers.data.searchUser.edges : null;
   let brandsData = brands && brands.data ? brands.data.searchBrand.edges : null;
@@ -121,8 +122,8 @@ const Project_card = () => {
   let prCreatorObj = {};
 
   const formSubmitHandler = () => {
-    
-    
+
+
 
 
     console.log(data);
@@ -216,7 +217,7 @@ const Project_card = () => {
                     setProjectName(e.target.value);
                   }} />
                 </InfoLine>
-                
+
 
                 <InfoLine>
                   <span>Создатель</span>
@@ -236,7 +237,7 @@ const Project_card = () => {
                         )
                       })
                     }
-                    
+
                   </StyledSelect>
                 </InfoLine>
 
@@ -258,7 +259,7 @@ const Project_card = () => {
                         )
                       })
                     }
-                    
+
                   </StyledSelect>
                 </InfoLine>
                 <InfoLine>
@@ -406,10 +407,10 @@ const Project_card = () => {
                   }} rows={4} defaultValue=" " />
                 </InfoLine>
               </InfoItem>
-              <SubmitButton 
+              <SubmitButton
                 onClick={
                   () => {}
-                } 
+                }
               >
                 Создать проект
               </SubmitButton>

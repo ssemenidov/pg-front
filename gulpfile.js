@@ -108,8 +108,8 @@ function deploy_production_rsync(cb) {
   let dest_backend = getKey("DEPLOY_SFTP_BACKEND_DIRECTORY") + '/static'
   console.log('src', srcPath, 'host', hostName, 'dst', dest)
   console.log('=========', process.env['HOME'])
-  let cmd_rsync = 'C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\rsync.exe';
-  let cmd_ssh = "C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\ssh.exe -i cwrsync -o  'StrictHostKeyChecking no'";
+  // let cmd_rsync = 'C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\rsync.exe';
+  // let cmd_ssh = "C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\ssh.exe -i cwrsync -o  'StrictHostKeyChecking no'";
   const rsync_args = {
     // exclude: config.deploy.exclude_html, // Excludes files from deploy
     hostname: hostName,
@@ -120,8 +120,8 @@ function deploy_production_rsync(cb) {
     clean: true,
     omit_dir_times: true,
     no_perms: true,
-    shell: cmd_ssh,
-    rsync_cmd: cmd_rsync
+    // shell: cmd_ssh,
+    // rsync_cmd: cmd_rsync
   }
 
   return gulp.series(
