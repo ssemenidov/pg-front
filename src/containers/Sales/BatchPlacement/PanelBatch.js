@@ -46,7 +46,7 @@ query {
 `;
 
 
-export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
+export function PanelBatch({ filter, setRefetch, setGanttUpdater, sliderState }) {
   /// <reference path='./Scripts/DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts'/>
   // Query string syntax: ?theme
   // Supported themes: Default, Generic-bright, Generic-blue, DlhSoft-gray, Purple-green, Steel-blue, Dark-black, Cyan-green, Blue-navy, Orange-brown, Teal-green, Purple-beige, Gray-blue, Aero.
@@ -209,9 +209,10 @@ export function PanelBatch({ filter, setRefetch, setGanttUpdater }) {
     <>
       {/*<Tab cond={'sold'}/>*/}
       <ScheduleChartView1 items={scheduleChartItemsFiltred}
-        settings={ganttSettings(year, month)}
+        settings={ganttSettings(year, month, sliderState)}
         columns={ganttColumns}
         setGanttUpdater={setGanttUpdater}
+        sliderState={sliderState}
       />
     </>
   );

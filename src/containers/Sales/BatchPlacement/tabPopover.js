@@ -75,7 +75,7 @@ let createPopoverHtml = ({projectName, soldStatus, soldClass, soldDate, packageN
 );
 
 
-export function createPopover(domNode, taskItem) {
+export function createPopover(domNode, taskItem, sliderState) {
   // console.log(domNode, taskItem)
   let popoverHtml = createPopoverHtml({
     projectName: "СocaCola",
@@ -96,5 +96,9 @@ export function createPopover(domNode, taskItem) {
     placement: "top",
   });
   jquery(domNode).popover('show')
+  jquery(domNode).on('click', () => {
+    console.log('[sliderState]', sliderState);
+    sliderState && sliderState.setAddShowed(true);
+  })
 }
 

@@ -49,7 +49,7 @@ const BatchPlacement = () => {
           </HeaderWrapper>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
-              <PanelBatch filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater}/>
+              <PanelBatch filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater} sliderState={sliderState} />
             </div>
             {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
           </div>

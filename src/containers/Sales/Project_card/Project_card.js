@@ -64,10 +64,10 @@ const PROJECT_QUERY = gql`
             firstName
             lastName
           }
-          agencyCommission {
-            percent
-            value
-          }
+        agencyCommission {
+          value
+          percent
+        }
           projectAttachments {
             edges {
               node {
@@ -207,7 +207,7 @@ const Project_card = (props) => {
             },
             {
               title: dataItem.agencyCommission ? 'Агентская комиссия::' : '',
-              value: dataItem.agencyCommission ? dataItem.agencyCommission.percent : '',
+          value: dataItem.agencyCommission ? (dataItem.agencyCommission.value ? dataItem.agencyCommission.value : dataItem.agencyCommission.percent ) : ''
             },
           ],
         },
