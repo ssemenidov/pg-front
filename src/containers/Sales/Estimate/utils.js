@@ -109,24 +109,26 @@ export const getExtraCosts = (data = [], sort = '', period = '') => {
   }
   switch (period) {
     case 'increase':
-      modifiedData = modifiedData.sort((a, b) => {
-        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
-        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
-        const duration = moment.duration(END.diff(START));
-        const duration2 = moment.duration(END2.diff(START2));
-        return duration._milliseconds - duration2._milliseconds;
-      });
+      modifiedData = modifiedData
+        .sort((a, b) => {
+          const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+          const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+          const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+          const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+          const duration = moment.duration(END.diff(START)).asDays();
+          const duration2 = moment.duration(END2.diff(START2)).asDays();
+          return duration - duration2;
+        })
+        .reverse();
     case 'decrease':
       modifiedData = modifiedData.sort((a, b) => {
         const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
         const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
         const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
         const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
-        const duration = moment.duration(END.diff(START));
-        const duration2 = moment.duration(END2.diff(START2));
-        return duration2._milliseconds - duration._milliseconds;
+        const duration = moment.duration(END.diff(START)).asDays();
+        const duration2 = moment.duration(END2.diff(START2)).asDays();
+        return duration - duration2;
       });
   }
 
