@@ -36,6 +36,7 @@ const Estimate = () => {
   const [createModal, setCreateModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [sort, setSort] = useState('');
+  const [periodFilter, setPeriodFilter] = useState('');
   const [created, setCreated] = useState(false);
   const links = [
     { id: '', value: 'Главная' },
@@ -68,6 +69,8 @@ const Estimate = () => {
         setCreateModal,
         openEditModal,
         setOpenEditModal,
+        periodFilter,
+        setPeriodFilter,
       }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <LeftBar className="left-bar">

@@ -49,11 +49,11 @@ export const getBookedSides = (data = [], sort = '') => {
 export const getExtraCosts = (data = [], sort = '') => {
   let modifiedData = data.map((charge) => {
     let price = charge.node.price ? charge.node.price : 0;
-    let discount = charge.node.discount ? charge.node.discount : 0;
+    let discount = charge.node.discountPercent ? charge.node.discountPercent : 0;
     let count = charge.node.count ? charge.node.count : 0;
     let sumAfterDiscount = price * (1.0 - discount / 100.0);
-    let agPercent = charge.node.percentAgentCommission ? charge.node.percentAgentCommission : 0;
-    let agValue = charge.node.valueAgentCommission ? charge.node.valueAgentCommission : 0;
+    let agPercent = charge.node.agencyCommission ? charge.node.agencyCommission.percent : 0;
+    let agValue = charge.node.agencyCommission ? charge.node.agencyCommission.value : 0;
     return {
       key: charge.node.id ? charge.node.id : '',
       nameOfService: charge.node.title ? charge.node.title : '',
@@ -66,7 +66,7 @@ export const getExtraCosts = (data = [], sort = '') => {
         : '',
       quantity: charge.node.count ? charge.node.count : '',
       price: charge.node.price ? charge.node.price + ' тг.' : '',
-      discount: charge.node.discount ? charge.node.discount + '%' : '',
+      discount: discount + '%',
       priceAfterDiscount: sumAfterDiscount.toFixed(2) + ' тг.',
       sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
       percentAK: agPercent + ' %',
@@ -107,8 +107,8 @@ export const gettNonRts = (data = [], sort = '') => {
     let quantity = item.node.count || 0;
     let sumInput = inputRent + inputTax + inputPrint + inputMount + inputManufacture + inputCosts;
     let sumSell = sellRent + sellTax + sellPrint + sellMount + sellManufacture + sellAdditonalCosts;
-    let agPercent = item.node.percentAgentCommission || 0;
-    let agValue = item.node.valueAgentCommission || 0;
+    let agPercent = item.node.agencyCommission ? item.node.agencyCommission.percent : 0;
+    let agValue = item.node.agencyCommission ? item.node.agencyCommission.value : 0;
 
     return {
       key: item.node.id,
@@ -366,6 +366,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               name="count"
               className="editForm-item"
               labelAlign="left"
+              rules={[{ required: true, message: 'Пожалуйста введите количество.' }]}
               colon={false}
               initialValue={0}
               label={InputLabel('Кол-во')}>
@@ -377,6 +378,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               labelAlign="left"
               initialValue={0}
               colon={false}
+              rules={[{ required: true, message: 'Пожалуйста введите цену.' }]}
               label={InputLabel('Цена')}>
               <InputNumber size="large" formatter={(value) => `${value} тг`} />
             </Form.Item>
@@ -412,7 +414,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 }}
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item className="editForm-item">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -424,7 +426,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   borderRadius: '4px',
                   backgroundColor: '#2C5DE5',
                 }}>
-                Добавить
+                Сохранить
               </Button>
             </Form.Item>
           </div>
@@ -787,7 +789,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                     borderRadius: '4px',
                     backgroundColor: '#2C5DE5',
                   }}>
-                  Добавить
+                  Сохранить
                 </Button>
               </Form.Item>
             </div>
@@ -838,10 +840,12 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               let input = {
                 title: values.name,
                 count: values.count,
-                discount: values.discount,
+                discountPercent: values.discount,
                 price: values.price,
-                percentAgentCommission: values.agPercent,
-                valueAgentCommission: values.agSumm,
+                agencyCommission: {
+                  value: values.agSumm,
+                  percent: values.agPercent,
+                },
                 city: values.city,
                 startPeriod: start,
                 endPeriod: end,
@@ -882,10 +886,13 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 saleAdditional: values.summCosts,
                 saleInstallation: values.summMount,
                 saleManufacturing: values.summManufacture,
-                valueAgentCommission: values.agSumm,
-                percentAgentCommission: values.agPercent,
+                agencyCommission: {
+                  value: values.agSumm,
+                  percent: values.agPercent,
+                },
                 city: values.city,
               };
+              console.log(nonRtsInput);
               // console.log(nonRtsInput);
               updateNonRts({
                 variables: {
@@ -1082,6 +1089,7 @@ export const CreateCosts = ({ block, refetch }) => {
               labelAlign="left"
               colon={false}
               initialValue={0}
+              rules={[{ required: true, message: 'Пожалуйста введите количество.' }]}
               label={InputLabel('Кол-во')}>
               <InputNumber type="number" size="large" />
             </Form.Item>
@@ -1091,6 +1099,7 @@ export const CreateCosts = ({ block, refetch }) => {
               labelAlign="left"
               initialValue={0}
               colon={false}
+              rules={[{ required: true, message: 'Пожалуйста введите цену.' }]}
               label={InputLabel('Цена')}>
               <InputNumber size="large" formatter={(value) => `${value} тг`} />
             </Form.Item>
@@ -1126,7 +1135,7 @@ export const CreateCosts = ({ block, refetch }) => {
                 }}
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item className="editForm-item">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -1553,10 +1562,12 @@ export const CreateCosts = ({ block, refetch }) => {
                 let input = {
                   title: values.name,
                   count: values.count,
-                  discount: values.discount,
+                  discountPercent: values.discount,
                   price: values.price,
-                  percentAgentCommission: values.agPercent,
-                  valueAgentCommission: values.agSumm,
+                  agencyCommission: {
+                    value: values.agSumm,
+                    percent: values.agPercent,
+                  },
                   city: values.city,
                   startPeriod: start,
                   endPeriod: end,
@@ -1597,8 +1608,10 @@ export const CreateCosts = ({ block, refetch }) => {
                   saleAdditional: values.summCosts,
                   saleInstallation: values.summMount,
                   saleManufacturing: values.summManufacture,
-                  valueAgentCommission: values.agSumm,
-                  percentAgentCommission: values.agPercent,
+                  agencyCommission: {
+                    value: values.agSumm,
+                    percent: values.agPercent,
+                  },
                   city: values.city,
                   project: currentId,
                 };
@@ -1762,6 +1775,77 @@ export const CityFilterDropdown = (props) => {
               );
             })}
           </Select>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const PeriodFilterDropdown = (props) => {
+  const { periodFilter, setPeriodFilter } = useContext(EstimateContext);
+
+  return (
+    <div
+      style={{
+        width: 260,
+      }}>
+      <div
+        style={{
+          padding: '16px',
+        }}>
+        <p
+          style={{
+            fontSize: 14,
+            color: periodFilter.length ? '#2C5DE5' : '#1A1A1A',
+            marginBottom: 16,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setPeriodFilter('increase');
+            props.clearFilters();
+            props.confirm();
+          }}>
+          Сортировать по увеличению
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            color: '#1A1A1A',
+            marginBottom: 0,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            props.confirm();
+            props.clearFilters();
+          }}>
+          Сортировать по уменьшению
+        </p>
+      </div>
+      <div
+        style={{
+          borderTop: '1px solid #D3DFF0',
+        }}>
+        <div
+          style={{
+            padding: 16,
+          }}>
+          <p
+            style={{
+              color: '#656565',
+              fontSize: 12,
+            }}>
+            ОПЦИИ
+          </p>
+          <DatePicker
+            style={{
+              width: '100%',
+            }}
+            onSelect={(val) => {
+              props.setSelectedKeys([val]);
+              props.confirm();
+            }}
+            placeholder="Выберите дату"
+          />
         </div>
       </div>
     </div>

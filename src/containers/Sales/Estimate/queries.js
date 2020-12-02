@@ -22,7 +22,7 @@ export const CREATE_ADDITIONAL_COSTS = gql`
         startPeriod
         endPeriod
         count
-        discount
+        discountPercent
         price
         count
         city {
@@ -122,9 +122,11 @@ export const EXTRA_COSTS_QUERY = gql`
           endPeriod
           price
           count
-          discount
-          percentAgentCommission
-          valueAgentCommission
+          discountPercent
+          agencyCommission {
+            percent
+            value
+          }
         }
       }
     }
@@ -155,8 +157,10 @@ export const NON_RTS_QUERY = gql`
           saleInstallation
           saleManufacturing
           saleAdditional
-          valueAgentCommission
-          percentAgentCommission
+          agencyCommission {
+            percent
+            value
+          }
         }
       }
     }
@@ -233,9 +237,11 @@ export const PROJECT_EXTRA_COSTS_QUERY = gql`
                 endPeriod
                 price
                 count
-                discount
-                percentAgentCommission
-                valueAgentCommission
+                discountPercent
+                agencyCommission {
+                  percent
+                  value
+                }
               }
             }
           }
@@ -275,8 +281,10 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 saleInstallation
                 saleManufacturing
                 saleAdditional
-                valueAgentCommission
-                percentAgentCommission
+                agencyCommission {
+                  percent
+                  value
+                }
               }
             }
           }
@@ -294,9 +302,11 @@ export const UPDATE_ADDITIONAL_COSTS = gql`
         endPeriod
         startPeriod
         price
-        discount
-        percentAgentCommission
-        valueAgentCommission
+        discountPercent
+        agencyCommission {
+          value
+          percent
+        }
       }
     }
   }

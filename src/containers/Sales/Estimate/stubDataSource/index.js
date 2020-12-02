@@ -1,6 +1,4 @@
-import React from 'react';
-// import { ReactComponent as ArrowDown } from '../../../../img/icon_dropdown_select.svg';
-import { CityFilterDropdown } from '../utils';
+import { CityFilterDropdown, PeriodFilterDropdown } from '../utils';
 
 export const initColumnsForPopupBookedSides = [
   {
@@ -11,10 +9,13 @@ export const initColumnsForPopupBookedSides = [
     isShowed: true,
   },
   {
-    key: 'city',
     title: 'Город',
     dataIndex: 'city',
     width: 130,
+    filterDropdown: CityFilterDropdown,
+    onFilter: (val, record) => {
+      return record.city === val;
+    },
     isShowed: true,
   },
   {
@@ -44,6 +45,10 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'period',
     width: 130,
     isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      console.log('filtering...');
+    },
   },
   {
     key: 'branding',
@@ -207,9 +212,15 @@ export const initColumnsTableBookedSides = [
     width: 130,
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
+    isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      console.log('filtering...');
+    },
   },
   {
     title: 'Брендинг (да/нет)',
