@@ -4,7 +4,7 @@ import { locationContext } from '../../../../../containers/Base/Location/Locatio
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import { DatePicker } from 'antd';
-import { StyledSelect,StyledInput } from '../../../../Styles/DesignList/styles';
+import { StyledInput } from '../../../../Styles/DesignList/styles';
 
 import numberIcon from '../../../../../img/input/number.svg';
 export const AkimatResolution = (props) => {
@@ -17,7 +17,7 @@ export const AkimatResolution = (props) => {
           <div style={{ width: '49%' }}>
             <InputTitle>Номер</InputTitle>
             <StyledInput
-              prefix={<img src={numberIcon} />}
+              prefix={<img src={numberIcon} alt={"Номер"}/>}
               value={item.resolutionNumber ? item.resolutionNumber :""}
               onChange={(e) => {setItem({...item, resolutionNumber:e.target.value})}}
               size={'large'}

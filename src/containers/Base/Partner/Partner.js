@@ -1,11 +1,9 @@
-import React, { useMemo, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 import InnerForm from './TabPanelForm/TabPanelFormPartner';
 
-import { Layout, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
-import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { Layout } from 'antd';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import { routes } from '../../../routes';
@@ -13,8 +11,8 @@ import { routes } from '../../../routes';
 const { Content, Sider } = Layout;
 
 export const partnerContext = createContext();
-const PartnersInfo = (props) => {
-  const [id, setId] = useState(props.match.params.id);
+const PartnersInfo = ({match}) => {
+  // const [id, ] = useState(match.params.id);
   const [item, setItem] = useState({});
   const PARTNER_ITEM = gql`
     query SearchPartner($id: ID!) {
@@ -122,48 +120,48 @@ const PartnersInfo = (props) => {
         }
       }
     }
-`;
+  `;
 
-const { error, data, loading } = useQuery(PARTNER_ITEM, { variables: { id: id } });
+  const { error, data, loading } = useQuery(PARTNER_ITEM, { variables: { id: match.params.id } });
 
-useMemo(() => {
-  if (data) {
-    setItem(data.searchPartner.edges[0].node);
-  }
-}, [data]);
+  useEffect(() => {
+    if (data) {
+      setItem(data.searchPartner.edges[0].node);
+    }
+  }, [data]);
 
-if (error) return <h3>Error :(</h3>;
-if (loading) return <LoadingAntd/>;
+  if (error) return <h3>Error :(</h3>;
+  if (loading) return <LoadingAntd/>;
   return (
     <partnerContext.Provider value={ [item, setItem]}>
-    <Layout>
       <Layout>
-        <Sider className="layout-sider"></Sider>
-        <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]}/>
-          {/*<Breadcrumb className="layout-breadcrumb">*/}
-          {/*  <Breadcrumb.Item>*/}
-          {/*    <img src={breadcrumbs} alt="Главная" style={{ margin: '0 8px 0 0' }} />*/}
-          {/*    <Link to="/">Главная</Link>*/}
-          {/*  </Breadcrumb.Item>*/}
-          {/*  <Breadcrumb.Item>*/}
-          {/*    <Link to="/base/">Базы</Link>*/}
-          {/*  </Breadcrumb.Item>*/}
-          {/*  <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>*/}
-          {/*</Breadcrumb>*/}
+        <Layout>
+          <Sider className="layout-sider"></Sider>
+          <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
+            <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]}/>
+            {/*<Breadcrumb className="layout-breadcrumb">*/}
+            {/*  <Breadcrumb.Item>*/}
+            {/*    <img src={breadcrumbs} alt="Главная" style={{ margin: '0 8px 0 0' }} />*/}
+            {/*    <Link to="/">Главная</Link>*/}
+            {/*  </Breadcrumb.Item>*/}
+            {/*  <Breadcrumb.Item>*/}
+            {/*    <Link to="/base/">Базы</Link>*/}
+            {/*  </Breadcrumb.Item>*/}
+            {/*  <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>*/}
+            {/*</Breadcrumb>*/}
 
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: 0,
-              minHeight: 280,
-            }}>
-            <InnerForm  constructionID={props.match.params.id} />
-          </Content>
+            <Content
+              className="site-layout-background"
+              style={{
+                margin: 0,
+                minHeight: 280,
+              }}>
+              <InnerForm  constructionID={match.params.id} />
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-      <style>
-        {`
+        <style>
+          {`
           .layout-main {
             background: #fff !important;
             height: 100% !important;
@@ -182,8 +180,8 @@ if (loading) return <LoadingAntd/>;
             color: #8AA1C1 !important;
           }
         `}
-      </style>
-    </Layout>
+        </style>
+      </Layout>
     </partnerContext.Provider>
   );
 };

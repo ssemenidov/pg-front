@@ -3,7 +3,6 @@ import { useHistory, useParams } from 'react-router';
 import dateFormat from 'dateformat';
 import { gql, useQuery } from '@apollo/client';
 
-import {Link} from "react-router-dom";
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
@@ -24,9 +23,7 @@ import { SliderState } from '../../../components/SlidingBottomPanel/SliderState'
 import { ReservationSlider } from './BottomSlider';
 
 import collapseIcon from '../../../img/collapse-icon.svg';
-import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
 import { routes } from '../../../routes';
-import { column } from '../../../components/Table/utils';
 
 
 const PROJECT_QUERY = gql`
@@ -194,11 +191,11 @@ const Project_card = (props) => {
       content: [
         {
           title: 'Рекламодатель:',
-          value: (dataItem.client && dataItem.client.partnerType == 'Рекламодатель' && dataItem.title) || '-'
+          value: (dataItem.client && dataItem.client.partnerType === 'Рекламодатель' && dataItem.title) || '-'
         },
         {
           title: 'Рекламное агентство:',
-          value: (dataItem.client && dataItem.client.partnerType == 'Рекламное агентство' && dataItem.title) || ''
+          value: (dataItem.client && dataItem.client.partnerType === 'Рекламное агентство' && dataItem.title) || ''
         },
         {
           title: 'Брендинг',

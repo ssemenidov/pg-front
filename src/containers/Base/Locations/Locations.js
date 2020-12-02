@@ -11,10 +11,14 @@ import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
-import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { routes } from '../../../routes';
+
 export const locationsContext = createContext();
+
+
 const LOCATION_CREATE = gql`
   mutation {
     createLocation(input: {}) {
@@ -29,14 +33,12 @@ const Locations = (props) => {
   const [collapsed, setCollapsed] = useState(true);
   const [filter, setFilter] = useState({});
   const [createLocation, { data }] = useMutation(LOCATION_CREATE);
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
-      history.push(`/base/locations/location/${data.createLocation.location.id}`);
+      history.push(routes.bases.location.url(data.createLocation.location.id));
     }
   }, [data]);
   const addLocation= () => {
-    history.push(`/base/locations`);
-    return
     createLocation();
   };
   return (
@@ -47,16 +49,7 @@ const Locations = (props) => {
         </LeftBar>
         {collapsed && <FilterBar />}
         <div className="locations-table-bar">
-          <Breadcrumb className="layout-breadcrumb">
-            <Breadcrumb.Item>
-              <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-              <Link to="/">Главная</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/base/">Базы</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Список местоположений</Breadcrumb.Item>
-          </Breadcrumb>
+          <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.locations]} />
           <HeaderWrapper>
             <HeaderTitleWrapper>
               <TitleLogo />

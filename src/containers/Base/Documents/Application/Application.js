@@ -1,7 +1,10 @@
-import React, { createContext, useState, useMemo } from 'react';
+import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Layout, Breadcrumb } from 'antd';
+import { BreadCrumbsRoutes } from '../../../../components/BreadCrumbs/BreadCrumbs';
+import { routes  } from '../../../../routes';
+import { LoadingAntd } from '../../../../components/UI/Loader/Loader';
 
 import InnerForm from './TabPanelForm/TabPanelFormApplication';
 
@@ -11,57 +14,64 @@ const { Content, Sider } = Layout;
 
 export const constructApplication = createContext();
 
-const APPLICATION_ITEM = gql`
- query searchApplication($id: ID) {
-    searchApplication(id: $id) {
+const ATTACHMENT_ITEM = gql`
+  query searchApplication($id: ID) {
+    searchAttachment(id: $id) {
       edges {
-      node {
-        id
-        reservation {
-          edges {
-            node {
-              dateFrom
-              dateTo
+        node {
+          id
+          periodStartDate
+          periodEndDate
+          createdDate
+          contract {
+            id
+            partner {
+              id
+              title
             }
           }
-        }
-        project {
-          title
-          creator
-          createdAt
-          comment
-          brand {
-            id
-            title
-          }
-          partner {
+          reservations {
             edges {
               node {
-                id
-                title
+                dateFrom
+                dateTo
               }
+            }
+          }
+          project {
+            title
+            creator {
+              id
+              firstName
+              lastName
+            }
+            createdAt
+            comment
+            brand {
+              id
+              title
             }
           }
         }
       }
     }
-    }
   }
 `;
 
-const ApplicationBase = (props) => {
-  const [ id ] = useState(props.match.params.id);
+const ApplicationBase = ({match}) => {
   const [item, setItem] = useState({});
 
-  const { error, data, loading } = useQuery( APPLICATION_ITEM, { variables: { id } } )
+  const { error, data, loading } = useQuery(ATTACHMENT_ITEM, { variables: { id: match.params.id } })
 
-  useMemo(() => {
-    if (data && data.searchApplication.edges.length) {
-      setItem(data.searchApplication.edges[0].node);
+  useEffect(() => {
+    if (data && data.searchAttachment.edges.length) {
+      setItem(data.searchAttachment.edges[0].node);
     }
   }, [data]);
-  if (error) return <h3>Error :(</h3>;
-  if (loading) return <h3></h3>;
+  if (error)
+    return <h3>Error :(</h3>;
+  if (loading)
+    return <LoadingAntd/>;
 
   return (
     <constructApplication.Provider value={[item, setItem]}>
@@ -69,19 +79,10 @@ const ApplicationBase = (props) => {
         <Layout>
           <Sider className="layout-sider"></Sider>
           <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-            <Breadcrumb className="layout-breadcrumb">
-              <Breadcrumb.Item>
-                <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-                <Link to="/">Главная</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to="/base/">Базы</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to="/base/documents/">Документы</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>Приложение</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadCrumbsRoutes links={[
+              routes.root.root, routes.bases.root, routes.bases.agreements,
+              routes.bases.agreement.url(data.searchAttachment.edges[0].node.contract.id)
+            ]}/>
             <Content
               className="site-layout-background"
               style={{

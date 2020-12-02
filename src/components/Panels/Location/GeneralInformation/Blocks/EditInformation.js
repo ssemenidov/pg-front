@@ -6,8 +6,6 @@ import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styl
 import { StyledInput ,StyledSelect} from '../../../../Styles/DesignList/styles';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
-import postIcon from '../../../../../img/input/post.svg';
-import cityIcon from '../../../../../img/input/city.svg';
 import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import useDebounce from '../../../../../containers/Administration/components/useDebounce';
 
@@ -77,7 +75,7 @@ export const EditInformation = () => {
             prefix={<img src={anchorIcon} />}
             defaultValue={apiData.area ? apiData.area :""}
               onChange={(e) => {setApiData({...apiData, area:e.target.value})}}
-              placeholder="34"
+              placeholder="Введите площадь местоположения (га)"
               size={'large'}
             />
           </div>
@@ -101,7 +99,7 @@ export const EditInformation = () => {
             <StyledSelect
               showSearch
               value={locPurpose}
-              defaultValue={apiData.purposeLocation.title}
+              defaultValue={(apiData.purposeLocation && apiData.purposeLocation.title) || ''}
               defaultActiveFirstOption={false}
               showArrow={false}
               filterOption={false}
