@@ -11,7 +11,7 @@ import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './queries';
 
-export const getBookedSides = (data = [], sort = '') => {
+export const getBookedSides = (data = [], sort = '', period = '') => {
   let modifiedData = data.map((invoice) => {
     return {
       key: invoice.node.id,
@@ -32,7 +32,7 @@ export const getBookedSides = (data = [], sort = '') => {
 
   switch (sort) {
     case 'abc':
-      return modifiedData.sort((a, b) => {
+      modifiedData = modifiedData.sort((a, b) => {
         if (a.city < b.city) {
           return -1;
         }
@@ -41,12 +41,34 @@ export const getBookedSides = (data = [], sort = '') => {
         }
         return 0;
       });
-    default:
-      return modifiedData;
   }
+  switch (period) {
+    case 'increase':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration._milliseconds - duration2._milliseconds;
+      });
+    case 'decrease':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration2._milliseconds - duration._milliseconds;
+      });
+  }
+
+  return modifiedData;
 };
 
-export const getExtraCosts = (data = [], sort = '') => {
+export const getExtraCosts = (data = [], sort = '', period = '') => {
   let modifiedData = data.map((charge) => {
     let price = charge.node.price ? charge.node.price : 0;
     let discount = charge.node.discountPercent ? charge.node.discountPercent : 0;
@@ -75,7 +97,7 @@ export const getExtraCosts = (data = [], sort = '') => {
   });
   switch (sort) {
     case 'abc':
-      return modifiedData.sort((a, b) => {
+      modifiedData = modifiedData.sort((a, b) => {
         if (a.city < b.city) {
           return -1;
         }
@@ -84,9 +106,31 @@ export const getExtraCosts = (data = [], sort = '') => {
         }
         return 0;
       });
-    default:
-      return modifiedData;
   }
+  switch (period) {
+    case 'increase':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration._milliseconds - duration2._milliseconds;
+      });
+    case 'decrease':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration2._milliseconds - duration._milliseconds;
+      });
+  }
+
+  return modifiedData;
 };
 
 export const gettNonRts = (data = [], sort = '') => {
@@ -1796,12 +1840,19 @@ export const PeriodFilterDropdown = (props) => {
         <p
           style={{
             fontSize: 14,
-            color: periodFilter.length ? '#2C5DE5' : '#1A1A1A',
+            color: periodFilter === 'increase' ? '#2C5DE5' : '#1A1A1A',
             marginBottom: 16,
             cursor: 'pointer',
           }}
           onClick={() => {
-            setPeriodFilter('increase');
+            setPeriodFilter((prevState) => {
+              switch (prevState) {
+                case 'increase':
+                  return '';
+                default:
+                  return 'increase';
+              }
+            });
             props.clearFilters();
             props.confirm();
           }}>
@@ -1810,13 +1861,21 @@ export const PeriodFilterDropdown = (props) => {
         <p
           style={{
             fontSize: 14,
-            color: '#1A1A1A',
+            color: periodFilter === 'decrease' ? '#2C5DE5' : '#1A1A1A',
             marginBottom: 0,
             cursor: 'pointer',
           }}
           onClick={() => {
             props.confirm();
             props.clearFilters();
+            setPeriodFilter((prevState) => {
+              switch (prevState) {
+                case 'decrease':
+                  return '';
+                default:
+                  return 'decrease';
+              }
+            });
           }}>
           Сортировать по уменьшению
         </p>
@@ -1840,9 +1899,16 @@ export const PeriodFilterDropdown = (props) => {
             style={{
               width: '100%',
             }}
+            onChange={(val) => {
+              if (!val) {
+                props.clearFilters();
+              }
+            }}
+            format="DD.MM.YYYY"
             onSelect={(val) => {
-              props.setSelectedKeys([val]);
+              props.setSelectedKeys([val.toDate().setHours(0, 0, 0, 0)]);
               props.confirm();
+              console.log('cleared');
             }}
             placeholder="Выберите дату"
           />

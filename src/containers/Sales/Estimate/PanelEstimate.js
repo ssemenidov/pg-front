@@ -34,7 +34,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
   const { appId, id } = useParams();
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
-  const { sort, setSort, openEditModal, setOpenEditModal } = useContext(EstimateContext);
+  const { sort, setSort, openEditModal, setOpenEditModal, periodFilter, setPeriodFilter } = useContext(EstimateContext);
   let extraCosts = [];
 
   useEffect(() => {
@@ -70,12 +70,14 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
           bookedSides = getBookedSides(
             data.searchAttachment.edges.length ? data.searchAttachment.edges[0].node.reservations.edges : [],
             sort,
+            periodFilter,
           );
         }
         if (id) {
           bookedSides = getBookedSides(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.reservations.edges : [],
             sort,
+            periodFilter,
           );
         }
         break;
@@ -84,12 +86,14 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
           extraCosts = getExtraCosts(
             data.searchSalesAdditionalCost.edges.length ? data.searchSalesAdditionalCost.edges : [],
             sort,
+            periodFilter,
           );
         }
         if (id) {
           extraCosts = getExtraCosts(
             data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCosts.edges : [],
             sort,
+            periodFilter,
           );
         }
         break;
@@ -213,6 +217,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
               });
               setBlock(0);
               setSort('');
+              setPeriodFilter('');
             }}>
             ЗАБРОНИРОВАННЫЕ СТОРОНЫ
           </CustomTabBtn>
@@ -223,6 +228,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
               setQuery(appId ? EXTRA_COSTS_QUERY : id ? PROJECT_EXTRA_COSTS_QUERY : '');
               setBlock(1);
               setSort('');
+              setPeriodFilter('');
             }}>
             ДОП. РАСХОДЫ
           </CustomTabBtn>
@@ -233,6 +239,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
               setQuery(appId ? NON_RTS_QUERY : id ? PROJECT_NON_RTS_QUERY : '');
               setBlock(2);
               setSort('');
+              setPeriodFilter('');
             }}>
             НОН РТС
           </CustomTabBtn>

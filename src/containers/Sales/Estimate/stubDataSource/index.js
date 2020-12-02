@@ -216,10 +216,13 @@ export const initColumnsTableBookedSides = [
     title: 'Период',
     dataIndex: 'period',
     width: 130,
-    isShowed: true,
     filterDropdown: PeriodFilterDropdown,
     onFilter: (a, b) => {
-      console.log('filtering...');
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
     },
   },
   {
@@ -256,10 +259,19 @@ export const initColumnsForPopupExtraCharge = [
     isShowed: true,
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
     isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
+    },
   },
   {
     title: 'Кол-во',
@@ -360,9 +372,19 @@ export const initColumnsTableExtraCharge = [
     },
   },
   {
+    key: 'period',
     title: 'Период',
     dataIndex: 'period',
     width: 130,
+    isShowed: true,
+    filterDropdown: PeriodFilterDropdown,
+    onFilter: (a, b) => {
+      if (b.period) {
+        const start = new Date(b.period.split(' - ')[0].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        const end = new Date(b.period.split(' - ')[1].split('.').reverse().join('-')).setHours(0, 0, 0, 0);
+        return start <= a && end >= a;
+      }
+    },
   },
   {
     title: 'Кол-во',
