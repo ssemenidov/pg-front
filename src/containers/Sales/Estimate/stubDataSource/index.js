@@ -7,6 +7,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'code',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
@@ -24,6 +33,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'address',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.address < b.address) {
+        return -1;
+      }
+      if (a.address > b.address) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'format',
@@ -31,6 +49,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'format',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.format < b.format) {
+        return -1;
+      }
+      if (a.format > b.format) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'side',
@@ -38,6 +65,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'side',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.side < b.side) {
+        return -1;
+      }
+      if (a.side > b.side) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'period',
@@ -56,6 +92,15 @@ export const initColumnsForPopupBookedSides = [
     dataIndex: 'branding',
     width: 130,
     isShowed: true,
+    sorter: (a, b) => {
+      if (a.branding < b.branding) {
+        return -1;
+      }
+      if (a.branding > b.branding) {
+        return 1;
+      }
+      return 0;
+    },
   },
 
   {
@@ -185,6 +230,15 @@ export const initColumnsTableBookedSides = [
     title: 'Код стороны',
     dataIndex: 'code',
     width: 130,
+    sorter: (a, b) => {
+      if (a.code < b.code) {
+        return -1;
+      }
+      if (a.code > b.code) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Город',
@@ -200,16 +254,43 @@ export const initColumnsTableBookedSides = [
     title: 'Адрес',
     dataIndex: 'address',
     width: 130,
+    sorter: (a, b) => {
+      if (a.address < b.address) {
+        return -1;
+      }
+      if (a.address > b.address) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Формат',
     dataIndex: 'format',
     width: 130,
+    sorter: (a, b) => {
+      if (a.format < b.format) {
+        return -1;
+      }
+      if (a.format > b.format) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Сторона',
     dataIndex: 'side',
     width: 130,
+    sorter: (a, b) => {
+      if (a.side < b.side) {
+        return -1;
+      }
+      if (a.side > b.side) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     key: 'period',
@@ -229,6 +310,15 @@ export const initColumnsTableBookedSides = [
     title: 'Брендинг (да/нет)',
     dataIndex: 'branding',
     width: 130,
+    sorter: (a, b) => {
+      if (a.branding < b.branding) {
+        return -1;
+      }
+      if (a.branding > b.branding) {
+        return 1;
+      }
+      return 0;
+    },
   },
 ];
 
