@@ -92,18 +92,18 @@ const LOCATION_UPDATE = gql`
   }
 `;
 
-export default function InnerForm(props) {
-  const  [apiData, setApiData] = useContext(locationContext);
+export default function InnerForm() {
+  const  [apiData, ] = useContext(locationContext);
 
   const history = useHistory();
   const [updateLocation] = useMutation(LOCATION_UPDATE);
   const [deleteLocation] = useMutation(LOCATION_DELETE);
   const Update = () => {
-    console.log(apiData);
-    let constructionIdList = null;
-    if(apiData.construction && apiData.construction.edges) {
-      constructionIdList = apiData.construction.edges.map(item => item.node.id);
-    }
+
+    // let constructionIdList = null;
+    // if(apiData.construction && apiData.construction.edges) {
+    //   constructionIdList = apiData.construction.edges.map(item => item.node.id);
+    // }
 
     updateLocation({ variables:  {
       ...apiData,
@@ -169,16 +169,16 @@ export default function InnerForm(props) {
             </STabList>
             <div style={{ display: 'flex' }}>
               <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
+                <img src={printerIcon} alt={"Печать"}/>
               </Button>
               <Button
                 style={{ width: '110px', margin: '0 5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 className="header-btn">
-                <img src={exportIcon} />
+                <img src={exportIcon} alt={"Экспорт"}/>
                 <span>Экспорт</span>
               </Button>
               <Button className="header-btn">
-                <img src={settingsIcon} />
+                <img src={settingsIcon} alt={"Фильтр"}/>
               </Button>
             </div>
           </ControlToolbar>

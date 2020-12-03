@@ -43,47 +43,22 @@ const InnerForm = () => {
   };
 
   const onChangeDatePicker = (date) => {
-    const dateNow = date && date;
-
-    if(dateNow) {
-      setItem({...item, project: {
-        ...item.project,
-        createdAt: new Date(dateNow)
-      }});
+    if (date) {
+      setItem({...item, createdDate: new Date(date)});
     }
   }
 
   const handlerRangePicker = ([dateFrom, dateTo]) => {
     if(dateFrom) {
-      setItem({...item, reservation: {
-        edges: [
-          ...(item.reservation ? item.reservation.edges : []),
-          {
-            node: {
-              dateFrom: new Date(dateFrom)
-            }
-          }
-        ]
-      }});
+      setItem({...item, periodStartDate: new Date(dateFrom) });
     }
     if(dateTo) {
-      setItem({...item, reservation: {
-        edges: [
-          ...(item.reservation ? item.reservation.edges : []),
-          {
-            node: {
-              dateTo: new Date(dateTo)
-            }
-          }
-        ]
-      }});
+      setItem({...item, periodEndDate: new Date(dateTo) });
     }
   }
 
   const saveChangedData = (e) => {
     e.preventDefault();
-
-
   }
 
   return (
@@ -135,7 +110,7 @@ const InnerForm = () => {
                             size={'large'}
                             format='DD/MM/YYYY'
                             style={{ width: '100%' }}
-                            defaultValue={item.project ? moment(item.project.createdAt) : ''}
+                            defaultValue={moment(item.createdDate)}
                             onChange={onChangeDatePicker}
                           />
                         </div>
@@ -262,21 +237,8 @@ const InnerForm = () => {
                           <DatePicker.RangePicker
                             prefix={<img src={owner} alt={"Период приложения"}/>}
                             defaultValue={[
-                              moment(
-                                (item.reservation
-                                  && item.reservation.edges
-                                  && item.reservation.edges[0]
-                                  && item.reservation.edges[0].node
-                                  && item.reservation.edges[0].node.dateFrom)
-                                  ? item.reservation.edges[0].node.dateFrom
-                                  : new Date(), "YYYY/MM/DD"),
-                              moment((item.reservation
-                                && item.reservation.edges
-                                && item.reservation.edges[0]
-                                && item.reservation.edges[0].node
-                                && item.reservation.edges[0].node.dateTo)
-                                ? item.reservation.edges[0].node.dateTo
-                                : new Date(), "YYYY/MM/DD")
+                              moment(item.periodStartDate || new Date(), "YYYY/MM/DD"),
+                              moment(item.periodEndDate || new Date(), "YYYY/MM/DD")
                             ]}
                             format="YYYY/MM/DD"
                             onChange={handlerRangePicker}

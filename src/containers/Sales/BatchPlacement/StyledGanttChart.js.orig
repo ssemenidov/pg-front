@@ -4,8 +4,13 @@ import { ScheduleChartView } from '../AdvertisingParties/GanttChart/DlhGanttChar
 import { createPopover } from './tabPopover';
 
 
-export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater, sliderState}) {
+<<<<<<< HEAD
+export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
   let [/*state*/, setState] = useState([]);
+=======
+export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater, sliderState}) {
+  let [state, setState] = useState([]);
+>>>>>>> bd734b1be446f0e12221d36eb1624dac3f36762d
   let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
   useEffect(() => {

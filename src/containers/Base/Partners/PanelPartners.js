@@ -90,7 +90,7 @@ const initColumnsTable = [
 ];
 
 const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertiserIdSet }) => {
-  const [filter, setFilter] = useContext(partnersContext);
+  const [filter, ] = useContext(partnersContext);
   const history = useHistory();
   const [columnsForPopup, setColumnsForPopup] = useState(initColumnsForPopup);
   const [columnsTable, setColumnsTable] = useState(initColumnsTable);
@@ -132,12 +132,7 @@ const PanelDesign = ({ flagAddAdvertiserForPartner, advertiserIdSet, setAdvertis
     setColumnsForPopup(localColumnsForPopup);
 
     const newColumnTables = localColumnsForPopup.filter(item => {
-      if(item.isShowed) {
-        return item
-      }
-      if(item.dataIndex === 'btn-remove') {
-        return item
-      }
+      return item.isShowed || item.dataIndex === 'btn-remove';
     });
 
     setColumnsTable(newColumnTables);

@@ -69,9 +69,6 @@ export function selectOutdoorFurnitureSubgroup(key, subKey, mapSubgroup=defaultM
 }
 
 
-const simpleFilterFun = (searchValue) => searchValue;
-
-
 const GET_FAMILIES = gql`
   query SearchFamily($id: ID, $title: String) {
     searchFamilyConstruction(id: $id, title_Icontains: $title) {
@@ -353,29 +350,6 @@ const ADD_SIDE = gql`
   }
 `;
 
-const ADD_CONSTRUCTION_SIDE = gql`
-  mutation($id: ID, $sideId: ID) {
-    createConstructionSide(
-      input: {
-        side: $sideId
-        format: $id
-      }
-    ) {
-      constructionSide  {
-        id
-      }
-    }
-  }
-`;
-
-
-const DELETE_CONSTRUCTION_SIDE = gql`
-  mutation($id: ID!) {
-    deleteConstructionSide(id: $id) {
-      found
-    }
-  }
-`;
 
 const DELETE_SIDE = gql`
   mutation($sideId: ID!) {
@@ -384,6 +358,7 @@ const DELETE_SIDE = gql`
     }
   }
 `;
+
 
 const UPDATE_SIDE = gql`
   mutation($sideId: ID!, $title: String) {

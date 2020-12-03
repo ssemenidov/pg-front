@@ -13,8 +13,10 @@ import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
+import { routes } from '../../../routes';
 
 const { Content, Sider } = Layout;
+
 export const outContext = createContext();
 
 const CONSTRUCT_CREATE = gql`
@@ -73,13 +75,12 @@ const OutdoorFurniture = (props) => {
   const [updateCrew] = useMutation(ADD_CONSTRUCT_TO_CREW);
 
   let createConstruction = () => {
-    history.push('/base/outdoor_furniture');
-    // createConstructionMutation();
+    createConstructionMutation();
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
-      history.push(`/base/construction/${data.createConstruction.construction.id}`);
+      history.push(routes.bases.construction.url(data.createConstruction.construction.id));
     }
   }, [data]);
 

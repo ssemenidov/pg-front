@@ -189,11 +189,17 @@ export function ReservationSlider({sliderState}) {
                 console.log(projectName)
                 setProjectName(e.target.value)
                 }} /> */}
-              <p className="formItem-title">Менеджер</p>
+<<<<<<< HEAD
                 <StyledSelect
+                  placeholder={<><img src={anchorIcon} /> <span>Проект</span> </>}
+                  size={'large'}
+=======
+              <p className="formItem-title">Менеджер</p>
+                <StyledSelect  
                 showSearch
                   placeholder={<><img src={anchorIcon} /> <span>Выберите Менеджера</span> </>} 
-                  size={'large'}
+                  size={'large'} 
+>>>>>>> bd734b1be446f0e12221d36eb1624dac3f36762d
                   onChange={e => {
                     console.log(e)
                     setProject(e)

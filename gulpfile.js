@@ -8,8 +8,7 @@ const fs = require('fs');
 const os = require('os');
 const { spawn } = require("child_process");
 const dotenv = require('dotenv');
-const rsync = require('gulp-rsync');
-
+const rsync = require('./rsync')
 
 function rmbuild() {
   var cwd = process.cwd();
@@ -108,6 +107,9 @@ function deploy_production_rsync(cb) {
   let dest = getKey("DEPLOY_SFTP_DIRECTORY")
   let dest_backend = getKey("DEPLOY_SFTP_BACKEND_DIRECTORY") + '/static'
   console.log('src', srcPath, 'host', hostName, 'dst', dest)
+  console.log('=========', process.env['HOME'])
+  // let cmd_rsync = 'C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\rsync.exe';
+  // let cmd_ssh = "C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\ssh.exe -i cwrsync -o  'StrictHostKeyChecking no'";
   const rsync_args = {
     // exclude: config.deploy.exclude_html, // Excludes files from deploy
     hostname: hostName,
@@ -118,6 +120,8 @@ function deploy_production_rsync(cb) {
     clean: true,
     omit_dir_times: true,
     no_perms: true,
+    // shell: cmd_ssh,
+    // rsync_cmd: cmd_rsync
   }
 
   return gulp.series(
@@ -141,3 +145,17 @@ gulp.task('bdeploy', function(cb) { return gulp.series("build", "deploy", (done)
 gulp.task('bsdeploy', function(cb) { return gulp.series("build", "sdeploy", (done) => { done(); cb(); })(); });
 
 gulp.task('rmbuild', function(cb) { rmbuild(); cb() });
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

@@ -16,6 +16,8 @@ import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../compon
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
+import { routes } from '../../../routes';
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 
 const { Content, Sider } = Layout;
 export const partnersContext = createContext();
@@ -69,14 +71,14 @@ const Partners = () => {
   const [createContract, createContractData] = useMutation(CONTRACT_CREATE);
   const [updatePartner] = useMutation(ADD_ADVERTISER_TO_PARTNER);
 
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
-      history.push(`/base/partners/partner/${data.createPartner.partner.id}`);
+      history.push(routes.bases.partner.url(data.createPartner.partner.id));
     }
   }, [data]);
-  useMemo(() => {
+  useEffect(() => {
     if (createContractData.data) {
-      history.push(`/base/documents/agreement/${createContractData.data.createContract.contract.id}`);
+      history.push(routes.bases.agreement.url(createContractData.data.createContract.contract.id));
     }
   }, [createContractData.data]);
   useEffect(() => {
@@ -90,7 +92,7 @@ const Partners = () => {
           advertisers: advertiserIdSet
         }})
         .then((response) => {
-          history.push(`/base/partners/partner/${id}`);
+          history.push(routes.bases.partner.url(id));
           history.go(0);
         })
         .catch(error => {
@@ -111,16 +113,7 @@ const Partners = () => {
           </StyledSider>
           {collapsed && <FilterBar />}
           <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-            <Breadcrumb className="layout-breadcrumb">
-              <Breadcrumb.Item>
-                <img src={breadcrumbs} style={{ margin: '0 8px 0 0' }} />
-                <Link to="/">Главная</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to="/base/">Базы</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]}/>
             <HeaderWrapper>
               <HeaderTitleWrapper>
                 <TitleLogo />
@@ -173,7 +166,6 @@ const Partners = () => {
             background: #F5F7FA;
             min-width: 80px !important;
             max-width: 80px !important;
-
             border-right: 1px solid #d3dff0 !important;
           }
           .layout-breadcrumb {
@@ -183,9 +175,6 @@ const Partners = () => {
           .layout-breadcrumb a, .layout-breadcrumb span {
             color: #8AA1C1 !important;
           }
-
-
-
         `}
         </style>
       </Layout>

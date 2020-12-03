@@ -56,6 +56,7 @@ const PROJECT_QUERY = gql`
               title
             }
           }
+<<<<<<< HEAD
           salesManager {
             firstName
             lastName
@@ -64,10 +65,10 @@ const PROJECT_QUERY = gql`
             firstName
             lastName
           }
-        agencyCommission {
-          value
-          percent
-        }
+          agencyCommission {
+            percent
+            value
+          }
           projectAttachments {
             edges {
               node {
@@ -78,6 +79,30 @@ const PROJECT_QUERY = gql`
                 periodEndDate
                 returnStatus
               }
+=======
+        }
+        salesManager {
+          firstName
+          lastName
+        }
+        backOfficeManager {
+          firstName
+          lastName
+        }
+        agencyCommission {
+          value
+          percent
+        }
+        projectAttachments {
+          edges {
+            node {
+              id
+              code
+              createdDate
+              periodStartDate
+              periodEndDate
+              returnStatus
+>>>>>>> bd734b1be446f0e12221d36eb1624dac3f36762d
             }
           }
           reservations {
@@ -207,7 +232,7 @@ const Project_card = (props) => {
             },
             {
               title: dataItem.agencyCommission ? 'Агентская комиссия::' : '',
-          value: dataItem.agencyCommission ? (dataItem.agencyCommission.value ? dataItem.agencyCommission.value : dataItem.agencyCommission.percent ) : ''
+              value: dataItem.agencyCommission ? dataItem.agencyCommission.percent : '',
             },
           ],
         },
@@ -223,6 +248,17 @@ const Project_card = (props) => {
             },
           ],
         },
+<<<<<<< HEAD
+=======
+        {
+          title: 'Брендинг',
+          value: '9 999 тг.'
+        },
+        {
+          title: dataItem.agencyCommission ? 'Агентская комиссия::' : '',
+          value: dataItem.agencyCommission ? (dataItem.agencyCommission.value ? dataItem.agencyCommission.value : dataItem.agencyCommission.percent ) : ''
+        }
+>>>>>>> bd734b1be446f0e12221d36eb1624dac3f36762d
       ]
     : null;
 

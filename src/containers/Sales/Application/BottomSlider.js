@@ -72,26 +72,6 @@ const ReservationSliderSubmitButton = styled(SubmitButton)`
     min-width: 10rem;
 `;
 
-const ReservInputText = styled(Input)`
-  padding: 8px 30px;
-`
-
-const RESERVATION_PACKAGE_CREATOR = gql`
-mutation ( $input: CreateReservationPackageInput!) {
-  createReservationPackage(input: $input) {
-
-    reservationPackage {
-      id
-      dateTo
-      dateFrom
-      reservationType {
-        title
-      }
-    }
-  }
-}
-`
-
 const SEARCH_PARTNER = gql`
   query searchPartner($title_Icontains: String) {
       searchPartner(title_Icontains: $title_Icontains) {
@@ -106,24 +86,6 @@ const SEARCH_PARTNER = gql`
 `;
 
 export function ReservationSlider({sliderState, dataCount}) {
-  // const addItem = (values) => {
-  //   let parent = sliderState.caller.parent;
-  //   let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
-  //   if (parent) {
-  //     sliderState.caller.src.apiAdd({
-  //       id: parent.selected.key,
-  //       title: values.name
-  //     }, cb)
-  //   }
-  //   else {
-  //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
-  //   }
-  // };
-
-  let colSteps = {xl: 2, lg: 4, md: 6};
-  const [designList, setDesignList] = useState(null);
-  const [printArray, setSetPrintArray] = useState(null);
-
   const [partnerValue, setPartnerValue] = useState(undefined);
   const [partnerData, setPartnerData] = useState([]);
   const [partnerSearchText, setPartnerSearchText] = useState('');
@@ -131,7 +93,6 @@ export function ReservationSlider({sliderState, dataCount}) {
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
   const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
   let history = useHistory();
-  // const [filter, setFilter] = useContext(batchContext);
 
   const handleSearchPartner = (value) => {
     setPartnerSearchText(value);
@@ -149,7 +110,7 @@ export function ReservationSlider({sliderState, dataCount}) {
     setPartnerLoading(loading);
   }, [debouncedSearchTerm]);
 
-  useMemo(() => {
+  useEffect(() => {
     if(data && data.searchPartner.edges) {
       setPartnerData(data.searchPartner.edges);
       setPartnerLoading(loading);
@@ -190,7 +151,7 @@ export function ReservationSlider({sliderState, dataCount}) {
                 setProjectName(e.target.value)
                 }} /> */}
                 <StyledSelect
-                  placeholder={<><img src={anchorIcon} /> <span>Банковский перевод</span> </>}
+                  placeholder={<><img src={anchorIcon} alt={"Банковский перевод"}/> <span>Банковский перевод</span> </>}
                   size={'large'}
                 >
                   <StyledSelect.Option value={"Наличные"}><span>Наличные</span></StyledSelect.Option>
