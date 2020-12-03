@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import icon_delete from '../../img/outdoor_furniture/red_can.svg';
 
-
 export default class AdvertisingParties extends Component {
   state = {
     columns: this.props.columns,
@@ -72,13 +71,7 @@ export default class AdvertisingParties extends Component {
             return (
               <img
                 style={{ cursor: 'pointer' }}
-                onClick={() =>
-                  this.props.openModal(
-                    record,
-                    this.props.deleteEstimate,
-                    this.props.setDeleted,
-                  )
-                }
+                onClick={() => this.props.openModal(record, this.props.deleteEstimate, this.props.setDeleted)}
                 src={icon_delete}
                 alt="delete icon"
               />
@@ -160,6 +153,11 @@ const StyledTable = styled(Table)`
     background: transparent;
     color: #1a1a1a;
     font-weight: 600;
+    border-bottom: 1px solid #d3dff0 !important;
+  }
+
+  & .ant-table-thead > tr > th[colspan]:not([colspan='1']) {
+    left: 5px;
   }
 
   & .ant-table-thead > tr > th:not(:last-child) > span {
