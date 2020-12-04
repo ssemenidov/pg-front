@@ -27,7 +27,6 @@ class RsyncCmd {
     this._cwd = config.cwd;
     assert(!config.stdoutHandler || typeof config.stdoutHandler === 'function');
     this._stdout = config.stdoutHandler;
-    const fancylog = require("fancy-log");
     assert(!config.stderrHandler || typeof config.stderrHandler === 'function');
     this._stderr = config.stderrHandler;
     this._rsync_cmd = config.rsync_cmd || 'rsync'
@@ -73,7 +72,10 @@ class RsyncCmd {
         var single = option.key.length === 1;
         var output = (single ? '-' : '--') + option.key;
         if (typeof option.value !== 'boolean') {
-          output += (single ? ' ' : '=') + escapeShellArg(option.value);
+          if (option.key != 'e')
+            output += (single ? ' ' : '=') + escapeShellArg(option.value);
+          else
+            output += (single ? ' ' : '=') + option.value;
         }
         return output;
       }));
@@ -90,11 +92,12 @@ class RsyncCmd {
 
   execute(callback) {
     var command = this.command();
-    console.log(command)
+    // console.log(command)
 
     var childProcess;
     if (process.platform === 'win32') {
-      childProcess = spawn('cmd.exe', ['/s', '/c', '"' + command + '"'], {
+      let q = ``;
+      childProcess = spawn('cmd.exe', ['/s', '/c', q + command + q], {
         cwd: this._cwd,
         stdio: [process.stdin, 'pipe', 'pipe'],
         env: process.env,
@@ -135,7 +138,7 @@ function escapeShellArg(arg) {
   if (!/(["'`\\\(\) ])/.test(arg)) {
     return arg;
   }
-  // arg = arg.replace(/([\\])/g, '/');
+  arg = arg.replace(/([\\])/g, '/');
   return '"' + arg.replace(/(["'`\\])/g, '\\$1') + '"';
 }
 
@@ -143,14 +146,19 @@ function escapeShellArg(arg) {
 
 function log() {
   function _log() {
-    process.stdout.write(util.format.apply(this, arguments));
+      process.stdout.write(util.format.apply(this, arguments));
   }
   // HACK: In order to show rsync's transfer progress, override `console` temporarily...
-  let orig = console.log;
-  console.log = _log;
-  let retval = fancylog.apply(this, arguments);
-  console.log = orig;
-  return retval;
+  if (process.platform === 'win32') {
+    console.log(util.format.apply(this, ['[', new Date().toLocaleString(), ']', ...arguments]).trimEnd());
+  }
+  else {
+    let orig = console.log;
+    console.log = _log;
+    let retval = fancylog.apply(this, arguments);
+    console.log = orig;
+    return retval;
+  }
 };
 
 module.exports = function(options) {
@@ -260,7 +268,7 @@ module.exports = function(options) {
         config.stdoutHandler = handler;
         config.stderrHandler = handler;
 
-        fancylog('gulp-rsync:', 'Starting rsync to ' + destination + '...');
+        log('gulp-rsync:', 'Starting rsync to ' + destination + '...');
       }
 
       (new RsyncCmd(config)).execute(function(error, command) {
@@ -268,10 +276,10 @@ module.exports = function(options) {
           this.emit('error', new PluginError('gulp-rsync', error.stack));
         }
         if (options.command) {
-          fancylog(command);
+          log(command);
         }
         if (!options.silent) {
-          fancylog('gulp-rsync:', 'Completed rsync.');
+          log('gulp-rsync:', 'Completed rsync.');
         }
         cb();
       }.bind(this));

@@ -107,10 +107,8 @@ function deploy_production_rsync(cb) {
   let dest = getKey("DEPLOY_SFTP_DIRECTORY")
   let dest_backend = getKey("DEPLOY_SFTP_BACKEND_DIRECTORY") + '/static'
   console.log('src', srcPath, 'host', hostName, 'dst', dest)
-  console.log('=========', process.env['HOME'])
-  // let cmd_rsync = 'C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\rsync.exe';
-  // let cmd_ssh = "C:\\Users\\Win10\\Downloads\\cwrsync_6.2.0_x64_free\\cwrsync_6.2.0_x64_free\\bin\\ssh.exe -i cwrsync -o  'StrictHostKeyChecking no'";
-  const rsync_args = {
+
+  let rsync_args = {
     // exclude: config.deploy.exclude_html, // Excludes files from deploy
     hostname: hostName,
     recursive: true,
@@ -120,8 +118,20 @@ function deploy_production_rsync(cb) {
     clean: true,
     omit_dir_times: true,
     no_perms: true,
-    // shell: cmd_ssh,
-    // rsync_cmd: cmd_rsync
+  }
+
+
+  if (process.platform === 'win32') {
+    let RSYNC_WIN_CMD = getKey('RSYNC_WIN_CMD');
+    let RSYNC_WIN_CMD_SSH = '"' + getKey('RSYNC_WIN_CMD_SSH') + '"';
+    let RSYNC_WIN_CWRSYNCHOME = getKey('RSYNC_WIN_CWRSYNCHOME');
+
+    process.env.CWRSYNCHOME = RSYNC_WIN_CWRSYNCHOME;
+    process.env.CWOLDPATH = process.env.PATH;
+    process.env.PATH = process.env.CWRSYNCHOME + '\\bin;' + process.env.PATH;
+
+    rsync_args.shell = RSYNC_WIN_CMD_SSH;
+    rsync_args.rsync_cmd = RSYNC_WIN_CMD;
   }
 
   return gulp.series(
@@ -143,19 +153,4 @@ gulp.task('deploy', function(cb) { return deploy_production_ftp(cb);  });
 gulp.task('sdeploy', function(cb) { return deploy_production_rsync(cb); });
 gulp.task('bdeploy', function(cb) { return gulp.series("build", "deploy", (done) => { done(); cb(); })(); });
 gulp.task('bsdeploy', function(cb) { return gulp.series("build", "sdeploy", (done) => { done(); cb(); })(); });
-
 gulp.task('rmbuild', function(cb) { rmbuild(); cb() });
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
