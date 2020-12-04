@@ -34,10 +34,11 @@ const Summary = () => {
   const { id } = useParams();
   const location = useLocation();
   console.log('[location.state]', location.state)
+
   const { loading, error, data } = useQuery(SUMMARY_QUERY, {
     variables: {
-      dateFrom: location.state.dateFrom,
-      dateTo: location.state.dateTo
+      // dateFrom: location.state.dateFrom,
+      // dateTo: location.state.dateTo
     },
   });
   const [collapsed, setCollapsed] = useState(true);
