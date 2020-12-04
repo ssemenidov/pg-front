@@ -64,10 +64,10 @@ const PROJECT_QUERY = gql`
             firstName
             lastName
           }
-        agencyCommission {
-          value
-          percent
-        }
+          agencyCommission {
+            value
+            percent
+          }
           projectAttachments {
             edges {
               node {
@@ -207,7 +207,11 @@ const Project_card = (props) => {
             },
             {
               title: dataItem.agencyCommission ? 'Агентская комиссия::' : '',
-          value: dataItem.agencyCommission ? (dataItem.agencyCommission.value ? dataItem.agencyCommission.value : dataItem.agencyCommission.percent ) : ''
+              value: dataItem.agencyCommission
+                ? dataItem.agencyCommission.value
+                  ? dataItem.agencyCommission.value
+                  : dataItem.agencyCommission.percent
+                : '',
             },
           ],
         },
@@ -250,18 +254,28 @@ const Project_card = (props) => {
         id: item.node.id,
         key: item.node.id,
         reservation_code: getConstructionSideCode(item.node.constructionSide),
-        reservation_city: item.node.constructionSide.construction.location.postcode.district.city.title,
+        reservation_city: item.node.constructionSide
+          ? item.node.constructionSide.construction.location.postcode.district.city.title
+          : '',
         reservation_address:
-          (item.node.constructionSide.construction.location.marketingAddress &&
+          (item.node.constructionSide &&
+            item.node.constructionSide.construction.location.marketingAddress &&
             item.node.constructionSide.construction.location.marketingAddress.address) ||
           '',
-        reservation_format: item.node.constructionSide.advertisingSide.side.format.title,
-        reservation_side: item.node.constructionSide.advertisingSide.title,
+        reservation_format: item.node.constructionSide
+          ? item.node.constructionSide.advertisingSide.side.format.title
+          : '',
+        reservation_side: item.node.constructionSide ? item.node.constructionSide.advertisingSide.title : '',
         reservation_startDate: dateFormat(item.node.dateFrom, 'dd.mm.yyyy'),
         reservation_expirationDate: dateFormat(item.node.dateTo, 'dd.mm.yyyy'),
         reservation_status: item.node.reservationType.title,
-        reservation_lighting: (item.node.constructionSide.statusConnection && 'Да') || 'Нет',
-        reservation_package: (item.node.constructionSide.package && item.node.constructionSide.package.title) || '',
+        reservation_lighting:
+          (item.node.constructionSide && item.node.constructionSide.statusConnection && 'Да') || 'Нет',
+        reservation_package:
+          (item.node.constructionSide &&
+            item.node.constructionSide.package &&
+            item.node.constructionSide.package.title) ||
+          '',
       }))) ||
     [];
 
