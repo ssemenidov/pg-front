@@ -74,9 +74,10 @@ const PanelDesign = () => {
     {
       width: 40,
       title: '',
+      dataIndex: 'edit',
       render: (text, record) => (
         <Link to={{ pathname: routes.sales.project_card.url(record.key) }}>
-          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="icon_pen" />
         </Link>
       ),
     },
@@ -234,7 +235,7 @@ const PanelDesign = () => {
         ),
         sector: project.node.client ? project.node.client.workingSectors.edges[0].node.description : '',
         managerb: project.node.backOfficeManager
-          ? project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager
+          ? project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName
           : '',
         manager: project.node.salesManager
           ? project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName

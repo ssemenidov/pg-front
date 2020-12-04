@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart'
+import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
@@ -8,27 +8,27 @@ import { useHistory } from 'react-router';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   query SearchConstructionSideWithReservation(
-    $dateFrom: DateTime,
-    $dateTo: DateTime,
-    $family: ID,
-    $format: String,
-    $side: String,
-    $size: String,
-    $statusConnection: Boolean,
-    $city: ID,
-    $district: ID,
-    $reservationType: String,
+    $dateFrom: DateTime
+    $dateTo: DateTime
+    $family: ID
+    $format: String
+    $side: String
+    $size: String
+    $statusConnection: Boolean
+    $city: ID
+    $district: ID
+    $reservationType: String
   ) {
     searchConstructionSide(
-      reservation_DateFrom_Gte: $dateFrom,
-      reservation_DateTo_Lte: $dateTo,
-      advertisingSide_Side_Format_Model_Underfamily_Family_Id: $family,
-      advertisingSide_Side_Format_Title_Icontains: $format,
-      advertisingSide_Side_Title_Icontains: $side,
-      advertisingSide_Side_Size_Icontains: $size,
-      construction_StatusConnection: $statusConnection,
-      construction_Location_Postcode_District_City_Id: $city,
-      construction_Location_Postcode_District_Id: $district,
+      reservation_DateFrom_Gte: $dateFrom
+      reservation_DateTo_Lte: $dateTo
+      advertisingSide_Side_Format_Model_Underfamily_Family_Id: $family
+      advertisingSide_Side_Format_Title_Icontains: $format
+      advertisingSide_Side_Title_Icontains: $side
+      advertisingSide_Side_Size_Icontains: $size
+      construction_StatusConnection: $statusConnection
+      construction_Location_Postcode_District_City_Id: $city
+      construction_Location_Postcode_District_Id: $district
       reservation_ReservationType_Title_Iregex: $reservationType
     ) {
       edges {
@@ -66,6 +66,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
                 dateTo
                 reservationType {
                   title
+                  id
                 }
                 project {
                   title
@@ -90,18 +91,16 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   }
 `;
 
-
-
-export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}) {
-  let date = new Date(), year = date.getFullYear(), month = date.getMonth();
+export function GanttChartAdvertisingSides({ filter, setRefetch, setGanttUpdater }) {
+  let date = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth();
   const history = useHistory();
 
-  console.log(filter)
+  // console.log(filter);
   let dstFilter = {};
-  if (filter)
-    dstFilter = filter.dstFilter;
-
-  console.log('compfilter', dstFilter)
+  if (filter) dstFilter = filter.dstFilter;
+  // console.log('compfilter', dstFilter);
   let searchQuery = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
   let loading = searchQuery.loading;
   let error = searchQuery.error;
@@ -112,85 +111,76 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater}
     setRefetch(refetch);
   }, [refetch, setRefetch]);
 
-  if (loading)
-    return <LoadingAntd/>
+  if (loading) return <LoadingAntd />;
 
-  if (error)
-    return <h3>Error (:</h3>
+  if (error) return <h3>Error (:</h3>;
 
   // let data = null;
 
   let getBarClass = (barClass) => {
-    console.log(barClass)
-    if (barClass === 'Свободно')
-      return 'gantt-bar-status-reserved';
-    if (barClass === 'Забронировано')
-      return 'gantt-bar-status-reserved';
-    if (barClass === 'Утверждено')
-      return 'gantt-bar-status-approved';
-    if (barClass === 'Продано')
-      return 'gantt-bar-status-saled';
-    if (barClass === 'unavailable')
-      return 'gantt-bar-status-unavailable';
+    // console.log(barClass);
+    if (barClass === 'Свободно') return 'gantt-bar-status-reserved';
+    if (barClass === 'Забронировано') return 'gantt-bar-status-reserved';
+    if (barClass === 'Утверждено') return 'gantt-bar-status-approved';
+    if (barClass === 'Продано') return 'gantt-bar-status-saled';
+    if (barClass === 'unavailable') return 'gantt-bar-status-unavailable';
 
     return 'gantt-bar-status-reserved';
-  }
+  };
   let getBarTitle = (barClass) => {
-    if (barClass === 'Свободно')
-      return 'забронировано';
-    if (barClass === 'Забронировано')
-      return 'забронировано';
-    if (barClass === 'Утверждено')
-      return 'утверждено';
-    if (barClass === 'Продано')
-      return 'продано';
-    if (barClass === 'unavailable')
-      return 'недоступно';
+    if (barClass === 'Свободно') return 'забронировано';
+    if (barClass === 'Забронировано') return 'забронировано';
+    if (barClass === 'Утверждено') return 'утверждено';
+    if (barClass === 'Продано') return 'продано';
+    if (barClass === 'unavailable') return 'недоступно';
     return 'забронировано';
-  }
+  };
   let mapDate = (item) => {
     let date = Date.parse(item);
     let ndate = new Date();
-    ndate.setTime(date)
+    ndate.setTime(date);
     return ndate;
-  }
+  };
 
   let scheduleChartItems = [];
   if (data !== null) {
     for (let item of data.searchConstructionSide.edges) {
       if (item.node.advertisingSide)
         scheduleChartItems.push({
-          content: item.id,
+          content: item.node.id,
           start: new Date(2020, 1, 1, 0, 0, 0),
           code: getConstructionSideCode(item.node),
           format: item.node.advertisingSide.side.format.title,
-          city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
+          city:
+            item.node.construction &&
+            item.node.construction.location &&
+            item.node.construction.location.postcode.district.city.title,
           // isSelected - свойство сообщающее, выбран элемент или нет
-          ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
-            (reservation) => ({
+          ganttChartItems:
+            item.node.reservation &&
+            item.node.reservation.edges.map((reservation) => ({
               content: reservation.node.id,
+              reservationTypeId: reservation.node.reservationType.id,
               start: mapDate(reservation.node.dateFrom),
               finish: mapDate(reservation.node.dateTo),
               barClass: getBarClass(reservation.node.reservationType.title),
-              textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
-              history: history
-            })
-          ),
-        })
+              textValue:
+                reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+              history: history,
+            })),
+        });
     }
   }
-  console.log('len', scheduleChartItems.length)
 
   return (
     <>
       {/*<Tab cond={'sold'}/>*/}
-      <ScheduleChartView1 items={scheduleChartItems}
-                          settings={ganttSettings(year, month)}
-                          columns={ganttColumns}
-                          setGanttUpdater={setGanttUpdater}
+      <ScheduleChartView1
+        items={scheduleChartItems}
+        settings={ganttSettings(year, month)}
+        columns={ganttColumns}
+        setGanttUpdater={setGanttUpdater}
       />
     </>
   );
-};
-
-
+}

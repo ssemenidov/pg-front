@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
-import './styles_adv_part.scss'
+import React, { useState, useEffect, useRef, useLayoutEffect, useCallback, useContext } from 'react';
+import './styles_adv_part.scss';
+import { adverContext } from './AdvertisingParties';
 import { ScheduleChartView } from './GanttChart/DlhGanttChart';
 import { createPopover } from './tabPopover';
-import ReactDOM from 'react-dom';
 
-
-
-export const ScheduleChartView1 = function({ style, items, settings, change, columns, setGanttUpdater}) {
+export const ScheduleChartView1 = function ({ style, items, settings, change, columns, setGanttUpdater }) {
   let [state, setState] = useState([]);
   let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
@@ -19,11 +17,10 @@ export const ScheduleChartView1 = function({ style, items, settings, change, col
 
   let ref = useRef(null);
 
-  if (!ref)
-    ref = React.createRef();
+  if (!ref) ref = React.createRef();
   let changeHandler = settings.itemPropertyChangeHandler;
   let dl_columns = ScheduleChartView.getDefaultColumns(items, settings);
-  let copied_settings = {...settings};
+  let copied_settings = { ...settings };
   if (columns) {
     for (let col of columns) {
       dl_columns.push(col);
@@ -31,45 +28,38 @@ export const ScheduleChartView1 = function({ style, items, settings, change, col
     copied_settings.columns = dl_columns;
   }
 
-  useEffect(function() {
+  useEffect(function () {
     if (ref.current) {
-      console.log('useEffect len items', items.length)
-      ScheduleChartView.initialize(ref.current, items, copied_settings, "");
+      ScheduleChartView.initialize(ref.current, items, copied_settings);
       if (change) {
-        settings.itemPropertyChangeHandler = function(item, propertyName, isDirect, isFinal) {
-          if (changeHandler)
-            changeHandler(item, propertyName, isDirect, isFinal);
+        settings.itemPropertyChangeHandler = function (item, propertyName, isDirect, isFinal) {
+          if (changeHandler) changeHandler(item, propertyName, isDirect, isFinal);
           change(item, propertyName, isDirect, isFinal);
-        }
+        };
       }
     }
-  })
+  });
 
   return <div ref={ref} style={style}></div>;
 };
-
-
-
 
 export const ganttColumns = [
   {
     header: 'Код',
     width: 180,
-    cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.code),
+    cellTemplate: (item) => item.scheduleChartView.ownerDocument.createTextNode(item.code),
   },
   {
     header: 'Формат',
     width: 200,
-    cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.format),
+    cellTemplate: (item) => item.scheduleChartView.ownerDocument.createTextNode(item.format),
   },
   {
     header: 'Город',
     width: 900,
-    cellTemplate: item => item.scheduleChartView.ownerDocument.createTextNode(item.city),
+    cellTemplate: (item) => item.scheduleChartView.ownerDocument.createTextNode(item.city),
   },
 ];
-
-
 
 //
 export const ganttSettings = (year, month) => ({
@@ -89,8 +79,8 @@ export const ganttSettings = (year, month) => ({
   // Set appropriate zoom level as 24 hours are diplayed per day.
   hourWidth: 2.5,
   barCornerRadius: 6,
-  daysOfWeek: [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
-  weekStartDay:  1, // Monday
+  daysOfWeek: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+  weekStartDay: 1, // Monday
   headerHeight: 26 * 2,
   barHeight: 25,
   barMargin: 10,
@@ -102,8 +92,8 @@ export const ganttSettings = (year, month) => ({
   selectionMode: 'ExtendedFocus',
   headerBackground: '#FFFFFF',
   isGridVisible: true,
-  gridWidth: "20%",
-  chartWidth: "80%",
+  gridWidth: '20%',
+  chartWidth: '80%',
   itemTemplate: (item) => createPopover(item),
   isTaskToolTipVisible: false,
   // interaction: 'TouchEnabled',
@@ -112,22 +102,35 @@ export const ganttSettings = (year, month) => ({
       scaleType: 'NonworkingTime',
       isHeaderVisible: false,
       isHighlightingVisible: true,
-      highlightingStyle: 'stroke-width: 0; fill: #f8f8f8'
+      highlightingStyle: 'stroke-width: 0; fill: #f8f8f8',
     },
     {
       scaleType: 'Weeks',
       headerStyle: 'padding: 2.25px; border-right: solid 1px #D3DFF0;',
       // headerStyle: 'padding: 2.25px; border-right: solid 1px #c8bfe7; border-bottom: solid 1px #c8bfe7',
       headerTextFormat: (item) => {
-        const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        const MONTHS = [
+          'января',
+          'февраля',
+          'марта',
+          'апреля',
+          'мая',
+          'июня',
+          'июля',
+          'августа',
+          'сентября',
+          'октября',
+          'ноября',
+          'декабря',
+        ];
         let nextDate = new Date(item);
         nextDate.setDate(item.getDate() + 14);
         let monthFirst = MONTHS[item.getMonth()];
         let monthNext = MONTHS[nextDate.getMonth()];
-        let monthDayFirst = item.toLocaleString('ru-RU', {day: 'numeric'});
-        let monthDayNext = nextDate.toLocaleString('ru-RU', {day: 'numeric'});
+        let monthDayFirst = item.toLocaleString('ru-RU', { day: 'numeric' });
+        let monthDayNext = nextDate.toLocaleString('ru-RU', { day: 'numeric' });
         return `${monthDayFirst} ${monthFirst} ${item.getFullYear()} – ${monthDayNext} ${monthNext} ${nextDate.getFullYear()}`;
-      }
+      },
     },
     {
       scaleType: 'Days',
@@ -139,6 +142,6 @@ export const ganttSettings = (year, month) => ({
       isHeaderVisible: false,
       isSeparatorVisible: true,
       separatorStyle: 'stroke: #8bbf8a; stroke-width: 0.5px',
-    }
-  ]
+    },
+  ],
 });

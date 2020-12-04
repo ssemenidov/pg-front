@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Card, Checkbox, DatePicker, Form, Input } from 'antd';
-import { ReactComponent as CloseIcon } from '../../../img/sales/closeIcon.svg';
+import { Checkbox, DatePicker, Form } from 'antd';
+import useDebounce from '../../Administration/components/useDebounce';
 import date from '../../../img/left-bar/filter/date.svg';
 import inputIcon from '../../../img/sales/projectNameInput.svg';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import {Row, Col} from 'antd'
-import { useHistory } from 'react-router';
-
-
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 
 const InputIconSpanSyled = styled.span`
-    position: absolute;
-    transform: translate(55% ,30%);
-    z-index: 99;
+  position: absolute;
+  transform: translate(55%, 30%);
+  z-index: 99;
 `;
 
 const InputIcon = ({ img, alt }) => {
@@ -36,41 +34,37 @@ const InputIcon = ({ img, alt }) => {
 // {/*    (24 шт.)*/}
 // {/*  </span>*/}
 
-const checkBoxOptions = [
-  { label: 'Брендирование', value: 'branding' },
-  { label: 'Дизайн', value: 'design' },
-];
 
 // Ок
 const DateStateText = styled.p`
-    color: #2C5DE5;
-    fontSize: 14px;
-    fontWeight: bold;
-    margin: 0;
+  color: #2c5de5;
+  fontsize: 14px;
+  fontweight: bold;
+  margin: 0;
 `;
 
 const ReservationSilderFormItem = styled(Form.Item)`
-    display: flex;
-    flexDirection: column;
-    maxWidth: 300px;
-    width: 100%;
+  display: flex;
+  flexdirection: column;
+  maxwidth: 300px;
+  width: 100%;
 `;
 
 const ReservationSilderCheckboxesFormItem = styled(Form.Item)`
-    display: flex;
-    flex-direction: column;
-    max-width: 220px;
-    width: 100%;
-    min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  max-width: 220px;
+  width: 100%;
+  min-width: 220px;
 `;
 
 const ReservationSliderSubmitButton = styled(SubmitButton)`
-    margin-top: 2.5rem;
-    margin-left: 2rem;
-    fontWeight: bold;
+  margin-top: 2.5rem;
+  margin-left: 2rem;
+  fontweight: bold;
 `;
 
-export function ReservationSlider({sliderState}) {
+export function ReservationSlider({ sliderState }) {
   // const addItem = (values) => {
   //   let parent = sliderState.caller.parent;
   //   let cb = (result) => sliderState.caller.showCRUDMessageAndRefetch(result, "Добавление");
@@ -84,37 +78,122 @@ export function ReservationSlider({sliderState}) {
   //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
   //   }
   // };
-  let initialValues = {}
-  let colSteps = {xl: 2, lg: 4, md: 6};
-  let history = useHistory();
+  const [projectSearchText, setProjectSearchText] = useState('');
+  const [projectLoading, setProjectLoading] = useState(false);
+  const debouncedSearchTerm = useDebounce(projectSearchText, 500);
+  const [projectData, setProjectData] = useState([]);
+  const [projectValue, setProjectValue] = useState(undefined);
+  const [resTypes, setResTypes] = useState([]);
+
+  const PROJECTS_QUERY = gql`
+    query searchProjects($title_Icontains: String) {
+      searchProject(title_Icontains: $title_Icontains) {
+        edges {
+          node {
+            title
+            id
+            agencyCommission {
+              percent
+              value
+            }
+            projectAttachments {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
+            additionalCostsNonrts {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const RESERVATION_TYPE_QUERY = gql`
+    {
+      searchReservationType {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+
+  const [getProject, { loading, data }] = useLazyQuery(PROJECTS_QUERY);
+  const loadResTypes = useQuery(RESERVATION_TYPE_QUERY);
+  const handleSearchProject = (value) => {
+    setProjectSearchText(value);
+  };
+  const handleChangeProject = (value) => {
+    setProjectValue(value);
+  };
+
+  if (loadResTypes.data && !resTypes.length) {
+    setResTypes(loadResTypes.data.searchReservationType.edges);
+  }
+
+  useEffect(() => {
+    getProject({
+      variables: {
+        title_Icontains: debouncedSearchTerm,
+      },
+    });
+    setProjectLoading(loading);
+  }, [debouncedSearchTerm, getProject, loading]);
+
+  useMemo(() => {
+    if (data && data.searchProject.edges) {
+      setProjectData(data.searchProject.edges);
+      setProjectLoading(loading);
+    }
+  }, [data, loading]);
 
   return (
-    <SlidingBottomPanel title={`Быстрая бронь ${sliderState.title[0]}`}
-                        onClose={sliderState.closeAdd}
-                        classNameSuffix={'loca'}
-                        sliderClass="advertising-part-slider"
-    >
-      <CRUDForm initialValues={initialValues}>
+    <SlidingBottomPanel
+      title={`Быстрая бронь ${sliderState.title[0]}`}
+      onClose={sliderState.closeAdd}
+      classNameSuffix={'loca'}
+      sliderClass="advertising-part-slider">
+      <CRUDForm
+        onFinish={(values) => {
+          console.log(values);
+        }}>
         <SliderRow>
-          <SliderCellColRaw {...{xxl: 4, xl: 5, xs: 5}}>
-            <ReservationSilderFormItem name="startDate">
-              <p className="formItem-title">Дата начала</p>
-              <InputIcon img={date} alt="date icon" />
-              <DatePicker
-                dropdownClassName="topCenter"
-                className="date-picker"
-                suffixIcon={<DateStateText>Ок</DateStateText>}
-                size={'large'}
-                format="YYYY-MM-DD"
-                style={{ width: '100%' }}
-              />
-            </ReservationSilderFormItem>
-          </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 4, xl: 5, xs: 5}}>
-            <ReservationSilderFormItem name="endDate">
+          <SliderCellColRaw {...{ xxl: 8, xl: 10, xs: 10 }}>
+            <div
+              style={{
+                display: 'flex',
+              }}>
+              <p
+                className="formItem-title"
+                style={{
+                  width: '50%',
+                }}>
+                Дата начала
+              </p>
               <p className="formItem-title">Дата оканчания</p>
-              <InputIcon img={date} alt="date icon" />
-              <DatePicker
+            </div>
+            <InputIcon img={date} alt="date icon" />
+            <ReservationSilderFormItem name="startDate">
+              <DatePicker.RangePicker
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
                 className="date-picker"
                 suffixIcon={<DateStateText>Ок</DateStateText>}
                 size={'large'}
@@ -123,32 +202,89 @@ export function ReservationSlider({sliderState}) {
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 7}}>
+          <SliderCellColRaw {...{ xxl: 4, xl: 4, xs: 7 }}>
+            <p className="formItem-title">Проект</p>
+            <InputIcon img={inputIcon} alt="input icon" />
             <ReservationSilderFormItem name="projectName">
-              <p className="formItem-title">Проект</p>
-              <InputIcon img={inputIcon} alt="input icon" />
-              <Input size="large" placeholder="Название проекта" className="projectName-input" />
+              <StyledSelect
+                showSearch
+                showArrow={false}
+                filterOption={false}
+                size="large"
+                // notFoundContent={null}
+                className="projectSearchInput"
+                placeholder="Название проекта"
+                value={projectValue}
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}
+                onSearch={handleSearchProject}
+                onChange={handleChangeProject}
+                loading={projectLoading}>
+                {projectData &&
+                  projectData.map(({ node }) => (
+                    <StyledSelect.Option key={node.id} value={node.id}>
+                      {node.title ? node.title : 'Нет названия'}
+                    </StyledSelect.Option>
+                  ))}
+              </StyledSelect>
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 2, xl: 3, xs: 3}}>
+          <SliderCellColRaw {...{ xxl: 4, xl: 4, xs: 7 }}>
+            <p className="formItem-title">Статус бронирования</p>
+            <ReservationSilderFormItem name="reservationType">
+              <StyledSelect
+                filterOption={false}
+                size="large"
+                // notFoundContent={null}
+                placeholder="Выберите статус бронирования"
+                dropdownAlign={{
+                  points: ['bl', 'tl'],
+                  offset: [0, -4],
+                  overflow: {
+                    adjustX: 0,
+                    adjustY: 1,
+                  },
+                }}>
+                {resTypes.length &&
+                  resTypes.map(({ node }) => (
+                    <StyledSelect.Option key={node.id} value={node.id}>
+                      {node.title ? node.title : 'Нет названия'}
+                    </StyledSelect.Option>
+                  ))}
+              </StyledSelect>
+            </ReservationSilderFormItem>
+          </SliderCellColRaw>
+          <SliderCellColRaw {...{ xxl: 2, xl: 3, xs: 3 }}>
+            <p className="formItem-title">Дополнительно</p>
             <ReservationSilderCheckboxesFormItem name="additional">
-              <p className="formItem-title">Дополнительно</p>
-              <Checkbox.Group options={checkBoxOptions} defaultValue={['branding', 'design']} />
+              <Checkbox checked>Брендирование</Checkbox>
             </ReservationSilderCheckboxesFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 2, xs: 1}}>
-            {/* <BtnGroup> */}
-            <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {
-              history.push('/sales/project_card/VlByb2plY3ROb2RlOjI=');
-            }}>
-              Забронировать
-            </ReservationSliderSubmitButton>
+          <SliderCellColRaw {...{ xxl: 2, xs: 1 }}>
+            <ReservationSliderSubmitButton type="primary">Забронировать</ReservationSliderSubmitButton>
           </SliderCellColRaw>
         </SliderRow>
       </CRUDForm>
+      <style>
+        {`
+        .projectSearchInput input {
+          padding-left: 23px !important;
+        }
+        .projectSearchInput .ant-select-selection-placeholder {
+          padding-left: 23px !important;
+        }
+
+        .projectSearchInput .ant-select-selection-item {
+          padding-left: 23px !important;
+        }
+        `}
+      </style>
     </SlidingBottomPanel>
-  )
+  );
 }
-
-
-
