@@ -9,7 +9,6 @@ export function CRUDForm({
                            children
                          })
 {
-  let [form] = Form.useForm();
 
   // let [state, setState] = useState(initialValues)
 
@@ -30,7 +29,6 @@ export function CRUDForm({
 
   return (
     <Form
-      form={form}
       layout="vertical"
       requiredMark='optional'
       validateMessages={validateMessages}

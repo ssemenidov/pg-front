@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import styled from 'styled-components';
-import { Checkbox, DatePicker, Form } from 'antd';
+import { Checkbox, DatePicker, Form, message } from 'antd';
 import useDebounce from '../../Administration/components/useDebounce';
 import date from '../../../img/left-bar/filter/date.svg';
 import inputIcon from '../../../img/sales/projectNameInput.svg';
@@ -8,8 +8,9 @@ import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { SlidingBottomPanel } from '../../../components/SlidingBottomPanel/SlidingBottomPanel';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import { SliderCellColRaw, SliderRow } from '../../../components/SlidingBottomPanel/PanelComponents';
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useLazyQuery, useQuery, useMutation } from '@apollo/client';
 import { StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { adverContext } from './AdvertisingParties';
 
 const InputIconSpanSyled = styled.span`
   position: absolute;
@@ -33,7 +34,6 @@ const InputIcon = ({ img, alt }) => {
 // {/*  }}>*/}
 // {/*    (24 шт.)*/}
 // {/*  </span>*/}
-
 
 // Ок
 const DateStateText = styled.p`
@@ -78,12 +78,35 @@ export function ReservationSlider({ sliderState }) {
   //     sliderState.caller.src.apiAdd({ title: values.name }, cb)
   //   }
   // };
+  let [form] = Form.useForm();
+
+  const [, , chartItems, , , , , setResCreated] = useContext(adverContext);
   const [projectSearchText, setProjectSearchText] = useState('');
   const [projectLoading, setProjectLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(projectSearchText, 500);
   const [projectData, setProjectData] = useState([]);
   const [projectValue, setProjectValue] = useState(undefined);
   const [resTypes, setResTypes] = useState([]);
+  const [selectedSides, setSelectedSides] = useState([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const getSelected = (items) => {
+    let dst = [];
+    if (items) {
+      for (let item of items) {
+        if (item.isSelected) {
+          dst.push(item.content);
+        }
+      }
+    }
+    return dst;
+  };
+
+  useEffect(() => {
+    const selected = getSelected(chartItems);
+    setSelectedSides(selected);
+    console.log('ssss');
+  }, [setSelectedSides, chartItems]);
 
   const PROJECTS_QUERY = gql`
     query searchProjects($title_Icontains: String) {
@@ -129,6 +152,21 @@ export function ReservationSlider({ sliderState }) {
     }
   `;
 
+  const CREATE_RESERVATION = gql`
+    mutation CreateReservation($input: CreateReservationInput!) {
+      createReservation(input: $input) {
+        reservation {
+          project {
+            brand {
+              title
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const [createReservation] = useMutation(CREATE_RESERVATION);
   const [getProject, { loading, data }] = useLazyQuery(PROJECTS_QUERY);
   const loadResTypes = useQuery(RESERVATION_TYPE_QUERY);
   const handleSearchProject = (value) => {
@@ -165,8 +203,40 @@ export function ReservationSlider({ sliderState }) {
       classNameSuffix={'loca'}
       sliderClass="advertising-part-slider">
       <CRUDForm
+        form={form}
         onFinish={(values) => {
-          console.log(values);
+          form.validateFields().then(() => {
+            setConfirmLoading(true);
+
+            const createRes = selectedSides.map((side) => {
+              let input = {
+                dateFrom: values.startDate[0].toDate(),
+                dateTo: values.startDate[1].toDate(),
+                project: values.projectName,
+                branding: values.additional,
+                reservationType: values.reservationType,
+                constructionSide: side,
+                agencyCommission: {},
+              };
+              return createReservation({
+                variables: {
+                  input,
+                },
+              });
+            });
+
+            console.log(values);
+            Promise.all(createRes)
+              .then(() => {
+                setConfirmLoading(false);
+                setResCreated(true);
+                sliderState.closeAdd();
+                message.success('Успешно добавлено!');
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
         }}>
         <SliderRow>
           <SliderCellColRaw {...{ xxl: 8, xl: 10, xs: 10 }}>
@@ -184,7 +254,9 @@ export function ReservationSlider({ sliderState }) {
               <p className="formItem-title">Дата оканчания</p>
             </div>
             <InputIcon img={date} alt="date icon" />
-            <ReservationSilderFormItem name="startDate">
+            <ReservationSilderFormItem
+              name="startDate"
+              rules={[{ required: true, message: 'Пожалуйста укажите период.' }]}>
               <DatePicker.RangePicker
                 dropdownAlign={{
                   points: ['bl', 'tl'],
@@ -205,7 +277,9 @@ export function ReservationSlider({ sliderState }) {
           <SliderCellColRaw {...{ xxl: 4, xl: 4, xs: 7 }}>
             <p className="formItem-title">Проект</p>
             <InputIcon img={inputIcon} alt="input icon" />
-            <ReservationSilderFormItem name="projectName">
+            <ReservationSilderFormItem
+              name="projectName"
+              rules={[{ required: true, message: 'Пожалуйста выберите проект.' }]}>
               <StyledSelect
                 showSearch
                 showArrow={false}
@@ -237,7 +311,9 @@ export function ReservationSlider({ sliderState }) {
           </SliderCellColRaw>
           <SliderCellColRaw {...{ xxl: 4, xl: 4, xs: 7 }}>
             <p className="formItem-title">Статус бронирования</p>
-            <ReservationSilderFormItem name="reservationType">
+            <ReservationSilderFormItem
+              name="reservationType"
+              rules={[{ required: true, message: 'Пожалуйста статус бронирования.' }]}>
               <StyledSelect
                 filterOption={false}
                 size="large"
@@ -262,12 +338,14 @@ export function ReservationSlider({ sliderState }) {
           </SliderCellColRaw>
           <SliderCellColRaw {...{ xxl: 2, xl: 3, xs: 3 }}>
             <p className="formItem-title">Дополнительно</p>
-            <ReservationSilderCheckboxesFormItem name="additional">
-              <Checkbox checked>Брендирование</Checkbox>
+            <ReservationSilderCheckboxesFormItem name="additional" valuePropName="checked" initialValue={false}>
+              <Checkbox>Брендирование</Checkbox>
             </ReservationSilderCheckboxesFormItem>
           </SliderCellColRaw>
           <SliderCellColRaw {...{ xxl: 2, xs: 1 }}>
-            <ReservationSliderSubmitButton type="primary">Забронировать</ReservationSliderSubmitButton>
+            <ReservationSliderSubmitButton htmlType="submit" loading={confirmLoading} type="primary">
+              Забронировать
+            </ReservationSliderSubmitButton>
           </SliderCellColRaw>
         </SliderRow>
       </CRUDForm>

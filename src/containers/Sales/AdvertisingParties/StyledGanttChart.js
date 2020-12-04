@@ -29,7 +29,7 @@ export const ScheduleChartView1 = function ({ style, items, settings, change, co
   }
 
   useEffect(function () {
-    if (ref.current) {
+    if (ref.current && items) {
       ScheduleChartView.initialize(ref.current, items, copied_settings);
       if (change) {
         settings.itemPropertyChangeHandler = function (item, propertyName, isDirect, isFinal) {

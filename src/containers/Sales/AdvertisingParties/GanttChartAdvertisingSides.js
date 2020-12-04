@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart';
 import { gql, useQuery } from '@apollo/client';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { useHistory } from 'react-router';
+import { adverContext } from './AdvertisingParties';
 
 const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   query SearchConstructionSideWithReservation(
@@ -91,12 +92,12 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   }
 `;
 
-
-export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater, chartItems, setChartItems}) {
+export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
   let date = new Date();
   let year = date.getFullYear();
   let month = date.getMonth();
   const history = useHistory();
+  const [, , chartItems, setChartItems, , setRefetch, resCreated, setResCreated] = useContext(adverContext);
 
   // console.log(filter);
   let dstFilter = {};
@@ -109,8 +110,13 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater,
   let refetch = searchQuery.refetch;
 
   useEffect(() => {
-    setRefetch(refetch);
-  }, [refetch, setRefetch]);
+    if (resCreated) {
+      refetch().then(() => {
+        setResCreated(false);
+      });
+    }
+    console.log('setted');
+  }, [resCreated]);
 
   // let data = null;
 
@@ -140,49 +146,52 @@ export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater,
   };
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     if (data && data.searchConstructionSide) {
       let scheduleChartItems = [];
       for (let item of data.searchConstructionSide.edges) {
         if (item.node.advertisingSide)
           scheduleChartItems.push({
-            content: item.id,
+            content: item.node.id,
             start: new Date(2020, 1, 1, 0, 0, 0),
             code: getConstructionSideCode(item.node),
             format: item.node.advertisingSide.side.format.title,
-            city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
+            city:
+              item.node.construction &&
+              item.node.construction.location &&
+              item.node.construction.location.postcode.district.city.title,
             // isSelected - свойство сообщающее, выбран элемент или нет
-            ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
-              (reservation) => ({
+            ganttChartItems:
+              item.node.reservation &&
+              item.node.reservation.edges.map((reservation) => ({
                 content: reservation.node.id,
                 start: mapDate(reservation.node.dateFrom),
                 finish: mapDate(reservation.node.dateTo),
                 barClass: getBarClass(reservation.node.reservationType.title),
-                textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
-                history: history
-              })
-            ),
-          })
+                textValue:
+                  reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+                history: history,
+              })),
+          });
       }
-      setChartItems(scheduleChartItems)
+      setChartItems(scheduleChartItems);
     }
   }, [data]);
 
-  if (loading)
-    return <LoadingAntd/>
+  if (loading) return <LoadingAntd />;
 
-  if (error)
-    return <h3>Error (:</h3>
+  if (error) return <h3>Error (:</h3>;
 
   // console.log('len', chartItems.length)
 
   return (
     <>
       {/*<Tab cond={'sold'}/>*/}
-      <ScheduleChartView1 items={chartItems}
-                          settings={ganttSettings(year, month)}
-                          columns={ganttColumns}
-                          setGanttUpdater={setGanttUpdater}
+      <ScheduleChartView1
+        items={chartItems}
+        settings={ganttSettings(year, month)}
+        columns={ganttColumns}
+        setGanttUpdater={setGanttUpdater}
       />
     </>
   );
