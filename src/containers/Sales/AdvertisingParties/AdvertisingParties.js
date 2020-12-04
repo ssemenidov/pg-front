@@ -20,13 +20,33 @@ import { routes } from '../../../routes';
 
 export const adverContext = createContext();
 
+const getSelected = (items) => {
+  let dst = []
+  for (let item of items) {
+    for (let reservationItem of item.ganttChartItems) {
+      if (reservationItem.scheduleChartItem.isSelected) {
+        dst.push(reservationItem);
+      }
+    }
+  }
+  return dst;
+}
+
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [chartItems, setChartItems] = useState([]);
   const [filter, setFilter] = useState({});
   const [refetch, setRefetch] = useState(null);
   const [ganttUpdater, setGanttUpdater]= useState(null);
   const history = useHistory();
+
+  let logSelected = () => {
+    let arr = getSelected(chartItems);
+    for (let item of arr) {
+      console.log(item);
+    }
+  }
 
   const sliderState = new SliderState({name: "", key: ""})
   return (
@@ -44,6 +64,10 @@ const AdvertisingParties = () => {
             </HeaderTitleWrapper>
             <ButtonGroup>
               <StyledButton backgroundColor={colorAccent}
+                            onClick={() => { logSelected() }}
+              >Console Log выделенных сторон</StyledButton>
+
+              <StyledButton backgroundColor={colorAccent}
                             onClick={() => { sliderState.setAddShowed(true); }}
               >Быстрая бронь</StyledButton>
               <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
@@ -56,7 +80,9 @@ const AdvertisingParties = () => {
           </HeaderWrapper>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
-              <GanttChartAdvertisingSides filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater}/>
+              <GanttChartAdvertisingSides filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater}
+                                          chartItems={chartItems} setChartItems={setChartItems}
+              />
             </div>
             {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
           </div>

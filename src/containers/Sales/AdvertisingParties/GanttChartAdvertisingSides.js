@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ScheduleChartView1, ganttColumns, ganttSettings } from './StyledGanttChart';
 import { gql, useQuery } from '@apollo/client';
@@ -91,10 +91,11 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
   }
 `;
 
-export function GanttChartAdvertisingSides({ filter, setRefetch, setGanttUpdater }) {
-  let date = new Date(),
-    year = date.getFullYear(),
-    month = date.getMonth();
+
+export function GanttChartAdvertisingSides({filter, setRefetch, setGanttUpdater, chartItems, setChartItems}) {
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth();
   const history = useHistory();
 
   // console.log(filter);
@@ -110,10 +111,6 @@ export function GanttChartAdvertisingSides({ filter, setRefetch, setGanttUpdater
   useEffect(() => {
     setRefetch(refetch);
   }, [refetch, setRefetch]);
-
-  if (loading) return <LoadingAntd />;
-
-  if (error) return <h3>Error (:</h3>;
 
   // let data = null;
 
@@ -142,44 +139,50 @@ export function GanttChartAdvertisingSides({ filter, setRefetch, setGanttUpdater
     return ndate;
   };
 
-  let scheduleChartItems = [];
-  if (data !== null) {
-    for (let item of data.searchConstructionSide.edges) {
-      if (item.node.advertisingSide)
-        scheduleChartItems.push({
-          content: item.node.id,
-          start: new Date(2020, 1, 1, 0, 0, 0),
-          code: getConstructionSideCode(item.node),
-          format: item.node.advertisingSide.side.format.title,
-          city:
-            item.node.construction &&
-            item.node.construction.location &&
-            item.node.construction.location.postcode.district.city.title,
-          // isSelected - свойство сообщающее, выбран элемент или нет
-          ganttChartItems:
-            item.node.reservation &&
-            item.node.reservation.edges.map((reservation) => ({
-              content: reservation.node.id,
-              reservationTypeId: reservation.node.reservationType.id,
-              start: mapDate(reservation.node.dateFrom),
-              finish: mapDate(reservation.node.dateTo),
-              barClass: getBarClass(reservation.node.reservationType.title),
-              textValue:
-                reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
-              history: history,
-            })),
-        });
+  useEffect(() => {
+    console.log(data);
+    if (data && data.searchConstructionSide) {
+      let scheduleChartItems = [];
+      for (let item of data.searchConstructionSide.edges) {
+        if (item.node.advertisingSide)
+          scheduleChartItems.push({
+            content: item.id,
+            start: new Date(2020, 1, 1, 0, 0, 0),
+            code: getConstructionSideCode(item.node),
+            format: item.node.advertisingSide.side.format.title,
+            city: item.node.construction && item.node.construction.location && item.node.construction.location.postcode.district.city.title,
+            // isSelected - свойство сообщающее, выбран элемент или нет
+            ganttChartItems: item.node.reservation && item.node.reservation.edges.map(
+              (reservation) => ({
+                content: reservation.node.id,
+                start: mapDate(reservation.node.dateFrom),
+                finish: mapDate(reservation.node.dateTo),
+                barClass: getBarClass(reservation.node.reservationType.title),
+                textValue: reservation.node.project.brand.title + ' - ' + getBarTitle(reservation.node.reservationType.title),
+                history: history
+              })
+            ),
+          })
+      }
+      setChartItems(scheduleChartItems)
     }
-  }
+  }, [data]);
+
+  if (loading)
+    return <LoadingAntd/>
+
+  if (error)
+    return <h3>Error (:</h3>
+
+  // console.log('len', chartItems.length)
 
   return (
     <>
       {/*<Tab cond={'sold'}/>*/}
-      <ScheduleChartView1
-        items={scheduleChartItems}
-        settings={ganttSettings(year, month)}
-        columns={ganttColumns}
-        setGanttUpdater={setGanttUpdater}
+      <ScheduleChartView1 items={chartItems}
+                          settings={ganttSettings(year, month)}
+                          columns={ganttColumns}
+                          setGanttUpdater={setGanttUpdater}
       />
     </>
   );
