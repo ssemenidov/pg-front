@@ -196,7 +196,7 @@ const PanelDesign = () => {
       return {
         key: project.node.id,
         code: `#${project.node.code}`,
-        brand: project.node.brand.title,
+        brand: project.node.brand ? project.node.brand.title : '',
         date: project.node.startDate ? project.node.startDate.split('T')[0] : '',
         advert: project.node.client
           ? project.node.client.partnerType
@@ -232,11 +232,13 @@ const PanelDesign = () => {
         ) : (
           ''
         ),
-        sector: project.node.client
-          ? project.node.client.workingSectors.edges[0].node.description
+        sector: project.node.client ? project.node.client.workingSectors.edges[0].node.description : '',
+        managerb: project.node.backOfficeManager
+          ? project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager
           : '',
-        managerb: project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName,
-        manager: project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName,
+        manager: project.node.salesManager
+          ? project.node.salesManager.firstName + ' ' + project.node.salesManager.lastName
+          : '',
       };
     });
   }
@@ -253,7 +255,7 @@ const PanelDesign = () => {
         return {
           key: project.node.id,
           code: `#${project.node.code}`,
-          brand: project.node.brand.title,
+          brand: project.node.brand.title ? project.node.brand.title : '',
           date: project.node.startDate.split('T')[0],
           advert: project.node.client.partnerType
             ? !project.node.client.partnerType.title.startsWith('Рекламное агентство') && project.node.client.title
