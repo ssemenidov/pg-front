@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from 'antd';
 
 export const GreenButton = styled.button`
   display: flex;
@@ -93,7 +94,7 @@ export const ResetButton = styled.button`
   color: #2c5de5;
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled(Button)`
   padding: 10px 20px;
   background: #2c5de5;
   margin-right: 27px;
@@ -132,7 +133,7 @@ export const BtnSuccess = styled.button`
 
 export const RedDeleteBtn = styled.button`
   height: 40px;
-  width:40px;
+  width: 40px;
   border: 1px solid #d42d11;
   box-sizing: border-box;
   border-radius: 4px;

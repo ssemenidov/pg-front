@@ -1,94 +1,89 @@
-import React, { useState,createContext } from 'react';
-import { Layout } from 'antd';
+import React, { useState, createContext } from 'react';
+import { Layout, message } from 'antd';
 import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs'
+import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 
-import { ReservationSlider } from './BottomSlider'
+import { ReservationSlider } from './BottomSlider';
 import FilterBar from './FilterBar';
 import { FilterLeftBar } from './LeftBarFilters/FilterLeftBar';
 
 import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Colors';
-import './styles_adv_part.scss'
+import './styles_adv_part.scss';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides';
 import { useHistory } from 'react-router';
 import { routes } from '../../../routes';
 
-
 export const adverContext = createContext();
-
-const getSelected = (items) => {
-  let dst = []
-  for (let item of items) {
-    for (let reservationItem of item.ganttChartItems) {
-      if (reservationItem.scheduleChartItem.isSelected) {
-        dst.push(reservationItem);
-      }
-    }
-  }
-  return dst;
-}
-
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [chartItems, setChartItems] = useState([]);
   const [filter, setFilter] = useState({});
   const [refetch, setRefetch] = useState(null);
-  const [ganttUpdater, setGanttUpdater]= useState(null);
+  const [ganttUpdater, setGanttUpdater] = useState(null);
+  const [resCreated, setResCreated] = useState(false);
   const history = useHistory();
 
-  let logSelected = () => {
-    let arr = getSelected(chartItems);
-    for (let item of arr) {
-      console.log(item);
+  const getSelected = (items) => {
+    let dst = [];
+    for (let item of items) {
+      if (item.isSelected) {
+        dst.push(item.content);
+      }
     }
-  }
+    return dst;
+  };
 
-  const sliderState = new SliderState({name: "", key: ""})
+  const sliderState = new SliderState({ name: '', key: '' });
   return (
-    <adverContext.Provider value={[filter, setFilter]}>
-    <Layout>
+    <adverContext.Provider
+      value={[filter, setFilter, chartItems, setChartItems, refetch, setRefetch, resCreated, setResCreated]}>
       <Layout>
-        <FilterLeftBar props={setCollapsed, collapsed}/>
-        {collapsed && <FilterBar refetch={refetch} ganttUpdater={ganttUpdater}/>}
-        <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          <BreadCrumbsRoutes links={[routes.sales.root, routes.sales.advertising_parties]} />
-          <HeaderWrapper>
-            <HeaderTitleWrapper>
-              <TitleLogo />
-              <JobTitle>Справочник рекламных сторон</JobTitle>
-            </HeaderTitleWrapper>
-            <ButtonGroup>
-              <StyledButton backgroundColor={colorAccent}
-                            onClick={() => { logSelected() }}
-              >Console Log выделенных сторон</StyledButton>
-
-              <StyledButton backgroundColor={colorAccent}
-                            onClick={() => { sliderState.setAddShowed(true); }}
-              >Быстрая бронь</StyledButton>
-              <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
-              <StyledButton backgroundColor={colorAccent}
-                            onClick={() => history.push(routes.sales.project_card.url("VlByb2plY3ROb2RlOjI="))}
-
-              >Сохранить</StyledButton>
-              <StyledButton backgroundColor={colorOrangeAccent}>Создать отчет</StyledButton>
-            </ButtonGroup>
-          </HeaderWrapper>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
-              <GanttChartAdvertisingSides filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater}
-                                          chartItems={chartItems} setChartItems={setChartItems}
-              />
+        <Layout>
+          <FilterLeftBar props={(setCollapsed, collapsed)} />
+          {collapsed && <FilterBar refetch={refetch} ganttUpdater={ganttUpdater} />}
+          <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
+            <BreadCrumbsRoutes links={[routes.sales.root, routes.sales.advertising_parties]} />
+            <HeaderWrapper>
+              <HeaderTitleWrapper>
+                <TitleLogo />
+                <JobTitle>Справочник рекламных сторон</JobTitle>
+              </HeaderTitleWrapper>
+              <ButtonGroup>
+                <StyledButton
+                  backgroundColor={colorAccent}
+                  onClick={() => {
+                    const selected = getSelected(chartItems);
+                    if (selected.length) {
+                      sliderState.setAddShowed(true);
+                    } else {
+                      message.error('Пожалуйста сначала выберите сторону конструкции');
+                    }
+                  }}>
+                  Быстрая бронь
+                </StyledButton>
+                <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
+                <StyledButton
+                  backgroundColor={colorAccent}
+                  onClick={() => history.push(routes.sales.project_card.url('VlByb2plY3ROb2RlOjI='))}>
+                  Сохранить
+                </StyledButton>
+                <StyledButton backgroundColor={colorOrangeAccent}>Создать отчет</StyledButton>
+              </ButtonGroup>
+            </HeaderWrapper>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
+                <GanttChartAdvertisingSides filter={filter} setGanttUpdater={setGanttUpdater} />
+              </div>
+              {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
             </div>
-            {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
-          </div>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
     </adverContext.Provider>
   );
 };
