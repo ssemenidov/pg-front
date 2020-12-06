@@ -480,6 +480,14 @@ $app-font-size: 14px;
   font-weight: 500 !important;
 }
 
+.gantt-bar-status-free {
+  fill: darken(saturate(#97D411, 1%), 2%);
+  fill-opacity: 1;
+  stroke: darken(#97D411, 10%);
+  stroke-width: 0.65px;
+  opacity: 0.6;
+}
+
 .gantt-bar-status-saled {
   fill: darken(saturate(#ffb9ad, 1%), 2%);
   fill-opacity: 1;

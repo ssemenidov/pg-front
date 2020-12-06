@@ -122,7 +122,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
 
   let getBarClass = (barClass) => {
     // console.log(barClass);
-    if (barClass === 'Свободно') return 'gantt-bar-status-reserved';
+    if (barClass === 'Свободно') return 'gantt-bar-status-free';
     if (barClass === 'Забронировано') return 'gantt-bar-status-reserved';
     if (barClass === 'Утверждено') return 'gantt-bar-status-approved';
     if (barClass === 'Продано') return 'gantt-bar-status-saled';
