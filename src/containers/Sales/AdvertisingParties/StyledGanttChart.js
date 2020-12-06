@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef, useLayoutEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './styles_adv_part.scss';
-import { adverContext } from './AdvertisingParties';
 import { ScheduleChartView } from './GanttChart/DlhGanttChart';
 import { createPopover } from './tabPopover';
 
 export const ScheduleChartView1 = function ({ style, items, settings, change, columns, setGanttUpdater }) {
-  let [state, setState] = useState([]);
-  let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
+  // let [state, setState] = useState([]);
+  // let [ganttUpdaterIsSetted, setGanttUpdaterIsSetted] = useState(false);
 
-  useEffect(() => {
-    if (!ganttUpdaterIsSetted) {
-      setGanttUpdater(setState);
-      setGanttUpdaterIsSetted(true);
-    }
-  }, [ganttUpdaterIsSetted]);
+  // useEffect(() => {
+  //   if (!ganttUpdaterIsSetted) {
+  //     setGanttUpdater(setState);
+  //     setGanttUpdaterIsSetted(true);
+  //   }
+  // }, [ganttUpdaterIsSetted, setGanttUpdater]);
 
   let ref = useRef(null);
 
@@ -26,6 +25,7 @@ export const ScheduleChartView1 = function ({ style, items, settings, change, co
       dl_columns.push(col);
     }
     copied_settings.columns = dl_columns;
+    console.log(items);
   }
 
   useEffect(function () {
@@ -46,7 +46,7 @@ export const ScheduleChartView1 = function ({ style, items, settings, change, co
 export const ganttColumns = [
   {
     header: 'Код',
-    width: 180,
+    width: 140,
     cellTemplate: (item) => item.scheduleChartView.ownerDocument.createTextNode(item.code),
   },
   {
@@ -56,7 +56,7 @@ export const ganttColumns = [
   },
   {
     header: 'Город',
-    width: 900,
+    width: 130,
     cellTemplate: (item) => item.scheduleChartView.ownerDocument.createTextNode(item.city),
   },
 ];
@@ -89,6 +89,7 @@ export const ganttSettings = (year, month) => ({
   horizontalGridLines: '#D3DFF0',
   isBaselineVisible: false,
   isTaskCompletedEffortVisible: false,
+  isMouseWheelZoomEnabled: false,
   selectionMode: 'ExtendedFocus',
   headerBackground: '#FFFFFF',
   isGridVisible: true,
@@ -129,6 +130,7 @@ export const ganttSettings = (year, month) => ({
         let monthNext = MONTHS[nextDate.getMonth()];
         let monthDayFirst = item.toLocaleString('ru-RU', { day: 'numeric' });
         let monthDayNext = nextDate.toLocaleString('ru-RU', { day: 'numeric' });
+        // console.log(item);
         return `${monthDayFirst} ${monthFirst} ${item.getFullYear()} – ${monthDayNext} ${monthNext} ${nextDate.getFullYear()}`;
       },
     },
