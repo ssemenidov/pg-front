@@ -122,7 +122,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
 
   let getBarClass = (barClass) => {
     // console.log(barClass);
-    if (barClass === 'Свободно') return 'gantt-bar-status-reserved';
+    if (barClass === 'Свободно') return 'gantt-bar-status-free';
     if (barClass === 'Забронировано') return 'gantt-bar-status-reserved';
     if (barClass === 'Утверждено') return 'gantt-bar-status-approved';
     if (barClass === 'Продано') return 'gantt-bar-status-saled';
@@ -131,7 +131,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
     return 'gantt-bar-status-reserved';
   };
   let getBarTitle = (barClass) => {
-    if (barClass === 'Свободно') return 'забронировано';
+    if (barClass === 'Свободно') return 'cвободно';
     if (barClass === 'Забронировано') return 'забронировано';
     if (barClass === 'Утверждено') return 'утверждено';
     if (barClass === 'Продано') return 'продано';
@@ -149,6 +149,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
     // console.log(data);
     if (data && data.searchConstructionSide) {
       let scheduleChartItems = [];
+      console.log(data.searchConstructionSide.edges.length)
       for (let item of data.searchConstructionSide.edges) {
         if (item.node.advertisingSide)
           scheduleChartItems.push({
@@ -178,7 +179,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
     }
   }, [data]);
 
-  if (loading) return <LoadingAntd />;
+  if (loading || resCreated) return <LoadingAntd />;
 
   if (error) return <h3>Error (:</h3>;
 

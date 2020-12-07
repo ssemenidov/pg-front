@@ -83,6 +83,13 @@ const AdvertisingParties = () => {
             </div>
           </Layout>
         </Layout>
+        <style>
+          {`
+        body {
+          overflow: hidden;
+        }
+        `}
+        </style>
       </Layout>
     </adverContext.Provider>
   );

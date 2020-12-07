@@ -3,7 +3,7 @@
   height: 100% !important;
 }
 .layout-sider {
-  background: #F5F7FA;
+  background: #f5f7fa;
   min-width: 60px !important;
   max-width: 60px !important;
   border-right: 1px solid #d3dff0 !important;
@@ -12,8 +12,9 @@
   font-size: 11px;
   margin: 0 0 20px 0;
 }
-.layout-breadcrumb a, .layout-breadcrumb span {
-  color: #8AA1C1 !important;
+.layout-breadcrumb a,
+.layout-breadcrumb span {
+  color: #8aa1c1 !important;
 }
 .left-bar-list {
   padding: 10px 5px !important;
@@ -25,7 +26,7 @@
   height: 55px;
   align-items: center;
   justify-content: space-around;
-  border-bottom: 1px solid #D3DFF0;
+  border-bottom: 1px solid #d3dff0;
   margin-bottom: 15px;
 }
 .left-bar-list span {
@@ -42,30 +43,30 @@
   border-collapse: separate !important;
 }
 .custom-table .ant-table {
-  border: 1px solid #D3DFF0 !important;
+  border: 1px solid #d3dff0 !important;
   border-radius: 8px;
 }
 .custom-table .ant-table-thead > tr > th {
   background: transparent;
-  color: #1A1A1A;
+  color: #1a1a1a;
   font-weight: 600;
 }
 .custom-table .ant-table-thead > tr > th > span {
-  background: #D3DFF0;
+  background: #d3dff0;
   width: 1px;
 }
 .custom-table .ant-table-tbody > tr.ant-table-row:hover > td {
-  background: #D3DFF0;
+  background: #d3dff0;
 }
 .custom-table .ant-table-tbody tr:nth-child(even) {
-  background: #F5F7FA !important;
+  background: #f5f7fa !important;
 }
 .custom-table .ant-table-tbody tr:nth-child(odd) {
-  background: #FFF;
+  background: #fff;
 }
 .filter-panel {
   width: 240px;
-  background: #F5F7FA;
+  background: #f5f7fa;
   border-right: 1px solid #d3dff0;
 }
 .filter-panel > div {
@@ -97,7 +98,7 @@
 }
 .filter-panel-date span {
   font-weight: 600;
-  color: #1A1A1A !important;
+  color: #1a1a1a !important;
 }
 .filter-datepicker {
   margin-top: 20px;
@@ -114,16 +115,16 @@
   align-items: center;
 }
 .filter-panel-status > div > div span {
-  color: #1A1A1A !important;
+  color: #1a1a1a !important;
 }
 .filter-panel > div > div > span {
-  color: #1A1A1A !important;
+  color: #1a1a1a !important;
 }
 .dot-1 {
   height: 8px;
   margin: 0 4px;
   width: 8px;
-  background-color: #63D411;
+  background-color: #63d411;
   border-radius: 50%;
   display: inline-block;
 }
@@ -131,7 +132,7 @@
   height: 8px;
   margin: 0 4px;
   width: 8px;
-  background-color: #117BD4;
+  background-color: #117bd4;
   border-radius: 50%;
   display: inline-block;
 }
@@ -139,7 +140,7 @@
   height: 8px;
   margin: 0 4px;
   width: 8px;
-  background-color: #FDC911;
+  background-color: #fdc911;
   border-radius: 50%;
   display: inline-block;
 }
@@ -147,7 +148,7 @@
   height: 8px;
   margin: 0 4px;
   width: 8px;
-  background-color: #D42D11;
+  background-color: #d42d11;
   border-radius: 50%;
   display: inline-block;
 }
@@ -155,7 +156,7 @@
   height: 8px;
   margin: 0 4px;
   width: 8px;
-  background-color: #C8C8C8;
+  background-color: #c8c8c8;
   border-radius: 50%;
   display: inline-block;
 }
@@ -172,7 +173,7 @@
   flex-direction: column;
 }
 .checkbox-block > span {
-  color: #1A1A1A !important;
+  color: #1a1a1a !important;
   margin-left: 8px;
 }
 .filter-panel-purpose {
@@ -182,33 +183,34 @@
 .group-btn {
   justify-content: space-between;
 }
-.clear-btn, .search-btn {
+.clear-btn,
+.search-btn {
   border-radius: 4px;
   width: 45%;
 }
 .clear-btn span {
-  color: #2C5DE5 !important;
+  color: #2c5de5 !important;
   font-weight: 600;
 }
 .clear-btn {
-  background: #EEF3FF;
-  border: 1px solid #2C5DE5;
+  background: #eef3ff;
+  border: 1px solid #2c5de5;
 }
 .search-btn {
-  background: #2C5DE5;
+  background: #2c5de5;
 }
 .search-btn span {
-  color: #FFF !important;
+  color: #fff !important;
 }
 .search-btn:hover span {
-  color: #2C5DE5 !important;
+  color: #2c5de5 !important;
 }
 .header-bar {
   display: flex;
-  background: #E7EEF8;
+  background: #e7eef8;
   margin-bottom: 10px;
   border-radius: 4px;
-  border: 1px solid #D3DFF0;
+  border: 1px solid #d3dff0;
   height: 45px;
   padding: 5px;
   justify-content: space-between;
@@ -220,7 +222,7 @@
   display: flex;
 }
 .header-btn {
-  border: 1px solid #D3DFF0;
+  border: 1px solid #d3dff0;
   margin-right: 5px;
   width: 32px;
   height: 32px;
@@ -238,41 +240,40 @@
 }
 .header-page-btn {
   border-radius: 4px;
-  background: #FF5800;
+  background: #ff5800;
   display: flex;
   align-items: center;
   padding: 15px 30px;
-  border: 1px solid #FF5800 !important ;
-
+  border: 1px solid #ff5800 !important ;
 }
 .header-page-btn:hover span {
-  color:#FF5800 !important;
+  color: #ff5800 !important;
 }
 .header-page-btn span {
-  color: #fff  !important;
+  color: #fff !important;
   font-weight: 600;
 }
 
-.page-label span{
+.page-label span {
   position: absolute;
   padding-left: 10px;
 }
-.page-label{
-  overflow:hidden;
+.page-label {
+  overflow: hidden;
 }
 
 .outdoor-table-bar {
-   width: 100%;
-   margin-left:auto;
- }
+  width: 100%;
+  margin-left: auto;
+}
 
 .formItem-title {
   font-weight: bold;
-  color: #1A1A1A;
-  font-size: 14px
+  color: #1a1a1a;
+  font-size: 14px;
 }
 
-.date-picker>div {
+.date-picker > div {
   margin-left: 25px;
 }
 
@@ -280,8 +281,8 @@
   padding-left: 30px;
 }
 
-$border-line-color: #D3DFF0;
-$border-checkbox: #C6CDD6;
+$border-line-color: #d3dff0;
+$border-checkbox: #c6cdd6;
 
 .gant-chart-root-bars {
   position: relative;
@@ -313,8 +314,8 @@ $border-checkbox: #C6CDD6;
   border-radius: 8px;
 }
 
-$app-font-family: "SF UI Display Light", sans-serif;
-$app-font-color: rgb(26,26,26);
+$app-font-family: 'SF UI Display Light', sans-serif;
+$app-font-color: rgb(26, 26, 26);
 $app-font-size: 14px;
 
 .gantt-root-root {
@@ -322,16 +323,16 @@ $app-font-size: 14px;
   color: $app-font-color;
   font-size: $app-font-size;
   font-weight: 500;
-  overflow: auto
+  overflow: hidden !important;
+  height: calc(100vh - 160px);
 }
-
 
 .gantt-chart-left-header {
   font-family: $app-font-family;
   color: $app-font-color;
   font-size: $app-font-size;
   font-weight: 600 !important;
-  overflow: auto
+  overflow: auto;
 }
 
 .gantt-chart-left-panel-header {
@@ -341,24 +342,64 @@ $app-font-size: 14px;
   font-weight: 600 !important;
 }
 
+.gantt-chart-right-bar > div:last-child {
+  height: calc(100vh - 215px) !important;
+
+  &::-webkit-scrollbar-track:horizontal {
+    -webkit-box-shadow: inset 0 0 6px #fff;
+    background-color: #fff;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: #fff;
+    border-radius: 4px;
+    height: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    // border: 2px solid #555555;
+  }
+}
+
+.gantt-chart-left-panel > div:last-child {
+  height: calc(100vh - 215px) !important;
+
+  &::-webkit-scrollbar-track:horizontal {
+    -webkit-box-shadow: inset 0 0 6px #fff;
+    background-color: #fff;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: #fff;
+    height: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    // border: 2px solid #555555;
+  }
+}
 
 
 /* для элемента input c type="checkbox" */
-.gantt-checkbox-2-label>input {
+.gantt-checkbox-2-label > input {
   position: absolute;
   z-index: -1;
   opacity: 0;
 }
 
 /* для элемента label, связанного с .custom-checkbox */
-.gantt-checkbox-2-label>span {
+.gantt-checkbox-2-label > span {
   display: inline-flex;
   align-items: center;
   user-select: none;
 }
 
 /* создание в label псевдоэлемента before со следующими стилями */
-.gantt-checkbox-2-label>span::before {
+.gantt-checkbox-2-label > span::before {
   content: '';
   display: inline-block;
   width: 1.1em;
@@ -371,17 +412,17 @@ $app-font-size: 14px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
-  margin-top: .05rem;
-  margin-left: .4rem;
+  margin-top: 0.05rem;
+  margin-left: 0.4rem;
 }
 
 /* стили при наведении курсора на checkbox */
-.gantt-checkbox-2-label>input:not(:disabled):not(:checked)+span:hover::before {
+.gantt-checkbox-2-label > input:not(:disabled):not(:checked) + span:hover::before {
   border-color: #b3d7ff;
 }
 
 /* стили для активного чекбокса (при нажатии на него) */
-.gantt-checkbox-2-label>input:not(:disabled):active+span::before {
+.gantt-checkbox-2-label > input:not(:disabled):active + span::before {
   background-color: #b3d7ff;
   border-color: #b3d7ff;
 }
@@ -397,18 +438,17 @@ $app-font-size: 14px;
 //}
 
 /* стили для чекбокса, находящегося в состоянии checked */
-.gantt-checkbox-2-label>input:checked+span::before {
+.gantt-checkbox-2-label > input:checked + span::before {
   border-color: #0b76ef;
   background-color: #0b76ef;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
 }
 
 /* стили для чекбокса, находящегося в состоянии disabled */
-.gantt-checkbox-2-label>input:disabled+span::before {
+.gantt-checkbox-2-label > input:disabled + span::before {
   background-color: #e9ecef;
 }
 .gantt-checkbox-2-label-container {
-
 }
 
 .gantt-description-item {
@@ -418,16 +458,16 @@ $app-font-size: 14px;
 
 //.description-row-root:nth-child(odd) {background-color:#CCC;}
 .description-row-root:nth-child(even) {
-  background-color:#F5F7FA;
+  background-color: #f5f7fa;
 }
 
 .gantt-wrapped-days-of-week-head {
   text-align: center;
-  color: #8AA1C1;
+  color: #8aa1c1;
 }
 .gantt-wrapped-days-of-week-head-weekends {
   text-align: center;
-  color: #D42D11;
+  color: #d42d11;
 }
 .gantt-wrapped-period-head {
   text-align: center;
@@ -435,50 +475,58 @@ $app-font-size: 14px;
 
 .gantt-svg-title {
   font-family: $app-font-family;
-  color: #00284C !important;
+  color: #00284c !important;
   font-size: $app-font-size;
   font-weight: 500 !important;
 }
 
-.gantt-bar-status-saled {
-  fill: darken(saturate(#FFB9AD, 1%), 2%);
+.gantt-bar-status-free {
+  fill: darken(saturate(#97D411, 1%), 2%);
   fill-opacity: 1;
-  stroke: darken(#FFB9AD, 10%);
+  stroke: darken(#97D411, 10%);
+  stroke-width: 0.65px;
+  opacity: 0.6;
+}
+
+.gantt-bar-status-saled {
+  fill: darken(saturate(#ffb9ad, 1%), 2%);
+  fill-opacity: 1;
+  stroke: darken(#ffb9ad, 10%);
   stroke-width: 0.65px;
   opacity: 0.6;
 }
 
 .gantt-bar-status-approved {
-  fill: darken(saturate(#FFE7AE, 10%), 7%);
+  fill: darken(saturate(#ffe7ae, 10%), 7%);
   fill-opacity: 1;
-  stroke: darken(#FFE7AE, 10%);
+  stroke: darken(#ffe7ae, 10%);
   stroke-width: 0.65px;
   opacity: 0.6;
 }
 
 .gantt-bar-status-reserved {
-  fill: darken(#DFE6F1, 6%);
+  fill: darken(#dfe6f1, 6%);
   fill-opacity: 1;
-  stroke: darken(#DFE6F1, 10%);
+  stroke: darken(#dfe6f1, 10%);
   stroke-width: 0.65px;
   opacity: 0.6;
 }
 
 .gantt-bar-status-unavailable {
-  fill: darken(#C8C8C8, 6%);
+  fill: darken(#c8c8c8, 6%);
   fill-opacity: 1;
-  stroke: darken(#C8C8C8, 10%);
+  stroke: darken(#c8c8c8, 10%);
   stroke-width: 0.65px;
   opacity: 0.6;
 }
 
 .dot-unavailable {
-  background-color: darken(#C8C8C8, 20%) !important;
+  background-color: darken(#c8c8c8, 20%) !important;
 }
 
 .dot-all {
-  background-color: #FFFFFF !important;
-  border: .5px solid;
+  background-color: #ffffff !important;
+  border: 0.5px solid;
   border-color: #000000 !important;
 }
 
