@@ -160,6 +160,7 @@ export const NON_RTS_QUERY = gql`
           agencyCommission {
             percent
             value
+            toNonrts
           }
         }
       }
@@ -241,6 +242,11 @@ export const PROJECT_EXTRA_COSTS_QUERY = gql`
                 agencyCommission {
                   percent
                   value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toPrint
+                  toRent
                 }
               }
             }
@@ -284,6 +290,12 @@ export const PROJECT_NON_RTS_QUERY = gql`
                 agencyCommission {
                   percent
                   value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toPrint
+                  toRent
+                  toNonrts
                 }
               }
             }

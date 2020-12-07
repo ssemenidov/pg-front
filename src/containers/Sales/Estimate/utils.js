@@ -266,8 +266,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           count: editingItem.quantity || 0,
           price: editingItem.price ? editingItem.price.split(' ')[0] : 0,
           discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
-          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : 0,
-          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : 0,
+          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : null,
+          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : null,
           city: editingItem.cityId ? editingItem.cityId : '',
           period: [start, end],
         });
@@ -288,8 +288,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           summCosts: editingItem.costsSell.split(' ')[0] || 0,
           type: editingItem.code,
           count: editingItem.quantity,
-          agPercent: editingItem.percentAK.split('%')[0] || 0,
-          agSumm: editingItem.sumAK.split(' ')[0] || 0,
+          agPercent: editingItem.percentAK.split('%')[0] || null,
+          agSumm: editingItem.sumAK.split(' ')[0] || null,
           city: editingItem.cityId ? editingItem.cityId : '',
         });
     }
@@ -752,7 +752,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
-                initialValue={0}
+                initialValue={null}
                 label={InputLabel('Процент АК')}>
                 <InputNumber
                   style={{
@@ -760,7 +760,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return `${value}%`;
+                    return (value === null || value === 'null') ? ' %' : `${value}%`;
                   }}
                 />
               </Form.Item>
@@ -769,7 +769,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
-                initialValue={0}
+                initialValue={null}
                 label={InputLabel('Сумма АК')}>
                 <InputNumber
                   style={{
@@ -777,7 +777,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return `${value} тг`;
+                    return (value === null || value === 'null') ? ' тг' : `${value} тг`;
                   }}
                 />
               </Form.Item>
@@ -889,8 +889,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 discountPercent: values.discount,
                 price: values.price,
                 agencyCommission: {
-                  value: values.agSumm,
-                  percent: values.agPercent,
+                  value: values.agSumm === 'null' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' ? null : values.agPercent,
                 },
                 city: values.city,
                 startPeriod: start,
@@ -933,8 +933,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 saleInstallation: values.summMount,
                 saleManufacturing: values.summManufacture,
                 agencyCommission: {
-                  value: values.agSumm,
-                  percent: values.agPercent,
+                  value: values.agSumm === 'null' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' ? null : values.agPercent,
+                  toNonrts: true
                 },
                 city: values.city,
               };
@@ -1611,8 +1612,8 @@ export const CreateCosts = ({ block, refetch }) => {
                   discountPercent: values.discount,
                   price: values.price,
                   agencyCommission: {
-                    value: values.agSumm,
-                    percent: values.agPercent,
+                    value: values.agSumm === 'null' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' ? null : values.agPercent,
                   },
                   city: values.city,
                   startPeriod: start,
@@ -1655,8 +1656,9 @@ export const CreateCosts = ({ block, refetch }) => {
                   saleInstallation: values.summMount,
                   saleManufacturing: values.summManufacture,
                   agencyCommission: {
-                    value: values.agSumm,
-                    percent: values.agPercent,
+                    value: values.agSumm === 'null' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' ? null : values.agPercent,
+                    toNonrts: true,
                   },
                   city: values.city,
                   project: currentId,
