@@ -29,6 +29,7 @@ import { ReservationSlider } from './BottomSlider';
 import { sidebarInfoData } from '../stubDataSource';
 
 import collapseIcon from '../../../img/collapse-icon.svg';
+import commentIcon from '../../../img/comment-icon.svg';
 import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
 
 
@@ -338,7 +339,7 @@ const Project_card = (props) => {
     {
       id: 4,
       title: 'Комментарий к проекту',
-      icon: collapseIcon,
+      icon: commentIcon,
       isShowed: true,
       sumBlock: false,
       content: [

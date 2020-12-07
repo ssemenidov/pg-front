@@ -63,9 +63,10 @@ const App = () => {
           <Route path="/sales" exact component={MainSales} />
           <Route path="/sales/batch_placement" component={BatchPlacement} />
           <Route path="/sales/advertising_parties" component={AdvertisingParties} />
-          <Route path="/sales/project_new" component={Project_new} />
-          <Route path="/sales/project_card/:id?" component={Project_card} exact />
-          <Route path="/sales/project_card/:id?/estimate" component={Estimate} exact />
+          <Route path="/sales/project_new" component={Project_new} exact />
+          <Route path="/sales/project_new/:id" component={Project_new} exact />
+          <Route path="/sales/project_card/:id" component={Project_card} exact />
+          <Route path="/sales/project_card/:id/estimate" component={Estimate} exact />
           <Route path="/sales/application/:appId" component={Application} exact />
           <Route path="/sales/application/:appId/estimate" component={Estimate} exact />
           <Route path="/sales/com_projects" component={Com_projects} />

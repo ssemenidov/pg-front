@@ -16,15 +16,26 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
 
 
+
 const PROJECT_CREATOR = gql`
-mutation ($input: CreateProjectInput!){
-  createProject(input: $input) {
+mutation { 
+  createProject(input: {agencyCommission: {}}) { 
+    project { 
+      id 
+    } 
+  }
+}
+`
+
+const PROJECT_UPDATER = gql`
+mutation ($id: ID!, $input: UpdateProjectInput!){
+  updateProject(id: $id, input: $input) {
     project {
       id
     }
@@ -90,9 +101,11 @@ query {
 
 const Project_card = () => {
   const history = useHistory();
+  const { id } = useParams();
   const [block, setBlock] = useState(0);
+  const [projectUpdater, updateData] = useMutation(PROJECT_UPDATER);
   const [projectCreator, { data }] = useMutation(PROJECT_CREATOR);
-  data && history.push('/sales/project_card/' + data.createProject.project.id)
+  // data && history.push('/sales/project_card/' + data.createProject.project.id)
   const managers = useQuery(GET_MANAGERS);
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
@@ -113,6 +126,7 @@ const Project_card = () => {
   const [projectComment, setProjectComment] = useState('');
 
   
+  
 
   const links = [
     { id: '', value: 'Главная' },
@@ -131,18 +145,24 @@ const Project_card = () => {
     
 
 
-    console.log(data);
-    // data && history.push('/sales/project_card/' + data.project.id);
+    
   }
 
-  const prCreator = () => {
-    projectCreator({ variables: {
-      "input":  prCreatorObj
-    } })
+  console.log('[updateData]', updateData);
+  updateData.data && history.push('/sales/project_card/' + id);
+  console.log('[id]', id);
+  if(!id) {
+    projectCreator();
+    console.log('[data]', data)
+    data && history.push('/sales/project_new/' + data.createProject.project.id )
   }
+
+
+  
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    
+    <div style={{ display: 'flex', height: '100%' }}  >
       <LeftBar className="left-bar">
         <SearchBtn />
         <CreateBtn text="Добавить бронь" />
@@ -205,11 +225,12 @@ const Project_card = () => {
             }
             console.log('[itemD]', itemD)
             console.log('[itemD]', data)
-            projectCreator({ variables: {
+            console.log('[ID]', id)
+            projectUpdater({ variables: {
+              "id": id ? id : null,
               "input":  itemD
             } })
 
-            data && history.push('/sales/project_card/' + data.createProject.project.id )
           }}>
             <InfoList>
               <InfoItem>

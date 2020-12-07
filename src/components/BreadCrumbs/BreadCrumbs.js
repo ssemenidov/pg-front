@@ -34,7 +34,7 @@ const StyledBreadcrumbItem = styled(Breadcrumb.Item)`
 `;
 const StyledBreadcrumb = styled(Breadcrumb)`
     font-size: 11px;
-    margin: 0 0 20px 0;
+    margin: 20px 0;
 `;
 
 

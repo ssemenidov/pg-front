@@ -485,10 +485,14 @@ $app-font-size: 14px;
 .advertising-part-slider {
   width: calc(100% - 240px - 60px) !important;
   right: 0;
+  left: 0;
+  margin: auto;
 }
 @media (max-width: 1199px) {
   .advertising-part-slider {
     width: calc(100% - 60px) !important;
     right: 0;
+    left: 0;
+    margin: auto;
   }
 }
