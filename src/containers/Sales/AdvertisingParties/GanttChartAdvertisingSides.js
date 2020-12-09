@@ -163,7 +163,6 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
             'декабря',
           ];
           let nextDate = new Date(item);
-          console.log(item);
           nextDate.setDate(item.getDate() + 13);
           let monthFirst = MONTHS[item.getMonth()];
           let monthNext = MONTHS[nextDate.getMonth()];
