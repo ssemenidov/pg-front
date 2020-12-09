@@ -26,6 +26,10 @@ const AdvertisingParties = () => {
   const [refetch, setRefetch] = useState(null);
   const [ganttUpdater, setGanttUpdater] = useState(null);
   const [resCreated, setResCreated] = useState(false);
+  const [period, setPeriod] = useState({
+    start: new Date(2020, 4, 1, 0, 0, 0, 0),
+    end: new Date(2020, 8, 31, 0, 0, 0, 0),
+  });
   const history = useHistory();
 
   const getSelected = (items) => {
@@ -41,7 +45,18 @@ const AdvertisingParties = () => {
   const sliderState = new SliderState({ name: '', key: '' });
   return (
     <adverContext.Provider
-      value={[filter, setFilter, chartItems, setChartItems, refetch, setRefetch, resCreated, setResCreated]}>
+      value={{
+        filter,
+        setFilter,
+        chartItems,
+        setChartItems,
+        refetch,
+        setRefetch,
+        resCreated,
+        setResCreated,
+        period,
+        setPeriod,
+      }}>
       <Layout>
         <Layout>
           <FilterLeftBar props={(setCollapsed, collapsed)} />

@@ -80,7 +80,7 @@ export function ReservationSlider({ sliderState }) {
   // };
   let [form] = Form.useForm();
 
-  const [, , chartItems, , , , , setResCreated] = useContext(adverContext);
+  const { chartItems, setResCreated } = useContext(adverContext);
   const [projectSearchText, setProjectSearchText] = useState('');
   const [projectLoading, setProjectLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(projectSearchText, 500);
