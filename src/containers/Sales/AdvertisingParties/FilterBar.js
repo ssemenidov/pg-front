@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { adverContext } from './AdvertisingParties';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useLazyQuery } from '@apollo/client';
 import {
   FilterMenu280,
   SearchTitle,
@@ -18,6 +18,7 @@ import constructionIcon from '../../../img/input/construction.svg';
 import arrowsIcon from '../../../img/input/arrows.svg';
 import styled from 'styled-components';
 import './styles_adv_part.scss'
+import useDebounce from '../../Administration/components/useDebounce';
 
 const { RangePicker } = DatePicker;
 
@@ -99,6 +100,19 @@ const SIZE_T = gql`
   }
 `;
 
+const SEARCH_PARTNER = gql`
+  query searchPartner($title_Icontains: String) {
+    searchPartner(isNonrtsOwner: true, title_Icontains: $title_Icontains) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
 const StyledFormItemCheckbox = styled(Form.Item)`
     margin: 0;
     padding: 0;
@@ -106,7 +120,15 @@ const StyledFormItemCheckbox = styled(Form.Item)`
 
 const FilterBar = ({refetch, ganttUpdater}) => {
   const [form] = Form.useForm();
-  const setFilter = useContext(adverContext)[1];
+  const {setFilter} = useContext(adverContext);
+
+
+  const [partnerSearchText, setPartnerSearchText] = useState('');
+  const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
+  const [partnerLoading, setPartnerLoading] = useState(false);
+  const [partnerData, setPartnerData] = useState([]);
+  const [partnerValue, setPartnerValue] = useState(undefined);
+
   const onFinish = (_values) => {
     let values = {..._values};
     let dstFilter = {}
@@ -140,6 +162,8 @@ const FilterBar = ({refetch, ganttUpdater}) => {
       dstFilter.size = values.size
     if (values.statusConnection)
       dstFilter.statusConnection = values.statusConnection
+    if (values.owner && values.owner != 'РТС')
+      dstFilter.owner = values.owner
 
     values.dstFilter = dstFilter;
     setFilter(values);
@@ -153,12 +177,31 @@ const FilterBar = ({refetch, ganttUpdater}) => {
   const onReset = () => {
     form.resetFields();
   };
+
   const city = useQuery(CITY_T).data;
   const district = useQuery(DISTRICT_T).data;
   const family = useQuery(FAMILY_T).data;
   const format = useQuery(FORMAT_T).data;
   const size = useQuery(SIZE_T).data;
   const side = useQuery(SIDE_T).data;
+
+  const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
+
+  useEffect(() => {
+    getPartner({ variables: { title_Icontains: debouncedSearchTerm } });
+    setPartnerLoading(loading);
+  }, [debouncedSearchTerm, getPartner, loading]);
+
+  useEffect(() => {
+    if(data && data.searchPartner.edges) {
+      let arr = [...data.searchPartner.edges];
+      arr.sort((a,b) => a.node.title.localeCompare(b.node.title));
+      setPartnerData([{ node: {title: "РТС", id: null}}, ...arr]);
+      setPartnerLoading(loading);
+    }
+  }, [data, loading]);
+
+
   return (
     <FilterMenu280
       onKeyDown={(e) => {
@@ -259,23 +302,46 @@ const FilterBar = ({refetch, ganttUpdater}) => {
           </Form.Item>
           <Form.Item name="side">
             <StyledSelect  placeholder={<><img src={arrowsIcon} alt={"Сторона"}/> <span>Сторона кострукции</span> </>} size={'large'}>
-            {side && side.searchSide.edges.filter((v, i, a) => a.findIndex(p => p.node.title === v.node.title) === i).map((item)=>
-              <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                <img src={anchorIcon} alt={item.node.title}/>
-                <span>{item.node.title}</span>
-              </StyledSelect.Option>
-          )}
-          </StyledSelect>
+              {side && side.searchSide.edges.filter((v, i, a) => a.findIndex(p => p.node.title === v.node.title) === i).map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
+                  <img src={anchorIcon} alt={item.node.title}/>
+                  <span>{item.node.title}</span>
+                </StyledSelect.Option>
+              )}
+            </StyledSelect>
           </Form.Item>
           <Form.Item name="size">
-          <StyledSelect  placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Размер </span> </>} size={'large'}>
-          {size && size.searchSideSize.sideSize.edges.map((item)=>
-            <StyledSelect.Option key ={item.node.id} value={item.node.size}>
-                <img src={anchorIcon} alt={item.node.title}/>
-              <span>{item.node.size}</span>
-              </StyledSelect.Option>
-          )}
-          </StyledSelect>
+            <StyledSelect
+              placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Размер </span> </>} size={'large'}>
+              {size && size.searchSideSize.sideSize.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.size}>
+                  <img src={anchorIcon} alt={item.node.title}/>
+                  <span>{item.node.size}</span>
+                </StyledSelect.Option>
+              )}
+            </StyledSelect>
+          </Form.Item>
+          <Form.Item name={"owner"}>
+            <StyledSelect
+              placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Владелец </span> </>} size={'large'}>
+              showSearch
+              value={partnerValue}
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              filterOption={false}
+              onSearch={(value) => setPartnerSearchText(value)}
+              onChange={(value) => setPartnerValue(value)}
+              notFoundContent={null}
+              loading={partnerLoading}
+            >
+              {
+                partnerData && partnerData.map(({ node }) => (
+                  <StyledSelect.Option key={node.id || "RTS"} value={node.title}>
+                    { node.title ? node.title : 'Нет названия' }
+                  </StyledSelect.Option>
+                ))
+              }
+            </StyledSelect>
           </Form.Item>
           <StyledFormItemCheckbox name="statusConnection" valuePropName="checked">
             <Checkbox defaultChecked>Освещение</Checkbox>

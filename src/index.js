@@ -18,7 +18,7 @@ import { setContext } from '@apollo/client/link/context';
 
 // const httpLink = createHttpLink({
 const httpLink = createUploadLink({
-  uri: process.env.REACT_APP_BACKEND_URL,
+  uri:  process.env.REACT_APP_BACKEND_URL,
 });
 
 

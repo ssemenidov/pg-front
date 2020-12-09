@@ -149,21 +149,11 @@ const InnerForm = () => {
     }
   }, [workingSectorResponse.data]);
 
-  const handleSearchPartner = (value) => {
-    setPartnerSearchText(value);
-  };
-  const handleChangePartner = (value) => {
-    setPartnerValue(value);
-  };
-
   useEffect(() => {
-    getPartner({
-      variables: {
-        title_Icontains: debouncedSearchTerm
-      }
-    });
+    getPartner({ variables: { title_Icontains: debouncedSearchTerm } });
     setPartnerLoading(loading);
   }, [debouncedSearchTerm, getPartner, loading]);
+
   useMemo(() => {
     if(data && data.searchPartner.edges) {
       setPartnerData(data.searchPartner.edges);
@@ -355,8 +345,8 @@ const InnerForm = () => {
                             defaultActiveFirstOption={false}
                             showArrow={false}
                             filterOption={false}
-                            onSearch={handleSearchPartner}
-                            onChange={handleChangePartner}
+                            onSearch={(value) => setPartnerSearchText(value)}
+                            onChange={(value) => setPartnerValue(value)}
                             notFoundContent={null}
                             loading={partnerLoading}
                           >

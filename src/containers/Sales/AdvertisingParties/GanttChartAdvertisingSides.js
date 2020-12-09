@@ -19,6 +19,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
     $city: ID
     $district: ID
     $reservationType: String
+    $owner: String
   ) {
     searchConstructionSide(
       reservation_DateFrom_Gte: $dateFrom
@@ -31,6 +32,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
       construction_Location_Postcode_District_City_Id: $city
       construction_Location_Postcode_District_Id: $district
       reservation_ReservationType_Title_Iregex: $reservationType
+      construction_NonrtsOwner_Title_Icontains: $owner
     ) {
       edges {
         node {
@@ -97,11 +99,12 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
   let year = date.getFullYear();
   let month = date.getMonth();
   const history = useHistory();
-  const [, , chartItems, setChartItems, , setRefetch, resCreated, setResCreated] = useContext(adverContext);
+  const {chartItems, setChartItems, resCreated, setResCreated} = useContext(adverContext);
 
   // console.log(filter);
   let dstFilter = {};
-  if (filter) dstFilter = filter.dstFilter;
+  if (filter)
+    dstFilter = filter.dstFilter;
   // console.log('compfilter', dstFilter);
   let searchQuery = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
   let loading = searchQuery.loading;
