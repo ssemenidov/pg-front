@@ -18,7 +18,6 @@ import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 
 import PanelDesign from './PanelBrands';
 import FilterBar from './FilterBar';
-import PanelOutdoor from "../OutdoorFurniture/PanelOutdoor";
 
 const BRAND_CREATE = gql`
   mutation {

@@ -1,4 +1,4 @@
-import React, {createContext, useMemo, useState} from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Layout, Breadcrumb } from 'antd';
@@ -18,15 +18,19 @@ const BRAND_ITEM = gql`
       edges {
         node {
           title
-          workingSector {
-            id
-            title
-          }
           partners {
             edges {
               node {
                 id
                 title
+                workingSectors {
+                  edges {
+                    node {
+                      title
+                      id
+                    }
+                  }
+                }
               }
             }
           }
@@ -37,18 +41,18 @@ const BRAND_ITEM = gql`
 `;
 
 const Brand = (props) => {
-  const [ id ] = useState(props.match.params.id);
+  const [id] = useState(props.match.params.id);
   const [item, setItem] = useState({});
 
   const { error, data, loading } = useQuery(BRAND_ITEM, { variables: { id } });
-
+  console.log(item);
   useMemo(() => {
     if (data && data.searchBrand.edges.length) {
       setItem(data.searchBrand.edges[0].node);
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
-  if (loading) return <LoadingAntd/>
+  if (loading) return <LoadingAntd />;
 
   return (
     <constructBrand.Provider value={[item, setItem]}>

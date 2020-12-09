@@ -1,9 +1,8 @@
 import React, { useContext, useMemo, useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router';
-import ReactToPrint  from 'react-to-print';
+import ReactToPrint from 'react-to-print';
 import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Col, Grid, Row } from 'react-flexbox-grid';
-import { Button, Checkbox, Divider } from 'antd';
+import { Button, Checkbox, Divider, message } from 'antd';
 
 import HeaderBar from '../../../../components/HeaderBar';
 
@@ -11,45 +10,42 @@ import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { BlockTitle, Column, InputTitle, JobTitle, Medium } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import {
-  Chip, DesignList, DesignListItem, DropdownBtn1,
-  StyledButton, HeaderWrapper, HeaderTitleWrapper,
-  StyledInput, StyledSelect
+  Chip,
+  DesignList,
+  DesignListItem,
+  DropdownBtn1,
+  StyledButton,
+  HeaderWrapper,
+  HeaderTitleWrapper,
+  StyledInput,
+  StyledSelect,
 } from '../../../../components/Styles/DesignList/styles';
 import useDebounce from '../../../../containers/Administration/components/useDebounce';
 
-import printerIcon from "../../../../img/header-bar/printer.svg";
-import chipIcon from "../../../../img/chip-icon.svg";
-import owner from "../../../../img/input/owner.svg";
-import suitcase from "../../../../img/input/suitcase.svg";
-import deleteIcon from "../../../../img/outdoor_furniture/red_can.svg";
-import hyperlink from "../../../../img/hyperlink.svg";
-import designIcon from "../../../../img/brand/design-icon.png";
+import printerIcon from '../../../../img/header-bar/printer.svg';
+import chipIcon from '../../../../img/chip-icon.svg';
+import owner from '../../../../img/input/owner.svg';
+import suitcase from '../../../../img/input/suitcase.svg';
+import deleteIcon from '../../../../img/outdoor_furniture/red_can.svg';
+import hyperlink from '../../../../img/hyperlink.svg';
+import designIcon from '../../../../img/brand/design-icon.png';
 
 import { constructBrand } from '../Brand';
-import {useParams} from "react-router";
-
+import { useParams } from 'react-router';
 
 const PrintBlock = React.forwardRef(({ data }, ref) => (
   <div ref={ref}>
     <img
-      src={
-        data.img
-          ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${data.img}`
-          : designIcon
-      }
+      src={data.img ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${data.img}` : designIcon}
       alt="design item"
     />
-    <p>{ data.title }</p>
-    <p>Создан: { data.startedAt }</p>
+    <p>{data.title}</p>
+    <p>Создан: {data.startedAt}</p>
   </div>
 ));
 const PrintListBlock = React.forwardRef(({ data }, ref) => (
   <div key={data.id} style={{ display: 'flex' }} ref={ref}>
-    <div style={{ marginRight: 10, marginBottom: 10 }}>
-      {
-        data.map(item => item)
-      }
-    </div>
+    <div style={{ marginRight: 10, marginBottom: 10 }}>{data.map((item) => item)}</div>
   </div>
 ));
 
@@ -77,49 +73,38 @@ const DELETE_DESIGN = gql`
 `;
 
 const WORKING_SECTOR_LIST = gql`
- query searchWorkingSector {
-  searchWorkingSector {
-    edges {
-      node {
+  query searchWorkingSector {
+    searchWorkingSector {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+const SEARCH_PARTNER = gql`
+  query searchPartner($title_Icontains: String) {
+    searchPartner(title_Icontains: $title_Icontains) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+const SAVE_BRAND = gql`
+  mutation updateBrand($id: ID!, $input: UpdateBrandInput!) {
+    updateBrand(id: $id, input: $input) {
+      brand {
         id
         title
       }
     }
   }
- }
-`;
-const SEARCH_PARTNER = gql`
-  query searchPartner($title_Icontains: String) {
-      searchPartner(title_Icontains: $title_Icontains) {
-        edges {
-          node {
-            id
-            title
-          }
-        }
-      }
-    }
-`;
-const SAVE_BRAND = gql`
-  mutation updateBrand(
-      $id: ID!
-      $title: String
-      $workingSector: ID
-      $partner: [ID]
-    ) {
-      updateBrand(
-        id: $id
-        input: {
-          title: $title
-          workingSector: $workingSector
-          partner: $partner
-        }
-      ) {
-        brand {
-          id
-        }
-      }
-    }
 `;
 
 const InnerForm = () => {
@@ -144,8 +129,8 @@ const InnerForm = () => {
   const [deleteDesign] = useMutation(DELETE_DESIGN);
 
   useMemo(() => {
-    if(workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
-      setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges)
+    if (workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
+      setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges);
     }
   }, [workingSectorResponse.data]);
 
@@ -159,13 +144,13 @@ const InnerForm = () => {
   useEffect(() => {
     getPartner({
       variables: {
-        title_Icontains: debouncedSearchTerm
-      }
+        title_Icontains: debouncedSearchTerm,
+      },
     });
     setPartnerLoading(loading);
   }, [debouncedSearchTerm, getPartner, loading]);
   useMemo(() => {
-    if(data && data.searchPartner.edges) {
+    if (data && data.searchPartner.edges) {
       setPartnerData(data.searchPartner.edges);
       setPartnerLoading(loading);
     }
@@ -173,14 +158,15 @@ const InnerForm = () => {
 
   useMemo(() => {
     const { data } = designData;
-    const localDesignList = designData.data
-      && designData.data.searchDesign
-      && designData.data.searchDesign.edges.map(({ node }) => ({
-      node: {
-        ...node,
-        isChecked: false
-      }
-    }));
+    const localDesignList =
+      designData.data &&
+      designData.data.searchDesign &&
+      designData.data.searchDesign.edges.map(({ node }) => ({
+        node: {
+          ...node,
+          isChecked: false,
+        },
+      }));
 
     setDesignList(localDesignList);
   }, [designData.data]);
@@ -188,78 +174,78 @@ const InnerForm = () => {
   const addPartnerToBrand = (e) => {
     e.preventDefault();
 
-    if(partnerValue) {
-      const localEdges = item.partner ? item.partner.edges : [];
-      const partnerItem = partnerData.filter(item => item.node.id === partnerValue);
-
-      if(localEdges.filter(item => item.node.id === partnerValue)[0]) {
-        alert('Этот контрагент уже добавлен');
-        return
-      }
-
-      localEdges.push({
-        node: {
-          id: partnerItem[0].node.id,
-          title: partnerItem[0].node.title
-        }
+    if (partnerValue) {
+      const localEdges = item.partners ? item.partners.edges : [];
+      const partnerItem = partnerData.filter((item) => {
+        return item.node.id === partnerValue;
       });
+
+      if (localEdges.filter((item) => item.node.id === partnerValue)[0]) {
+        alert('Этот контрагент уже добавлен');
+        return;
+      }
+      console.log(localEdges);
 
       setItem({
         ...item,
-        partner: {
-          edges: localEdges
-        }
+        partners: {
+          edges: [
+            ...item.partners.edges,
+            {
+              node: {
+                id: partnerItem[0].node.id,
+                title: partnerItem[0].node.title,
+              },
+            },
+          ],
+        },
       });
     }
   };
   const removePartnerFromBrand = (e, id) => {
     e.preventDefault();
 
-    let localEdges = item.partner ? item.partner.edges : [];
-    localEdges = localEdges.filter(item => item.node.id !== id);
+    let localEdges = item.partners ? item.partners.edges : [];
+    localEdges = localEdges.filter((item) => item.node.id !== id);
 
     setItem({
       ...item,
-      partner: {
-        edges: localEdges
-      }
+      partners: {
+        edges: localEdges,
+      },
     });
   };
   const saveData = (e) => {
-    if(!id)
-      return;
+    if (!id) return;
 
     let partnerIdList = [];
-    if(item.partner && item.partner.edges) {
-      partnerIdList = item.partner.edges.map(item => item.node.id)
+    if (item.partners && item.partners.edges) {
+      partnerIdList = item.partners.edges.map((item) => item.node.id) || [];
     }
 
     saveDataBrand({
       variables: {
         id: id && id,
-        title: item.title && item.title,
-        workingSector: item.workingSector && item.workingSector.id,
-        partner: partnerIdList
-      }
-    });
+        input: {
+          partners: partnerIdList,
+          title: item.title,
+        },
+      },
+    }).then(() => message.success('Успешно сохранено.'));
   };
 
   const selectDesign = (index, isChecked) => {
     let localDesignList = designList;
     localDesignList[index].node.isChecked = isChecked.target.checked;
 
-    const printArray = localDesignList.filter(({ node }) => node.isChecked)
-      .map(({ node }) => (
-        <PrintBlock key={node.id} data={node}/>
-      ))
+    const printArray = localDesignList
+      .filter(({ node }) => node.isChecked)
+      .map(({ node }) => <PrintBlock key={node.id} data={node} />);
 
     setDesignList(localDesignList);
     setSetPrintArray({
-      element: <PrintListBlock
-        data={printArray}
-        ref={el => inputRef.current['printListBlocks'] = el}
-      />,
-      refData: inputRef
+      element: <PrintListBlock data={printArray} ref={(el) => (inputRef.current['printListBlocks'] = el)} />,
+      refData: inputRef,
     });
   };
   const deleteSide = (id) => {
@@ -267,28 +253,21 @@ const InnerForm = () => {
 
     setDesignList(localDesignList);
 
-    deleteDesign({ variables:{ id } });
-  }
+    deleteDesign({ variables: { id } });
+  };
 
   return (
     <form style={{ width: '100%' }}>
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Бренд - { item.title && item.title }</JobTitle>
+          <JobTitle>Бренд - {item.title && item.title}</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton
-            backgroundColor="#008556"
-            type="button"
-            onClick={(e) => saveData(e)}
-          >
+          <StyledButton backgroundColor="#008556" type="button" onClick={(e) => saveData(e)}>
             Сохранить
           </StyledButton>
-          <StyledButton
-            backgroundColor="#2C5DE5"
-            type="button"
-          >
+          <StyledButton backgroundColor="#2C5DE5" type="button">
             Выгрузить данные
           </StyledButton>
         </ButtonGroup>
@@ -299,7 +278,7 @@ const InnerForm = () => {
             <Col xs={5}>
               <Medium>
                 <BlockTitle>Редактирование информации</BlockTitle>
-                <div className="block-edit-info" >
+                <div className="block-edit-info">
                   <Row>
                     <Column style={{ width: '45%', marginRight: '30px' }}>
                       <Row style={{ padding: '0' }}>
@@ -308,8 +287,9 @@ const InnerForm = () => {
                           <StyledInput
                             prefix={<img src={suitcase} />}
                             value={item.title ? item.title : ''}
-                            onChange={(e) => {setItem({...item, title: e.target.value})}}
-                          ></StyledInput>
+                            onChange={(e) => {
+                              setItem({ ...item, title: e.target.value });
+                            }}></StyledInput>
                         </div>
                       </Row>
                     </Column>
@@ -318,26 +298,31 @@ const InnerForm = () => {
                         <InputTitle>Сектор деятельности</InputTitle>
                         <StyledSelect
                           prefix={<img src={owner} />}
-                          defaultValue={item.workingSector ? item.workingSector.id: ''}
-                          loading={workingSectorResponse.loading}
-                          onChange={(value) => setItem({
-                            ...item,
-                            workingSector: {
-                              ...item.workingSector,
-                              id: value
-                            }
-                          })}
-                        >
-                          {
-                            workingSectors && workingSectors.map(({ node }) => (
-                              <StyledSelect.Option
-                                key={node.id}
-                                value={node.id}
-                              >
-                                { node.title }
-                              </StyledSelect.Option>
-                            ))
+                          defaultValue={
+                            item.partners
+                              ? item.partners.edges.length
+                                ? item.partners.edges[0].node.workingSectors
+                                  ? item.partners.edges[0].node.workingSectors.edges[0].node.id
+                                  : ''
+                                : ''
+                              : ''
                           }
+                          loading={workingSectorResponse.loading}
+                          onChange={(value) =>
+                            setItem({
+                              ...item,
+                              workingSector: {
+                                ...item.workingSector,
+                                id: value,
+                              },
+                            })
+                          }>
+                          {workingSectors &&
+                            workingSectors.map(({ node }) => (
+                              <StyledSelect.Option key={node.id} value={node.id}>
+                                {node.title}
+                              </StyledSelect.Option>
+                            ))}
                         </StyledSelect>
                       </div>
                     </Column>
@@ -345,7 +330,15 @@ const InnerForm = () => {
                   <Divider />
                   <Row style={{ paddingBottom: '15px' }}>
                     <Column style={{ width: '100%' }}>
-                      <div style={{ width: '100%',  marginBottom: '5px', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                      <div
+                        style={{
+                          width: '100%',
+                          marginBottom: '5px',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'flex-end',
+                          justifyContent: 'space-between',
+                        }}>
                         <div style={{ width: '80%' }}>
                           <InputTitle>Контрагенты</InputTitle>
 
@@ -358,38 +351,27 @@ const InnerForm = () => {
                             onSearch={handleSearchPartner}
                             onChange={handleChangePartner}
                             notFoundContent={null}
-                            loading={partnerLoading}
-                          >
-                            {
-                              partnerData && partnerData.map(({ node }) => (
+                            loading={partnerLoading}>
+                            {partnerData &&
+                              partnerData.map(({ node }) => (
                                 <StyledSelect.Option key={node.id} value={node.id}>
-                                  { node.title ? node.title : 'Нет названия' }
+                                  {node.title ? node.title : 'Нет названия'}
                                 </StyledSelect.Option>
-                              ))
-                            }
+                              ))}
                           </StyledSelect>
                         </div>
-                        <StyledButton
-                          backgroundColor="#008556"
-                          type="button"
-                          onClick={addPartnerToBrand}
-                        >
+                        <StyledButton backgroundColor="#008556" type="button" onClick={addPartnerToBrand}>
                           Добавить
                         </StyledButton>
                       </div>
                       <div style={{ width: '80%', display: 'flex', flexWrap: 'wrap' }}>
-                        {
-                          item.partner && item.partner.edges.map(({ node }) => (
+                        {item.partners &&
+                          item.partners.edges.map(({ node }) => (
                             <Chip key={node.id}>
-                              <img
-                                src={chipIcon}
-                                alt="icon"
-                                onClick={(e) => removePartnerFromBrand(e, node.id)}
-                              />
-                              <span>{ node.title }</span>
+                              <img src={chipIcon} alt="icon" onClick={(e) => removePartnerFromBrand(e, node.id)} />
+                              <span>{node.title}</span>
                             </Chip>
-                          ))
-                        }
+                          ))}
                       </div>
                     </Column>
                   </Row>
@@ -408,82 +390,57 @@ const InnerForm = () => {
               </style>
             </Col>
             <Col xs={7}>
-              <HeaderBar
-                enableEditQuantityOfColumns={true}
-                printData={printArray}
-              >
-                <DropdownBtn1 className="dropdown-btn-1" style={{marginLeft: '17px'}}>
-                  <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo"/>
+              <HeaderBar enableEditQuantityOfColumns={true} printData={printArray}>
+                <DropdownBtn1 className="dropdown-btn-1" style={{ marginLeft: '17px' }}>
+                  <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo" />
                   <h6 className="dropdown-btn-1__title">Архив дизайнов</h6>
                 </DropdownBtn1>
               </HeaderBar>
 
               <DesignList className="design-list">
-                {
-                  designList && designList.map(({ node }, index) => (
+                {designList &&
+                  designList.map(({ node }, index) => (
                     <DesignListItem
                       key={node.id}
-                      className={`design-list__item ${node.isCurrent ? 'current-design' : 'archive-design'}`}
-                    >
-                      <div style={{ display: "none" }}>
-                        <PrintBlock
-                          data={node}
-                          ref={el => inputRef.current[index] = el}
-                        />
+                      className={`design-list__item ${node.isCurrent ? 'current-design' : 'archive-design'}`}>
+                      <div style={{ display: 'none' }}>
+                        <PrintBlock data={node} ref={(el) => (inputRef.current[index] = el)} />
                       </div>
                       <div className="design-list__item-b-image">
                         <img
                           src={
                             node.img
-                            ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${node.img}`
-                            : designIcon
+                              ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${node.img}`
+                              : designIcon
                           }
                           alt="design icon"
                           className="design-list__item-image"
                         />
-                        <p className="design-list__item-label">
-                          {
-                            node.isCurrent
-                            ? 'текущий дизайн'
-                            : 'архив'
-                          }
-                        </p>
+                        <p className="design-list__item-label">{node.isCurrent ? 'текущий дизайн' : 'архив'}</p>
                       </div>
                       <h6 className="design-list__item-title">
-                        <span>{ node.title }</span>
+                        <span>{node.title}</span>
                       </h6>
                       <div className="design-list__item-footer">
-                        <Checkbox
-                          defaultValue={node.isChecked}
-                          onChange={(e) => selectDesign(index, e)}
-                        >
+                        <Checkbox defaultValue={node.isChecked} onChange={(e) => selectDesign(index, e)}>
                           Выбрать
                         </Checkbox>
                         <div className="design-list__item-btn-group">
-
                           <ReactToPrint
                             trigger={() => (
-                              <Button
-                                className="design-list__item-btn"
-                                type="button"
-                              >
+                              <Button className="design-list__item-btn" type="button">
                                 <img src={printerIcon} />
                               </Button>
                             )}
                             content={() => inputRef.current[index]}
                           />
-                          <Button
-                            className="design-list__item-btn"
-                            type="button"
-                            onClick={() => deleteSide(node.id)}
-                          >
+                          <Button className="design-list__item-btn" type="button" onClick={() => deleteSide(node.id)}>
                             <img src={deleteIcon} />
                           </Button>
                         </div>
                       </div>
                     </DesignListItem>
-                  ))
-                }
+                  ))}
               </DesignList>
             </Col>
           </Row>

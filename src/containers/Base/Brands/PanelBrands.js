@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo } from 'react';
-import {Link} from 'react-router-dom';
-import {useHistory, useLocation} from 'react-router';
+import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router';
 import { useQuery, gql } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
@@ -16,10 +16,6 @@ const BRANDS_T = gql`
         node {
           id
           title
-          workingSector {
-            id
-            title
-          }
           partners {
             edges {
               node {
@@ -45,25 +41,29 @@ const initColumnsForPopup = [
   {
     title: 'Бренд',
     dataIndex: 'brand',
+    key: 'brand',
     className: 'show',
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Контрагент',
     dataIndex: 'partner',
+    key: 'partner',
     className: 'show',
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Сектор деятельности',
     dataIndex: 'workingSector',
+    key: 'workingSector',
     className: 'show',
     sorter: (a, b) => a.age - b.age,
-    isShowed: true
+    isShowed: true,
   },
   {
     dataIndex: 'btn-remove',
     width: 40,
+    key: 'editBtn',
     title: '',
     render: (text, record) => (
       <Link to={{ pathname: `/base/partner/brand/${record.key}` }}>
@@ -76,27 +76,32 @@ const initColumnsTable = [
   {
     title: 'Бренд',
     dataIndex: 'brand',
+    key: 'brand',
     className: 'show',
     sorter: (a, b) => a.age - b.age,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Контрагент',
     dataIndex: 'partner',
+    key: 'partner',
     className: 'show',
     sorter: (a, b) => a.age - b.age,
-    isShowed: true
+    isShowed: true,
   },
   {
     title: 'Сектор деятельности',
     dataIndex: 'workingSector',
+    key: 'workingSector',
     className: 'show',
     sorter: (a, b) => a.age - b.age,
-    isShowed: true
+    isShowed: true,
   },
   {
     width: 40,
     title: '',
+    key: 'edit',
+    dataIndex: 'edit',
     render: (text, record) => (
       <Link to={{ pathname: `/base/partner/brand/${record.key}` }}>
         <img style={{ cursor: 'pointer' }} src={icon_pen} alt="" />
@@ -116,57 +121,53 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
   const { loading, error, data, refetch } = useQuery(BRANDS_T, { variables: filter });
 
   useMemo(() => {
-    refetch()
+    refetch();
   }, [location]);
-  const getByKey = (item, key) => (
-    item
-    && item.node[key]
-    && item.node[key].edges
-    && item.node[key].edges.length
-    && item.node[key].edges[0].node
-  );
+  const getByKey = (item, key) =>
+    item && item.node[key] && item.node[key].edges && item.node[key].edges.length && item.node[key].edges[0].node;
 
   const getPartner = (item) => getByKey(item, 'partners');
 
-  const getWorkingSector = (item) => (
-    getPartner(item)
-    && getPartner(item).workingSectors
-    && getPartner(item).workingSectors.edges.length
-    && getPartner(item).workingSectors.edges[0].node
-  )
+  const getWorkingSector = (item) =>
+    getPartner(item) &&
+    getPartner(item).workingSectors &&
+    getPartner(item).workingSectors.edges.length &&
+    getPartner(item).workingSectors.edges[0].node;
 
   useMemo(() => {
     if (data && data.searchBrand && data.searchBrand.edges) {
-      setBrands(data.searchBrand.edges.map((item) => {
-        return ({
-          key: item.node.id,
-          brand: item.node.title && item.node.title,
-          partner: getPartner(item) && getPartner(item).title,
-          workingSector: getWorkingSector(item) && getWorkingSector(item).title
-      })}))
+      setBrands(
+        data.searchBrand.edges.map((item) => {
+          return {
+            key: item.node.id,
+            brand: item.node.title && item.node.title,
+            partner: getPartner(item) && getPartner(item).title,
+            workingSector: getWorkingSector(item) && getWorkingSector(item).title,
+          };
+        }),
+      );
     }
   }, [data]);
-  if (error)
-    return <h3>Error :(</h3>;
+  if (error) return <h3>Error :(</h3>;
 
   const changeColumns = (dataIndex) => {
     let localColumnsForPopup = columnsForPopup.map((col, index) => {
-      if(col.dataIndex  && col.dataIndex === dataIndex) {
+      if (col.dataIndex && col.dataIndex === dataIndex) {
         col.isShowed = !col.isShowed;
 
-        return col
+        return col;
       }
-      return col
-    })
+      return col;
+    });
 
     setColumnsForPopup(localColumnsForPopup);
 
-    const newColumnTables = localColumnsForPopup.filter(item => {
-      if(item.isShowed) {
-        return item
+    const newColumnTables = localColumnsForPopup.filter((item) => {
+      if (item.isShowed) {
+        return item;
       }
-      if(item.dataIndex === 'btn-remove') {
-        return item
+      if (item.dataIndex === 'btn-remove') {
+        return item;
       }
     });
 
@@ -184,7 +185,6 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
           enableChoosePeriod={false}
           changeColumns={changeColumns}
           loading={loading}
-
           select={flagAddBrandForPartner}
           constructionsIdSet={brandsIdSet}
           setConstructionsIdSet={setBrandsIdSet}
