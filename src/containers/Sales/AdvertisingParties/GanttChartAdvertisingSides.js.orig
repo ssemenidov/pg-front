@@ -100,6 +100,9 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
   let year = date.getFullYear();
   let month = date.getMonth();
   const history = useHistory();
+<<<<<<< HEAD
+  const {chartItems, setChartItems, resCreated, setResCreated} = useContext(adverContext);
+=======
   const { chartItems, setChartItems, resCreated, setResCreated, period, setPeriod } = useContext(adverContext);
 
   const ganttSettings = (year, month) => ({
@@ -186,6 +189,7 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
       },
     ],
   });
+>>>>>>> dafc2bc5c47844e4c918d7eb3a2616144c95d7fe
 
   // console.log(filter);
   let dstFilter = {};

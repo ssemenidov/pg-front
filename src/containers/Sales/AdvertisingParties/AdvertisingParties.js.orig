@@ -49,6 +49,9 @@ const AdvertisingParties = () => {
   const sliderState = new SliderState({ name: '', key: '' });
   return (
     <adverContext.Provider
+<<<<<<< HEAD
+      value={{filter, setFilter, chartItems, setChartItems, refetch, setRefetch, resCreated, setResCreated}}>
+=======
       value={{
         filter,
         setFilter,
@@ -61,6 +64,7 @@ const AdvertisingParties = () => {
         period,
         setPeriod,
       }}>
+>>>>>>> dafc2bc5c47844e4c918d7eb3a2616144c95d7fe
       <Layout>
         <Layout>
           <FilterLeftBar props={(setCollapsed, collapsed)} />
