@@ -1,60 +1,117 @@
 import React, { useState,createContext } from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Table, DatePicker, Checkbox, Select, Button, Input } from 'antd';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { PanelBatch } from './PanelBatch';
+import { LeftBar } from '../../../components/Styles/DesignList/styles';
+import { useHistory } from 'react-router';
 
 import FilterBar from './FilterBar';
-import { FilterLeftBar } from './LeftBarFilters/FilterLeftBar';
 
+import breadcrumbs from '../../../img/outdoor_furniture/bx-breadcrumbs.svg';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import { ReservationSlider } from './BottomSlider'
+import SearchBtn from '../../../components/LeftBar/SearchBtn';
+import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
-import { colorOrangeAccent, colorAccent } from '../../../components/Styles/Colors';
-import './styles_adv_part.scss'
-import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
+import { PanelBatch } from './PanelBatch';
+
 export const batchContext = createContext();
-const { Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const BatchPlacement = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [filter, setFilter]= useState(null);
-  const [refetch, setRefetch]= useState(null);
-  const [ganttUpdater, setGanttUpdater] = useState(null);
+  const [filter, setFilter]= useState({});
 
-  const sliderState = new SliderState({name: "", key: ""})
+  const history = useHistory();
   return (
     <batchContext.Provider value={[filter, setFilter]}>
     <Layout>
       <Layout>
-        <FilterLeftBar props={setCollapsed, collapsed}/>
-        {collapsed && <FilterBar setRefetch={setRefetch} refetch={refetch} ganttUpdater={ganttUpdater}/>}
-        <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-          {/* <BreadCrumbs links={links}/> */}
+        <StyledSider>
+          <StyledSider>
+            <LeftBar>
+              <SearchBtn onClick={() => setCollapsed(!collapsed)} />
+              <CreateBtn
+                text="Создать проект"
+                onClick={() => {
+                  history.push('/sales/project_new');
+                }}
+              />
+            </LeftBar>
+          </StyledSider>
+        </StyledSider>
+        {collapsed && <FilterBar />}
+        <StyledLayout>
+          <StyledBreadcrumb>
+            <Breadcrumb.Item>
+              <img src={breadcrumbs} />
+              <Link to="/">Главная</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/sales/">Продажи</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Пакетное размещение</Breadcrumb.Item>
+          </StyledBreadcrumb>
           <HeaderWrapper>
-            <HeaderTitleWrapper>
-              <TitleLogo />
-              <JobTitle>Справочник рекламных сторон</JobTitle>
-            </HeaderTitleWrapper>
-            <ButtonGroup>
-              <StyledButton backgroundColor={colorAccent}
-                            onClick={() => { sliderState.setAddShowed(true); }}
-              >Быстрая бронь</StyledButton>
-              <StyledButton backgroundColor={colorAccent}>Создать проект</StyledButton>
-              <StyledButton backgroundColor={colorAccent}>Сохранить</StyledButton>
-              <StyledButton backgroundColor={colorOrangeAccent}>Создать отчет</StyledButton>
-            </ButtonGroup>
-          </HeaderWrapper>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="outdoor-table-bar" style={{ flex: '0 1 auto' }}>
-              <PanelBatch filter={filter} setRefetch={setRefetch} setGanttUpdater={setGanttUpdater} sliderState={sliderState} />
-            </div>
-            {sliderState.addShowed && <ReservationSlider sliderState={sliderState} />}
-          </div>
-        </Layout>
+                <HeaderTitleWrapper>
+                  <TitleLogo />
+                  <JobTitle>Пакетное размещение</JobTitle>
+                </HeaderTitleWrapper>
+                <ButtonGroup>
+                  <StyledButton
+                    backgroundColor="#FF5800"
+                  >
+                    Создать Отчёт
+                  </StyledButton>
+                </ButtonGroup>
+              </HeaderWrapper>
+
+          <Content>
+            <PanelBatch style={{ flex: '0 1 auto' }} />
+          </Content>
+        </StyledLayout>
       </Layout>
+
+      <style>{`
+
+        .dot-1 {
+          height: 8px;
+          margin: 0 4px;
+          width: 8px;
+          background-color: #63D411;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .dot-2 {
+          height: 8px;
+          margin: 0 4px;
+          width: 8px;
+          background-color: #117BD4;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .dot-3 {
+          height: 8px;
+          margin: 0 4px;
+          width: 8px;
+          background-color: #FDC911;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .dot-4 {
+          height: 8px;
+          margin: 0 4px;
+          width: 8px;
+          background-color: #D42D11;
+          border-radius: 50%;
+          display: inline-block;
+        }
+
+
+
+      `}</style>
     </Layout>
     </batchContext.Provider>
   );

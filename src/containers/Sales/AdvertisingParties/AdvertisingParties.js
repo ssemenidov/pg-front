@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect, useMemo } from 'react';
 import { Layout, message } from 'antd';
 import { StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
@@ -16,8 +16,12 @@ import { SliderState } from '../../../components/SlidingBottomPanel/SliderState'
 import { GanttChartAdvertisingSides } from './GanttChartAdvertisingSides';
 import { useHistory } from 'react-router';
 import { routes } from '../../../routes';
+import { gql, useLazyQuery } from '@apollo/client';
+import useDebounce from '../../Administration/components/useDebounce';
 
 export const adverContext = createContext();
+
+
 
 const AdvertisingParties = () => {
   const [collapsed, setCollapsed] = useState(true);

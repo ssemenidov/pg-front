@@ -97,11 +97,23 @@ const SEARCH_PARTNER = gql`
   }
 `;
 const SAVE_BRAND = gql`
-  mutation updateBrand($id: ID!, $input: UpdateBrandInput!) {
-    updateBrand(id: $id, input: $input) {
-      brand {
-        id
-        title
+  mutation updateBrand(
+      $id: ID!
+      $title: String
+      $workingSector: ID
+      $partners: [ID]
+    ) {
+      updateBrand(
+        id: $id
+        input: {
+          title: $title
+          workingSector: $workingSector
+          partners: $partners
+        }
+      ) {
+        brand {
+          id
+        }
       }
     }
   }
@@ -109,7 +121,7 @@ const SAVE_BRAND = gql`
 
 const InnerForm = () => {
   const { id } = useParams();
-  const [item, setItem] = useContext(constructBrand);
+  const [brandData, setBrandData] = useContext(constructBrand);
   const [workingSectors, setWorkingSectors] = useState(null);
   const inputRef = useRef([]);
 
@@ -117,7 +129,7 @@ const InnerForm = () => {
   const [printArray, setSetPrintArray] = useState(null);
 
   const [partnerValue, setPartnerValue] = useState(undefined);
-  const [partnerData, setPartnerData] = useState([]);
+  const [partnersQueried, setPartnersQueried] = useState((brandData.partners && brandData.partners.edges) || []);
   const [partnerSearchText, setPartnerSearchText] = useState('');
   const [partnerLoading, setPartnerLoading] = useState(false);
 
@@ -128,35 +140,27 @@ const InnerForm = () => {
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
   const [deleteDesign] = useMutation(DELETE_DESIGN);
 
-  useMemo(() => {
-    if (workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
-      setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges);
+  useEffect(() => {
+    if(workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
+      setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges)
     }
   }, [workingSectorResponse.data]);
 
-  const handleSearchPartner = (value) => {
-    setPartnerSearchText(value);
-  };
-  const handleChangePartner = (value) => {
-    setPartnerValue(value);
-  };
-
   useEffect(() => {
-    getPartner({
-      variables: {
-        title_Icontains: debouncedSearchTerm,
-      },
-    });
+    getPartner({ variables: { title_Icontains: debouncedSearchTerm } });
     setPartnerLoading(loading);
   }, [debouncedSearchTerm, getPartner, loading]);
-  useMemo(() => {
-    if (data && data.searchPartner.edges) {
-      setPartnerData(data.searchPartner.edges);
+
+  useEffect(() => {
+    if(data && data.searchPartner.edges) {
       setPartnerLoading(loading);
+      if (!loading) {
+        setPartnersQueried(data.searchPartner.edges)
+      }
     }
   }, [data, loading]);
 
-  useMemo(() => {
+  useEffect(() => {
     const { data } = designData;
     const localDesignList =
       designData.data &&
@@ -174,64 +178,61 @@ const InnerForm = () => {
   const addPartnerToBrand = (e) => {
     e.preventDefault();
 
-    if (partnerValue) {
-      const localEdges = item.partners ? item.partners.edges : [];
-      const partnerItem = partnerData.filter((item) => {
-        return item.node.id === partnerValue;
-      });
-
-      if (localEdges.filter((item) => item.node.id === partnerValue)[0]) {
+    if(partnerValue) {
+      if(brandData.partners && brandData.partners.edges.filter(item => item.node.id === partnerValue.id)[0]) {
         alert('Этот контрагент уже добавлен');
         return;
       }
-      console.log(localEdges);
+      console.log(partnerValue)
 
-      setItem({
-        ...item,
+      let localNewNode = partnersQueried.filter(item => item.node.id === partnerValue)
+      const localEdges = brandData.partners ? [...brandData.partners.edges, ...localNewNode] : [...localNewNode];
+
+      let newBrandData = {
+        ...brandData,
         partners: {
-          edges: [
-            ...item.partners.edges,
-            {
-              node: {
-                id: partnerItem[0].node.id,
-                title: partnerItem[0].node.title,
-              },
-            },
-          ],
-        },
-      });
+          edges: localEdges
+        }
+      };
+
+      setBrandData(newBrandData);
+      saveData(newBrandData);
     }
   };
   const removePartnerFromBrand = (e, id) => {
     e.preventDefault();
 
-    let localEdges = item.partners ? item.partners.edges : [];
-    localEdges = localEdges.filter((item) => item.node.id !== id);
+    let localEdges = brandData.partners ? brandData.partners.edges : [];
 
-    setItem({
-      ...item,
+    localEdges = localEdges.filter(item => item.node.id !== id);
+    let newBrandData = {
+      ...brandData,
       partners: {
-        edges: localEdges,
-      },
-    });
+        edges: localEdges
+      }
+    }
+
+    setBrandData(newBrandData);
+    saveData(newBrandData);
   };
-  const saveData = (e) => {
-    if (!id) return;
+  const saveData = (paramBrandData=null) => {
+    if(!id)
+      return;
+    let localBrandData = paramBrandData || brandData;
 
     let partnerIdList = [];
-    if (item.partners && item.partners.edges) {
-      partnerIdList = item.partners.edges.map((item) => item.node.id) || [];
+    if(localBrandData.partners && localBrandData.partners.edges) {
+      partnerIdList = localBrandData.partners.edges.map(item => item.node.id)
     }
 
     saveDataBrand({
       variables: {
-        id: id && id,
-        input: {
-          partners: partnerIdList,
-          title: item.title,
-        },
-      },
-    }).then(() => message.success('Успешно сохранено.'));
+        id: id,
+        title: localBrandData.title,
+        workingSector: localBrandData.workingSector && localBrandData.workingSector.id,
+        partners: partnerIdList
+      }
+    });
   };
 
   const selectDesign = (index, isChecked) => {
@@ -261,10 +262,14 @@ const InnerForm = () => {
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Бренд - {item.title && item.title}</JobTitle>
+          <JobTitle>Бренд - { brandData.title && brandData.title }</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          <StyledButton backgroundColor="#008556" type="button" onClick={(e) => saveData(e)}>
+          <StyledButton
+            backgroundColor="#008556"
+            type="button"
+            onClick={(e) => saveData()}
+          >
             Сохранить
           </StyledButton>
           <StyledButton backgroundColor="#2C5DE5" type="button">
@@ -286,10 +291,9 @@ const InnerForm = () => {
                           <InputTitle>Наименование</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            value={item.title ? item.title : ''}
-                            onChange={(e) => {
-                              setItem({ ...item, title: e.target.value });
-                            }}></StyledInput>
+                            value={brandData.title ? brandData.title : ''}
+                            onChange={(e) => {setBrandData({...brandData, title: e.target.value})}}
+                          ></StyledInput>
                         </div>
                       </Row>
                     </Column>
@@ -298,29 +302,23 @@ const InnerForm = () => {
                         <InputTitle>Сектор деятельности</InputTitle>
                         <StyledSelect
                           prefix={<img src={owner} />}
-                          defaultValue={
-                            item.partners
-                              ? item.partners.edges.length
-                                ? item.partners.edges[0].node.workingSectors
-                                  ? item.partners.edges[0].node.workingSectors.edges[0].node.id
-                                  : ''
-                                : ''
-                              : ''
-                          }
+                          defaultValue={brandData.workingSector ? brandData.workingSector.id: ''}
                           loading={workingSectorResponse.loading}
-                          onChange={(value) =>
-                            setItem({
-                              ...item,
-                              workingSector: {
-                                ...item.workingSector,
-                                id: value,
-                              },
-                            })
-                          }>
-                          {workingSectors &&
-                            workingSectors.map(({ node }) => (
-                              <StyledSelect.Option key={node.id} value={node.id}>
-                                {node.title}
+                          onChange={(value) => setBrandData({
+                            ...brandData,
+                            workingSector: {
+                              ...brandData.workingSector,
+                              id: value
+                            }
+                          })}
+                        >
+                          {
+                            workingSectors && workingSectors.map(({ node }) => (
+                              <StyledSelect.Option
+                                key={node.id}
+                                value={node.id}
+                              >
+                                { node.title }
                               </StyledSelect.Option>
                             ))}
                         </StyledSelect>
@@ -341,19 +339,19 @@ const InnerForm = () => {
                         }}>
                         <div style={{ width: '80%' }}>
                           <InputTitle>Контрагенты</InputTitle>
-
                           <StyledSelect
                             showSearch
                             value={partnerValue}
                             defaultActiveFirstOption={false}
                             showArrow={false}
                             filterOption={false}
-                            onSearch={handleSearchPartner}
-                            onChange={handleChangePartner}
+                            onSearch={(value) => setPartnerSearchText(value)}
+                            onChange={(value) => setPartnerValue(value)}
                             notFoundContent={null}
-                            loading={partnerLoading}>
-                            {partnerData &&
-                              partnerData.map(({ node }) => (
+                            loading={partnerLoading}
+                          >
+                            {
+                              partnersQueried  && partnersQueried.map(({ node }) => (
                                 <StyledSelect.Option key={node.id} value={node.id}>
                                   {node.title ? node.title : 'Нет названия'}
                                 </StyledSelect.Option>
@@ -365,8 +363,8 @@ const InnerForm = () => {
                         </StyledButton>
                       </div>
                       <div style={{ width: '80%', display: 'flex', flexWrap: 'wrap' }}>
-                        {item.partners &&
-                          item.partners.edges.map(({ node }) => (
+                        {
+                          brandData.partners && brandData.partners.edges.map(({ node }) => (
                             <Chip key={node.id}>
                               <img src={chipIcon} alt="icon" onClick={(e) => removePartnerFromBrand(e, node.id)} />
                               <span>{node.title}</span>

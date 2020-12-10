@@ -9,7 +9,70 @@ import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
-import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './queries';
+import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './q_mutations';
+
+
+export const getEstimateReservations = (data = [], sort = '', period = '') => {
+  if  (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length)
+    return []
+  let modifiedData = data.searchSalesEstimateItogs.edges[0].node.reservations.edges;
+  modifiedData = modifiedData.map((reservation) => {
+    return {
+      key: reservation.node.id,
+      code: getConstructionSideCode(reservation.node.constructionSide),
+      city: reservation.node.constructionSide.construction.location.postcode.district.city.title
+        ? reservation.node.constructionSide.construction.location.postcode.district.city.title
+        : '',
+      address: reservation.node.constructionSide.construction.location.marketingAddress.address,
+      format: reservation.node.constructionSide.advertisingSide.side.format.title,
+      side: reservation.node.constructionSide.advertisingSide.side.title,
+      period:
+        new Date(reservation.node.dateFrom).toLocaleDateString() +
+        ' - ' +
+        new Date(reservation.node.dateTo).toLocaleDateString(),
+      branding: reservation.node.branding ? 'Да' : 'Нет',
+    };
+  });
+
+  switch (sort) {
+    case 'abc':
+      modifiedData = modifiedData.sort((a, b) => {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      });
+  }
+  switch (period) {
+    case 'increase':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration._milliseconds - duration2._milliseconds;
+      });
+    case 'decrease':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration2._milliseconds - duration._milliseconds;
+      });
+  }
+
+  return modifiedData;
+};
+
+
 
 export const getBookedSides = (data = [], sort = '', period = '') => {
   let modifiedData = data.map((invoice) => {
@@ -266,8 +329,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           count: editingItem.quantity || 0,
           price: editingItem.price ? editingItem.price.split(' ')[0] : 0,
           discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
-          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : 0,
-          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : 0,
+          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : null,
+          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : null,
           city: editingItem.cityId ? editingItem.cityId : '',
           period: [start, end],
         });
@@ -288,8 +351,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
           summCosts: editingItem.costsSell.split(' ')[0] || 0,
           type: editingItem.code,
           count: editingItem.quantity,
-          agPercent: editingItem.percentAK.split('%')[0] || 0,
-          agSumm: editingItem.sumAK.split(' ')[0] || 0,
+          agPercent: editingItem.percentAK.split('%')[0] || null,
+          agSumm: editingItem.sumAK.split(' ')[0] || null,
           city: editingItem.cityId ? editingItem.cityId : '',
         });
     }
@@ -752,7 +815,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
-                initialValue={0}
+                initialValue={null}
                 label={InputLabel('Процент АК')}>
                 <InputNumber
                   style={{
@@ -760,7 +823,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return `${value}%`;
+                    return (value === null || value === 'null') ? ' %' : `${value}%`;
                   }}
                 />
               </Form.Item>
@@ -769,7 +832,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 className="editForm-item"
                 labelAlign="left"
                 colon={false}
-                initialValue={0}
+                initialValue={null}
                 label={InputLabel('Сумма АК')}>
                 <InputNumber
                   style={{
@@ -777,7 +840,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return `${value} тг`;
+                    return (value === null || value === 'null') ? ' тг' : `${value} тг`;
                   }}
                 />
               </Form.Item>
@@ -889,8 +952,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 discountPercent: values.discount,
                 price: values.price,
                 agencyCommission: {
-                  value: values.agSumm,
-                  percent: values.agPercent,
+                  value: values.agSumm === 'null' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' ? null : values.agPercent,
                 },
                 city: values.city,
                 startPeriod: start,
@@ -933,8 +996,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 saleInstallation: values.summMount,
                 saleManufacturing: values.summManufacture,
                 agencyCommission: {
-                  value: values.agSumm,
-                  percent: values.agPercent,
+                  value: values.agSumm === 'null' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' ? null : values.agPercent,
+                  toNonrts: true
                 },
                 city: values.city,
               };
@@ -1611,8 +1675,8 @@ export const CreateCosts = ({ block, refetch }) => {
                   discountPercent: values.discount,
                   price: values.price,
                   agencyCommission: {
-                    value: values.agSumm,
-                    percent: values.agPercent,
+                    value: values.agSumm === 'null' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' ? null : values.agPercent,
                   },
                   city: values.city,
                   startPeriod: start,
@@ -1655,8 +1719,9 @@ export const CreateCosts = ({ block, refetch }) => {
                   saleInstallation: values.summMount,
                   saleManufacturing: values.summManufacture,
                   agencyCommission: {
-                    value: values.agSumm,
-                    percent: values.agPercent,
+                    value: values.agSumm === 'null' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' ? null : values.agPercent,
+                    toNonrts: true,
                   },
                   city: values.city,
                   project: currentId,

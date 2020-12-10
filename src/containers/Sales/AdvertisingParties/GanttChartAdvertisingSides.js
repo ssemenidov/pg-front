@@ -20,6 +20,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
     $city: ID
     $district: ID
     $reservationType: String
+    $owner: String
   ) {
     searchConstructionSide(
       reservation_DateFrom_Gte: $dateFrom
@@ -32,6 +33,7 @@ const SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION = gql`
       construction_Location_Postcode_District_City_Id: $city
       construction_Location_Postcode_District_Id: $district
       reservation_ReservationType_Title_Iregex: $reservationType
+      construction_NonrtsOwner_Title_Icontains: $owner
     ) {
       edges {
         node {
@@ -131,8 +133,8 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
     selectionMode: 'ExtendedFocus',
     headerBackground: '#FFFFFF',
     isGridVisible: true,
-    gridWidth: '20%',
-    chartWidth: '80%',
+    gridWidth: '35rem',
+    chartWidth: 'calc(100%-35rem)',
     itemTemplate: (item) => createPopover(item),
     isTaskToolTipVisible: false,
     // interaction: 'TouchEnabled',
@@ -187,7 +189,8 @@ export function GanttChartAdvertisingSides({ filter, setGanttUpdater }) {
 
   // console.log(filter);
   let dstFilter = {};
-  if (filter) dstFilter = filter.dstFilter;
+  if (filter)
+    dstFilter = filter.dstFilter;
   // console.log('compfilter', dstFilter);
   let searchQuery = useQuery(SEARCH_CONSTRUCTION_SIDE_WITH_RESERVATION, { variables: dstFilter });
   let loading = searchQuery.loading;

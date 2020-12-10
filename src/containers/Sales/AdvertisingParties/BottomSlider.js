@@ -80,7 +80,7 @@ export function ReservationSlider({ sliderState }) {
   // };
   let [form] = Form.useForm();
 
-  const { chartItems, setResCreated } = useContext(adverContext);
+  const {chartItems, setResCreated} = useContext(adverContext);
   const [projectSearchText, setProjectSearchText] = useState('');
   const [projectLoading, setProjectLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(projectSearchText, 500);
@@ -114,6 +114,7 @@ export function ReservationSlider({ sliderState }) {
         edges {
           node {
             title
+            code
             id
             agencyCommission {
               percent
@@ -183,7 +184,7 @@ export function ReservationSlider({ sliderState }) {
   useEffect(() => {
     getProject({
       variables: {
-        title_Icontains: debouncedSearchTerm,
+        code_Icontains: debouncedSearchTerm,
       },
     });
     setProjectLoading(loading);
@@ -303,7 +304,7 @@ export function ReservationSlider({ sliderState }) {
                 {projectData &&
                   projectData.map(({ node }) => (
                     <StyledSelect.Option key={node.id} value={node.id}>
-                      {node.title ? node.title : 'Нет названия'}
+                      {node.code ? node.code : 'Нет названия'}
                     </StyledSelect.Option>
                   ))}
               </StyledSelect>

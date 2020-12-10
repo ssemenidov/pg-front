@@ -12,111 +12,40 @@ import { Popover } from 'antd';
 import { useQuery, gql } from '@apollo/client';
 import { routes } from '../../../routes';
 
-const PanelDesign = () => {
-  const [filter /*setFilter*/, , constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
 
-  const history = useHistory();
-
-  let data2 = [];
-
-  const columns = [
-    {
-      title: 'Код',
-      dataIndex: 'code',
-      width: 130,
-      sorter: {
-        compare: (a, b) => {
-          return a.code.split('#')[1] - b.code.split('#')[1];
-        },
-        multiple: 1,
-      },
-    },
-    {
-      title: 'Бренд',
-      dataIndex: 'brand',
-      width: 80,
-    },
-    {
-      title: 'Дата начала',
-      dataIndex: 'date',
-      width: 90,
-    },
-    {
-      title: 'Рекламодатель',
-      dataIndex: 'advert',
-      width: 80,
-    },
-    {
-      title: 'Рекламное агенство',
-      dataIndex: 'advert_agency',
-      width: 80,
-    },
-    {
-      title: 'Город',
-      dataIndex: 'city',
-      width: 80,
-    },
-    {
-      title: 'Сектор деятельности',
-      dataIndex: 'sector',
-      width: 80,
-    },
-    {
-      title: 'Менеджер бэк-офиса',
-      dataIndex: 'managerb',
-      width: 80,
-    },
-    {
-      title: 'Менеджер по продажам',
-      dataIndex: 'manager',
-      width: 80,
-    },
-    {
-      width: 40,
-      title: '',
-      dataIndex: 'edit',
-      render: (text, record) => (
-        <Link to={{ pathname: routes.sales.project_card.url(record.key) }}>
-          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="icon_pen" />
-        </Link>
-      ),
-    },
-  ];
-
-  const temp = gql`
-    query allProjectsQuery(
-      $brand: String
-      $code: String
-      $workingSectors: String
-      $salesManagerFirstName: String
-      $salesManagerLastName: String
-      $backOfficeManagerFirstName: String
-      $backOfficeManagerLastName: String
-      $adv: String
+const QUERY_ALL_PROJECTS = gql`
+  query allProjectsQuery(
+    $brand: String
+    $code: String
+    $workingSectors: String
+    $salesManagerFirstName: String
+    $salesManagerLastName: String
+    $backOfficeManagerFirstName: String
+    $backOfficeManagerLastName: String
+    $adv: String
+  ) {
+    searchProject(
+      brand_Title_Icontains: $brand
+      code_Icontains: $code
+      client_WorkingSectors_Description_Icontains: $workingSectors
+      backOfficeManager_FirstName_Icontains: $backOfficeManagerFirstName
+      backOfficeManager_LastName_Icontains: $backOfficeManagerLastName
+      salesManager_FirstName_Icontains: $salesManagerFirstName
+      salesManager_LastName_Icontains: $salesManagerLastName
+      client_Title_Icontains: $adv
     ) {
-      searchProject(
-        brand_Title_Icontains: $brand
-        code_Icontains: $code
-        client_WorkingSectors_Description_Icontains: $workingSectors
-        backOfficeManager_FirstName_Icontains: $backOfficeManagerFirstName
-        backOfficeManager_LastName_Icontains: $backOfficeManagerLastName
-        salesManager_FirstName_Icontains: $salesManagerFirstName
-        salesManager_LastName_Icontains: $salesManagerLastName
-        client_Title_Icontains: $adv
-      ) {
-        edges {
-          node {
-            reservations(first: 1) {
-              edges {
-                node {
-                  constructionSide {
-                    construction {
-                      location {
-                        postcode {
-                          district {
-                            city {
-                              title
-                            }
+      edges {
+        node {
+          reservations(first: 1) {
+            edges {
+              node {
+                constructionSide {
+                  construction {
+                    location {
+                      postcode {
+                        district {
+                          city {
+                            title
                           }
                         }
                       }
@@ -125,41 +54,78 @@ const PanelDesign = () => {
                 }
               }
             }
+          }
+          title
+          id
+          code
+          comment
+          startDate
+          backOfficeManager {
+            firstName
+            lastName
+          }
+          salesManager {
+            firstName
+            lastName
+          }
+          client {
             title
-            id
-            code
-            comment
-            startDate
-            backOfficeManager {
-              firstName
-              lastName
-            }
-            salesManager {
-              firstName
-              lastName
-            }
-            client {
+            binNumber
+            partnerType {
               title
-              binNumber
-              partnerType {
-                title
-              }
-              workingSectors {
-                edges {
-                  node {
-                    description
-                  }
+            }
+            workingSectors {
+              edges {
+                node {
+                  description
                 }
               }
             }
-            brand {
-              title
-            }
+          }
+          brand {
+            title
           }
         }
       }
     }
-  `;
+  }
+`;
+
+
+const PanelDesign = () => {
+  const [filter /*setFilter*/, , constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
+
+  const history = useHistory();
+
+  let data2 = [];
+
+  const columns = [
+    { title: 'Код', dataIndex: 'code', width: 130,
+      sorter: {
+        compare: (a, b) => {
+          return a.code.split('#')[1] - b.code.split('#')[1];
+        },
+        multiple: 1,
+      },
+    },
+    { title: 'Бренд',                dataIndex: 'brand',         width: 80, },
+    { title: 'Дата начала',          dataIndex: 'date',          width: 90, },
+    { title: 'Рекламодатель',        dataIndex: 'advert',        width: 80, },
+    { title: 'Рекламное агенство',   dataIndex: 'advert_agency', width: 80, },
+    { title: 'Город',                dataIndex: 'city',          width: 80, },
+    { title: 'Сектор деятельности',  dataIndex: 'sector',        width: 80, },
+    { title: 'Менеджер бэк-офиса',   dataIndex: 'managerb',      width: 80, },
+    { title: 'Менеджер по продажам', dataIndex: 'manager',       width: 80, },
+    {
+      width: 40, title: '', dataIndex: 'edit',
+      render: (text, record) => (
+        <Link to={{ pathname: routes.sales.project_card.url(record.key) }}>
+          <img style={{ cursor: 'pointer' }} src={icon_pen} alt="icon_pen" />
+        </Link>
+      ),
+    },
+  ];
+
 
   const CitiesList = () => {
     return (
@@ -172,7 +138,7 @@ const PanelDesign = () => {
     );
   };
 
-  const { loading, error, data } = useQuery(temp, {
+  const { loading, error, data } = useQuery(QUERY_ALL_PROJECTS, {
     variables: {
       brand: filter.brand,
       code: filter.code,

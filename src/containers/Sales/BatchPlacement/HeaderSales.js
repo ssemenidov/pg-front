@@ -1,12 +1,10 @@
-import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
+import BreadCrumbs from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import React from 'react';
 import { useHistory } from 'react-router';
 import { HeaderWrapper, HeaderTitleWrapper, StyledButton } from '../../../components/Styles/DesignList/styles';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-
-import {routes} from '../../../routes';
 
 const HeaderSales = () => {
   const history = useHistory();
@@ -16,9 +14,15 @@ const HeaderSales = () => {
     history.push(path);
   };
 
+  const links = [
+    { id: '', value: 'Главная' },
+    { id: 'sales', value: 'Продажи' },
+    { id: 'sales/batch_placement', value: 'Пакетное размещение' },
+  ];
+
   return (
     <>
-      <BreadCrumbsRoutes links={[routes.root.root, routes.sales.root, routes.sales.batch_placement]} />
+      <BreadCrumbs links={links} />
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />

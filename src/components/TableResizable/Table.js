@@ -81,7 +81,6 @@ export default class AdvertisingParties extends Component {
       );
     return (
       <StyledTable
-        pagination={true}
         rowSelection={
           this.props.select
             ? {
@@ -89,11 +88,12 @@ export default class AdvertisingParties extends Component {
               }
             : null
         }
+        loading={loading}
+        footer={footer ? () => footer : undefined}
         components={this.components}
         columns={columns}
         dataSource={this.props.data}
-        loading={loading}
-        footer={footer ? () => footer : undefined}
+        pagination={true}
       />
     );
   }

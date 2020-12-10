@@ -14,6 +14,9 @@ import printerIcon from '../../img/header-bar/printer.svg';
 import exportIcon from '../../img/header-bar/export.svg';
 import settingsIcon from '../../img/header-bar/settings.svg';
 import './Tablea.scss'
+import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
+import icon_delete from '../../img/outdoor_furniture/red_can.svg';
+// import '../../../src/assets/fonts/sf-ui-display-cufonfonts-webfont/style.css'
 
 const { Content } = Layout;
 
@@ -45,10 +48,11 @@ const ResizableTitle = (props) => {
   );
 };
 
-const predicate = (index, columns, col) => (
-  col.isShowed !== false
+const filterPredicate = (index, columns, col) => {
+  console.log('filterPredicate', col);
+  return col.isShowed !== false
   // index !== columns.indexOf(columns[columns.length - 1]) && col.isShowed !== false
-)
+}
 
 const menuPredicate = (col) => (
   true
@@ -60,7 +64,7 @@ class Tablea extends React.Component {
     selectionType: 'checkbox',
     datetype: 'date',
     // columns: this.props.columns,
-    columns: this.props.columns.filter((col, index) => predicate(index, this.props.columns, col)),
+    columns: this.props.columns.filter((col, index) => filterPredicate(index, this.props.columns, col)),
     constructionsIdSet: this.props.constructionsIdSet
   };
   components = {
@@ -72,7 +76,7 @@ class Tablea extends React.Component {
   componentDidMount() {
     console.log(1)
     this.setState({
-      columns: this.props.columns.filter((col, index) => predicate(index, this.props.columns, col))
+      columns: this.props.columns.filter((col, index) => filterPredicate(index, this.props.columns, col))
     })
   }
 
@@ -88,9 +92,8 @@ class Tablea extends React.Component {
   };
 
   render() {
-    const { onRow } = this.props;
     const columns = (
-      this.props.columns.filter((col, index) => predicate(index, this.props.columns, col))
+      this.props.columns.filter((col, index) => filterPredicate(index, this.props.columns, col))
     ).map((col, index) => ({
       ...col,
       onHeaderCell: (column) => ({
@@ -107,7 +110,7 @@ class Tablea extends React.Component {
         return item;
       })
       this.setState({
-        columns: newCols.filter((col, index) => predicate(index, this.props.columns, col))
+        columns: newCols.filter((col, index) => filterPredicate(index, this.props.columns, col))
       });
     }
 
@@ -148,99 +151,49 @@ class Tablea extends React.Component {
       selectedRowKeys: this.props.constructionsIdSet,
     };
 
+    if (this.props.edit) {
+      columns.push(
+        {
+          width: 50,
+          render: (text, record) => {
+            return (
+              <img src={icon_pen} alt="edit icon" style={{ cursor: 'pointer' }}
+                   onClick={() => {
+                     this.props.setOpenEditModal(true);
+                     this.props.setEditingItem(record);
+                   }}
+              />
+            );
+          },
+        },
+        {
+          width: 50,
+          render: (text, record) => {
+            return (
+              <img src={icon_delete} alt="delete icon" style={{ cursor: 'pointer' }}
+                   onClick={() => this.props.openModal(record, this.props.deleteEstimate, this.props.setDeleted)}
+              />
+            );
+          },
+        },
+      );
+    }
+
     return (
       <div style={{ width: '100%', overflowX: 'hidden' }}>
-        {!this.props.notheader && (
-          <div className="header-bar">
-            <StyledNavigationTabs>
-              {this.props.enableChoosePeriod ? (
-                <React.Fragment>
-                  {this.props.title ? (
-                    <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
-                      <img src={attachIcon} alt="" />
-                      <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
-                      {this.props.title}
-                    </span>
-                    </div>
-                  ) : (
-                    <div>
-                      <div style={{display: 'flex', marginRight: '1rem'}}>
-                        <Button className="header-btn">
-                          <img src={plusIcon} />
-                        </Button>
-                        <Button className="header-btn">
-                          <img src={minusIcon} />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
-              ) : (
-                <div></div>
-              )}
-              {
-                this.props.chooseTableBtns && (
-                  <CustomTabList> // Верхняя панель с табами
-                    {
-                      this.props.chooseTableBtns.map((item, index) => (
-                        <CustomTabBtn
-                          key={index}
-                          className={this.props.choosedBlock === index ? 'active' : 'booked-sides' }
-                          onClick={() => {
-                          console.log(index)
-                            this.props.setBlock(index);
-                          }}>
-                          {item.title}
-                        </CustomTabBtn>
-                      ))
-                    }
-                  </CustomTabList>
-                )
-              }
-            </StyledNavigationTabs>
-
-            <div>
-              <Input
-                style={{ marginLeft: '20px' }}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />
-              <Button style={{ marginLeft: '5px' }} className="header-btn">
-                <img src={printerIcon} />
-              </Button>
-              <Button
-                style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
-                className="header-btn">
-                <img src={exportIcon} />
-                <span>Экспорт</span>
-              </Button>
-
-              {this.props.enableChooseQuantityColumn && (
-                <Dropdown
-                  overlay={settingmenu}
-                  className="header-btn"
-                  trigger={['click']}
-                  placement="bottomRight">
-                  <Button style={{ marginLeft: '5px' }} className="header-btn">
-                    <img src={settingsIcon} />
-                  </Button>
-                </Dropdown>
-              )}
-            </div>
-          </div>
-        )}
+        {!this.props.notheader && <TableaHeaderBar props={this.props}/>}
         <Content>
           <StyledTable
-            onRow={onRow}
-            loading={this.props.loading}
+            onRow={this.props.onRow}
             rowSelection={
               this.props.select && {
                 type: this.selectionType,
                 ...rowSelection,
               }
             }
-            bordered
+            loading={this.props.loading}
+            /*bordered* TODO: сделать Header bordered по макету */
+            footer={this.props.footer ? () => this.props.footer : undefined}
             components={this.components}
             columns={columns}
             dataSource={this.props.data}
@@ -275,12 +228,18 @@ Tablea.defaultProps = {
 };
 
 export default Tablea;
+
 const StyledTable = styled(Table)`
   margin-bottom: 190px;
-  th,
-  td {
+  th {
     color: #1a1a1a !important;
     font-weight: 600 !important;
+    // border-right: 1px solid black;
+    // margin: 10px;
+  }
+  td {
+    color: #1a1a1a !important;
+    font-weight: 500 !important;
   }
 
   .ant-table {
@@ -310,3 +269,85 @@ const StyledNavigationTabs = styled.div`
   justify-content: space-between;
 
 `
+
+
+let TableaHeaderBar = (props) => {
+  return <div className="header-bar">
+    <StyledNavigationTabs>
+      {props.enableChoosePeriod ? (
+        <React.Fragment>
+          {props.title ? (
+            <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingLeft: 12 }}>
+              <img src={attachIcon} alt="" />
+              <span style={{ minWidth: 'max-content', fontWeight: '600', marginLeft: '12px', fontSize: '16px' }}>
+                      {props.title}
+                    </span>
+            </div>
+          ) : (
+            <div>
+              <div style={{display: 'flex', marginRight: '1rem'}}>
+                <Button className="header-btn">
+                  <img src={plusIcon} />
+                </Button>
+                <Button className="header-btn">
+                  <img src={minusIcon} />
+                </Button>
+              </div>
+            </div>
+          )}
+        </React.Fragment>
+      ) : (
+        <div></div>
+      )}
+      {
+        props.chooseTableBtns && (
+          <CustomTabList>{/*Верхняя панель с табами*/}
+            {
+              props.chooseTableBtns.map((item, index) => (
+                <CustomTabBtn
+                  key={index}
+                  className={props.choosedBlock === index ? 'active' : 'booked-sides' }
+                  onClick={() => {
+                    console.log(index)
+                    props.setBlock(index);
+                  }}>
+                  {item.title}
+                </CustomTabBtn>
+              ))
+            }
+          </CustomTabList>
+        )
+      }
+    </StyledNavigationTabs>
+
+    <div>
+      <Input
+        style={{ marginLeft: '20px' }}
+        placeholder="Быстрый поиск"
+        suffix="Найти"
+        prefix={<img src={searchInputIcon} />}
+      />
+      <Button style={{ marginLeft: '5px' }} className="header-btn">
+        <img src={printerIcon} />
+      </Button>
+      <Button
+        style={{ width: '180px', display: 'flex', justifyContent: 'space-between' }}
+        className="header-btn">
+        <img src={exportIcon} />
+        <span>Экспорт</span>
+      </Button>
+
+      {props.enableChooseQuantityColumn && (
+        <Dropdown
+          overlay={settingmenu}
+          className="header-btn"
+          trigger={['click']}
+          placement="bottomRight">
+          <Button style={{ marginLeft: '5px' }} className="header-btn">
+            <img src={settingsIcon} />
+          </Button>
+        </Dropdown>
+      )}
+    </div>
+  </div>
+}

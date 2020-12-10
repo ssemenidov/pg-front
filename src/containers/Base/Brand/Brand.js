@@ -18,6 +18,10 @@ const BRAND_ITEM = gql`
       edges {
         node {
           title
+          workingSector {
+            id
+            description
+          }
           partners {
             edges {
               node {
@@ -41,21 +45,21 @@ const BRAND_ITEM = gql`
 `;
 
 const Brand = (props) => {
-  const [id] = useState(props.match.params.id);
-  const [item, setItem] = useState({});
+  const [ id ] = useState(props.match.params.id);
+  const [brandData, setBrandData] = useState({});
 
   const { error, data, loading } = useQuery(BRAND_ITEM, { variables: { id } });
   console.log(item);
   useMemo(() => {
     if (data && data.searchBrand.edges.length) {
-      setItem(data.searchBrand.edges[0].node);
+      setBrandData(data.searchBrand.edges[0].node);
     }
   }, [data]);
   if (error) return <h3>Error :(</h3>;
   if (loading) return <LoadingAntd />;
 
   return (
-    <constructBrand.Provider value={[item, setItem]}>
+    <constructBrand.Provider value={[brandData, setBrandData]}>
       <Layout>
         <Layout>
           <Sider className="layout-sider"></Sider>
