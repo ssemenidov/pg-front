@@ -3,7 +3,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 
 import { partnerContext } from '../Partner';
-import {  Input } from 'antd';
+import { Input, message } from 'antd';
 import PartnerInfo from '../../../../components/Panels/Partners/PartnerInfo/PartnerInfo';
 import RelatedProjects from '../../../../components/Panels/Partners/RelatedProjects/RelatedProjects';
 import RelatedBrands from '../../../../components/Panels/Partners/RelatedBrands/RelatedBrands';
@@ -28,7 +28,7 @@ STab.tabsRole = 'Tab';
 STabPanel.tabsRole = 'TabPanel';
 
 const tabs = [
- {
+  {
     value: 'Общая информация',
   },
   {
@@ -39,7 +39,7 @@ const tabs = [
   },
   {
     value: 'Связанные рекламодатели',
-  }
+  },
 ];
 
 const panel1 = <PartnerInfo />;
@@ -58,87 +58,76 @@ const PARTNER_DELETE = gql`
 const PARTNER_UPDATE = gql`
   mutation(
     $id: ID!
-    $title:String
-    $comment:String
-    $workingSectors:[ID]
-    $partnerType:ID
-    $clientType:ID
-    $binNumber:String
-
+    $title: String
+    $comment: String
+    $workingSectors: [ID]
+    $partnerType: ID
+    $clientType: ID
+    $binNumber: String
     $legalAddressPostcode: ID
-    $district:ID
+    $district: ID
     $legalAddress: ID
     $actualAddress: ID
-
     $bankRecipient: String
     $iik: String
     $bik: String
     $kbe: String
-
-    $agencyCommissionType:ID
-    $agencyCommissionValue:Float
-    $isAgencyCommissionWithNds:Boolean
-    $agencyCommissionDistribute:[ID]
-  )
-  {
+    $agencyCommission: UpdateAgencyCommissionInput
+  ) {
     updatePartner(
       id: $id
-      input:{
-        title:$title
-        comment:$comment
-        workingSectorsAdd:$workingSectors
-        binNumber:$binNumber
-        partnerType:$partnerType
-        clientType:$clientType
-
-        district:$district
-        legalAddress:$legalAddress
+      input: {
+        title: $title
+        comment: $comment
+        workingSectorsAdd: $workingSectors
+        binNumber: $binNumber
+        partnerType: $partnerType
+        clientType: $clientType
+        district: $district
+        legalAddress: $legalAddress
         actualAddress: $actualAddress
         legalAddressPostcode: $legalAddressPostcode
-
         bankRecipient: $bankRecipient
         iik: $iik
         bik: $bik
         kbe: $kbe
-
-        agencyCommissionType:$agencyCommissionType
-        agencyCommissionValue:$agencyCommissionValue
-        isAgencyCommissionWithNds:$isAgencyCommissionWithNds
-        agencyCommissionDistribute:$agencyCommissionDistribute
+        agencyCommission: $agencyCommission
       }
     ) {
       partner {
-       id
+        id
       }
     }
   }
 `;
 
-export default function   TabPaneForm(props) {
+export default function TabPaneForm(props) {
   const [item, setItem] = useContext(partnerContext);
   const [activeTab, setActiveTab] = useState('general-info');
-  const [block,setBlock]=useState(0);
+  const [block, setBlock] = useState(0);
   const history = useHistory();
 
   const [updatePartner] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
   const Update = (e) => {
     e.preventDefault();
-    updatePartner({ variables: {
+    updatePartner({
+      variables: {
         ...item,
-        workingSectors:[].push(item.workingSectors && item.workingSectors.id) , // TODO: workingSectors - это массив
+        workingSectors: item.workingSectors.edges.length ? [item.workingSectors.edges[0].node.id] : [], // TODO: workingSectors - это массив
         partnerType: item.partnerType && item.partnerType.id,
         clientType: item.clientType && item.clientType.id,
 
-        district: item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.id,
-        legalAddressPostcode: item.legalAddressPostcodeId,
+        district:
+          item.legalAddressPostcode && item.legalAddressPostcode.district && item.legalAddressPostcode.district.id,
+        legalAddressPostcode: item.legalAddressPostcode && item.legalAddressPostcode.id,
         actualAddress: item.actualAddress && item.actualAddress.id,
         legalAddress: item.legalAddress && item.legalAddress.id,
-
-        agencyCommissionType: item.agencyCommissionType && item.agencyCommissionType.id,
-        agencyCommissionDistribute: item.agencyCommissionDistribute && item.agencyCommissionDistribute.id
-      }
-    });
+        agencyCommission: {},
+      },
+    })
+      .then(() => message.success('Успешно сохранено.'))
+      .catch(() => message.error('Что-то пошло не так попробуйте ещё раз.'));
 
     // history.push(`/base/partners`);
     // history.go(0);
@@ -165,26 +154,23 @@ export default function   TabPaneForm(props) {
   const btnAddSome = () => {
     switch (block) {
       case 1:
-        return <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>
+        return <StyledButton backgroundColor="#2c5de5">Добавить проект</StyledButton>;
       case 2:
-        return <StyledButton
-          backgroundColor="#2c5de5"
-          type="button"
-          onClick={addBrand}
-        >
-          Привязать бренд
-        </StyledButton>
+        return (
+          <StyledButton backgroundColor="#2c5de5" type="button" onClick={addBrand}>
+            Привязать бренд
+          </StyledButton>
+        );
       case 3:
-        return <StyledButton
-          backgroundColor="#2c5de5"
-          type="button"
-          onClick={addAdvertisers}
-        >
-          Добавить контрагента
-        </StyledButton>
-      default: return
+        return (
+          <StyledButton backgroundColor="#2c5de5" type="button" onClick={addAdvertisers}>
+            Добавить контрагента
+          </StyledButton>
+        );
+      default:
+        return;
     }
-  }
+  };
 
   return (
     <div style={{ width: '100%' }}>
@@ -194,41 +180,43 @@ export default function   TabPaneForm(props) {
           <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
-          { btnAddSome() }
-          <StyledButton backgroundColor="#008556"  onClick={Update} >Сохранить</StyledButton>
-          <StyledButton backgroundColor="#d42d11"  onClick={Delete}>Удалить</StyledButton>
+          {btnAddSome()}
+          <StyledButton backgroundColor="#008556" onClick={Update}>
+            Сохранить
+          </StyledButton>
+          <StyledButton backgroundColor="#d42d11" onClick={Delete}>
+            Удалить
+          </StyledButton>
           {/* <StyledButton backgroundColor="#2c5de5">Создать договор</StyledButton> */}
         </ButtonGroup>
       </HeaderWrapper>
       <div>
-        <STabs
-          selectedTabClassName="is-selected"
-          selectedTabPanelClassName="is-selected"
-       >
+        <STabs selectedTabClassName="is-selected" selectedTabPanelClassName="is-selected">
           <ControlToolbar position="static">
-            <STabList
-            >
-              {tabs.map((tab,index) => (
+            <STabList>
+              {tabs.map((tab, index) => (
                 <STab
                   key={index}
-                  onClick={() => { setBlock(index) }}
-                >
+                  onClick={() => {
+                    setBlock(index);
+                  }}>
                   {tab.value}
                 </STab>
               ))}
             </STabList>
 
             <ToolbarControl>
-              {block==1 &&
-              <Input
-                style={{ marginLeft: '20px' ,overflowX:"hidden",minWidth:"35px"}}
-                placeholder="Быстрый поиск"
-                suffix="Найти"
-                prefix={<img src={searchInputIcon} />}
-              />}
+              {block == 1 && (
+                <Input
+                  style={{ marginLeft: '20px', overflowX: 'hidden', minWidth: '35px' }}
+                  placeholder="Быстрый поиск"
+                  suffix="Найти"
+                  prefix={<img src={searchInputIcon} alt="search" />}
+                />
+              )}
 
               <BtnPrint>
-                <img src={print_icon} alt="" />
+                <img src={print_icon} alt="print" />
               </BtnPrint>
               <BtnExport
               // onClick={exportBtnHandler}

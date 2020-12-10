@@ -49,7 +49,6 @@ const Brand = (props) => {
   const [brandData, setBrandData] = useState({});
 
   const { error, data, loading } = useQuery(BRAND_ITEM, { variables: { id } });
-  console.log(item);
   useMemo(() => {
     if (data && data.searchBrand.edges.length) {
       setBrandData(data.searchBrand.edges[0].node);

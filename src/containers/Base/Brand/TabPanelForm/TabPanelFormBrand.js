@@ -96,6 +96,7 @@ const SEARCH_PARTNER = gql`
     }
   }
 `;
+
 const SAVE_BRAND = gql`
   mutation updateBrand(
       $id: ID!
@@ -116,7 +117,6 @@ const SAVE_BRAND = gql`
         }
       }
     }
-  }
 `;
 
 const InnerForm = () => {
