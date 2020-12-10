@@ -2,21 +2,27 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Layout } from 'antd';
 import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
-import { getBookedSides, getExtraCosts, gettNonRts, EditCosts, DeleteModal, CreateCosts } from './utils';
+import { getBookedSides, getEstimateReservations, getExtraCosts, gettNonRts, EditCosts, DeleteModal, CreateCosts } from './utils';
 import {
+  DELETE_ADD_COSTS_QUERY,
+  DELETE_NON_RTS,
+} from './q_mutations';
+
+import {
+  SEARCH_SALES_ESTIMATE_ITOGS,
   NON_RTS_QUERY,
-  BOOKED_SIDES_QUERY,
+  ATTACHMENT_BOOKED_SIDES_QUERY,
   EXTRA_COSTS_QUERY,
   PROJECT_BOOKED_SIDES_QUERY,
   PROJECT_EXTRA_COSTS_QUERY,
   PROJECT_NON_RTS_QUERY,
-  DELETE_ADD_COSTS_QUERY,
-  DELETE_NON_RTS,
-} from './queries';
+} from './q_queries';
+
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
 
 import Table from '../../../components/TableResizable/Table';
+import Tablea from '../../../components/Tablea/Tablea';
 import HeaderBar from '../../../components/HeaderBar';
 
 import {
@@ -31,7 +37,9 @@ import { useQuery, useMutation } from '@apollo/client';
 
 const PanelDesign = ({ setBlock, created, setCreated }) => {
   const [activeTab, setActiveTab] = useState('booked-sides');
-  const { appId, id } = useParams();
+  const params = useParams();
+  const attachmentId = params.appId;
+  const projectId = params.id;
   const [editingItem, setEditingItem] = useState({});
   const [deleted, setDeleted] = useState(false);
   const { sort, setSort, openEditModal, setOpenEditModal, periodFilter, setPeriodFilter } = useContext(EstimateContext);
@@ -44,16 +52,26 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
     refetchData();
   }, [activeTab]);
 
-  const [query, setQuery] = useState(appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '');
+  useEffect(() => {
+    const refetchData = async () => {
+      return await salesEstimateQuery.refetch();
+    };
+    refetchData();
+  }, [activeTab]);
+
+  let estimateQueryVariables = {}
+  if (projectId)
+    estimateQueryVariables.projectId = projectId;
+  if (attachmentId)
+    estimateQueryVariables.attachmentId = attachmentId;
+
+  const salesEstimateQuery = useQuery(SEARCH_SALES_ESTIMATE_ITOGS, {variables: estimateQueryVariables});
+  const [query, setQuery] = useState(attachmentId ? ATTACHMENT_BOOKED_SIDES_QUERY : projectId ? PROJECT_BOOKED_SIDES_QUERY : '');
 
   const [deleteAddCosts] = useMutation(DELETE_ADD_COSTS_QUERY);
   const [deleteNonRts] = useMutation(DELETE_NON_RTS);
 
-  const { loading, error, data, refetch } = useQuery(query, {
-    variables: {
-      id: appId ? appId : id ? id : '',
-    },
-  });
+  const {loading, error, data, refetch} = useQuery(query, {variables: {id: attachmentId || projectId || ''}});
   let bookedSides = [];
   let nonRts = [];
 
@@ -62,80 +80,70 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
       created ? setCreated(false) : setDeleted(false);
     });
   }
-
-  if (data) {
+  let getByKeys = (key, key2="reservations") => data[key].edges.length ? data[key].edges[0].node[key2].edges : [];
+  if (salesEstimateQuery.data && !salesEstimateQuery.loading) {
     switch (activeTab) {
       case 'booked-sides':
-        if (appId) {
-          bookedSides = getBookedSides(
-            data.searchAttachment.edges.length ? data.searchAttachment.edges[0].node.reservations.edges : [],
-            sort,
-            periodFilter,
-          );
-        }
-        if (id) {
-          bookedSides = getBookedSides(
-            data.searchProject.edges.length ? data.searchProject.edges[0].node.reservations.edges : [],
-            sort,
-            periodFilter,
-          );
-        }
+        bookedSides = getEstimateReservations(salesEstimateQuery.data, sort, periodFilter);
         break;
       case 'extra-charge':
-        if (appId) {
-          extraCosts = getExtraCosts(
-            data.searchSalesAdditionalCost.edges.length ? data.searchSalesAdditionalCost.edges : [],
-            sort,
-            periodFilter,
-          );
-        }
-        if (id) {
-          extraCosts = getExtraCosts(
-            data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCosts.edges : [],
-            sort,
-            periodFilter,
-          );
-        }
+        // extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort, periodFilter);
         break;
       case 'hot-ptc':
-        if (appId) {
-          nonRts = gettNonRts(data.searchSalesNonrts.edges.length ? data.searchSalesNonrts.edges : [], sort);
-        }
-        if (id) {
-          nonRts = gettNonRts(
-            data.searchProject.edges.length ? data.searchProject.edges[0].node.additionalCostsNonrts.edges : [],
-            sort,
-          );
-        }
+        // nonRts = gettNonRts(data.searchSalesNonrts.edges, sort);
         break;
+    }
+  }
+
+
+  if (data) {
+    if (attachmentId) {
+      switch (activeTab) {
+        case 'booked-sides':
+          //bookedSides = getEstimateReservations(salesEstimateQuery.data, sort, periodFilter);
+          // bookedSides = getBookedSides(getByKeys('searchAttachment'), sort, periodFilter);
+          break;
+        case 'extra-charge':
+          extraCosts = getExtraCosts(data.searchSalesAdditionalCost.edges, sort, periodFilter);
+          break;
+        case 'hot-ptc':
+          nonRts = gettNonRts(data.searchSalesNonrts.edges, sort);
+          break;
+      }
+    }
+    else if (projectId) {
+      switch (activeTab) {
+        case 'booked-sides':
+          // bookedSides = getEstimateReservations(salesEstimateQuery.data, sort, periodFilter);
+          // bookedSides = getBookedSides(getByKeys('searchProject'), sort, periodFilter);
+          break;
+        case 'extra-charge':
+          extraCosts = getExtraCosts(getByKeys('searchProject', 'additionalCosts'), sort, periodFilter);
+          break;
+        case 'hot-ptc':
+          nonRts = gettNonRts(getByKeys('searchProject', 'additionalCostsNonrts'), sort);
+          break;
+      }
     }
   }
 
   const [columnsForPopupBookedSides, setColumnsForPopupBookedSides] = useState(initColumnsForPopupBookedSides);
   const [columnsTableBookedSides, setColumnsTableBookedSides] = useState(initColumnsTableBookedSides);
-
   const [columnsForPopupExtraCharge, setColumnsForPopupExtraCharge] = useState(initColumnsForPopupExtraCharge);
   const [columnsTableExtraCharge, setColumnsTableExtraCharge] = useState(initColumnsTableExtraCharge);
-
   const [columnsForPopupHotPtc, setColumnsForPopupHotPtc] = useState(initColumnsForPopupHotPtc);
   const [columnsTableHotPtc, setColumnsTableHotPtc] = useState(initColumnsTableHotPtc);
 
   let mainContent = {
     'booked-sides': (
-      <Table
+      <Tablea
         key="booked-sides"
-        columns={columnsTableBookedSides}
+        columns={columnsTableBookedSides/*columnsTableBookedSides*/}  /*columnsForPopupBookedSides*/
         data={bookedSides}
         select={true}
         edit={false}
-        loading={loading}
-        pagination={{
-          defaultPageSize: 10,
-          showSizeChanger: true,
-          placement: 'top',
-          pageSizeOptions: ['25', '50', '100', '1000'],
-          total: 100,
-        }}
+        loading={loading || salesEstimateQuery.loading}
+        notheader={true}
       />
     ),
     'extra-charge': (
@@ -190,7 +198,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
     'booked-sides': {
       columnsForPopup: columnsForPopupBookedSides,
       setColumnsForPopup: setColumnsForPopupBookedSides,
-      setColumnsTable: setColumnsTableBookedSides,
+      setColumnsTable: setColumnsForPopupBookedSides, // setColumnsTableBookedSides,
     },
     'extra-charge': {
       columnsForPopup: columnsForPopupExtraCharge,
@@ -213,7 +221,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             onClick={() => {
               setActiveTab('booked-sides');
               setQuery(() => {
-                return appId ? BOOKED_SIDES_QUERY : id ? PROJECT_BOOKED_SIDES_QUERY : '';
+                return attachmentId ? ATTACHMENT_BOOKED_SIDES_QUERY : projectId ? PROJECT_BOOKED_SIDES_QUERY : '';
               });
               setBlock(0);
               setSort('');
@@ -225,7 +233,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             className={activeTab === 'extra-charge' && 'active'}
             onClick={() => {
               setActiveTab('extra-charge');
-              setQuery(appId ? EXTRA_COSTS_QUERY : id ? PROJECT_EXTRA_COSTS_QUERY : '');
+              setQuery(attachmentId ? EXTRA_COSTS_QUERY : projectId ? PROJECT_EXTRA_COSTS_QUERY : '');
               setBlock(1);
               setSort('');
               setPeriodFilter('');
@@ -236,7 +244,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             className={activeTab === 'hot-ptc' && 'active'}
             onClick={() => {
               setActiveTab('hot-ptc');
-              setQuery(appId ? NON_RTS_QUERY : id ? PROJECT_NON_RTS_QUERY : '');
+              setQuery(attachmentId ? NON_RTS_QUERY : projectId ? PROJECT_NON_RTS_QUERY : '');
               setBlock(2);
               setSort('');
               setPeriodFilter('');
@@ -262,7 +270,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
           border-radius: 8px 8px 0px 0px;
           width: calc(100% - 60px);
         }
-        
+
         .ant-drawer-bottom  .ant-drawer-close {
             padding: 10px 24px;
         }`}

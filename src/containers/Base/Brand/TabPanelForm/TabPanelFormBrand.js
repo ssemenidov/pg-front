@@ -105,14 +105,14 @@ const SAVE_BRAND = gql`
       $id: ID!
       $title: String
       $workingSector: ID
-      $partner: [ID]
+      $partners: [ID]
     ) {
       updateBrand(
         id: $id
         input: {
           title: $title
           workingSector: $workingSector
-          partner: $partner
+          partners: $partners
         }
       ) {
         brand {
@@ -124,7 +124,7 @@ const SAVE_BRAND = gql`
 
 const InnerForm = () => {
   const { id } = useParams();
-  const [item, setItem] = useContext(constructBrand);
+  const [brandData, setBrandData] = useContext(constructBrand);
   const [workingSectors, setWorkingSectors] = useState(null);
   const inputRef = useRef([]);
 
@@ -132,7 +132,7 @@ const InnerForm = () => {
   const [printArray, setSetPrintArray] = useState(null);
 
   const [partnerValue, setPartnerValue] = useState(undefined);
-  const [partnerData, setPartnerData] = useState([]);
+  const [partnersQueried, setPartnersQueried] = useState((brandData.partners && brandData.partners.edges) || []);
   const [partnerSearchText, setPartnerSearchText] = useState('');
   const [partnerLoading, setPartnerLoading] = useState(false);
 
@@ -143,7 +143,7 @@ const InnerForm = () => {
   const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
   const [deleteDesign] = useMutation(DELETE_DESIGN);
 
-  useMemo(() => {
+  useEffect(() => {
     if(workingSectorResponse.data && workingSectorResponse.data.searchWorkingSector) {
       setWorkingSectors(workingSectorResponse.data.searchWorkingSector.edges)
     }
@@ -154,14 +154,16 @@ const InnerForm = () => {
     setPartnerLoading(loading);
   }, [debouncedSearchTerm, getPartner, loading]);
 
-  useMemo(() => {
+  useEffect(() => {
     if(data && data.searchPartner.edges) {
-      setPartnerData(data.searchPartner.edges);
       setPartnerLoading(loading);
+      if (!loading) {
+        setPartnersQueried(data.searchPartner.edges)
+      }
     }
   }, [data, loading]);
 
-  useMemo(() => {
+  useEffect(() => {
     const { data } = designData;
     const localDesignList = designData.data
       && designData.data.searchDesign
@@ -179,57 +181,58 @@ const InnerForm = () => {
     e.preventDefault();
 
     if(partnerValue) {
-      const localEdges = item.partner ? item.partner.edges : [];
-      const partnerItem = partnerData.filter(item => item.node.id === partnerValue);
-
-      if(localEdges.filter(item => item.node.id === partnerValue)[0]) {
+      if(brandData.partners && brandData.partners.edges.filter(item => item.node.id === partnerValue.id)[0]) {
         alert('Этот контрагент уже добавлен');
         return
       }
+      console.log(partnerValue)
 
-      localEdges.push({
-        node: {
-          id: partnerItem[0].node.id,
-          title: partnerItem[0].node.title
-        }
-      });
+      let localNewNode = partnersQueried.filter(item => item.node.id === partnerValue)
+      const localEdges = brandData.partners ? [...brandData.partners.edges, ...localNewNode] : [...localNewNode];
 
-      setItem({
-        ...item,
-        partner: {
+      let newBrandData = {
+        ...brandData,
+        partners: {
           edges: localEdges
         }
-      });
+      };
+
+      setBrandData(newBrandData);
+      saveData(newBrandData);
     }
   };
   const removePartnerFromBrand = (e, id) => {
     e.preventDefault();
 
-    let localEdges = item.partner ? item.partner.edges : [];
-    localEdges = localEdges.filter(item => item.node.id !== id);
+    let localEdges = brandData.partners ? brandData.partners.edges : [];
 
-    setItem({
-      ...item,
-      partner: {
+    localEdges = localEdges.filter(item => item.node.id !== id);
+    let newBrandData = {
+      ...brandData,
+      partners: {
         edges: localEdges
       }
-    });
+    }
+
+    setBrandData(newBrandData);
+    saveData(newBrandData);
   };
-  const saveData = (e) => {
+  const saveData = (paramBrandData=null) => {
     if(!id)
       return;
+    let localBrandData = paramBrandData || brandData;
 
     let partnerIdList = [];
-    if(item.partner && item.partner.edges) {
-      partnerIdList = item.partner.edges.map(item => item.node.id)
+    if(localBrandData.partners && localBrandData.partners.edges) {
+      partnerIdList = localBrandData.partners.edges.map(item => item.node.id)
     }
 
     saveDataBrand({
       variables: {
-        id: id && id,
-        title: item.title && item.title,
-        workingSector: item.workingSector && item.workingSector.id,
-        partner: partnerIdList
+        id: id,
+        title: localBrandData.title,
+        workingSector: localBrandData.workingSector && localBrandData.workingSector.id,
+        partners: partnerIdList
       }
     });
   };
@@ -265,13 +268,13 @@ const InnerForm = () => {
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Бренд - { item.title && item.title }</JobTitle>
+          <JobTitle>Бренд - { brandData.title && brandData.title }</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
           <StyledButton
             backgroundColor="#008556"
             type="button"
-            onClick={(e) => saveData(e)}
+            onClick={(e) => saveData()}
           >
             Сохранить
           </StyledButton>
@@ -297,8 +300,8 @@ const InnerForm = () => {
                           <InputTitle>Наименование</InputTitle>
                           <StyledInput
                             prefix={<img src={suitcase} />}
-                            value={item.title ? item.title : ''}
-                            onChange={(e) => {setItem({...item, title: e.target.value})}}
+                            value={brandData.title ? brandData.title : ''}
+                            onChange={(e) => {setBrandData({...brandData, title: e.target.value})}}
                           ></StyledInput>
                         </div>
                       </Row>
@@ -308,12 +311,12 @@ const InnerForm = () => {
                         <InputTitle>Сектор деятельности</InputTitle>
                         <StyledSelect
                           prefix={<img src={owner} />}
-                          defaultValue={item.workingSector ? item.workingSector.id: ''}
+                          defaultValue={brandData.workingSector ? brandData.workingSector.id: ''}
                           loading={workingSectorResponse.loading}
-                          onChange={(value) => setItem({
-                            ...item,
+                          onChange={(value) => setBrandData({
+                            ...brandData,
                             workingSector: {
-                              ...item.workingSector,
+                              ...brandData.workingSector,
                               id: value
                             }
                           })}
@@ -338,7 +341,6 @@ const InnerForm = () => {
                       <div style={{ width: '100%',  marginBottom: '5px', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                         <div style={{ width: '80%' }}>
                           <InputTitle>Контрагенты</InputTitle>
-
                           <StyledSelect
                             showSearch
                             value={partnerValue}
@@ -351,7 +353,7 @@ const InnerForm = () => {
                             loading={partnerLoading}
                           >
                             {
-                              partnerData && partnerData.map(({ node }) => (
+                              partnersQueried  && partnersQueried.map(({ node }) => (
                                 <StyledSelect.Option key={node.id} value={node.id}>
                                   { node.title ? node.title : 'Нет названия' }
                                 </StyledSelect.Option>
@@ -369,7 +371,7 @@ const InnerForm = () => {
                       </div>
                       <div style={{ width: '80%', display: 'flex', flexWrap: 'wrap' }}>
                         {
-                          item.partner && item.partner.edges.map(({ node }) => (
+                          brandData.partners && brandData.partners.edges.map(({ node }) => (
                             <Chip key={node.id}>
                               <img
                                 src={chipIcon}

@@ -9,7 +9,70 @@ import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
-import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './queries';
+import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './q_mutations';
+
+
+export const getEstimateReservations = (data = [], sort = '', period = '') => {
+  if  (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length)
+    return []
+  let modifiedData = data.searchSalesEstimateItogs.edges[0].node.reservations.edges;
+  modifiedData = modifiedData.map((reservation) => {
+    return {
+      key: reservation.node.id,
+      code: getConstructionSideCode(reservation.node.constructionSide),
+      city: reservation.node.constructionSide.construction.location.postcode.district.city.title
+        ? reservation.node.constructionSide.construction.location.postcode.district.city.title
+        : '',
+      address: reservation.node.constructionSide.construction.location.marketingAddress.address,
+      format: reservation.node.constructionSide.advertisingSide.side.format.title,
+      side: reservation.node.constructionSide.advertisingSide.side.title,
+      period:
+        new Date(reservation.node.dateFrom).toLocaleDateString() +
+        ' - ' +
+        new Date(reservation.node.dateTo).toLocaleDateString(),
+      branding: reservation.node.branding ? 'Да' : 'Нет',
+    };
+  });
+
+  switch (sort) {
+    case 'abc':
+      modifiedData = modifiedData.sort((a, b) => {
+        if (a.city < b.city) {
+          return -1;
+        }
+        if (a.city > b.city) {
+          return 1;
+        }
+        return 0;
+      });
+  }
+  switch (period) {
+    case 'increase':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration._milliseconds - duration2._milliseconds;
+      });
+    case 'decrease':
+      modifiedData = modifiedData.sort((a, b) => {
+        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
+        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
+        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
+        const duration = moment.duration(END.diff(START));
+        const duration2 = moment.duration(END2.diff(START2));
+        return duration2._milliseconds - duration._milliseconds;
+      });
+  }
+
+  return modifiedData;
+};
+
+
 
 export const getBookedSides = (data = [], sort = '', period = '') => {
   let modifiedData = data.map((invoice) => {

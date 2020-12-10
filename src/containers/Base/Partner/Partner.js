@@ -64,12 +64,16 @@ const PartnersInfo = ({match}) => {
             iik
             bik
             kbe
-            agencyCommissionType {
+            agencyCommission {
               id
-              title
+              toMount
+              toNalog
+              toNonrts
+              toPrint
+              toRent
+              percent
+              value
             }
-            agencyCommissionValue
-            isAgencyCommissionWithNds
 
             contactPersons {
               edges {
@@ -92,7 +96,16 @@ const PartnersInfo = ({match}) => {
                   client {
                     id
                   }
-                  agencyCommission
+                  agencyCommission {
+                    id
+                    toMount
+                    toNalog
+                    toNonrts
+                    toPrint
+                    toRent
+                    percent
+                    value
+                  }
                 }
               }
             }
@@ -101,9 +114,6 @@ const PartnersInfo = ({match}) => {
                 node {
                   code
                   title
-                  workingSector {
-                    title
-                  }
                   createdAt
                 }
               }

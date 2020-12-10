@@ -12,7 +12,7 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
 import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
-import { CITIES_QUERY } from './queries';
+import { CITIES_QUERY } from './q_mutations';
 
 import { ControlToolbar } from '../../../components/Styles/ControlToolbarStyle';
 import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
@@ -137,7 +137,7 @@ const Estimate = () => {
           .left-bar {
             margin: 0 2vw 0 0;
           }
-          
+
           .ant-input-number {
             width: 100%;
           }

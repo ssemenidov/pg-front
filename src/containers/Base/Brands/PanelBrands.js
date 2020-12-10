@@ -18,20 +18,13 @@ const BRANDS_T = gql`
           title
           workingSector {
             id
-            title
+            description
           }
           partners {
             edges {
               node {
                 id
                 title
-                workingSectors {
-                  edges {
-                    node {
-                      title
-                    }
-                  }
-                }
               }
             }
           }
@@ -128,13 +121,6 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
 
   const getPartner = (item) => getByKey(item, 'partners');
 
-  const getWorkingSector = (item) => (
-    getPartner(item)
-    && getPartner(item).workingSectors
-    && getPartner(item).workingSectors.edges.length
-    && getPartner(item).workingSectors.edges[0].node
-  )
-
   useMemo(() => {
     if (data && data.searchBrand && data.searchBrand.edges) {
       setBrands(data.searchBrand.edges.map((item) => {
@@ -142,7 +128,7 @@ const PanelDesign = ({ flagAddBrandForPartner, brandsIdSet, setBrandsIdSet }) =>
           key: item.node.id,
           brand: item.node.title && item.node.title,
           partner: getPartner(item) && getPartner(item).title,
-          workingSector: getWorkingSector(item) && getWorkingSector(item).title
+          workingSector: item.node.workingSector && item.node.workingSector.description
       })}))
     }
   }, [data]);
