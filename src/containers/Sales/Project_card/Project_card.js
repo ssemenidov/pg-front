@@ -44,11 +44,12 @@ const PROJECT_QUERY = gql`
             lastLogin
           }
           client {
-            title
-            partnerType {
-              title
-            }
-          }
+          title
+          id
+        }
+        agency {
+          title
+        }
           comment
           brand {
             title
@@ -195,11 +196,11 @@ const Project_card = (props) => {
           content: [
             {
               title: 'Рекламодатель:',
-              value: (dataItem.client && dataItem.client.partnerType == 'Рекламодатель' && dataItem.title) || '-',
+              value: (dataItem.client && dataItem.client.title) || '-',
             },
             {
               title: 'Рекламное агентство:',
-              value: (dataItem.client && dataItem.client.partnerType == 'Рекламное агентство' && dataItem.title) || '',
+              value: (dataItem.agency && dataItem.agency.title) || '',
             },
             {
               title: 'Брендинг',
