@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useQuery, gql } from '@apollo/client';
 
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';

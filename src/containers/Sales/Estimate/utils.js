@@ -11,10 +11,8 @@ import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
 import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './q_mutations';
 
-
 export const getEstimateReservations = (data = [], sort = '', period = '') => {
-  if  (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length)
-    return []
+  if (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length) return [];
   let modifiedData = data.searchSalesEstimateItogs.edges[0].node.reservations.edges;
   modifiedData = modifiedData.map((reservation) => {
     return {
@@ -71,8 +69,6 @@ export const getEstimateReservations = (data = [], sort = '', period = '') => {
 
   return modifiedData;
 };
-
-
 
 export const getBookedSides = (data = [], sort = '', period = '') => {
   let modifiedData = data.map((invoice) => {
@@ -823,7 +819,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return (value === null || value === 'null') ? ' %' : `${value}%`;
+                    return value === null || value === 'null' ? ' %' : `${value}%`;
                   }}
                 />
               </Form.Item>
@@ -840,7 +836,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   }}
                   size="large"
                   formatter={(value) => {
-                    return (value === null || value === 'null') ? ' тг' : `${value} тг`;
+                    return value === null || value === 'null' ? ' тг' : `${value} тг`;
                   }}
                 />
               </Form.Item>
@@ -952,8 +948,8 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 discountPercent: values.discount,
                 price: values.price,
                 agencyCommission: {
-                  value: values.agSumm === 'null' ? null : values.agSumm,
-                  percent: values.agPercent === 'null' ? null : values.agPercent,
+                  value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
                 },
                 city: values.city,
                 startPeriod: start,
@@ -996,9 +992,9 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 saleInstallation: values.summMount,
                 saleManufacturing: values.summManufacture,
                 agencyCommission: {
-                  value: values.agSumm === 'null' ? null : values.agSumm,
-                  percent: values.agPercent === 'null' ? null : values.agPercent,
-                  toNonrts: true
+                  value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
+                  toNonrts: true,
                 },
                 city: values.city,
               };
@@ -1669,14 +1665,15 @@ export const CreateCosts = ({ block, refetch }) => {
               case 'extra-charge':
                 const start = moment(values.period[0]).toDate();
                 const end = moment(values.period[1]).toDate();
+                console.log(values);
                 let input = {
                   title: values.name,
                   count: values.count,
                   discountPercent: values.discount,
                   price: values.price,
                   agencyCommission: {
-                    value: values.agSumm === 'null' ? null : values.agSumm,
-                    percent: values.agPercent === 'null' ? null : values.agPercent,
+                    value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
                   },
                   city: values.city,
                   startPeriod: start,
@@ -1719,8 +1716,8 @@ export const CreateCosts = ({ block, refetch }) => {
                   saleInstallation: values.summMount,
                   saleManufacturing: values.summManufacture,
                   agencyCommission: {
-                    value: values.agSumm === 'null' ? null : values.agSumm,
-                    percent: values.agPercent === 'null' ? null : values.agPercent,
+                    value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                    percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
                     toNonrts: true,
                   },
                   city: values.city,
