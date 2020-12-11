@@ -409,6 +409,8 @@ const Project_card = () => {
                     },
                     code: projectCode,
                     creator: creator,
+                    client: advertiser,
+                    agency: agency,
                     comment: projectComment,
                     brand: brand,
                     backOfficeManager: backOffManager,
