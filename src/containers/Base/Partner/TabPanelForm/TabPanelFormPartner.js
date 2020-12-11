@@ -177,7 +177,7 @@ export default function TabPaneForm(props) {
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Контрагент - Юниверсал ТОО</JobTitle>
+          <JobTitle>Контрагент - {item.title}</JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
           {btnAddSome()}
