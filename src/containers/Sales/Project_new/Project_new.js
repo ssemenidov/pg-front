@@ -64,12 +64,30 @@ query {
       node {
         id
         title
+        workingSector {
+          title
+        }
+      }
+    }
+  }
+}
+`
+
+const GET_SOME_BRAND = gql`
+query($id:ID!) {
+  searchBrand {
+    edges {
+      node {
+        id
+        title
         
       }
     }
   }
 }
 `
+
+
 
 const GET_WORK_SECTOR = gql`
 query {
@@ -340,11 +358,8 @@ const Project_card = () => {
                     }
                   </StyledSelect>
                 </InfoLine>
-                <InfoLine>
+                {/* <InfoLine>
                   <span>Сектор деятельности:</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
                     onChange={e => {
@@ -359,7 +374,7 @@ const Project_card = () => {
                       })
                     }
                   </StyledSelect>
-                </InfoLine>
+                </InfoLine> */}
               </InfoItem>
               <InfoItem>
                 <InfoTitle>Доп. инфо</InfoTitle>
