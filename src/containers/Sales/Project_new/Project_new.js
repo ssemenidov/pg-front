@@ -22,78 +22,78 @@ import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { routes } from '../../../routes';
 
-
 const PROJECT_CREATOR = gql`
-mutation ($input: CreateProjectInput!){
-  createProject(input: $input) {
-    project {
-      id
+  mutation($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      project {
+        id
+      }
     }
   }
-}
-`
+`;
 
 const GET_MANAGERS = gql`
-query {
-  searchUser {
-    edges {
-      node {
-        id
-        firstName
-        lastName
+  query {
+    searchUser {
+      edges {
+        node {
+          id
+          firstName
+          lastName
+        }
       }
     }
   }
-}
-`
+`;
 
 const GET_BRANDS = gql`
-query {
-  searchBrand {
-    edges {
-      node {
-        id
-        title
-
+  query {
+    searchBrand {
+      edges {
+        node {
+          id
+          title
+          workingSector {
+            title
+            id
+          }
+        }
       }
     }
   }
-}
-`
+`;
 
 const GET_WORK_SECTOR = gql`
-query {
-  searchWorkingSector {
-    edges {
-      node {
-        id
-        title
-
+  query {
+    searchWorkingSector {
+      edges {
+        node {
+          id
+          title
+        }
       }
     }
   }
-}
-`
+`;
 
 const GET_ADVERTISER = gql`
-query {
-  searchPartner {
-    edges {
-      node {
-        id
-        title
-
+  query {
+    searchPartner {
+      edges {
+        node {
+          id
+          title
+        }
       }
     }
   }
-}
-`
+`;
 
 const Project_card = () => {
   const history = useHistory();
   const [block, setBlock] = useState(0);
   const [projectCreator, { data }] = useMutation(PROJECT_CREATOR);
-  data && history.push('/sales/project_card/' + data.createProject.project.id)
+  data && history.push('/sales/project_card/' + data.createProject.project.id);
   const managers = useQuery(GET_MANAGERS);
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
@@ -113,8 +113,6 @@ const Project_card = () => {
   const [agencyCommissionValue, setAgencyCommissionValue] = useState('');
   const [projectComment, setProjectComment] = useState('');
 
-
-
   let managersData = managers && managers.data ? managers.data.searchUser.edges : null;
   let brandsData = brands && brands.data ? brands.data.searchBrand.edges : null;
   let workSecData = workSec && workSec.data ? workSec.data.searchWorkingSector.edges : null;
@@ -122,19 +120,19 @@ const Project_card = () => {
   let prCreatorObj = {};
 
   const formSubmitHandler = () => {
-
-
-
-
     console.log(data);
     // data && history.push('/sales/project_card/' + data.project.id);
-  }
+  };
+
+  console.log(workSector);
 
   const prCreator = () => {
-    projectCreator({ variables: {
-      "input":  prCreatorObj
-    } })
-  }
+    projectCreator({
+      variables: {
+        input: prCreatorObj,
+      },
+    });
+  };
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -177,110 +175,105 @@ const Project_card = () => {
         </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
-          <CRUDForm onFinish={() => {
-            let itemD = {
-              "title": projectName,
-              "agencyCommission": {
-                "percent": agencyCommissionPerc,
-                "value": agencyCommissionValue
-              },
-              "code": projectCode,
-              "creator": creator,
-              "comment": projectComment,
-              "brand": brand,
-              "backOfficeManager": backOffManager,
-              "salesManager": salesManager,
-            }
-            console.log('[itemD]', itemD)
-            console.log('[itemD]', data)
-            projectCreator({ variables: {
-              "input":  itemD
-            } })
+          <CRUDForm
+            onFinish={() => {
+              let itemD = {
+                title: projectName,
+                agencyCommission: {
+                  percent: agencyCommissionPerc,
+                  value: agencyCommissionValue,
+                },
+                code: projectCode,
+                creator: creator,
+                comment: projectComment,
+                brand: brand,
+                backOfficeManager: backOffManager,
+                salesManager: salesManager,
+              };
+              console.log('[itemD]', itemD);
+              console.log('[itemD]', data);
+              projectCreator({
+                variables: {
+                  input: itemD,
+                },
+              });
 
-            data && history.push('/sales/project_card/' + data.createProject.project.id )
-          }}>
+              data && history.push('/sales/project_card/' + data.createProject.project.id);
+            }}>
             <InfoList>
               <InfoItem>
                 <InfoTitle>О Проекте</InfoTitle>
 
                 <InfoLine>
                   <span>Код проекта: </span>
-                  <InputNumber onChange={e => {
-                    console.log(e);
-                    setProjectCode(e);
-                  }} />
+                  <InputNumber
+                    onChange={(e) => {
+                      console.log(e);
+                      setProjectCode(e);
+                    }}
+                  />
                 </InfoLine>
                 <InfoLine>
                   <span>Название проекта</span>
-                  <Input onChange={e => {
-                    console.log(e.target.value);
-                    setProjectName(e.target.value);
-                  }} />
+                  <Input
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setProjectName(e.target.value);
+                    }}
+                  />
                 </InfoLine>
-
 
                 <InfoLine>
                   <span>Создатель</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      setCreator(e[1])
-                    }}
-                  >
-                    {
-                      managersData && managersData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.firstName + ' ' + item.node.lastName, item.node.id]}><span>{ item.node.firstName + ' ' + item.node.lastName }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
-
+                    onChange={(e) => {
+                      setCreator(e[1]);
+                    }}>
+                    {managersData &&
+                      managersData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.firstName + ' ' + item.node.lastName, item.node.id]}>
+                            <span>{item.node.firstName + ' ' + item.node.lastName}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
 
                 <InfoLine>
                   <span>Менеджер бэк-офиса</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      setBackOffManager(e[1])
-                    }}
-                  >
-                    {
-                      managersData && managersData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.firstName + ' ' + item.node.lastName, item.node.id] }><span>{ item.node.firstName + ' ' + item.node.lastName }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
-
+                    onChange={(e) => {
+                      setBackOffManager(e[1]);
+                    }}>
+                    {managersData &&
+                      managersData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.firstName + ' ' + item.node.lastName, item.node.id]}>
+                            <span>{item.node.firstName + ' ' + item.node.lastName}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
                 <InfoLine>
                   <span>Менеджер по продажам</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      console.log(e[1])
-                      setSalesManager(e[1])
-                    }}
-                  >
-                    {
-                      managersData && managersData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.firstName + ' ' + item.node.lastName, item.node.id] }><span>{ item.node.firstName + ' ' + item.node.lastName }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                    onChange={(e) => {
+                      console.log(e[1]);
+                      setSalesManager(e[1]);
+                    }}>
+                    {managersData &&
+                      managersData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.firstName + ' ' + item.node.lastName, item.node.id]}>
+                            <span>{item.node.firstName + ' ' + item.node.lastName}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
               </InfoItem>
@@ -289,42 +282,43 @@ const Project_card = () => {
 
                 <InfoLine>
                   <span>Бренд</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      setBrand(e[1])
-                    }}
-                  >
-                    {
-                      brandsData && brandsData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                    onChange={(e) => {
+                      setBrand(e[1]);
+                      setWorkSector(() => {
+                        const sector = brandsData.filter((brand) => {
+                          return e[1] === brand.node.id;
+                        });
+                        return sector.length
+                          ? {
+                              title: sector[0].node.workingSector.title,
+                              id: sector[0].node.workingSector.id,
+                            }
+                          : '';
+                      });
+                    }}>
+                    {brandsData &&
+                      brandsData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.title, item.node.id]}>
+                            <span>{item.node.title}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
                 <InfoLine>
                   <span>Сектор деятельности:</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
-                  <StyledSelect
-                    showSearch
-                    onChange={e => {
-                      setWorkSector(e[1])
-                    }}
-                  >
-                    {
-                      workSecData && workSecData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                  <StyledSelect showSearch value={workSector.id}>
+                    {workSecData &&
+                      workSecData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={item.node.id}>
+                            <span>{item.node.title}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
               </InfoItem>
@@ -333,42 +327,36 @@ const Project_card = () => {
 
                 <InfoLine>
                   <span>Рекламодатель</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      setAdvertiser(e[1])
-                    }}
-                  >
-                    {
-                      advertData && advertData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                    onChange={(e) => {
+                      setAdvertiser(e[1]);
+                    }}>
+                    {advertData &&
+                      advertData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.title, item.node.id]}>
+                            <span>{item.node.title}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
                 <InfoLine>
                   <span>Рекламное агентство</span>
-                  {/* <InfoInput onChange={e => {
-                    setBackOffManager(e.target.value)
-                  }} defaultValue="" /> */}
                   <StyledSelect
                     showSearch
-                    onChange={e => {
-                      setAgency(e[1])
-                    }}
-                  >
-                    {
-                      advertData && advertData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                    onChange={(e) => {
+                      setAgency(e[1]);
+                    }}>
+                    {advertData &&
+                      advertData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={[item.node.title, item.node.id]}>
+                            <span>{item.node.title}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
                 </InfoLine>
                 <InfoLine>
@@ -376,11 +364,11 @@ const Project_card = () => {
                   <InputNumber
                     defaultValue={agencyCommissionValue}
                     value={agencyCommissionValue}
-                    formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    onChange={e => {
-                      setAgencyCommissionPerc(null)
-                      setAgencyCommissionValue(e)
+                    formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    onChange={(e) => {
+                      setAgencyCommissionPerc(null);
+                      setAgencyCommissionValue(e);
                     }}
                   />
                   <InputNumber
@@ -388,11 +376,11 @@ const Project_card = () => {
                     value={agencyCommissionPerc}
                     min={0}
                     max={100}
-                    formatter={value => `${value}%`}
-                    parser={value => value.replace('%', '')}
-                    onChange={e => {
-                      setAgencyCommissionValue(null)
-                      setAgencyCommissionPerc(e)
+                    formatter={(value) => `${value}%`}
+                    parser={(value) => value.replace('%', '')}
+                    onChange={(e) => {
+                      setAgencyCommissionValue(null);
+                      setAgencyCommissionPerc(e);
                     }}
                   />
                 </InfoLine>
@@ -401,17 +389,41 @@ const Project_card = () => {
                 <InfoTitle>Коментарий к проекту</InfoTitle>
 
                 <InfoLine>
-                  <InfoInput.TextArea onChange={e => {
-                    console.log(e.target.value)
-                    setProjectComment(e.target.value)
-                  }} rows={4} defaultValue=" " />
+                  <InfoInput.TextArea
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setProjectComment(e.target.value);
+                    }}
+                    rows={4}
+                    defaultValue=" "
+                  />
                 </InfoLine>
               </InfoItem>
               <SubmitButton
-                onClick={
-                  () => {}
-                }
-              >
+                onClick={() => {
+                  let itemD = {
+                    title: projectName,
+                    agencyCommission: {
+                      percent: agencyCommissionPerc,
+                      value: agencyCommissionValue,
+                    },
+                    code: projectCode,
+                    creator: creator,
+                    comment: projectComment,
+                    brand: brand,
+                    backOfficeManager: backOffManager,
+                    salesManager: salesManager,
+                  };
+                  console.log('[itemD]', itemD);
+                  console.log('[itemD]', data);
+                  projectCreator({
+                    variables: {
+                      input: itemD,
+                    },
+                  });
+
+                  data && history.push('/sales/project_card/' + data.createProject.project.id);
+                }}>
                 Создать проект
               </SubmitButton>
             </InfoList>
@@ -470,4 +482,3 @@ const InfoInput = styled(Input)`
   margin-left: auto;
   width: 150px;
 `;
-

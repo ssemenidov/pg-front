@@ -12,7 +12,6 @@ import { Popover } from 'antd';
 import { useQuery, gql } from '@apollo/client';
 import { routes } from '../../../routes';
 
-
 const QUERY_ALL_PROJECTS = gql`
   query allProjectsQuery(
     $brand: String
@@ -91,7 +90,6 @@ const QUERY_ALL_PROJECTS = gql`
   }
 `;
 
-
 const PanelDesign = () => {
   const [filter /*setFilter*/, , constructionsIdSet, setConstructionsIdSet] = useContext(comProjectContext);
 
@@ -100,7 +98,10 @@ const PanelDesign = () => {
   let data2 = [];
 
   const columns = [
-    { title: 'Код', dataIndex: 'code', width: 130,
+    {
+      title: 'Код',
+      dataIndex: 'code',
+      width: 130,
       sorter: {
         compare: (a, b) => {
           return a.code.split('#')[1] - b.code.split('#')[1];
@@ -108,16 +109,18 @@ const PanelDesign = () => {
         multiple: 1,
       },
     },
-    { title: 'Бренд',                dataIndex: 'brand',         width: 80, },
-    { title: 'Дата начала',          dataIndex: 'date',          width: 90, },
-    { title: 'Рекламодатель',        dataIndex: 'advert',        width: 80, },
-    { title: 'Рекламное агенство',   dataIndex: 'advert_agency', width: 80, },
-    { title: 'Город',                dataIndex: 'city',          width: 80, },
-    { title: 'Сектор деятельности',  dataIndex: 'sector',        width: 80, },
-    { title: 'Менеджер бэк-офиса',   dataIndex: 'managerb',      width: 80, },
-    { title: 'Менеджер по продажам', dataIndex: 'manager',       width: 80, },
+    { title: 'Бренд', dataIndex: 'brand', width: 80 },
+    { title: 'Дата начала', dataIndex: 'date', width: 90 },
+    { title: 'Рекламодатель', dataIndex: 'advert', width: 80 },
+    { title: 'Рекламное агенство', dataIndex: 'advert_agency', width: 80 },
+    { title: 'Город', dataIndex: 'city', width: 80 },
+    { title: 'Сектор деятельности', dataIndex: 'sector', width: 80 },
+    { title: 'Менеджер бэк-офиса', dataIndex: 'managerb', width: 80 },
+    { title: 'Менеджер по продажам', dataIndex: 'manager', width: 80 },
     {
-      width: 40, title: '', dataIndex: 'edit',
+      width: 40,
+      title: '',
+      dataIndex: 'edit',
       render: (text, record) => (
         <Link to={{ pathname: routes.sales.project_card.url(record.key) }}>
           <img style={{ cursor: 'pointer' }} src={icon_pen} alt="icon_pen" />
@@ -125,7 +128,6 @@ const PanelDesign = () => {
       ),
     },
   ];
-
 
   const CitiesList = () => {
     return (
@@ -199,7 +201,7 @@ const PanelDesign = () => {
         ) : (
           ''
         ),
-        sector: project.node.client ? project.node.client.workingSectors.edges[0].node.description : '',
+        sector: project.node && project.node.client && project.node.client.workingSectors.edges.length ? project.node.client.workingSectors.edges[0].node.description : '',
         managerb: project.node.backOfficeManager
           ? project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName
           : '',
