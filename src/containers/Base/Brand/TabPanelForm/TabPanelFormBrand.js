@@ -1,9 +1,8 @@
 import React, { useContext, useMemo, useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router';
-import ReactToPrint  from 'react-to-print';
+import ReactToPrint from 'react-to-print';
 import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Col, Grid, Row } from 'react-flexbox-grid';
-import { Button, Checkbox, Divider } from 'antd';
+import { Button, Checkbox, Divider, message } from 'antd';
 
 import HeaderBar from '../../../../components/HeaderBar';
 
@@ -11,45 +10,42 @@ import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { BlockTitle, Column, InputTitle, JobTitle, Medium } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
 import {
-  Chip, DesignList, DesignListItem, DropdownBtn1,
-  StyledButton, HeaderWrapper, HeaderTitleWrapper,
-  StyledInput, StyledSelect
+  Chip,
+  DesignList,
+  DesignListItem,
+  DropdownBtn1,
+  StyledButton,
+  HeaderWrapper,
+  HeaderTitleWrapper,
+  StyledInput,
+  StyledSelect,
 } from '../../../../components/Styles/DesignList/styles';
 import useDebounce from '../../../../containers/Administration/components/useDebounce';
 
-import printerIcon from "../../../../img/header-bar/printer.svg";
-import chipIcon from "../../../../img/chip-icon.svg";
-import owner from "../../../../img/input/owner.svg";
-import suitcase from "../../../../img/input/suitcase.svg";
-import deleteIcon from "../../../../img/outdoor_furniture/red_can.svg";
-import hyperlink from "../../../../img/hyperlink.svg";
-import designIcon from "../../../../img/brand/design-icon.png";
+import printerIcon from '../../../../img/header-bar/printer.svg';
+import chipIcon from '../../../../img/chip-icon.svg';
+import owner from '../../../../img/input/owner.svg';
+import suitcase from '../../../../img/input/suitcase.svg';
+import deleteIcon from '../../../../img/outdoor_furniture/red_can.svg';
+import hyperlink from '../../../../img/hyperlink.svg';
+import designIcon from '../../../../img/brand/design-icon.png';
 
 import { constructBrand } from '../Brand';
-import {useParams} from "react-router";
-
+import { useParams } from 'react-router';
 
 const PrintBlock = React.forwardRef(({ data }, ref) => (
   <div ref={ref}>
     <img
-      src={
-        data.img
-          ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${data.img}`
-          : designIcon
-      }
+      src={data.img ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${data.img}` : designIcon}
       alt="design item"
     />
-    <p>{ data.title }</p>
-    <p>Создан: { data.startedAt }</p>
+    <p>{data.title}</p>
+    <p>Создан: {data.startedAt}</p>
   </div>
 ));
 const PrintListBlock = React.forwardRef(({ data }, ref) => (
   <div key={data.id} style={{ display: 'flex' }} ref={ref}>
-    <div style={{ marginRight: 10, marginBottom: 10 }}>
-      {
-        data.map(item => item)
-      }
-    </div>
+    <div style={{ marginRight: 10, marginBottom: 10 }}>{data.map((item) => item)}</div>
   </div>
 ));
 
@@ -77,29 +73,30 @@ const DELETE_DESIGN = gql`
 `;
 
 const WORKING_SECTOR_LIST = gql`
- query searchWorkingSector {
-  searchWorkingSector {
-    edges {
-      node {
-        id
-        title
-      }
-    }
-  }
- }
-`;
-const SEARCH_PARTNER = gql`
-  query searchPartner($title_Icontains: String) {
-      searchPartner(title_Icontains: $title_Icontains) {
-        edges {
-          node {
-            id
-            title
-          }
+  query searchWorkingSector {
+    searchWorkingSector {
+      edges {
+        node {
+          id
+          title
         }
       }
     }
+  }
 `;
+const SEARCH_PARTNER = gql`
+  query searchPartner($title_Icontains: String) {
+    searchPartner(title_Icontains: $title_Icontains) {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
 const SAVE_BRAND = gql`
   mutation updateBrand(
       $id: ID!
@@ -165,14 +162,15 @@ const InnerForm = () => {
 
   useEffect(() => {
     const { data } = designData;
-    const localDesignList = designData.data
-      && designData.data.searchDesign
-      && designData.data.searchDesign.edges.map(({ node }) => ({
-      node: {
-        ...node,
-        isChecked: false
-      }
-    }));
+    const localDesignList =
+      designData.data &&
+      designData.data.searchDesign &&
+      designData.data.searchDesign.edges.map(({ node }) => ({
+        node: {
+          ...node,
+          isChecked: false,
+        },
+      }));
 
     setDesignList(localDesignList);
   }, [designData.data]);
@@ -183,7 +181,7 @@ const InnerForm = () => {
     if(partnerValue) {
       if(brandData.partners && brandData.partners.edges.filter(item => item.node.id === partnerValue.id)[0]) {
         alert('Этот контрагент уже добавлен');
-        return
+        return;
       }
       console.log(partnerValue)
 
@@ -241,18 +239,14 @@ const InnerForm = () => {
     let localDesignList = designList;
     localDesignList[index].node.isChecked = isChecked.target.checked;
 
-    const printArray = localDesignList.filter(({ node }) => node.isChecked)
-      .map(({ node }) => (
-        <PrintBlock key={node.id} data={node}/>
-      ))
+    const printArray = localDesignList
+      .filter(({ node }) => node.isChecked)
+      .map(({ node }) => <PrintBlock key={node.id} data={node} />);
 
     setDesignList(localDesignList);
     setSetPrintArray({
-      element: <PrintListBlock
-        data={printArray}
-        ref={el => inputRef.current['printListBlocks'] = el}
-      />,
-      refData: inputRef
+      element: <PrintListBlock data={printArray} ref={(el) => (inputRef.current['printListBlocks'] = el)} />,
+      refData: inputRef,
     });
   };
   const deleteSide = (id) => {
@@ -260,8 +254,8 @@ const InnerForm = () => {
 
     setDesignList(localDesignList);
 
-    deleteDesign({ variables:{ id } });
-  }
+    deleteDesign({ variables: { id } });
+  };
 
   return (
     <form style={{ width: '100%' }}>
@@ -278,10 +272,7 @@ const InnerForm = () => {
           >
             Сохранить
           </StyledButton>
-          <StyledButton
-            backgroundColor="#2C5DE5"
-            type="button"
-          >
+          <StyledButton backgroundColor="#2C5DE5" type="button">
             Выгрузить данные
           </StyledButton>
         </ButtonGroup>
@@ -292,7 +283,7 @@ const InnerForm = () => {
             <Col xs={5}>
               <Medium>
                 <BlockTitle>Редактирование информации</BlockTitle>
-                <div className="block-edit-info" >
+                <div className="block-edit-info">
                   <Row>
                     <Column style={{ width: '45%', marginRight: '30px' }}>
                       <Row style={{ padding: '0' }}>
@@ -329,8 +320,7 @@ const InnerForm = () => {
                               >
                                 { node.title }
                               </StyledSelect.Option>
-                            ))
-                          }
+                            ))}
                         </StyledSelect>
                       </div>
                     </Column>
@@ -338,7 +328,15 @@ const InnerForm = () => {
                   <Divider />
                   <Row style={{ paddingBottom: '15px' }}>
                     <Column style={{ width: '100%' }}>
-                      <div style={{ width: '100%',  marginBottom: '5px', display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                      <div
+                        style={{
+                          width: '100%',
+                          marginBottom: '5px',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'flex-end',
+                          justifyContent: 'space-between',
+                        }}>
                         <div style={{ width: '80%' }}>
                           <InputTitle>Контрагенты</InputTitle>
                           <StyledSelect
@@ -355,17 +353,12 @@ const InnerForm = () => {
                             {
                               partnersQueried  && partnersQueried.map(({ node }) => (
                                 <StyledSelect.Option key={node.id} value={node.id}>
-                                  { node.title ? node.title : 'Нет названия' }
+                                  {node.title ? node.title : 'Нет названия'}
                                 </StyledSelect.Option>
-                              ))
-                            }
+                              ))}
                           </StyledSelect>
                         </div>
-                        <StyledButton
-                          backgroundColor="#008556"
-                          type="button"
-                          onClick={addPartnerToBrand}
-                        >
+                        <StyledButton backgroundColor="#008556" type="button" onClick={addPartnerToBrand}>
                           Добавить
                         </StyledButton>
                       </div>
@@ -373,15 +366,10 @@ const InnerForm = () => {
                         {
                           brandData.partners && brandData.partners.edges.map(({ node }) => (
                             <Chip key={node.id}>
-                              <img
-                                src={chipIcon}
-                                alt="icon"
-                                onClick={(e) => removePartnerFromBrand(e, node.id)}
-                              />
-                              <span>{ node.title }</span>
+                              <img src={chipIcon} alt="icon" onClick={(e) => removePartnerFromBrand(e, node.id)} />
+                              <span>{node.title}</span>
                             </Chip>
-                          ))
-                        }
+                          ))}
                       </div>
                     </Column>
                   </Row>
@@ -400,82 +388,57 @@ const InnerForm = () => {
               </style>
             </Col>
             <Col xs={7}>
-              <HeaderBar
-                enableEditQuantityOfColumns={true}
-                printData={printArray}
-              >
-                <DropdownBtn1 className="dropdown-btn-1" style={{marginLeft: '17px'}}>
-                  <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo"/>
+              <HeaderBar enableEditQuantityOfColumns={true} printData={printArray}>
+                <DropdownBtn1 className="dropdown-btn-1" style={{ marginLeft: '17px' }}>
+                  <img src={hyperlink} alt="dropdown logod" className="dropdown-btn-1__logo" />
                   <h6 className="dropdown-btn-1__title">Архив дизайнов</h6>
                 </DropdownBtn1>
               </HeaderBar>
 
               <DesignList className="design-list">
-                {
-                  designList && designList.map(({ node }, index) => (
+                {designList &&
+                  designList.map(({ node }, index) => (
                     <DesignListItem
                       key={node.id}
-                      className={`design-list__item ${node.isCurrent ? 'current-design' : 'archive-design'}`}
-                    >
-                      <div style={{ display: "none" }}>
-                        <PrintBlock
-                          data={node}
-                          ref={el => inputRef.current[index] = el}
-                        />
+                      className={`design-list__item ${node.isCurrent ? 'current-design' : 'archive-design'}`}>
+                      <div style={{ display: 'none' }}>
+                        <PrintBlock data={node} ref={(el) => (inputRef.current[index] = el)} />
                       </div>
                       <div className="design-list__item-b-image">
                         <img
                           src={
                             node.img
-                            ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${node.img}`
-                            : designIcon
+                              ? `${process.env.REACT_APP_BACKEND_URL.replace('/api/', '')}/media/${node.img}`
+                              : designIcon
                           }
                           alt="design icon"
                           className="design-list__item-image"
                         />
-                        <p className="design-list__item-label">
-                          {
-                            node.isCurrent
-                            ? 'текущий дизайн'
-                            : 'архив'
-                          }
-                        </p>
+                        <p className="design-list__item-label">{node.isCurrent ? 'текущий дизайн' : 'архив'}</p>
                       </div>
                       <h6 className="design-list__item-title">
-                        <span>{ node.title }</span>
+                        <span>{node.title}</span>
                       </h6>
                       <div className="design-list__item-footer">
-                        <Checkbox
-                          defaultValue={node.isChecked}
-                          onChange={(e) => selectDesign(index, e)}
-                        >
+                        <Checkbox defaultValue={node.isChecked} onChange={(e) => selectDesign(index, e)}>
                           Выбрать
                         </Checkbox>
                         <div className="design-list__item-btn-group">
-
                           <ReactToPrint
                             trigger={() => (
-                              <Button
-                                className="design-list__item-btn"
-                                type="button"
-                              >
+                              <Button className="design-list__item-btn" type="button">
                                 <img src={printerIcon} />
                               </Button>
                             )}
                             content={() => inputRef.current[index]}
                           />
-                          <Button
-                            className="design-list__item-btn"
-                            type="button"
-                            onClick={() => deleteSide(node.id)}
-                          >
+                          <Button className="design-list__item-btn" type="button" onClick={() => deleteSide(node.id)}>
                             <img src={deleteIcon} />
                           </Button>
                         </div>
                       </div>
                     </DesignListItem>
-                  ))
-                }
+                  ))}
               </DesignList>
             </Col>
           </Row>

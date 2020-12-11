@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 
 import { BlockBody, Quarter, BlockTitle, InputTitle, Row } from '../../../../Styles/StyledBlocks';
-import { StyledButton, StyledSelect , StyledInput} from '../../../../Styles/DesignList/styles';
+import {  StyledInput } from '../../../../Styles/DesignList/styles';
 
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
@@ -17,9 +17,8 @@ export default function BankAccount() {
             <InputTitle>Банк получателя</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.bankRecipient ? item.bankRecipient : ''}
+              value={item.bankRecipient ? item.bankRecipient : ''}
               onChange={(e) => setItem({ ...item, bankRecipient: e.target.value })}></StyledInput>
-
           </div>
         </Row>
         <Row>
@@ -27,9 +26,8 @@ export default function BankAccount() {
             <InputTitle>ИИК</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.iik ? item.iik : ''}
+              value={item.iik ? item.iik : ''}
               onChange={(e) => setItem({ ...item, iik: e.target.value })}></StyledInput>
-
           </div>
         </Row>
         <Row>
@@ -37,9 +35,8 @@ export default function BankAccount() {
             <InputTitle>БИК</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.bik ? item.bik : ''}
+              value={item.bik ? item.bik : ''}
               onChange={(e) => setItem({ ...item, bik: e.target.value })}></StyledInput>
-
           </div>
         </Row>
         <Row>
@@ -47,7 +44,7 @@ export default function BankAccount() {
             <InputTitle>Кбе</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.kbe ? item.kbe : ''}
+              value={item.kbe ? item.kbe : ''}
               onChange={(e) => setItem({ ...item, kbe: e.target.value })}></StyledInput>
           </div>
         </Row>

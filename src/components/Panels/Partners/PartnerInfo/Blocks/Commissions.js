@@ -9,42 +9,13 @@ import anchorIcon from '../../../../../img/input/anchor.svg';
 const InputWrapper = styled.div`
   width: 22%;
 `;
-const AGENCY_T = gql`
-    {
-      searchAgencyCommissionType {
-        edges {
-          node {
-            id
-            title
-          }
-        }
-      }
-    }
-  `;
-const AGENCY_DISTRIBUTE_T = gql`
-    {
-      searchAgencyCommissionDistribute {
-        edges {
-          node {
-            id
-            title
-          }
-        }
-      }
-    }
-  `;
 export default function Commissions() {
   const [item, setItem] = useContext(partnerContext);
-  const agency = useQuery( AGENCY_T).data;
-  const agencyDistribute = useQuery( AGENCY_DISTRIBUTE_T).data;
 
-  useEffect(() => {
-    console.log('agency ', agency)
-  }, [agency])
 
-  if (!agency || !agencyDistribute ) {
-    return <span></span>;
-  }
+  // if (!agency || !agencyDistribute ) {
+  //   return <span></span>;
+  // }
   return (
     <Large>
       <BlockTitle style={{ padding: '15px 26px 15px 24px' }}>Агентская коммисия</BlockTitle>
@@ -55,12 +26,12 @@ export default function Commissions() {
             <StyledSelect
               defaultValue={item.agencyCommissionType ? item.agencyCommissionType.id: <img src={anchorIcon} />  }
               onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
-              {agency && agency.searchAgencyCommissionType.edges.map((item)=>
+              {/* {agency && agency.searchAgencyCommissionType.edges.map((item)=>
                 <StyledSelect.Option key={item.node.id} value={item.node.title}>
                   <img src={anchorIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
-              )}
+              )} */}
             </StyledSelect>
           </InputWrapper>
           <InputWrapper>
@@ -94,12 +65,12 @@ export default function Commissions() {
               defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
               onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
             >
-              {agencyDistribute && agencyDistribute.searchAgencyCommissionDistribute.edges.map((item)=>
+              {/* {agencyDistribute && agencyDistribute.searchAgencyCommissionDistribute.edges.map((item)=>
                 <StyledSelect.Option key ={item.node.id} value={item.node.title}>
                   <img src={anchorIcon} />
                   <span>{item.node.title}</span>
                 </StyledSelect.Option>
-              )}
+              )} */}
             </StyledSelect>
           </InputWrapper>
         </Row>

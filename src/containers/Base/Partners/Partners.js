@@ -1,4 +1,4 @@
-import React, {useState, createContext, useMemo, useEffect} from 'react';
+import React, { useState, createContext, useMemo, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -24,7 +24,7 @@ export const partnersContext = createContext();
 
 const PARTNER_CREATE = gql`
   mutation {
-    createPartner(input: {}) {
+    createPartner(input: { agencyCommission: {} }) {
       partner {
         id
       }
@@ -41,16 +41,8 @@ const CONTRACT_CREATE = gql`
   }
 `;
 const ADD_ADVERTISER_TO_PARTNER = gql`
-  mutation updatePartner(
-    $id: ID!
-    $advertisers: [ID]
-  ) {
-    updatePartner(
-      id: $id
-      input: {
-        advertisersAdd: $advertisers
-      }
-    ) {
+  mutation updatePartner($id: ID!, $advertisers: [ID]) {
+    updatePartner(id: $id, input: { advertisersAdd: $advertisers }) {
       partner {
         id
       }
@@ -86,23 +78,25 @@ const Partners = () => {
   }, [id]);
 
   const addAdvertiserForPartner = () => {
-    if(advertiserIdSet && advertiserIdSet.length) {
-      updatePartner({ variables: {
+    if (advertiserIdSet && advertiserIdSet.length) {
+      updatePartner({
+        variables: {
           id: id,
-          advertisers: advertiserIdSet
-        }})
+          advertisers: advertiserIdSet,
+        },
+      })
         .then((response) => {
           history.push(routes.bases.partner.url(id));
           history.go(0);
         })
-        .catch(error => {
-          alert('Бренд не добавлен! Что то поломалось :(')
-          console.error(error)
-        })
+        .catch((error) => {
+          alert('Бренд не добавлен! Что то поломалось :(');
+          console.error(error);
+        });
     } else {
-      alert('Бренд не выбран!')
+      alert('Бренд не выбран!');
     }
-  }
+  };
 
   return (
     <partnersContext.Provider value={[filter, setFilter]}>
@@ -113,32 +107,22 @@ const Partners = () => {
           </StyledSider>
           {collapsed && <FilterBar />}
           <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
-            <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]}/>
+            <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]} />
             <HeaderWrapper>
               <HeaderTitleWrapper>
                 <TitleLogo />
                 <JobTitle>Контрагенты</JobTitle>
               </HeaderTitleWrapper>
               <ButtonGroup>
-                {
-                  flagAddAdvertiserForPartner
-                  && (
-                    <StyledButton
-                      backgroundColor="#2c5de5"
-                      onClick={addAdvertiserForPartner}
-                    >
-                      Привязать контрагента
-                    </StyledButton>
-                  )
-                }
+                {flagAddAdvertiserForPartner && (
+                  <StyledButton backgroundColor="#2c5de5" onClick={addAdvertiserForPartner}>
+                    Привязать контрагента
+                  </StyledButton>
+                )}
                 <StyledButton backgroundColor="#008556" onClick={createPartner}>
                   Создать контрагента
                 </StyledButton>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  type="button"
-                  onClick={createContract}
-                >
+                <StyledButton backgroundColor="#2C5DE5" type="button" onClick={createContract}>
                   Создать договор
                 </StyledButton>
               </ButtonGroup>
