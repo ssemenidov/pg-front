@@ -12,9 +12,7 @@ const { Content, Sider } = Layout;
 
 export const partnerContext = createContext();
 const PartnersInfo = ({ match }) => {
-  // const [id, ] = useState(match.params.id);
   const [item, setItem] = useState({});
-  const [reload, setReload] = useState(null);
   const PARTNER_ITEM = gql`
     query SearchPartner($id: ID!) {
       searchPartner(id: $id) {
@@ -141,30 +139,16 @@ const PartnersInfo = ({ match }) => {
     }
   `;
 
-  const { error, data, loading, refetch } = useQuery(PARTNER_ITEM, { variables: { id: match.params.id } });
+  const { error, data, loading } = useQuery(PARTNER_ITEM, { variables: { id: match.params.id } });
 
   useEffect(() => {
     if (data) {
       setItem(data.searchPartner.edges[0].node);
-      setReload(refetch);
     }
   }, [data]);
 
-  useEffect(() => {
-    if (item.refetch) {
-      refetch().then(() => {
-        setItem({
-          ...item,
-          refetch: false,
-        });
-      });
-    }
-  }, [item.refetch]);
-
   if (error) return <h3>Error :(</h3>;
   if (loading) return <LoadingAntd />;
-
-  console.log(item);
   return (
     <partnerContext.Provider value={[item, setItem]}>
       <Layout>
@@ -172,16 +156,6 @@ const PartnersInfo = ({ match }) => {
           <Sider className="layout-sider"></Sider>
           <Layout className="layout-main" style={{ padding: '30px 30px 0 30px' }}>
             <BreadCrumbsRoutes links={[routes.root.root, routes.bases.root, routes.bases.partners]} />
-            {/*<Breadcrumb className="layout-breadcrumb">*/}
-            {/*  <Breadcrumb.Item>*/}
-            {/*    <img src={breadcrumbs} alt="Главная" style={{ margin: '0 8px 0 0' }} />*/}
-            {/*    <Link to="/">Главная</Link>*/}
-            {/*  </Breadcrumb.Item>*/}
-            {/*  <Breadcrumb.Item>*/}
-            {/*    <Link to="/base/">Базы</Link>*/}
-            {/*  </Breadcrumb.Item>*/}
-            {/*  <Breadcrumb.Item>Контрагенты</Breadcrumb.Item>*/}
-            {/*</Breadcrumb>*/}
 
             <Content
               className="site-layout-background"

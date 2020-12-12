@@ -13,6 +13,7 @@ import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREAT
   UPDATE_RESERVATION_NON_RTS } from './q_mutations';
 import collapseIcon from '../../../img/collapse-icon.svg';
 
+<<<<<<< HEAD
 export let fmtPercent = (item) => {
  // return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toString() + ' %' : ' 0 %';
   return item ? (Math.round(item).toString()) + ' %' : ' 0 %';
@@ -34,6 +35,28 @@ export let fmtPriceNum0 = (item) => {
 //  return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toLocaleString() + ' тг.' : '';
   return item ? (Math.round(item).toLocaleString()) : '0';
 }
+=======
+export const getEstimateReservations = (data = [], sort = '', period = '') => {
+  if (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length) return [];
+  let modifiedData = data.searchSalesEstimateItogs.edges[0].node.reservations.edges;
+  modifiedData = modifiedData.map((reservation) => {
+    return {
+      key: reservation.node.id,
+      code: getConstructionSideCode(reservation.node.constructionSide),
+      city: reservation.node.constructionSide.construction.location.postcode.district.city.title
+        ? reservation.node.constructionSide.construction.location.postcode.district.city.title
+        : '',
+      address: reservation.node.constructionSide.construction.location.marketingAddress.address,
+      format: reservation.node.constructionSide.advertisingSide.side.format.title,
+      side: reservation.node.constructionSide.advertisingSide.side.title,
+      period:
+        new Date(reservation.node.dateFrom).toLocaleDateString() +
+        ' - ' +
+        new Date(reservation.node.dateTo).toLocaleDateString(),
+      branding: reservation.node.branding ? 'Да' : 'Нет',
+    };
+  });
+>>>>>>> 7d2a43935a6680c35ede6b42585dcd98b490ad73
 
 export let fmtPeriod = (startDate, endDate) => {
   return startDate && endDate ? (
@@ -42,6 +65,7 @@ export let fmtPeriod = (startDate, endDate) => {
     new Date(endDate).toLocaleDateString()
   ) : '';
 }
+
 let agencyComissionDistributed = (ak, cat) => {
   return (ak && cat && (
     ((cat === 'A_0') && ak.toNalog)
@@ -50,6 +74,8 @@ let agencyComissionDistributed = (ak, cat) => {
     || ((cat === 'A_3') && ak.toRent)
     || ((cat === 'A_4') && ak.toAdditional)));
 }
+
+<<<<<<< HEAD
 let capitalize = (s) => s ? s[0].toUpperCase() + s.substring(1) : s
 
 export const getSidebarInfoData = (data) => {
@@ -126,6 +152,10 @@ export const getEstimateReservations = (data = [], sort = '', period = '') => {
   modifiedData = modifiedData.map((reservation) => {
     let r = reservation.node;
     console.log(r)
+=======
+export const getBookedSides = (data = [], sort = '', period = '') => {
+  let modifiedData = data.map((invoice) => {
+>>>>>>> 7d2a43935a6680c35ede6b42585dcd98b490ad73
     return {
       key: r.id,
       code: getConstructionSideCode(r.constructionSide),
@@ -1058,8 +1088,13 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                 discountPercent: values.discount,
                 price: values.price,
                 agencyCommission: {
+<<<<<<< HEAD
                   value: values.agSumm === 'null' ? null : toNumber(values.agSumm),
                   percent: values.agPercent === 'null' ? null : toNumber(values.agPercent),
+=======
+                  value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
+>>>>>>> 7d2a43935a6680c35ede6b42585dcd98b490ad73
                 },
                 city: values.city,
                 startPeriod: start,
@@ -1104,6 +1139,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   console.log(err);
                 });
               break;
+<<<<<<< HEAD
             case 'hot-ptc': {
               console.log(values.agPercent, values.agSumm)
               let promise = null;
@@ -1162,6 +1198,40 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               }
               if (promise) {
                 promise.then(() => {
+=======
+            case 'hot-ptc':
+              let nonRtsInput = {
+                count: values.count,
+                title: values.type,
+                incomingTax: values.inputTax,
+                incomingRent: values.inputRent,
+                incomingPrinting: values.inputPrint,
+                incomingAdditional: values.inputCosts,
+                incomingInstallation: values.inputMount,
+                incomingManufacturing: values.inputManufcature,
+                saleTax: values.summTax,
+                saleRent: values.summRent,
+                salePrinting: values.summPrint,
+                saleAdditional: values.summCosts,
+                saleInstallation: values.summMount,
+                saleManufacturing: values.summManufacture,
+                agencyCommission: {
+                  value: values.agSumm === 'null' || values.agSumm == '0' ? null : values.agSumm,
+                  percent: values.agPercent === 'null' || values.agPercent == '0' ? null : values.agPercent,
+                  toNonrts: true,
+                },
+                city: values.city,
+              };
+              console.log(nonRtsInput);
+              // console.log(nonRtsInput);
+              updateNonRts({
+                variables: {
+                  input: nonRtsInput,
+                  id: editingItem.key,
+                },
+              })
+                .then(() => {
+>>>>>>> 7d2a43935a6680c35ede6b42585dcd98b490ad73
                   setOpenModal(false);
                   form.resetFields();
                   setConfirmLoading(false);
