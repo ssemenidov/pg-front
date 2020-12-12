@@ -66,6 +66,13 @@ export const UPDATE_ADDITIONAL_COSTS = gql`
         agencyCommission {
           value
           percent
+          toAdditional
+          toMount
+          toNalog
+          toNonrts
+          toPrint
+          toPrint
+          toRent
         }
       }
     }
@@ -81,6 +88,18 @@ export const UPDATE_NON_RTS = gql`
     }
   }
 `;
+
+
+export const UPDATE_RESERVATION_NON_RTS = gql`
+  mutation updateReservationNonRts($id: ID!, $input: UpdateReservationNonRtsInput!) {
+    updateReservationNonrts(id: $id, input: $input) {
+       reservation {
+        id
+      }
+    }
+  }
+`;
+
 
 export const DELETE_ADD_COSTS_QUERY = gql`
   mutation deleteAddCost($id: ID!) {

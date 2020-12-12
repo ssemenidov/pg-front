@@ -9,28 +9,151 @@ import { Input, Modal, Form, InputNumber, Drawer, Button, message, Select } from
 import { ReactComponent as ExitIcon } from '../../../img/sales/exitIcon.svg';
 import arrowDown from '../../../img/icon_dropdown_select.svg';
 import { getConstructionSideCode } from '../../../components/Logic/constructionSideCode';
-import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS } from './q_mutations';
+import { UPDATE_NON_RTS, UPDATE_ADDITIONAL_COSTS, CREATE_ADDITIONAL_COSTS, CREATE_NON_RTS_COSTS,
+  UPDATE_RESERVATION_NON_RTS } from './q_mutations';
+import collapseIcon from '../../../img/collapse-icon.svg';
 
+export let fmtPercent = (item) => {
+ // return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toString() + ' %' : ' 0 %';
+  return item ? (Math.round(item).toString()) + ' %' : ' 0 %';
+}
+let fmtPercentNull = (item) => {
+  // return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toString() + ' %' : ' 0 %';
+  return item ? (Math.round(item).toString()) + ' %' : '';
+}
+export let fmtPrice = (item) => {
+//  return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toLocaleString() + ' тг.' : '';
+  return item ? (Math.round(item).toLocaleString()) + ' тг.' : '';
+}
+export let fmtPrice0 = (item) => {
+//  return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toLocaleString() + ' тг.' : '';
+  return item ? (Math.round(item).toLocaleString()) + ' тг.' : '0 тг.';
+}
+
+export let fmtPriceNum0 = (item) => {
+//  return item ? (Math.round((item + Number.EPSILON) * 100) / 100)/*.toFixed(2)*/.toLocaleString() + ' тг.' : '';
+  return item ? (Math.round(item).toLocaleString()) : '0';
+}
+
+export let fmtPeriod = (startDate, endDate) => {
+  return startDate && endDate ? (
+    new Date(startDate).toLocaleDateString() +
+    ' - ' +
+    new Date(endDate).toLocaleDateString()
+  ) : '';
+}
+
+let agencyComissionDistributed = (ak, cat) => {
+  return (ak && cat && (
+    ((cat === 'A_0') && ak.toNalog)
+    || ((cat === 'A_1') && ak.toMount)
+    || ((cat === 'A_2') && ak.toPrint)
+    || ((cat === 'A_3') && ak.toRent)
+    || ((cat === 'A_4') && ak.toAdditional)));
+}
+
+let capitalize = (s) => s ? s[0].toUpperCase() + s.substring(1) : s
+
+export const getSidebarInfoData = (data) => {
+  let node = data?.searchSalesEstimateItogs?.edges.length ? data.searchSalesEstimateItogs.edges[0].node : null;
+  return [
+    {
+      id: 1, title: 'Аренда', icon: collapseIcon, isShowed: true, sumBlock: false,
+      content: [
+        { title: 'Аренда по прайсу:',            value: fmtPrice0(node?.rentByPrice) },
+        { title: 'Скидка на аренду по прайсу:',  value: fmtPercent(node?.rentByPriceDiscountPercent) },
+        { title: 'Аренда на клиента:',           value: fmtPrice0(node?.rentToClent) },
+        { title: 'Скидка на аренду на клиента:', value: fmtPercent(node?.rentToClentDiscountPercent) }
+      ]
+    },
+    {
+      id: 2, title: 'Доп. работы', icon: collapseIcon, isShowed: true, sumBlock: false,
+      content: [
+        { title: 'Монтаж:',      value: fmtPrice0(node?.staticMounting) },
+        { title: 'Печать:',      value: fmtPrice0(node?.staticPrinting) },
+        { title: 'Доп. работы:', value: fmtPrice0(node?.staticAdditional) },
+      ]
+    },
+    {
+      id: 3, title: 'Доп. расходы', icon: collapseIcon, isShowed: true, sumBlock: false,
+      content: (
+        node?.additionalRtsByTitle?.edges?.map((item, index) => ({
+            title: capitalize(item.node.name),
+            value: fmtPrice(item.node.summaAfterDiscount),
+          })
+        ) || [])
+    },
+    {
+      id: 4, title: 'Агентская комиссия', icon: collapseIcon, isShowed: true, sumBlock: false,
+      content: [
+        { title: 'Процент АК:',          value: fmtPercent(node?.agencyCommissionPercent) },
+        { title: 'Сумма АК:',            value: fmtPrice0(node?.agencyCommissionValue) },
+        { title: 'Сумма за вычетом АК:', value: fmtPrice0(node?.summaryEstimateValueWithoutAgencyComission) }
+      ]
+    },
+    {
+      id: 5, title: 'Налоги', icon: collapseIcon, isShowed: true, sumBlock: false,
+      content: [
+        { title: 'Налог:',               value: fmtPrice0(node?.nalogBeforeDiscount) },
+        { title: 'Скидка на налог:',     value: fmtPercent(node?.nalogDiscountPercent) },
+        { title: 'Налога после скидки:', value: fmtPrice0(node?.nalogAfterDiscount) }
+      ]
+    },
+    {
+      id: 6,
+      title: 'НОН РТС',
+      icon: collapseIcon,
+      isShowed: true,
+      sumBlock: false,
+      content: (
+        node?.additionalNonrtsByTitle?.edges?.map((item, index) => ({
+            title: capitalize(item.node.name),
+            value: fmtPrice0(item.node.sale),
+          })
+        ) || [])
+    },
+    {
+      id: 7,
+      title: 'ИТОГО',
+      icon: collapseIcon,
+      isShowed: false,
+      sumBlock: true,
+      value: fmtPrice0(node?.summaryEstimateValue)
+    }
+  ];
+};
 
 export const getEstimateReservations = (data = [], sort = '', period = '') => {
-  if  (!data.searchSalesEstimateItogs || !data.searchSalesEstimateItogs.edges.length)
-    return []
-  let modifiedData = data.searchSalesEstimateItogs.edges[0].node.reservations.edges;
+  let modifiedData = data.searchSalesEstimateItogs?.edges[0].node.reservations.edges || [];
   modifiedData = modifiedData.map((reservation) => {
+    let r = reservation.node;
+    console.log(r)
     return {
-      key: reservation.node.id,
-      code: getConstructionSideCode(reservation.node.constructionSide),
-      city: reservation.node.constructionSide.construction.location.postcode.district.city.title
-        ? reservation.node.constructionSide.construction.location.postcode.district.city.title
-        : '',
-      address: reservation.node.constructionSide.construction.location.marketingAddress.address,
-      format: reservation.node.constructionSide.advertisingSide.side.format.title,
-      side: reservation.node.constructionSide.advertisingSide.side.title,
-      period:
-        new Date(reservation.node.dateFrom).toLocaleDateString() +
-        ' - ' +
-        new Date(reservation.node.dateTo).toLocaleDateString(),
-      branding: reservation.node.branding ? 'Да' : 'Нет',
+      key: r.id,
+      code: getConstructionSideCode(r.constructionSide),
+      city: r.constructionSide?.construction?.location?.postcode.district.city.title || '' ,
+      address: r.constructionSide?.construction?.location?.marketingAddress.address || '',
+      format: r.constructionSide?.advertisingSide?.side?.format.title || '',
+      side: r.constructionSide?.advertisingSide?.side.title || '',
+      period: fmtPeriod(r.dateFrom, r.dateTo),
+      branding: r.branding ? 'Да' : 'Нет',
+      rentByPrice: fmtPrice(r.rentByPriceCalculated),
+      discountByPrice: fmtPercent(r.discountPricePercentSelected),
+      rentOnClient: fmtPrice(r.valueRentToClientSelected),
+      discountOnClient: fmtPercent(r.discountClientPercentSelected),
+      rentAfterDiscount:  fmtPrice(r.valueRentToClientAfterDiscountSelected),
+      tax: fmtPrice(r.additionalStaticNalog),
+      discountOnTax: fmtPercent(r.additionalStaticNalogDiscountPercentSelected),
+      taxAfterDiscount: fmtPrice(r.additionalStaticNalogValueAfterDiscount),
+      vat: '',
+      mount: fmtPrice(r.additionalStaticMounting),
+      print: fmtPrice(r.additionalStaticPrinting),
+      additional: fmtPrice(r.additionalStaticAdditional),
+      sum: fmtPrice(r.itogSummary),
+      percentAK: fmtPercent(r.agencyCommissionPercentSelected),
+      sumAK: fmtPrice(r.itogAgencyCommission),
+      sumWithoutAK: fmtPrice(r.itogSummaryWithoutAgencyCommission),
+      agencyCommission: r.agencyCommission
     };
   });
 
@@ -72,90 +195,28 @@ export const getEstimateReservations = (data = [], sort = '', period = '') => {
   return modifiedData;
 };
 
-
-
-export const getBookedSides = (data = [], sort = '', period = '') => {
-  let modifiedData = data.map((invoice) => {
-    return {
-      key: invoice.node.id,
-      code: getConstructionSideCode(invoice.node.constructionSide),
-      city: invoice.node.constructionSide.construction.location.postcode.district.city.title
-        ? invoice.node.constructionSide.construction.location.postcode.district.city.title
-        : '',
-      address: invoice.node.constructionSide.construction.location.marketingAddress.address,
-      format: invoice.node.constructionSide.advertisingSide.side.format.title,
-      side: invoice.node.constructionSide.advertisingSide.side.title,
-      period:
-        new Date(invoice.node.dateFrom).toLocaleDateString() +
-        ' - ' +
-        new Date(invoice.node.dateTo).toLocaleDateString(),
-      branding: invoice.node.branding ? 'Да' : 'Нет',
-    };
-  });
-
-  switch (sort) {
-    case 'abc':
-      modifiedData = modifiedData.sort((a, b) => {
-        if (a.city < b.city) {
-          return -1;
-        }
-        if (a.city > b.city) {
-          return 1;
-        }
-        return 0;
-      });
-  }
-  switch (period) {
-    case 'increase':
-      modifiedData = modifiedData.sort((a, b) => {
-        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
-        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
-        const duration = moment.duration(END.diff(START));
-        const duration2 = moment.duration(END2.diff(START2));
-        return duration._milliseconds - duration2._milliseconds;
-      });
-    case 'decrease':
-      modifiedData = modifiedData.sort((a, b) => {
-        const START = moment(a.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END = moment(a.period.split(' - ')[1], 'DD.MM.YYYY');
-        const START2 = moment(b.period.split(' - ')[0], 'DD.MM.YYYY');
-        const END2 = moment(b.period.split(' - ')[1], 'DD.MM.YYYY');
-        const duration = moment.duration(END.diff(START));
-        const duration2 = moment.duration(END2.diff(START2));
-        return duration2._milliseconds - duration._milliseconds;
-      });
-  }
-
-  return modifiedData;
-};
 
 export const getExtraCosts = (data = [], sort = '', period = '') => {
-  let modifiedData = data.map((charge) => {
-    let price = charge.node.price ? charge.node.price : 0;
-    let discount = charge.node.discountPercent ? charge.node.discountPercent : 0;
-    let count = charge.node.count ? charge.node.count : 0;
-    let sumAfterDiscount = price * (1.0 - discount / 100.0);
-    let agPercent = charge.node.agencyCommission ? charge.node.agencyCommission.percent : 0;
-    let agValue = charge.node.agencyCommission ? charge.node.agencyCommission.value : 0;
+  let modifiedData = data.searchSalesEstimateItogs?.edges[0].node.additionalRts.edges || [];
+  modifiedData = modifiedData.map((charge) => {
+    let node = charge.node
     return {
-      key: charge.node.id ? charge.node.id : '',
-      nameOfService: charge.node.title ? charge.node.title : '',
-      city: charge.node.city ? charge.node.city.title : '',
-      cityId: charge.node.city ? charge.node.city.id : '',
-      period: charge.node.startPeriod
-        ? new Date(charge.node.startPeriod).toLocaleDateString() +
-          ' - ' +
-          new Date(charge.node.endPeriod).toLocaleDateString()
-        : '',
-      quantity: charge.node.count ? charge.node.count : '',
-      price: charge.node.price ? charge.node.price + ' тг.' : '',
-      discount: discount + '%',
-      priceAfterDiscount: sumAfterDiscount.toFixed(2) + ' тг.',
-      sum: (sumAfterDiscount * count).toFixed(2) + ' тг.',
-      percentAK: agPercent + ' %',
-      sumAK: agValue + ' тг.',
+      id: node?.id  || '',
+      key: node?.id || '',
+      nameOfService: node?.title || '',
+      city: node?.city.title || '',
+      cityId: node?.city.id || '',
+      period: fmtPeriod(node.startPeriod, node.endPeriod),
+      quantity: node?.count || '',
+      price: fmtPrice(node.price),
+      discount: fmtPercent(node.discountPercent),
+      priceAfterDiscount: fmtPrice(node.priceAfterDiscount),
+      sum: fmtPrice(node.summaAfterDiscount),
+      percentAK: fmtPercent(node.agencyCommissionPercent),
+      sumAK: fmtPrice(node.agencyCommissionValue),
+      sumWithoutAK: fmtPrice(node.valueWithoutAgencyCommission),
+      agencyCommission: node.agencyCommission,
+      category: node.category,
     };
   });
   switch (sort) {
@@ -199,50 +260,84 @@ export const getExtraCosts = (data = [], sort = '', period = '') => {
 };
 
 export const gettNonRts = (data = [], sort = '') => {
-  let modifiedData = data.map((item) => {
-    let inputRent = item.node.incomingRent || 0;
-    let inputTax = item.node.incomingTax || 0;
-    let inputPrint = item.node.incomingPrinting || 0;
-    let inputMount = item.node.incomingInstallation || 0;
-    let inputManufacture = item.node.incomingManufacturing || 0;
-    let inputCosts = item.node.incomingAdditional || 0;
-
-    let sellRent = item.node.saleRent || 0;
-    let sellTax = item.node.saleTax || 0;
-    let sellPrint = item.node.salePrinting || 0;
-    let sellMount = item.node.saleInstallation || 0;
-    let sellManufacture = item.node.saleManufacturing || 0;
-    let sellAdditonalCosts = item.node.saleAdditional || 0;
-    let quantity = item.node.count || 0;
-    let sumInput = inputRent + inputTax + inputPrint + inputMount + inputManufacture + inputCosts;
-    let sumSell = sellRent + sellTax + sellPrint + sellMount + sellManufacture + sellAdditonalCosts;
-    let agPercent = item.node.agencyCommission ? item.node.agencyCommission.percent : 0;
-    let agValue = item.node.agencyCommission ? item.node.agencyCommission.value : 0;
+  let nonRtsAdditionals = data.searchSalesEstimateItogs?.edges[0].node.additionalNonrts.edges || [];
+  nonRtsAdditionals = nonRtsAdditionals.map((item) => {
+    let node = item.node;
+    let quantity = node.count || 0;
+    let agValue = node.agencyCommissionCalculated ?? 0;
+    let agPercent = node.margin && node.agencyCommissionCalculated ? (agValue / node.margin) * 100.0 : null;
+    if (agPercent === null && node.agencyCommission?.toNonrts)
+      agPercent = node.agencyCommission.percent;
+    let sumWithoutAk = (node.margin ?? 0) - agValue;
 
     return {
-      key: item.node.id,
-      code: item.node.title,
-      city: item.node.city ? item.node.city.title : '',
-      cityId: item.node.city ? item.node.city.id : '',
+      key: node.id,
+      code: node.name,
+      city: node?.city?.title ||  '',
+      cityId: node?.city?.id || '',
+      period: fmtPeriod(node.startPeriod, node.endPeriod),
       quantity: quantity,
-      rentInput: inputRent + ' тг.',
-      taxInput: inputTax + ' тг.',
-      printInput: inputPrint + ' тг.',
-      mountInput: inputMount + ' тг.',
-      manufactureInput: inputManufacture + ' тг.',
-      costsInput: inputCosts + ' тг.',
-      sumInput: sumInput + ' тг.',
-      rentSell: sellRent + ' тг.',
-      taxSell: sellTax + ' тг.',
-      printSell: sellPrint + ' тг.',
-      mountSell: sellMount + ' тг.',
-      manufactureSell: sellManufacture + ' тг.',
-      sumSell: sumSell + ' тг.',
-      costsSell: sellAdditonalCosts + ' тг.',
-      percentAK: agPercent + '%',
-      sumAK: agValue + ' тг.',
+      rentInput: fmtPrice(node.incomingRent),
+      taxInput: fmtPrice(node.incomingTax),
+      printInput: fmtPrice(node.incomingPrinting),
+      mountInput: fmtPrice(node.incomingInstallation),
+      manufactureInput: fmtPrice(node.incomingManufacturing),
+      costsInput: fmtPrice(node.incomingAdditional),
+      sumInput: fmtPrice(node.pay),
+      rentSell: fmtPrice(node.saleRent),
+      taxSell: fmtPrice(node.saleTax),
+      printSell: fmtPrice(node.salePrinting),
+      mountSell: fmtPrice(node.saleInstallation),
+      manufactureSell: fmtPrice(node.saleManufacturing),
+      sumSell: fmtPrice(node.sale),
+      costsSell: fmtPrice(node.saleAdditional),
+      percentAK: fmtPercent(agPercent),
+      sumAK: fmtPrice(agValue),
+      margin: fmtPrice(node.margin),
+      agencyCommission: node.agencyCommission,
+      sumWithoutAK: fmtPrice(sumWithoutAk),
+      category: 'nonrtsAdditional',
     };
   });
+  let reservationsNonRts = data.searchSalesEstimateItogs?.edges[0].node.reservationsNonrts.edges || [];
+  reservationsNonRts = reservationsNonRts.map((item) => {
+    let node = item.node;
+    let agValue = node.agencyCommissionCalculated ?? 0;
+    let agPercent = node.margin ? (agValue / node.margin) * 100.0 : null;
+    if (agPercent === null && node.agencyCommission?.toNonrts)
+      agPercent = node.agencyCommission.percent;
+
+    return {
+      key: node.id,
+      code: getConstructionSideCode(node.constructionSide),
+      city: node?.constructionSide?.construction?.location?.postcode?.district?.city.title || null,
+      cityId: node?.constructionSide?.construction?.location?.postcode?.district?.city.id || null,
+      period: fmtPeriod(node.dateFrom, node.dateTo) + ' ' + node.reservationType?.title,
+      dateFrom: node.dateFrom,
+      dateTo: node.dateTo,
+      quantity: 1,
+      rentInput: fmtPrice(node.nonrtsPart?.incomingRent),
+      taxInput: fmtPrice(node.nonrtsPart?.incomingTax),
+      printInput: fmtPrice(node.nonrtsPart?.incomingPrinting),
+      mountInput: fmtPrice(node.nonrtsPart?.incomingInstallation),
+      manufactureInput: fmtPrice(node.nonrtsPart?.incomingManufacturing),
+      costsInput: fmtPrice(node.nonrtsPart?.incomingAdditional),
+      rentSell: fmtPrice(node.nonrtsPart?.saleRent),
+      taxSell: fmtPrice(node.nonrtsPart?.saleTax),
+      printSell: fmtPrice(node.nonrtsPart?.salePrinting),
+      mountSell: fmtPrice(node.nonrtsPart?.saleInstallation),
+      manufactureSell: fmtPrice(node.nonrtsPart?.saleManufacturing),
+      costsSell: fmtPrice(node.nonrtsPart?.saleAdditional),
+      sumInput: fmtPrice(node.pay),
+      sumSell: fmtPrice(node.sale),
+      percentAK: fmtPercent(agPercent),
+      sumAK: fmtPrice(agValue),
+      margin: fmtPrice(node.margin),
+      agencyCommission: node.agencyCommission,
+      category: 'nonrtsReservation',
+    };
+  });
+  let modifiedData = [...reservationsNonRts, ...nonRtsAdditionals];
 
   switch (sort) {
     case 'abc':
@@ -315,50 +410,80 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
   };
   const [updateAddCosts] = useMutation(UPDATE_ADDITIONAL_COSTS);
   const [updateNonRts] = useMutation(UPDATE_NON_RTS);
+  const [updateReservationNonRts] = useMutation(UPDATE_RESERVATION_NON_RTS);
+
+
+  let toPrice = (val) => {
+    if (typeof val == 'number')
+      return val;
+    if (!val)
+      return 0;
+    return parseFloat(val.replace(/ /g, '').split(' ')[0])
+  };
+
   useEffect(() => {
     switch (block) {
-      case 'extra-charge':
+      case 'extra-charge': {
         const start = editingItem.period
           ? moment(editingItem.period.split(' - ')[0].split('.').join('-'), 'DD-MM-YYYY')
           : '';
         const end = editingItem.period
           ? moment(editingItem.period.split(' - ')[1].split('.').join('-'), 'DD-MM-YYYY')
           : '';
+        let agSum = null;
+        let agPercent = null;
+        if (editingItem.agencyCommission) {
+          let ak = editingItem.agencyCommission;
+          let cat = editingItem.category;
+          if (agencyComissionDistributed(ak, cat))  {
+            agSum = ak.value;
+            agPercent = ak.percent;
+          }
+        }
+
         form.setFieldsValue({
-          name: editingItem.nameOfService || 0,
-          count: editingItem.quantity || 0,
-          price: editingItem.price ? editingItem.price.split(' ')[0] : 0,
-          discount: editingItem.discount ? editingItem.discount.split('%')[0] : 0,
-          agPercent: editingItem.percentAK ? editingItem.percentAK.split('%')[0] : null,
-          agSumm: editingItem.sumAK ? editingItem.sumAK.split(' ')[0] : null,
+          name: editingItem.nameOfService || '',
+          count: toPrice(editingItem.quantity),
+          price: toPrice(editingItem.price),
+          discount: toPrice(editingItem.discount),
+          agPercent: agPercent === null ? null : toPrice(agPercent),
+          agSumm: agSum === null ? null : toPrice(agSum),
           city: editingItem.cityId ? editingItem.cityId : '',
           period: [start, end],
         });
+      }
         break;
-      case 'hot-ptc':
+      case 'hot-ptc': {
         form.setFieldsValue({
-          inputRent: editingItem.rentInput.split(' ')[0] || 0,
-          inputTax: editingItem.taxInput.split(' ')[0] || 0,
-          inputPrint: editingItem.printInput.split(' ')[0] || 0,
-          inputMount: editingItem.mountInput.split(' ')[0] || 0,
-          inputCosts: editingItem.costsInput.split(' ')[0] || 0,
-          inputManufcature: editingItem.manufactureInput.split(' ')[0] || 0,
-          summRent: editingItem.rentSell.split(' ')[0] || 0,
-          summTax: editingItem.taxSell.split(' ')[0] || 0,
-          summPrint: editingItem.printSell.split(' ')[0] || 0,
-          summMount: editingItem.mountSell.split(' ')[0] || 0,
-          summManufacture: editingItem.manufactureSell.split(' ')[0] || 0,
-          summCosts: editingItem.costsSell.split(' ')[0] || 0,
+          inputRent: toPrice(editingItem.rentInput),
+          inputTax: toPrice(editingItem.taxInput),
+          inputPrint: toPrice(editingItem.printInput),
+          inputMount: toPrice(editingItem.mountInput),
+          inputCosts: toPrice(editingItem.costsInput),
+          inputManufcature: toPrice(editingItem.manufactureInput),
+          summRent: toPrice(editingItem.rentSell),
+          summTax: toPrice(editingItem.taxSell),
+          summPrint: toPrice(editingItem.printSell),
+          summMount: toPrice(editingItem.mountSell),
+          summManufacture: toPrice(editingItem.manufactureSell),
+          summCosts: toPrice(editingItem.costsSell),
           type: editingItem.code,
           count: editingItem.quantity,
-          agPercent: editingItem.percentAK.split('%')[0] || null,
-          agSumm: editingItem.sumAK.split(' ')[0] || null,
+          agPercent: editingItem?.agencyCommission?.toNonrts && editingItem.agencyCommission.percent,
+          agSumm: editingItem?.agencyCommission?.toNonrts && editingItem.agencyCommission.value,
           city: editingItem.cityId ? editingItem.cityId : '',
         });
+      }
+        break;
     }
   }, [editingItem, form]);
   const { RangePicker } = DatePicker;
   const { Option } = Select;
+  let fontStyle = {
+    color: '#1A1A1A',
+    fontSize: '14px',
+    fontWeight: 'bold',
+  };
   switch (block) {
     case 'extra-charge':
       FormInputs = () => {
@@ -377,16 +502,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               colon={false}
               name="name"
               rules={[{ required: true, message: 'Пожалуйста введите наименование услуги.' }]}
-              label={
-                <span
-                  style={{
-                    color: '#1A1A1A',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                  }}>
-                  Наименование услуги
-                </span>
-              }>
+              label={<span style={fontStyle}> Наименование услуги</span>}>
               <Input size="large" />
             </Form.Item>
             <Form.Item
@@ -395,16 +511,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               colon={false}
               name="city"
               rules={[{ required: true, message: 'Пожалуйста выберите город.' }]}
-              label={
-                <span
-                  style={{
-                    color: '#1A1A1A',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                  }}>
-                  Город
-                </span>
-              }>
+              label={<span style={fontStyle}>Город</span>}>
               <Select
                 allowClear
                 dropdownAlign={{
@@ -447,16 +554,7 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
               colon={false}
               name="period"
               rules={[{ required: true, message: 'Пожалуйста укажите период.' }]}
-              label={
-                <span
-                  style={{
-                    color: '#1A1A1A',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                  }}>
-                  Период
-                </span>
-              }>
+              label={<span style={fontStyle}>Период</span>}>
               <RangePicker
                 dropdownAlign={{
                   points: ['bl', 'tl'],
@@ -942,23 +1040,52 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
         }}
         onFinish={(values) => {
           setConfirmLoading(true);
+          let toNumber = (val) => {
+            if (val === null)
+              return null;
+            if (val === false || val === '')
+              return 0;
+            if (typeof val === 'number')
+              return val;
+            return parseFloat(val);
+          };
           switch (block) {
             case 'extra-charge':
               const start = moment(values.period[0]).toDate();
               const end = moment(values.period[1]).toDate();
+              let ak = editingItem.agencyCommission;
               let input = {
                 title: values.name,
                 count: values.count,
                 discountPercent: values.discount,
                 price: values.price,
                 agencyCommission: {
-                  value: values.agSumm === 'null' ? null : values.agSumm,
-                  percent: values.agPercent === 'null' ? null : values.agPercent,
+                  value: values.agSumm === 'null' ? null : toNumber(values.agSumm),
+                  percent: values.agPercent === 'null' ? null : toNumber(values.agPercent),
                 },
                 city: values.city,
                 startPeriod: start,
                 endPeriod: end,
               };
+              if (ak) {
+                switch (editingItem.category) {
+                  case 'A_0':
+                    input.agencyCommission.toNalog = true;
+                    break;
+                  case 'A_1':
+                    input.agencyCommission.toMount = true;
+                    break;
+                  case 'A_2':
+                    input.agencyCommission.toPrint = true;
+                    break;
+                  case 'A_3':
+                    input.agencyCommission.toRent = true;
+                    break;
+                  case 'A_4':
+                    input.agencyCommission.toAdditional = true;
+                    break;
+                }
+              }
               updateAddCosts({
                 variables: {
                   input,
@@ -979,50 +1106,78 @@ export const EditCosts = ({ openModal, setOpenModal, block, editingItem, refetch
                   console.log(err);
                 });
               break;
-            case 'hot-ptc':
-              let nonRtsInput = {
-                count: values.count,
-                title: values.type,
-                incomingTax: values.inputTax,
-                incomingRent: values.inputRent,
-                incomingPrinting: values.inputPrint,
-                incomingAdditional: values.inputCosts,
-                incomingInstallation: values.inputMount,
-                incomingManufacturing: values.inputManufcature,
-                saleTax: values.summTax,
-                saleRent: values.summRent,
-                salePrinting: values.summPrint,
-                saleAdditional: values.summCosts,
-                saleInstallation: values.summMount,
-                saleManufacturing: values.summManufacture,
-                agencyCommission: {
-                  value: values.agSumm === 'null' ? null : values.agSumm,
-                  percent: values.agPercent === 'null' ? null : values.agPercent,
-                  toNonrts: true
-                },
-                city: values.city,
-              };
-              console.log(nonRtsInput);
-              // console.log(nonRtsInput);
-              updateNonRts({
-                variables: {
-                  input: nonRtsInput,
-                  id: editingItem.key,
-                },
-              })
-                .then(() => {
+            case 'hot-ptc': {
+              console.log(values.agPercent, values.agSumm)
+              let promise = null;
+              if (editingItem.category == 'nonrtsAdditional') {
+                let nonRtsInput = {
+                  count: values.count,
+                  title: values.type,
+                  incomingTax: values.inputTax,
+                  incomingRent: values.inputRent,
+                  incomingPrinting: values.inputPrint,
+                  incomingAdditional: values.inputCosts,
+                  incomingInstallation: values.inputMount,
+                  incomingManufacturing: values.inputManufcature,
+                  saleTax: values.summTax,
+                  saleRent: values.summRent,
+                  salePrinting: values.summPrint,
+                  saleAdditional: values.summCosts,
+                  saleInstallation: values.summMount,
+                  saleManufacturing: values.summManufacture,
+                  agencyCommission: {
+                    value: (values.agSumm === 'null' ? null : toNumber(values.agSumm)),
+                    percent: (values.agPercent === 'null' ? null : toNumber(values.agPercent)),
+                    toNonrts: true
+                  },
+                  city: values.city,
+                };
+                promise = updateNonRts({ variables: { input: nonRtsInput, id: editingItem.key } });
+              }
+              else {
+                let nonRtsInput = {
+                  dateFrom: editingItem.dateFrom,
+                  dateTo: editingItem.dateTo,
+                  estimateNonRtsAdd: [{
+                    count: values.count,
+                    title: editingItem.code,
+                    incomingTax: values.inputTax,
+                    incomingRent: values.inputRent,
+                    incomingPrinting: values.inputPrint,
+                    incomingAdditional: values.inputCosts,
+                    incomingInstallation: values.inputMount,
+                    incomingManufacturing: values.inputManufcature,
+                    saleTax: values.summTax,
+                    saleRent: values.summRent,
+                    salePrinting: values.summPrint,
+                    saleAdditional: values.summCosts,
+                    saleInstallation: values.summMount,
+                    saleManufacturing: values.summManufacture,
+                  }],
+                  agencyCommission: {
+                    value: values.agSumm === 'null' ? null : toNumber(values.agSumm),
+                    percent: values.agPercent === 'null' ? null : toNumber(values.agPercent),
+                    toNonrts: true,
+                  },
+                };
+                promise = updateReservationNonRts({ variables: { input: nonRtsInput, id: editingItem.key } });
+              }
+              if (promise) {
+                promise.then(() => {
                   setOpenModal(false);
                   form.resetFields();
                   setConfirmLoading(false);
                   message.success('Успешно изменено.');
                   refetch();
                 })
-                .catch((err) => {
-                  setConfirmLoading(false);
-                  message.error('Что-то пошло не так попробуйте ещё раз.');
-                  setOpenModal(false);
-                  console.log(err);
-                });
+                  .catch((err) => {
+                    setConfirmLoading(false);
+                    message.error('Что-то пошло не так попробуйте ещё раз.');
+                    setOpenModal(false);
+                    console.log(err);
+                  });
+              }
+            }
               break;
           }
         }}

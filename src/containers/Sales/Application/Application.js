@@ -17,179 +17,91 @@ import { ReservationSlider } from './BottomSlider'
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { routes } from '../../../routes';
 import { LoadingAntd } from '../../../components/UI/Loader/Loader';
-
+import { QUERY_ATTACHMENT } from './attachmentQuery';
 // ICONS
 import dollarIcon from '../../../img/dollar.svg';
 import collapseIcon from '../../../img/collapse-icon.svg';
 import personIcon from '../../../img/person.svg';
 import paperIcon from '../../../img/paper.svg';
 
+import { fmtPrice, fmtPrice0, fmtPeriod, fmtPriceNum0 } from '../Estimate/utils';
+
+let trDate = (v) => v ? new Date(v).toLocaleDateString() : '';
+
+let getSliderCountData = (estimateItogs) => {
+  return {
+    info: [
+      { title: 'Номер договора', data: estimateItogs?.attachment?.contract?.serialNumber, },
+      { title: 'Номер приложения', data: estimateItogs?.attachment?.code },
+      { title: 'Реквизиты',
+        data: 'БИН: ' + estimateItogs?.attachment?.project?.client?.binNumber || ''
+           + ' БИК: ' + estimateItogs?.attachment?.project?.client?.bik || '' },
+      { title: 'Дата договора', data: trDate(estimateItogs?.attachment?.contract?.registrationDate) }
+    ],
+    count: [
+      { title: "Налог", data: fmtPriceNum0(estimateItogs?.nalogAfterDiscount) },
+      { title: "Аренда со скидкой", data: fmtPriceNum0(estimateItogs?.rentToClentDiscounted) },
+      { title: "Доп. расходы", data: fmtPriceNum0(estimateItogs?.staticAdditional) },
+      { title: "Монтаж", data: fmtPriceNum0(estimateItogs?.staticMounting) },
+      { title: "Печать", data: fmtPriceNum0(estimateItogs?.staticPrinting) }
+    ]
+  }
+
+}
+
 const Application = () => {
   const history = useHistory();
   const { appId } = useParams();
   const sliderState = new SliderState({name: "", key: ""})
 
-  const APPLICATION_QUERY = gql`
-    query applicationQuery($id: ID) {
-      searchAttachment(id: $id) {
-        edges {
-          node {
-            id
-            code
-            signatoryOne
-            signatoryTwo
-            createdDate
-            periodStartDate
-            periodEndDate
-            contract {
-              code
-              registrationDate
-              paymentDate
-            }
-            project {
-              id
-            }
-            reservations {
-              edges {
-                node {
-                  id
-                  dateFrom
-                  dateTo
-                  constructionSide {
-                    construction {
-                      format {
-                        title
-                      }
-                      location {
-                        marketingAddress {
-                          address
-                        }
-                        postcode {
-                          district {
-                            city {
-                              title
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const { loading, error, data } = useQuery(APPLICATION_QUERY, {
-    variables: {
-      id: appId,
-    },
-  });
+  const { loading, error, data } = useQuery(QUERY_ATTACHMENT, {variables: {attachmentId: appId }});
   if (error)
     return <h3>Error (:</h3>
 
-  let data2 = {};
+  let mappedData = {};
 
   console.log('[data]', data)
 
-  const sliderCountData = {
-    "info": [
-      {
-        "title": "Номер договора",
-        "data": "№3453456"
-      },
-      {
-        "title": "Номер приложения",
-        "data": "№3453456"
-      },
-      {
-        "title": "Реквизиты",
-        "data": "БИН: 435438345, БИК: 8734е53458324"
-      },
-      {
-        "title": "Дата договора",
-        "data": "20.04.2020"
-      }
-    ],
-    "count": [
-      {
-        "title": "Налог",
-        "data": 173953
-      },
-      {
-        "title": "Аренда со скидкой",
-        "data": 965455
-      },
-      {
-        "title": "Доп. расходы",
-        "data": 23345
-      },
-      {
-        "title": "Монтаж",
-        "data": 39472
-      },
-      {
-        "title": "Печать",
-        "data": 74063
-      }
-    ]
-  }
+  let sliderCountData = getSliderCountData(null);
+  let estimateItogs = null;
 
-  if (loading) {
-    return <LoadingAntd/>
-  }
-
-  if (data) {
-    data2 = {
-      code: data.searchAttachment.edges[0].node.code,
-      createdDate: new Date(data.searchAttachment.edges[0].node.createdDate).toLocaleDateString(),
-      startedDate: new Date(data.searchAttachment.edges[0].node.periodStartDate).toLocaleDateString(),
-      endDate: new Date(data.searchAttachment.edges[0].node.periodEndDate).toLocaleDateString(),
-      contractCode: data.searchAttachment.edges[0].node.contract.code,
-      contractDate: new Date(data.searchAttachment.edges[0].node.contract.registrationDate).toLocaleDateString(),
-      contractPaymentDate: new Date(data.searchAttachment.edges[0].node.contract.paymentDate).toLocaleDateString(),
-      signatoryOne: data.searchAttachment.edges[0].node.signatoryOne,
-      tableData: data.searchAttachment.edges[0].node.reservations.edges.map((invoice) => {
+  if (!loading && data) {
+    estimateItogs = data?.searchSalesEstimateItogs?.edges.length ? data.searchSalesEstimateItogs.edges[0]?.node : null;
+    mappedData = {
+      code: estimateItogs?.code || '',
+      createdDate: trDate(estimateItogs?.attachment?.createdDate),
+      startedDate: trDate(estimateItogs?.attachment?.periodStartDate),
+      endDate: trDate(estimateItogs?.attachment?.periodEndDate),
+      contractCode: estimateItogs?.attachment?.contract?.code || '',
+      contractDate: trDate(estimateItogs?.attachment?.contract?.registrationDate),
+      contractPaymentDate: trDate(estimateItogs?.attachment?.contract?.paymentDate),
+      signatoryOne: estimateItogs?.attachment?.signatoryOne || '',
+      smetaSummary: fmtPrice0(estimateItogs?.summaryEstimateValue),
+      addressProgramm: estimateItogs?.addressProgramm?.edges.map((item) => {
         return {
-          key: invoice.node.id,
-          format: invoice.node.constructionSide.construction.format.title,
-          city: invoice.node.constructionSide.construction.location.postcode.district.city.title,
-          period:
-            new Date(invoice.node.dateFrom).toLocaleDateString() +
-            ' - ' +
-            new Date(invoice.node.dateTo).toLocaleDateString(),
-          address: invoice.node.constructionSide.construction.location.marketingAddress.address,
-          renta: '99 888 тг.',
-          print: '99 888 тг.',
-          install: '99 888 тг.',
-          addexpense: '99 888 тг.',
-          amount: '99 888 тг.',
+          key: item.node.id,
+          format: item.node.formatTitle,
+          city: item.node.cityTitle,
+          period: fmtPeriod(item.node.dateFrom, item.node.dateTo),
+          renta: fmtPrice0((item.node.rent || 0) - (item.node.discountClientValue || 0)),
+          print: fmtPrice0(item.node.printing),
+          install: fmtPrice0(item.node.mounting),
+          addexpense: fmtPrice0(item.node.additional),
+          nalog: fmtPrice0((item.node.nalog || 0) - (item.node.nalogDiscountValue || 0)),
+          amount: fmtPrice0(item.node.itogSummary),
         };
-        // {
-        //   key: 1,
-        //   format: 'Сениор',
-        //   city: 'Алматы',
-        //   period: '29.03.20 - 30.05.20',
-        //   address: 'Достык, 25',
-        //   renta: '99 888 тг.',
-        //   print: '99 888 тг.',
-        //   install: '99 888 тг.',
-        //   addexpense: '99 888 тг.',
-        //   amount: '99 888 тг.',
-        // },
-      }),
+      }) || [],
     };
+    sliderCountData = getSliderCountData(estimateItogs);
   }
+
 
 
   const links = [
     { id: routes.root.root.path, value: 'Главная' },
     { id: routes.sales.root.path, value: 'Продажи' },
     { id: routes.sales.com_projects.path, value: 'Проекты' },
-    { id: routes.sales.project_card.url(data.searchAttachment.edges[0].node.project.id), value: 'Проект' },
+    { id: routes.sales.project_card.url(estimateItogs?.attachment?.project?.id || ''), value: 'Проект' },
     { id: routes.sales.application.url(appId), value: 'Приложение' },
   ];
 
@@ -212,7 +124,7 @@ const Application = () => {
           <HeaderWrapper>
             <HeaderTitleWrapper>
               <TitleLogo />
-              <JobTitle>Приложение №{data2.code} - CocaCola</JobTitle>
+              <JobTitle>Приложение №{mappedData.code} - CocaCola</JobTitle>
             </HeaderTitleWrapper>
             <ButtonGroup>
               <StyledButton
@@ -232,20 +144,20 @@ const Application = () => {
             <InfoList>
               <InfoItem>
                 <InfoTitle>
-                  <img src={collapseIcon} alt="collapse icon" /> <span>Информация о приложении</span>
+                  <img src={collapseIcon} alt="collapse icon" />
+                  <span>Информация о приложении</span>
                 </InfoTitle>
                 <InfoLine>
                   <span>Дата создания:</span>
-                  <InfoValue>{data2.createdDate}</InfoValue>
+                  <InfoValue>{mappedData.createdDate}</InfoValue>
                 </InfoLine>
                 <InfoLine>
                   <span>Дата начала:</span>
-                  <InfoValue>{data2.startedDate}</InfoValue>
+                  <InfoValue>{mappedData.startedDate}</InfoValue>
                 </InfoLine>
-
                 <InfoLine>
                   <span>Дата окончания:</span>
-                  <InfoValue>{data2.endDate}</InfoValue>
+                  <InfoValue>{mappedData.endDate}</InfoValue>
                 </InfoLine>
               </InfoItem>
               <InfoItem>
@@ -253,14 +165,13 @@ const Application = () => {
                   <img src={paperIcon} alt="paper icon" />
                   <span>Информация о договоре</span>
                 </InfoTitle>
-
                 <InfoLine>
                   <span>Номер:</span>
-                  <InfoValue>№{data2.contractCode}</InfoValue>
+                  <InfoValue>№{mappedData.contractCode}</InfoValue>
                 </InfoLine>
                 <InfoLine>
                   <span>Подписан:</span>
-                  <InfoValue>{data2.contractDate}</InfoValue>
+                  <InfoValue>{mappedData.contractDate}</InfoValue>
                 </InfoLine>
               </InfoItem>
               <InfoItem>
@@ -271,7 +182,7 @@ const Application = () => {
 
                 <InfoLine>
                   <span>ФИО:</span>
-                  <InfoValue>{data2.signatoryOne}</InfoValue>
+                  <InfoValue>{mappedData.signatoryOne}</InfoValue>
                 </InfoLine>
                 <InfoLine>
                   <span>Должность:</span>
@@ -286,15 +197,15 @@ const Application = () => {
 
                 <InfoLine>
                   <span>Срок оплаты:</span>
-                  <InfoValue>{data2.contractPaymentDate}</InfoValue>
+                  <InfoValue>{mappedData.contractPaymentDate}</InfoValue>
                 </InfoLine>
                 <InfoLine>
                   <span>Стоимость:</span>
-                  <InfoValue>10 399.84 тг.</InfoValue>
+                  <InfoValue>{mappedData.smetaSummary}</InfoValue>
                 </InfoLine>
               </InfoItem>
             </InfoList>
-            <PanelDesign style={{ flex: '0 1 auto' }} tableData={data2.tableData} />
+            <PanelDesign style={{ flex: '0 1 auto' }} tableData={mappedData.addressProgramm} loading={loading}/>
           </div>
         </div>
 
