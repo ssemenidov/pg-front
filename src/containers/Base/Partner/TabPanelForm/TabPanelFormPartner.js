@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import {  gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 
 import { partnerContext } from '../Partner';
@@ -11,7 +11,7 @@ import RelatedAdvertisers from '../../../../components/Panels/Partners/RelatedAd
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
-import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
+import { BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
@@ -102,8 +102,7 @@ const PARTNER_UPDATE = gql`
 `;
 
 export default function TabPaneForm(props) {
-  const [item, setItem] = useContext(partnerContext);
-  const [activeTab, setActiveTab] = useState('general-info');
+  const [item] = useContext(partnerContext);
   const [block, setBlock] = useState(0);
   const history = useHistory();
 
@@ -128,9 +127,6 @@ export default function TabPaneForm(props) {
     })
       .then(() => message.success('Успешно сохранено.'))
       .catch(() => message.error('Что-то пошло не так попробуйте ещё раз.'));
-
-    // history.push(`/base/partners`);
-    // history.go(0);
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });
@@ -219,7 +215,6 @@ export default function TabPaneForm(props) {
                 <img src={print_icon} alt="print" />
               </BtnPrint>
               <BtnExport
-              // onClick={exportBtnHandler}
               >
                 <img src={export_icon} alt="" />
                 Экспорт

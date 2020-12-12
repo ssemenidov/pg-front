@@ -49,7 +49,6 @@ const ResizableTitle = (props) => {
 };
 
 const filterPredicate = (index, columns, col) => {
-  console.log('filterPredicate', col);
   return col.isShowed !== false
   // index !== columns.indexOf(columns[columns.length - 1]) && col.isShowed !== false
 }
