@@ -19,7 +19,7 @@ const filterPeriod = {
 const sorterQuantity = (a, b) => notnull(a) ? (notnull(b) ? Number(a.quantity) - Number(b.quantity) : 1) : -1;
 
 let defaultShow = true;
-let defaultHide = true;
+let defaultHide = false;
 
 export const initColumnsForPopupBookedSides = [
   column('Код стороны', 'code', 130, defaultShow),
