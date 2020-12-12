@@ -41,7 +41,7 @@ export default function TechParams() {
             <InputTitle>Помеха</InputTitle>
             <StyledInput
               prefix={<img src={anchorIcon} />}
-              defaultValue={item.obstruction ? item.obstruction : ''}
+              defaultValue={item?.obstruction?.title || ''}
               onChange={(e) => setItem({ ...item, obstruction: e.target.value })}></StyledInput>
           </div>
         </Row>

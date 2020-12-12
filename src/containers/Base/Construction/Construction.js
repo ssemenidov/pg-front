@@ -74,7 +74,9 @@ const Construction = (props) => {
             techPhoneConstruction
             techProblem
             statusConnection
-            obstruction
+            obstruction {
+              title
+            }
             buhInventNumber
             photo
             ownedSides {
