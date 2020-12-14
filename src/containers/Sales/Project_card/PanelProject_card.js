@@ -37,6 +37,23 @@ const createInitColumnsForPopup = ({sliderState}) => [
   column('', 'dateForRouter', 0),
 ];
 
+const createInitColumnsForPopup2 = () => [
+  column('Код стороны', 'reservation_code', 130),
+  column('Город', 'reservation_city', 100),
+  column('Адрес', 'reservation_address', 100),
+  column('Формат', 'reservation_format', 100),
+  column('Сторона', 'reservation_side', 100, false),
+  column('Дата создания', 'reservation_createDate', 100),
+  column('Дата начала', 'reservation_startDate', 100),
+  column('Дата окончания', 'reservation_expirationDate', 100),
+  column('Статус', 'reservation_status', 100, false),
+  column('Продление брони', 'reservation_renewalOfReservation', 100, false),
+  column('Брендирование', 'reservation_branding', 100),
+  column('Освещение', 'reservation_lighting', 100, false),
+  column('Пакет', 'reservation_package', 100, false),
+  column('Дизайн', 'reservation_design', 100, false),
+];
+
 const createInitColumnsTable = ({sliderState}) => [
   column('Номер приложения', 'attachment_code', 130),
   column('Сумма', 'attachment_summa', 100),
@@ -101,7 +118,7 @@ export const PanelProjectCard = ({sliderState, choosedBlock, loading, setBlock, 
         // setColumns={setColumnsTable}
         data={data}
         select={true}
-        columnsForPopup={columnsForPopup}
+        columnsForPopup={createInitColumnsForPopup2()}
         chooseTableBtns={headerTableBtns}
         choosedBlock={choosedBlock}
         setBlock={setBlock}

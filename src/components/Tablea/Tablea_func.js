@@ -48,7 +48,7 @@ const ResizableTitle = (props) => {
 const predicate = (index, columns, col) => (
   index !== columns.indexOf(columns[columns.length - 1]) && col.isShowed !== false);
 
-export const Tablea = ({columns, onRow, enableChooseQuantityColumn,
+export const Tablea = ({columns,columnsForPopup, onRow, enableChooseQuantityColumn,
                          constructionsIdSet, notheader, enableChoosePeriod, title,
                          chooseTableBtns, choosedBlock, setBlock, loading, select, data}) => {
 
@@ -89,7 +89,7 @@ export const Tablea = ({columns, onRow, enableChooseQuantityColumn,
   if (enableChooseQuantityColumn) {
     settingmenu = (
       <Menu onClick={handleMenuClick}>
-        {columns
+        {columnsForPopup
           .map((col) => {
             // console.log(col)
             return (
