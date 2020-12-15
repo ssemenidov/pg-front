@@ -23,9 +23,26 @@ const SIDE_DELETE = gql`
     }
   }
 `;
+const GET_SIZES = gql`
+query {
+  searchSideSize {
+    sideSize {
+      edges {
+        node {
+          id
+          size
+        }
+      }
+    }
+  }
+}
+`
+
 export default function ExtraRow(props) {
   const [apiData, setApiData] = useContext(constructContext);
   const side=apiData.ownedSides.edges[props.index].node;
+  
+  const sizes = useQuery(GET_SIZES).data;
   const [deleteConstructionSide] = useMutation(SIDE_DELETE);
   const deleteSide=()=>{
     deleteConstructionSide({variables:{id:side.id}})
@@ -66,10 +83,20 @@ export default function ExtraRow(props) {
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Размеры(см)</InputTitle>
-        <StyledInput
+        <StyledSelect
               prefix={<img src={anchorIcon} />}
               defaultValue={side.advertisingSide ? side.advertisingSide.side.size : ''}
-              onChange={(e) => setApiData({ ...apiData, size: e.target.value })}></StyledInput>
+              onChange={(value) => setApiData({ ...apiData, size: value })}>
+
+                {
+                  sizes && sizes.searchSideSize.sideSize.edges.map((item)=>
+                      <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                        <span>{item.node.size}</span>
+                        </StyledSelect.Option>
+                  )
+                }
+
+              </StyledSelect>
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Доступность стороны</InputTitle>

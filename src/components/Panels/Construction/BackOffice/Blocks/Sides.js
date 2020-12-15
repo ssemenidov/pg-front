@@ -18,6 +18,8 @@ const SiDE_CREATE = gql`
     }
   }
 `;
+
+
 export default function Sides() {
   const [apiData, setApiData] = useContext(constructContext);
   const [createConstruction, { data }] = useMutation(SiDE_CREATE);
