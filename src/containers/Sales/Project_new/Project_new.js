@@ -16,18 +16,36 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { routes } from '../../../routes';
 
+
 const PROJECT_CREATOR = gql`
+<<<<<<< HEAD
   mutation($input: CreateProjectInput!) {
     createProject(input: $input) {
       project {
         id
       }
+=======
+mutation { 
+  createProject(input: {agencyCommission: {}}) { 
+    project { 
+      id 
+    } 
+  }
+}
+`
+
+const PROJECT_UPDATER = gql`
+mutation ($id: ID!, $input: UpdateProjectInput!){
+  updateProject(id: $id, input: $input) {
+    project {
+      id
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
     }
   }
 `;
@@ -47,6 +65,7 @@ const GET_MANAGERS = gql`
 `;
 
 const GET_BRANDS = gql`
+<<<<<<< HEAD
   query {
     searchBrand {
       edges {
@@ -58,10 +77,37 @@ const GET_BRANDS = gql`
             id
           }
         }
+=======
+query {
+  searchBrand {
+    edges {
+      node {
+        id
+        title
+        workingSector {
+          title
+        }
+      }
+    }
+  }
+}
+`
+
+const GET_SOME_BRAND = gql`
+query($id:ID!) {
+  searchBrand {
+    edges {
+      node {
+        id
+        title
+        
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
       }
     }
   }
 `;
+
+
 
 const GET_WORK_SECTOR = gql`
   query {
@@ -91,9 +137,15 @@ const GET_ADVERTISER = gql`
 
 const Project_card = () => {
   const history = useHistory();
+  const { id } = useParams();
   const [block, setBlock] = useState(0);
+  const [projectUpdater, updateData] = useMutation(PROJECT_UPDATER);
   const [projectCreator, { data }] = useMutation(PROJECT_CREATOR);
+<<<<<<< HEAD
   data && history.push('/sales/project_card/' + data.createProject.project.id);
+=======
+  // data && history.push('/sales/project_card/' + data.createProject.project.id)
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
   const managers = useQuery(GET_MANAGERS);
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
@@ -113,6 +165,18 @@ const Project_card = () => {
   const [agencyCommissionValue, setAgencyCommissionValue] = useState('');
   const [projectComment, setProjectComment] = useState('');
 
+<<<<<<< HEAD
+=======
+  
+  
+
+  const links = [
+    { id: '', value: 'Главная' },
+    { id: 'sales', value: 'Продажи' },
+    { id: 'sales/project_new', value: 'Созать Проект' },
+  ];
+
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
   let managersData = managers && managers.data ? managers.data.searchUser.edges : null;
   let brandsData = brands && brands.data ? brands.data.searchBrand.edges : null;
   let workSecData = workSec && workSec.data ? workSec.data.searchWorkingSector.edges : null;
@@ -120,6 +184,7 @@ const Project_card = () => {
   let prCreatorObj = {};
 
   const formSubmitHandler = () => {
+<<<<<<< HEAD
     console.log(data);
     // data && history.push('/sales/project_card/' + data.project.id);
   };
@@ -133,9 +198,30 @@ const Project_card = () => {
       },
     });
   };
+=======
+    
+    
+
+
+    
+  }
+
+  console.log('[updateData]', updateData);
+  updateData.data && history.push('/sales/project_card/' + id);
+  console.log('[id]', id);
+  if(!id) {
+    projectCreator();
+    console.log('[data]', data)
+    data && history.push('/sales/project_new/' + data.createProject.project.id )
+  }
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
+
+
+  
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    
+    <div style={{ display: 'flex', height: '100%' }}  >
       <LeftBar className="left-bar">
         <SearchBtn />
         <CreateBtn text="Добавить бронь" />
@@ -175,6 +261,7 @@ const Project_card = () => {
         </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
+<<<<<<< HEAD
           <CRUDForm
             onFinish={() => {
               let itemD = {
@@ -200,6 +287,31 @@ const Project_card = () => {
 
               data && history.push('/sales/project_card/' + data.createProject.project.id);
             }}>
+=======
+          <CRUDForm onFinish={() => {
+            let itemD = {
+              "title": projectName,
+              "agencyCommission": {
+                "percent": agencyCommissionPerc,
+                "value": agencyCommissionValue
+              },
+              "code": projectCode,
+              "creator": creator,
+              "comment": projectComment,
+              "brand": brand,
+              "backOfficeManager": backOffManager,
+              "salesManager": salesManager,
+            }
+            console.log('[itemD]', itemD)
+            console.log('[itemD]', data)
+            console.log('[ID]', id)
+            projectUpdater({ variables: {
+              "id": id ? id : null,
+              "input":  itemD
+            } })
+
+          }}>
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
             <InfoList>
               <InfoItem>
                 <InfoTitle>О Проекте</InfoTitle>
@@ -308,8 +420,9 @@ const Project_card = () => {
                       })}
                   </StyledSelect>
                 </InfoLine>
-                <InfoLine>
+                {/* <InfoLine>
                   <span>Сектор деятельности:</span>
+<<<<<<< HEAD
                   <StyledSelect showSearch value={workSector.id}>
                     {workSecData &&
                       workSecData.map((item) => {
@@ -319,8 +432,23 @@ const Project_card = () => {
                           </StyledSelect.Option>
                         );
                       })}
+=======
+                  <StyledSelect
+                    showSearch
+                    onChange={e => {
+                      setWorkSector(e[1])
+                    }}
+                  >
+                    {
+                      workSecData && workSecData.map(item => {
+                        return(
+                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
+                        )
+                      })
+                    }
+>>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
                   </StyledSelect>
-                </InfoLine>
+                </InfoLine> */}
               </InfoItem>
               <InfoItem>
                 <InfoTitle>Доп. инфо</InfoTitle>

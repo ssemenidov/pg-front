@@ -28,7 +28,7 @@
   border-top: none;
 }
 .sidebar-info-container .ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow {
-  right: 9px;
+  right: 25%;
 }
 .sidebar-info-container .ant-collapse-content > .ant-collapse-content-box {
   padding: 0;
