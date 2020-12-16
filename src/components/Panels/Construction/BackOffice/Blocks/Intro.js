@@ -50,28 +50,11 @@ const DISTRICT_T = gql`
     }
   }
 `;
-
-const GET_OWNERS = gql`
-query {
-  searchPartner(isNonrtsOwner: true) {
-		edges {
-      node {
-        id
-        title
-      }
-    }
-  }
-}
-`;
-
-
-
 export default function Intro() {
   const [apiData, setApiData] = useContext(constructContext);
   const city = useQuery( CITY_T).data;
   const district = useQuery( DISTRICT_T).data;
   const post = useQuery( POST_T).data;
-  const owners = useQuery( GET_OWNERS).data;
   if (!city || !district || !post){
     return <span></span>;
   }
@@ -113,17 +96,11 @@ export default function Intro() {
             <StyledSelect
               defaultValue={(apiData.location && apiData.location.postcode.id) || <img src={postIcon} /> }
               onChange={(value) => setApiData({ ...apiData, postcode: { ...apiData.postcode, id: value } })}>
-              {post && post.searchPostcode.edges.map((item)=> {
-                if(item.node.title) {
-                  return(
-                    <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                      <img src={postIcon} />
-                      <span>{item.node.title}</span>
-                    </StyledSelect.Option>
-                  )
-                }
-              }
-                
+              {post && post.searchPostcode.edges.map((item)=>
+                <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                    <img src={postIcon} />
+                  <span>{item.node.title}</span>
+                  </StyledSelect.Option>
              )}
             </StyledSelect>
 
@@ -132,22 +109,10 @@ export default function Intro() {
         <Row>
           <div style={{ width: '35%' }}>
             <InputTitle>Владелец</InputTitle>
-            <StyledSelect
+            <StyledInput
               prefix={<img src={ownerIcon} />}
               defaultValue={apiData.isNonrts ? (apiData.nonrtsOwner && apiData.nonrtsOwner.title) || ''  : 'РТС'}
-              onChange={(value) => setApiData({ ...apiData, owner: value })}
-              // showSearch={true}
-              >
-                {
-
-                  owners && owners.searchPartner.edges.map((item)=>
-                   <StyledSelect.Option key ={item.node.id} value={item.node.id}>
-                      <img src={postIcon} />
-                      <span>{item.node.title}</span>
-                    </StyledSelect.Option>
-                  )
-                }
-              </StyledSelect>
+              onChange={(e) => setApiData({ ...apiData, owner: e.target.value })}></StyledInput>
           </div>
           <div style={{ width: '61%' }}>
             <InputTitle>Маркетинговый адрес</InputTitle>

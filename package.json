@@ -12,7 +12,6 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.6.2",
-    "antd-mask-input": "^0.1.14",
     "apollo-link-http": "^1.5.17",
     "apollo-upload-client": "^14.1.2",
     "axios": "^0.19.2",

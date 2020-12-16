@@ -24,14 +24,8 @@ import { SliderState } from '../../../components/SlidingBottomPanel/SliderState'
 import { ReservationSlider } from './BottomSlider';
 
 import collapseIcon from '../../../img/collapse-icon.svg';
-<<<<<<< HEAD
 import icon_pen from '../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import { routes } from '../../../routes';
-=======
-import commentIcon from '../../../img/comment-icon.svg';
-import icon_pen from "../../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg";
-
->>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
 
 const PROJECT_QUERY = gql`
   query($id: ID!) {
@@ -235,50 +229,7 @@ const Project_card = (props) => {
           ],
         },
       ]
-<<<<<<< HEAD
     : null;
-=======
-    },
-    {
-      id: 4,
-      title: 'Комментарий к проекту',
-      icon: commentIcon,
-      isShowed: true,
-      sumBlock: false,
-      content: [
-        {
-          title: dataItem.comment
-        }
-      ]
-    },
-  ] : null;
-
-  let panelData = [];
-
-  panelData[0] = dataItem ? dataItem.reservations.edges.map(item => {
-    console.log('[item.node.id]', item.node);
-    let dateFrom = new Date(item.node.dateFrom)
-    let dateTo = new Date(item.node.dateTo)
-    let dateCreate = new Date(item.node.createdAt)
-    return({
-      id: item.node.id,
-      code: '#' + item.node.code,
-      summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
-      createDate: dateCreate.getFullYear() + '-' + (dateCreate.getMonth() + 1) + '-' + dateCreate.getDate() ,
-      reservDates: dateFrom.getFullYear() + '-' + (dateFrom.getMonth() + 1) + dateFrom.getDate() + ' - ' + dateTo.getFullYear() + '-' + (dateTo.getMonth() + 1) + '-' + dateTo.getDate(),
-      dateForRouter: [item.node.dateFrom, item.node.dateTo]
-    })
-  }) : null;
-
-  let panelDataAttachments = (dataItem && dataItem.projectAttachments && dataItem.projectAttachments.edges.map(item => ({
-      id: item.node.id,
-      attachment_code: '#' + item.node.code,
-      attachment_summa: '', // item.node.additionalCosts.edges[0].node.summa, TODO:
-      attachment_createDate: dateFormat(item.node.createdDate, 'dd-mm-yyyy'),
-      attachment_reservDates: `${dateFormat(item.node.periodStartDate, 'dd-mm-yyyy')}-${dateFormat(item.node.periodEndDate, 'dd-mm-yyyy')}`,
-      dateForRouter: [item.node.dateFrom, item.node.dateTo]
-  }))) || [];
->>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
 
   let panelDataAttachments =
     (dataItem &&
