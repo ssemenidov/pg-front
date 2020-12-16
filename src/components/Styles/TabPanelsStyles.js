@@ -19,16 +19,16 @@ export const STab = styled(Tab)`
   display: flex;
   justify-content: space-between;
   font-size: 12px;
+  margin-right: 1rem;
+  padding: 0 1rem 0 1.8rem;
   text-transform: uppercase;
   align-items: center;
   white-space: nowrap;
   width: 100%;
   height: 32px;
-  padding: 0 18px;
   //user-select: none;
   cursor: pointer;
   border-radius: 4px;
-  margin-right: 12px;
 
   &.is-selected {
     color: #ffffff;

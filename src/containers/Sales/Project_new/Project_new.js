@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Input, InputNumber } from 'antd';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
+import { LeftBar, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProject_new';
 
 import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import EditBtn from '../../../components/LeftBar/EditBtn';
@@ -16,28 +15,18 @@ import BoxBtn from '../../../components/LeftBar/BoxBtn';
 import CreateBtn from '../../../components/LeftBar/CreateBtn';
 
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { routes } from '../../../routes';
 
-
 const PROJECT_CREATOR = gql`
-mutation { 
-  createProject(input: {agencyCommission: {}}) { 
-    project { 
-      id 
-    } 
-  }
-}
-`
-
-const PROJECT_UPDATER = gql`
-mutation ($id: ID!, $input: UpdateProjectInput!){
-  updateProject(id: $id, input: $input) {
-    project {
-      id
+  mutation($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      project {
+        id
+      }
     }
   }
 `;
@@ -57,35 +46,21 @@ const GET_MANAGERS = gql`
 `;
 
 const GET_BRANDS = gql`
-query {
-  searchBrand {
-    edges {
-      node {
-        id
-        title
-        workingSector {
+  query {
+    searchBrand {
+      edges {
+        node {
+          id
           title
+          workingSector {
+            title
+            id
+          }
         }
       }
     }
   }
-}
-`
-
-const GET_SOME_BRAND = gql`
-query($id:ID!) {
-  searchBrand {
-    edges {
-      node {
-        id
-        title
-        
-      }
-    }
-  }
 `;
-
-
 
 const GET_WORK_SECTOR = gql`
   query {
@@ -115,16 +90,13 @@ const GET_ADVERTISER = gql`
 
 const Project_card = () => {
   const history = useHistory();
-  const { id } = useParams();
   const [block, setBlock] = useState(0);
-  const [projectUpdater, updateData] = useMutation(PROJECT_UPDATER);
   const [projectCreator, { data }] = useMutation(PROJECT_CREATOR);
-  // data && history.push('/sales/project_card/' + data.createProject.project.id)
+  data && history.push('/sales/project_card/' + data.createProject.project.id);
   const managers = useQuery(GET_MANAGERS);
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
   const advert = useQuery(GET_ADVERTISER);
-  // console.log('[managers]', managers);
 
   const [projectCode, setProjectCode] = useState('');
   const [projectName, setProjectName] = useState('');
@@ -135,18 +107,9 @@ const Project_card = () => {
   const [workSector, setWorkSector] = useState('');
   const [advertiser, setAdvertiser] = useState('');
   const [agency, setAgency] = useState('');
-  const [agencyCommissionPerc, setAgencyCommissionPerc] = useState('');
-  const [agencyCommissionValue, setAgencyCommissionValue] = useState('');
+  const [agencyCommissionPerc, setAgencyCommissionPerc] = useState(null);
+  const [agencyCommissionValue, setAgencyCommissionValue] = useState(null);
   const [projectComment, setProjectComment] = useState('');
-
-  
-  
-
-  const links = [
-    { id: '', value: 'Главная' },
-    { id: 'sales', value: 'Продажи' },
-    { id: 'sales/project_new', value: 'Созать Проект' },
-  ];
 
   let managersData = managers && managers.data ? managers.data.searchUser.edges : null;
   let brandsData = brands && brands.data ? brands.data.searchBrand.edges : null;
@@ -154,29 +117,8 @@ const Project_card = () => {
   let advertData = advert && advert.data ? advert.data.searchPartner.edges : null;
   let prCreatorObj = {};
 
-  const formSubmitHandler = () => {
-    
-    
-
-
-    
-  }
-
-  console.log('[updateData]', updateData);
-  updateData.data && history.push('/sales/project_card/' + id);
-  console.log('[id]', id);
-  if(!id) {
-    projectCreator();
-    console.log('[data]', data)
-    data && history.push('/sales/project_new/' + data.createProject.project.id )
-  }
-
-
-  
-
   return (
-    
-    <div style={{ display: 'flex', height: '100%' }}  >
+    <div style={{ display: 'flex', height: '100%' }}>
       <LeftBar className="left-bar">
         <SearchBtn />
         <CreateBtn text="Добавить бронь" />
@@ -193,52 +135,10 @@ const Project_card = () => {
             <TitleLogo />
             <JobTitle>Новый проект</JobTitle>
           </HeaderTitleWrapper>
-          {/* <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/application');
-                  }}>
-                  Создать приложение
-                </StyledButton>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/estimate');
-                  }}>
-                  Смета проекта
-                </StyledButton>
-              </>
-            )}
-          </ButtonGroup> */}
         </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
-          <CRUDForm onFinish={() => {
-            let itemD = {
-              "title": projectName,
-              "agencyCommission": {
-                "percent": agencyCommissionPerc,
-                "value": agencyCommissionValue
-              },
-              "code": projectCode,
-              "creator": creator,
-              "comment": projectComment,
-              "brand": brand,
-              "backOfficeManager": backOffManager,
-              "salesManager": salesManager,
-            }
-            console.log('[itemD]', itemD)
-            console.log('[itemD]', data)
-            console.log('[ID]', id)
-            projectUpdater({ variables: {
-              "id": id ? id : null,
-              "input":  itemD
-            } })
-
-          }}>
+          <CRUDForm>
             <InfoList>
               <InfoItem>
                 <InfoTitle>О Проекте</InfoTitle>
@@ -247,7 +147,6 @@ const Project_card = () => {
                   <span>Код проекта: </span>
                   <InputNumber
                     onChange={(e) => {
-                      console.log(e);
                       setProjectCode(e);
                     }}
                   />
@@ -256,7 +155,6 @@ const Project_card = () => {
                   <span>Название проекта</span>
                   <Input
                     onChange={(e) => {
-                      console.log(e.target.value);
                       setProjectName(e.target.value);
                     }}
                   />
@@ -302,7 +200,6 @@ const Project_card = () => {
                   <StyledSelect
                     showSearch
                     onChange={(e) => {
-                      console.log(e[1]);
                       setSalesManager(e[1]);
                     }}>
                     {managersData &&
@@ -347,23 +244,19 @@ const Project_card = () => {
                       })}
                   </StyledSelect>
                 </InfoLine>
-                {/* <InfoLine>
+                <InfoLine>
                   <span>Сектор деятельности:</span>
-                  <StyledSelect
-                    showSearch
-                    onChange={e => {
-                      setWorkSector(e[1])
-                    }}
-                  >
-                    {
-                      workSecData && workSecData.map(item => {
-                        return(
-                        <StyledSelect.Option value={ [item.node.title, item.node.id] }><span>{ item.node.title }</span></StyledSelect.Option>
-                        )
-                      })
-                    }
+                  <StyledSelect showSearch value={workSector.id}>
+                    {workSecData &&
+                      workSecData.map((item) => {
+                        return (
+                          <StyledSelect.Option value={item.node.id}>
+                            <span>{item.node.title}</span>
+                          </StyledSelect.Option>
+                        );
+                      })}
                   </StyledSelect>
-                </InfoLine> */}
+                </InfoLine>
               </InfoItem>
               <InfoItem>
                 <InfoTitle>Доп. инфо</InfoTitle>
@@ -452,13 +345,13 @@ const Project_card = () => {
                     },
                     code: projectCode,
                     creator: creator,
+                    client: advertiser,
+                    agency: agency,
                     comment: projectComment,
                     brand: brand,
                     backOfficeManager: backOffManager,
                     salesManager: salesManager,
                   };
-                  console.log('[itemD]', itemD);
-                  console.log('[itemD]', data);
                   projectCreator({
                     variables: {
                       input: itemD,

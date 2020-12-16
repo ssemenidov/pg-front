@@ -1,9 +1,9 @@
 import React from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import styled from 'styled-components';
-import { TextField, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { TextField, RadioGroup, FormControlLabel } from '@material-ui/core';
 
-import { BlockBody, Medium, Row, Column, BlockTitle } from '../../../components/Styles/StyledBlocks';
+import { BlockBody, MediumFormatPane, BlockTitle } from '../../../components/Styles/StyledBlocks';
 import { StyledButton } from '../../../components/Styles/DesignList/styles';
 import { colorAccent, colorAccent2, colorWhite, borderColor, colorRadiobuttonSelected } from '../../../components/Styles/Colors';
 import { StyledPen, TrashSearchSpacer, RadioLabel, PenSearchSpacer, StyledRadio, StyledTrash } from '../components/Styled'
@@ -168,7 +168,7 @@ function AdminConstructionPopulatedItem({ location,
   filteredValues.sort( (a, b) => (a && a.name && a.name.localeCompare(b.name)))
 
   return (
-    <Medium style={{ height: '100%' }} className={className}>
+    <MediumFormatPane className={className}>
       <StyledBlockTitle>
         {location.title}
         <StyledButton backgroundColor={colorAccent2} onClick={(event) => appendHandler(event)}>
@@ -209,7 +209,7 @@ function AdminConstructionPopulatedItem({ location,
           </RadioGroup>
         </StyledForm>
       </BlockBody>
-    </Medium>
+    </MediumFormatPane>
   );
 }
 

@@ -162,8 +162,8 @@ export function ReservationSlider({sliderState, reserveCode}) { //
     let toDate = dateTo ? new Date(dateTo) : new Date(dateToStr);
 
     reqObj = {
-      'dateFrom': fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1 > 9 ? fromDate.getMonth() + 1 : '0' + (fromDate.getMonth() + 1)) + '-' + (fromDate.getDate() > 9 ?  fromDate.getDate() - 1  : '0' + (fromDate.getDate() - 1)) + 'T22:00:00+00:00',
-      'dateTo': toDate.getFullYear() + '-' + (toDate.getMonth() + 1 > 9 ? toDate.getMonth() + 1 : '0' + (toDate.getMonth() + 1)) + '-' + (toDate.getDate() > 9 ?  toDate.getDate() - 1 : '0' + (toDate.getDate() - 1)) + 'T22:00:00+00:00',
+      'dateFrom': fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1 > 9 ? fromDate.getMonth() + 1 : '0' + (fromDate.getMonth() + 1)) + '-' + (fromDate.getDate() > 9 ?  fromDate.getDate()  : '0' + (fromDate.getDate())) + 'T22:00:00+00:00',
+      'dateTo': toDate.getFullYear() + '-' + (toDate.getMonth() + 1 > 9 ? toDate.getMonth() + 1 : '0' + (toDate.getMonth() + 1)) + '-' + (toDate.getDate() > 9 ?  toDate.getDate()  : '0' + (toDate.getDate())) + 'T22:00:00+00:00',
       'reservationType': resType
     };
     console.log('[reqObj]', reqObj)
@@ -217,7 +217,7 @@ export function ReservationSlider({sliderState, reserveCode}) { //
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 6}}>
+          <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
             <ReservationSilderFormItem name="dateTo">
               <p className="formItem-title">Дата оканчания</p>
               <InputIcon img={date} alt="date icon" />
@@ -235,7 +235,7 @@ export function ReservationSlider({sliderState, reserveCode}) { //
               />
             </ReservationSilderFormItem>
           </SliderCellColRaw>
-          <SliderCellColRaw {...{xxl: 6, xl: 6, xs: 6}}>
+          <SliderCellColRaw {...{xxl: 4, xl: 4, xs: 5}}>
             <ReservationSilderFormItem name="reservCode" >
             <p className="formItem-title">Статус брони</p>
               <StyledSelect
@@ -261,7 +261,7 @@ export function ReservationSlider({sliderState, reserveCode}) { //
           <SliderCellColRaw {...{xxl: 2, xs: 1}}>
             {/* <BtnGroup> */}
             <ReservationSliderSubmitButton type="primary" htmlType="submit" onClick={() => {}}>
-              Сохранить
+              Редактировать
             </ReservationSliderSubmitButton>
           </SliderCellColRaw>
         </SliderRow>

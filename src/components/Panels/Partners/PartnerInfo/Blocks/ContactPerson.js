@@ -1,4 +1,4 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
 
 import { gql, useMutation } from '@apollo/client';
@@ -17,24 +17,39 @@ const CONTACT_CREATE = gql`
 `;
 export default function ContactPerson() {
   const [item, setItem] = useContext(partnerContext);
-  const [clear, setClear] = useState(false);
+  const [personForm, setPersonForm] = useState(false);
+
   const [createContactPerson, { data }] = useMutation(CONTACT_CREATE);
   const create = (e) => {
-    createContactPerson({
-      variables: {
-        input: {
-          partner: item.id,
-          name: item.name || '',
-          phone: item.phone || '',
-          email: item.email || '',
+    personForm.validateFields().then((values) => {
+      createContactPerson({
+        variables: {
+          input: {
+            partner: item.id,
+            name: values.name || '',
+            phone: values.phone || '',
+            email: values.email || '',
+          },
         },
-      },
-    }).then(() => {
-      setItem({
-        ...item,
-        refetch: true,
+      }).then((val) => {
+        personForm.resetFields();
+        setItem({
+          ...item,
+          contactPersons: {
+            edges: [
+              ...item.contactPersons.edges,
+              {
+                node: {
+                  id: val.data.createContactPerson.contactPerson.id,
+                  name: values.name || '',
+                  phone: values.phone || '',
+                  email: values.email || '',
+                },
+              },
+            ],
+          },
+        });
       });
-      setClear(true)
     });
   };
 
@@ -45,7 +60,7 @@ export default function ContactPerson() {
         <BtnSuccess onClick={create}>Добавить еще</BtnSuccess>
       </BlockTitle>
       <BlockBody>
-        <ExtraRow delete={false} />
+        <ExtraRow delete={false} formSetter={setPersonForm} />
         {item.contactPersons && item.contactPersons.edges.length
           ? item.contactPersons.edges.map((side, index) => {
               return (

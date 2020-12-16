@@ -1,8 +1,7 @@
-import React, {useContext, useEffect} from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react';
 import { partnerContext } from '../../../../../containers/Base/Partner/Partner';
-import { StyledInput, StyledSelect, StyledDatePicker } from '../../../../Styles/DesignList/styles';
-
+import { StyledInput, StyledSelect } from '../../../../Styles/DesignList/styles';
+import { Form, Checkbox } from 'antd';
 import { BlockBody, Large, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
 import styled from 'styled-components';
 import anchorIcon from '../../../../../img/input/anchor.svg';
@@ -10,71 +9,116 @@ const InputWrapper = styled.div`
   width: 22%;
 `;
 export default function Commissions() {
-  const [item, setItem] = useContext(partnerContext);
+  const [item, , , setCommisionForm] = useContext(partnerContext);
+  const services = [
+    {
+      label: 'Налог',
+      value: 'tax',
+    },
+    {
+      label: 'Печать',
+      value: 'print',
+    },
+    {
+      label: 'Монтаж',
+      value: 'mount',
+    },
+    {
+      label: 'Аренда',
+      value: 'rent',
+    },
+    {
+      label: 'Доп. расходы',
+      value: 'addCosts',
+    },
+    {
+      label: 'НОН РТС',
+      value: 'nonRts',
+    },
+  ];
 
+  const { Option } = StyledSelect;
+  const [form] = Form.useForm();
 
-  // if (!agency || !agencyDistribute ) {
-  //   return <span></span>;
-  // }
+  useEffect(() => {
+    if (item.agencyCommission) {
+      const type = item.agencyCommission.percent ? 'percent' : item.agencyCommission.value ? 'summ' : '';
+      const value =
+        type === 'percent' ? item.agencyCommission.percent : type === 'summ' ? item.agencyCommission.value : '';
+      const nds = item.isAgencyCommissionWithNds ? 'nds' : 'no';
+      let services = [];
+      item.agencyCommission.toRent && services.push('rent');
+      item.agencyCommission.toNalog && services.push('tax');
+      item.agencyCommission.toMount && services.push('mount');
+      item.agencyCommission.toPrint && services.push('print');
+      item.agencyCommission.toAdditional && services.push('addCosts');
+      item.agencyCommission.toNonrts && services.push('nonRts');
+      form.setFieldsValue({
+        services,
+        type,
+        value,
+        nds,
+      });
+    }
+  }, [item.agencyCommission]);
+
+  useEffect(() => {
+    setCommisionForm(form);
+  }, []);
   return (
     <Large>
       <BlockTitle style={{ padding: '15px 26px 15px 24px' }}>Агентская коммисия</BlockTitle>
       <BlockBody>
-        <Row>
-          <InputWrapper>
-            <InputTitle>Тип АК</InputTitle>
-            <StyledSelect
-              defaultValue={item.agencyCommissionType ? item.agencyCommissionType.id: <img src={anchorIcon} />  }
-              onChange={(value) => setItem({ ...item, agencyCommissionType: { ...item.agencyCommissionType, id: value } })}>
-              {/* {agency && agency.searchAgencyCommissionType.edges.map((item)=>
-                <StyledSelect.Option key={item.node.id} value={item.node.title}>
-                  <img src={anchorIcon} />
-                  <span>{item.node.title}</span>
-                </StyledSelect.Option>
-              )} */}
-            </StyledSelect>
-          </InputWrapper>
-          <InputWrapper>
-            <InputTitle>Агентская коммисия</InputTitle>
-            <StyledInput
-              prefix={<img src={anchorIcon} />}
-              defaultValue={item.agencyCommissionValue ? item.agencyCommissionValue : ''}
-              onChange={(e) => setItem({ ...item, agencyCommissionValue: e.target.value })}
-            ></StyledInput>
-          </InputWrapper>
-          <InputWrapper>
-            <InputTitle>АК распространяется</InputTitle>
-            <StyledSelect
-              value={item.isAgencyCommissionWithNds ? item.isAgencyCommissionWithNds : <img src={anchorIcon} />}
-              onChange={(value) => setItem({ ...item, isAgencyCommissionWithNds: value })}
-            >
-              <StyledSelect.Option key="yes" value={true}>
-                <img src={anchorIcon} />
-                <span>на сумму с НДС</span>
-              </StyledSelect.Option>
-              <StyledSelect.Option key="no" value={false}>
-                <img src={anchorIcon} />
-                <span>на сумму без НДС</span>
-              </StyledSelect.Option>
-            </StyledSelect>
-
-          </InputWrapper>
-          <InputWrapper>
-            <InputTitle>На какие услуги распространяется АК</InputTitle>
-            <StyledSelect
-              defaultValue={item.agencyCommissionDistribute ? item.agencyCommissionDistribute.id: <img src={anchorIcon} />  }
-              onChange={(value) => setItem({ ...item, agencyCommissionDistribute: { ...item.agencyCommissionDistribute, id: value } })}
-            >
-              {/* {agencyDistribute && agencyDistribute.searchAgencyCommissionDistribute.edges.map((item)=>
-                <StyledSelect.Option key ={item.node.id} value={item.node.title}>
-                  <img src={anchorIcon} />
-                  <span>{item.node.title}</span>
-                </StyledSelect.Option>
-              )} */}
-            </StyledSelect>
-          </InputWrapper>
-        </Row>
+        <Form form={form}>
+          <Row>
+            <InputWrapper>
+              <InputTitle>Тип АК</InputTitle>
+              <Form.Item name="type">
+                <StyledSelect>
+                  <Option value="percent">В процентах</Option>
+                  <Option value="summ">Сумма</Option>
+                </StyledSelect>
+              </Form.Item>
+            </InputWrapper>
+            <InputWrapper>
+              <InputTitle>Агентская коммисия</InputTitle>
+              <Form.Item name="value">
+                <StyledInput prefix={<img src={anchorIcon} />} />
+              </Form.Item>
+            </InputWrapper>
+            <InputWrapper>
+              <InputTitle>АК распространяется</InputTitle>
+              <Form.Item name="nds">
+                <StyledSelect>
+                  <Option value="nds">
+                    <img src={anchorIcon} />
+                    <span>на сумму с НДС</span>
+                  </Option>
+                  <Option value="no">
+                    <img src={anchorIcon} />
+                    <span>на сумму без НДС</span>
+                  </Option>
+                </StyledSelect>
+              </Form.Item>
+            </InputWrapper>
+            <InputWrapper>
+              <InputTitle>На какие услуги распространяется АК</InputTitle>
+              <Form.Item name="services">
+                <Checkbox.Group options={services}></Checkbox.Group>
+              </Form.Item>
+            </InputWrapper>
+          </Row>
+        </Form>
       </BlockBody>
+      <style>
+        {`
+        .ant-form-item {
+          margin-bottom: 0;
+        }
+        .ant-checkbox-group-item {
+          min-width: 120px
+        }`}
+      </style>
     </Large>
   );
 }

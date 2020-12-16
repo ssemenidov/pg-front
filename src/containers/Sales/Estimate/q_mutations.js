@@ -66,6 +66,13 @@ export const UPDATE_ADDITIONAL_COSTS = gql`
         agencyCommission {
           value
           percent
+          toAdditional
+          toMount
+          toNalog
+          toNonrts
+          toPrint
+          toPrint
+          toRent
         }
       }
     }
@@ -82,6 +89,55 @@ export const UPDATE_NON_RTS = gql`
   }
 `;
 
+
+export const UPDATE_RESERVATION_NON_RTS = gql`
+  mutation SetReservationNonrtsPart(
+    $id: ID!
+    $agencyCommissionPercent: Float
+    $agencyCommissionValue: Float
+    $count: Int
+    $dateFrom: DateTime
+    $dateTo: DateTime
+    $incomingAdditional: Float
+    $incomingInstallation: Float
+    $incomingManufacturing: Float
+    $incomingPrinting: Float
+    $incomingRent: Float
+    $incomingTax: Float
+    $saleAdditional: Float
+    $saleInstallation: Float
+    $saleManufacturing: Float
+    $salePrinting: Float
+    $saleRent: Float
+    $saleTax: Float
+    $title: String
+  ) {
+    setReservationNonrtsPart(
+      id: $id,
+      agencyCommissionPercent: $agencyCommissionPercent,
+      agencyCommissionValue: $agencyCommissionValue,
+      count: $count,
+      dateFrom: $dateFrom,
+      dateTo: $dateTo,
+      incomingAdditional: $incomingAdditional,
+      incomingInstallation: $incomingInstallation,
+      incomingManufacturing: $incomingManufacturing,
+      incomingPrinting: $incomingPrinting,
+      incomingRent: $incomingRent,
+      incomingTax: $incomingTax,
+      saleAdditional: $saleAdditional,
+      saleInstallation: $saleInstallation,
+      saleManufacturing: $saleManufacturing,
+      salePrinting: $salePrinting,
+      saleRent: $saleRent,
+      saleTax: $saleTax,
+      title: $title) {
+      nonrtsPartId
+    }
+  }
+`;
+
+
 export const DELETE_ADD_COSTS_QUERY = gql`
   mutation deleteAddCost($id: ID!) {
     deleteSalesAdditionalCost(id: $id) {
@@ -96,6 +152,14 @@ export const DELETE_NON_RTS = gql`
     deleteSalesNonrts(id: $id) {
       found
       deletedId
+    }
+  }
+`;
+
+export const DELETE_NON_RTS_RESERVATION = gql`
+  mutation DeleteNonRtsReservation($id: ID!) {
+    deleteNonRtsReservation(id: $id) {
+      ok
     }
   }
 `;

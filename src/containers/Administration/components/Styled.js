@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styled  from "styled-components";
-import { Grid, Row } from 'react-flexbox-grid';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Radio } from '@material-ui/core';
 
@@ -36,15 +36,23 @@ export const RadioLabel = styled.div`
 `;
 
 export const GridNoPadding = styled(Grid)`
-  padding: 0
+  padding: 0;
+  margin-left: 0;
 `;
 
 export const RowMargin1st = styled(Row)`
-  margin-top: 1rem
+  margin-top: 1rem;
+  margin-left: 0;
 `;
 
 export const RowMargin2st = styled(Row)`
   margin-top: 2rem
+`;
+
+export const ColFormats = styled(Col)`
+  padding-left: 0;
+  margin-left: 0;
+  padding-right: 0;
 `;
 
 const useStylesRadio = makeStyles({
@@ -117,6 +125,22 @@ M10,1.3l1.1,1.1L10,3.4L8.9,2.4L10,1.3z M8,3.3L1.9,9.4l-0.4,1.4L3,10.4l6.1-6.1L8,
   );
 }
 
+function SvgTransparentPenGreen(props) {
+  return (
+    <svg x="0px" y="0px" viewBox="0 0 33 32" {...props}>
+      <rect x="0.0932617" width="32" height="32" rx="4"/>
+      <path d='M10.7619 22.0001C10.8159 22.0001 10.8699 21.9934 10.9232 21.9801L13.5899 21.3134C13.7072 21.2841 13.8145
+      21.2234 13.8999 21.1381L22.0952 12.9427C22.3472 12.6907 22.4859 12.3561 22.4859 12.0001C22.4859 11.6441 22.3472
+      11.3094 22.0952 11.0574L21.0379 10.0001C20.5339 9.49607 19.6565 9.49607 19.1525 10.0001L10.9572 18.1954C10.8719
+      18.2807 10.8112 18.3881 10.7819 18.5047L10.1152 21.1714C10.0579 21.3987 10.1252 21.6387 10.2905 21.8047C10.4165
+      21.9314 10.5872 22.0001 10.7619 22.0001ZM20.0952 10.9427L21.1525 12.0001L20.0952 13.0574L19.0379 12.0001L20.0952
+      10.9427ZM18.0952 12.9427L12.0305 19.0074L11.6779 20.4167L13.0872 20.0647L19.1525 14.0001L18.0952 12.9427Z'
+      fill='white'/>
+    </svg>
+  );
+}
+
+
 const StyledTransparentPen = styled(SvgTransparentPen)`
   width: 1.2rem;
   height: 1.2rem;
@@ -126,21 +150,48 @@ const StyledTransparentPen = styled(SvgTransparentPen)`
   clip-rule: evenodd;
 `;
 
-function SvgTransparentPenBlock(props) {
-  return (
-    <div style={{display: "inline-block", padding: "0 .5rem 0 .5rem"}} {...props}>
-      <StyledTransparentPen />
-    </div>
-  );
+const StyledTransparentPenGreen = styled(SvgTransparentPenGreen)`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  fill: #008556;
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+`;
+
+const getStyedPenBlock = (component) => {
+  let Component = component;
+  function SvgTransparentPenBlock(props) {
+    return (
+      <div style={{ display: "inline-block", padding: "0 .5rem 0 .5rem" }} {...props}>
+        <Component/>
+      </div>
+    );
+  };
+  return SvgTransparentPenBlock;
 }
 
-export const StyledPen = styled(SvgTransparentPenBlock)`
+export const StyledPen = styled(getStyedPenBlock(StyledTransparentPen))`
   cursor: pointer;
   opacity: 0.5;
   &:hover {
       opacity: 1;
   }
+  border: 1px solid #005739;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2px;
 `;
+
+export const StyledPenGreen = styled(getStyedPenBlock(StyledTransparentPenGreen))`
+  cursor: pointer;
+  opacity: 0.7;
+  &:hover {
+      opacity: 1;
+  }
+`;
+
+
 
 function SvgTransparentTrash(props) {
   return (
@@ -184,3 +235,5 @@ export const messageStyle = {
   whiteSpace: "nowrap",
   paddingTop: "1rem"
 }
+
+

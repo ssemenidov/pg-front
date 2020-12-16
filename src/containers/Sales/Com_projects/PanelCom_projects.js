@@ -16,6 +16,7 @@ const QUERY_ALL_PROJECTS = gql`
   query allProjectsQuery(
     $brand: String
     $code: String
+    $projectTitle: String
     $workingSectors: String
     $salesManagerFirstName: String
     $salesManagerLastName: String
@@ -25,6 +26,7 @@ const QUERY_ALL_PROJECTS = gql`
   ) {
     searchProject(
       brand_Title_Icontains: $brand
+      title_Icontains: $projectTitle
       code_Icontains: $code
       client_WorkingSectors_Description_Icontains: $workingSectors
       backOfficeManager_FirstName_Icontains: $backOfficeManagerFirstName
@@ -96,7 +98,6 @@ const PanelDesign = () => {
   const history = useHistory();
 
   let data2 = [];
-
   const columns = [
     {
       title: 'Код',
@@ -144,6 +145,7 @@ const PanelDesign = () => {
     variables: {
       brand: filter.brand,
       code: filter.code,
+      projectTitle: filter.projectTitle,
       workingSectors: filter.sector,
       backOfficeManagerFirstName: filter.backOfficeManager ? filter.backOfficeManager.split(' ')[0] : '',
       backOfficeManagerLastName: filter.backOfficeManager ? filter.backOfficeManager.split(' ')[1] : '',
@@ -201,7 +203,10 @@ const PanelDesign = () => {
         ) : (
           ''
         ),
-        sector: project.node && project.node.client && project.node.client.workingSectors.edges.length ? project.node.client.workingSectors.edges[0].node.description : '',
+        sector:
+          project.node && project.node.client && project.node.client.workingSectors.edges.length
+            ? project.node.client.workingSectors.edges[0].node.description
+            : '',
         managerb: project.node.backOfficeManager
           ? project.node.backOfficeManager.firstName + ' ' + project.node.backOfficeManager.lastName
           : '',
@@ -217,6 +222,9 @@ const PanelDesign = () => {
     const endDate = filter.date[1]._d;
     data2 = data.searchProject.edges
       .filter((project) => {
+        if (!project.node.startDate) {
+          return;
+        }
         const projectDate = new Date(project.node.startDate.split('T')[0]);
         return projectDate >= startDate && projectDate <= endDate;
       })

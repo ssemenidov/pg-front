@@ -3,7 +3,7 @@ import { GqlDatasource } from '../components/gql_datasource';
 import {
   selectOutdoorFurnitureSubgroup,
   defaultMapSubgroup
-} from '../AdminOutdoorFurniture/OutdoorFurnitureDatasources';
+} from '../AdminFormats/FormatDatasource';
 
 
 const stubStreets = [

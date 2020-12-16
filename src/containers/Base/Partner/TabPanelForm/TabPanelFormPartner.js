@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router';
 
 import { partnerContext } from '../Partner';
@@ -11,7 +11,7 @@ import RelatedAdvertisers from '../../../../components/Panels/Partners/RelatedAd
 
 import { STab, STabList, STabPanel, STabs } from '../../../../components/Styles/TabPanelsStyles';
 import { ControlToolbar, ToolbarControl } from '../../../../components/Styles/ControlToolbarStyle';
-import { BtnBrand, BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
+import { BtnExport, BtnPrint, BtnSettings } from '../../../../components/Styles/ButtonStyles';
 import { ButtonGroup } from '../../../../components/Styles/ButtonStyles';
 import { JobTitle } from '../../../../components/Styles/StyledBlocks';
 import { TitleLogo } from '../../../../components/Styles/ComponentsStyles';
@@ -102,15 +102,16 @@ const PARTNER_UPDATE = gql`
 `;
 
 export default function TabPaneForm(props) {
-  const [item, setItem] = useContext(partnerContext);
-  const [activeTab, setActiveTab] = useState('general-info');
+  const [item, , commissionForm] = useContext(partnerContext);
   const [block, setBlock] = useState(0);
   const history = useHistory();
+  const checkService = (arr, service) => arr.includes(service);
 
   const [updatePartner] = useMutation(PARTNER_UPDATE);
   const [deleteConstruction] = useMutation(PARTNER_DELETE);
   const Update = (e) => {
     e.preventDefault();
+    const commision = commissionForm.getFieldsValue();
     updatePartner({
       variables: {
         ...item,
@@ -123,14 +124,21 @@ export default function TabPaneForm(props) {
         legalAddressPostcode: item.legalAddressPostcode && item.legalAddressPostcode.id,
         actualAddress: item.actualAddress && item.actualAddress.id,
         legalAddress: item.legalAddress && item.legalAddress.id,
-        agencyCommission: {},
+        isAgencyCommissionWithNds: commision.nds === 'nds' ? true : false,
+        agencyCommission: {
+          percent: commision.type === 'percent' ? commision.value : null,
+          value: commision.type === 'summ' ? commision.value : null,
+          toNalog: commision.services && checkService(commision.services, 'tax'),
+          toPrint: commision.services && checkService(commision.services, 'print'),
+          toMount: commision.services && checkService(commision.services, 'mount'),
+          toRent: commision.services && checkService(commision.services, 'rent'),
+          toAdditional: commision.services && checkService(commision.services, 'addCosts'),
+          toNonrts: commision.services && checkService(commision.services, 'nonRts'),
+        },
       },
     })
       .then(() => message.success('Успешно сохранено.'))
       .catch(() => message.error('Что-то пошло не так попробуйте ещё раз.'));
-
-    // history.push(`/base/partners`);
-    // history.go(0);
   };
   const Delete = () => {
     deleteConstruction({ variables: { id: item.id } });
@@ -218,9 +226,7 @@ export default function TabPaneForm(props) {
               <BtnPrint>
                 <img src={print_icon} alt="print" />
               </BtnPrint>
-              <BtnExport
-              // onClick={exportBtnHandler}
-              >
+              <BtnExport>
                 <img src={export_icon} alt="" />
                 Экспорт
               </BtnExport>

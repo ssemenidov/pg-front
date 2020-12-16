@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactToPrint  from 'react-to-print';
 import { Button, Checkbox, Dropdown, Input, Menu } from 'antd';
 
@@ -9,52 +9,41 @@ import settingsIcon from '../../img/header-bar/settings.svg';
 
 import './style.css';
 
-import { changeColumns } from './utils';
+export const changeColumns = (dataIndex, columnsForPopup, setColumnsForPopup) => {
+  let localColumnsForPopup = columnsForPopup.map(col => {
+    if(col.children) {
+      col.children = col.children.map(item => {
+        if(item.dataIndex  && item.dataIndex === dataIndex) {
+          item.isShowed = !item.isShowed;
+        }
+        return item
+      });
+    }
+    if(col.dataIndex && col.dataIndex === dataIndex) {
+      col.isShowed = !col.isShowed;
+    }
+    return col
+  })
+  setColumnsForPopup(localColumnsForPopup);
+};
 
-let columnsListPopup = (
-  <Menu>
-    <Menu.Item>
-      <Checkbox>1 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Item>
-      <Checkbox>2 menu item</Checkbox>
-    </Menu.Item>
-    <Menu.Divider/>
-    <Menu.ItemGroup title="АРЕНДА">
-      <Menu.Item>
-        <Checkbox>3 menu item</Checkbox>
-      </Menu.Item>
-      <Menu.Item>
-        <Checkbox>4 menu item</Checkbox>
-      </Menu.Item>
-    </Menu.ItemGroup>
-    <Menu.Divider/>
-    <Menu.ItemGroup title="НАЛОГ">
-      <Menu.Item>
-        <Checkbox>5 menu item</Checkbox>
-      </Menu.Item>
-      <Menu.Item>
-        <Checkbox>6 menu item</Checkbox>
-      </Menu.Item>
-    </Menu.ItemGroup>
-  </Menu>
+const menuItemLocal = (data, columnsForPopup, setColumnsForPopup) => (
+  <Menu.Item key={data.dataIndex}>
+    <Checkbox
+      checked={data.isShowed}
+      onClick={() => changeColumns(
+        data.dataIndex, columnsForPopup, setColumnsForPopup)}
+    >
+      {data.title}
+    </Checkbox>
+  </Menu.Item>
 );
 
+
 const HeaderBar = ({children, enableEditQuantityOfColumns, columnsConfig, printData}) => {
+  let [dropDownVisible, setDropDownVisible] = useState(false);
+  let columnsListPopup = (<Menu></Menu>);
   if(enableEditQuantityOfColumns && columnsConfig && columnsConfig.columnsForPopup) {
-    const menuItemLocal = (data) => (
-      <Menu.Item key={data.dataIndex}>
-        <Checkbox
-          checked={data.isShowed}
-          onClick={() => changeColumns(
-            data.dataIndex, columnsConfig.columnsForPopup,
-            columnsConfig.setColumnsForPopup, columnsConfig.setColumnsTable
-          )}
-        >
-          {data.title}
-        </Checkbox>
-      </Menu.Item>
-    );
 
     columnsListPopup = (
       <Menu>
@@ -65,13 +54,13 @@ const HeaderBar = ({children, enableEditQuantityOfColumns, columnsConfig, printD
                   <Menu.ItemGroup key={index} title={col.title}>
                     {
                       col.children.map(item => (
-                        menuItemLocal(item)
+                        menuItemLocal(item, columnsConfig.columnsForPopup, columnsConfig.setColumnsForPopup)
                       ))
                     }
                   </Menu.ItemGroup>
               )
             }
-            return menuItemLocal(col)
+            return menuItemLocal(col, columnsConfig.columnsForPopup, columnsConfig.setColumnsForPopup)
           })
         }
       </Menu>
@@ -120,7 +109,6 @@ const HeaderBar = ({children, enableEditQuantityOfColumns, columnsConfig, printD
           <img src={exportIcon} alt={"Экспорт"}/>
           <span>Экспорт</span>
         </Button>
-
         {
           enableEditQuantityOfColumns && (
             <Dropdown
@@ -128,6 +116,8 @@ const HeaderBar = ({children, enableEditQuantityOfColumns, columnsConfig, printD
               className="header-btn"
               trigger={['click']}
               placement="bottomRight"
+              visible={dropDownVisible}
+              onVisibleChange={() => setDropDownVisible(!dropDownVisible)}
             >
               <Button
                 style={{ marginLeft: '5px' }}
