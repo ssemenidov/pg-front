@@ -18,6 +18,18 @@ export const Medium = styled.div`
   height:100%;
 `;
 
+
+export const MediumFormatPane = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #f5f7fa;
+  border: 1px solid #d3dff0;
+  border-radius: 8px;
+  height:100%;
+  margin-right: 1.5rem;
+`;
+
+
 export const Large = styled.div`
   width: 100%;
   display: flex;

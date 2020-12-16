@@ -16,6 +16,12 @@ import settingsIcon from '../../img/header-bar/settings.svg';
 import './Tablea.scss'
 import icon_pen from '../../img/outdoor_furniture/table_icons/bx-dots-vertical.svg';
 import icon_delete from '../../img/outdoor_furniture/red_can.svg';
+import {
+  StyledPen,
+  StyledPenGreen,
+
+  StyledTrash,
+} from '../../containers/Administration/components/Styled';
 // import '../../../src/assets/fonts/sf-ui-display-cufonfonts-webfont/style.css'
 
 const { Content } = Layout;
@@ -51,7 +57,6 @@ const menuPredicate = (col) => (
   // col.dataIndex !== 'btn-remove' && col.dataIndex !== 'dateForRouter'
 );
 
-
 let filterColumns = (columns) => {
   return (
     columns
@@ -61,12 +66,11 @@ let filterColumns = (columns) => {
   )
 }
 
-
 export const Tablea = ({
                          columns, onRow, enableChooseQuantityColumn,
                          constructionsIdSet, notheader, enableChoosePeriod, title,
                          chooseTableBtns, choosedBlock, setBlock, loading, select, data, footer,
-                         openModal, deleteEstimate, setDeleted, edit, setOpenEditModal, setEditingItem
+                         openDeleteModal, deleteMutation, refetch, setDeleted, edit, setOpenEditModal, setEditingItem
                        }) => {
   let [_columns, setColumns] = useState(filterColumns(columns));
 
@@ -187,28 +191,23 @@ export const Tablea = ({
       {
         width: 50,
         render: (text, record) => {
-          return (
-            <img src={icon_pen} alt="edit icon" style={{ cursor: 'pointer' }}
-                 onClick={() => {
-                   setOpenEditModal(true);
-                   setEditingItem(record);
-                 }}
-            />
-          );
-        },
+          return (<StyledPenGreen onClick={() => { setOpenEditModal(true); setEditingItem(record); } } />)
+        }
       },
       {
         width: 50,
         render: (text, record) => {
           return (
-            <img src={icon_delete} alt="delete icon" style={{ cursor: 'pointer' }}
-                 onClick={() => openModal(record, deleteEstimate, setDeleted)}
+            <StyledTrash className='EditTrashStyle' alt='' onClick={() =>
+              openDeleteModal(record, deleteMutation, refetch, setDeleted)
+            }
             />
           );
-        },
+        }
       },
     );
   }
+
 
   return (
     <div style={{ width: '100%', overflowX: 'hidden' }}>
@@ -252,8 +251,8 @@ export const Tablea = ({
       </style>
     </div>
   );
-  // }
-}
+};
+
 
 Tablea.propTypes = {
   enableChoosePeriod: PropTypes.bool,
@@ -306,7 +305,8 @@ const StyledTable = styled(Table)`
     left: 5px;
   }
   & .ant-table-tbody > tr.ant-table-row:hover > td {
-    background: #d3dff0;
+    //background: #d3dff0;
+    background: #FFFFFF;
   }
   // Разделитель главных групп заголовка
   & .ant-table-thead > tr > th:not(:last-child) > span {

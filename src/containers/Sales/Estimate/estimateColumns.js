@@ -1,5 +1,6 @@
 import { column, column_sorter, notnull, column_num, null2str, null2strKey, null2bool } from '../../../components/Table/utils'
-import { CityFilterDropdown, PeriodFilterDropdown } from './utils';
+import { CityFilterDropdown } from './utils/CityFiterDropdown';
+import { PeriodFilterDropdown } from './utils/PeriodFilterDropdown';
 
 
 const filterCity = {
@@ -87,6 +88,8 @@ export const initColumnsForPopupExtraCharge = [
   },
 ];
 
+defaultShow = true;
+defaultHide = false;
 
 export const initColumnsForPopupHotPtc = [
   column('Тип', 'code', 130, defaultShow),

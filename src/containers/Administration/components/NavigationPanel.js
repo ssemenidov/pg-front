@@ -15,11 +15,11 @@ const StyledLink = styled(Link)`
 export function NavigationPanel({activeItem}) {
   return <ControlToolbar position="static">
     <STabList>
-      {(Object.entries(routes.administration)
+      {(Object.entries(routes.administration).filter(([key, tab]) => tab.idx >= 0)
         .map(([key, tab]) => {
         // console.log(tab.value, index)
         return (
-          <StyledLink key={tab.idx} to={tab.to}>
+          <StyledLink key={tab.idx} to={tab.path}>
             <STab className={tab.idx === activeItem.idx ? "is-selected" : ""}>
               {tab.name}
             </STab>

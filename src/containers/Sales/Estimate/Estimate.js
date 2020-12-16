@@ -23,7 +23,7 @@ import SidebarInfo from '../../../components/SidebarInfo';
 import { sidebarInfoData } from '../stubDataSource';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router';
-import { getSidebarInfoData } from './utils';
+import { getSidebarInfoData } from './utils/getSidebarInfoData';
 
 export const EstimateContext = createContext();
 

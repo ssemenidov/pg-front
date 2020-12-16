@@ -30,8 +30,8 @@ import Projects from './containers/Installations/Projects/Projects';
 import Orders from './containers/Installations/Orders/Orders';
 import MainAdministration from './containers/Administration/Main/Main';
 import Person from './containers/Administration/Person/Person';
-import AdminOutdoorFurniture from './containers/Administration/AdminOutdoorFurniture/AdminOutdoorFurniture';
-import AdminLocations from './containers/Administration/AdminLocations/AdminLocations';
+import AdminOutdoorFurniture from './containers/Administration/AdminFormats/FormatsPanel';
+import AdminCitiesPanel from './containers/Administration/AdminLocations/AdminCitiesPanel';
 import Packages from './containers/Administration/Packages/Packages';
 import AdminCrews from './containers/Administration/AdminCrews/AdminCrews';
 import Prices from './containers/Administration/Prices/Prices';
@@ -103,7 +103,7 @@ export const routes = {
     root:                      { path: '/administration', name: '', idx: -1, title: 'Администрация', component: MainAdministration },
     person:                    { path: '/administration/person', name: 'Сотрудники', idx: 1, component: Person },
     outdoor_furniture:         { path: '/administration/outdoor_furniture', name: 'Конструкции', idx: 2, component: AdminOutdoorFurniture },
-    locations:                 { path: '/administration/locations', name: 'Местоположения', idx: 3, component: AdminLocations },
+    locations:                 { path: '/administration/locations', name: 'Местоположения', idx: 3, component: AdminCitiesPanel },
     packages:                  { path: '/administration/packages', name: 'Пакеты', idx: 4, component: Packages },
     crews:                     { path: '/administration/crews', name: 'Экипажи', idx: 5, component: AdminCrews },
     prices:                    { path: '/administration/prices', name: 'Цены', idx: 6, component: Prices },

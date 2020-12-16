@@ -24,7 +24,7 @@ import collapseIcon from '../../../img/collapse-icon.svg';
 import personIcon from '../../../img/person.svg';
 import paperIcon from '../../../img/paper.svg';
 
-import { fmtPrice, fmtPrice0, fmtPeriod, fmtPriceNum0 } from '../Estimate/utils';
+import { fmtPrice, fmtPrice0, fmtPeriod, fmtPriceNum0 } from '../Estimate/utils/utils';
 
 let trDate = (v) => v ? new Date(v).toLocaleDateString() : '';
 

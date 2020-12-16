@@ -2,29 +2,25 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Layout } from 'antd';
 import { EstimateContext } from './Estimate';
 import { useParams } from 'react-router-dom';
-import { getBookedSides, getEstimateReservations, getExtraCosts, gettNonRts, EditCosts, DeleteModal, CreateCosts,
-  getSidebarInfoData } from './utils';
+import { getEstimateReservations } from './utils/getEstimateReservations';
+import { getExtraCosts } from './utils/getExtraCosts';
+import { getNonRts } from './utils/getNonRts';
+import { EditCosts } from './utils/EditCosts';
+import { openDeleteModal } from './utils/DeleteModal';
+import { CreateCosts } from './utils/CreateCosts';
+import { getSidebarInfoData } from './utils/getSidebarInfoData';
 
 
 import {
   DELETE_ADD_COSTS_QUERY,
-  DELETE_NON_RTS,
+  DELETE_NON_RTS_RESERVATION,
 } from './q_mutations';
 
-import {
-  SEARCH_SALES_ESTIMATE_ITOGS,
-  NON_RTS_QUERY,
-  ATTACHMENT_BOOKED_SIDES_QUERY,
-  EXTRA_COSTS_QUERY,
-  PROJECT_BOOKED_SIDES_QUERY,
-  PROJECT_EXTRA_COSTS_QUERY,
-  PROJECT_NON_RTS_QUERY,
-} from './q_queries';
+import { SEARCH_SALES_ESTIMATE_ITOGS } from './q_queries';
 
 
 import { CustomTabBtn, CustomTabList } from '../../../components/Styles/DesignList/styles';
 
-import Table from '../../../components/TableResizable/Table';
 import Tablea from '../../../components/Tablea/Tablea_estimate';
 import HeaderBar from '../../../components/HeaderBar/HeaderBarTablea';
 
@@ -37,9 +33,9 @@ import {
 import { useQuery, useMutation } from '@apollo/client';
 
 const PanelDesign = ({ setBlock, created, setCreated }) => {
-  const [activeTab, setActiveTab] = useState('booked-sides');
+  // const [activeTab, setActiveTab] = useState('booked-sides');
 
-  // const [activeTab, setActiveTab] = useState('hot-ptc');
+  const [activeTab, setActiveTab] = useState('hot-ptc');
   const params = useParams();
   const attachmentId = params.appId;
   const projectId = params.id;
@@ -57,21 +53,20 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
   if (attachmentId)
     estimateQueryVariables.attachmentId = attachmentId;
 
-  const salesEstimateQuery = useQuery(SEARCH_SALES_ESTIMATE_ITOGS, {variables: estimateQueryVariables});
-  const [query, setQuery] = useState(attachmentId ? ATTACHMENT_BOOKED_SIDES_QUERY : projectId ? PROJECT_BOOKED_SIDES_QUERY : '');
+  const {data, loading, refetch, error} = useQuery(SEARCH_SALES_ESTIMATE_ITOGS, {variables: estimateQueryVariables});
 
   const [deleteAddCosts] = useMutation(DELETE_ADD_COSTS_QUERY);
-  const [deleteNonRts] = useMutation(DELETE_NON_RTS);
+  const [deleteNonRts] = useMutation(DELETE_NON_RTS_RESERVATION);
 
   useEffect(() => {
-    if (!salesEstimateQuery.loading) {
-      setSidebarData(getSidebarInfoData(salesEstimateQuery.data));
+    if (!loading) {
+      setSidebarData(getSidebarInfoData(data));
     }
-  }, [salesEstimateQuery.data, salesEstimateQuery.loading])
+  }, [data, loading])
 
   useEffect(() => {
     const refetchData = async () => {
-      await salesEstimateQuery.refetch();
+      await refetch();
     };
     refetchData();
   }, [activeTab]);
@@ -83,7 +78,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
   let nonRts = [];
 
   if (created || deleted) {
-    salesEstimateQuery.refetch().then((val) => {
+    refetch().then((val) => {
       created ? setCreated(false) : setDeleted(false);
     });
   }
@@ -91,20 +86,19 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
   //   data[key]?.edges.length ? (data[key]?.edges.length ? data[key].edges[0]?.node[key2]?.edges : []) : []
   // );
 
-  if (salesEstimateQuery.data && !salesEstimateQuery.loading) {
+  if (data && !loading) {
     switch (activeTab) {
       case 'booked-sides':
-        bookedSides = getEstimateReservations(salesEstimateQuery.data, sort, periodFilter);
+        bookedSides = getEstimateReservations(data, sort, periodFilter);
         break;
       case 'extra-charge':
-        extraCosts = getExtraCosts(salesEstimateQuery.data, sort, periodFilter);
+        extraCosts = getExtraCosts(data, sort, periodFilter);
         break;
       case 'hot-ptc':
-        nonRts = gettNonRts(salesEstimateQuery.data, sort);
+        nonRts = getNonRts(data, sort);
         break;
     }
   }
-
   const [columnsForPopupBookedSides, setColumnsForPopupBookedSides] = useState(initColumnsForPopupBookedSides);
   const [columnsForPopupExtraCharge, setColumnsForPopupExtraCharge] = useState(initColumnsForPopupExtraCharge);
   const [columnsForPopupHotPtc, setColumnsForPopupHotPtc] = useState(initColumnsForPopupHotPtc);
@@ -117,7 +111,7 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         data={bookedSides}
         select={true}
         edit={false}
-        loading={salesEstimateQuery.loading}
+        loading={loading}
         notheader={true}
       />
     ),
@@ -131,10 +125,11 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         openEditModal={openEditModal}
         setOpenEditModal={setOpenEditModal}
         setEditingItem={setEditingItem}
-        openModal={DeleteModal}
-        deleteEstimate={deleteAddCosts}
+        openDeleteModal={openDeleteModal}
+        deleteMutation={deleteAddCosts}
+        refetch={refetch}
         setDeleted={setDeleted}
-        loading={salesEstimateQuery.loading}
+        loading={loading}
         notheader={true}
       />
     ),
@@ -148,10 +143,11 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         edit={true}
         setOpenEditModal={setOpenEditModal}
         setEditingItem={setEditingItem}
-        openModal={DeleteModal}
-        deleteEstimate={deleteNonRts}
+        openDeleteModal={openDeleteModal}
+        deleteMutation={deleteNonRts}
+        refetch={refetch}
         setDeleted={setDeleted}
-        loading={salesEstimateQuery.loading}
+        loading={loading}
         notheader={true}
       />
     ),
@@ -180,9 +176,6 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             className={activeTab === 'booked-sides' && 'active'}
             onClick={() => {
               setActiveTab('booked-sides');
-              setQuery(() => {
-                return attachmentId ? ATTACHMENT_BOOKED_SIDES_QUERY : projectId ? PROJECT_BOOKED_SIDES_QUERY : '';
-              });
               setBlock(0);
               setSort('');
               setPeriodFilter('');
@@ -193,7 +186,6 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             className={activeTab === 'extra-charge' && 'active'}
             onClick={() => {
               setActiveTab('extra-charge');
-              setQuery(attachmentId ? EXTRA_COSTS_QUERY : projectId ? PROJECT_EXTRA_COSTS_QUERY : '');
               setBlock(1);
               setSort('');
               setPeriodFilter('');
@@ -204,7 +196,6 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
             className={activeTab === 'hot-ptc' && 'active'}
             onClick={() => {
               setActiveTab('hot-ptc');
-              setQuery(attachmentId ? NON_RTS_QUERY : projectId ? PROJECT_NON_RTS_QUERY : '');
               setBlock(2);
               setSort('');
               setPeriodFilter('');
@@ -219,9 +210,9 @@ const PanelDesign = ({ setBlock, created, setCreated }) => {
         setOpenModal={setOpenEditModal}
         editingItem={editingItem}
         block={activeTab}
-        refetch={salesEstimateQuery.refetch}
+        refetch={refetch}
       />
-      <CreateCosts block={activeTab} refetch={salesEstimateQuery.refetch} />
+      <CreateCosts block={activeTab} refetch={refetch} />
       <style>
         {`
         .ant-drawer-bottom .ant-drawer-content-wrapper {
