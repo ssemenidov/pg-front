@@ -23,6 +23,16 @@ const SIDE_DELETE = gql`
     }
   }
 `;
+<<<<<<< HEAD
+const GET_SIZES = gql`
+query {
+  searchSideSize {
+    sideSize {
+      edges {
+        node {
+          id
+          size
+=======
 const LOCATION_PURPOSE_T = gql`
   query SearchLocPurpose($title: String) {
     searchLocPurpose(title_Icontains: $title) {
@@ -30,10 +40,21 @@ const LOCATION_PURPOSE_T = gql`
         node {
           id
           title
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
         }
       }
     }
   }
+<<<<<<< HEAD
+}
+`
+
+export default function ExtraRow(props) {
+  const [apiData, setApiData] = useContext(constructContext);
+  const side=apiData.ownedSides.edges[props.index].node;
+  
+  const sizes = useQuery(GET_SIZES).data;
+=======
 `;
 const GET_FORMATS = gql`
   query SearchFormat($id: ID, $title: String) {
@@ -75,6 +96,7 @@ const GET_ADV_SIDES = gql`
 function ExtraRow(props) {
   const [apiData, setApiData] = useContext(constructContext);
   const side = props.list[props.index].node;
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
   const [deleteConstructionSide] = useMutation(SIDE_DELETE);
   const deleteSide = (e) => {
     props.deleteHandler();
@@ -151,10 +173,27 @@ function ExtraRow(props) {
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Размеры(см)</InputTitle>
+<<<<<<< HEAD
+        <StyledSelect
+              prefix={<img src={anchorIcon} />}
+              defaultValue={side.advertisingSide ? side.advertisingSide.side.size : ''}
+              onChange={(value) => setApiData({ ...apiData, size: value })}>
+
+                {
+                  sizes && sizes.searchSideSize.sideSize.edges.map((item)=>
+                      <StyledSelect.Option key ={item.node.id} value={item.node.id}>
+                        <span>{item.node.size}</span>
+                        </StyledSelect.Option>
+                  )
+                }
+
+              </StyledSelect>
+=======
         <StyledInput
           prefix={<img src={anchorIcon} />}
           defaultValue={side.advertisingSide ? side.advertisingSide.side.size : ''}
           onChange={(e) => setApiData({ ...apiData, size: e.target.value })}></StyledInput>
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
       </InputWrapper>
       <InputWrapper>
         <InputTitle>Доступность стороны</InputTitle>

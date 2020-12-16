@@ -14,6 +14,17 @@ const SiDE_CREATE = gql`
     }
   }
 `;
+<<<<<<< HEAD
+
+
+export default function Sides() {
+  const [apiData, setApiData] = useContext(constructContext);
+  const [createConstruction, { data }] = useMutation(SiDE_CREATE);
+  const create=(e)=>{
+    createConstruction({variables:apiData});
+  }
+=======
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
 
 export default function Sides(props) {
   const [apiData, setApiData] = useContext(constructContext);

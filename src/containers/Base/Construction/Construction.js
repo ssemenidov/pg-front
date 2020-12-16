@@ -75,7 +75,11 @@ const Construction = (props) => {
             techProblem
             statusConnection
             obstruction {
+<<<<<<< HEAD
+              id
+=======
               title
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
             }
             buhInventNumber
             photo
@@ -145,7 +149,7 @@ const Construction = (props) => {
                 margin: 0,
                 minHeight: 280,
               }}>
-              <InnerForm />
+              <InnerForm  />
             </Content>
           </Layout>
         </Layout>
