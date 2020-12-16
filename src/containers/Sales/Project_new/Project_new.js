@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Input, InputNumber } from 'antd';
-import { LeftBar, StyledButton, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
+import { LeftBar, HeaderWrapper, HeaderTitleWrapper } from '../../../components/Styles/DesignList/styles';
 import PanelDesign from './PanelProject_new';
 
 import { BreadCrumbsRoutes } from '../../../components/BreadCrumbs/BreadCrumbs';
 import { TitleLogo } from '../../../components/Styles/ComponentsStyles';
 import { JobTitle } from '../../../components/Styles/StyledBlocks';
-import { ButtonGroup } from '../../../components/Styles/ButtonStyles';
 import { CRUDForm } from '../../../components/SlidingBottomPanel/CRUDForm';
 import SearchBtn from '../../../components/LeftBar/SearchBtn';
 import EditBtn from '../../../components/LeftBar/EditBtn';
@@ -18,7 +17,7 @@ import CreateBtn from '../../../components/LeftBar/CreateBtn';
 import { SubmitButton } from '../../../components/Styles/ButtonStyles';
 import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
-import { StyledInput, StyledSelect } from '../../../components/Styles/DesignList/styles';
+import { StyledSelect } from '../../../components/Styles/DesignList/styles';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { routes } from '../../../routes';
 
@@ -150,7 +149,6 @@ const Project_card = () => {
   const brands = useQuery(GET_BRANDS);
   const workSec = useQuery(GET_WORK_SECTOR);
   const advert = useQuery(GET_ADVERTISER);
-  // console.log('[managers]', managers);
 
   const [projectCode, setProjectCode] = useState('');
   const [projectName, setProjectName] = useState('');
@@ -161,8 +159,8 @@ const Project_card = () => {
   const [workSector, setWorkSector] = useState('');
   const [advertiser, setAdvertiser] = useState('');
   const [agency, setAgency] = useState('');
-  const [agencyCommissionPerc, setAgencyCommissionPerc] = useState('');
-  const [agencyCommissionValue, setAgencyCommissionValue] = useState('');
+  const [agencyCommissionPerc, setAgencyCommissionPerc] = useState(null);
+  const [agencyCommissionValue, setAgencyCommissionValue] = useState(null);
   const [projectComment, setProjectComment] = useState('');
 
 <<<<<<< HEAD
@@ -183,6 +181,7 @@ const Project_card = () => {
   let advertData = advert && advert.data ? advert.data.searchPartner.edges : null;
   let prCreatorObj = {};
 
+<<<<<<< HEAD
   const formSubmitHandler = () => {
 <<<<<<< HEAD
     console.log(data);
@@ -219,6 +218,8 @@ const Project_card = () => {
 
   
 
+=======
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
   return (
     
     <div style={{ display: 'flex', height: '100%' }}  >
@@ -238,29 +239,10 @@ const Project_card = () => {
             <TitleLogo />
             <JobTitle>Новый проект</JobTitle>
           </HeaderTitleWrapper>
-          {/* <ButtonGroup>
-            {block === 0 && (
-              <>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/application');
-                  }}>
-                  Создать приложение
-                </StyledButton>
-                <StyledButton
-                  backgroundColor="#2C5DE5"
-                  onClick={() => {
-                    history.push('/sales/estimate');
-                  }}>
-                  Смета проекта
-                </StyledButton>
-              </>
-            )}
-          </ButtonGroup> */}
         </HeaderWrapper>
 
         <div style={{ display: 'flex' }}>
+<<<<<<< HEAD
 <<<<<<< HEAD
           <CRUDForm
             onFinish={() => {
@@ -312,6 +294,9 @@ const Project_card = () => {
 
           }}>
 >>>>>>> 300eb7bc3bb5a0157e78f9d07f81799c9ca6c9bc
+=======
+          <CRUDForm>
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
             <InfoList>
               <InfoItem>
                 <InfoTitle>О Проекте</InfoTitle>
@@ -320,7 +305,6 @@ const Project_card = () => {
                   <span>Код проекта: </span>
                   <InputNumber
                     onChange={(e) => {
-                      console.log(e);
                       setProjectCode(e);
                     }}
                   />
@@ -329,7 +313,6 @@ const Project_card = () => {
                   <span>Название проекта</span>
                   <Input
                     onChange={(e) => {
-                      console.log(e.target.value);
                       setProjectName(e.target.value);
                     }}
                   />
@@ -375,7 +358,6 @@ const Project_card = () => {
                   <StyledSelect
                     showSearch
                     onChange={(e) => {
-                      console.log(e[1]);
                       setSalesManager(e[1]);
                     }}>
                     {managersData &&
@@ -537,13 +519,13 @@ const Project_card = () => {
                     },
                     code: projectCode,
                     creator: creator,
+                    client: advertiser,
+                    agency: agency,
                     comment: projectComment,
                     brand: brand,
                     backOfficeManager: backOffManager,
                     salesManager: salesManager,
                   };
-                  console.log('[itemD]', itemD);
-                  console.log('[itemD]', data);
                   projectCreator({
                     variables: {
                       input: itemD,

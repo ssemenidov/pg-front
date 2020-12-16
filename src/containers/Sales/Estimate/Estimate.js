@@ -23,14 +23,17 @@ import SidebarInfo from '../../../components/SidebarInfo';
 import { sidebarInfoData } from '../stubDataSource';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router';
+import { getSidebarInfoData } from './utils/getSidebarInfoData';
 
 export const EstimateContext = createContext();
+
 
 const Estimate = () => {
   const [cities, setCities] = useState({
     data: [],
     loaded: false,
   });
+  const [sidebarData, setSidebarData] = useState(getSidebarInfoData(null));
   const { appId } = useParams();
   const [block, setBlock] = useState(0);
   const [createModal, setCreateModal] = useState(false);
@@ -71,6 +74,7 @@ const Estimate = () => {
         setOpenEditModal,
         periodFilter,
         setPeriodFilter,
+        setSidebarData
       }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <LeftBar className="left-bar">
@@ -126,7 +130,7 @@ const Estimate = () => {
                 <span>Посчитать с НДС?</span>
                 <Checkbox>Да</Checkbox>
               </ControlToolbar>
-              <SidebarInfo data={sidebarInfoData} />
+              <SidebarInfo data={sidebarData} />
             </InfoWrap>
             <PanelDesign setBlock={setBlock} created={created} setCreated={setCreated} />
           </div>

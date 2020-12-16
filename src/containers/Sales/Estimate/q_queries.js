@@ -5,28 +5,123 @@ export const SEARCH_SALES_ESTIMATE_ITOGS = gql`
     searchSalesEstimateItogs(project_Id: $projectId, attachment_Id: $attachmentId) {
       edges {
         node {
-          additionalNonrts {
+          rentByPrice
+          rentByPriceDiscounted
+          rentByPriceDiscountPercent
+          rentToClent
+          rentToClentDiscounted
+          rentToClentDiscountPercent
+          staticMounting
+          staticPrinting
+          staticAdditional
+          nalogBeforeDiscount
+          nalogAfterDiscount
+          nalogDiscountPercent
+          agencyCommissionValue
+          agencyCommissionPercent
+          nonrtsMargin
+          nonrtsSale
+          additionalRtsBeforeDiscount
+          additionalRtsAfterDiscount
+          summaryEstimateValue
+          summaryEstimateValueWithoutAgencyComission
+          additionalNonrtsByTitle {
             edges {
               node {
                 name
                 sale
                 pay
                 margin
-                incomingRent
+                agencyCommissionValue
+              }
+            }
+          }
+          additionalRtsByTitle {
+            edges {
+              node {
+                name
+                summaBeforeDiscount
+                discountValue
+                summaAfterDiscount
+                discountPercent
+                agencyCommissionValue
+              }
+            }
+          }
+          additionalRts {
+            edges {
+              node {
+                id
+                title
+                city {
+                  id
+                  title
+                }
+                startPeriod
                 endPeriod
+                count
+                price
+                discountPercent
+                category
+                summaAfterDiscount
+                priceAfterDiscount
+                agencyCommissionPercent
+                agencyCommissionValue
+                valueWithoutAgencyCommission
+
+                summaBeforeDiscount
+                discountValue
+                agencyCommission {
+                  id
+                  percent
+                  value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toNonrts
+                  toPrint
+                  toRent
+                }
+              }
+            }
+          }
+          additionalNonrts {
+            edges {
+              node {
+                id
+                name
+                incomingRent
                 incomingTax
-                incomingPrinting
-                incomingManufacturing
                 incomingPrinting
                 incomingInstallation
                 incomingAdditional
+                sale
+                pay
+                margin
+                startPeriod
+                endPeriod
+                incomingManufacturing
                 saleRent
                 saleTax
                 salePrinting
                 saleManufacturing
-
+                endPeriod
+                agencyCommissionCalculated
+                count
+                city {
+                  id
+                  title
+                }
                 agencyCommission {
                   id
+                  percent
+                  value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toNonrts
+                  toPrint
+                  toRent
                 }
               }
             }
@@ -37,39 +132,39 @@ export const SEARCH_SALES_ESTIMATE_ITOGS = gql`
                 id
                 dateFrom
                 dateTo
-                branding
-
                 constructionSide {
                   id
+                  construction {
+                    numInDistrict
+                    location {
+                      postcode {
+                        title
+                        district {
+                          city {
+                            id
+                            title
+                          }
+                        }
+                      }
+                    }
+                  }
+                  advertisingSide {
+                    code
+                    side {
+                      code
+                      format {
+                        code
+                      }
+                    }
+                  }
                 }
                 reservationType {
                   id
                   title
                 }
-                project {
-                  id
-                  code
-                }
-                sale
-                pay
-                margin
-                agencyCommissionValue
-                addressTitle
-                cityTitle
-                formatTitle
-                city {
-                  id
-                }
-                format {
-                  id
-                }
-                address {
-                  id
-                }
                 nonrtsPart {
                   id
                   count
-                  title
                   startPeriod
                   endPeriod
                   incomingRent
@@ -90,6 +185,25 @@ export const SEARCH_SALES_ESTIMATE_ITOGS = gql`
                   saleManufacturing
                   saleInstallation
                   saleAdditional
+                }
+                sale
+                pay
+                margin
+                agencyCommissionValue
+                addressTitle
+                cityTitle
+                formatTitle
+                branding
+                agencyCommission {
+                  id
+                  percent
+                  value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toNonrts
+                  toPrint
+                  toRent
                 }
               }
             }
@@ -165,6 +279,18 @@ export const SEARCH_SALES_ESTIMATE_ITOGS = gql`
                 additionalStaticNalogAkPercent
                 itogSummary
                 itogAgencyCommission
+                itogSummaryWithoutAgencyCommission
+                agencyCommission {
+                  id
+                  percent
+                  value
+                  toAdditional
+                  toMount
+                  toNalog
+                  toNonrts
+                  toPrint
+                  toRent
+                }
                 constructionSide {
                   advertisingSide {
                     code

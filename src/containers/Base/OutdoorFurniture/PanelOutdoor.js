@@ -74,7 +74,9 @@ const PanelDesign = ({ flagAddConstructionToLocation, constructionsIdSet, setCon
              techProblem
              techProblemComment
              statusConnection
-             obstruction
+             obstruction {
+               title
+             }
              active
              format {
                title

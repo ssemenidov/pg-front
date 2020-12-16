@@ -3,12 +3,12 @@ import { Col } from 'react-flexbox-grid';
 
 import { AdminTopLayout } from '../AdminTopLayout/AdminTopLayout';
 import { routes } from '../../../routes';
-import { GridNoPadding, RowMargin1st, RowMargin2st } from '../components/Styled';
+import { GridNoPadding, RowMargin1st, RowMargin2st, ColFormats } from '../components/Styled';
 import { SliderState } from '../../../components/SlidingBottomPanel/SliderState';
 import { LocationState } from './location_state';
 import { AddSlider, EditSlider } from './Sliders';
 import { RadiobuttonCRUDWithSearch } from './RadiobuttonCRUDWithSearch';
-import {srcFamily, srcSubFamily, srcModel, srcFormat, srcSide, srcAdvSide } from './OutdoorFurnitureDatasources'
+import {srcFamily, srcSubFamily, srcModel, srcFormat, srcSide, srcAdvSide } from './FormatDatasource'
 
 
 const APPEND_TITLES = [
@@ -20,7 +20,7 @@ const APPEND_TITLES2 = [
 ]
 
 
-function OutdoorFurniture() {
+function FormatsPanel() {
   const advSide = new LocationState({title: "Рекламная сторона", datasource: srcAdvSide, idx: 5});
 
   const side = new LocationState({
@@ -55,30 +55,30 @@ function OutdoorFurniture() {
       {sliderState.editMustShowed() && <EditSlider sliderState={sliderState} />}
       <GridNoPadding fluid>
         <RowMargin1st xs={12}>
-          <Col xs={4}>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={family} propCtx={propCtx}/>
-          </Col>
-          <Col xs={4}>
+          </ColFormats>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={subFamily} className="grid-col-central-margin" propCtx={propCtx}/>
-          </Col>
-          <Col xs={4}>
+          </ColFormats>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={model} className="grid-col-central-margin" propCtx={propCtx}/>
-          </Col>
+          </ColFormats>
         </RowMargin1st>
         <RowMargin2st xs={12}>
-          <Col xs={4}>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={format} propCtx={propCtx} />
-          </Col>
-          <Col xs={4}>
+          </ColFormats>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={side} className="grid-col-central-margin" propCtx={propCtx} />
-          </Col>
-          <Col xs={4}>
+          </ColFormats>
+          <ColFormats xs={4}>
             <RadiobuttonCRUDWithSearch location={advSide} propCtx={propCtx} />
-          </Col>
+          </ColFormats>
         </RowMargin2st>
       </GridNoPadding>
     </AdminTopLayout>
   );
 };
 
-export default OutdoorFurniture;
+export default FormatsPanel;

@@ -97,6 +97,9 @@ const FilterBar = () => {
             </Form.Item>
           </StyledPanel>
           <StyledPanel header="По параметрам" key="2">
+            <Form.Item name="projectTitle">
+              <Input placeholder="Наименование проекта" size={'large'} className="placeholder-font" />
+            </Form.Item>
             <Form.Item name="code">
               <Input placeholder="Код проекта" size={'large'} className="placeholder-font" />
             </Form.Item>
@@ -138,6 +141,8 @@ const FilterBar = () => {
           <SubmitButton
             onClick={() => {
               // console.log(filter);
+              const values = form.getFieldsValue();
+              setFilter(values);
             }}
             style={{
               width: '45%',

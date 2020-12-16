@@ -15,6 +15,8 @@ import styled from 'styled-components';
 import './styles_adv_part.scss';
 import useDebounce from '../../Administration/components/useDebounce';
 
+import { DebouncedSelect } from '../../../components/SearchSelect/DebouncedSelect';
+
 const { RangePicker } = DatePicker;
 
 const CITY_T = gql`
@@ -110,16 +112,11 @@ const StyledFormItemCheckbox = styled(Form.Item)`
   padding: 0;
 `;
 
+
+
 const FilterBar = ({ refetch, ganttUpdater }) => {
   const [form] = Form.useForm();
   const { setFilter, setPeriod } = useContext(adverContext);
-
-
-  const [partnerSearchText, setPartnerSearchText] = useState('');
-  const debouncedSearchTerm = useDebounce(partnerSearchText, 500);
-  const [partnerLoading, setPartnerLoading] = useState(false);
-  const [partnerData, setPartnerData] = useState([]);
-  const [partnerValue, setPartnerValue] = useState(undefined);
 
   const onFinish = (_values) => {
     let values = { ..._values };
@@ -165,7 +162,7 @@ const FilterBar = ({ refetch, ganttUpdater }) => {
     setFilter(values);
     if (refetch) refetch();
     if (ganttUpdater) ganttUpdater(null);
-    console.log('values ', values);
+    // console.log('values ', values);
   };
 
   const onReset = () => {
@@ -182,23 +179,6 @@ const FilterBar = ({ refetch, ganttUpdater }) => {
   const format = useQuery(FORMAT_T).data;
   const size = useQuery(SIZE_T).data;
   const side = useQuery(SIDE_T).data;
-
-  const [getPartner, { loading, data }] = useLazyQuery(SEARCH_PARTNER);
-
-  useEffect(() => {
-    getPartner({ variables: { title_Icontains: debouncedSearchTerm } });
-    setPartnerLoading(loading);
-  }, [debouncedSearchTerm, getPartner, loading]);
-
-  useEffect(() => {
-    if(data && data.searchPartner.edges) {
-      let arr = [...data.searchPartner.edges];
-      arr.sort((a,b) => a.node.title.localeCompare(b.node.title));
-      setPartnerData([{ node: {title: "РТС", id: null}}, ...arr]);
-      setPartnerLoading(loading);
-    }
-  }, [data, loading]);
-
 
   return (
     <FilterMenu280
@@ -371,31 +351,21 @@ const FilterBar = ({ refetch, ganttUpdater }) => {
                   ))}
               </StyledSelect>
           </Form.Item>
-          <Form.Item name={"owner"}>
-            <StyledSelect
-              placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Владелец </span> </>} size={'large'}>
-              showSearch
-              value={partnerValue}
-              defaultActiveFirstOption={false}
-              showArrow={false}
-              filterOption={false}
-              onSearch={(value) => setPartnerSearchText(value)}
-              onChange={(value) => setPartnerValue(value)}
-              notFoundContent={null}
-              loading={partnerLoading}
-            >
-              {
-                partnerData && partnerData.map(({ node }) => (
-                  <StyledSelect.Option key={node.id || "RTS"} value={node.title}>
-                    { node.title ? node.title : 'Нет названия' }
-                  </StyledSelect.Option>
-                ))
-              }
-            </StyledSelect>
-            </Form.Item>
-            <StyledFormItemCheckbox name="statusConnection" valuePropName="checked">
-              <Checkbox defaultChecked>Освещение</Checkbox>
-            </StyledFormItemCheckbox>
+         <DebouncedSelect
+           name={"owner"}
+           placeholder={<><img src={arrowsIcon} alt={"Размер"}/> <span>Владелец </span> </>}
+           query={SEARCH_PARTNER}
+           emptyrowTitle={'РТС'}
+           dataPredicate={data => data.searchPartner.edges && data.searchPartner.edges.length > 0}
+           dataUnpack={ (data) => {
+             let arr = [...data.searchPartner.edges];
+             arr.sort((a,b) => a.node.title.localeCompare(b.node.title));
+             return arr;
+           }}
+         />
+         <StyledFormItemCheckbox name="statusConnection" valuePropName="checked">
+           <Checkbox defaultChecked>Освещение</Checkbox>
+         </StyledFormItemCheckbox>
           </StyledPanel>
         </Collapse>
         <BtnGroup>

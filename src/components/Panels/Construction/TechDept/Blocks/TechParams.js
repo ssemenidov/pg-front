@@ -62,6 +62,7 @@ export default function TechParams() {
           </div>
           <div style={{ width: '48%' }}>
             <InputTitle>Помеха</InputTitle>
+<<<<<<< HEAD
             {
               obstructions && obstructions.searchObstruction.edges.length > 0 ? 
                 <StyledSelect
@@ -83,6 +84,12 @@ export default function TechParams() {
                 defaultValue={item.obstruction ? item.obstruction : ''}
                 onChange={(e) => setItem({...item, obstruction: e.target.value})}></StyledInput>
             }
+=======
+            <StyledInput
+              prefix={<img src={anchorIcon} />}
+              defaultValue={item?.obstruction?.title || ''}
+              onChange={(e) => setItem({ ...item, obstruction: e.target.value })}></StyledInput>
+>>>>>>> c38f954764e0cd9eb44d707db0764e2ccdc22478
           </div>
         </Row>
       </BlockBody>
