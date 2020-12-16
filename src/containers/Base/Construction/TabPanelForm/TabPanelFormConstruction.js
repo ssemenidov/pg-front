@@ -39,30 +39,6 @@ const CONSTRUCT_DELETE = gql`
     }
   }
 `;
-
-const GET_OBSTRUCTIONS = gql`
-query {
-  searchObstruction {
-    edges {
-      node {
-        id
-        title
-      }
-    }
-  }
-}
-`
-
-const CREATE_OBSTRUCTION = gql`
-mutation ($input: CreateObstructionInput!) {
-  createObstruction(input: $input) {
-    obstruction {
-      id
-    }
-  }
-}
-`
-
 const CONSTRUCT_UPDATE = gql`
   mutation ($id: ID!,
     $isNonRts: Boolean,
@@ -73,7 +49,7 @@ const CONSTRUCT_UPDATE = gql`
     $techPhoneConstruction: String
     $techProblem: String
     $statusConnection: Boolean
-    $obstruction: ID
+    $obstruction: String
     $buhInventNumber: String
     $otherLink: String
   ) {
@@ -100,54 +76,23 @@ const CONSTRUCT_UPDATE = gql`
 const InnerForm = (props) => {
   const [item, setItem] = useContext(constructContext);
   const history = useHistory();
-  const obstructions = useQuery(GET_OBSTRUCTIONS).data;
 
   const [updateConstruction] = useMutation(CONSTRUCT_UPDATE);
   const [deleteConstruction] = useMutation(CONSTRUCT_DELETE);
-  const [createObstruction, {data}] = useMutation(CREATE_OBSTRUCTION);
 
   const Update = (e) => {
-    // history.push('/base/outdoor_furniture')
+    history.push('/base/outdoor_furniture')
     e.preventDefault();
-    let going;
-    obstructions.searchObstruction.edges && obstructions.searchObstruction.edges.map(mapItem => {
-      if(mapItem.node.value == item.obstruction || mapItem.node.id == item.obstruction) {
-        console.log('{HAS}')
-        going = mapItem.node.id;
-      }
-    })
-    if(going) {
-      console.log('[going]', going);
-      updateConstruction({ variables: {
-        ...item,
-         // TODO: PTCDEC-225 Реализовать логику обновления местоположений для конструкций. Все адресные данные вынесены
-         //  в Location. Нужно искать Location при обновлении и если его нет, создавать новый.
-         // city:item.city && item.city.id,
-         // district:item.district && item.district.id,
-         // postcode:item.postcode && item.postcode.id,
-         crew:item.crew && item.crew.id,
-         isNonRts: false
-        } });
-    } else {
-      console.log('[not-going]', item.obstruction);
-      createObstruction({ variables: {
-        "input": {
-          "title": item.obstruction
-        }
-      }})
-      console.log('[DATA]', data)
-      data && data.createObstruction.obstruction.id && updateConstruction({ variables: {
-        ...item,
-        obstruction: data.createObstruction.obstruction.id,
-         // TODO: PTCDEC-225 Реализовать логику обновления местоположений для конструкций. Все адресные данные вынесены
-         //  в Location. Нужно искать Location при обновлении и если его нет, создавать новый.
-         // city:item.city && item.city.id,
-         // district:item.district && item.district.id,
-         // postcode:item.postcode && item.postcode.id,
-         crew:item.crew && item.crew.id,
-         isNonRts: false
-        } });
-    }
+    updateConstruction({ variables: {
+       ...item,
+        // TODO: PTCDEC-225 Реализовать логику обновления местоположений для конструкций. Все адресные данные вынесены
+        //  в Location. Нужно искать Location при обновлении и если его нет, создавать новый.
+        // city:item.city && item.city.id,
+        // district:item.district && item.district.id,
+        // postcode:item.postcode && item.postcode.id,
+        crew:item.crew && item.crew.id,
+        isNonRts: false
+       } });
 
     // history.push(`/base/outdoor_furniture`);
     // history.go(0);
@@ -163,7 +108,7 @@ const InnerForm = (props) => {
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <TitleLogo />
-          <JobTitle>Конструкция номер { item.buhInventNumber }</JobTitle>
+          <JobTitle>Конструкция номер </JobTitle>
         </HeaderTitleWrapper>
         <ButtonGroup>
           <StyledButton backgroundColor="#008556" onClick={Update}>

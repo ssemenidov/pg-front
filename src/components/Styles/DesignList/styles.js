@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import MaskedInput from 'antd-mask-input'
 import { Select, Input, DatePicker } from 'antd';
 
 export const LeftBar = styled.div`
@@ -60,15 +59,6 @@ export const StyledSelect = styled(Select)`
 `;
 
 export const StyledInput = styled(Input)`
-  .ant-input{
-    font-size: 14px;
-  }
-
-  height: 40px;
-  color: #656565;
-`;
-
-export const StyledMaskedInput = styled(MaskedInput)`
   .ant-input{
     font-size: 14px;
   }

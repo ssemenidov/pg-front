@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-
 import { constructContext } from '../../../../../containers/Base/Construction/Construction';
 
 
 import { BlockBody, Medium, Row, BlockTitle, InputTitle } from '../../../../Styles/StyledBlocks';
-import { StyledInput, StyledSelect, StyledMaskedInput } from '../../../../Styles/DesignList/styles';
+import { StyledInput, StyledSelect } from '../../../../Styles/DesignList/styles';
 import anchorIcon from '../../../../../img/input/anchor.svg';
 
 export default function Tech() {
@@ -38,11 +37,10 @@ export default function Tech() {
         <Row>
           <div style={{ width: '48%' }}>
             <InputTitle>Номер телефона конструкции</InputTitle>
-            <StyledMaskedInput
+            <StyledInput
               prefix={<img src={anchorIcon} alt={"Номер телефона конструкции"}/>}
               defaultValue={item.techPhoneConstruction ? item.techPhoneConstruction : ''}
-              onChange={(e) => setItem({ ...item, techPhoneConstruction: e.target.value })}
-              mask="+7(111) 111 11 11"></StyledMaskedInput>
+              onChange={(e) => setItem({ ...item, techPhoneConstruction: e.target.value })}></StyledInput>
           </div>
         </Row>
       </BlockBody>
