@@ -242,7 +242,6 @@ export function ReservationSlider({sliderState, reserveCode}) { //
                 placeholder={<><img src={anchorIcon} /> <span>Статус брони</span> </>}
                 size={'large'}
                 onChange={e => {
-
                   setResType(e)
                 }}
               >
