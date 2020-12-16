@@ -71,7 +71,7 @@ export const Row = styled.div`
   width: 100%;
   display: flex;
   padding: 0.9vw 0;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
 `;
 

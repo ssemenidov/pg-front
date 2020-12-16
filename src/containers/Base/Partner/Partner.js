@@ -13,6 +13,7 @@ const { Content, Sider } = Layout;
 export const partnerContext = createContext();
 const PartnersInfo = ({ match }) => {
   const [item, setItem] = useState({});
+  const [commissionForm, setCommisionForm] = useState(null);
   const PARTNER_ITEM = gql`
     query SearchPartner($id: ID!) {
       searchPartner(id: $id) {
@@ -71,11 +72,13 @@ const PartnersInfo = ({ match }) => {
             iik
             bik
             kbe
+            isAgencyCommissionWithNds
             agencyCommission {
               id
               toMount
               toNalog
               toNonrts
+              toAdditional
               toPrint
               toRent
               percent
@@ -150,7 +153,7 @@ const PartnersInfo = ({ match }) => {
   if (error) return <h3>Error :(</h3>;
   if (loading) return <LoadingAntd />;
   return (
-    <partnerContext.Provider value={[item, setItem]}>
+    <partnerContext.Provider value={[item, setItem, commissionForm, setCommisionForm]}>
       <Layout>
         <Layout>
           <Sider className="layout-sider"></Sider>
